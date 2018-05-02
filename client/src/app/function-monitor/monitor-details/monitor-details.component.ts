@@ -1,4 +1,4 @@
-import { Component, Input, Injector, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Injector, Output } from '@angular/core';
 import { ComponentNames } from '../../shared/models/constants';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { MonitorDetailsInfo } from '../../shared/models/function-monitor';
@@ -7,6 +7,7 @@ import { ApplicationInsightsService } from '../../shared/services/application-in
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTraceHistory } from '../../shared/models/application-insights';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: ComponentNames.monitorDetails,
@@ -23,7 +24,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
         this.setInput(monitorDetailsInfo);
     }
 
-    @Output() closePanel = new EventEmitter();
+    @Output() closePanel = new Subject();
 
     private _monitorDetailsInfo: MonitorDetailsInfo;
     public functionName: string;
@@ -68,7 +69,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
     }
 
     close() {
-        this.closePanel.emit();
+        this.closePanel.next();
     }
 
     public showHistoryMessage(traceHistory: AIInvocationTraceHistory) {
