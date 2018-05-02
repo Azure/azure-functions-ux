@@ -56,7 +56,7 @@
       </div>
   
       <div class="function-monitor-content">
-          <tbl tabindex="0" *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
               <tr>
                 <th><tbl-th name="timestampFriendly">{{ 'date' | translate }}</tbl-th></th>
