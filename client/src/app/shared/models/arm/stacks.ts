@@ -26,17 +26,19 @@ export namespace AvailableStacksOsType {
 }
 
 export class AvailableStackNames {
-    public static readonly NetStack: string = "aspnet";
-    public static readonly DotNetCore: string = "dotnetcore";
-    public static readonly NodeStack: string = "node";
-    public static readonly PhpStack: string = "php";
-    public static readonly CustomContainer: string = "custom";
-    public static readonly PythonStack: string = "python";
-    public static readonly JavaStack: string = "java";
-    public static readonly RubyStack: string = "ruby";
-    public static readonly JavaContainer: string = "javaContainers";
+    public static readonly NetStack = 'aspnet';
+    public static readonly DotNetCore = 'dotnetcore';
+    public static readonly NodeStack = 'node';
+    public static readonly PhpStack = 'php';
+    public static readonly CustomContainer = 'custom';
+    public static readonly PythonStack = 'python';
+    public static readonly JavaStack = 'java';
+    public static readonly RubyStack = 'ruby';
+    public static readonly JavaContainer = 'javaContainers';
 }
 
 export class LinuxConstants {
-    public static readonly dockerPrefix: string = "DOCKER|";
+    public static readonly dockerPrefix = 'DOCKER|';
+    public static readonly composePrefix = 'COMPOSE|';
+    public static readonly kubernetesPrefix = 'KUBE|';
 }

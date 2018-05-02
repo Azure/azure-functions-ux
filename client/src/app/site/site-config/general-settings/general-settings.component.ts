@@ -284,7 +284,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 classicPipelineModeSupported = false;
                 remoteDebuggingSupported = false;
 
-                if ((siteConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+                const linuxFxVersion = (siteConfigArm.properties.linuxFxVersion || '');
+                if (linuxFxVersion.indexOf(LinuxConstants.dockerPrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.composePrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.kubernetesPrefix) === -1  ) {
                     linuxRuntimeSupported = true;
                 }
 
