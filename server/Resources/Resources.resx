@@ -3406,4 +3406,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The account name supplied is not valid. Please supply another account name.</value>
   </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS Only</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
 </root>
