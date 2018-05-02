@@ -1,0 +1,24 @@
+<ng-sidebar-container style="height:100vh" [animate]="true">
+  <div ng-sidebar-content>
+    <command-bar>
+      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
+      <command displayText="{{ 'exit' | translate }}" iconUrl="image/error.svg" (click)="exit()"></command>
+      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/Functions.svg" (click)="openDeploymentCredentials()"></command>
+    </command-bar>
+    <app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'deploymentCenterDesc' | translate}}"
+      [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
+    <div class="settings-group-wrapper">
+      <div class="settings-wrapper">
+        <div class="setting-wrapper">
+          <info-box [infoText]="('FTPMessage' | translate)" [infoLink]="FwLinks.FTPAccessLearnMore">
+          </info-box>
+          <label class="setting-label">{{'FTPLabel' | translate}}</label>
+          <div class="setting-control-container">
+            <radio-selector [options]="FTPAccessOptions" [highlightDirty]="true">
+            </radio-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-sidebar-container>

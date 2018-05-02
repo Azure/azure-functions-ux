@@ -10,6 +10,8 @@ import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { ProviderCard } from '../../Models/provider-card';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 @Component({
     selector: 'app-step-source-control',
@@ -81,7 +83,7 @@ export class StepSourceControlComponent {
             color: '#ba141a',
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
-        }
+        },
         // These are options in works, not wanting to delete though
         // {
         //     id: 'webdeploy',
@@ -93,16 +95,15 @@ export class StepSourceControlComponent {
         //     authorizedStatus: 'none',
         //     manual: true
         // },
-        // {
-        //     id: 'ftp',
-        //     name: 'FTP',
-        //     icon: 'image/deployment-center/FTP.svg',
-        //     color: '#FCD116',
-        //     barColor: '#fde88a',
-        //     description: 'Use an FTP connection to access and copy app files.',
-        //     authorizedStatus: 'none',
-        //     manual: true
-        // }
+        {
+            id: 'ftp',
+            name: 'FTP',
+            icon: 'image/deployment-center/FTP.svg',
+            color: '#FCD116',
+            description: 'Use an FTP connection to access and copy app files.',
+            authorizedStatus: 'none',
+            manual: true
+        }
         // ,
         // {
         //     id: 'zip',
@@ -130,6 +131,7 @@ export class StepSourceControlComponent {
         private _cacheService: CacheService,
         private _logService: LogService,
         private _translateService: TranslateService,
+        private _broadcastService: BroadcastService,
         _portalService: PortalService,
         _armService: ArmService,
         _aiService: AiService
@@ -273,6 +275,10 @@ export class StepSourceControlComponent {
         currentFormValues.sourceProvider = card.id;
         currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
         this._wizardService.wizardValues = currentFormValues;
+    }
+
+    renderDashboard() {
+        this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this._wizardService.wizardValues.sourceProvider);
     }
 
     updateProvider(provider: string) {
