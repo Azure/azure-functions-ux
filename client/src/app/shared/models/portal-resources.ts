@@ -520,6 +520,8 @@
     public static feature_automationScriptName = 'feature_automationScriptName';
     public static feature_automationScriptInfo = 'feature_automationScriptInfo';
     public static feature_resourceManagement = 'feature_resourceManagement';
+    public static feature_diagnoseAndSolveName = 'feature_diagnoseAndSolveName';
+    public static feature_diagnoseAndSolveInfo = 'feature_diagnoseAndSolveInfo';
     public static feature_advancedToolsName = 'feature_advancedToolsName';
     public static feature_advancedToolsInfo = 'feature_advancedToolsInfo';
     public static feature_appServiceEditorName = 'feature_appServiceEditorName';
