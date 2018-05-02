@@ -215,7 +215,7 @@ export class ApplicationInsightsService {
           summaryTable.Rows.forEach(row => {
             traces.push({
               timestamp: row[0],
-              timestampFriendly: moment.utc(row[0]).from(moment.utc()),
+              timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
               id: row[1],
               name: row[2],
               success: row[3],
