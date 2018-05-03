@@ -25,7 +25,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.monitorDetailsInfo = null;
         this.sidePanelOpened = false;
         this.selectedRowId = null;
-        this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.functionMonitor_appInsightsQueryReturnedTitle).format(0);
+        this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
         this.setInput(functionMonitorInfo);
     }
 
