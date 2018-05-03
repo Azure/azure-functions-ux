@@ -3371,7 +3371,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Switch to classic view</value>
   </data>
   <data name="configureAppInsightsInstructions" xml:space="preserve">
-    <value>Configure Instructions</value>
+    <value>Configuration Instructions</value>
   </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
