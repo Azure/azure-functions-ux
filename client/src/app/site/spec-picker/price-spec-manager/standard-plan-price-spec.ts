@@ -1,4 +1,4 @@
-import { Links, Kinds } from './../../../shared/models/constants';
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core/src/core';
