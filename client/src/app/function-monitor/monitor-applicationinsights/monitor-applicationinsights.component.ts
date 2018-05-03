@@ -25,6 +25,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.monitorDetailsInfo = null;
         this.sidePanelOpened = false;
         this.selectedRowId = null;
+        this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
         this.setInput(functionMonitorInfo);
     }
 
@@ -38,6 +39,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public sidePanelOpened = false;
     public selectedRowId: string;
     public showDelayWarning = false;
+    public appInsightsQueryReturnedTitle: string;
 
     constructor(
         private _portalService: PortalService,
@@ -60,6 +62,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
                 this.invocationTraces = tuple[2];
                 const monthlySummary = tuple[1];
                 this.applicationInsightsInstanceName = this.functionMonitorInfo.appInsightsResourceDescriptor.instanceName;
+                this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.functionMonitor_appInsightsQueryReturnedTitle).format(this.invocationTraces.length);
 
                 this.successCount = monthlySummary.successCount.toString();
                 this.errorsCount = monthlySummary.failedCount.toString();

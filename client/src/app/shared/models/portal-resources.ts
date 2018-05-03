@@ -1037,6 +1037,7 @@
     public static duration = 'duration';
     public static functionMonitor_successAggregate_30days = 'functionMonitor_successAggregate_30days';
     public static functionMonitor_errorsAggregate_30days = 'functionMonitor_errorsAggregate_30days';
+    public static functionMonitor_appInsightsQueryReturnedTitle = 'functionMonitor_appInsightsQueryReturnedTitle';
     public static functionMonitor_message = 'functionMonitor_message';
     public static functionMonitor_itemCount = 'functionMonitor_itemCount';
     public static functionMonitor_logLevel = 'functionMonitor_logLevel';

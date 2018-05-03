@@ -3238,6 +3238,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Error count in last 30 days</value>
   </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Query returned {0} items</value>
+  </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Message</value>
   </data>
