@@ -21,7 +21,6 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
-import { Url } from '../../../shared/Utilities/url';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
@@ -270,7 +269,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
-            let FTPAccessSupported = Url.getParameterByName(null, 'appsvc.feature.ftps') === 'true';
+            let FTPAccessSupported = true;
 
             this._sku = siteArm.properties.sku;
 
