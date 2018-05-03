@@ -1,8 +1,7 @@
 <div class="selectionContainer" flex-list>
-  <div  class="cardContainer" *ngFor="let card of providerCards" (click)="chooseBuildProvider(card)" id="{{card.id}}">
-    <div class="headerBox" [style.background-color]="card.barColor">
-      <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}} <img *ngIf="wizard?.wizardValues?.buildProvider === card.id"
-        style="float:right" src="image/success-blue.svg">
+  <div  class="cardContainer" *ngFor="let card of providerCards" [class.selected]="wizard?.wizardValues?.buildProvider === card.id" (click)="chooseBuildProvider(card)" id="{{card.id}}">
+    <div class="headerBox">
+      <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
     </div>
     <div class="sourceDescription">
       {{card.description}}
@@ -10,6 +9,7 @@
   </div>
 </div>
 <div class="footer">
-    <button type="button" class="custom-button form-button" previousStep>Back</button>
-    <button type="button" class="custom-button form-button" nextStep>Continue</button>
+    <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}
+    </button>
+    <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
   </div>

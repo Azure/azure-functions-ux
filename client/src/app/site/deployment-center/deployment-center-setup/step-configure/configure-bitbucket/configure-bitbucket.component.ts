@@ -55,7 +55,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.reposLoading = true;
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`
+                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`,
+                authToken: this.wizard.getToken()
             })
             .subscribe(
                 r => {
@@ -85,7 +86,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.BranchList = [];
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
-                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches`
+                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches`,
+                authToken: this.wizard.getToken()
             })
             .subscribe(
                 r => {

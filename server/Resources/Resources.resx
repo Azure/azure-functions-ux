@@ -1669,6 +1669,12 @@
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resource management</value>
   </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
+  </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Advanced tools (Kudu)</value>
   </data>
@@ -2651,7 +2657,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
+    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -2951,7 +2957,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deploy from a local Git repo.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Configure continuous integration with a Dropbox folder</value>
+    <value>Sync content from a Dropbox cloud folder.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3071,10 +3077,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Production pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
@@ -3149,7 +3155,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Daily backups</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Backup your app {0} time daily.</value>
+    <value>Backup your app {0} times daily.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Single tenant system</value>
@@ -3226,6 +3238,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Error count in last 30 days</value>
   </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Query returned {0} items</value>
+  </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Message</value>
   </data>
@@ -3242,7 +3257,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Build on server</value>
+    <value>App Service Kudu build server</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
@@ -3355,6 +3370,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Switch to classic view</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configuration Instructions</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -3362,7 +3380,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invocation traces</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>Results may be delayed for up to 5 minutes.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Drag a file here or</value>
@@ -3393,5 +3411,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The account name supplied is not valid. Please supply another account name.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS Only</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disable</value>
   </data>
 </root>

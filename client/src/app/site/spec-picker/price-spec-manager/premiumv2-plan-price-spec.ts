@@ -29,6 +29,11 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
@@ -60,14 +65,24 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
     runInitialization(input: PriceSpecInput) {
         let $checkStamp: Observable<any> = Observable.of(null);
 
+        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon)
+            || (input.plan && input.plan.properties.isXenon)) {
+            const slotsFeatureIndex = this.featureItems.findIndex(f => f.title === this._ts.instant(PortalResources.pricing_stagingSlots));
+            if (slotsFeatureIndex > -1) {
+                this.featureItems.splice(slotsFeatureIndex, 1);
+            }
+        }
+
         if (input.specPickerInput.data) {
+
             if (input.specPickerInput.data.hostingEnvironmentName) {
                 this.state = 'hidden';
             } else {
                 return this.checkIfDreamspark(input.subscriptionId)
                     .switchMap(isDreamspark => {
                         if (!isDreamspark) {
-                            return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
+                            return this._planService.getAvailablePremiumV2GeoRegions(
+                                input.specPickerInput.data.subscriptionId, input.specPickerInput.data.isLinux)
                                 .do(geoRegions => {
                                     if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
                                         this.state = 'disabled';

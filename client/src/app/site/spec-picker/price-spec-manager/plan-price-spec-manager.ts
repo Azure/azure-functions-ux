@@ -1,3 +1,4 @@
+import { AppKind } from './../../../shared/Utilities/app-kind';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
@@ -248,12 +249,14 @@ export class PlanPriceSpecManager {
                         return Observable.of(null);
                     }
 
-                    return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
+                    const osType = AppKind.hasKinds(this._plan, ['linux']) ? 'linux' : 'windows';
+                    return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
                 });
         }
 
         // We're getting meters for a new plan
-        return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
+        const osType = inputs.data.isLinux ? 'linux' : 'windows';
+        return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
     }
 
     private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
@@ -285,12 +288,23 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's already a spec that's selected within a group
+            // Find if there's already a spec that's selected within a group.  Otherwise
+            // just choose the first spec you can find
             g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
             if (!g.selectedSpec) {
                 g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
-                g.isExpanded = g.selectedSpec ? true : false;   // Expand if selected spec is in the "all specs" list
             }
+
+            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
+                g.selectedSpec = g.recommendedSpecs[0];
+            }
+
+            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
+                g.selectedSpec = g.additionalSpecs[0];
+            }
+
+            // Expand if selected spec is in the "all specs" list
+            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;

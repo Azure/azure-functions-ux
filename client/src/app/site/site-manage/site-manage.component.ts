@@ -615,6 +615,22 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         ];
 
         const resourceManagementFeatures = [
+            this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
+                    'image/tools.svg',
+                    {
+                        detailBlade: 'SCIFrameBlade',
+                        detailBladeInputs: {
+                            id: site.id
+                        }
+                    },
+                    this._portalService,
+                    null,
+                    this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
+                ) : null,
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_activityLogName),
                 this._translateService.instant(PortalResources.feature_activityLogName) +

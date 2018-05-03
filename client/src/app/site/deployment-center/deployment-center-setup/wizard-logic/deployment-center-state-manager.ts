@@ -122,7 +122,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
         const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders())
+            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsDirectHeaders())
                 .switchMap(r => setupvsoCall)
                 .switchMap(r => Observable.of(r.json().id));
         }
@@ -304,7 +304,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this._token}`);
+        headers.append('Authorization', this.getToken());
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
@@ -314,11 +314,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this._token}`);
+        headers.append('Authorization', this.getToken());
         headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
     }
 
+    public getToken(): string {
+        return `Bearer ${this._token}`;
+    }
 
     ngOnDestroy(): void {
         this._ngUnsubscribe$.next();

@@ -14,7 +14,7 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_autoScale),
-        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(5)
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(10)
     },
     {
         iconUrl: 'image/slots.svg',
@@ -25,6 +25,11 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(10)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
@@ -81,6 +86,18 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon)
+            || (input.plan && input.plan.properties.isXenon)) {
+            const slotsFeatureIndex = this.featureItems.findIndex(f => f.title === this._ts.instant(PortalResources.pricing_stagingSlots));
+            if (slotsFeatureIndex > -1) {
+                this.featureItems.splice(slotsFeatureIndex, 1);
+            }
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
@@ -106,6 +123,10 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
         if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
             this.state = 'hidden';
             return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
         }
 
         return super.runInitialization(input);
@@ -135,6 +156,10 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
         if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
             this.state = 'hidden';
             return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
         }
 
         return super.runInitialization(input);

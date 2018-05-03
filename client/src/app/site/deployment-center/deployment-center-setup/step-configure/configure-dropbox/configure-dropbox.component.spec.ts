@@ -77,10 +77,10 @@ describe('ConfigureDropboxComponent', () => {
         it('should be able to select folder', () => {
             wizard.resourceIdStream$.next(siteId);
             testFixture.detectChanges();
-             NgSelectTestHelpers.selectOption(testFixture, 'configure-dropbox-folder-select', KeyCode.ArrowDown, 1);
-             testFixture.detectChanges();
-             const expectedRepoUrl = `${DeploymentCenterConstants.dropboxUri}/testName1`;
-             expect(component.selectedFolder).toBe(expectedRepoUrl);
+            NgSelectTestHelpers.selectOption(testFixture, 'configure-dropbox-folder-select', KeyCode.ArrowDown, 1);
+            testFixture.detectChanges();
+            const expectedRepoUrl = `${DeploymentCenterConstants.dropboxUri}/testName1`;
+            expect(component.selectedFolder).toBe(expectedRepoUrl);
         });
 
     });
@@ -138,8 +138,13 @@ class MockDeploymentCenterStateManager {
     public get wizardValues(): WizardForm {
         return this.wizardForm.value;
     }
+
     public get sourceSettings(): FormGroup {
         return (this.wizardForm && (this.wizardForm.controls.sourceSettings as FormGroup)) || null;
+    }
+
+    public getToken() {
+        return '';
     }
 }
 

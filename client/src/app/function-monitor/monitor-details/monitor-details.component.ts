@@ -1,4 +1,4 @@
-import { Component, Input, Injector } from '@angular/core';
+import { Component, Input, Injector, Output } from '@angular/core';
 import { ComponentNames } from '../../shared/models/constants';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { MonitorDetailsInfo } from '../../shared/models/function-monitor';
@@ -7,67 +7,74 @@ import { ApplicationInsightsService } from '../../shared/services/application-in
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTraceHistory } from '../../shared/models/application-insights';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: ComponentNames.monitorDetails,
-  templateUrl: './monitor-details.component.html',
-  styleUrls: ['./../function-monitor.component.scss', './monitor-details.component.scss']
+    selector: ComponentNames.monitorDetails,
+    templateUrl: './monitor-details.component.html',
+    styleUrls: ['./../function-monitor.component.scss', './monitor-details.component.scss']
 })
 export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo> {
 
-  @Input() set monitorDetailsInfoInput(monitorDetailsInfo: MonitorDetailsInfo) {
-    this.functionName = this._translateService.instant(PortalResources.loading);
-    this.isLoading = true;
-    this.historyMessage = null;
-    this.selectedRowId = null;
-    this.setInput(monitorDetailsInfo);
-  }
+    @Input() set monitorDetailsInfoInput(monitorDetailsInfo: MonitorDetailsInfo) {
+        this.functionName = this._translateService.instant(PortalResources.loading);
+        this.isLoading = true;
+        this.historyMessage = null;
+        this.selectedRowId = null;
+        this.setInput(monitorDetailsInfo);
+    }
 
-  private _monitorDetailsInfo: MonitorDetailsInfo;
-  public functionName: string;
-  public operationId: string;
-  public traceHistory: AIInvocationTraceHistory[];
-  public isLoading: boolean = true;
-  public historyMessage: string = null;
-  public selectedRowId: number;
+    @Output() closePanel = new Subject();
 
-  constructor(
-    private _translateService: TranslateService,
-    private _applicationInsightsService: ApplicationInsightsService,
-    injector: Injector
-  ) {
-    super(ComponentNames.monitorDetails, injector, 'sidebar');
-    this.featureName = ComponentNames.functionMonitor;
-  }
+    private _monitorDetailsInfo: MonitorDetailsInfo;
+    public functionName: string;
+    public operationId: string;
+    public traceHistory: AIInvocationTraceHistory[];
+    public isLoading: boolean = true;
+    public historyMessage: string = null;
+    public selectedRowId: number;
 
-  protected setup(monitorDetailsInfoInputEvent: Observable<MonitorDetailsInfo>) {
-    return monitorDetailsInfoInputEvent
-      .switchMap(monitorDetailsInfo => Observable.zip(
-        Observable.of(monitorDetailsInfo),
-        this._applicationInsightsService.getInvocationTraceHistory(
-          monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-          monitorDetailsInfo.operationId)
-      ))
-      .do(tuple => {
-        this.isLoading = false;
-        this._monitorDetailsInfo = tuple[0];
-        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionInfo.name;
-        this.operationId = this._monitorDetailsInfo.operationId;
-        this.traceHistory = tuple[1];
-      });
-  }
+    constructor(
+        private _translateService: TranslateService,
+        private _applicationInsightsService: ApplicationInsightsService,
+        injector: Injector
+    ) {
+        super(ComponentNames.monitorDetails, injector, 'sidebar');
+        this.featureName = ComponentNames.functionMonitor;
+    }
 
-  public openAppInsightsQueryEditor() {
-    const url = this._applicationInsightsService.getInvocationTraceHistoryDirectUrl(
-      this._monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
-      this._monitorDetailsInfo.operationId);
+    protected setup(monitorDetailsInfoInputEvent: Observable<MonitorDetailsInfo>) {
+        return monitorDetailsInfoInputEvent
+            .switchMap(monitorDetailsInfo => Observable.zip(
+                Observable.of(monitorDetailsInfo),
+                this._applicationInsightsService.getInvocationTraceHistory(
+                    monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
+                    monitorDetailsInfo.operationId)
+            ))
+            .do(tuple => {
+                this.isLoading = false;
+                this._monitorDetailsInfo = tuple[0];
+                this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionInfo.name;
+                this.operationId = this._monitorDetailsInfo.operationId;
+                this.traceHistory = tuple[1];
+            });
+    }
 
-    window.open(url, '_blank');
-  }
+    public openAppInsightsQueryEditor() {
+        const url = this._applicationInsightsService.getInvocationTraceHistoryDirectUrl(
+            this._monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
+            this._monitorDetailsInfo.operationId);
 
-  public showHistoryMessage(traceHistory: AIInvocationTraceHistory) {
-    this.selectedRowId = traceHistory.rowId;
-    this.historyMessage = traceHistory.message;
-  }
+        window.open(url, '_blank');
+    }
+
+    close() {
+        this.closePanel.next();
+    }
+
+    public showHistoryMessage(traceHistory: AIInvocationTraceHistory) {
+        this.selectedRowId = traceHistory.rowId;
+        this.historyMessage = traceHistory.message;
+    }
 
 }

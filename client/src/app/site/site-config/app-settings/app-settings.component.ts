@@ -200,7 +200,9 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
           }
         }
 
-        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
+        const sortedGroupControls = (this.groupArray.controls as CustomFormGroup[])
+          .sort((a, b) => a.controls['name'].value.localeCompare(b.controls['name'].value));
+        this._validateAllControls(sortedGroupControls);
       }
 
       if (this.mainForm.contains('appSettings')) {

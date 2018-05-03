@@ -18,7 +18,7 @@ import { ProviderCard } from '../../Models/provider-card';
 })
 export class StepSourceControlComponent {
 
-   private _authProviderSpots = {
+    private _authProviderSpots = {
         onedrive: 0,
         github: 1,
         bitbucket: 4,
@@ -31,7 +31,6 @@ export class StepSourceControlComponent {
             name: 'OneDrive',
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
-            barColor: '#D7E2F2',
             description: this._translateService.instant('onedriveDesc'),
             authorizedStatus: 'none'
         },
@@ -40,7 +39,6 @@ export class StepSourceControlComponent {
             name: 'Github',
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
-            barColor: '#c473d9',
             description: this._translateService.instant('githubDesc'),
             authorizedStatus: 'none'
         },
@@ -49,7 +47,6 @@ export class StepSourceControlComponent {
             name: 'VSTS',
             icon: 'image/deployment-center/vsts.svg',
             color: '#0071bc',
-            barColor: '#5ebeff',
             description: this._translateService.instant('vstsDesc'),
             authorizedStatus: 'none'
         },
@@ -58,7 +55,6 @@ export class StepSourceControlComponent {
             name: 'External',
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
-            barColor: '#cbff5d',
             description: this._translateService.instant('externalDesc'),
             authorizedStatus: 'none'
         },
@@ -67,7 +63,6 @@ export class StepSourceControlComponent {
             name: 'Bitbucket',
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
-            barColor: '#73a7dc',
             description: 'Configure continuous integration with a Bitbucket repo.',
             authorizedStatus: 'none'
         },
@@ -76,7 +71,6 @@ export class StepSourceControlComponent {
             name: 'Dropbox',
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
-            barColor: '#72bfff',
             description: this._translateService.instant('dropboxDesc'),
             authorizedStatus: 'none'
         },
@@ -85,7 +79,6 @@ export class StepSourceControlComponent {
             name: 'Local Git',
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
-            barColor: '#f0757a',
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
         }
@@ -150,7 +143,8 @@ export class StepSourceControlComponent {
             .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
-                    url: 'https://api.github.com/user'
+                    url: 'https://api.github.com/user',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
@@ -173,7 +167,8 @@ export class StepSourceControlComponent {
             .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
-                    url: 'https://api.bitbucket.org/2.0/user'
+                    url: 'https://api.bitbucket.org/2.0/user',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
@@ -196,7 +191,8 @@ export class StepSourceControlComponent {
             .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-                    url: 'https://api.onedrive.com/v1.0/drive'
+                    url: 'https://api.onedrive.com/v1.0/drive',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
@@ -218,7 +214,8 @@ export class StepSourceControlComponent {
             .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
-                    url: 'https://api.dropboxapi.com/2/users/get_current_account'
+                    url: 'https://api.dropboxapi.com/2/users/get_current_account',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
@@ -233,7 +230,9 @@ export class StepSourceControlComponent {
 
         this._wizardService.resourceIdStream$
             .takeUntil(this._ngUnsubscribe$)
-            .switchMap(r => this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState'))
+            .switchMap(r => this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
+                authToken: this._wizardService.getToken()
+            }))
             .subscribe(
                 dep => {
                     const r = dep.json();
@@ -300,7 +299,8 @@ export class StepSourceControlComponent {
 
                     this._cacheService
                         .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
-                            redirUrl: win.document.URL
+                            redirUrl: win.document.URL,
+                            authToken: this._wizardService.getToken()
                         })
                         .subscribe(() => {
                             this.updateProvider(provider);
