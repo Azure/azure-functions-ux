@@ -1,4 +1,5 @@
-import { Links } from 'app/shared/models/constants';
+import { AppKind } from './../../../shared/Utilities/app-kind';
+import { Links, Kinds } from 'app/shared/models/constants';
 import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
@@ -145,6 +146,14 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
 
     initialize(input: PriceSpecInput) {
         if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
+            this.bannerMessage = {
+                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
+                level: 'info'
+            };
+        } else if (input.plan
+            && input.plan.properties.hostingEnvironmentProfile
+            && AppKind.hasKinds(input.plan, [Kinds.linux])) {
+
             this.bannerMessage = {
                 message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
                 level: 'info'
