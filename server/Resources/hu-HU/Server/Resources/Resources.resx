@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Alkalmaz</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} elem van kijelölve</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>Processzor</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Memória</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Storage</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Hiba történt a függvény létrehozásakor: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Hívásnapló</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Hívás részletei</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Naplók</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Feltöltés</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>További beállítások megtekintése</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>További lehetőségek megjelenítése</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Kevesebb beállítás megjelenítése</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>See only recommended options</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Egy vagy több függvényalkalmazás ehhez a tárfiókhoz lett csatolva. Az összes, a fiókhoz csatolt függvényalkalmazás a Fájlok vagy a Megosztások szakaszban jelenik meg.</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Innen töltheti le a Storage Explorert:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>A következő hitelesítő adatokkal csatlakozhat:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -2198,7 +2198,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Tárolóhelyek (előzetes verzió)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>A jobb figyelési élményért – beleértve az élő metrikákat és az egyéni lekérdezéseket – &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;engedélyezze az Application Insights szolgáltatást a függvényalkalmazáshoz&lt;/a&gt;</value>
+    <value>Ha további funkciókkal, például élő metrikákkal és egyéni lekérdezésekkel szeretné bővíteni a figyelési környezetet,</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>állítsa be a függvényalkalmazást az Application Insights használatára</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Ez az érték hozzáíródik az elsődleges webes alkalmazás URL-címéhez, és a tárolóhely nyilvános címe lesz. Ha a webes alkalmazás neve például contoso, a tárhelyé pedig marketing, akkor az új tárhely URL-címe http://contoso-staging.azurewebsites.net lesz.</value>
@@ -2681,7 +2684,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>érték elrejtése</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>Az App Insights-eszközkulcs az alkalmazásbeállítások között jelenik meg, de az App Insights nem található a függvényalkalmazás előfizetésében. Győződjön meg arról, hogy az App Insights és a függvényalkalmazás azonos előfizetésben található.</value>
+    <value>Az Application Insights-eszközkulcs megjelenik az alkalmazásbeállítások között, de az Application Insights nem található a függvényalkalmazás előfizetésében. Győződjön meg arról, hogy az Application Insights és a függvényalkalmazás azonos előfizetésben található.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Sor eleje</value>
@@ -2983,6 +2986,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="diagnostics_line" xml:space="preserve">
     <value>Vonal</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Javasolt tarifacsomagok</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>További tarifacsomagok</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Az előfizetése nem teszi lehetővé e tarifacsomag használatát.</value>
   </data>
@@ -3016,8 +3025,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Az {0} írásvédett, ezért nem frissíthető</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Az App Service-csomag frissítése</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>A csomag ({0}) frissítése</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>Sikerült frissíteni a(z) {0} csomagot</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>A(z) {0} csomag skálázására vonatkozó feladat elküldése sikerült.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>A(z) {0} csomagon folyamatban van egy skálázási művelet. Az újbóli skálázás előtt várja meg, amíg a művelet befejeződik.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Nem sikerült frissíteni a(z) {0} csomagot</value>
@@ -3044,10 +3065,121 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Az App Service Environment (ASE) izolált díjcsomagjai nem érhetők el az Ön konfigurációja számára. Az ASE egy hatékony, hálózatelkülönítést és továbbfejlesztett méretezési lehetőségeket biztosító Azure App Service-funkció.</value>
+    <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ez a skálázási egység nem támogatja a Premium V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Felskálázás</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/óra (becsült érték)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>További erőforrások hozzáadásához válasszon másik tarifacsomagot</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Frissítse az App Service-csomagot</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Shared insfrastructure</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált A sorozatú számítási erőforrások.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált Dv2 sorozatú számítási erőforrások.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Memory available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Egyéni tartományok/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI SSL bindings</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Manuális skálázás</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Automatikus skálázás</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Scale to a large number of instances</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Up to 100 instances.  More allowed upon request.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Up to {0} instances.  Subject to availability.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Staging slots</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Daily backup</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Napi biztonsági mentések</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Backup your app {0} time daily.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Egybérlős rendszer</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Take more control over the resources being used by your app.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Isolated network</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Runs within your own virtual network.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Privát alkalmazáselérés</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB memory</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minutes/day compute</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} cores</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A sorozatú számítási erőforrás</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2 sorozatú számítási erőforrás</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>A proxies.json fájl érvénytelen. A hiba: {0}.</value>
@@ -3059,7 +3191,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Műveletazonosító</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Dátum</value>
+    <value>Dátum (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL-cím</value>
@@ -3068,28 +3200,28 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Eredménykód</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Trigger kiváltó oka</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Hiba</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Futtatás az Application Insightsban</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights-példány</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Sikerült</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Időtartam</value>
+    <value>Időtartam (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Sikeres műveletek száma az elmúlt 30 napban</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Hibák száma az elmúlt 30 napban</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Üzenet</value>
@@ -3133,6 +3265,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="workingDirectory" xml:space="preserve">
     <value>Munkakönyvtár</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>Egy művelet folyamatban van. Biztosan ki szeretne lépni?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Feladat futtatója</value>
   </data>
@@ -3156,6 +3291,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Adattár kiválasztása</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Mappa kiválasztása</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Ág kiválasztása</value>
@@ -3199,7 +3337,58 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
+    <value>A gazdagépadatok lekérésére irányuló hívás nem sikerült.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Az Application Insights beállítása a hívási naplók rögzítésére</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Az Azure Functions most már előnyben részesített figyelési megoldásként támogatja az Application Insights szolgáltatást a fejlesztés alatt álló és az éles alkalmazások esetében. Az App Insights hatékony elemzést, értesítéseket és vizualizációkat kínál a naplóadatokhoz, valamint magasabb szintű általános megbízhatóságot nyújt, ipari méretekben.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Váltás klasszikus nézetre</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Konfigurálás</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Hívási nyomkövetések</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Az eredmények akár 5 percet is késhetnek.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Húzzon ide egy fájlt, vagy</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>tallózás</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>őket</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>metrikák</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>A metrikák és a telepítési értesítések megtekintése.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP access</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Érvényesítés...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>The account name supplied is not valid. Please supply another account name.</value>
   </data>
 </root>

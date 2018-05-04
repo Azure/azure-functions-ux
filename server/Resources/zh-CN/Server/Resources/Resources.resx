@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>已选择 {0} 项</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>内存</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>存储</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>创建函数出错: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>调用日志</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>调用详细信息</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>日志</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>上载</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>查看更多选项</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>查看其他选项</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>查看更少选项</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>仅查看推荐选项</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>已将一个或多个 Function App 链接到此存储帐户。可以在“文件”或“共享”下看到所有链接到该帐户的 Function App。</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>从此处下载存储资源管理器:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>使用这些凭据连接:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -2198,7 +2198,10 @@
     <value>槽位(预览)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>要获得更丰富的监视体验(包括实时指标和自定义查询)，&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;请为函数应用启用 Azure Application Insights&lt;/a&gt;</value>
+    <value>若要获得更丰富的监视体验(包括实时指标和自定义查询):</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>为函数应用配置 Application Insights</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>此值将附加到主 Web 应用程序的 URL 并作为插槽的公用地址。例如，如果你有一个名为 "contoso" 的 Web 应用程序以及一个名为 "staging" 的插槽，则新插槽将有一个类似于“http://contoso-staging.azurewebsites.net”的 URL。</value>
@@ -2681,7 +2684,7 @@
     <value>隐藏值</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>应用设置中显示了 App Insights 检测项，但 Function App 的订阅中未找到 App Insights。请确保 App Insights 与 Function App 在同一订阅中。</value>
+    <value>应用设置中显示了 App Insights 检测密钥，但 Function App 的订阅中未找到 App Insights。请确保 App Insights 与 Function App 在同一订阅中。</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>行首</value>
@@ -2983,6 +2986,12 @@
   <data name="diagnostics_line" xml:space="preserve">
     <value>行</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>建议定价层</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>附加定价层</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>你的订阅不允许选择此定价层</value>
   </data>
@@ -3016,8 +3025,20 @@
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>计划“{0}”已采用只读锁定，无法更新</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>正在更新应用服务计划</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>正在更新计划 {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>计划“{0}”已成功更新!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>已成功提交作业以缩放计划“{0}”。</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>当前正在为计划“{0}”进行缩放操作。请等待操作完成，然后再次缩放。</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>未能更新规划“{0}”</value>
@@ -3044,10 +3065,121 @@
     <value>Windows 容器在预览版期间费用五折。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>应用服务环境(ASE)内的独立计划不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
+    <value>应用服务环境(ASE)内的独立定价层不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>开发/测试定价层仅适用于未托管于应用服务环境中的计划。</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>生产定价层仅适用于未托管在应用服务环境中的计划。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>此缩放单位不支持高级版 V2。请考虑重新部署或克隆应用。</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>纵向扩展</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/小时(估计值)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>选择一个不同的定价层，为计划添加更多资源</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>升级应用服务计划</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>共享基础结构</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>用于运行部署在应用服务计划中的应用程序的共享计算资源。</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>运行应用服务计划中部署的应用程序所使用的专用 A 系列计算资源。</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>运行应用服务计划中部署的应用程序所使用的专用 Dv2 系列计算资源。</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>可用于运行在应用服务计划中部署并运行的应用程序的内存。</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>每个实例可用于运行在应用服务计划中部署和运行的应用程序的内存。</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>应用服务计划中部署的所有应用共享的 {0} 磁盘存储。</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>自定义域/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>配置和购买具有 SNI SSL 绑定的自定义域</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>配置和购买具有 SNI 和 IP SSL 绑定的自定义域</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>手动缩放</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>自动缩放</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>缩放到大量实例</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>最多 100 个实例。根据请求允许更多实例。</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>最多 {0} 个实例。取决于可用性。</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>过渡槽</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>在交换过渡槽用于生产之前，最多可将 {0} 个过渡槽用于测试和部署。</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>每日备份</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>每日备份</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>每天备份 {0} 次应用。</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>单个租户系统</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>增强对应用正在使用的资源的控制。</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>隔离网络</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>在自己的虚拟网络中运行。</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>专用应用访问权限</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>使用具有内部负载均衡(ILB)的应用服务环境。</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB 内存</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} 分钟/天计算</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} 核</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A 系列计算</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2 系列计算</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Proxies.json 无效。错误:“{0}”。</value>
@@ -3059,7 +3191,7 @@
     <value>操作 ID</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>日期</value>
+    <value>日期(UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3200,28 @@
     <value>结果代码</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>触发原因</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>错误</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>在 Application Insights 中运行</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights 实例</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>成功</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>持续时间</value>
+    <value>持续时间(毫秒)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>过去 30 天内的成功计数</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>过去 30 天内的错误计数</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>消息</value>
@@ -3133,6 +3265,9 @@
   <data name="workingDirectory" xml:space="preserve">
     <value>工作目录</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>还有正在进行的操作。确定要离开吗?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>任务运行程序</value>
   </data>
@@ -3156,6 +3291,9 @@
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>选择存储库</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>选择分支</value>
@@ -3199,7 +3337,58 @@
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>未授权</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>获取主机信息的调用失败。</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>配置 Application Insights 捕获调用日志</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions 现支持 Application Insights 作为构造和生产中应用的首选监视解决方案。Application Insights 提供强大的日志数据分析、通知和可视化功能，以及更高的大规模整体可靠性。</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>切换到经典视图</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>调用跟踪</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>结果延迟了 5 分钟之久。</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>将文件拖动到此处或</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>以上传</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>指标</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>查看指标并设置警报。</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>可禁用基于 FTP 的部署，或将其配置为接受 FTP (纯文本)或 FTPS (安全)连接。单击此处了解详细信息。</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP 访问</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>正在验证...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>你没有权限为此项目创建生成定义或发布定义。请联系项目管理员</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>提供的帐户名无效。请提供其他帐户名。</value>
   </data>
 </root>
