@@ -1,47 +1,54 @@
+import { Links } from 'app/shared/models/constants';
 import { Kinds } from './../../../shared/models/constants';
 import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
 import { PriceSpec, PriceSpecInput } from './price-spec';
-import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core';
 import { AseService } from '../../../shared/services/ase.service';
+import { PortalResources } from '../../../shared/models/portal-resources';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
     featureItems = [{
         iconUrl: 'image/app-service-environment.svg',
-        title: 'Single tenant system',
-        description: 'App Service Environment'
+        title: this._ts.instant(PortalResources.pricing_ase),
+        description: this._ts.instant(PortalResources.pricing_aseDesc)
     },
     {
         iconUrl: 'image/networking.svg',
-        title: 'Isolated network',
-        description: 'Runs within your virtual network'
+        title: this._ts.instant(PortalResources.pricing_isolatedNetwork),
+        description: this._ts.instant(PortalResources.pricing_isolatedNetworkDesc)
     },
     {
         iconUrl: 'image/active-directory.svg',
-        title: 'Private app access',
-        description: 'Using an ILB ASE'
+        title: this._ts.instant(PortalResources.pricing_privateAppAccess),
+        description: this._ts.instant(PortalResources.pricing_privateAppAccessDesc)
     },
     {
         iconUrl: 'image/scale-up.svg',
-        title: 'Scale up to 100 instances',
-        description: 'More allowed upon request'
+        title: this._ts.instant(PortalResources.pricing_largeScale),
+        description: this._ts.instant(PortalResources.pricing_largeScaleDesc)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: 'CPU',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.cpu),
+        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.memory),
+        description: this._ts.instant(PortalResources.pricing_dedicatedMemory)
     },
     {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '1 TB'
+        title: this._ts.instant(PortalResources.storage),
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('1 TB')
     }];
 
     cssClass = 'spec isolated-spec';
@@ -58,31 +65,30 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
             this.state = 'hidden';
-        } else if (input.specPickerInput.data && !input.specPickerInput.data.allowAseV2Creation) {
+        } else if (input.specPickerInput.data
+            && (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon)) {
             this.state = 'hidden';
         } else if (input.plan) {
-
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (!input.plan.properties.hostingEnvironmentProfile) {
+            if (!input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)
                     .do(r => {
+                        // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
+                        // but we'll let them see the isolated card anyway.  The plan update will probably fail in
+                        // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
+                        // ASE permissions to scale their plan.
                         if (r.isSuccessful
                             && r.result.kind
                             && r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1) {
 
                             this.state = 'hidden';
-                        } else if (!r.isSuccessful) {
-                            this.state = 'hidden';
-                            // etodo: need to handle failure due to rbac
                         }
                     });
             }
         }
 
-        return Observable.of(null);
+        return this.checkIfDreamspark(input.subscriptionId);
     }
 }
 
@@ -90,9 +96,9 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I1';
     legacySkuName = 'small_isolated';
     topLevelFeatures = [
-        '1x cores',
-        '3.5 GB  Memory',
-        '400 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
+        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Small App Service Hours';
@@ -110,9 +116,9 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I2';
     legacySkuName = 'medium_isolated';
     topLevelFeatures = [
-        '2x cores',
-        '7 GB  Memory',
-        '800 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_memory).format('7'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Medium App Service Hours';
@@ -130,9 +136,9 @@ export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I3';
     legacySkuName = 'large_isolated';
     topLevelFeatures = [
-        '4x cores',
-        '14 GB  Memory',
-        '1600 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_memory).format('14'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Large App Service Hours';

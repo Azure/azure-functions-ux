@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -21,10 +19,9 @@ import { Url } from '../../../../../shared/Utilities/url';
     styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureGithubComponent implements OnDestroy {
-    public OrgList: DropDownElement<string>[];
-    public RepoList: DropDownElement<string>[];
-    private repoUrlToNameMap: { [key: string]: string } = {};
-    public BranchList: DropDownElement<string>[];
+    public OrgList: DropDownElement<string>[] = [];
+    public RepoList: DropDownElement<string>[] = [];
+    public BranchList: DropDownElement<string>[] = [];
 
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe$ = new Subject();
@@ -35,11 +32,11 @@ export class ConfigureGithubComponent implements OnDestroy {
     public selectedOrg = '';
     public selectedRepo = '';
     public selectedBranch = '';
+
+    private repoUrlToNameMap: { [key: string]: string } = {};
     constructor(
         public wizard: DeploymentCenterStateManager,
-        _portalService: PortalService,
         private _cacheService: CacheService,
-        _armService: ArmService,
         private _logService: LogService,
         private _translateService: TranslateService
     ) {
@@ -67,10 +64,12 @@ export class ConfigureGithubComponent implements OnDestroy {
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
-                url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`
+                url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`,
+                authToken: this.wizard.getToken()
             }),
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?user=', true, null, {
-                url: `${DeploymentCenterConstants.githubApiUrl}/user`
+                url: `${DeploymentCenterConstants.githubApiUrl}/user`,
+                authToken: this.wizard.getToken()
             }),
             (orgs, user) => ({
                 orgs: orgs.json(),
@@ -104,7 +103,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`
+                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
+                        authToken: this.wizard.getToken()
                     })
                     .switchMap(r => {
                         const linkHeader = r.headers.toJSON().link;
@@ -125,7 +125,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             } else {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}/repos?per_page=100`
+                        url: `${org}/repos?per_page=100`,
+                        authToken: this.wizard.getToken()
                     })
                     .switchMap(r => {
                         const linkHeader = r.headers.toJSON().link;
@@ -136,7 +137,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                             for (let i = 2; i <= lastPageNumber; i++) {
                                 pageCalls.push(
                                     this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                        url: `${org}/repos?per_page=100&page=${i}`
+                                        url: `${org}/repos?per_page=100&page=${i}`,
+                                        authToken: this.wizard.getToken()
                                     })
                                 );
                             }
@@ -181,7 +183,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.BranchList = [];
             this._cacheService
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
+                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`,
+                    authToken: this.wizard.getToken()
                 })
                 .switchMap(r => {
                     const linkHeader = r.headers.toJSON().link;
@@ -192,7 +195,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                         for (let i = 2; i <= lastPageNumber; i++) {
                             pageCalls.push(
                                 this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
-                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`
+                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`,
+                                    authToken: this.wizard.getToken()
                                 })
                             );
                         }

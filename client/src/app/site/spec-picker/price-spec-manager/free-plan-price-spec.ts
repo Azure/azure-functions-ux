@@ -1,3 +1,4 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { Kinds } from './../../../shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Observable } from 'rxjs/Observable';
@@ -6,27 +7,27 @@ export class FreePlanPriceSpec extends PriceSpec {
     skuCode = 'F1';
     legacySkuName = 'free';
     topLevelFeatures = [
-        'Shared CPU',
-        '512 MB Memory',
-        '10 ACU'
+        this._ts.instant(PortalResources.pricing_sharedInfrastructure),
+        this._ts.instant(PortalResources.pricing_memory).format(1),
+        this._ts.instant(PortalResources.pricing_computeLimit).format(60)
     ];
 
     featureItems = null;
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: 'CPU',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.cpu),
+        description: this._ts.instant(PortalResources.pricing_sharedCpu)
     },
     {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.memory),
+        description: this._ts.instant(PortalResources.pricing_sharedMemory)
     },
     {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '1 GB'
+        title: this._ts.instant(PortalResources.storage),
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('1 GB')
     }];
 
     meterFriendlyName = 'Free App Service';
@@ -54,7 +55,7 @@ export class FreePlanPriceSpec extends PriceSpec {
         } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile) {
+            } else if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             }
         }

@@ -1,0 +1,34 @@
+@import '../../../sass/common/variables';
+
+.monitor-detail-content{
+    padding: 24px 24px;
+    width: 100%;
+    height: 100%;
+
+    >textarea {
+        margin-top: 50px;
+        width: 100%;
+        height: 200px;
+    }
+}
+
+.message-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 25vw;
+    padding-right: 5px;
+}
+
+#essentials-container {
+    border-bottom: $border;
+    padding: 10px 20px 12px 20px;
+}
+
+.close-button {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    height: 15px;
+    width: 15px;
+}

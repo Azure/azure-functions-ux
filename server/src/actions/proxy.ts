@@ -1,4 +1,7 @@
 import axios from 'axios';
+import * as https from 'https';
+import * as http from 'http';
+
 import { Request, Response } from 'express';
 
 interface ProxyRequest {
@@ -8,13 +11,18 @@ interface ProxyRequest {
     url: string;
 }
 
+const httpsAgent = new https.Agent({ keepAlive: true });
+const httpAgent = new http.Agent({ keepAlive: true })
+
 export function proxy(req: Request, res: Response) {
     const content = req.body as ProxyRequest;
     const request = {
         method: content.method,
         data: content.body,
         headers: content.headers,
-        url: content.url
+        url: content.url,
+        httpsAgent: httpsAgent,
+        httpAgent: httpAgent
     };
     axios.request(request)
         .then(r => res.send(r.data))

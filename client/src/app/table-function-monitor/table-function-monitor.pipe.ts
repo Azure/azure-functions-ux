@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import * as moment from 'moment-mini-ts';
 

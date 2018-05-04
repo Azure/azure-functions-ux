@@ -125,7 +125,6 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                             }
                         });
                 }
-
                 return this._siteService.getSite(viewInfo.resourceId);
             })
             .do(r => {

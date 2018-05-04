@@ -1,6 +1,7 @@
-import { ScenarioCheckInput } from './scenario.models';
+import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
+import { Observable } from 'rxjs/Observable';
 
 export class OnPremEnvironment extends Environment {
     name = 'OnPrem';
@@ -21,10 +22,13 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
-            runCheck: () => {
-                return { status: 'disabled' };
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return Observable.of<ScenarioResult>({
+                    status: 'disabled',
+                    data: null
+                });
             }
         };
 

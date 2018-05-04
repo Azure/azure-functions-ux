@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { ArmService } from 'app/shared/services/arm.service';
 import { PortalService } from 'app/shared/services/portal.service';
@@ -10,17 +9,7 @@ import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-
-export interface ProviderCard {
-    id: sourceControlProvider;
-    name: string;
-    icon: string;
-    color: string;
-    barColor: string;
-    description: string;
-    authorizedStatus: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none';
-    authenticatedId?: string;
-}
+import { ProviderCard } from '../../Models/provider-card';
 
 @Component({
     selector: 'app-step-source-control',
@@ -28,13 +17,20 @@ export interface ProviderCard {
     styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepSourceControlComponent {
+
+    private _authProviderSpots = {
+        onedrive: 0,
+        github: 1,
+        bitbucket: 4,
+        dropbox: 5
+    };
+
     public readonly providerCards: ProviderCard[] = [
         {
             id: 'onedrive',
             name: 'OneDrive',
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
-            barColor: '#D7E2F2',
             description: this._translateService.instant('onedriveDesc'),
             authorizedStatus: 'none'
         },
@@ -43,7 +39,6 @@ export class StepSourceControlComponent {
             name: 'Github',
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
-            barColor: '#c473d9',
             description: this._translateService.instant('githubDesc'),
             authorizedStatus: 'none'
         },
@@ -52,7 +47,6 @@ export class StepSourceControlComponent {
             name: 'VSTS',
             icon: 'image/deployment-center/vsts.svg',
             color: '#0071bc',
-            barColor: '#5ebeff',
             description: this._translateService.instant('vstsDesc'),
             authorizedStatus: 'none'
         },
@@ -61,7 +55,6 @@ export class StepSourceControlComponent {
             name: 'External',
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
-            barColor: '#cbff5d',
             description: this._translateService.instant('externalDesc'),
             authorizedStatus: 'none'
         },
@@ -70,7 +63,6 @@ export class StepSourceControlComponent {
             name: 'Bitbucket',
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
-            barColor: '#73a7dc',
             description: 'Configure continuous integration with a Bitbucket repo.',
             authorizedStatus: 'none'
         },
@@ -79,7 +71,6 @@ export class StepSourceControlComponent {
             name: 'Dropbox',
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
-            barColor: '#72bfff',
             description: this._translateService.instant('dropboxDesc'),
             authorizedStatus: 'none'
         },
@@ -88,10 +79,10 @@ export class StepSourceControlComponent {
             name: 'Local Git',
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
-            barColor: '#f0757a',
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
         }
+        // These are options in works, not wanting to delete though
         // {
         //     id: 'webdeploy',
         //     name: 'Web Deploy',
@@ -99,7 +90,8 @@ export class StepSourceControlComponent {
         //     color: '#B8D432',
         //     barColor: '#dbe998',
         //     description: 'use ms deploy',
-        //     authorizedStatus: 'none'
+        //     authorizedStatus: 'none',
+        //     manual: true
         // },
         // {
         //     id: 'ftp',
@@ -108,7 +100,19 @@ export class StepSourceControlComponent {
         //     color: '#FCD116',
         //     barColor: '#fde88a',
         //     description: 'Use an FTP connection to access and copy app files.',
-        //     authorizedStatus: 'none'
+        //     authorizedStatus: 'none',
+        //     manual: true
+        // }
+        // ,
+        // {
+        //     id: 'zip',
+        //     name: 'Run From Zip',
+        //     icon: 'image/deployment-center/FTP.svg',
+        //     color: '#FCD116',
+        //     barColor: '#fde88a',
+        //     description: 'Use the run from zip method of deployment.',
+        //     authorizedStatus: 'none',
+        //     manual: true
         // }
     ];
 
@@ -133,15 +137,20 @@ export class StepSourceControlComponent {
         this.githubUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[this._authProviderSpots.github].authorizedStatus = 'loadingAuth';
+            })
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
-                    url: 'https://api.github.com/user'
+                    url: 'https://api.github.com/user',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
                 r => {
-                    this.providerCards[1].authenticatedId = r.json().login;
-                    this.providerCards[1].authorizedStatus = 'authorized';
+                    this.providerCards[this._authProviderSpots.github].authenticatedId = r.json().login;
+                    this.providerCards[this._authProviderSpots.github].authorizedStatus = 'authorized';
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-github-user', err);
@@ -151,15 +160,21 @@ export class StepSourceControlComponent {
         this.bitbucketUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[this._authProviderSpots.bitbucket].authorizedStatus = 'loadingAuth';
+            })
+
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
-                    url: 'https://api.bitbucket.org/2.0/user'
+                    url: 'https://api.bitbucket.org/2.0/user',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
                 r => {
-                    this.providerCards[4].authenticatedId = r.json().display_name;
-                    this.providerCards[4].authorizedStatus = 'authorized';
+                    this.providerCards[this._authProviderSpots.bitbucket].authenticatedId = r.json().display_name;
+                    this.providerCards[this._authProviderSpots.bitbucket].authorizedStatus = 'authorized';
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-user', err);
@@ -169,15 +184,21 @@ export class StepSourceControlComponent {
         this.onedriveUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[this._authProviderSpots.onedrive].authorizedStatus = 'loadingAuth';
+            })
+
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-                    url: 'https://api.onedrive.com/v1.0/drive'
+                    url: 'https://api.onedrive.com/v1.0/drive',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
                 r => {
-                    this.providerCards[0].authenticatedId = r.json().owner.user.displayName;
-                    this.providerCards[0].authorizedStatus = 'authorized';
+                    this.providerCards[this._authProviderSpots.onedrive].authenticatedId = r.json().owner.user.displayName;
+                    this.providerCards[this._authProviderSpots.onedrive].authorizedStatus = 'authorized';
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-user', err);
@@ -187,15 +208,20 @@ export class StepSourceControlComponent {
         this.dropboxUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[this._authProviderSpots.dropbox].authorizedStatus = 'loadingAuth';
+            })
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
-                    url: 'https://api.dropboxapi.com/2/users/get_current_account'
+                    url: 'https://api.dropboxapi.com/2/users/get_current_account',
+                    authToken: this._wizardService.getToken()
                 })
             )
             .subscribe(
                 r => {
-                    this.providerCards[5].authenticatedId = r.json().name.display_name;
-                    this.providerCards[5].authorizedStatus = 'authorized';
+                    this.providerCards[this._authProviderSpots.dropbox].authenticatedId = r.json().name.display_name;
+                    this.providerCards[this._authProviderSpots.dropbox].authorizedStatus = 'authorized';
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
@@ -204,13 +230,9 @@ export class StepSourceControlComponent {
 
         this._wizardService.resourceIdStream$
             .takeUntil(this._ngUnsubscribe$)
-            .switchMap(r => {
-                this.providerCards[0].authorizedStatus = 'loadingAuth';
-                this.providerCards[1].authorizedStatus = 'loadingAuth';
-                this.providerCards[4].authorizedStatus = 'loadingAuth';
-                this.providerCards[5].authorizedStatus = 'loadingAuth';
-                return this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
-            })
+            .switchMap(r => this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
+                authToken: this._wizardService.getToken()
+            }))
             .subscribe(
                 dep => {
                     const r = dep.json();
@@ -218,25 +240,25 @@ export class StepSourceControlComponent {
                     if (r.onedrive) {
                         this.onedriveUserSubject$.next(r.onedrive);
                     } else {
-                        this.providerCards[0].authorizedStatus = 'notAuthorized';
+                        this.providerCards[this._authProviderSpots.onedrive].authorizedStatus = 'notAuthorized';
                     }
 
                     if (r.dropbox) {
                         this.dropboxUserSubject$.next(r.dropbox);
                     } else {
-                        this.providerCards[5].authorizedStatus = 'notAuthorized';
+                        this.providerCards[this._authProviderSpots.dropbox].authorizedStatus = 'notAuthorized';
                     }
 
                     if (r.github) {
                         this.githubUserSubject$.next(r.github);
                     } else {
-                        this.providerCards[1].authorizedStatus = 'notAuthorized';
+                        this.providerCards[this._authProviderSpots.github].authorizedStatus = 'notAuthorized';
                     }
 
                     if (r.bitbucket) {
                         this.bitbucketUserSubject$.next(r.bitbucket);
                     } else {
-                        this.providerCards[4].authorizedStatus = 'notAuthorized';
+                        this.providerCards[this._authProviderSpots.bitbucket].authorizedStatus = 'notAuthorized';
                     }
                 },
                 err => {
@@ -249,9 +271,21 @@ export class StepSourceControlComponent {
         this.selectedProvider = card;
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.sourceProvider = card.id;
+        currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
         this._wizardService.wizardValues = currentFormValues;
     }
 
+    updateProvider(provider: string) {
+        if (provider === 'dropbox') {
+            this.dropboxUserSubject$.next(true);
+        } else if (provider === 'github') {
+            this.githubUserSubject$.next(true);
+        } else if (provider === 'onedrive') {
+            this.onedriveUserSubject$.next(true);
+        } else if (provider === 'bitbucket') {
+            this.bitbucketUserSubject$.next(true);
+        }
+    }
     public authorize() {
         const provider = this.selectedProvider.id;
         const win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
@@ -265,13 +299,15 @@ export class StepSourceControlComponent {
 
                     this._cacheService
                         .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
-                            redirUrl: win.document.URL
+                            redirUrl: win.document.URL,
+                            authToken: this._wizardService.getToken()
                         })
                         .subscribe(() => {
+                            this.updateProvider(provider);
                             win.close();
                         });
                 }
-            } catch (e) {}
+            } catch (e) { }
         });
     }
 }

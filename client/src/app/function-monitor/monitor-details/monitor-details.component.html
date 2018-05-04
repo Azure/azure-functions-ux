@@ -1,0 +1,42 @@
+<busy-state name='sidebar'></busy-state>
+<div id="essentials-container">
+  <h2>{{ 'functionMonitor_invocationDetails' | translate }}</h2>
+</div>
+
+<command-bar>
+  <command displayText="{{ 'runInAppInsights' | translate }}"
+    (click)="openAppInsightsQueryEditor()"
+    iconUrl="image/open-external.svg"></command>
+
+  <span class="close-button" (click)="close()">
+    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+  </span>
+</command-bar>
+
+<div *ngIf="!traceHistory || traceHistory.length === 0" class="monitor-detail-content">
+    <div *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</div>
+    <div *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</div>
+</div>
+
+<div *ngIf="traceHistory && traceHistory.length > 0" class="monitor-detail-content">
+  <tbl [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+    <thead>
+      <tr>
+        <th>{{ 'functionMonitor_message' | translate }}</th>
+        <th>{{ 'functionMonitor_logLevel' | translate }}</th>
+      </tr>
+    </thead>
+    
+    <tbody class="tableBody">
+      <tr
+        *ngFor="let history of traceHistory"
+        [ngClass]="{rowSelected: history.rowId === selectedRowId}"
+        (click)="showHistoryMessage(history)">
+        <td><div class="message-text">{{history.message}}</div></td>
+        <td>{{history.logLevel}}</td>
+      </tr>
+    </tbody>
+  </tbl>
+
+  <textarea *ngIf="historyMessage" disabled>{{historyMessage}}</textarea>
+</div>

@@ -9,7 +9,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     #spec-picker-shield{
         position: fixed;
-        background-color: rgba(0, 0, 0, 0.25);
+        background-color: $translucent-shield-color;
         z-index: 10;
         bottom: 0px;
         top: 42px;
@@ -25,10 +25,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         display: flex;
     }
 
+    .tiers-header{
+        margin: 20px 0px 0px 15px;
+    }
+
     section{
         &.centered{
             max-width: $center-column-max-width;
-            margin: 0px auto;    
+            margin: 0px auto;
         }
 
         &.empty-group{
@@ -70,7 +74,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     .spec-container {
         padding: 0;
-        margin: 10px;
+        margin: 0px 5px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -112,15 +116,16 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
         &.selected{
             outline-color: $border-selection-color;
-            outline-width: 2px;
+            outline-width: 3px;
             outline-style: solid;
-            outline-offset: 1px;
+            outline-offset: 3px;
         }
 
         .top-features{
             position: absolute;
-            left: 70px;
+            left: 65px;
             top: 50%;
+            padding-right: 10px;
             transform: translateY(-50%);
         }
 
@@ -173,19 +178,16 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         width: calc(100% / 2);
     }
 
-    .feature-description{
-        margin-bottom: 10px;
-    }
-
     .feature-item{
         position: relative;
-        height: 60px;
+        height: 70px;
         background-color: lighten($border-color, 5%);
         margin: 5px 0px;
 
         h4{
             font-size: 12px;
             font-weight: bold;
+            margin: 0px 0px 2px 0px;
         }
 
         .icon-medium{
@@ -195,12 +197,29 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             transform: translateY(-50%);
         }
 
-        .feature-description{
+        .feature-body{
             position: absolute;
             left: 50px;
             left: 50px;
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        // Multi-line text truncation with ellipsis only really works nicely in Chrome.  For all other browsers,
+        // the text will truncate, but there won't be an ellipsis.  There's a lot of weird hacky ways to get
+        // to work, but so far this is the only one that seemed to truncate properly cross-browser without
+        // messing up something else.
+        // https://www.consolelog.io/multiple-line-ellipsis-css-effect/
+        .feature-description{
+            display: block;
+            display: -webkit-box;
+            max-width: 100%;
+            margin: 0 auto;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 36px;       /* fallback */
         }
     }
 
@@ -240,6 +259,42 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             font-size: 14px;
         }
     }
-
-    
 }
+
+#app-root[theme=dark]{
+    #spec-picker-shield{
+        background-color: $translucent-shield-color-dark;
+    }
+
+    .spec-group{
+        background-color: lighten($chrome-color-dark, 10%);
+
+        &.selected-spec-group{
+            background-color: $chrome-color-dark;
+        }
+    }
+
+    .spec-container{
+        h2{
+            color: $default-text-color-dark;
+        }
+    }
+
+    .feature-item{
+        background-color: lighten($chrome-color-dark, 10%);
+    }
+
+    .spec {
+        &.disabled{
+            background-color: lighten($chrome-color-dark, 10%);
+            color: $default-text-color-dark;
+        }
+    }
+
+    footer{
+        background-color: $body-bg-color-dark;
+    }
+}
+
+
+ 

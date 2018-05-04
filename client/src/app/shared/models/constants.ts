@@ -75,8 +75,8 @@ export class SiteTabIds {
     public static readonly scaleUp = 'scale-up';
 }
 
-export class Arm {
-    public static MaxSubscriptionBatchSize = 40;
+export class ARM {
+    public static readonly MaxSubscriptionBatchSize = 40;
 }
 
 export class AvailabilityStates {
@@ -111,6 +111,9 @@ export class Links {
     public static standaloneCreateLearnMore = 'https://go.microsoft.com/fwlink/?linkid=848756';
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
+    public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
+    public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
+    public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
 }
 
 export class Kinds {
@@ -175,7 +178,10 @@ export class ScenarioIds {
     public static readonly addSsh = 'AddSsh';
     public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
     public static readonly addLogicApps = 'AddLogicApps';
-    public static readonly enableAppInsights = 'EnableAppInsights';
+    public static readonly appInsightsConfigurable = 'AppInsightsConfigurable';
+    public static readonly addScaleUp = 'AddScaleUp';
+    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -184,10 +190,10 @@ export class ScenarioIds {
     public static readonly enableExtensions = 'EnableExtensions';
     public static readonly enableLogStream = 'EnableLogStream';
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
+    public static readonly enableMetrics = 'EnableMetrics';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
-    public static readonly addScaleUp = 'AddScaleUp';
-    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
     public static readonly showSideNavMenu = 'ShowSideNavMenu';
@@ -195,6 +201,7 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
+    public static readonly enableSlots = 'EnableSlots';
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
@@ -211,6 +218,7 @@ export class ScenarioIds {
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
+    public static readonly addFTPOptions = 'addFTPOptions';
 }
 
 export class ServerFarmSku {
@@ -261,10 +269,16 @@ export class LogCategories {
     public static readonly deploymentSlots = 'DeploymentSlots';
     public static readonly swapSlots = 'SwapSlots';
     public static readonly addSlot = 'AddSlot';
+    public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
+    public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
+    public static readonly serverFarm = 'ServerFarm';
 }
 
+export class ARMApiVersions {
+    public static websiteApiVersion = '2015-08-01';
+}
 export class SubscriptionQuotaIds {
-    public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
+    public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
 }
 
 export class KeyCodes {
@@ -357,17 +371,36 @@ export class HttpConstants {
 }
 
 export class DeploymentCenterConstants {
-    public static githubUri = 'https://github.com';
-    public static githubApiUrl = 'https://api.github.com';
-    public static bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
-    public static bitbucketUrl = 'https://bitbucket.org';
-    public static dropboxApiUrl = 'https://api.dropboxapi.com/2';
-    public static dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
-    public static onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot:';
-    public static vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
-    public static vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
-    public static vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
-    public static vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
+    public static readonly githubUri = 'https://github.com';
+    public static readonly githubApiUrl = 'https://api.github.com';
+    public static readonly bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
+    public static readonly bitbucketUrl = 'https://bitbucket.org';
+    public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
+    public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
+    public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
+    public static readonly vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
+    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
+    public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
+    public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
+
+
+    // VSTS Validation constants
+    // Build definition
+    public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
+    public static readonly editBuildDefinitionBitMask = 2048;
+
+    // Release definition
+    public static readonly releaseSecurityNameSpace = 'C788C23E-1B46-4162-8F5E-D7585343B5DE';
+    public static readonly editReleaseDefinitionPermission = 2;
+}
+
+export class ComponentNames {
+    public static functionMonitor = 'function-monitor';
+    public static monitorClassic = 'monitor-classic';
+    public static monitorApplicationInsights = 'monitor-applicationinsights';
+    public static tableFunctionMonitor = 'table-function-monitor';
+    public static monitorDetails = 'monitor-details';
+    public static monitorConfigure = 'monitor-configure';
 }
 
 export class WorkerRuntimeLanguages {

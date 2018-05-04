@@ -1,4 +1,3 @@
-import { ArmEmbeddedService } from './arm-embedded.service';
 import { PortalService } from './portal.service';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
@@ -9,6 +8,7 @@ import 'rxjs/add/observable/of';
 
 import { UserService } from './user.service';
 import { AiService } from './ai.service';
+import { ARMApiVersions } from '../models/constants';
 
 @Injectable()
 export class ArmService {
@@ -19,7 +19,7 @@ export class ArmService {
     public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
-    public websiteApiVersion = '2015-08-01';
+    public websiteApiVersion = ARMApiVersions.websiteApiVersion;
     public appInsightsApiVersion = '2015-05-01';
     public notificationHubApiVersion = '2017-04-01';
     public logicAppsApiVersion = '2017-07-01';
@@ -33,7 +33,7 @@ export class ArmService {
         _portalService: PortalService,
         protected _aiService: AiService) {
 
-        this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
+        this.armUrl = _portalService.isEmbeddedFunctions ? ArmService.getRPUrl() : ArmServiceHelper.armEndpoint;
 
         _userService.getStartupInfo()
             .subscribe(info => {
@@ -97,12 +97,12 @@ export class ArmService {
 
     getArmUrl(resourceId: string, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}`;
-        if(apiVersion){
+        if (apiVersion) {
             return this._updateQueryString(
                 url,
                 'api-version',
                 apiVersion ? apiVersion : this.websiteApiVersion);
-        } else{
+        } else {
             return url;
         }
     }
@@ -116,5 +116,13 @@ export class ArmService {
         } else {
             return uri + separator + key + '=' + value;
         }
+    }
+
+    // tslint:disable-next-line:member-ordering
+    public static getRPUrl(): string {
+        if (window.location.host.indexOf('next') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+            return 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+        }
+        return 'https://blueridge-rp-westus.azurewebsites.net';
     }
 }

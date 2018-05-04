@@ -1,3 +1,8 @@
+import { FunctionAppContext } from '../function-app-context';
+import { FunctionInfo } from './function-info';
+import { ARMApplicationInsightsDescriptior } from '../resourceDescriptors';
+import { ErrorEvent } from './error-event';
+
 export interface FunctionInvocations {
     executingJobRunId: string;
     id: string;
@@ -37,4 +42,23 @@ export interface FunctionStats {
     totalPass: number;
     totalFail: number;
     totalRun: number;
+}
+
+export interface FunctionMonitorInfo {
+    functionAppContext: FunctionAppContext;
+    functionAppSettings: { [key: string]: string};
+    functionInfo: FunctionInfo;
+    appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
+    appInsightsFeatureEnabled: boolean;
+}
+
+export interface MonitorDetailsInfo {
+    functionMonitorInfo: FunctionMonitorInfo;
+    operationId: string;
+    id: string;
+}
+
+export interface MonitorConfigureInfo {
+    functionMonitorInfo: FunctionMonitorInfo;
+    errorEvent: ErrorEvent;
 }

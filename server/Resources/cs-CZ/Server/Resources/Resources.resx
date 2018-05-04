@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Zrušit</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Použít</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>Počet vybraných položek: {0}</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>Procesor</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Paměť</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Úložiště</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Chyba při vytváření funkce: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Protokol volání</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Podrobnosti volání</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Protokoly</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Nahrát</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
+  <data name="seeAllOptions" xml:space="preserve">
     <value>Zobrazit další možnosti</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Zobrazit méně možností</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Zobrazit jen doporučené možnosti</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>S tímto účtem úložiště je propojená nejméně jedna aplikace Function App. Pokud si chcete zobrazit všechny aplikace Function App propojené s tímto účtem, najdete je v části Soubory nebo Sdílené složky.</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Stáhněte si Průzkumníka služby Storage z této adresy:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Připojte se pomocí těchto přihlašovacích údajů:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -2198,7 +2198,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Sloty (Preview)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Abyste měli k dispozici rozmanitější možnosti monitorování, včetně živých metrik a vlastních dotazů, zapněte pro svoji aplikaci Function App &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;.</value>
+    <value>Abyste měli k dispozici rozmanitější možnosti monitorování, včetně živých metrik a vlastních dotazů:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>Nakonfigurovat Application Insights pro aplikaci funkcí</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Tato hodnota se připojí k adrese URL vaší hlavní webové aplikace a bude sloužit jako veřejná adresa slotu. Pokud třeba máte webovou aplikaci s názvem contoso a slot s názvem staging, bude mít nový slot adresu URL podobnou této: http://contoso-staging.azurewebsites.net.</value>
@@ -2983,6 +2986,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="diagnostics_line" xml:space="preserve">
     <value>Spojnicový</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Doporučené cenové úrovně</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Další cenové úrovně</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Vaše předplatné nepovoluje tuto cenovou úroveň.</value>
   </data>
@@ -3016,8 +3025,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Plán {0} je uzamčený jen pro čtení a nedá se aktualizovat.</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Aktualizuje se plán služby App Service</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Aktualizuje se plán {0}.</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>Plán {0} se úspěšně aktualizoval!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Úloha škálování plánu {0} se úspěšně odeslala.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Pro plán {0} v tuto chvíli probíhá operace škálování. Než škálování provedete znovu, počkejte prosím, než se operace dokončí.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Plán {0} se nepovedlo aktualizovat.</value>
@@ -3044,10 +3065,121 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Kontejnery Windows se během verze Preview účtují s 50% slevou.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Izolované plány v prostředí App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
+    <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Cenové úrovně pro vývoj a testování jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Produkční cenové úrovně jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Škálovat nahoru</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/hod. (odhad)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Pokud chcete přidat další prostředky pro svůj plán, zvolte jinou cenovou úroveň.</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Aktualizovat plán služby App Service</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Sdílená infrastruktura</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Sdílené výpočetní prostředky, které se používají ke spouštění aplikací v plánu služby App Service</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Vyhrazené výpočetní prostředky řady A, které se používají ke spouštění aplikací v plánu služby App Service</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Vyhrazené výpočetní prostředky řady Dv2, které se používají ke spouštění aplikací v plánu služby App Service</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Paměť, která je k dispozici ke spouštění aplikací nasazených a spuštěných v plánu služby App Service</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Paměť na jednu instanci, která je k dispozici ke spouštění aplikací nasazených a spuštěných v plánu služby App Service</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} úložného prostoru na disku sdíleného všemi aplikacemi nasazenými v plánu služby App Service</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Vlastní domény / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Nakonfigurujte a nakupte vlastní domény s vazbami SNI SSL.</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Nakonfigurujte a nakupte vlastní domény s vazbami SNI a IP SSL.</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Ruční škálování</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Automatické škálování</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Škálování na velký počet instancí</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Až 100 instancí. Další se povolují na žádost.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Až tento počet instancí: {0}. Záleží na dostupnosti.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Přípravné sloty</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Několik přípravných slotů (až {0}), které můžete použít k testování a nasazování dříve, než je přepnete do produkce</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Denní zálohování</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Denní zálohy</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Zálohovat aplikaci {0}krát denně</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Systém s jedním tenantem</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Získejte více kontroly nad prostředky, které se používají ve vaší aplikaci.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Izolovaná síť</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Spouští se ve vlastní virtuální síti.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Přístup k privátní aplikaci</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Používání App Service Environment s Interním vyrovnáváním zatížení (ILB)</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB paměti</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minut výpočtů / den</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>Počet jader: {0}</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>Výpočetní prostředky řady A</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Výpočetní prostředky řady Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Soubor proxies.json není platný. Chyba: {0}</value>
@@ -3059,7 +3191,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>ID operace</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Datum</value>
+    <value>Datum (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>Adresa URL</value>
@@ -3068,28 +3200,28 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Kód výsledku</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Důvod aktivace</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Chyba</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Spustit v Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Instance Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>Úspěch</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Doba trvání</value>
+    <value>Doba trvání (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Počet úspěchů za posledních 30 dní</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Počet chyb za posledních 30 dní</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Zpráva</value>
@@ -3133,6 +3265,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="workingDirectory" xml:space="preserve">
     <value>Pracovní adresář</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>V tuto chvíli probíhá nějaká operace. Opravdu chcete odejít?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Spouštěč úloh</value>
   </data>
@@ -3156,6 +3291,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Vyberte úložiště</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Vybrat složku</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Vyberte větev</value>
@@ -3199,7 +3337,58 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Neautorizováno</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
+    <value>Volání, které mělo získat informace o hostiteli, nebylo úspěšné.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Nakonfigurovat službu Application Insights tak, aby zachytávala protokoly volání</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Služba Azure Functions teď podporuje Application Insights jako upřednostňované řešení pro aplikace, které se teprve vytvářejí, ale i pro ty, které jsou už v produkčním prostředí. App Insights nabízí výkonné analýzy, oznámení a vizualizace dat protokolu, stejně jako vyšší celkovou spolehlivost bez ohledu na škálování.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Přepnout do klasického zobrazení</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Konfigurovat</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Trasy volání</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Výsledky jsou zpožděné až o 5 minut.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Přetáhněte sem soubor nebo</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>procházet</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>které chcete nahrát.</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>metriky</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Zobrazit metriky a nastavit upozornění</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>Nasazení na základě FTP se dá zakázat nebo nakonfigurovat tak, aby přijímalo připojení FTP (prostý text) nebo FTPS (zabezpečené). Kliknutím získáte další informace.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>Přístup k FTP</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Ověřování...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>K vytvoření definice sestavení nebo definice verze v tomto projektu nemáte oprávnění. Obraťte se na správce projektu.</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Zadaný název účtu není platný. Zadejte prosím nějaký jiný.</value>
   </data>
 </root>

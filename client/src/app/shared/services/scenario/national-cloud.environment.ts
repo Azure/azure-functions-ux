@@ -1,6 +1,8 @@
 import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { Injector } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
     name = 'NationalCloud';
@@ -26,8 +28,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
         return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
     }
 
-    constructor() {
-        super();
+    constructor(injector: Injector) {
+        super(injector);
         this.scenarioChecks[ScenarioIds.addResourceExplorer] = {
             id: ScenarioIds.addResourceExplorer,
             runCheck: () => {
@@ -56,10 +58,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
-            runCheck: () => {
-                return { status: 'disabled' };
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return Observable.of<ScenarioResult>({
+                    status: 'disabled',
+                    data: null
+                });
             }
         };
 
@@ -83,6 +88,21 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return this._getDisabledBindings();
             }
         };
+
+        this.scenarioChecks[ScenarioIds.addFTPOptions] = {
+            id: ScenarioIds.addFTPOptions,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
+            id: ScenarioIds.addDiagnoseAndSolve,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

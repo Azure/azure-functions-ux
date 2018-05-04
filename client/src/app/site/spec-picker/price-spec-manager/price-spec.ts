@@ -10,10 +10,10 @@ import { Injector } from '@angular/core';
 import { SubscriptionQuotaIds, LogCategories } from '../../../shared/models/constants';
 import { LogService } from '../../../shared/services/log.service';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { SpecPickerInput, NewPlanSpeckPickerData } from './plan-price-spec-manager';
+import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
-    specPickerInput: SpecPickerInput<NewPlanSpeckPickerData>;
+    specPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
     subscriptionId: string;
     billingMeters: ArmObj<BillingMeter>[];
     plan?: ArmObj<ServerFarm>;
@@ -89,7 +89,7 @@ export abstract class PriceSpec {
 
                     if (isDreamspark) {
                         this.state = 'disabled';
-                        this.disabledMessage = PortalResources.pricing_subscriptionNotAllowed;
+                        this.disabledMessage = this._ts.instant(PortalResources.pricing_subscriptionNotAllowed);
                         this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
                     }
                 });

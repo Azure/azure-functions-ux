@@ -12,6 +12,7 @@ import { FunctionInfo } from '../models/function-info';
 import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
 import { HttpError } from '../models/http-result';
+import { FunctionMonitorInfo } from '../models/function-monitor';
 
 interface EventInfo<T> {
     eventType: BroadcastEvent;
@@ -30,6 +31,7 @@ export class BroadcastService {
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
     private clearErrorEvent: EventEmitter<string>;
+    private refreshMonitorEvent: EventEmitter<FunctionMonitorInfo>;
     private dirtyStateMap: { [key: string]: string } = {};
     private defaultDirtyReason = 'global';
 
@@ -45,6 +47,7 @@ export class BroadcastService {
         this.trialExpired = new EventEmitter<void>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.clearErrorEvent = new EventEmitter<string>();
+        this.refreshMonitorEvent = new EventEmitter<FunctionMonitorInfo>();
 
         this.errorEvent = new EventEmitter<ErrorEvent>();
         // Busy state events have separate categories for each event, so I set a high
@@ -60,6 +63,9 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.FunctionEditorEvent] = new Subject();
         this._streamMap[BroadcastEvent.RightTabsEvent] = new Subject();
         this._streamMap[BroadcastEvent.BottomTabsEvent] = new Subject();
+        this._streamMap[BroadcastEvent.RefreshMonitoringView] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionCodeUpdate] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionRunEvent] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent
@@ -93,7 +99,9 @@ export class BroadcastService {
         }
 
         return subject
-            .do(e => this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]))
+            .do(e => {
+                this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]);
+            })
             .map(e => <T>e.obj);
     }
 
@@ -169,8 +177,6 @@ export class BroadcastService {
 
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
-
-
         }
     }
 }

@@ -10,13 +10,22 @@ import { LogHelper } from '../logHelper';
 import { setupVsoPassthroughAuthentication } from './vso-deployment-passthrough';
 
 export function setupDeploymentCenter(app: Application) {
-    app.get('/api/SourceControlAuthenticationState', async (req, res) => {
+    app.post('/api/SourceControlAuthenticationState', async (req, res) => {
         try {
             const r = await axios.get(`${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols?api-version=${constants.AntaresApiVersion}`, {
                 headers: {
-                    Authorization: req.headers.authorization
+                    Authorization: req.body.authToken
                 }
             });
+            if(r.status !== 200){
+                res.send({
+                    github: false,
+                    onedrive: false,
+                    bitbucket: false,
+                    dropbox: false
+                });
+                return;
+            }
             const body = r.data;
             var providers: any[] = body.value;
             const oneDriveObject = providers.find(x => x.name.toLowerCase() === 'onedrive');

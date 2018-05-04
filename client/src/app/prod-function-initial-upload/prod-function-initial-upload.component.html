@@ -1,0 +1,19 @@
+<div *ngIf="show">
+  <div id="disabled-message">
+    <span>
+      <app-card-info-control [image]="'image/functions.svg'" header="Production Function App" description="This is a production function app.....blah blah blah....upload zip.....blah bslah blah"
+        [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
+      <div class="hero" [class.hidden]="loading">
+        <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
+          <p>
+            {{'dragFileHereOr' | translate}}
+            <label class="upload-button">
+              <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">  {{'browse' | translate}}
+            </label>
+            {{'toUpload' | translate}}
+          </p>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>

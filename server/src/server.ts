@@ -8,7 +8,6 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as compression from 'compression';
-
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -18,9 +17,10 @@ import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
 import { getLinuxRuntimeToken } from './actions/linux-function-app';
-
+import { setupAzureStorage } from './actions/storage';
+import * as appInsights from 'applicationinsights';
+import { trackAppServicePerformance } from './telemetry-helper';
 const cookieSession = require('cookie-session');
-const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
     appInsights
         .setup(process.env.aiInstrumentationKey)
@@ -32,6 +32,7 @@ if (process.env.aiInstrumentationKey) {
         .setAutoCollectConsole(true)
         .setUseDiskRetryCaching(true)
         .start();
+    setInterval(trackAppServicePerformance, 30 * 1000);
 }
 
 const app = express();
@@ -58,6 +59,7 @@ app
             }
         })
     );
+app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
     if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
         res.redirect('https://azure.microsoft.com/services/functions/');
@@ -89,6 +91,18 @@ app.get('/api/health', (_, res) => {
     res.send('healthy');
 });
 
+
+let packageJson = { version: '0.0.0' };
+//This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
+if (fs.existsSync(path.join(__dirname, 'package.json'))) {
+    packageJson = require('./package.json');
+} else if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
+    packageJson = require('../package.json');
+};
+app.get('/api/version', (_, res) => {
+    res.send(packageJson.version);
+});
+
 app.get('/api/templates', getTemplates);
 app.get('/api/bindingconfig', getBindingConfig);
 
@@ -101,6 +115,8 @@ app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
 setupDeploymentCenter(app);
+setupAzureStorage(app);
+
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
 app.get('*', renderIndex);

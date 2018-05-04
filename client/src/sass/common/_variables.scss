@@ -41,7 +41,7 @@ $top-bar-height: 40px;
 $disabled-color: rgba(#7f7f7f, .7);
 $disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
-$border-color: darken($chrome-color, 10%);;
+$border-color: darken($chrome-color, 10%);
 
 $item-selected-color: #e1efff;
 $item-selected-color-dark: lighten($body-bg-color-dark, 20%);
@@ -50,7 +50,7 @@ $item-hover-color: darken($chrome-color, 5%);
 $item-hover-color-dark: lighten($body-bg-color-dark, 10%);
 
 $border: 1px $border-color solid;
-
+$border-selected: 1px solid $border-selection-color;
 // Background colors:
 $success-color: #5db300;
 $success-color-faded: rgba($success-color, 0.18);
@@ -81,6 +81,8 @@ $alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: rgba(127, 127, 127, 0.5);
+$translucent-shield-color: rgba($body-bg-color, 0.40);
+$translucent-shield-color-dark: rgba($body-bg-color-dark, 0.50);
 
 $grey-color: #f5f5f5;
 $grey-color-dark: #3d3d3d;
@@ -92,6 +94,8 @@ $info-box-color: #d1e7f8;
 $info-box-color-hover: darken($info-box-color, 5%);
 
 $card-color-dark: #333333;
+$card-color-selected: rgb(222, 236, 249);
+$card-color-selected-dark: rgb(52, 55, 58);
 
 $text-box-warning-text: #8a6d3b;
 $text-box-warning-background: #fcf8e3;
@@ -118,3 +122,11 @@ $black_shadow: rgba(0, 0, 0, 0.075);
 
 $control-error-color-light: #b40e1b;
 $control-error-color-dark: #f88;
+
+// Sidebar colors:
+$sidebar-border-color: darken($chrome-color, 30%);
+
+// Table colors:
+$row-hover-color: rgba(0, 137, 250, 0.08);
+$row-selected-color: #e5f8fd;
+$row-selected-color-dark: #1c1c1c;

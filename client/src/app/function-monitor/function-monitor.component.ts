@@ -1,153 +1,139 @@
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { ScenarioIds } from './../shared/models/constants';
-import { Constants } from 'app/shared/models/constants';
+import { ScenarioIds, Constants } from './../shared/models/constants';
+import { ComponentNames } from 'app/shared/models/constants';
 import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { TranslateService } from '@ngx-translate/core';
-import { FunctionInfo } from '../shared/models/function-info';
-import { FunctionMonitorService } from '../shared/services/function-monitor.service';
-import { FunctionInvocations } from '../shared/models/function-monitor';
-import { PortalResources } from '../shared/models/portal-resources';
-import { PortalService } from './../shared/services/portal.service';
-import { CacheService } from './../shared/services/cache.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { BaseFunctionComponent } from '../shared/components/base-function-component';
-import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
+import { ExtendedTreeViewInfo, NavigableComponent } from '../shared/components/navigable-component';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import * as moment from 'moment-mini-ts';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionMonitorInfo, MonitorConfigureInfo } from '../shared/models/function-monitor';
+import { ErrorEvent } from '../shared/models/error-event';
+import { errorIds } from '../shared/models/error-ids';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
+import { ApplicationInsightsService } from '../shared/services/application-insights.service';
 
 @Component({
-    selector: 'function-monitor',
+    selector: ComponentNames.functionMonitor,
     templateUrl: './function-monitor.component.html',
     styleUrls: ['./function-monitor.component.scss']
 })
-export class FunctionMonitorComponent extends BaseFunctionComponent {
-    public pulseUrl: string;
-    public rows: FunctionInvocations[]; // the data for the InvocationsLog table
-    public successAggregateHeading: string;
-    public errorsAggregateHeading: string;
-    public successAggregate: string;
-    public errorsAggregate: string;
-    public columns: any[];
-    public functionId: string;
-    public currentFunction: FunctionInfo;
-    public aiId: string = null;
-    public azureWebJobsDashboardMissed = true;
-    public aiNotFound = false;
-    public aiEnabled = false;
+export class FunctionMonitorComponent extends NavigableComponent {
+    public static readonly CLASSIC_VIEW = 'classic';
+
+    private _renderComponentName: string = '';
+    public functionMonitorInfo: FunctionMonitorInfo;
+    public monitorConfigureInfo: MonitorConfigureInfo;
 
     constructor(
-        public globalStateService: GlobalStateService,
-        private _functionMonitorService: FunctionMonitorService,
-        private _translateService: TranslateService,
-        private _portalService: PortalService,
-        private _cacheService: CacheService,
+        private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService,
+        private _translateService: TranslateService,
+        private _applicationInsightsService: ApplicationInsightsService,
+        public globalStateService: GlobalStateService,
         injector: Injector
     ) {
-        super('function-monitor', injector, DashboardType.FunctionMonitorDashboard);
+        super(ComponentNames.functionMonitor, injector, DashboardType.FunctionMonitorDashboard);
+        this.featureName = ComponentNames.functionMonitor;
+        this.isParentComponent = true;
 
-        this.columns = [
-            {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
-                variable: 'functionDisplayTitle', // The  key that maps to the data property
-                formatTo: 'text' // The type data for the column (date converts to fromNow etc)
-            },
-            {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_statusColumn),
-                variable: 'status',
-                formatTo: 'icon'
-            },
-            {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_detailsColumn),
-                variable: 'whenUtc',
-                formatTo: 'datetime'
-            },
-            {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_durationColumn),
-                variable: 'duration',
-                formatTo: 'number'
-            }
-        ];
-    }
-
-    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
-        return super.setup(navigationEvents)
-            .switchMap(fi => {
-                this.currentFunction = fi.functionInfo.result;
-
-                this.aiEnabled = this._scenarioService.checkScenario(ScenarioIds.enableAppInsights).status !== 'disabled';
-
-                return Observable.zip(
-                    this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
-                    this.aiEnabled ? this._functionAppService.isAppInsightsEnabled(this.context.site.id) : Observable.of(null));
-            })
-            .switchMap(r => {
-                const appSettings = r[0].json();
-                this.aiId = r[1] || '';
-
-                // In case App Insight is located in another subscription show warning
-                this.aiNotFound = !this.aiId && appSettings.properties[Constants.instrumentationKeySettingName];
-
-                if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
-                    this.azureWebJobsDashboardMissed = true;
-                    if (this.aiId) {
-                        this.openAppInsightsBlade();
-                    }
-                    return Observable.of(null);
-                } else {
-                    this.azureWebJobsDashboardMissed = false;
-                }
-
-                // reset rows
-                this.rows = [];
-
-                this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
-
-                const firstOfMonth = moment().startOf('month');
-                this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
-                this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
-
-                return this._functionAppService.getFunctionHostStatus(this.context)
-                    .flatMap(host => {
-                        if (host.isSuccessful) {
-                            return this._functionMonitorService.getDataForSelectedFunction(this.context, this.currentFunction, host.result.id);
-                        } else {
-                            this.showComponentError({
-                                errorId: host.error.errorId,
-                                message: this._translateService.instant(PortalResources.monitorHostFetchFailed),
-                                resourceId: this.context.site.id
-                            });
-
-                            return Observable.of(null);
-                        }
-                    })
-                    .flatMap(data => {
-                        this.functionId = !!data ? data.functionId : '';
-                        this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
-                        this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
-                        return !!data
-                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(this.context, this.functionId)
-                            : Observable.of([]);
-                    });
-            })
-            .do(result => {
-                if (result) {
-                    this.rows = result;
+        this._broadcastService
+            .getEvents<FunctionMonitorInfo>(BroadcastEvent.RefreshMonitoringView)
+            .takeUntil(this.ngUnsubscribe)
+            .distinctUntilChanged()
+            .subscribe(functionMonitorInfo => {
+                if (this.viewInfo !== null &&
+                    this.functionMonitorInfo !== null &&
+                    functionMonitorInfo !== null &&
+                    this.functionMonitorInfo.functionAppContext.site.id === functionMonitorInfo.functionAppContext.site.id) {
+                    this.setInput(this.viewInfo);
                 }
             });
     }
 
-    openAppInsightsBlade() {
-        this._portalService.openBladeDeprecated(
-            {
-                detailBlade: 'AspNetOverview',
-                detailBladeInputs: {
-                    id: this.aiId
-                },
-                extension: 'AppInsightsExtension'
-            },
-            'monitor'
-        );
+    protected setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super
+            .setup(navigationEvents)
+            .switchMap(viewInfo => Observable.zip(
+                this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
+                Observable.of(viewInfo)))
+            .switchMap(tuple => Observable.zip(
+                Observable.of(tuple[0]),
+                this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+                this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
+                this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
+            ))
+            .map((tuple): FunctionMonitorInfo => ({
+                functionAppContext: tuple[0],
+                functionAppSettings: tuple[2].result.properties,
+                functionInfo: tuple[1].result,
+                appInsightsResourceDescriptor: tuple[3].data,
+                appInsightsFeatureEnabled: tuple[3].status === 'enabled'
+            }))
+            .do(functionMonitorInfo => {
+                this.functionMonitorInfo = functionMonitorInfo;
+
+                this._renderComponentName = this._shouldLoadClassicView()
+                    ? ComponentNames.monitorClassic
+                    : this._shouldLoadApplicationInsightsView()
+                        ? ComponentNames.monitorApplicationInsights
+                        : this._loadMonitorConfigureView();
+            });
+    }
+
+    get shouldRenderMonitorClassic(): boolean {
+        return this._renderComponentName === ComponentNames.monitorClassic;
+    }
+
+    get shouldRenderMonitorApplicationInsights(): boolean {
+        return this._renderComponentName === ComponentNames.monitorApplicationInsights;
+    }
+
+    get shouldRenderMonitorConfigure(): boolean {
+        return this._renderComponentName === ComponentNames.monitorConfigure;
+    }
+
+    private _shouldLoadClassicView(): boolean {
+        const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+
+        const loadClassicView = view === FunctionMonitorComponent.CLASSIC_VIEW &&
+            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+
+        if (!loadClassicView) {
+            this._applicationInsightsService.removeFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        }
+
+        // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
+        // the user has selected to switch to classic view and has not setup an instrumentation key.
+        return !this.functionMonitorInfo.appInsightsFeatureEnabled ||
+            loadClassicView;
+    }
+
+    private _shouldLoadApplicationInsightsView(): boolean {
+        return this.functionMonitorInfo.appInsightsResourceDescriptor !== null;
+    }
+
+    private _loadMonitorConfigureView(): string {
+        let errorEvent: ErrorEvent = null;
+
+        // NOTE(michinoy): Load the if the user has setup an instrumentation key, but the app insights resource was not found
+        // in the subscription, present the user with an error message.
+        if (!!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
+            this.functionMonitorInfo.appInsightsResourceDescriptor === null) {
+            errorEvent = {
+                errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
+                message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),
+                resourceId: this.functionMonitorInfo.functionAppContext.site.id
+            };
+        }
+
+        this.monitorConfigureInfo = {
+            functionMonitorInfo: this.functionMonitorInfo,
+            errorEvent: errorEvent
+        };
+
+        return ComponentNames.monitorConfigure;
     }
 }

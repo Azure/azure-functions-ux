@@ -1,5 +1,5 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories, SiteTabIds } from './../../../shared/models/constants';
+import { Links, LogCategories, SiteTabIds, ScenarioIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -21,7 +21,7 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
-import { Url } from '../../../shared/Utilities/url';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
     selector: 'general-settings',
@@ -50,6 +50,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public managedPipelineModeOptions: SelectOption<number>[];
     public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
     public remoteDebuggingVersionOptions: SelectOption<string>[];
+    public FTPAccessOptions: SelectOption<string>[];
 
     public netFrameworkSupported = false;
     public phpSupported = false;
@@ -61,6 +62,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public classicPipelineModeSupported = false;
     public remoteDebuggingSupported = false;
     public clientAffinitySupported = false;
+    public FTPAccessSupported = false;
 
     public autoSwapSupported = false;
     public autoSwapEnabledOptions: SelectOption<boolean>[];
@@ -87,6 +89,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _authZService: AuthzService,
         private _portalService: PortalService,
         private _siteService: SiteService,
+        private _scenarioService: ScenarioService,
         injector: Injector
     ) {
         super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
@@ -190,46 +193,20 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     scaleUp() {
         this.setBusy();
 
-        if (Url.getParameterByName(null, 'appsvc.feature.scale') === 'true') {
-            this._portalService.openBlade(
-                {
-                    detailBlade: 'SpecPickerFrameBlade',
-                    detailBladeInputs: {
-                        id: this.siteArm.properties.serverFarmId,
-                        feature: 'scaleup',
-                        data: null
-                    }
-                },
-                this.componentName)
-                .subscribe(r => {
-                    this.clearBusy();
-                    this._logService.debug(LogCategories.siteConfig, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
-                });
-        } else {
-            const inputs = {
-                aspResourceId: this.siteArm.properties.serverFarmId,
-                aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-                    && this.siteArm.properties.hostingEnvironmentProfile.id
-            };
-
-            const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
-                '',
-                inputs,
-                'site-manage',
-                null,
-                'WebsiteSpecPickerV3');
-
-            openScaleUpBlade
-                .first()
-                .subscribe(r => {
-                    this.clearBusy();
-                    this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
-                },
-                    e => {
-                        this.clearBusy();
-                        this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
-                    });
-        }
+        this._portalService.openBlade(
+            {
+                detailBlade: 'SpecPickerFrameBlade',
+                detailBladeInputs: {
+                    id: this.siteArm.properties.serverFarmId,
+                    feature: 'scaleup',
+                    data: null
+                }
+            },
+            this.componentName)
+            .subscribe(r => {
+                this.clearBusy();
+                this._logService.debug(LogCategories.siteConfig, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
+            });
     }
 
     private _resetSlotsInfo() {
@@ -275,6 +252,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.clientAffinitySupported = false;
         this.autoSwapSupported = false;
         this.linuxRuntimeSupported = false;
+        this.FTPAccessSupported = false;
     }
 
     private _processSupportedControls(siteArm: ArmObj<Site>, siteConfigArm: ArmObj<SiteConfig>) {
@@ -291,6 +269,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
+            let FTPAccessSupported = true;
 
             this._sku = siteArm.properties.sku;
 
@@ -304,7 +283,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 classicPipelineModeSupported = false;
                 remoteDebuggingSupported = false;
 
-                if ((siteConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+                const linuxFxVersion = (siteConfigArm.properties.linuxFxVersion || '');
+                if (linuxFxVersion.indexOf(LinuxConstants.dockerPrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.composePrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.kubernetesPrefix) === -1  ) {
                     linuxRuntimeSupported = true;
                 }
 
@@ -324,10 +306,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 }
             }
 
-            // if (this._sku === 'Free' || this._sku === 'Shared') {
-            //   platform64BitSupported = false;
-            //   alwaysOnSupported = false;
-            // }
+            if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {
+                FTPAccessSupported = false;
+            }
 
             this.netFrameworkSupported = netFrameworkSupported;
             this.phpSupported = phpSupported;
@@ -341,6 +322,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             this.clientAffinitySupported = clientAffinitySupported;
             this.autoSwapSupported = autoSwapSupported;
             this.linuxRuntimeSupported = linuxRuntimeSupported;
+            this.FTPAccessSupported = FTPAccessSupported;
         }
     }
 
@@ -457,6 +439,11 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.autoSwapEnabledOptions =
             [{ displayLabel: offString, value: false },
             { displayLabel: onString, value: true }];
+
+        this.FTPAccessOptions =
+            [{ displayLabel: this._translateService.instant(PortalResources.FTPBoth), value: 'AllAllowed' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -479,6 +466,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             group.addControl('remoteDebuggingEnabled', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
             group.addControl('remoteDebuggingVersion', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
             setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
+        }
+        if (this.FTPAccessSupported) {
+            group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.ftpsState, disabled: !this.hasWritePermissions }));
         }
     }
 
@@ -1117,6 +1107,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             if (this.autoSwapSupported) {
                 const autoSwapEnabled = <boolean>(generalSettingsControls['autoSwapEnabled'].value);
                 siteConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
+            }
+            if (this.FTPAccessSupported) {
+                siteConfigArm.properties.ftpsState = <string>(generalSettingsControls['FTPAccessOptions'].value);
             }
 
             // -- stacks settings --

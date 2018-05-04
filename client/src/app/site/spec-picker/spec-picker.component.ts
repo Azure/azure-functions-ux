@@ -1,9 +1,10 @@
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
-import { PlanPriceSpecManager, NewPlanSpeckPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
-import { Component, OnInit, Input, Injector, ViewEncapsulation } from '@angular/core';
+import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
+import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
@@ -11,11 +12,12 @@ import { PriceSpec } from './price-spec-manager/price-spec';
 import { PriceSpecGroup } from './price-spec-manager/price-spec-group';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { SiteTabIds } from '../../shared/models/constants';
+import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { Dom } from '../../shared/Utilities/dom';
 
-interface StatusMessage {
+export interface StatusMessage {
   message: string;
-  level: 'error' | 'success';
+  level: 'error' | 'success' | 'warning' | 'info';
 }
 
 @Component({
@@ -24,35 +26,36 @@ interface StatusMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>> implements OnInit {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnDestroy {
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>) {
     this.setInput(viewInfo);
   }
 
   @Input() isOpenedFromMenu: boolean;
+  @ViewChild('specGroupTabs') groupElements: ElementRef;
 
   specManager: PlanPriceSpecManager;
   statusMessage: StatusMessage = null;
-  infoMessage: string;
   isInitializing = false;
   isUpdating = false;
   shieldEnabled = false;
+  disableUpdates = false;
 
   private _planOrSubResourceId: ResourceId;
-  private _input: SpecPickerInput<NewPlanSpeckPickerData>;
+  private _input: SpecPickerInput<NewPlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
+      return false;
+    } else if (!this.specManager.selectedSpecGroup.selectedSpec) {
       return false;
     } else if (this.specManager
       && this.specManager.selectedSpecGroup.selectedSpec
       && this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode) {
 
       return false;
-    } else if (this.isUpdating) {
-      return false;
-    } else if (this.isInitializing) {
+    } else if (this.isUpdating || this.isInitializing || this.disableUpdates) {
       return false;
     } else {
       return true;
@@ -70,10 +73,12 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.featureName = 'SpecPickerComponent';
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.specManager.dispose();
   }
 
-  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>>) {
+  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>>) {
     return inputEvents
       .distinctUntilChanged()
       .switchMap(info => {
@@ -133,7 +138,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       });
   }
 
-
   selectGroup(group: PriceSpecGroup) {
     this.specManager.selectedSpecGroup = group;
   }
@@ -154,34 +158,90 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
 
     this.statusMessage = null;
-    this.isUpdating = true;
 
     // This is an existing plan, so just upgrade in-place
     if (!this._input.data) {
+      this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
+      this.isUpdating = true;
+      this.disableUpdates = true;
 
       this.specManager.applySelectedSpec()
-        .subscribe(r => {
+        .subscribe(applyButtonState => {
           this.isUpdating = false;
-          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
 
-          if (r.isSuccessful) {
-
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName),
-              level: 'success'
-            };
-
-          } else {
-
-            this.statusMessage = {
-              message: r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName),
-              level: 'error'
-            };
-          }
+          this.disableUpdates = applyButtonState === 'disabled' ? true : false;
+          this._portalService.updateDirtyState(false);
         });
     } else {
       // This is a new plan, so return plan information to parent blade
       this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
+    }
+  }
+
+  onGroupTabKeyPress(event: KeyboardEvent) {
+    const groups = this.specManager.specGroups;
+
+    if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
+      let curIndex = groups.findIndex(g => g === this.specManager.selectedSpecGroup);
+      const tabElements = this._getTabElements();
+      this._updateFocusOnGroupTab(false, tabElements, curIndex);
+
+      if (event.keyCode === KeyCodes.arrowRight) {
+        curIndex = this._getTargetIndex(groups, curIndex + 1);
+      } else {
+        curIndex = this._getTargetIndex(groups, curIndex - 1);
+      }
+
+      this.selectGroup(groups[curIndex]);
+      this._updateFocusOnGroupTab(true, tabElements, curIndex);
+
+      event.preventDefault();
+    }
+  }
+
+  onExpandKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.enter) {
+      this.specManager.selectedSpecGroup.isExpanded = !this.specManager.selectedSpecGroup.isExpanded;
+      event.preventDefault();
+    }
+  }
+
+  get isEmpty() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length === 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
+  }
+
+  get showExpander() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
+  }
+
+  get showAllSpecs() {
+    return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
+      || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
+  }
+
+  private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {
+    if (targetIndex < 0) {
+      targetIndex = groups.length - 1;
+    } else if (targetIndex >= groups.length) {
+      targetIndex = 0;
+    }
+
+    return targetIndex;
+  }
+
+  private _getTabElements() {
+    return this.groupElements.nativeElement.children;
+  }
+
+  private _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
+    const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
+
+    if (set) {
+      Dom.setFocus(tab);
+    } else {
+      Dom.clearFocus(tab);
     }
   }
 }

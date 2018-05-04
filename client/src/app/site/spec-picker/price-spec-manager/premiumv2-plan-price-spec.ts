@@ -1,8 +1,8 @@
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { PlanService } from './../../../shared/services/plan.service';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Observable } from 'rxjs/Observable';
-import { Kinds } from '../../../shared/models/constants';
 import { Injector } from '@angular/core';
 import { ResourceId } from '../../../shared/models/arm/arm-obj';
 
@@ -10,47 +10,47 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
 
     protected readonly _disabledLink = 'https://go.microsoft.com/fwlink/?linkid=856301';
 
-
     featureItems = [{
         iconUrl: 'image/ssl.svg',
-        title: 'Custom domains / SSL',
-        description: 'Includes SNI and IP SSL Support'
+        title: this._ts.instant(PortalResources.pricing_customDomainsSsl),
+        description: this._ts.instant(PortalResources.pricing_customDomainsIpSslDesc)
     },
     {
         iconUrl: 'image/scale-up.svg',
-        title: 'Auto scale',
-        description: 'Up to 20 instances.  Subject to availability'
+        title: this._ts.instant(PortalResources.pricing_autoScale),
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(20)
     },
     {
         iconUrl: 'image/slots.svg',
-        title: '20 slots',
-        description: 'Web app staging'
+        title: this._ts.instant(PortalResources.pricing_stagingSlots),
+        description: this._ts.instant(PortalResources.pricing_slotsDesc).format(20)
     },
     {
         iconUrl: 'image/backups.svg',
-        title: 'Daily Backups',
-        description: '50 times daily'
+        title: this._ts.instant(PortalResources.pricing_dailyBackups),
+        description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
     },
     {
         iconUrl: 'image/globe.svg',
-        title: 'Traffic manager',
-        description: 'Geo availability'
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: 'CPU',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.cpu),
+        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.memory),
+        description: this._ts.instant(PortalResources.pricing_dedicatedMemory)
     },
     {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '250 GB'
+        title: this._ts.instant(PortalResources.storage),
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('250 GB')
     }];
 
     cssClass = 'spec premium-spec';
@@ -65,23 +65,39 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
     runInitialization(input: PriceSpecInput) {
         let $checkStamp: Observable<any> = Observable.of(null);
 
+        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon)
+            || (input.plan && input.plan.properties.isXenon)) {
+            const slotsFeatureIndex = this.featureItems.findIndex(f => f.title === this._ts.instant(PortalResources.pricing_stagingSlots));
+            if (slotsFeatureIndex > -1) {
+                this.featureItems.splice(slotsFeatureIndex, 1);
+            }
+        }
+
         if (input.specPickerInput.data) {
+
             if (input.specPickerInput.data.hostingEnvironmentName) {
                 this.state = 'hidden';
             } else {
-                return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
-                    .do(geoRegions => {
-                        if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
-                            this.state = 'disabled';
-                            this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
-                            this.disabledInfoLink = this._disabledLink;
+                return this.checkIfDreamspark(input.subscriptionId)
+                    .switchMap(isDreamspark => {
+                        if (!isDreamspark) {
+                            return this._planService.getAvailablePremiumV2GeoRegions(
+                                input.specPickerInput.data.subscriptionId, input.specPickerInput.data.isLinux)
+                                .do(geoRegions => {
+                                    if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
+                                        this.state = 'disabled';
+                                        this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                                        this.disabledInfoLink = this._disabledLink;
+                                    }
+                                });
                         }
+
+                        return Observable.of(null);
                     });
+
             }
         } else if (input.plan) {
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile) {
+            if (input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             } else {
 
@@ -117,9 +133,9 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P1v2';
     legacySkuName = 'D1_premiumV2';
     topLevelFeatures = [
-        '1x cores',
-        '3.5 GB  Memory',
-        '400 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
+        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Small App Service Hours';
@@ -137,9 +153,9 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P2v2';
     legacySkuName = 'D2_premiumV2';
     topLevelFeatures = [
-        '2x cores',
-        '7 GB  Memory',
-        '800 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_memory).format('7'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -157,9 +173,9 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P3v2';
     legacySkuName = 'D3_premiumV2';
     topLevelFeatures = [
-        '4x cores',
-        '14 GB  Memory',
-        '1600 ACU'
+        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_memory).format('14'),
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Large App Service Hours';

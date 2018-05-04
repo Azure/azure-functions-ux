@@ -15,19 +15,24 @@ import { ExtensionInstallStatus } from '../../shared/models/extension-install-st
 import { BaseExtensionInstallComponent } from '../../extension-install/base-extension-install-component';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
+import { FunctionAppContext } from '../../shared/function-app-context';
+import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
+import { errorIds } from '../../shared/models/error-ids';
+import { PortalResources } from '../../shared/models/portal-resources';
 
 @Component({
     selector: 'extension-checker',
     templateUrl: './extension-checker.component.html',
     styleUrls: ['./extension-checker.component.scss']
 })
-export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
+export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
     @Input() functionLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
     @Input() functionAppLanguage: string;
     @Input() appNode: AppNode;
     @Input() functionsNode: FunctionsNode;
+    @Input() passedContext: FunctionAppContext;
     @Output() closePanel = new Subject();
 
     public openFunctionNewDetail = false;
@@ -42,6 +47,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
     public installJobs: ExtensionInstallStatus[] = [];
 
     private functionCardStream: Subject<CreateCard>;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(private _logService: LogService,
         private _functionAppService: FunctionAppService,
@@ -50,12 +56,15 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
         aiService: AiService) {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
+
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
             .switchMap(card => {
+                this._busyManager.setBusy();
                 this._functionCard = card;
-                return this._functionAppService.getTemplates(this.context);
+                return this._functionAppService.getTemplates(this.passedContext);
             })
             .switchMap(templates => {
                 if (!this.functionLanguage) {
@@ -72,6 +81,12 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
                 }
             })
             .do(null, e => {
+                this._busyManager.clearBusy();
+                this.showComponentError({
+                    message: translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
+                    errorId: errorIds.unableToCreateFunction,
+                    resourceId: this.context.site.id
+                });
                 this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
             })
             .subscribe(extensions => {
@@ -82,6 +97,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
                 } else {
                     this.showExtensionInstallDetail = true;
                 }
+                this._busyManager.clearBusy();
             });
     }
 

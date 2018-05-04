@@ -1,23 +1,20 @@
+@import '../../sass/common/variables';
+
 #function-aggregates{
     margin-bottom: 20px;
     width: 90%;
 }
 
-.ai-icon {
-    display:flex;
-    text-align: center;
-    padding-top: 50px;
-    div:nth-child(1) {
-        flex-grow:1;
-        img {
-            height:50px;
-            width: 100%;
-        }
-    }    
+.rowSelected {
+    background-color: $row-selected-color;
 }
 
-.alert {
-    img {
-        height: 20px;
+.tableBody tr:hover{
+    background-color: $row-hover-color;
+}
+
+:host-context(#app-root[theme=dark]){
+    .rowSelected {
+        background-color: $row-selected-color-dark;
     }
 }

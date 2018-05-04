@@ -18,6 +18,7 @@ import { errorIds } from './../models/error-ids';
 import { ErrorEvent } from './../models/error-event';
 import { TranslateService } from '@ngx-translate/core';
 import { Guid } from '../Utilities/Guid';
+import { Constants } from '../models/constants';
 
 export interface CacheItem {
     id: string;
@@ -58,9 +59,9 @@ export class CacheService {
         return this.send(url, 'DELETE', true, null, null, invokeApi);
     }
 
-    postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any): Observable<Response> {
+    postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<Response> {
         const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
-        return this.send(url, 'POST', force, null, content);
+        return this.send(url, 'POST', force, null, content, null, cacheKeyPrefix);
     }
 
     putArm(resourceId: string, apiVersion?: string, content?: any) {
@@ -127,7 +128,8 @@ export class CacheService {
         force: boolean,
         headers?: Headers,
         content?: any,
-        invokeApi?: boolean) {
+        invokeApi?: boolean,
+        keyPrefix?: string) {
 
         if (url.startsWith('http://')) {
             // This is only for seabreaze function apps.
@@ -152,7 +154,16 @@ export class CacheService {
             url = url.replace(parts[2], domain);
         }
 
-        const key = url.toLowerCase();
+        // If we're going to our server and don't have headers chosen, use empty headers
+        // Do not inject Arm headers, this is because the front end will reject any calls from this url with
+        // auth headers, this can be removed when this is fixed in our front end.
+        if (url.indexOf(Constants.serviceHost) > -1 && !headers) {
+            headers = new Headers();
+        }
+
+        const key = keyPrefix
+            ? keyPrefix.toLowerCase() + url.toLowerCase()
+            : url.toLowerCase();
 
         // Grab a reference before any async calls in case the item gets cleaned up
         const item = this._cache[key];

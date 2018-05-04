@@ -1,3 +1,4 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Kinds } from '../../../shared/models/constants';
 
@@ -5,31 +6,31 @@ export class SharedPlanPriceSpec extends PriceSpec {
     skuCode = 'D1';
     legacySkuName = 'shared';
     topLevelFeatures = [
-        'Shared CPU',
-        '750 MB Memory',
-        '50 ACU'
+        this._ts.instant(PortalResources.pricing_sharedInfrastructure),
+        this._ts.instant(PortalResources.pricing_memory).format(1),
+        this._ts.instant(PortalResources.pricing_computeLimit).format(240)
     ];
 
     featureItems = [{
         iconUrl: 'image/custom-domains.svg',
-        title: 'Custom domains',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.feature_customDomainsName),
+        description: this._ts.instant(PortalResources.feature_customDomainsInfo)
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: 'CPU',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.cpu),
+        description: this._ts.instant(PortalResources.pricing_sharedCpu)
     },
     {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.memory),
+        description: this._ts.instant(PortalResources.pricing_sharedMemory)
     },
     {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '1 GB'
+        title: this._ts.instant(PortalResources.storage),
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('1 GB')
     }];
 
     meterFriendlyName = 'Shared App Service Hours';
@@ -55,7 +56,7 @@ export class SharedPlanPriceSpec extends PriceSpec {
         } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile) {
+            } else if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             }
         }

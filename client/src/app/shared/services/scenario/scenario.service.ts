@@ -14,7 +14,7 @@ import { ScenarioCheckInput } from './scenario.models';
 import { StandaloneEnvironment } from './stand-alone.environment';
 import { OnPremEnvironment } from './onprem.environment';
 import { Environment } from './scenario.models';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 
@@ -35,14 +35,15 @@ export class ScenarioService {
     constructor(
         private _logService: LogService,
         private _translateService: TranslateService,
-        private _portalService: PortalService) {
+        private _portalService: PortalService,
+        injector: Injector) {
 
         // National cloud environments inherit from AzureEnvironment so we ensure there
         // aren't duplicates to reduce the chance of conflicts in behavior.
         if (NationalCloudEnvironment.isNationalCloud()) {
-            this._environments.splice(0, 0, new NationalCloudEnvironment());
+            this._environments.splice(0, 0, new NationalCloudEnvironment(injector));
         } else {
-            this._environments.splice(0, 0, new AzureEnvironment());
+            this._environments.splice(0, 0, new AzureEnvironment(injector));
         }
     }
 

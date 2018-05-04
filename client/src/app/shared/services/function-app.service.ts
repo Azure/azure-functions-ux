@@ -1,6 +1,5 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
@@ -582,11 +581,11 @@ export class FunctionAppService {
                 .map(r => r.json() as HostStatus));
     }
 
-    getOldLogs(context: FunctionAppContext, fi: FunctionInfo, range: number): Result<string> {
+    getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {
         const url = context.urlTemplates.getFunctionLogUrl(fi.name);
 
         return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-            this._cacheService.get(url, false, this.headers(t))
+            this._cacheService.get(url, force, this.headers(t))
                 .concatMap(r => {
                     let files: VfsObject[] = r.json();
                     if (files.length > 0) {
@@ -594,13 +593,21 @@ export class FunctionAppService {
                             .map(e => Object.assign({}, e, { parsedTime: new Date(e.mtime) }))
                             .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
-                        return this._cacheService.get(files.pop().href, false, this.headers(t, ['Range', `bytes=-${range}`]))
+                        const headers = range
+                            ? this.headers(t, ['Range', `bytes=-${range}`])
+                            : this.headers(t);
+
+                        return this._cacheService.get(files.pop().href, force, headers)
                             .map(f => {
                                 const content = f.text();
-                                const index = content.indexOf('\n');
-                                return <string>(index !== -1
-                                    ? content.substring(index + 1)
-                                    : content);
+                                if (range) {
+                                    const index = content.indexOf('\n');
+                                    return <string>(index !== -1
+                                        ? content.substring(index + 1)
+                                        : content);
+                                } else {
+                                    return content;
+                                }
                             });
                     } else {
                         return Observable.of('');
@@ -831,8 +838,7 @@ export class FunctionAppService {
                         };
                     };
 
-                    // TODO: [ahmels] ignore dynamic linux apps with that app setting for now
-                    if (usingRunFromZip && !ArmUtil.isLinuxDynamic(context.site)) {
+                    if (usingRunFromZip) {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
@@ -1030,31 +1036,6 @@ export class FunctionAppService {
     getAppContext(resourceId: string): Observable<FunctionAppContext> {
         return this._cacheService.getArm(resourceId)
             .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
-    }
-
-    isAppInsightsEnabled(siteId: string) {
-        const descriptor = new ArmSiteDescriptor(siteId);
-        return Observable.zip(
-            this._cacheService.postArm(`${siteId}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-            (as, ai) => ({ appSettings: as, appInsights: ai }))
-            .map(r => {
-                const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
-                let result = null;
-                if (ikey) {
-                    const aiResources = r.appInsights.json();
-
-                    // AI RP has an issue where they return an array instead of a JSON response if empty
-                    if (aiResources && !Array.isArray(aiResources)) {
-                        aiResources.value.forEach((ai) => {
-                            if (ai.properties.InstrumentationKey === ikey) {
-                                result = ai.id;
-                            }
-                        });
-                    }
-                }
-                return result;
-            });
     }
 
     // these 2 functions are only for try app service scenarios.

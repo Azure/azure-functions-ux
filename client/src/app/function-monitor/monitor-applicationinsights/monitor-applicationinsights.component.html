@@ -1,0 +1,124 @@
+<ng-sidebar-container style="height:100vh" [animate]="true">
+    <div ng-sidebar-content>
+      <command-bar>
+        <command [displayText]="'refresh' | translate"
+          (click)="refresh()"
+          iconUrl="image/reset.svg"></command>
+      </command-bar>
+
+      <info-box
+        *ngIf="showDelayWarning"
+        typeClass="info"
+        [infoText]="'appInsightsDelay' | translate">
+      </info-box>
+
+      <div id="essentials-container">
+        <div class="essentials-col">
+          <div>
+            <label id="applicationInsightsInstanceLabel">{{ 'appInsightsInstance' | translate }}</label>
+            <div tabindex="0"
+                  id="applicationInsightsInstanceValue"
+                  aria-labelledby="applicationInsightsInstanceLabel applicationInsightsInstanceValue">
+                  <a (click)="openInAppInsights()">{{applicationInsightsInstanceName}}</a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="essentials-col">
+          <div>
+            <label id="successCountLabel">{{ 'functionMonitor_successAggregate_30days' | translate }}</label>
+            <div tabindex="0"
+                  id="successCountValue"
+                  aria-labelledby="successCountLabel successCountValue"
+                  role="status">
+                  <img src="image/success.svg" />
+                  {{successCount}}
+            </div>
+          </div>
+        </div>
+  
+        <div class="essentials-col">
+          <div>
+            <label id="errorsCountLabel">{{ 'functionMonitor_errorsAggregate_30days' | translate }}</label>
+            <div tabindex="0"
+                  id="errorsCountValue"
+                  aria-labelledby="errorsCountLabel errorsCountValue"
+                  role="status">
+                  <img src="image/error.svg" />
+                  {{errorsCount}}
+            </div>
+          </div>
+        </div>
+  
+        <div class="essentials-col">
+          <div>
+            <label id="runInAppInsightsLabel">{{appInsightsQueryReturnedTitle}}</label>
+            <div tabindex="0"
+                  id="runInAppInsightsLink"
+                  aria-labelledby="runInAppInsightsLabel runInAppInsightsLink">
+                  <img src="image/open-external.svg" />
+                  <a class="link" (click)="openAppInsightsQueryEditor()">{{'runInAppInsights' | translate}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="function-monitor-content">
+          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+            <thead>
+              <tr>
+                <th><tbl-th name="timestampFriendly">{{ 'date' | translate }}</tbl-th></th>
+                <th><tbl-th name="success">{{ 'success' | translate }}</tbl-th></th>
+                <th><tbl-th name="resultCode">{{ 'resultCode' | translate }}</tbl-th></th>
+                <th><tbl-th name="duration">{{ 'duration' | translate }}</tbl-th></th>
+                <th><tbl-th name="operationId">{{ 'operationId' | translate }}</tbl-th></th>
+              </tr>
+            </thead>
+            <tbody class="tableBody">
+              <tr *ngFor="let trace of table.items" [ngClass]="{rowSelected: trace.operationId === selectedRowId}" (click)="showTraceHistory(trace)">
+                <td>{{trace.timestampFriendly}}</td>
+                <td>{{trace.success}}</td>
+                <td>{{trace.resultCode}}</td>
+                <td>{{trace.duration}}</td>
+                <td>{{trace.operationId}}</td>
+              </tr>
+            </tbody>
+          </tbl>
+
+          <tbl *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+            <thead>
+              <tr>
+                <th>{{ 'date' | translate }}</th>
+                <th>{{ 'success' | translate }}</th>
+                <th>{{ 'resultCode' | translate }}</th>
+                <th>{{ 'duration' | translate }}</th>
+                <th>{{ 'operationId' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</td>
+                <td *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</td>
+              </tr>
+            </tbody>
+          </tbl>
+      </div>
+    </div>
+  
+    <ng-sidebar #sidebar [(opened)]="sidePanelOpened"
+      [mode]="'over'"
+      [position]="'right'"
+      [closeOnClickOutside]="true"
+      [trapFocus]="false"
+      [autoFocus]="true"
+      [sidebarClass]="'sidebar-monitor-details'"
+      [ariaLabel]="'Trace Details'"
+      [animate]="true"
+      [closeOnClickBackdrop]="false"
+      [showBackdrop]="false">
+  
+      <monitor-details *ngIf="sidePanelOpened" [monitorDetailsInfoInput]="monitorDetailsInfo" (closePanel)="closeSidePanel()">
+      </monitor-details>
+  
+    </ng-sidebar>
+</ng-sidebar-container>

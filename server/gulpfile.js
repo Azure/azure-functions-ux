@@ -11,6 +11,7 @@ const del = require('del');
 const download = require('gulp-download');
 const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
+var string_replace = require('gulp-string-replace');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -35,7 +36,7 @@ gulp.task('build-test', function (cb) {
 });
 
 gulp.task('build-production', function (cb) {
-    runSequence('build-all', 'bundle-views', 'bundle-json', 'bundle-config', cb);
+    runSequence('build-all', 'bundle-views', 'bundle-json', 'bundle-config', 'package-version', cb);
 });
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
@@ -90,6 +91,16 @@ gulp.task('bundle-views', function () {
 });
 
 /********
+ *   This will set the correct package version
+ */
+gulp.task('package-version', () => {
+    //
+    gulp.src('package.json')
+        .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0'))
+        .pipe(gulp.dest('build'));
+});
+
+/********
  *   Bundle Up production server resources
  */
 gulp.task('bundle-json', function () {
@@ -100,7 +111,7 @@ gulp.task('bundle-json', function () {
  *   Bundle Up config
  */
 gulp.task('bundle-config', function () {
-    return gulp.src(['web.config', 'iisnode.yml', 'package.json', '.env', 'gulpfile.js']).pipe(gulp.dest('build'));
+    return gulp.src(['web.config', 'iisnode.yml', '.env', 'gulpfile.js']).pipe(gulp.dest('build'));
 });
 
 /********
@@ -108,9 +119,9 @@ gulp.task('bundle-config', function () {
  */
 gulp.task('resx-to-typescript-models', function (cb) {
     const resources = require('../server/src/actions/resources/Resources.json').en;
-    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
+    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
     Object.keys(resources).forEach(function (stringName) {
-        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
+        typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
     });
     typescriptFileContent += `}`;
     let writePath = path.normalize(
@@ -129,14 +140,14 @@ gulp.task('resources-convert', function () {
         .src(['./Resources/**/Resources.resx'])
         .pipe(resx2())
         .pipe(
-        rename(function (p) {
-            const language = p.dirname.split(path.sep)[0];
-            if (!!language && language !== '.') {
-                p.basename = 'Resources.' + language;
-            }
-            p.dirname = '.';
-            p.extname = '.json';
-        })
+            rename(function (p) {
+                const language = p.dirname.split(path.sep)[0];
+                if (!!language && language !== '.') {
+                    p.basename = 'Resources.' + language;
+                }
+                p.dirname = '.';
+                p.extname = '.json';
+            })
         )
         .pipe(gulp.dest('resources-convert'));
 
@@ -144,17 +155,17 @@ gulp.task('resources-convert', function () {
         .src(['templates/**/Resources/**/Resources.resx', '!templates/**/Resources/**/qps-*/**'])
         .pipe(resx2())
         .pipe(
-        rename(function (p) {
-            const parts = p.dirname.split(path.sep);
-            const version = parts[0];
+            rename(function (p) {
+                const parts = p.dirname.split(path.sep);
+                const version = parts[0];
 
-            const language = parts.length > 2 ? parts[parts.length - 2] : null;
-            if (!!language && language !== '.') {
-                p.basename = 'Resources.' + language;
-            }
-            p.dirname = '.' + path.sep + version + path.sep;
-            p.extname = '.json';
-        })
+                const language = parts.length > 2 ? parts[parts.length - 2] : null;
+                if (!!language && language !== '.') {
+                    p.basename = 'Resources.' + language;
+                }
+                p.dirname = '.' + path.sep + version + path.sep;
+                p.extname = '.json';
+            })
         )
         .pipe(gulp.dest('templateResoureces-convert'));
     return gulpMerge(portalResourceStream, templateResourceStream);
@@ -169,15 +180,15 @@ gulp.task('resources-build', function () {
         gulp
             .src(['resources-convert/**/Resources.*.json'])
             .pipe(
-            jeditor(function (json) {
-                const enver = require(path.normalize('../server/resources-convert/Resources.json'));
-                const retVal = {
-                    lang: json,
-                    en: enver
-                };
+                jeditor(function (json) {
+                    const enver = require(path.normalize('../server/resources-convert/Resources.json'));
+                    const retVal = {
+                        lang: json,
+                        en: enver
+                    };
 
-                return retVal;
-            })
+                    return retVal;
+                })
             )
             .pipe(gulp.dest('resources-build'))
     );
@@ -186,13 +197,13 @@ gulp.task('resources-build', function () {
         gulp
             .src(['resources-convert/Resources.json'])
             .pipe(
-            jeditor(function (json) {
-                const retVal = {
-                    en: json
-                };
+                jeditor(function (json) {
+                    const retVal = {
+                        en: json
+                    };
 
-                return retVal;
-            })
+                    return retVal;
+                })
             )
             .pipe(gulp.dest('resources-build'))
     );
@@ -204,15 +215,15 @@ gulp.task('resources-build', function () {
             gulp
                 .src('templateResoureces-convert/' + x + '/Resources.*.json')
                 .pipe(
-                jeditor(function (json) {
-                    const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
-                    const retVal = {
-                        lang: json,
-                        en: enver
-                    };
+                    jeditor(function (json) {
+                        const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
+                        const retVal = {
+                            lang: json,
+                            en: enver
+                        };
 
-                    return retVal;
-                })
+                        return retVal;
+                    })
                 )
                 .pipe(gulp.dest('templateresources-build/' + x))
         );
@@ -221,13 +232,13 @@ gulp.task('resources-build', function () {
             gulp
                 .src('templateResoureces-convert/' + x + '/Resources.json')
                 .pipe(
-                jeditor(function (json) {
-                    const retVal = {
-                        en: json
-                    };
+                    jeditor(function (json) {
+                        const retVal = {
+                            en: json
+                        };
 
-                    return retVal;
-                })
+                        return retVal;
+                    })
                 )
                 .pipe(gulp.dest('templateresources-build/' + x))
         );
@@ -267,9 +278,9 @@ gulp.task('resources-combine', function () {
                     .src(stream)
                     .pipe(merge({ fileName: fileName }))
                     .pipe(
-                    rename(function (p) {
-                        p.basename += '.' + x;
-                    })
+                        rename(function (p) {
+                            p.basename += '.' + x;
+                        })
                     )
                     .pipe(gulp.dest('src/actions/resources'))
             );

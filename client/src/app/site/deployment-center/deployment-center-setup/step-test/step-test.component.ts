@@ -124,7 +124,7 @@ export class StepTestComponent implements OnDestroy {
             values.testEnvironment = {
                 ...values.testEnvironment,
                 webAppId: `/subscriptions/${this.subId}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.newAppName}`,
-                appServicePlanId: `/subscriptions/${this.subId}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.appServicePlanName}`
+                appServicePlanId: `/subscriptions/${this.subId}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/serverFarms/${this.appServicePlanName}`
             };
             this.wizard.wizardValues = values;
         } else {

@@ -1,8 +1,8 @@
 <div class="cardContainer">
-  <span load-image="image/deployment-source.svg" class="icon-large icon-center"></span>
+  <span load-image="{{image}}" class="icon-large icon-center"></span>
   <h2>{{header}}</h2>
   <div class="description-text">
     <h5>{{description}}</h5>
-    <a target="_blank" [href]="learnMoreLink">{{'topBar_learnMore' | translate}}</a>
+    <a *ngIf="learnMoreLink" target="_blank" [href]="learnMoreLink">{{'topBar_learnMore' | translate}}</a>
   </div>
 </div>

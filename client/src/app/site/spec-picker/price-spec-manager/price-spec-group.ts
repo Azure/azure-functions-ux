@@ -1,4 +1,7 @@
-import { PriceSpec } from './price-spec';
+import { AppKind } from './../../../shared/Utilities/app-kind';
+import { Links, Kinds } from 'app/shared/models/constants';
+import { StatusMessage } from './../spec-picker.component';
+import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
 import { BasicSmallPlanPriceSpec, BasicMediumPlanPriceSpec, BasicLargePlanPriceSpec, } from './basic-plan-price-spec';
@@ -12,12 +15,15 @@ import { TranslateService } from '@ngx-translate/core';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
-    abstract specs: PriceSpec[];
+    abstract recommendedSpecs: PriceSpec[];
+    abstract additionalSpecs: PriceSpec[];
     abstract title: string;
+    abstract id: string;
     abstract description: string;
     abstract emptyMessage: string;
     abstract emptyInfoLink: string;
 
+    bannerMessage: StatusMessage;
     selectedSpec: PriceSpec = null;
     isExpanded = false;
 
@@ -26,14 +32,18 @@ export abstract class PriceSpecGroup {
     constructor(protected injector: Injector) {
         this.ts = injector.get(TranslateService);
     }
+
+    abstract initialize(input: PriceSpecInput);
 }
 
 export class DevSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new FreePlanPriceSpec(this.injector),
         new SharedPlanPriceSpec(this.injector),
         new BasicSmallPlanPriceSpec(this.injector),
-        new StandardSmallPlanPriceSpec(this.injector),
+    ];
+
+    additionalSpecs = [
         new BasicMediumPlanPriceSpec(this.injector),
         new BasicLargePlanPriceSpec(this.injector)
     ];
@@ -41,57 +51,113 @@ export class DevSpecGroup extends PriceSpecGroup {
     selectedSpec = null;
     iconUrl = 'image/tools.svg';
     title = this.ts.instant(PortalResources.pricing_devTestTitle);
+    id = 'devtest';
     description = this.ts.instant(PortalResources.pricing_devTestDesc);
-    emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    emptyInfoLink = 'https://microsoft.com';
+    emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
     }
 
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.isLinux) {
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_linuxTrial),
+                    level: 'info'
+                };
+
+            } else if (input.specPickerInput.data.isXenon) {
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_windowsContainers),
+                    level: 'info'
+                };
+            }
+        }
+    }
 }
 
 export class ProdSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new StandardSmallPlanPriceSpec(this.injector),
         new PremiumV2SmallPlanPriceSpec(this.injector),
         new PremiumV2MediumPlanPriceSpec(this.injector),
-        new PremiumV2LargePlanPriceSpec(this.injector),
+        new PremiumV2LargePlanPriceSpec(this.injector)
+    ];
+
+    additionalSpecs = [
         new StandardMediumPlanPriceSpec(this.injector),
+        new StandardLargePlanPriceSpec(this.injector),
         new PremiumSmallPlanPriceSpec(this.injector),
         new PremiumMediumPlanPriceSpec(this.injector),
         new PremiumLargePlanPriceSpec(this.injector),
-        new StandardLargePlanPriceSpec(this.injector)
     ];
 
     selectedSpec = null;
     iconUrl = 'image/app-service-plan.svg';
     title = this.ts.instant(PortalResources.pricing_productionTitle);
+    id = 'prod';
     description = this.ts.instant(PortalResources.pricing_productionDesc);
-    emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    emptyInfoLink = 'https://microsoft.com';
+    emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
     }
+
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.isLinux) {
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_linuxTrial),
+                    level: 'info'
+                };
+            } else if (input.specPickerInput.data.isXenon) {
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_windowsContainers),
+                    level: 'info'
+                };
+            }
+        }
+    }
 }
 
 export class IsolatedSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new IsolatedSmallPlanPriceSpec(this.injector),
         new IsolatedMediumPlanPriceSpec(this.injector),
         new IsolatedLargePlanPriceSpec(this.injector)
     ];
 
+    additionalSpecs = [];
+
     selectedSpec = null;
     iconUrl = 'image/app-service-environment.svg';
     title = this.ts.instant(PortalResources.pricing_isolatedTitle);
+    id = 'isolated';
     description = this.ts.instant(PortalResources.pricing_isolatedDesc);
-
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
+    }
+
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
+            this.bannerMessage = {
+                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
+                level: 'info'
+            };
+        } else if (input.plan
+            && input.plan.properties.hostingEnvironmentProfile
+            && AppKind.hasKinds(input.plan, [Kinds.linux])) {
+
+            this.bannerMessage = {
+                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
+                level: 'info'
+            };
+        }
     }
 }

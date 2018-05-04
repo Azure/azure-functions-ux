@@ -29,7 +29,6 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
-
 // Prevents a route from loading until the observable has been resolved
 @Injectable()
 export class InitResolver implements Resolve<any>{

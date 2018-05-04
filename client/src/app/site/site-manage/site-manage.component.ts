@@ -493,6 +493,23 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService,
                 this._hasSiteWritePermissionStream,
                 this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })
+            ),
+
+            new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_metricsName),
+                this._translateService.instant(PortalResources.feature_metricsName),
+                this._translateService.instant(PortalResources.feature_metricsInfo),
+                'image/quotas.svg',
+                {
+                    detailBlade: 'MetricsBladeV2',
+                    detailBladeInputs: {
+                        id: site.id
+                    },
+                    extension: 'Microsoft_Azure_Monitoring'
+                },
+                this._portalService,
+                null,
+                this._scenarioService.checkScenario(ScenarioIds.enableMetrics, { site: site })
             )
         ];
 
@@ -552,17 +569,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._hasPlanReadPermissionStream
             ),
 
-            Url.getParameterByName(null, 'appsvc.feature.scale') === 'true' ?
-                new DisableableTabFeature(
-                    this._translateService.instant('Scale up'),
-                    this._translateService.instant('Scale up'),
-                    this._translateService.instant('Choose a different pricing tier to add more resources for your plan'),
-                    'image/scale-up.svg',
-                    SiteTabIds.scaleUp,
-                    this._broadcastService,
-                    this._hasPlanWritePermissionStream,
-                    this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })
-                ) : null,
+            new DisableableTabFeature(
+                this._translateService.instant(PortalResources.pricing_scaleUp),
+                this._translateService.instant(PortalResources.pricing_scaleUp),
+                this._translateService.instant(PortalResources.pricing_scaleUpDescription),
+                'image/scale-up.svg',
+                SiteTabIds.scaleUp,
+                this._broadcastService,
+                this._hasPlanWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })),
 
             this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
@@ -600,6 +615,22 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         ];
 
         const resourceManagementFeatures = [
+            this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
+                    'image/tools.svg',
+                    {
+                        detailBlade: 'SCIFrameBlade',
+                        detailBladeInputs: {
+                            id: site.id
+                        }
+                    },
+                    this._portalService,
+                    null,
+                    this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
+                ) : null,
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_activityLogName),
                 this._translateService.instant(PortalResources.feature_activityLogName) +
