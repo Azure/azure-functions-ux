@@ -16,6 +16,15 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+
+enum DeployStatus {
+    Pending,
+    Building,
+    Deploying,
+    Failed,
+    Success
+}
+
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -27,6 +36,9 @@ class KuduTableItem implements TableItem {
     public deploymentObj: ArmObj<Deployment>;
     public active?: boolean;
 }
+
+
+
 @Component({
     selector: 'app-kudu-dashboard',
     templateUrl: './kudu-dashboard.component.html',
@@ -165,7 +177,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 commit: commitId,
                 checkinMessage: item.message,
                 // TODO: Compute status and show appropriate message
-                status: item.complete ? 'Complete' : item.progress,
+                status: this._getStatusString(item.status, item.progress),
                 active: item.active,
                 author: author,
                 deploymentObj: value
@@ -179,6 +191,22 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 this.appTable.groupItems('date', 'desc');
             }, 0);
             this._oldTableHash = newHash;
+        }
+    }
+
+    private _getStatusString(status: DeployStatus, progressString: string): string {
+        switch (status) {
+            case DeployStatus.Building:
+            case DeployStatus.Deploying:
+                return progressString;
+            case DeployStatus.Pending:
+                return 'Pending';
+            case DeployStatus.Failed:
+                return 'Failed';
+            case DeployStatus.Success:
+                return 'Success';
+            default:
+                return '';
         }
     }
     public ngOnChanges(changes: SimpleChanges): void {
