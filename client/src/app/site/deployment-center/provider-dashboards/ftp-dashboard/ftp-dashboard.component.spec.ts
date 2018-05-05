@@ -19,14 +19,25 @@ import { DeploymentCredentialsComponent } from '../deployment-credentials/deploy
 import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
+import { Component, ViewChild } from '@angular/core';
 
 describe('FtpDashboardComponent', () => {
+  @Component({
+    selector: `app-host-component`,
+    template: `<app-ftp-dashboard resourceId="/subscriptions/sub/resourcegroups/rg/providers/microsoft.web/sites/sitename"></app-ftp-dashboard>`
+  })
+  class TestHostComponent {
+    @ViewChild(FtpDashboardComponent) 
+    public ftpDashbaordComponent: FtpDashboardComponent;
+  }
+
   let component: FtpDashboardComponent;
-  let fixture: ComponentFixture<FtpDashboardComponent>;
+  let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FtpDashboardComponent,
+      declarations: [TestHostComponent,
+         FtpDashboardComponent,
         MockComponent(CommandBarComponent),
         MockComponent(CommandComponent),
         MockComponent(CopyPreComponent),
@@ -47,8 +58,8 @@ describe('FtpDashboardComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FtpDashboardComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(TestHostComponent);
+    component = fixture.componentInstance.ftpDashbaordComponent;
     fixture.detectChanges();
   });
 

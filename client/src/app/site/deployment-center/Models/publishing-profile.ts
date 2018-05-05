@@ -4,8 +4,8 @@ export class PublishingProfile {
     publishMethod: 'MSDeploy' | 'FTP';
     publishUrl: string;
     userName: string;
-    userPWD: string; 
-    
+    userPWD: string;
+
     static parsePublishProfileXml(profileXmlString: string): PublishingProfile[] {
         const oParser = new DOMParser();
         const oDOM = oParser.parseFromString(profileXmlString, 'text/xml');
