@@ -102,7 +102,7 @@
 
         <tr *ngFor="let item of table.items;trackBy:tableItemTackBy">
 
-          <td>
+          <td width="5%">
             <div *ngIf="item.type === 'row'">
               {{item.time}}
             </div>
@@ -115,7 +115,9 @@
               <img src="image/success-blue.svg" (click)="details(item)" />
             </div>
           </td>
-          <td>{{item.status}}</td>
+          <td>
+            {{item.status}}
+          </td>
           <td>
             <div *ngIf="item.type === 'row'">
               {{item.commit}} ({{item.author}})
