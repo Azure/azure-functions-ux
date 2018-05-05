@@ -13,7 +13,7 @@ export class CopyPreComponent implements OnInit {
     @Input() passwordField = false;
 
     public contentView = true;
-    public contentHidden = '●●●●●●●●●●●●●●●';
+    public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';
     constructor(private _utilities: UtilitiesService) {
     }
 

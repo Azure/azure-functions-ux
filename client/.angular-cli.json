@@ -64,7 +64,8 @@
         "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts",
         "**/radio-selector/**",
         "**/try-now-busy-state/**",
-        "**/load-image.directive.ts"
+        "**/load-image.directive.ts",
+        "**/pop-over/**"
       ]
     },
     "karma": {

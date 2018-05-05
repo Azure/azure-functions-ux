@@ -2,7 +2,7 @@
   <label *ngIf="label" style="padding-right: 20px">{{label}}</label>
   <label *ngIf="!label"></label>
   <div>
-    <pre (click)="highlightText($event)">{{contentView ? content : contentHidden}}</pre>
+    <pre (click)="highlightText($event)">{{contentView ? content : hiddenContentPlaceholder}}</pre>
   </div>
   <div [hidden]="!passwordField || contentView" title="show password" (click)="showPassword()">
       <i class="link fa fa-eye clickable"><span class="fix-font">&nbsp;{{ 'show' | translate }}</span></i>
