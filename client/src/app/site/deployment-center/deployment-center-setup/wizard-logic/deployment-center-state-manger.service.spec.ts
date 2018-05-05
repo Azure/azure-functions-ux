@@ -223,7 +223,6 @@ describe('Deployment State Manager', () => {
             const headers = service.getVstsPassthroughHeaders();
             expect(headers.get('Content-Type')).toBe('application/json');
             expect(headers.get('Accept')).toBe('application/json');
-            expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
             expect(headers.get('Vstsauthorization')).toBe(`Bearer ${service['_vstsApiToken']}`);
         }));
     });

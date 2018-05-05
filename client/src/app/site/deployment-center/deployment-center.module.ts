@@ -24,7 +24,7 @@ import { ConfigureLocalGitComponent } from './deployment-center-setup/step-confi
 import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FtpDashboardComponent } from './provider-dashboards/ftp-dashboard/ftp-dashboard.component';
-import { DeploymnetCredentialsComponent } from './provider-dashboards/deploymnet-credentials/deploymnet-credentials.component';
+import { DeploymentCredentialsComponent } from './provider-dashboards/deployment-credentials/deployment-credentials.component';
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -49,7 +49,7 @@ import { DeploymnetCredentialsComponent } from './provider-dashboards/deploymnet
         ConfigureBitbucketComponent,
         ConfigureLocalGitComponent,
         FtpDashboardComponent,
-        DeploymnetCredentialsComponent
+        DeploymentCredentialsComponent
     ],
     imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule],
     exports: [DeploymentCenterComponent]

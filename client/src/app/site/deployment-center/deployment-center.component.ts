@@ -100,7 +100,12 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     refreshedSCMType(provider: ProviderDashboardType) {
         if (provider) {
-            this.dashboardProviderType = provider;
+            if (provider === 'reset') {
+                this.dashboardProviderType = '';
+            } else {
+                this.dashboardProviderType = provider;
+            }
+
         } else {
             this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
             this.viewInfoStream.next(this.viewInfo);
@@ -116,7 +121,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     get noDeploymentSetup() {
-        return this.scmType === 'None' &&  !this.dashboardProviderType;
+        return this.scmType === 'None' && !this.dashboardProviderType;
     }
     get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;

@@ -1,24 +1,47 @@
-<ng-sidebar-container style="height:100vh" [animate]="true">
+<ng-sidebar-container style="height:100vh">
   <div ng-sidebar-content>
     <command-bar>
-      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
-      <command displayText="{{ 'exit' | translate }}" iconUrl="image/error.svg" (click)="exit()"></command>
-      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/Functions.svg" (click)="openDeploymentCredentials()"></command>
+      <command displayText="{{ 'save' | translate }}" iconUrl="image/save.svg" (click)="save()"></command>
+      <command displayText="{{ 'back' | translate }}" iconUrl="image/swap.svg" (click)="exit()"></command>
+      <command displayText="{{ 'downloadProfile' | translate}}" iconUrl="image/download.svg"(click)="downloadPublishProfile()"></command>
     </command-bar>
     <app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'deploymentCenterDesc' | translate}}"
       [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
-    <div class="settings-group-wrapper">
+
+
+    <div class="settings-group-wrapper sidebar-content">
+      <h3 class="first-config-heading">FTP/S</h3>
       <div class="settings-wrapper">
         <div class="setting-wrapper">
           <info-box [infoText]="('FTPMessage' | translate)" [infoLink]="FwLinks.FTPAccessLearnMore">
           </info-box>
-          <label class="setting-label">{{'FTPLabel' | translate}}</label>
           <div class="setting-control-container">
-            <radio-selector [options]="FTPAccessOptions" [highlightDirty]="true">
+            <radio-selector [options]="FTPAccessOptions" [highlightDirty]="true" [control]="ftpsEnabledControl">
             </radio-selector>
           </div>
         </div>
       </div>
+      <ng-container *ngIf="ftpsEnabledControl.value !== 'Disabled'">
+        <h3 class="first-config-heading">FTPS Endpoint</h3>
+        <div class="settings-wrapper">
+          <div class="setting-wrapper">
+            <copy-pre [content]="ftpsEndpoint" label=''></copy-pre>
+          </div>
+        </div>
+        <h3 class="first-config-heading">Credentials</h3>
+        <div class="settings-wrapper">
+          <div class="setting-wrapper">
+            <button class="custom-button" (click)="openDeploymentCredentials()">Configure</button>
+          </div>
+        </div>
+      </ng-container>
     </div>
+    <a id="hidden-publish-profile-link-ftp" [hidden]="true" [href]="publishProfileLink" [download]="siteName + '.PublishSettings'"></a>
   </div>
+  
+  <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="true"
+    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
+    <app-deployment-credentials [resourceId]="resourceId"></app-deployment-credentials>
+
+  </ng-sidebar>
 </ng-sidebar-container>
