@@ -5,12 +5,12 @@
       <command displayText="{{ 'back' | translate }}" iconUrl="image/swap.svg" (click)="exit()"></command>
       <command displayText="{{ 'downloadProfile' | translate}}" iconUrl="image/download.svg"(click)="downloadPublishProfile()"></command>
     </command-bar>
-    <app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'deploymentCenterDesc' | translate}}"
+    <app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'ftpInfoCardCredsDesc' | translate}}"
       [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
 
 
     <div class="settings-group-wrapper sidebar-content">
-      <h3 class="first-config-heading">FTP/S</h3>
+      <h3 class="first-config-heading">{{'FTPLabel' | translate}}</h3>
       <div class="settings-wrapper">
         <div class="setting-wrapper">
           <info-box [infoText]="('FTPMessage' | translate)" [infoLink]="FwLinks.FTPAccessLearnMore">
@@ -22,16 +22,16 @@
         </div>
       </div>
       <ng-container *ngIf="ftpsEnabledControl.value !== 'Disabled'">
-        <h3 class="first-config-heading">FTPS Endpoint</h3>
+        <h3 class="first-config-heading">{{'ftpsEndpoint' | translate}}</h3>
         <div class="settings-wrapper">
           <div class="setting-wrapper">
             <copy-pre [content]="ftpsEndpoint" label=''></copy-pre>
           </div>
         </div>
-        <h3 class="first-config-heading">Credentials</h3>
+        <h3 class="first-config-heading">{{'credentials' | translate}}</h3>
         <div class="settings-wrapper">
           <div class="setting-wrapper">
-            <button class="custom-button" (click)="openDeploymentCredentials()">Configure</button>
+            <button class="custom-button" (click)="openDeploymentCredentials()">{{'configure' | translate}}</button>
           </div>
         </div>
       </ng-container>

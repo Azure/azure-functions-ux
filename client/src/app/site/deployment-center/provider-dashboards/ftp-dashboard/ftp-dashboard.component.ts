@@ -10,6 +10,8 @@ import { PublishingProfile } from '../../Models/publishing-profile';
 import { from } from 'rxjs/observable/from';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 @Component({
   selector: 'app-ftp-dashboard',
   templateUrl: './ftp-dashboard.component.html',
@@ -20,9 +22,9 @@ export class FtpDashboardComponent implements OnInit {
   @Input() resourceId;
 
   public FTPAccessOptions =
-    [{ displayLabel: 'FTP + FTPS', value: 'AllAllowed' },
-    { displayLabel: 'FTPS Only', value: 'FtpsOnly' },
-    { displayLabel: 'Disable', value: 'Disabled' }];
+    [{ displayLabel: this._translateService.instant(PortalResources.FTPBoth), value: 'AllAllowed' },
+    { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
+    { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
 
 
   public sidePanelOpened = false;
@@ -37,7 +39,12 @@ export class FtpDashboardComponent implements OnInit {
   public publishProfileLink: SafeUrl;
   public siteName: string;
 
-  constructor(private _broadcastService: BroadcastService, _siteService: SiteService, private _cacheService: CacheService, private _domSanitizer: DomSanitizer) {
+  constructor(private _broadcastService: BroadcastService,
+    private _translateService: TranslateService,
+    _siteService: SiteService,
+    private _cacheService: CacheService,
+    private _domSanitizer: DomSanitizer) {
+
     this.load$.takeUntil(this._ngUnsubscribe$)
       .switchMap(() => _siteService.getSiteConfig(this.resourceId))
       .subscribe(siteConfig => {

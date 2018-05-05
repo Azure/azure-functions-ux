@@ -1097,4 +1097,9 @@
     public static FTPBoth = 'FTPBoth';
     public static FTPSOnly = 'FTPSOnly';
     public static FTPDisable = 'FTPDisable';
+    public static show = 'show';
+    public static hide = 'hide';
+    public static nomatchpassword = 'nomatchpassword';
+    public static dashboard = 'dashboard';
+    public static ftpDesc = 'ftpDesc';
 }

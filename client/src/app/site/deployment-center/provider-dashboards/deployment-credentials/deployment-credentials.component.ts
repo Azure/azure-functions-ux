@@ -50,7 +50,7 @@ export class DeploymentCredentialsComponent implements OnInit {
         this.appPwd = ftpProfile.userPWD;
       });
 
-    const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true, '2016-03-01')
+    const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true)
       .do(r => {
         const creds = r.json();
         this.userPasswordForm.setValue({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
@@ -73,7 +73,7 @@ export class DeploymentCredentialsComponent implements OnInit {
 
     this._saveUserCredentials$
       .do(() => this._busyManager.setBusy())
-      .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, '2016-03-01', {
+      .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
         name: 'web',
         type: 'Microsoft.Web/publishingUsers/web',
         properties: {
