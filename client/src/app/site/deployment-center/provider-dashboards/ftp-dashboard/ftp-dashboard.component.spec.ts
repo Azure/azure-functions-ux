@@ -27,7 +27,7 @@ describe('FtpDashboardComponent', () => {
     template: `<app-ftp-dashboard resourceId="/subscriptions/sub/resourcegroups/rg/providers/microsoft.web/sites/sitename"></app-ftp-dashboard>`
   })
   class TestHostComponent {
-    @ViewChild(FtpDashboardComponent) 
+    @ViewChild(FtpDashboardComponent)
     public ftpDashbaordComponent: FtpDashboardComponent;
   }
 
