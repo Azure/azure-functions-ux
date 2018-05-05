@@ -1,4 +1,4 @@
-import { Links, Kinds } from './../../../shared/models/constants';
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core/src/core';
@@ -125,12 +125,8 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
             return Observable.of(null);
         }
 
-        if (input.plan) {
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (input.plan.properties.isXenon) {
-                this.state = 'hidden';
-            }
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
         }
 
         return super.runInitialization(input);
@@ -162,12 +158,8 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
             return Observable.of(null);
         }
 
-        if (input.plan) {
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (input.plan.properties.isXenon) {
-                this.state = 'hidden';
-            }
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
         }
 
         return super.runInitialization(input);

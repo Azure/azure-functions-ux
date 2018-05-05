@@ -1,13 +1,9 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
     <div ng-sidebar-content>
       <command-bar>
-        <command displayText="{{ 'refresh' | translate }}"
+        <command [displayText]="'refresh' | translate"
           (click)="refresh()"
           iconUrl="image/reset.svg"></command>
-  
-        <command displayText="{{ 'runInAppInsights' | translate }}"
-          (click)="openAppInsightsQueryEditor()"
-          iconUrl="image/open-external.svg"></command>
       </command-bar>
 
       <info-box
@@ -23,7 +19,7 @@
             <div tabindex="0"
                   id="applicationInsightsInstanceValue"
                   aria-labelledby="applicationInsightsInstanceLabel applicationInsightsInstanceValue">
-                  <a class="link" (click)="openInAppInsights()">{{applicationInsightsInstanceName}}</a>
+                  <a (click)="openInAppInsights()">{{applicationInsightsInstanceName}}</a>
             </div>
           </div>
         </div>
@@ -53,13 +49,25 @@
             </div>
           </div>
         </div>
+  
+        <div class="essentials-col">
+          <div>
+            <label id="runInAppInsightsLabel">{{appInsightsQueryReturnedTitle}}</label>
+            <div tabindex="0"
+                  id="runInAppInsightsLink"
+                  aria-labelledby="runInAppInsightsLabel runInAppInsightsLink">
+                  <img src="image/open-external.svg" />
+                  <a class="link" (click)="openAppInsightsQueryEditor()">{{'runInAppInsights' | translate}}</a>
+            </div>
+          </div>
+        </div>
       </div>
   
       <div class="function-monitor-content">
-          <tbl tabindex="0" *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
               <tr>
-                <th>{{ 'date' | translate }}</th>
+                <th><tbl-th name="timestampFriendly">{{ 'date' | translate }}</tbl-th></th>
                 <th><tbl-th name="success">{{ 'success' | translate }}</tbl-th></th>
                 <th><tbl-th name="resultCode">{{ 'resultCode' | translate }}</tbl-th></th>
                 <th><tbl-th name="duration">{{ 'duration' | translate }}</tbl-th></th>

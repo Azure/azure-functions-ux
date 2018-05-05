@@ -81,7 +81,8 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
                 return this.checkIfDreamspark(input.subscriptionId)
                     .switchMap(isDreamspark => {
                         if (!isDreamspark) {
-                            return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
+                            return this._planService.getAvailablePremiumV2GeoRegions(
+                                input.specPickerInput.data.subscriptionId, input.specPickerInput.data.isLinux)
                                 .do(geoRegions => {
                                     if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
                                         this.state = 'disabled';

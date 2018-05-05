@@ -24,3 +24,11 @@
     border-bottom: $border;
     padding: 10px 20px 12px 20px;
 }
+
+.close-button {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    height: 15px;
+    width: 15px;
+}

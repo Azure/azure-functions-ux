@@ -1580,7 +1580,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity</value>
+    <value>Managed service identity (Preview)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -1668,6 +1668,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resource management</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Advanced tools (Kudu)</value>
@@ -2060,13 +2066,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
@@ -2651,7 +2657,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
+    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -3232,6 +3238,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Error count in last 30 days</value>
   </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Query returned {0} items</value>
+  </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Message</value>
   </data>
@@ -3361,6 +3370,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Switch to classic view</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configuration Instructions</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -3368,7 +3380,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invocation traces</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>Results may be delayed for up to 5 minutes.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Drag a file here or</value>
@@ -3399,5 +3411,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The account name supplied is not valid. Please supply another account name.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS Only</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disable</value>
   </data>
 </root>
