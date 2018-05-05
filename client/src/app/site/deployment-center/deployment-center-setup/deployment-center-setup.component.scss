@@ -17,6 +17,7 @@
 
 .footer {
     position: fixed;
+    background-color: $body-bg-color;
     height: 50px;
     margin-bottom: 0px;
     bottom: 0px;
@@ -45,5 +46,11 @@
 
     input{
         margin: 0px 10px;
+    }
+}
+
+#app-root[theme=dark]{
+    .footer {
+        background-color: $body-bg-color-dark;
     }
 }
