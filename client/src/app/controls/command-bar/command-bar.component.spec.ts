@@ -1,7 +1,7 @@
-import { CommandBarComponent } from "./command-bar.component";
-import { CommonModule } from "@angular/common";
-import { async } from "q";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { CommandBarComponent } from './command-bar.component';
+import { CommonModule } from '@angular/common';
+import { async } from 'q';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 
 describe('CommandBar', () => {
