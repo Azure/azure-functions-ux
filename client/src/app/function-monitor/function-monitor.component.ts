@@ -5,7 +5,6 @@ import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ExtendedTreeViewInfo, NavigableComponent } from '../shared/components/navigable-component';
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionMonitorInfo, MonitorConfigureInfo } from '../shared/models/function-monitor';
 import { ErrorEvent } from '../shared/models/error-event';
@@ -32,7 +31,6 @@ export class FunctionMonitorComponent extends NavigableComponent {
         private _scenarioService: ScenarioService,
         private _translateService: TranslateService,
         private _applicationInsightsService: ApplicationInsightsService,
-        public globalStateService: GlobalStateService,
         injector: Injector
     ) {
         super(ComponentNames.functionMonitor, injector, DashboardType.FunctionMonitorDashboard);
@@ -65,15 +63,14 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
                 this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
             ))
-            .map((tuple): FunctionMonitorInfo => ({
-                functionAppContext: tuple[0],
-                functionAppSettings: tuple[2].result.properties,
-                functionInfo: tuple[1].result,
-                appInsightsResourceDescriptor: tuple[3].data,
-                appInsightsFeatureEnabled: tuple[3].status === 'enabled'
-            }))
-            .do(functionMonitorInfo => {
-                this.functionMonitorInfo = functionMonitorInfo;
+            .do(tuple => {
+                this.functionMonitorInfo = {
+                    functionAppContext: tuple[0],
+                    functionAppSettings: tuple[2].result.properties,
+                    functionInfo: tuple[1].result,
+                    appInsightsResourceDescriptor: tuple[3].data,
+                    appInsightsFeatureEnabled: tuple[3].status === 'enabled'
+                };
 
                 this._renderComponentName = this._shouldLoadClassicView()
                     ? ComponentNames.monitorClassic
@@ -121,7 +118,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         // NOTE(michinoy): Load the if the user has setup an instrumentation key, but the app insights resource was not found
         // in the subscription, present the user with an error message.
         if (!!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
-            this.functionMonitorInfo.appInsightsResourceDescriptor === null) {
+            !this.functionMonitorInfo.appInsightsResourceDescriptor) {
             errorEvent = {
                 errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
                 message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),

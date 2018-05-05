@@ -62,7 +62,10 @@
         "src/**/*.spec.ts",
         "src/app/shared/**/*.ts",
         "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts",
-        "**/radio-selector/**"
+        "**/radio-selector/**",
+        "src/app/busy-state/**/*.ts",
+        "src/app/controls/**/*.ts",
+        "src/app/function/**/*.ts"
       ]
     },
     "karma": {
