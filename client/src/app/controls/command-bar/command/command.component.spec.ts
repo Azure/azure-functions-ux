@@ -1,11 +1,11 @@
-import { Component, ViewChild } from "@angular/core";
-import { CommandComponent } from "./command.component";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { async } from "q";
-import { MockDirective } from "ng-mocks";
-import { LoadImageDirective } from "../../load-image/load-image.directive";
-import { By } from "@angular/platform-browser";
-import { KeyCodes } from "../../../shared/models/constants";
+import { Component, ViewChild } from '@angular/core';
+import { CommandComponent } from './command.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async } from 'q';
+import { MockDirective } from 'ng-mocks';
+import { LoadImageDirective } from '../../load-image/load-image.directive';
+import { By } from '@angular/platform-browser';
+import { KeyCodes } from '../../../shared/models/constants';
 
 
 @Component({
