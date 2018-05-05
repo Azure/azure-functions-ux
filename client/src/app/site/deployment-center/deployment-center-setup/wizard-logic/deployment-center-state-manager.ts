@@ -90,9 +90,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
-            properties: payload
-        }).map(r => r.json());
+
+        if (this.wizardValues.sourceProvider === 'localgit') {
+            return this._cacheService.patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion, {
+                properties: {
+                    scmType: 'LocalGit'
+                }
+            });
+        } else {
+            return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
+                properties: payload
+            }).map(r => r.json());
+        }
+
     }
 
     private _deployVsts() {
@@ -261,7 +271,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Test,
-            friendlyName: 'Load Test', //DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
+            friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
             tenantId: tid,

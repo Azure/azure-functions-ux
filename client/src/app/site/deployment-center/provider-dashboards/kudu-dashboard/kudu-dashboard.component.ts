@@ -15,6 +15,7 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -230,10 +231,20 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     disconnect() {
         this._busyManager.setBusy();
-        this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`).delay(2000).subscribe(r => {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+
+        const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
+            properties: {
+                scmType: 'None'
+            }
         });
+
+        const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+
+        forkJoin(webConfig, sourceControlsConfig)
+            .subscribe(r => {
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                this._busyManager.clearBusy();
+            });
     }
     refresh() {
         this._busyManager.setBusy();
