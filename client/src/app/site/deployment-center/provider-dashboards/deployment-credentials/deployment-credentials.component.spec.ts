@@ -16,7 +16,7 @@ import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-fdescribe('DeploymnetCredentialsComponent', () => {
+describe('DeploymnetCredentialsComponent', () => {
   let component: DeploymentCredentialsComponent;
   let fixture: ComponentFixture<DeploymentCredentialsComponent>;
 
