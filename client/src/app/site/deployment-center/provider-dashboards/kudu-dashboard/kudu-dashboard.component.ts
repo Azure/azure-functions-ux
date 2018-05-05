@@ -50,6 +50,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     public sidePanelOpened = false;
     private _ngUnsubscribe$ = new Subject();
     private _oldTableHash = 0;
+
+    public hideCreds = false;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -119,18 +121,24 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 }
             );
 
-        //refresh automatically every 5 seconds
+        // refresh automatically every 5 seconds
         Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe$).subscribe(() => {
             this.viewInfoStream$.next(this.resourceId);
         });
     }
 
-    //https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+    // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
     private _hashcode(s: string): number {
-        var h = 0, l = s.length, i = 0;
-        if (l > 0)
-            while (i < l)
+        let h = 0;
+        const l = s.length;
+        let i = 0;
+
+        if (l > 0) {
+            while (i < l) {
+                // tslint:disable-next-line:no-bitwise
                 h = (h << 5) - h + s.charCodeAt(i++) | 0;
+            }
+        }
         return h;
     };
     private _getTableHash(tb) {
@@ -252,6 +260,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     details(item: KuduTableItem) {
+        this.hideCreds = false;
         this.rightPaneItem = item.deploymentObj;
         this.sidePanelOpened = true;
     }
@@ -286,5 +295,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     tableItemTackBy(index: number, item: KuduTableItem) {
         return item && item.commit; // or item.id
+    }
+
+    showDeploymentCredentials() {
+        this.hideCreds = true;
+        this.sidePanelOpened = true;
     }
 }
