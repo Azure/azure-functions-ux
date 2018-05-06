@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { FtpDashboardComponent } from './ftp-dashboard.component';
 import { SidebarModule } from 'ng-sidebar';
@@ -20,6 +20,9 @@ import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
+import { ArmObj } from '../../../../shared/models/arm/arm-obj';
+import { SiteConfig } from '../../../../shared/models/arm/site-config';
+import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 describe('FtpDashboardComponent', () => {
   @Component({
@@ -37,7 +40,7 @@ describe('FtpDashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent,
-         FtpDashboardComponent,
+        FtpDashboardComponent,
         MockComponent(CommandBarComponent),
         MockComponent(CommandComponent),
         MockComponent(CopyPreComponent),
@@ -63,8 +66,83 @@ describe('FtpDashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('init', () => {
+    it('should initialize', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should load publishing profile data on init', () => {
+      expect(component.ftpsEndpoint).toBe('publishftpurl');
+    });
+
+    it('should load ftps state at init', () => {
+      expect(component.ftpsEnabledControl.value).toBe('AllAllowed');
+    });
+
+    it('side panel should start off shut', () => {
+      expect(component.sidePanelOpened).toBeFalsy();
+    });
+  });
+
+  describe('save', () => {
+    it('should save chosen ftpEnabledControl', () => {
+      const mockCacheService: MockCacheService = TestBed.get(CacheService);
+      component.ftpsEnabledControl.setValue('Disabled');
+      component.save();
+      expect(mockCacheService.lastPatchContent.properties.ftpsState).toBe('Disabled');
+    });
+  });
+
+  describe('Publishing Profile Download', () => {
+
+    it('download profile should trigger profile download', fakeAsync(() => {
+      let alinkClicked = false;
+      const aLinkMock = {
+        click: () => alinkClicked = true
+      };
+      spyOn(window.URL, 'createObjectURL').and.callFake(() => 'objecturl');
+      spyOn(document, 'getElementById').and.callFake(() => aLinkMock);
+      component.downloadPublishProfile();
+      tick();
+      expect(window.URL.createObjectURL).toHaveBeenCalled();
+      expect(alinkClicked).toBeTruthy();
+    }));
+
+    it('triggering when there is already a blobUrl will revoke Old BlobUrl', fakeAsync(() => {
+      let alinkClicked = false;
+      const aLinkMock = {
+        click: () => alinkClicked = true
+      };
+      spyOn(window.URL, 'createObjectURL').and.callFake(() => 'objecturl');
+      spyOn(document, 'getElementById').and.callFake(() => aLinkMock);
+      spyOn(window.URL, 'revokeObjectURL').and.callFake(() => true);
+      component.downloadPublishProfile();
+      tick();
+      component.downloadPublishProfile();
+      tick();
+      expect(window.URL.revokeObjectURL).toHaveBeenCalled();
+
+    }));
+    it('hits the right download path for edge', fakeAsync(() => {
+      window.navigator.msSaveOrOpenBlob = (blob: any, name: string) => true;
+      spyOn(window.navigator, 'msSaveOrOpenBlob').and.callFake(() => true);
+      component.downloadPublishProfile();
+      tick();
+      expect(window.navigator.msSaveOrOpenBlob).toHaveBeenCalled();
+    }));
+  });
+  describe('Misc', () => {
+    it('open deployment credentials should open side panel', () => {
+      component.openDeploymentCredentials();
+      expect(component.sidePanelOpened).toBeTruthy();
+    });
+
+    it('exit should fire event reload deployment center', () => {
+      spyOn(component['_broadcastService'], 'broadcastEvent').and.callFake(() => true);
+      component.exit();
+      expect(component['_broadcastService'].broadcastEvent).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter, 'reset');
+    });
+
   });
 });
 
@@ -85,17 +163,25 @@ class MockSiteService {
 class MockCacheService {
   public mockPublishProfile = `
   <publishData>
-    <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
+    <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishmsdeployurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
         <databases />
     </publishProfile>
-    <publishProfile profileName="test" publishMethod="FTP"  publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
+    <publishProfile profileName="test" publishMethod="FTP"  publishUrl="publishftpurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
         <databases />
     </publishProfile>
 </publishData>
   `;
+
+  public lastPatchContent: ArmObj<SiteConfig> = null;
+
   postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
     return of({
       text: () => this.mockPublishProfile
     });
+  }
+
+  patchArm(resourceId: string, apiVersion?: string, content?: any): Observable<any> {
+    this.lastPatchContent = content;
+    return of(null);
   }
 }
