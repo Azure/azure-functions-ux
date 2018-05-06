@@ -40,9 +40,12 @@ describe('DeploymnetCredentialsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('init', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
   });
+  
 });
 
 class MockCacheService {

@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { async } from 'q';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 describe('CommandBar', () => {
   let commandBar: CommandBarComponent;
   let testFixture: ComponentFixture<CommandBarComponent>;
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -26,7 +26,6 @@ export class FtpDashboardComponent implements OnInit {
     { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
     { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
 
-
   public sidePanelOpened = false;
   public animate = false;
   public ftpsEnabledControl = new FormControl('Disabled');

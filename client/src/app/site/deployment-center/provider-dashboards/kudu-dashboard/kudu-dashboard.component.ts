@@ -37,8 +37,6 @@ class KuduTableItem implements TableItem {
     public active?: boolean;
 }
 
-
-
 @Component({
     selector: 'app-kudu-dashboard',
     templateUrl: './kudu-dashboard.component.html',

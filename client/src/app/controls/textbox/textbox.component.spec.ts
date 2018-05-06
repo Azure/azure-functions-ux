@@ -10,7 +10,6 @@ describe('CopyPreComponent', () => {
     let textbox: TextboxComponent;
     let testFixture: ComponentFixture<TextboxComponent>;
 
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [TextboxComponent, MockComponent(PopOverComponent)],

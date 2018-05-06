@@ -27,7 +27,6 @@ describe('InfoBox', () => {
     let infoboxComponent: InfoBoxComponent;
     let testFixture: ComponentFixture<TestInfoboxHostComponent>;
 
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [InfoBoxComponent, TestInfoboxHostComponent, MockDirective(LoadImageDirective)],

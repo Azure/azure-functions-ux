@@ -7,7 +7,6 @@ import { LoadImageDirective } from '../../load-image/load-image.directive';
 import { By } from '@angular/platform-browser';
 import { KeyCodes } from '../../../shared/models/constants';
 
-
 @Component({
     selector: `app-command-host-component`,
     template: `<command [displayText]="displayText" [iconUrl]="iconUrl" [disabled]="disabled" (click)="onClick($event)"></command>`
