@@ -30,7 +30,6 @@ describe('CommandControl', () => {
     let hostComponent: TestCommandHostComponent;
     let testFixture: ComponentFixture<TestCommandHostComponent>;
 
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [CommandComponent, TestCommandHostComponent, MockDirective(LoadImageDirective)]

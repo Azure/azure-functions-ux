@@ -31,7 +31,7 @@ import { FormBuilder } from '@angular/forms';
 import * as graphHelper from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { SiteService } from '../../../../shared/services/site.service';
 
-describe('Deployment State Manager', () => {
+fdescribe('Deployment State Manager', () => {
     let _fb: FormBuilder;
     const starterWizardForm = () => {
         return _fb.group({
@@ -197,6 +197,13 @@ describe('Deployment State Manager', () => {
             service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
         })));
 
+        it('Local git sets the web config', fakeAsync(inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.wizardForm = starterWizardForm();
+            const wizardFormValues = service.wizardValues;
+            wizardFormValues.sourceProvider = 'localgit';
+            service.wizardValues = wizardFormValues;
+            service.deploy().subscribe(result => expect(result.properties.scmType).toBe('LocalGit'));
+        })));
     });
 
     describe('vsts deployment', () => {
@@ -228,7 +235,6 @@ describe('Deployment State Manager', () => {
     });
 });
 
-
 @Injectable()
 class MockCacheService {
 
@@ -248,6 +254,13 @@ class MockCacheService {
         return Observable.of(null);
     }
 
+    patchArm(resourceId: string, apiVersion?: string, content?: any) {
+        return Observable.of({
+            json: () => {
+                return content;
+            }
+        });
+    }
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         return Observable.of({
             json: () => {

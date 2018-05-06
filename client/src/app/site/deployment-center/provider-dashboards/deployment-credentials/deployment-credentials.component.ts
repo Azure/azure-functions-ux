@@ -74,8 +74,6 @@ export class DeploymentCredentialsComponent implements OnInit {
     this._saveUserCredentials$
       .do(() => this._busyManager.setBusy())
       .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
-        name: 'web',
-        type: 'Microsoft.Web/publishingUsers/web',
         properties: {
           publishingUserName: this.userPasswordForm.value.userName,
           publishingPassword: this.userPasswordForm.value.password

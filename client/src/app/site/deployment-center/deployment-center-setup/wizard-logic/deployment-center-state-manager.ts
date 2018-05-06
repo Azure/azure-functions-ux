@@ -96,7 +96,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 properties: {
                     scmType: 'LocalGit'
                 }
-            });
+            }).map(r => r.json());
         } else {
             return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
                 properties: payload

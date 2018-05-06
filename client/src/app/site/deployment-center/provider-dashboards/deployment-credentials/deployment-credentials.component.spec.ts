@@ -15,6 +15,7 @@ import { LogService } from '../../../../shared/services/log.service';
 import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { By } from '@angular/platform-browser';
 
 describe('DeploymnetCredentialsComponent', () => {
   let component: DeploymentCredentialsComponent;
@@ -44,21 +45,80 @@ describe('DeploymnetCredentialsComponent', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
     });
+
+    it('should load app creds and parse publish profile at init', () => {
+      expect(component.appUserName).toBe('$username');
+      expect(component.appPwd).toBe('password');
+    });
+
+    it('should load user level username at start', () => {
+      expect(component.userPasswordForm.value.userName).toBe('username');
+    });
+
+    it('should default to user tab', () => {
+      expect(component.activeTab).toBe('user');
+    });
   });
-  
+
+  describe('tabs', () => {
+    it('should show user creds when user tab is selected', () => {
+      const elem = fixture.debugElement.query(By.css('#userCredsForm'));
+      expect(elem).toBeTruthy();
+    });
+
+    it('should show app creds when app tab is selected', () => {
+      component.selectTab('app');
+      fixture.detectChanges();
+      const elem = fixture.debugElement.query(By.css('#appCredsForm'));
+      expect(elem).toBeTruthy();
+    });
+  });
+
+  describe('actions', () => {
+    const setFormToValues = (username: string = '', password: string = '', confirmPassword: string = '') => {
+      component.userPasswordForm.setValue({
+        userName: username,
+        password: password,
+        passwordConfirm: confirmPassword
+      });
+    };
+    it('reset should reset password and fetch new password', () => {
+      component.resetPublishingProfile();
+      expect(component.appPwd).toBe('newpassword');
+    });
+
+    it('should save user level credentials', () => {
+      const mockCacheService: MockCacheService = TestBed.get(CacheService);
+
+      setFormToValues('username', 'password', 'password');
+      component.userPasswordForm.updateValueAndValidity();
+      component.saveUserCredentails();
+      expect(component.userPasswordForm.valid).toBeTruthy();
+      expect(mockCacheService.savedCreds.properties.publishingUserName).toBe('username');
+      expect(mockCacheService.savedCreds.properties.publishingPassword).toBe('password');
+    });
+
+    it('should invalidate non matching password field', () => {
+      setFormToValues('username', 'password', 'badpassword');
+      expect(component.userPasswordForm.valid).toBeFalsy();
+    });
+  });
 });
 
 class MockCacheService {
+  private password = 'password';
   public mockPublishProfile = `
   <publishData>
-    <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
+    <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="{0}" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
         <databases />
     </publishProfile>
-    <publishProfile profileName="test" publishMethod="FTP"  publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
+    <publishProfile profileName="test" publishMethod="FTP"  publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="{0}" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
         <databases />
     </publishProfile>
 </publishData>
   `;
+
+  public savedCreds = null;
   getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<any> {
     return of({
       json: () => {
@@ -72,12 +132,18 @@ class MockCacheService {
   }
 
   postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
-    return of({
-      text: () => this.mockPublishProfile
-    });
+    if (resourceId.includes('/publishxml')) {
+      return of({
+        text: () => this.mockPublishProfile.format(this.password)
+      });
+    } else if (resourceId.includes('/newpassword')) {
+      this.password = 'newpassword';
+    }
+    return Observable.of(null);
   }
 
   putArm(resourceId: string, apiVersion?: string, content?: any): Observable<any> {
+    this.savedCreds = content;
     return of(null);
   }
 }
