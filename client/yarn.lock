@@ -4734,9 +4734,9 @@ ng-mocks@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-5.3.0.tgz#a9e8671bb8137cdd7b137cce3b0da09a6a891e5b"
 
-ng-sidebar@^6.0.1:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-6.0.5.tgz#0fe40e1d9fc2e06f7a750a9628d9977a6718baba"
+ng-sidebar@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-7.1.0.tgz#11c0716b6ca7fbb66d268776e0a7f8dd58cfb186"
 
 ng2-cookies@^1.0.3:
   version "1.0.12"

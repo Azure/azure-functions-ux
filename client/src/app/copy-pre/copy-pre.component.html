@@ -2,11 +2,17 @@
   <label *ngIf="label" style="padding-right: 20px">{{label}}</label>
   <label *ngIf="!label"></label>
   <div>
-    <pre (click)="highlightText($event)">{{content}}</pre>
+    <pre (click)="highlightText($event)">{{contentView ? content : hiddenContentPlaceholder}}</pre>
+  </div>
+  <div [hidden]="!passwordField || contentView" title="show password" (click)="showPassword()">
+      <i class="link fa fa-eye clickable"><span class="fix-font">&nbsp;{{ 'show' | translate }}</span></i>
+  </div>
+  <div [hidden]="!passwordField || !contentView" title="hide password" (click)="hidePassword()">
+      <i class="link fa fa-eye-slash clickable"><span class="fix-font">&nbsp;{{ 'hide' | translate }}</span></i> 
   </div>
   <div title="{{ 'copypre_copyClipboard' | translate }}" (click)="copyToClipboard()">
-    <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
-      <i class="link fa fa-copy clickable"><span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span></i>
-    </pop-over>
-  </div>
+      <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
+        <i class="link fa fa-copy clickable"><span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span></i>
+      </pop-over>
+    </div>
 </div>

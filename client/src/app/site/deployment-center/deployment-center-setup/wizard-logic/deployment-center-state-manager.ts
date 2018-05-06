@@ -90,9 +90,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
-            properties: payload
-        }).map(r => r.json());
+
+        if (this.wizardValues.sourceProvider === 'localgit') {
+            return this._cacheService.patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion, {
+                properties: {
+                    scmType: 'LocalGit'
+                }
+            }).map(r => r.json());
+        } else {
+            return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
+                properties: payload
+            }).map(r => r.json());
+        }
+
     }
 
     private _deployVsts() {
@@ -115,6 +125,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
     private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
+            authToken: this.getToken(),
             ciConfiguration: this._ciConfig,
             id: null,
             source: this._deploymentSource,
@@ -260,7 +271,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Test,
-            friendlyName: 'Load Test', //DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
+            friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
             tenantId: tid,
@@ -304,7 +315,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', this.getToken());
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
@@ -334,9 +344,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
     markSectionAsTouched(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(field => {
             const control = formGroup.get(field);
-            if (control instanceof FormControl) {
+            if (control instanceof FormControl && !control.touched && !control.dirty) {
                 control.markAsTouched();
-                control.updateValueAndValidity({ onlySelf: false, emitEvent: true });
+                control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             } else if (control instanceof FormGroup) {
                 this.markSectionAsTouched(control);
             }

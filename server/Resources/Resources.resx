@@ -3421,4 +3421,49 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="FTPDisable" xml:space="preserve">
     <value>Disable</value>
   </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+   <data name="username" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+   <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+   <data name="confirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+   <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
 </root>

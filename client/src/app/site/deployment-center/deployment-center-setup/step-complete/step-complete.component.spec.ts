@@ -2,26 +2,6 @@ import { StepCompleteComponent } from './step-complete.component';
 import { ComponentFixture, fakeAsync, TestBed, async, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/observable/zip';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/observable/interval';
 import { Injectable, Directive, HostListener } from '@angular/core';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { LogService } from '../../../../shared/services/log.service';
@@ -99,41 +79,6 @@ describe('StepCompleteComponent', () => {
             tick();
             expect(clearBusySpy).toHaveBeenCalled();
             expect(errorLogSpy).toHaveBeenCalled();
-        }));
-    });
-    describe('Manual Solution', () => {
-        it('ftp should show "Show Dashboard" button', fakeAsync(() => {
-            wizardService.wizardValues.sourceProvider = 'ftp';
-            tick();
-            expect(buildStepTest.showDashboard).toBeTruthy();
-        }));
-
-        it('web deploy should show "Show Dashboard" button', fakeAsync(() => {
-            wizardService.wizardValues.sourceProvider = 'webdeploy';
-            tick();
-            expect(buildStepTest.showDashboard).toBeTruthy();
-        }));
-
-        it('ftp should not show "Save" button', fakeAsync(() => {
-            wizardService.wizardValues.sourceProvider = 'ftp';
-            tick();
-            expect(buildStepTest.showSave).toBeFalsy();
-        }));
-
-        it('web deploy should not show "Save" button', fakeAsync(() => {
-            wizardService.wizardValues.sourceProvider = 'webdeploy';
-            tick();
-            expect(buildStepTest.showSave).toBeFalsy();
-        }));
-
-        it('click "show dashboard" should send message to show dashboard', fakeAsync(() => {
-            wizardService.wizardValues.sourceProvider = 'webdeploy';
-            testFixture.detectChanges();
-            tick();
-            const button = testFixture.debugElement.query(By.css('#step-complete-show-dashboard-button')).nativeElement;
-            const spy = spyOn(broadcastService, 'broadcastEvent');
-            button.click();
-            expect(spy).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter, 'webdeploy');
         }));
     });
 });

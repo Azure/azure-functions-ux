@@ -197,6 +197,13 @@ describe('Deployment State Manager', () => {
             service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
         })));
 
+        it('Local git sets the web config', fakeAsync(inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.wizardForm = starterWizardForm();
+            const wizardFormValues = service.wizardValues;
+            wizardFormValues.sourceProvider = 'localgit';
+            service.wizardValues = wizardFormValues;
+            service.deploy().subscribe(result => expect(result.properties.scmType).toBe('LocalGit'));
+        })));
     });
 
     describe('vsts deployment', () => {
@@ -223,12 +230,10 @@ describe('Deployment State Manager', () => {
             const headers = service.getVstsPassthroughHeaders();
             expect(headers.get('Content-Type')).toBe('application/json');
             expect(headers.get('Accept')).toBe('application/json');
-            expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
             expect(headers.get('Vstsauthorization')).toBe(`Bearer ${service['_vstsApiToken']}`);
         }));
     });
 });
-
 
 @Injectable()
 class MockCacheService {
@@ -249,6 +254,13 @@ class MockCacheService {
         return Observable.of(null);
     }
 
+    patchArm(resourceId: string, apiVersion?: string, content?: any) {
+        return Observable.of({
+            json: () => {
+                return content;
+            }
+        });
+    }
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         return Observable.of({
             json: () => {

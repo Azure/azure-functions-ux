@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UtilitiesService } from '../shared/services/utilities.service';
 
 @Component({
@@ -6,12 +6,20 @@ import { UtilitiesService } from '../shared/services/utilities.service';
     templateUrl: './copy-pre.component.html',
     styleUrls: ['./copy-pre.component.scss']
 })
-export class CopyPreComponent {
+export class CopyPreComponent implements OnInit {
     @Input() selectOnClick = true;
     @Input() content: string;
     @Input() label: string;
+    @Input() passwordField = false;
 
-    constructor(private _utilities: UtilitiesService) { }
+    public contentView = true;
+    public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';
+    constructor(private _utilities: UtilitiesService) {
+    }
+
+    ngOnInit() {
+        this.contentView = !this.passwordField;
+    }
 
     highlightText(event: Event) {
         if (this.selectOnClick) {
@@ -21,5 +29,12 @@ export class CopyPreComponent {
 
     copyToClipboard() {
         this._utilities.copyContentToClipboard(this.content);
+    }
+
+    showPassword() {
+      this.contentView = true;
+    }
+    hidePassword() {
+      this.contentView = false;
     }
 }
