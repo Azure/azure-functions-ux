@@ -31,7 +31,7 @@ import { FormBuilder } from '@angular/forms';
 import * as graphHelper from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { SiteService } from '../../../../shared/services/site.service';
 
-fdescribe('Deployment State Manager', () => {
+describe('Deployment State Manager', () => {
     let _fb: FormBuilder;
     const starterWizardForm = () => {
         return _fb.group({
