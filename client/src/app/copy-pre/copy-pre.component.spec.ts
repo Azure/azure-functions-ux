@@ -9,7 +9,6 @@ import { MockComponent } from 'ng-mocks';
 import { PopOverComponent } from '../pop-over/pop-over.component';
 import { By } from '@angular/platform-browser';
 
-
 @Component({
     selector: `app-copy-pre-host-component`,
     template: `<copy-pre [content]="content"></copy-pre>`
@@ -22,12 +21,10 @@ class TestCopyPreComponent {
     label = 'label';
 }
 
-
 describe('CopyPreComponent', () => {
     let copyPreComponent: CopyPreComponent;
     let hostComponent: TestCopyPreComponent;
     let testFixture: ComponentFixture<TestCopyPreComponent>;
-
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -115,7 +112,6 @@ describe('CopyPreComponent', () => {
             expect(copyPreComponent.passwordField).toBeTruthy();
             expect(copyPreComponent.contentView).toBeFalsy();
         });
-
 
     });
 });
