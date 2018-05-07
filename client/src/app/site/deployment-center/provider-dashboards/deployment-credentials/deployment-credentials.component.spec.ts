@@ -16,8 +16,11 @@ import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { By } from '@angular/platform-browser';
+import { TelemetryService } from '../../../../shared/services/telemetry.service';
+import { MockTelemetryService } from '../../../../test/mocks/telemetry.service.mock';
+import { SiteService } from '../../../../shared/services/site.service';
 
-describe('DeploymnetCredentialsComponent', () => {
+describe('DeploymentCredentialsComponent', () => {
   let component: DeploymentCredentialsComponent;
   let fixture: ComponentFixture<DeploymentCredentialsComponent>;
 
@@ -27,6 +30,8 @@ describe('DeploymnetCredentialsComponent', () => {
       providers: [
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
+        { provide: TelemetryService, useClass: MockTelemetryService },
+        { provide: SiteService, useClass: MockSiteService },
         BroadcastService
 
       ],
@@ -39,6 +44,9 @@ describe('DeploymnetCredentialsComponent', () => {
     fixture = TestBed.createComponent(DeploymentCredentialsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    const cacheService: MockCacheService = TestBed.get(CacheService);
+    const siteService: MockSiteService = TestBed.get(SiteService);
+    cacheService.siteService = siteService;
   });
 
   describe('init', () => {
@@ -105,8 +113,8 @@ describe('DeploymnetCredentialsComponent', () => {
   });
 });
 
-class MockCacheService {
-  private password = 'password';
+class MockSiteService {
+  public password = 'password';
   public mockPublishProfile = `
   <publishData>
     <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishurl" msdeploySite="test" userName="$username" userPWD="{0}" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
@@ -117,7 +125,16 @@ class MockCacheService {
     </publishProfile>
 </publishData>
   `;
+  getPublishingProfile(resourceId: string): any {
+    return of({
+      result: this.mockPublishProfile.format(this.password)
+    });
+  }
+}
 
+class MockCacheService {
+
+  public siteService: MockSiteService = null;
   public savedCreds = null;
   getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<any> {
     return of({
@@ -129,15 +146,14 @@ class MockCacheService {
         };
       }
     });
+
   }
 
   postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
     if (resourceId.includes('/publishxml')) {
-      return of({
-        text: () => this.mockPublishProfile.format(this.password)
-      });
+
     } else if (resourceId.includes('/newpassword')) {
-      this.password = 'newpassword';
+      this.siteService.password = 'newpassword';
     }
     return Observable.of(null);
   }

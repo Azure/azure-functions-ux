@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Injector } from '@angular/core';
 import { Links } from '../../../../shared/models/constants';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -10,12 +10,14 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-ftp-dashboard',
   templateUrl: './ftp-dashboard.component.html',
   styleUrls: ['./ftp-dashboard.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
 })
-export class FtpDashboardComponent implements OnInit {
+export class FtpDashboardComponent extends FeatureComponent<string> implements OnInit {
   public FwLinks = Links;
   @Input() resourceId;
 
@@ -29,7 +31,6 @@ export class FtpDashboardComponent implements OnInit {
   public ftpsEnabledControl = new FormControl('Disabled');
   public ftpsEndpoint = '';
 
-  public load$ = new Subject();
   public save$ = new Subject();
   private _ngUnsubscribe$ = new Subject();
   private _blobUrl: string;
@@ -38,22 +39,15 @@ export class FtpDashboardComponent implements OnInit {
 
   constructor(
     private _translateService: TranslateService,
-    _siteService: SiteService,
-    private _cacheService: CacheService,
-    private _domSanitizer: DomSanitizer) {
-
-    this.load$.takeUntil(this._ngUnsubscribe$)
-      .switchMap(() => _siteService.getSiteConfig(this.resourceId))
-      .subscribe(siteConfig => {
-        if (siteConfig.isSuccessful) {
-          this.ftpsEnabledControl.reset();
-          this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
-        }
-      });
+    private _siteService: SiteService,
+    private _domSanitizer: DomSanitizer,
+    cacheService: CacheService,
+    injector: Injector) {
+    super('FtpDashboardComponent', injector);
 
     this.save$.takeUntil(this._ngUnsubscribe$)
       .switchMap(() => {
-        return _cacheService.patchArm(`${this.resourceId}/config/web`, null, {
+        return cacheService.patchArm(`${this.resourceId}/config/web`, null, {
           properties: {
             ftpsState: this.ftpsEnabledControl.value
           }
@@ -65,13 +59,25 @@ export class FtpDashboardComponent implements OnInit {
       });
   }
 
+  protected setup(inputEvents: Observable<string>) {
+    return inputEvents
+    .switchMap(() => this._siteService.getSiteConfig(this.resourceId))
+      .do(siteConfig => {
+        if (siteConfig.isSuccessful) {
+          this.ftpsEnabledControl.reset();
+          this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
+        }
+      });
+  }
+
   ngOnInit() {
-    this.load$.next();
+    super.setInput(this.resourceId);
+
     this.animate = true;
     const resourceDesc = new ArmSiteDescriptor(this.resourceId);
     this.siteName = resourceDesc.site;
-    this._cacheService.postArm(`${this.resourceId}/publishxml`, true)
-      .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.text())))
+    this._siteService.getPublishingProfile(this.resourceId)
+      .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
       .filter(x => x.publishMethod === 'FTP')
       .subscribe(ftpProfile => {
         this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
@@ -83,9 +89,9 @@ export class FtpDashboardComponent implements OnInit {
   }
 
   downloadPublishProfile() {
-    this._cacheService.postArm(`${this.resourceId}/publishxml`, true)
+    this._siteService.getPublishingProfile(this.resourceId)
       .subscribe(response => {
-        const publishXml = response.text();
+        const publishXml = response.result;
 
         // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
         const windowUrl = window.URL || (<any>window).webkitURL;

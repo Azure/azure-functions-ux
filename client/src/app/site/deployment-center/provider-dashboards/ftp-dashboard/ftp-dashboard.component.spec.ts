@@ -21,6 +21,9 @@ import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { SiteConfig } from '../../../../shared/models/arm/site-config';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { TelemetryService } from '../../../../shared/services/telemetry.service';
+import { MockTelemetryService } from '../../../../test/mocks/telemetry.service.mock';
 
 describe('FtpDashboardComponent', () => {
   @Component({
@@ -50,7 +53,9 @@ describe('FtpDashboardComponent', () => {
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: LogService, useClass: MockLogService },
-        { provide: CacheService, useClass: MockCacheService }
+        { provide: CacheService, useClass: MockCacheService },
+        { provide: TelemetryService, useClass: MockTelemetryService },
+        BroadcastService
       ],
       imports: [SidebarModule, CommonModule, TranslateModule.forRoot()]
     })
@@ -132,19 +137,7 @@ describe('FtpDashboardComponent', () => {
 
 class MockSiteService {
   public ftpsState = 'AllAllowed';
-  getSiteConfig(resourceId: string) {
-    return of({
-      isSuccessful: true,
-      result: {
-        properties: {
-          ftpsState: this.ftpsState
-        }
-      }
-    });
-  }
-}
 
-class MockCacheService {
   public mockPublishProfile = `
   <publishData>
     <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishmsdeployurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
@@ -156,13 +149,26 @@ class MockCacheService {
 </publishData>
   `;
 
-  public lastPatchContent: ArmObj<SiteConfig> = null;
-
-  postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
+  getSiteConfig(resourceId: string) {
     return of({
-      text: () => this.mockPublishProfile
+      isSuccessful: true,
+      result: {
+        properties: {
+          ftpsState: this.ftpsState
+        }
+      }
     });
   }
+
+  getPublishingProfile(resourceId: string): any {
+    return of({
+      result: this.mockPublishProfile
+    });
+  }
+}
+
+class MockCacheService {
+  public lastPatchContent: ArmObj<SiteConfig> = null;
 
   patchArm(resourceId: string, apiVersion?: string, content?: any): Observable<any> {
     this.lastPatchContent = content;

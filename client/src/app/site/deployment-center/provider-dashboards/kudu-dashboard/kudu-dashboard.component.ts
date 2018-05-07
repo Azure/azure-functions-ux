@@ -218,7 +218,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     get folderPath() {
-        if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'Onedrive') {
+        if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'OneDrive') {
             return null;
         }
         const folderPath = this.repo
