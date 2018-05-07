@@ -1,4 +1,20 @@
 
+@import '../../../../../sass/common/variables';
+@import '../../../../../sass/controls/buttons';
+
 .sidebar-content {
     padding-left: 20px;
+}
+
+.save-button {
+    @extend .custom-button;
+    margin-top: 10px;
+    margin-left: 0px;
+}
+
+.credentials {
+    margin: auto;
+    width: 95%;
+    border-top: $border;
+    padding-bottom: 20px;
 }

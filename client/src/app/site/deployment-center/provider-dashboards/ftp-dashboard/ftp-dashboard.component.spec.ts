@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { FtpDashboardComponent } from './ftp-dashboard.component';
 import { SidebarModule } from 'ng-sidebar';
 import { SiteService } from '../../../../shared/services/site.service';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { LogService } from '../../../../shared/services/log.service';
 import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -22,7 +21,9 @@ import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { SiteConfig } from '../../../../shared/models/arm/site-config';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { TelemetryService } from '../../../../shared/services/telemetry.service';
+import { MockTelemetryService } from '../../../../test/mocks/telemetry.service.mock';
 
 describe('FtpDashboardComponent', () => {
   @Component({
@@ -53,6 +54,7 @@ describe('FtpDashboardComponent', () => {
         { provide: SiteService, useClass: MockSiteService },
         { provide: LogService, useClass: MockLogService },
         { provide: CacheService, useClass: MockCacheService },
+        { provide: TelemetryService, useClass: MockTelemetryService },
         BroadcastService
       ],
       imports: [SidebarModule, CommonModule, TranslateModule.forRoot()]
@@ -79,9 +81,6 @@ describe('FtpDashboardComponent', () => {
       expect(component.ftpsEnabledControl.value).toBe('AllAllowed');
     });
 
-    it('side panel should start off shut', () => {
-      expect(component.sidePanelOpened).toBeFalsy();
-    });
   });
 
   describe('save', () => {
@@ -131,36 +130,11 @@ describe('FtpDashboardComponent', () => {
       expect(window.navigator.msSaveOrOpenBlob).toHaveBeenCalled();
     }));
   });
-  describe('Misc', () => {
-    it('open deployment credentials should open side panel', () => {
-      component.openDeploymentCredentials();
-      expect(component.sidePanelOpened).toBeTruthy();
-    });
-
-    it('exit should fire event reload deployment center', () => {
-      spyOn(component['_broadcastService'], 'broadcastEvent').and.callFake(() => true);
-      component.exit();
-      expect(component['_broadcastService'].broadcastEvent).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter, 'reset');
-    });
-
-  });
 });
 
 class MockSiteService {
   public ftpsState = 'AllAllowed';
-  getSiteConfig(resourceId: string) {
-    return of({
-      isSuccessful: true,
-      result: {
-        properties: {
-          ftpsState: this.ftpsState
-        }
-      }
-    });
-  }
-}
 
-class MockCacheService {
   public mockPublishProfile = `
   <publishData>
     <publishProfile profileName="test" publishMethod="MSDeploy" publishUrl="publishmsdeployurl" msdeploySite="test" userName="$username" userPWD="password" destinationAppUrl="http://testurl" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="testControlPanelLink" webSystem="testWebSystem">
@@ -172,13 +146,26 @@ class MockCacheService {
 </publishData>
   `;
 
-  public lastPatchContent: ArmObj<SiteConfig> = null;
-
-  postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
+  getSiteConfig(resourceId: string) {
     return of({
-      text: () => this.mockPublishProfile
+      isSuccessful: true,
+      result: {
+        properties: {
+          ftpsState: this.ftpsState
+        }
+      }
     });
   }
+
+  getPublishingProfile(resourceId: string): any {
+    return of({
+      result: this.mockPublishProfile
+    });
+  }
+}
+
+class MockCacheService {
+  public lastPatchContent: ArmObj<SiteConfig> = null;
 
   patchArm(resourceId: string, apiVersion?: string, content?: any): Observable<any> {
     this.lastPatchContent = content;

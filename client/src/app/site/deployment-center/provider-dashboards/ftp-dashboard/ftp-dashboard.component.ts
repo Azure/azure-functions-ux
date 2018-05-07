@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { Component, Input, OnInit, Injector, OnDestroy } from '@angular/core';
 import { Links } from '../../../../shared/models/constants';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -12,12 +10,15 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 @Component({
   selector: 'app-ftp-dashboard',
   templateUrl: './ftp-dashboard.component.html',
   styleUrls: ['./ftp-dashboard.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
 })
-export class FtpDashboardComponent implements OnInit {
+export class FtpDashboardComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
   public FwLinks = Links;
   @Input() resourceId;
 
@@ -26,72 +27,57 @@ export class FtpDashboardComponent implements OnInit {
     { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
     { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
 
-  public sidePanelOpened = false;
-  public animate = false;
   public ftpsEnabledControl = new FormControl('Disabled');
   public ftpsEndpoint = '';
 
-  public load$ = new Subject();
-  public save$ = new Subject();
   private _ngUnsubscribe$ = new Subject();
   private _blobUrl: string;
   public publishProfileLink: SafeUrl;
   public siteName: string;
-
-  constructor(private _broadcastService: BroadcastService,
+  public saving = false;
+  constructor(
     private _translateService: TranslateService,
-    _siteService: SiteService,
+    private _siteService: SiteService,
+    private _domSanitizer: DomSanitizer,
     private _cacheService: CacheService,
-    private _domSanitizer: DomSanitizer) {
+    injector: Injector) {
+    super('FtpDashboardComponent', injector);
+  }
 
-    this.load$.takeUntil(this._ngUnsubscribe$)
-      .switchMap(() => _siteService.getSiteConfig(this.resourceId))
-      .subscribe(siteConfig => {
-        if (siteConfig.isSuccessful) {
-          this.ftpsEnabledControl.reset();
-          this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
-        }
-      });
-
-    this.save$.takeUntil(this._ngUnsubscribe$)
+  protected setup(inputEvents: Observable<string>) {
+    return inputEvents
       .switchMap(() => {
-        return _cacheService.patchArm(`${this.resourceId}/config/web`, null, {
-          properties: {
-            ftpsState: this.ftpsEnabledControl.value
+        const getFtpsState$ = this._siteService.getSiteConfig(this.resourceId).do(siteConfig => {
+          if (siteConfig.isSuccessful) {
+            this.ftpsEnabledControl.reset();
+            this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
           }
-        }
-        );
-      })
-      .subscribe(() => {
-        this.ftpsEnabledControl.markAsPristine();
+        });
+        const getFtpsEndpoint$ = this._siteService.getPublishingProfile(this.resourceId)
+          .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
+          .filter(x => x.publishMethod === 'FTP')
+          .do(ftpProfile => {
+            this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
+          });
+        return forkJoin(getFtpsState$, getFtpsEndpoint$);
       });
   }
 
   ngOnInit() {
-    this.load$.next();
-    this.animate = true;
     const resourceDesc = new ArmSiteDescriptor(this.resourceId);
     this.siteName = resourceDesc.site;
-    this._cacheService.postArm(`${this.resourceId}/publishxml`, true)
-      .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.text())))
-      .filter(x => x.publishMethod === 'FTP')
-      .subscribe(ftpProfile => {
-        this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
-      });
-
-  }
-  openDeploymentCredentials() {
-    this.sidePanelOpened = !this.sidePanelOpened;
+    super.setInput(this.resourceId);
   }
 
-  exit() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'reset');
+  ngOnDestroy() {
+    this._ngUnsubscribe$.next();
+    this._cleanupBlob();
   }
 
   downloadPublishProfile() {
-    this._cacheService.postArm(`${this.resourceId}/publishxml`, true)
+    this._siteService.getPublishingProfile(this.resourceId)
       .subscribe(response => {
-        const publishXml = response.text();
+        const publishXml = response.result;
 
         // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
         const windowUrl = window.URL || (<any>window).webkitURL;
@@ -123,5 +109,16 @@ export class FtpDashboardComponent implements OnInit {
       this._blobUrl = null;
     }
   }
-  save = () => this.save$.next();
+  save() {
+    this.saving = true;
+    this._cacheService.patchArm(`${this.resourceId}/config/web`, null, {
+      properties: {
+        ftpsState: this.ftpsEnabledControl.value
+      }
+    }
+    ).subscribe(() => {
+      this.saving = false;
+      this.ftpsEnabledControl.markAsPristine();
+    });
+  }
 }

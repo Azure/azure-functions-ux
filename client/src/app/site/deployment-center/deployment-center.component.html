@@ -1,5 +1,16 @@
-<app-vso-dashboard *ngIf="vstsDeploymentSetup" [resourceId]="resourceId"> </app-vso-dashboard>
-<app-kudu-dashboard *ngIf="kuduDeploymentSetup" [resourceId]="resourceId" (disconnected)="refreshedSCMType()"></app-kudu-dashboard>
-<app-ftp-dashboard *ngIf="dashboardProviderType === 'ftp'" [resourceId]="resourceId"></app-ftp-dashboard>
-<app-deployment-center-setup *ngIf="noDeploymentSetup" [resourceId]="resourceId">
-</app-deployment-center-setup>
+<ng-sidebar-container style="height:100%;">
+    <div style="height:100%;width:100%" ng-sidebar-content>
+        <app-vso-dashboard *ngIf="vstsDeploymentSetup" [resourceId]="resourceId"> </app-vso-dashboard>
+        <app-kudu-dashboard *ngIf="kuduDeploymentSetup" [resourceId]="resourceId" (disconnected)="refreshedSCMType()"></app-kudu-dashboard>
+        <app-deployment-center-setup *ngIf="noDeploymentSetup" [resourceId]="resourceId">
+        </app-deployment-center-setup>
+    </div>
+
+    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="false" [trapFocus]="true"
+        [autoFocus]="true" [sidebarClass]="'sidebar'" [animate]="true" [showBackdrop]="true">
+        <app-ftp-dashboard *ngIf="dashboardProviderType === 'ftp'" [resourceId]="resourceId"></app-ftp-dashboard>
+        <span class="close-button" (click)="sidebar.close()">
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </span>
+    </ng-sidebar>
+</ng-sidebar-container>
