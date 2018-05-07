@@ -12,9 +12,11 @@ export class InfoBoxComponent {
     @Input() infoLink: string = null;
     @Input() infoActionFn: () => void = null;
     @Input() infoActionIcon: string = null;
+    @Input() dismissable = false;
 
     public typeClass = 'info';
     public iconPath = 'image/info.svg';
+    public dismissed = false;
 
     @Input('typeClass') set type(value: 'info' | 'warning' | 'error') {
         switch (value) {
@@ -35,6 +37,10 @@ export class InfoBoxComponent {
 
     onClick(event: any) {
         this._invoke();
+    }
+
+    onDismiss() {
+        this.dismissed = true;
     }
 
     onKeyPress(event: KeyboardEvent) {

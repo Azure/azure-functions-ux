@@ -1097,4 +1097,5 @@
     public static FTPBoth = 'FTPBoth';
     public static FTPSOnly = 'FTPSOnly';
     public static FTPDisable = 'FTPDisable';
+    public static dismiss = 'dismiss';
 }

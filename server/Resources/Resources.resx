@@ -3421,4 +3421,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="FTPDisable" xml:space="preserve">
     <value>Disable</value>
   </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
 </root>
