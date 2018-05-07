@@ -117,6 +117,6 @@ export class SiteService {
 
     getPublishingProfile(resourceId: string): Result<string> {
         const getPublishingProfile = this._cacheService.postArm(`${resourceId}/publishxml`, true).map(r => r.text());
-        return this._client.execute({resourceId: resourceId}, t=> getPublishingProfile);
+        return this._client.execute({ resourceId: resourceId }, t => getPublishingProfile);
     }
 }
