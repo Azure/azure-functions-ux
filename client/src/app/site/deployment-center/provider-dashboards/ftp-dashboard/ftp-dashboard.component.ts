@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { Links } from '../../../../shared/models/constants';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -38,7 +36,7 @@ export class FtpDashboardComponent implements OnInit {
   public publishProfileLink: SafeUrl;
   public siteName: string;
 
-  constructor(private _broadcastService: BroadcastService,
+  constructor(
     private _translateService: TranslateService,
     _siteService: SiteService,
     private _cacheService: CacheService,
@@ -82,10 +80,6 @@ export class FtpDashboardComponent implements OnInit {
   }
   openDeploymentCredentials() {
     this.sidePanelOpened = !this.sidePanelOpened;
-  }
-
-  exit() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, 'reset');
   }
 
   downloadPublishProfile() {

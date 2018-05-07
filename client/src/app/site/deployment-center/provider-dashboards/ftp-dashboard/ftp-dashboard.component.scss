@@ -1,4 +1,12 @@
 
+@import '../../../../../sass/common/variables';
 .sidebar-content {
     padding-left: 20px;
+}
+
+.credentials {
+    margin: auto;
+    width: 90%;
+    border-top: $border;
+    padding-bottom: 20px;
 }

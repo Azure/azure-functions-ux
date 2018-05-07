@@ -48,7 +48,7 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     public showFTPDashboard = false;
     public showWebDeployDashboard = false;
-
+    sidePanelOpened = false;
     constructor(
         private _authZService: AuthzService,
         private _cacheService: CacheService,
@@ -104,6 +104,7 @@ export class DeploymentCenterComponent implements OnDestroy {
                 this.dashboardProviderType = '';
             } else {
                 this.dashboardProviderType = provider;
+                this.sidePanelOpened = true;
             }
 
         } else {
@@ -113,15 +114,15 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     get kuduDeploymentSetup() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM' && !this.dashboardProviderType;
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
     }
 
     get vstsDeploymentSetup() {
-        return this.scmType === 'VSTSRM' && !this.dashboardProviderType;
+        return this.scmType === 'VSTSRM';
     }
 
     get noDeploymentSetup() {
-        return this.scmType === 'None' && !this.dashboardProviderType;
+        return this.scmType === 'None';
     }
     get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;

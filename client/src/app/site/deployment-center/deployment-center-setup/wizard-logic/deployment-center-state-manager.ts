@@ -131,7 +131,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             source: this._deploymentSource,
             targets: this._deploymentTargets
         };
-        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
+        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
             return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsDirectHeaders())
                 .switchMap(r => setupvsoCall)

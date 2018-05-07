@@ -1112,4 +1112,6 @@
     public static confirmPassword = 'confirmPassword';
     public static ftpsEndpoint = 'ftpsEndpoint';
     public static credentials = 'credentials';
+    public static pending = 'pending';
+    public static failed = 'failed';
 }

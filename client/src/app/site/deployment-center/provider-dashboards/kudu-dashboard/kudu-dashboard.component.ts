@@ -16,6 +16,8 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 enum DeployStatus {
     Pending,
@@ -68,7 +70,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         private _armService: ArmService,
         private _authZService: AuthzService,
         private _broadcastService: BroadcastService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
@@ -198,11 +201,11 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             case DeployStatus.Deploying:
                 return progressString;
             case DeployStatus.Pending:
-                return 'Pending';
+                return this._translateService.instant(PortalResources.pending);
             case DeployStatus.Failed:
-                return 'Failed';
+                return this._translateService.instant(PortalResources.failed);
             case DeployStatus.Success:
-                return 'Success';
+                return this._translateService.instant(PortalResources.success);
             default:
                 return '';
         }
@@ -307,7 +310,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             case 'DropboxV2':
                 return 'Dropbox';
             case 'OneDrive':
-                return 'Onedrive';
+                return 'OneDrive';
             case 'VSO':
                 return 'Visual Studio Online';
             default:

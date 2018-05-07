@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { FtpDashboardComponent } from './ftp-dashboard.component';
 import { SidebarModule } from 'ng-sidebar';
 import { SiteService } from '../../../../shared/services/site.service';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { LogService } from '../../../../shared/services/log.service';
 import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -22,7 +21,6 @@ import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { SiteConfig } from '../../../../shared/models/arm/site-config';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 describe('FtpDashboardComponent', () => {
   @Component({
@@ -52,8 +50,7 @@ describe('FtpDashboardComponent', () => {
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: LogService, useClass: MockLogService },
-        { provide: CacheService, useClass: MockCacheService },
-        BroadcastService
+        { provide: CacheService, useClass: MockCacheService }
       ],
       imports: [SidebarModule, CommonModule, TranslateModule.forRoot()]
     })
@@ -130,19 +127,6 @@ describe('FtpDashboardComponent', () => {
       tick();
       expect(window.navigator.msSaveOrOpenBlob).toHaveBeenCalled();
     }));
-  });
-  describe('Misc', () => {
-    it('open deployment credentials should open side panel', () => {
-      component.openDeploymentCredentials();
-      expect(component.sidePanelOpened).toBeTruthy();
-    });
-
-    it('exit should fire event reload deployment center', () => {
-      spyOn(component['_broadcastService'], 'broadcastEvent').and.callFake(() => true);
-      component.exit();
-      expect(component['_broadcastService'].broadcastEvent).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter, 'reset');
-    });
-
   });
 });
 
