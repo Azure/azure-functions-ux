@@ -6,11 +6,8 @@ export class ConfirmPasswordValidator {
         return (control: AbstractControl) => {
             const value = control.value;
             const passwordValue = passwordControl.value;
-            if (!passwordValue) {
-                return null;
-            }
 
-            if (passwordValue !== value) {
+            if (passwordValue && passwordValue !== value) {
                 return {
                     nomatchpassword: translateService.instant('nomatchpassword')
                 };

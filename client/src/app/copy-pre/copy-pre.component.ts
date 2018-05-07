@@ -32,9 +32,10 @@ export class CopyPreComponent implements OnInit {
     }
 
     showPassword() {
-      this.contentView = true;
+        this.contentView = true;
     }
+
     hidePassword() {
-      this.contentView = false;
+        this.contentView = false;
     }
 }

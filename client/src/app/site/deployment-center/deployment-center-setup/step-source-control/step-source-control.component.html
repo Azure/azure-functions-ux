@@ -18,12 +18,12 @@
   </div>
 </div>
 <div class="footer">
-    <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
+    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
       (click)="authorize()">{{'authorize' | translate}}</button>
-    <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button form-button"
+    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'authorized'" class="custom-button form-button"
       (click)="authorize()">{{'changeAuthorization' | translate}}</button>
-    <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none') && !selectedProvider.manual"
+    <button type="button" *ngIf="(selectedProvider?.authorizedStatus === 'authorized' || selectedProvider?.authorizedStatus === 'none') && !selectedProvider?.manual"
       class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
-  <button id="step-complete-show-dashboard-button" type="button" *ngIf="selectedProvider && selectedProvider.manual" class="custom-button form-button"
+  <button id="step-complete-show-dashboard-button" type="button" *ngIf="selectedProvider?.manual" class="custom-button form-button"
     (click)="renderDashboard()">{{'dashboard' | translate}}</button>
 </div>
