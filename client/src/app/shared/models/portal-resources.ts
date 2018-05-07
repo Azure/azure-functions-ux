@@ -1114,4 +1114,6 @@
     public static credentials = 'credentials';
     public static pending = 'pending';
     public static failed = 'failed';
+    public static saveCredentials = 'saveCredentials';
+    public static resetCredentials = 'resetCredentials';
 }

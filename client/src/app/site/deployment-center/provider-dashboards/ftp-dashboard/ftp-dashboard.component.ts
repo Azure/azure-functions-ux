@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 @Component({
   selector: 'app-ftp-dashboard',
   templateUrl: './ftp-dashboard.component.html',
@@ -26,70 +27,51 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
     { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
     { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
 
-  public sidePanelOpened = false;
-  public animate = false;
   public ftpsEnabledControl = new FormControl('Disabled');
   public ftpsEndpoint = '';
 
-  public save$ = new Subject();
   private _ngUnsubscribe$ = new Subject();
   private _blobUrl: string;
   public publishProfileLink: SafeUrl;
   public siteName: string;
-
+  public saving = false;
   constructor(
     private _translateService: TranslateService,
     private _siteService: SiteService,
     private _domSanitizer: DomSanitizer,
-    cacheService: CacheService,
+    private _cacheService: CacheService,
     injector: Injector) {
     super('FtpDashboardComponent', injector);
-
-    this.save$.takeUntil(this._ngUnsubscribe$)
-      .switchMap(() => {
-        return cacheService.patchArm(`${this.resourceId}/config/web`, null, {
-          properties: {
-            ftpsState: this.ftpsEnabledControl.value
-          }
-        }
-        );
-      })
-      .subscribe(() => {
-        this.ftpsEnabledControl.markAsPristine();
-      });
   }
 
   protected setup(inputEvents: Observable<string>) {
     return inputEvents
-    .switchMap(() => this._siteService.getSiteConfig(this.resourceId))
-      .do(siteConfig => {
-        if (siteConfig.isSuccessful) {
-          this.ftpsEnabledControl.reset();
-          this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
-        }
+      .switchMap(() => {
+        const getFtpsState$ = this._siteService.getSiteConfig(this.resourceId).do(siteConfig => {
+          if (siteConfig.isSuccessful) {
+            this.ftpsEnabledControl.reset();
+            this.ftpsEnabledControl.setValue(siteConfig.result.properties.ftpsState);
+          }
+        });
+        const getFtpsEndpoint$ = this._siteService.getPublishingProfile(this.resourceId)
+          .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
+          .filter(x => x.publishMethod === 'FTP')
+          .do(ftpProfile => {
+            this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
+          });
+        return forkJoin(getFtpsState$, getFtpsEndpoint$);
       });
   }
 
   ngOnInit() {
-    super.setInput(this.resourceId);
-
-    this.animate = true;
     const resourceDesc = new ArmSiteDescriptor(this.resourceId);
     this.siteName = resourceDesc.site;
-    this._siteService.getPublishingProfile(this.resourceId)
-      .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
-      .filter(x => x.publishMethod === 'FTP')
-      .subscribe(ftpProfile => {
-        this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
-      });
+    super.setInput(this.resourceId);
   }
 
   ngOnDestroy() {
     this._ngUnsubscribe$.next();
     this._cleanupBlob();
-  }
-  openDeploymentCredentials() {
-    this.sidePanelOpened = !this.sidePanelOpened;
   }
 
   downloadPublishProfile() {
@@ -127,5 +109,16 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
       this._blobUrl = null;
     }
   }
-  save = () => this.save$.next();
+  save() {
+    this.saving = true;
+    this._cacheService.patchArm(`${this.resourceId}/config/web`, null, {
+      properties: {
+        ftpsState: this.ftpsEnabledControl.value
+      }
+    }
+    ).subscribe(() => {
+      this.saving = false;
+      this.ftpsEnabledControl.markAsPristine();
+    });
+  }
 }

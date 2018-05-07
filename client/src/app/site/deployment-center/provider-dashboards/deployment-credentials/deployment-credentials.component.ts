@@ -4,7 +4,6 @@ import { PublishingProfile } from '../../Models/publishing-profile';
 import { from } from 'rxjs/observable/from';
 import { Subject } from 'rxjs/Subject';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { RequiredValidator } from '../../../../shared/validators/requiredValidator';
@@ -26,16 +25,16 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   public appUserName: string;
   public appPwd: string;
 
-  private _busyManager: BusyStateScopeManager;
   public userPasswordForm: FormGroup;
   private _resetPublishingProfile$ = new Subject();
   private _saveUserCredentials$ = new Subject();
 
   private _ngUnsubscribe$ = new Subject();
 
+  public saving = false;
+  public resetting = false;
   constructor(private _cacheService: CacheService, private _siteService: SiteService, fb: FormBuilder, broadcastService: BroadcastService, translateService: TranslateService, injector: Injector) {
     super('DeploymentCredentialsComponent', injector);
-    this._busyManager = new BusyStateScopeManager(broadcastService, 'deployment-credentials');
     const requiredValidation = new RequiredValidator(translateService, true);
     this.userPasswordForm = fb.group({
       userName: ['', [requiredValidation]],
@@ -59,7 +58,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true)
           .do(r => {
             const creds = r.json();
-            this.userPasswordForm.setValue({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
+            this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
           });
         return forkJoin(publishXml$, publishingUsers$);
       });
@@ -68,20 +67,23 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   ngOnInit() {
     this._resetPublishingProfile$
       .takeUntil(this._ngUnsubscribe$)
-      .do(() => this._busyManager.setBusy())
+      .do(() => this.resetting = true)
       .switchMap(() => {
         return this._cacheService.postArm(`${this.resourceId}/newpassword`, true);
-      }).subscribe(() => this.setInput(this.resourceId));
+      })
+      .do(() => this.resetting = false)
+      .subscribe(() => this.setInput(this.resourceId));
 
     this._saveUserCredentials$
       .takeUntil(this._ngUnsubscribe$)
-      .do(() => this._busyManager.setBusy())
+      .do(() => this.saving = true)
       .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
         properties: {
           publishingUserName: this.userPasswordForm.value.userName,
           publishingPassword: this.userPasswordForm.value.password
         }
       }))
+      .do(() => this.saving = false)
       .subscribe(() => this.setInput(this.resourceId));
     this.setInput(this.resourceId);
   }

@@ -3475,4 +3475,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="success" xml:space="preserve">
     <value>Succcess</value>
   </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
 </root>

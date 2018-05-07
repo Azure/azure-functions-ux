@@ -22,8 +22,7 @@ export type BusyStateName =
     | 'logic-apps'
     | 'scale-up'
     | 'deployment-slots-config'
-    | 'standalone-config'
-    | 'deployment-credentials';
+    | 'standalone-config';
 
 @Component({
     selector: 'busy-state',

@@ -127,7 +127,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;
     }
-
+    
     ngOnDestroy() {
         this._ngUnsubscribe$.next();
     }

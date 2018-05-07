@@ -81,9 +81,6 @@ describe('FtpDashboardComponent', () => {
       expect(component.ftpsEnabledControl.value).toBe('AllAllowed');
     });
 
-    it('side panel should start off shut', () => {
-      expect(component.sidePanelOpened).toBeFalsy();
-    });
   });
 
   describe('save', () => {
