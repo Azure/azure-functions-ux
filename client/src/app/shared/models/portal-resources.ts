@@ -1097,4 +1097,23 @@
     public static FTPBoth = 'FTPBoth';
     public static FTPSOnly = 'FTPSOnly';
     public static FTPDisable = 'FTPDisable';
+    public static show = 'show';
+    public static hide = 'hide';
+    public static nomatchpassword = 'nomatchpassword';
+    public static dashboard = 'dashboard';
+    public static ftpDesc = 'ftpDesc';
+    public static ftpInfoCardCredsDesc = 'ftpInfoCardCredsDesc';
+    public static userCreds = 'userCreds';
+    public static userCredsDesc = 'userCredsDesc';
+    public static appCreds = 'appCreds';
+    public static appCredsDesc = 'appCredsDesc';
+    public static username = 'username';
+    public static password = 'password';
+    public static confirmPassword = 'confirmPassword';
+    public static ftpsEndpoint = 'ftpsEndpoint';
+    public static credentials = 'credentials';
+    public static pending = 'pending';
+    public static failed = 'failed';
+    public static saveCredentials = 'saveCredentials';
+    public static resetCredentials = 'resetCredentials';
 }

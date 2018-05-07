@@ -1,7 +1,7 @@
 <div class="textbox-wrapper">
 
 <input *ngIf="!control"
-    type="text"
+    [type]="type"
     (change)="onChange($event.target.value)"
     (keyup)="onKeyUp($event.target.value)"
     [readonly]="readonly"
@@ -11,7 +11,7 @@
 <ng-container *ngIf="!!control">
 
     <input #textboxInput
-        type="text"
+        [type]="type"
         (change)="onChange($event.target.value)"
         (keyup)="onKeyUp($event.target.value)"
         [readonly]="readonly"

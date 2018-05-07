@@ -20,6 +20,7 @@
       "spaces"
     ],
     "interface-over-type-literal": true,
+    "no-consecutive-blank-lines": true,
     "label-position": true,
     "max-line-length": [
       false,

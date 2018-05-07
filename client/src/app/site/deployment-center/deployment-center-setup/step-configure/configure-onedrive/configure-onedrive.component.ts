@@ -53,7 +53,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
 
                     options.push({
                         displayLabel: siteName,
-                        value: `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`
+                        value: `${DeploymentCenterConstants.onedriveApiUri}:/${siteName}`
                     });
 
                     rawFolders.value.forEach(item => {
@@ -61,14 +61,14 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                         } else {
                             options.push({
                                 displayLabel: item.name,
-                                value: `${DeploymentCenterConstants.onedriveApiUri}/${item.name}`
+                                value: `${DeploymentCenterConstants.onedriveApiUri}:/${item.name}`
                             });
                         }
                     });
 
                     this.folderList = options;
                     const vals = this.wizard.wizardValues;
-                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}:/${siteName}`;
                     this.wizard.wizardValues = vals;
                 },
                 err => {

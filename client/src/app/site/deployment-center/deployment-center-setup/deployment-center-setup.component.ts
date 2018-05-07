@@ -120,4 +120,9 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         }
         return true;
     }
+
+    get showSummaryStep() {
+        const sourceProvider = this._wizardService && this._wizardService.wizardValues && this._wizardService.wizardValues.sourceProvider;
+        return sourceProvider && sourceProvider !== 'ftp' && sourceProvider !== 'webdeploy';
+    }
 }

@@ -59,15 +59,18 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     updateFormValidation() {
+        if (this.wizard.wizardValues.buildProvider === 'vsts') {
+            this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
+            this.wizard.buildSettings.updateValueAndValidity();
+        }
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
-        this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
-        this.wizard.buildSettings.updateValueAndValidity();
+
     }
 
     setupSubscriptions() {
