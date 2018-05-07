@@ -102,7 +102,7 @@
 
         <tr *ngFor="let item of table.items;trackBy:tableItemTackBy">
 
-          <td width="5%">
+          <td class="time-column">
             <div *ngIf="item.type === 'row'">
               {{item.time}}
             </div>
