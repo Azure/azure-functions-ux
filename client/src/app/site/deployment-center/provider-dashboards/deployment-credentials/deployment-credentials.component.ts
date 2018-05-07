@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Injector } from '@angular/core';
+import { Component, OnInit, Input, Injector, OnDestroy } from '@angular/core';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PublishingProfile } from '../../Models/publishing-profile';
 import { from } from 'rxjs/observable/from';
@@ -19,7 +19,7 @@ import { SiteService } from '../../../../shared/services/site.service';
   templateUrl: './deployment-credentials.component.html',
   styleUrls: ['./deployment-credentials.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
 })
-export class DeploymentCredentialsComponent extends FeatureComponent<string> implements OnInit {
+export class DeploymentCredentialsComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
   @Input() resourceId: string;
   activeTab: 'user' | 'app' = 'user';
 
@@ -30,6 +30,8 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   public userPasswordForm: FormGroup;
   private _resetPublishingProfile$ = new Subject();
   private _saveUserCredentials$ = new Subject();
+
+  private _ngUnsubscribe$ = new Subject();
 
   constructor(private _cacheService: CacheService, private _siteService: SiteService, fb: FormBuilder, broadcastService: BroadcastService, translateService: TranslateService, injector: Injector) {
     super('DeploymentCredentialsComponent', injector);
@@ -65,12 +67,14 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
 
   ngOnInit() {
     this._resetPublishingProfile$
+      .takeUntil(this._ngUnsubscribe$)
       .do(() => this._busyManager.setBusy())
       .switchMap(() => {
         return this._cacheService.postArm(`${this.resourceId}/newpassword`, true);
       }).subscribe(() => this.setInput(this.resourceId));
 
     this._saveUserCredentials$
+      .takeUntil(this._ngUnsubscribe$)
       .do(() => this._busyManager.setBusy())
       .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
         properties: {
@@ -82,6 +86,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     this.setInput(this.resourceId);
   }
 
+  ngOnDestroy() {
+    this._ngUnsubscribe$.next();
+  }
   selectTab(tab) {
     this.activeTab = tab;
   }

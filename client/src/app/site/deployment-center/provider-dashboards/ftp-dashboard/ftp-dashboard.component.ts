@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Injector } from '@angular/core';
+import { Component, Input, OnInit, Injector, OnDestroy } from '@angular/core';
 import { Links } from '../../../../shared/models/constants';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './ftp-dashboard.component.html',
   styleUrls: ['./ftp-dashboard.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
 })
-export class FtpDashboardComponent extends FeatureComponent<string> implements OnInit {
+export class FtpDashboardComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
   public FwLinks = Links;
   @Input() resourceId;
 
@@ -82,7 +82,11 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
       .subscribe(ftpProfile => {
         this.ftpsEndpoint = ftpProfile.publishUrl.replace('ftp:/', 'ftps:/');
       });
+  }
 
+  ngOnDestroy() {
+    this._ngUnsubscribe$.next();
+    this._cleanupBlob();
   }
   openDeploymentCredentials() {
     this.sidePanelOpened = !this.sidePanelOpened;
