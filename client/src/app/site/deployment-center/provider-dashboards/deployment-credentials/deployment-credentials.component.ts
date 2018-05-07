@@ -90,6 +90,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
 
   ngOnDestroy() {
     this._ngUnsubscribe$.next();
+    super.ngOnDestroy();
   }
   selectTab(tab) {
     this.activeTab = tab;

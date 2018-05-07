@@ -72,6 +72,7 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
   ngOnDestroy() {
     this._ngUnsubscribe$.next();
     this._cleanupBlob();
+    super.ngOnDestroy();
   }
 
   downloadPublishProfile() {
