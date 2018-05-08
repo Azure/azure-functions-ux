@@ -21,6 +21,6 @@ export function versionCompare(version1: string, version2: string): -1 | 0 | 1 {
 
 export function isNumericVersion(version: string){
     // Checks version matches patter x.x with unlimited .x and x being any numeric value
-    const regex = /\d+(?:\.\d+)+/;
-    return regex.test(version) || !isNaN(+version);
+    const regex = /\d+(?:\.\d+)*/;
+    return regex.test(version);
 }
