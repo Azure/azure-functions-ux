@@ -1,4 +1,3 @@
-import { AppKind } from './../../../shared/Utilities/app-kind';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
@@ -249,14 +248,12 @@ export class PlanPriceSpecManager {
                         return Observable.of(null);
                     }
 
-                    const osType = AppKind.hasKinds(this._plan, ['linux']) ? 'linux' : 'windows';
-                    return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
+                    return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
                 });
         }
 
         // We're getting meters for a new plan
-        const osType = inputs.data.isLinux ? 'linux' : 'windows';
-        return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
+        return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
     }
 
     private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
