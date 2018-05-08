@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -72,28 +72,67 @@ export class PlanPriceSpecManager {
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
 
-
-
         let specInitCalls: Observable<void>[] = [];
 
-        // Initialize every spec for each spec group.  For most cards this is a no-op, but
-        // some require special handling so that we know if we need to hide/disable a card.
-        this.specGroups.forEach(g => {
-            const priceSpecInput: PriceSpecInput = {
-                specPickerInput: inputs,
-                plan: this._plan,
-                subscriptionId: this._subscriptionId
-            };
+        return this._getPlan(inputs)
+            .switchMap(plan => {
 
-            g.initialize(priceSpecInput);
-            specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
-            specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
-        });
+                // plan is null for new plans
+                this._plan = plan;
 
-        return Observable.zip(...specInitCalls)
-            .do(_ => {
-                this._cleanUpGroups();
+                // Initialize every spec for each spec group.  For most cards this is a no-op, but
+                // some require special handling so that we know if we need to hide/disable a card.
+                this.specGroups.forEach(g => {
+                    const priceSpecInput: PriceSpecInput = {
+                        specPickerInput: inputs,
+                        plan: this._plan,
+                        subscriptionId: this._subscriptionId
+                    };
+
+                    g.initialize(priceSpecInput);
+                    specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
+                    specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
+                });
+
+                return Observable.zip(...specInitCalls)
+                    .do(_ => {
+                        this._cleanUpGroups();
+                    });
             });
+    }
+
+    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        if (!inputs.data) {
+            return this._planService.getPlan(inputs.id, true)
+                .map(r => {
+
+                    if (r.isSuccessful) {
+                        this._plan = r.result;
+
+                        if (this._plan.sku.name === 'Y1') {
+                            this._specPicker.statusMessage = {
+                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
+                                level: 'error'
+                            };
+
+                            this._specPicker.shieldEnabled = true;
+                        }
+
+                        return r.result;
+                    } else {
+                        this._specPicker.statusMessage = {
+                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
+                            level: 'error'
+                        };
+
+                        this._specPicker.shieldEnabled = true;
+                    }
+
+                    return null;
+                });
+        }
+
+        return Observable.of(null);
     }
 
     getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
@@ -141,7 +180,7 @@ export class PlanPriceSpecManager {
 
                 this._logService.error(LogCategories.specPicker, '/get-spec-costs', `Failed to get/set price for specs: ${e}`);
                 return Observable.of(null);
-            })
+            });
     }
 
     applySelectedSpec(): Observable<ApplyButtonState> {
@@ -245,36 +284,10 @@ export class PlanPriceSpecManager {
     }
 
     private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        // If we're getting meters for an existing plan
         if (!inputs.data) {
 
-            return this._planService.getPlan(inputs.id, true)
-                .switchMap(r => {
-
-                    if (r.isSuccessful) {
-                        this._plan = r.result;
-
-                        if (this._plan.sku.name === 'Y1') {
-                            this._specPicker.statusMessage = {
-                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
-                            };
-
-                            this._specPicker.shieldEnabled = true;
-                        }
-                    } else {
-                        this._specPicker.statusMessage = {
-                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
-                        };
-
-                        this._specPicker.shieldEnabled = true;
-
-                        return Observable.of(null);
-                    }
-
-                    return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
-                });
+            // If we're getting meters for an existing plan
+            return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
         }
 
         // We're getting meters for a new plan
