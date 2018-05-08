@@ -10,6 +10,9 @@ import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { ProviderCard } from '../../Models/provider-card';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 @Component({
     selector: 'app-step-source-control',
@@ -31,7 +34,7 @@ export class StepSourceControlComponent {
             name: 'OneDrive',
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
-            description: this._translateService.instant('onedriveDesc'),
+            description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none'
         },
         {
@@ -39,7 +42,7 @@ export class StepSourceControlComponent {
             name: 'Github',
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
-            description: this._translateService.instant('githubDesc'),
+            description: this._translateService.instant(PortalResources.githubDesc),
             authorizedStatus: 'none'
         },
         {
@@ -47,7 +50,7 @@ export class StepSourceControlComponent {
             name: 'VSTS',
             icon: 'image/deployment-center/vsts.svg',
             color: '#0071bc',
-            description: this._translateService.instant('vstsDesc'),
+            description: this._translateService.instant(PortalResources.vstsDesc),
             authorizedStatus: 'none'
         },
         {
@@ -55,7 +58,7 @@ export class StepSourceControlComponent {
             name: 'External',
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
-            description: this._translateService.instant('externalDesc'),
+            description: this._translateService.instant(PortalResources.externalDesc),
             authorizedStatus: 'none'
         },
         {
@@ -63,7 +66,7 @@ export class StepSourceControlComponent {
             name: 'Bitbucket',
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
-            description: 'Configure continuous integration with a Bitbucket repo.',
+            description: this._translateService.instant(PortalResources.bitbucketDesc),
             authorizedStatus: 'none'
         },
         {
@@ -71,7 +74,7 @@ export class StepSourceControlComponent {
             name: 'Dropbox',
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
-            description: this._translateService.instant('dropboxDesc'),
+            description: this._translateService.instant(PortalResources.dropboxDesc),
             authorizedStatus: 'none'
         },
         {
@@ -79,8 +82,17 @@ export class StepSourceControlComponent {
             name: 'Local Git',
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
-            description: this._translateService.instant('localGitDesc'),
+            description: this._translateService.instant(PortalResources.localGitDesc),
             authorizedStatus: 'none'
+        },
+        {
+            id: 'ftp',
+            name: 'FTP',
+            icon: 'image/deployment-center/FTP.svg',
+            color: '#FCD116',
+            description: this._translateService.instant(PortalResources.ftpDesc),
+            authorizedStatus: 'none',
+            manual: true
         }
         // These are options in works, not wanting to delete though
         // {
@@ -93,16 +105,6 @@ export class StepSourceControlComponent {
         //     authorizedStatus: 'none',
         //     manual: true
         // },
-        // {
-        //     id: 'ftp',
-        //     name: 'FTP',
-        //     icon: 'image/deployment-center/FTP.svg',
-        //     color: '#FCD116',
-        //     barColor: '#fde88a',
-        //     description: 'Use an FTP connection to access and copy app files.',
-        //     authorizedStatus: 'none',
-        //     manual: true
-        // }
         // ,
         // {
         //     id: 'zip',
@@ -130,6 +132,7 @@ export class StepSourceControlComponent {
         private _cacheService: CacheService,
         private _logService: LogService,
         private _translateService: TranslateService,
+        private _broadcastService: BroadcastService,
         _portalService: PortalService,
         _armService: ArmService,
         _aiService: AiService
@@ -273,6 +276,10 @@ export class StepSourceControlComponent {
         currentFormValues.sourceProvider = card.id;
         currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
         this._wizardService.wizardValues = currentFormValues;
+    }
+
+    renderDashboard() {
+        this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this._wizardService.wizardValues.sourceProvider);
     }
 
     updateProvider(provider: string) {

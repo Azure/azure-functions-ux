@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} 個のアイテムが選択されています</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>メモリ</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>記憶域</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>関数の作成エラー: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>起動ログ</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>起動の詳細</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>ログ</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>アップロード</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>他のオプションを見る</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>その他のオプションを参照する</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>表示するオプション数を減らします</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>推奨オプションのみを参照する</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>いくつかの Function App が、このストレージ アカウントにリンクされました。このアカウントにリンクされている Function App は、[ファイル] または [共有] で確認できます。</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Storage Explorer のダウンロードはこちら:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>これらの資格情報を使用して接続する:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -2198,7 +2198,10 @@
     <value>スロット (プレビュー)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するために、&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Function App で Application Insights を有効にしてください&lt;/a&gt;</value>
+    <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するには:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>関数アプリ用に Application Insights を構成する</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>この値は、メイン Web アプリの URL に追加され、スロットのパブリック アドレスとして機能します。たとえば、'contoso' という名前の Web アプリで、スロットの名前が 'staging' である場合、新しいスロットの URL は 'http://contoso-staging.azurewebsites.net' のようになります。</value>
@@ -2983,6 +2986,12 @@
   <data name="diagnostics_line" xml:space="preserve">
     <value>行</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>推奨される価格レベル</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>追加の価格レベル</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>お客様のサブスクリプションではこの価格レベルは利用できません</value>
   </data>
@@ -3016,8 +3025,20 @@
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>プラン '{0}' に読み取り専用ロックがあるため、更新できません</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>App Service プランを更新しています</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>プラン {0} を更新しています</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>プラン '{0}' が正常に更新されました。</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>プラン '{0}' のスケーリングを行うジョブが正常に送信されました。</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>プラン '{0}' のスケーリング操作は現在進行中です。もう一度スケーリングするには、現在の操作が完了するまでお待ちください。</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>プラン '{0}' を更新できませんでした</value>
@@ -3044,10 +3065,121 @@
     <value>Windows コンテナーはプレビュー期間中は 50% 割引で課金されます。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated プランは利用できません。ASE は Azure App Service で提供されている強力な機能の 1 つで、ネットワーク分離と向上したスケールの機能が備わっています。</value>
+    <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>開発/テスト環境の価格レベルは、App Service 環境でホストされていないプランだけで利用できます。</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>運用環境の価格レベルは、App Service 環境でホストされていないプランだけで利用できます。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>このスケール ユニットでは Premium V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>スケール アップ</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/時間 (推定)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>ご利用のプランにさらにリソースを追加するには、別の価格レベルを選択してください</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>App Service プランの更新</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>共有インフラストラクチャ</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される共有コンピューティング リソースです。</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 A シリーズの計算リソースです。</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 Dv2 シリーズの計算リソースです。</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>App Service プランでデプロイされ実行されているアプリケーションの実行に利用できるメモリー。</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>App Service プランでデプロイされ実行されているアプリケーションの実行に利用できるインスタンスごとのメモリー。</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>App Service プラン内でデプロイされているすべてのアプリで共有されている {0} 個のディスク ストレージ。</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>カスタム ドメイン / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>SNI SSL バインドでカスタム ドメインを構成し購入する</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>SNI および IP SSL バインドでカスタム ドメインを構成し購入する</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>手動スケール</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>自動スケール</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>多数のインスタンスにスケーリングする</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>最大 100 個のインスタンス。要求に応じて追加できます。</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>最大 {0} 個のインスタンス。可用性に応じて異なります。</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>ステージング スロット</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>運用環境にスワップする前に、テストとデプロイで使用するための最大 {0} 個のステージング スロットです。</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>毎日のバックアップ</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>毎日のバックアップ</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>アプリを毎日 {0} 回バックアップします。</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>単一のテナント システム</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>アプリで使用されているリソースの管理を強化します。</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>分離ネットワーク</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>自分の仮想ネットワーク内で実行します。</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>プライベート アプリ アクセス</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>App Service Environment を、内部負荷分散 (ILB) と共に使用します。</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB メモリ</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} 分/日の計算</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} コア</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A シリーズ計算</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2 シリーズ計算</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json が無効です。エラー: '{0}'。</value>
@@ -3059,7 +3191,7 @@
     <value>操作 ID</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>日付</value>
+    <value>日付 (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3200,28 @@
     <value>結果コード</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>トリガーの理由</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>エラー</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Application Insights での実行</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights インスタンス</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>成功</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>期間</value>
+    <value>期間 (ミリ秒)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>過去 30 日間の成功数</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>過去 30 日間のエラー数</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>メッセージ</value>
@@ -3133,6 +3265,9 @@
   <data name="workingDirectory" xml:space="preserve">
     <value>作業ディレクトリ</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>処理中の操作があります。移動しますか?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>タスク ランナー</value>
   </data>
@@ -3156,6 +3291,9 @@
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>リポジトリの選択</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>フォルダーの選択</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>ブランチの選択</value>
@@ -3199,7 +3337,58 @@
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>許可されていません</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>ホスト情報を取得する呼び出しに失敗しました。</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>起動ログをキャプチャするための Application Insights の構成</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions では、作成中のアプリと実稼働環境のアプリを監視するための優先されるソリューションとして Application Insights がサポートされるようになりました。Application Insights を利用すると、ログ データの強力な分析、通知、視覚化が提供されるだけでなく、規模を拡大した場合の全体的な信頼性も強化されます。</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>クラシック ビューに切り替えます</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>構成</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>呼び出しのトレース</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>結果まで最大 5 分の遅延があります。</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>ファイルをここ、または次にドラッグします:</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>選択してください</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>メトリック</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>メトリックを表示し、アラートをセットアップします。</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP ベースのデプロイは無効にしたり、FTP (プレーン テキスト) または FTPS (セキュリティで保護されている) 接続を受け入れるよう構成したりできます。詳細についてはここをクリックしてください。</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP アクセス</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>検証しています...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>このプロジェクトのビルド定義およびリリース定義を作成するアクセス許可がありません。プロジェクト管理者にお問い合わせください</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>指定したアカウント名が無効です。別のアカウント名を指定してください。</value>
   </data>
 </root>

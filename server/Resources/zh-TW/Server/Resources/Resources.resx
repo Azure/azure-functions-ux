@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>套用</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>已選取 {0} 個項目</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>記憶體</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>儲存體</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>建立函式發生錯誤: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>引動過程記錄檔</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>引動過程詳細資料</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>記錄</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>上傳</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>查看更多選項</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>查看其他選項</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>查看較少選項</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>只查看建議的選項</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>一或多個函數應用程式已連結至此儲存體帳戶。您可於 [檔案] 或 [共用] 下看到所有連結至帳戶的函數應用程式。</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>從這裡下載儲存體總管:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>使用這些認證進行連接:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -2198,7 +2198,10 @@
     <value>位置 (預覽)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>如需更豐富的監視體驗 (包括即時計量及自訂查詢)，請&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;為函數應用程式啟用 Application Insights&lt;/a&gt;</value>
+    <value>如需更多的監視體驗，包括即時計量與自訂查詢:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>configure Application Insights for your function app</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>此值之後會附加您主要 Web 應用程式的 URL，並會用為位置的公用位址。例如，若您的 Web 應用程式名稱為 'contoso'，位置名稱為 'staging'，則新位置的 URL 會類似於 'http://contoso-staging.azurewebsites.net'。</value>
@@ -2681,7 +2684,7 @@
     <value>隱藏值</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>App Insights 檢測金鑰在應用程式設定中有顯示，但在函數應用程式的訂用帳戶中找不到。請確認 App Insights 與函數應用程式位在相同訂用帳戶中。</value>
+    <value>應用程式設定中有 App Insights 檢測金鑰，但在 Function 應用程式訂中找不到 App Insights。請確定您的 App Insights 與 Function 位於相同的訂閱。</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>列開頭</value>
@@ -2983,6 +2986,12 @@
   <data name="diagnostics_line" xml:space="preserve">
     <value>線條</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>建議的定價層</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Additional pricing tiers</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>您的訂用帳戶不允許此定價層</value>
   </data>
@@ -3016,8 +3025,20 @@
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>方案 '{0}' 具有唯讀鎖定，因此無法加以更新</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>正在更新 App Service 方案</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>正在更新方案 {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>方案 '{0}' 已成功更新!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Successfully submitted job to scale the plan '{0}'.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>A scale operation is currently in progress for the plan '{0}'.  Please wait for the operation to complete before scaling again.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>無法更新方案 '{0}'</value>
@@ -3044,10 +3065,121 @@
     <value>預覽期間，Windows 容器會以 50% 的折扣計費。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>App Service 隔離式方案 (ASE) 中的隔離式方案不適用於您的組態。ASE 是 Azure App Service 所提供的強大功能，其具備網路隔離與改善的縮放功能。</value>
+    <value>您的設定不適用於 App Service 環境 (ASE) 中隔離環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離網路並提升調整的能力。</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>只有未裝載在 App Service 環境中的方案，才可使用開發/測試定價層。</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>生產環境定價層僅適用於不是裝載在 App Service 環境中的方案。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>此縮放單位不支援進階 V2。請考慮重新部署或複製您的應用程式。</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>相應增加</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>每小時 {0} {1} (預估)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>請選擇其他定價層，為您的定價層新增更多資源</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>更新 App Service 方案</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>共用的基礎結構</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>用以執行部署在 App Service 方案中之應用程式的共用計算資源。</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>App Service 方案中所部署用以執行應用程式的記憶體及正在使用的記憶體。</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>App Service 方案中每個執行個體所部署用以執行應用程式的記憶體及正在使用的記憶體。</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>所有部署在此 App Service 方案中的所有應用程式，共用 {0} 個磁碟儲存體。</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>自訂網域 / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>設定及購買具備 SNI SSL 繫結的自訂網域</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>設定及購買具備 SNI 與 IP SSL 繫結的自訂網域</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>手動調整規模</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>自動調整規模</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>調整成大量的執行個體</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>最多 100 個執行個體。可要求提高數量。</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>最多 {0} 個執行個體，視可用性而定。</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>預備位置</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>在將預備位置切換到生產環境之前，最多有 {0} 個暫存位置可供測試及部署之用。</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>每日備份</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>每日備份</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>每日備份您的應用程式 {0} 的時間。</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>單一租用戶系統</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>進一步控制您應用程式使用的資源。</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>隔離網路</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>在您自己的虛擬網路中執行。</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>私人應用程式存取</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>使用具有內部負載平衡 (ILB) 的 App Service 環境。</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB 記憶體</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} 分鐘/天計算</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} 個核心</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A-Series compute</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2-Series compute</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json 無效。錯誤: '{0}'。</value>
@@ -3059,7 +3191,7 @@
     <value>作業識別碼</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>日期</value>
+    <value>日期 (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3200,28 @@
     <value>結果碼</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>觸發程序原因</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>錯誤</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>在 Application Insights 中執行</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights 執行個體</value>
   </data>
   <data name="success" xml:space="preserve">
     <value>成功</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>持續時間</value>
+    <value>持續期間 (毫秒)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>過去 30 天內的成功計數</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>過去 30 天內的錯誤計數</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>訊息</value>
@@ -3133,6 +3265,9 @@
   <data name="workingDirectory" xml:space="preserve">
     <value>工作目錄</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>作業正在進行中。確定要離開嗎?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>工作執行器</value>
   </data>
@@ -3156,6 +3291,9 @@
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>選取存放庫</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>選取資料夾</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>選取分支</value>
@@ -3199,7 +3337,58 @@
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>取得主機資訊的呼叫失敗。</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>設定 Application Insights 擷取引動過程記錄</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>切換至傳統檢視</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Invocation traces</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Results delayed up to 5 minutes.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>將檔案拖曳到此處或</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>瀏覽</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>以上傳</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>計量</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>檢視計量與設定警示。</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>您可以停用透過 FTP 部署，也可以將其設定為接受 FTP (純文字) 或 FTPS (安全) 的連線。按一下可深入了解。</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP 存取</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>正在驗證...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>The account name supplied is not valid. Please supply another account name.</value>
   </data>
 </root>
