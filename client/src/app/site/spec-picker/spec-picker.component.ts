@@ -104,16 +104,17 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         return this.specManager.initialize(this._input);
       })
       .switchMap(_ => {
-
+        // Clearing isInitializing here because if getSpeccosts fails for some reason, we still want to allow the user to
+        // be able to scale
+        this.isInitializing = false;
         this.clearBusyEarly();
 
         return Observable.zip(
-          this.specManager.getSpecCosts(),
+          this.specManager.getSpecCosts(this._input),
           !this._input.data ? this._authZService.hasPermission(this._planOrSubResourceId, [AuthzService.writeScope]) : Observable.of(true),
           !this._input.data ? this._authZService.hasReadOnlyLock(this._planOrSubResourceId) : Observable.of(false));
       })
       .do(r => {
-        this.isInitializing = false;
 
         if (!this._input.data) {
           const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
