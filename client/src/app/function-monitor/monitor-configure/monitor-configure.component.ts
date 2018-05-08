@@ -102,9 +102,17 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
   private _setupSwitchToClassicButton() {
     this.allowSwitchToClassic =
       !this.isLinuxApp &&
+      this._isV1App() &&
       (!this._errorEvent ||
       (this._errorEvent.errorId !== errorIds.preconditionsErrors.clientCertEnabled &&
       this._errorEvent.errorId !== errorIds.applicationInsightsInstrumentationKeyMismatch));
+  }
+
+  private _isV1App() {
+      return this._functionMonitorInfo &&
+        this._functionMonitorInfo.functionAppSettings &&
+        this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] &&
+        this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] === '~1';
   }
 
 }
