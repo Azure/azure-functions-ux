@@ -416,7 +416,7 @@ gulp.task("list-numeric-versions", function () {
     if (!fs.existsSync(writePath)) {
         fs.mkdirSync(writePath);
     }
-    writePath = path.join(writePath, 'functionRuntimeToTemplateVersionMap.json');
+    writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
     fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
 });
 /********

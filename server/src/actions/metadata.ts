@@ -14,7 +14,7 @@ const _languageMap: { [key: string]: string } = {
   'en-gb': 'en'
 };
 
-const versionList: string[] = require('./data/functionRuntimeToTemplateVersionMap.json').sort(versionCompare);
+const versionList: string[] = require('./data/supportedFunctionsFxVersions.json').sort(versionCompare);
 
 function findLatestTemplateVersion(version: string): string {
   if (isNumericVersion(version)) {
