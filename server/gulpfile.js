@@ -408,10 +408,15 @@ gulp.task('unzip-templates', function () {
 });
 
 gulp.task("list-numeric-versions", function () {
-    const regex = /^(?! )((?!  )(?! $)[a-zA-Z ]){1,50}$/;
+    // Checks version matches patter x.x with unlimited .x and x being any numeric value
+    const regex = /\d+(?:\.\d+)+/;
     const templateKeys = Object.keys(templateVersionMap);
-    const templateVersions = templateKeys.filter(x => !regex.test(x));
-    const writePath = path.join(__dirname, 'src', 'actions', 'versions.json');
+    const templateVersions = templateKeys.filter(x => regex.test(x) || !isNaN(x));
+    let writePath = path.join(__dirname, 'src', 'actions', 'data');
+    if (!fs.existsSync(writePath)) {
+        fs.mkdirSync(writePath);
+    }
+    writePath = path.join(writePath, 'functionRuntimeToTemplateVersionMap.json');
     fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
 
 });

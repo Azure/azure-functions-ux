@@ -14,9 +14,9 @@ const _languageMap: { [key: string]: string } = {
   'en-gb': 'en'
 };
 
-const versionList: string[] = require('./versions.json').sort(versionCompare);
+const versionList: string[] = require('./data/functionRuntimeToTemplateVersionMap.json').sort(versionCompare);
 
-function mapVersion(version: string): string {
+function findLatestTemplateVersion(version: string): string {
   if (isNumericVersion(version)) {
     return version;
   }
@@ -27,7 +27,7 @@ function mapVersion(version: string): string {
 
 export async function getTemplates(req: Request, res: Response) {
   const runtime: string = req.query['runtime'] || 'default';
-  const runtimeVersion = mapVersion(runtime.replace('~', ''));
+  const runtimeVersion = findLatestTemplateVersion(runtime.replace('~', ''));
   const versionFile = path.join(__dirname, 'templates', runtimeVersion + '.json');
   const defaultFile = path.join(__dirname, 'templates', 'default.json');
 
@@ -42,7 +42,7 @@ export async function getTemplates(req: Request, res: Response) {
 
 export async function getBindingConfig(req: Request, res: Response) {
   const runtime: string = req.query['runtime'] || 'default';
-  const runtimeVersion = mapVersion(runtime.replace('~', ''));
+  const runtimeVersion = findLatestTemplateVersion(runtime.replace('~', ''));
   const versionFile = path.join(__dirname, 'bindings', runtimeVersion + '.json');
   const defaultFile = path.join(__dirname, 'bindings', 'default.json');
 
@@ -57,7 +57,7 @@ export async function getBindingConfig(req: Request, res: Response) {
 
 export async function getResources(req: Request, res: Response) {
   const runtime: string = req.query['runtime'] || 'default';
-  const runtimeVersion = mapVersion(runtime.replace('~', ''));
+  const runtimeVersion = findLatestTemplateVersion(runtime.replace('~', ''));
   const name: string = req.query['name'] || 'en';
 
   let langCode = 'en';
