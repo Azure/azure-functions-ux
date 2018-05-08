@@ -319,7 +319,7 @@ export class PlanPriceSpecManager {
             if (!costResult) {
                 spec.priceString = ' ';
             } else if (costResult.amount === 0.0) {
-                spec.priceString = 'Free';
+                spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
                 spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
