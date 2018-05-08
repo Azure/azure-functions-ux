@@ -3,7 +3,7 @@ import axios from 'axios';
 import { oAuthHelper } from './oauth-helper';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
-import { GUID } from '../utilities';
+import { GUID } from '../utilities/guid';
 import { constants } from '../constants';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('onedrive');
