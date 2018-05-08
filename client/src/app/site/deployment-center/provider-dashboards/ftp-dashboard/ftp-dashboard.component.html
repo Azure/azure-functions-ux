@@ -1,0 +1,38 @@
+<command-bar>
+  <command displayText="{{ 'downloadProfile' | translate}}" iconUrl="image/download.svg" (click)="downloadPublishProfile()"></command>
+</command-bar>
+<app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'ftpInfoCardCredsDesc' | translate}}"
+  [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
+
+
+<div class="settings-group-wrapper sidebar-content">
+  <h3 class="first-config-heading">{{'FTPLabel' | translate}}</h3>
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <info-box [infoText]="('FTPMessage' | translate)" [infoLink]="FwLinks.FTPAccessLearnMore">
+      </info-box>
+      <div class="setting-control-container">
+        <radio-selector [options]="FTPAccessOptions" [highlightDirty]="true" [control]="ftpsEnabledControl">
+        </radio-selector>
+      </div>
+      <div>
+        <button class="save-button" [disabled]="!ftpsEnabledControl.dirty || saving" (click)="save()">
+          <span *ngIf="!saving">{{'save'| translate}}</span>
+          <span *ngIf="saving" load-image="image/loader.svg" class="icon-small fa-spin"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="ftpsEnabledControl.value !== 'Disabled'">
+    <h3 class="first-config-heading">{{'ftpsEndpoint' | translate}}</h3>
+    <div class="settings-wrapper">
+      <div class="setting-wrapper">
+        <copy-pre [content]="ftpsEndpoint" label=''></copy-pre>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="credentials">
+  <app-deployment-credentials [resourceId]="resourceId"></app-deployment-credentials>
+</div>
+<a id="hidden-publish-profile-link-ftp" [hidden]="true" [href]="publishProfileLink" [download]="siteName + '.PublishSettings'"></a>

@@ -25,7 +25,7 @@ export class CommandComponent {
     }
 
     onKeyPress(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.enter) {
+        if (event.keyCode === KeyCodes.enter && !this.disabled) {
             this.click.next(event);
         }
     }
