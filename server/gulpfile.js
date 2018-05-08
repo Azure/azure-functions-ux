@@ -418,7 +418,6 @@ gulp.task("list-numeric-versions", function () {
     }
     writePath = path.join(writePath, 'functionRuntimeToTemplateVersionMap.json');
     fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
-
 });
 /********
  * UTILITIES

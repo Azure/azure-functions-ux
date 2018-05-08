@@ -1,13 +1,3 @@
-export class GUID {
-    public static newGuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (Math.random() * 16) | 0,
-                v = c == 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    }
-}
-
 export function versionCompare(version1: string, version2: string): -1 | 0 | 1 {
     let v1parts = version1.split('.');
     let v2parts = version2.split('.');

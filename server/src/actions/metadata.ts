@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { versionCompare, isNumericVersion } from '../utilities';
+import { versionCompare, isNumericVersion } from '../utilities/versions';
 import * as fs from 'async-file';
 import * as path from 'path';
 
