@@ -1,4 +1,3 @@
-import { AppKind } from './../../../shared/Utilities/app-kind';
 import { Links, Kinds } from 'app/shared/models/constants';
 import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -12,6 +11,7 @@ import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargeP
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { AppKind } from '../../../shared/Utilities/app-kind';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
