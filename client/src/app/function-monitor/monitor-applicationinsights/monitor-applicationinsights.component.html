@@ -10,7 +10,8 @@
         *ngIf="showDelayWarning"
         typeClass="info"
         [infoText]="'appInsightsDelay' | translate"
-        dismissable=true>
+        dismissable=true,
+        [dismissId]="componentId">
       </info-box>
 
       <div id="essentials-container">
