@@ -38,4 +38,5 @@ export interface SiteConfig {
     appSettings?: ApplicationSettings;
     connectionStrings?: ConnectionStrings;
     ftpsState?: string;
+    http20Enabled: boolean;
 }
