@@ -54,7 +54,7 @@ export class InfoBoxComponent {
             if (!InfoBoxComponent._dismissedIds) {
                 InfoBoxComponent._dismissedIds = {};
             }
-            
+
             InfoBoxComponent._dismissedIds[this._dismissId] = true;
         }
     }
