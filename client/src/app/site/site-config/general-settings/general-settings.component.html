@@ -183,6 +183,19 @@
       </div>
     </div>
 
+    <ng-container *ngIf="http20Supported">
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'httpVersion' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['http20Enabled'] : null"
+            [options]="http20EnabledOptions"
+            [highlightDirty]="true">
+          </radio-selector>
+        </div>
+      </div>
+    </ng-container> 
+
     <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
       <info-box
         [infoText]="('clientAffinityInfoText' | translate)"
@@ -239,7 +252,7 @@
     </ng-container>
 
     <ng-container *ngIf="FTPAccessSupported">
-      <div class="setting-wrapper">
+      <div class="setting-wrapper last">
         <info-box
           [infoText]="('FTPMessage' | translate)"
           [infoLink]="FwLinks.FTPAccessLearnMore">
@@ -249,19 +262,6 @@
           <radio-selector
             [control]="!!group ? group.controls['FTPAccessOptions'] : null"
             [options]="FTPAccessOptions"
-            [highlightDirty]="true">
-          </radio-selector>
-        </div>
-      </div>
-    </ng-container> 
-
-    <ng-container *ngIf="http20Supported">
-      <div class="setting-wrapper last">
-        <label class="setting-label">HTTP 2 Support</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['http20Enabled'] : null"
-            [options]="http20EnabledOptions"
             [highlightDirty]="true">
           </radio-selector>
         </div>
