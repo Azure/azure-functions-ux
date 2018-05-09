@@ -6,6 +6,11 @@
     padding-left: 20px;
 }
 
+.ftp-endpoint {
+    margin: auto;
+    width: 95%;
+}
+
 .save-button {
     @extend .custom-button;
     margin-top: 10px;
