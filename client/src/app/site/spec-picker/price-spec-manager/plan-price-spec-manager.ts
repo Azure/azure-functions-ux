@@ -319,7 +319,7 @@ export class PlanPriceSpecManager {
             if (!costResult) {
                 spec.priceString = ' ';
             } else if (costResult.amount === 0.0) {
-                spec.priceString = 'Free';
+                spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
                 spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
@@ -330,6 +330,7 @@ export class PlanPriceSpecManager {
     private _cleanUpGroups() {
         let nonEmptyGroupIndex = 0;
         let foundNonEmptyGroup = false;
+        let foundDefaultGroup = false;
 
         // Remove hidden and forbidden specs and move disabled specs to end of list.
         this.specGroups.forEach((g, i) => {
@@ -343,17 +344,24 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's already a spec that's selected within a group.  Otherwise
-            // just choose the first spec you can find
+            // Find if there's a spec in the current group that matches the plan sku
             g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
             if (!g.selectedSpec) {
                 g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
             }
 
+            // If a plan's sku matches a spec in the current group, then make that group the default group
+            if (g.selectedSpec && !foundDefaultGroup) {
+                foundDefaultGroup = true;
+                this.selectedSpecGroup = this.specGroups[i];
+            }
+
+            // If we still haven't found a default spec in the group, pick the first recommended one
             if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
                 g.selectedSpec = g.recommendedSpecs[0];
             }
 
+            // If we still haven't found a defautl spec in the group, pick the first additional one
             if (!g.selectedSpec && g.additionalSpecs.length > 0) {
                 g.selectedSpec = g.additionalSpecs[0];
             }
@@ -368,11 +376,7 @@ export class PlanPriceSpecManager {
             }
         });
 
-        if (nonEmptyGroupIndex < this.specGroups.length) {
-            // The UI loads the default set of cards immediately, but the specManager filters them out
-            // based on each cards initialization logic.  Angular isn't able to detect the updated filtered
-            // view in the list, so we're forcing an update by creating a new reference
-            this.specGroups[nonEmptyGroupIndex] = Object.assign({}, this.specGroups[nonEmptyGroupIndex]);
+        if (!foundDefaultGroup && nonEmptyGroupIndex < this.specGroups.length) {
             this.selectedSpecGroup = this.specGroups[nonEmptyGroupIndex];
 
             // Find the first group with a selectedSpec and make that group the default

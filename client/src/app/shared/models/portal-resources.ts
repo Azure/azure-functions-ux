@@ -987,6 +987,7 @@
     public static pricing_emptyProdGroup = 'pricing_emptyProdGroup';
     public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
     public static pricing_scaleUp = 'pricing_scaleUp';
+    public static free = 'free';
     public static pricing_pricePerHour = 'pricing_pricePerHour';
     public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
