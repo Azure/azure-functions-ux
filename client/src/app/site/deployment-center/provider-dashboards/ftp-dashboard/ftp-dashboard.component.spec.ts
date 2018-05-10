@@ -5,7 +5,6 @@ import { SidebarModule } from 'ng-sidebar';
 import { SiteService } from '../../../../shared/services/site.service';
 import { LogService } from '../../../../shared/services/log.service';
 import { MockLogService } from '../../../../test/mocks/log.service.mock';
-import { CacheService } from '../../../../shared/services/cache.service';
 import { CommandBarComponent } from '../../../../controls/command-bar/command-bar.component';
 import { CommandComponent } from '../../../../controls/command-bar/command/command.component';
 import { CommonModule } from '@angular/common';
@@ -17,10 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DeploymentCredentialsComponent } from '../deployment-credentials/deployment-credentials.component';
 import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
-import { ArmObj } from '../../../../shared/models/arm/arm-obj';
-import { SiteConfig } from '../../../../shared/models/arm/site-config';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { TelemetryService } from '../../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../../test/mocks/telemetry.service.mock';
@@ -53,7 +49,6 @@ describe('FtpDashboardComponent', () => {
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: LogService, useClass: MockLogService },
-        { provide: CacheService, useClass: MockCacheService },
         { provide: TelemetryService, useClass: MockTelemetryService },
         BroadcastService
       ],
@@ -77,21 +72,7 @@ describe('FtpDashboardComponent', () => {
       expect(component.ftpsEndpoint).toBe('publishftpurl');
     });
 
-    it('should load ftps state at init', () => {
-      expect(component.ftpsEnabledControl.value).toBe('AllAllowed');
-    });
-
   });
-
-  describe('save', () => {
-    it('should save chosen ftpEnabledControl', () => {
-      const mockCacheService: MockCacheService = TestBed.get(CacheService);
-      component.ftpsEnabledControl.setValue('Disabled');
-      component.save();
-      expect(mockCacheService.lastPatchContent.properties.ftpsState).toBe('Disabled');
-    });
-  });
-
   describe('Publishing Profile Download', () => {
 
     it('download profile should trigger profile download', fakeAsync(() => {
@@ -161,14 +142,5 @@ class MockSiteService {
     return of({
       result: this.mockPublishProfile
     });
-  }
-}
-
-class MockCacheService {
-  public lastPatchContent: ArmObj<SiteConfig> = null;
-
-  patchArm(resourceId: string, apiVersion?: string, content?: any): Observable<any> {
-    this.lastPatchContent = content;
-    return of(null);
   }
 }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -3483,5 +3483,3496 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
     <value>Reset Credentials</value>
+  </data>
+</root>
+=======
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="azureFunctions" xml:space="preserve">
+    <value>Azure Functions</value>
+  </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions Runtime</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="upgrade" xml:space="preserve">
+    <value>Upgrade</value>
+  </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Upgrade to enable</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>All items selected</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} items selected</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="functionCreateErrorDetails" xml:space="preserve">
+    <value>Create Function Error: {{error}}</value>
+  </data>
+  <data name="functionCreateErrorMessage" xml:space="preserve">
+    <value>Function creation error! Please try again.</value>
+  </data>
+  <data name="functionDev_functionErrorDetails" xml:space="preserve">
+    <value>Function Error: {{error}}</value>
+  </data>
+  <data name="functionDev_functionErrorMessage" xml:space="preserve">
+    <value>Function (${{name}}) Error: {{error}}</value>
+  </data>
+  <data name="functionDev_functionUrl" xml:space="preserve">
+    <value>Function Url</value>
+  </data>
+  <data name="functionDev_githubSelect" xml:space="preserve">
+    <value>GitHub Secret</value>
+  </data>
+  <data name="functionDev_hideFiles" xml:space="preserve">
+    <value>Hide files</value>
+  </data>
+  <data name="functionDev_hostErrorMessage" xml:space="preserve">
+    <value>Host Error: {{error}}</value>
+  </data>
+  <data name="functionDev_Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="functionDev_requestBody" xml:space="preserve">
+    <value>Request body</value>
+  </data>
+  <data name="functionDev_saveAndRun" xml:space="preserve">
+    <value>Save and run</value>
+  </data>
+  <data name="functionDev_status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="functionDev_viewFiles" xml:space="preserve">
+    <value>View files</value>
+  </data>
+  <data name="functionNew_chooseTemplate" xml:space="preserve">
+    <value>Choose a template below</value>
+  </data>
+  <data name="subNew_subAlreadyExist" xml:space="preserve">
+    <value>Subscription with name '{0}' already exist</value>
+  </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Choose a plan below to create new subscription</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Provide a friendly subscription name</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Friendly subscription name</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Invitation code</value>
+  </data>
+  <data name="functionNew_experimentalTemplate" xml:space="preserve">
+    <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+  </data>
+  <data name="functionNew_functionName" xml:space="preserve">
+    <value>Function name</value>
+  </data>
+  <data name="functionNew_functionNameRequired" xml:space="preserve">
+    <value>A function name is required</value>
+  </data>
+  <data name="functionNew_nameYourFunction" xml:space="preserve">
+    <value>Name your function</value>
+  </data>
+  <data name="gettingStarted_createGetStarted" xml:space="preserve">
+    <value>Create + get started</value>
+  </data>
+  <data name="gettingStarted_functionApps" xml:space="preserve">
+    <value>Function Apps</value>
+  </data>
+  <data name="gettingStarted_getStarted" xml:space="preserve">
+    <value>Get started with Azure Functions</value>
+  </data>
+  <data name="gettingStarted_newFunctionApp" xml:space="preserve">
+    <value>New function app</value>
+  </data>
+  <data name="gettingStarted_noFunApps" xml:space="preserve">
+    <value>Your subscription contains no function apps. These are containers where your functions are executed. Create one now.</value>
+  </data>
+  <data name="gettingStarted_orCreate" xml:space="preserve">
+    <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+  </data>
+  <data name="gettingStarted_selectLocation" xml:space="preserve">
+    <value>Select Location</value>
+  </data>
+  <data name="gettingStarted_selectSubscription" xml:space="preserve">
+    <value>Select Subscription</value>
+  </data>
+  <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
+    <value>Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions</value>
+  </data>
+  <data name="gettingStarted_thisSub" xml:space="preserve">
+    <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
+  </data>
+  <data name="gettingStarted_validateContainer1" xml:space="preserve">
+    <value>The name must be at least 2 characters</value>
+  </data>
+  <data name="gettingStarted_validateContainer2" xml:space="preserve">
+    <value>The name must be at most 60 characters</value>
+  </data>
+  <data name="gettingStarted_validateContainer3" xml:space="preserve">
+    <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
+  </data>
+  <data name="gettingStarted_validateContainer4" xml:space="preserve">
+    <value>function app name {{funcName}} isn't available</value>
+  </data>
+  <data name="gettingStarted_youNeed" xml:space="preserve">
+    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
+  </data>
+  <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
+    <value>Your function apps</value>
+  </data>
+  <data name="gettingStarted_yourSubscription" xml:space="preserve">
+    <value>Your subscription</value>
+  </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Failed to create app</value>
+  </data>
+  <data name="intro_chooseLanguage" xml:space="preserve">
+    <value>2. Choose a language</value>
+  </data>
+  <data name="intro_chooseScenario" xml:space="preserve">
+    <value>1. Choose a scenario</value>
+  </data>
+  <data name="intro_createThisFunction" xml:space="preserve">
+    <value>Create this function</value>
+  </data>
+  <data name="intro_createYourOwn" xml:space="preserve">
+    <value>create your own custom function</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Custom function</value>
+  </data>
+  <data name="intro_dataProcessing" xml:space="preserve">
+    <value>Data processing</value>
+  </data>
+  <data name="intro_or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="intro_getStarted" xml:space="preserve">
+    <value>Get started quickly with a premade function</value>
+  </data>
+  <data name="intro_getStartedOn" xml:space="preserve">
+    <value>Get started on your own</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>Keep using this quickstart</value>
+  </data>
+  <data name="intro_ifYou" xml:space="preserve">
+    <value>For PowerShell, Python, and Batch,</value>
+  </data>
+  <data name="intro_startSC" xml:space="preserve">
+    <value>Start from source control</value>
+  </data>
+  <data name="intro_timer" xml:space="preserve">
+    <value>Timer</value>
+  </data>
+  <data name="intro_webHook" xml:space="preserve">
+    <value>Webhook + API</value>
+  </data>
+  <data name="logStreaming_clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="logStreaming_copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="logStreaming_copyLogs" xml:space="preserve">
+    <value>Copy logs</value>
+  </data>
+  <data name="logStreaming_noLogs" xml:space="preserve">
+    <value>No logs to display</value>
+  </data>
+  <data name="logStreaming_failedToDownload" xml:space="preserve">
+    <value>Failed to download log content - '{0}'</value>
+  </data>
+  <data name="logStreaming_pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="logStreaming_paused" xml:space="preserve">
+    <value>Logging paused</value>
+  </data>
+  <data name="logStreaming_start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="logStreaming_tooManyLogs" xml:space="preserve">
+    <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
+  </data>
+  <data name="_name" xml:space="preserve">
+    <value>Name</value>
+    <comment>Can't use "name" as key because typescript has own name property for the object</comment>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit </value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="unsavedChangesWarning" xml:space="preserve">
+    <value>Unsaved changes will be discarded.</value>
+  </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Add new setting</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Add new connection string</value>
+  </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Add new document</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Add new handler mapping</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Add new virtual application or directory</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Enter a value</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Enter extension</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Enter script processor</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Enter arguments</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Enter virtual path</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Enter physical path</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Hidden value.  Click to show.</value>
+  </data>
+  <data name="sideBar_changeMade" xml:space="preserve">
+    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="sideBar_newFunction" xml:space="preserve">
+    <value>New Function</value>
+  </data>
+  <data name="sideBar_refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Scope to this item</value>
+  </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Search features</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>Search Function apps</value>
+  </data>
+  <data name="subscription" xml:space="preserve">
+    <value>Subscription ID</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
+    <value>Subscription</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Resource group</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="topBar_changeMade" xml:space="preserve">
+    <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="topBar_functionAppSettings" xml:space="preserve">
+    <value>Function app settings</value>
+  </data>
+  <data name="topBar_newVersion" xml:space="preserve">
+    <value>A new version of Azure Functions is available. To upgrade, click here</value>
+  </data>
+  <data name="topBar_quickStart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="topBar_usage" xml:space="preserve">
+    <value>Usage</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="appMonitoring_appExecutions" xml:space="preserve">
+    <value>App executions</value>
+  </data>
+  <data name="appMonitoring_appUsage" xml:space="preserve">
+    <value>App Usage(Gb Sec)</value>
+  </data>
+  <data name="appMonitoring_functionAppUsage" xml:space="preserve">
+    <value>Function App Usage</value>
+  </data>
+  <data name="appMonitoring_noData" xml:space="preserve">
+    <value>No data available</value>
+  </data>
+  <data name="appMonitoring_ofExecutions" xml:space="preserve">
+    <value>of executions</value>
+  </data>
+  <data name="binding_parameterName" xml:space="preserve">
+    <value>Parameter name</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="config" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="cors" xml:space="preserve">
+    <value>CORS</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="dashboard_yourTrialExpiered" xml:space="preserve">
+    <value>Your trial has expired</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="disable" xml:space="preserve">
+    <value>disable</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>enabled</value>
+  </data>
+  <data name="errorList_here" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="errorList_youMay" xml:space="preserve">
+    <value>You may be experiencing an error. If you're having issues, please post them</value>
+  </data>
+  <data name="errorParsingConfig" xml:space="preserve">
+    <value>Error parsing config: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>Failed to {{state}} function: {{functionName}}</value>
+  </data>
+  <data name="features" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="filedRequired" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="functionDev_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="functionDev_run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="functionEdit_readOnly" xml:space="preserve">
+    <value>Read only - because you have started editing with source control, this view is read only.</value>
+  </data>
+  <data name="functionIntegrate_advancedEditor" xml:space="preserve">
+    <value>Advanced editor</value>
+  </data>
+  <data name="functionIntegrate_changesLost1" xml:space="preserve">
+    <value>Changes made will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="functionIntegrate_changesLost2" xml:space="preserve">
+    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="functionIntegrate_settingName" xml:space="preserve">
+    <value>Setting name:</value>
+  </data>
+  <data name="functionIntegrate_standardEditor" xml:space="preserve">
+    <value>Standard editor</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>Delete Function {{name}}</value>
+  </data>
+  <data name="functionManage_areYouSure" xml:space="preserve">
+    <value>Are you sure you want to delete Function {{name}}?</value>
+  </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Loading ...</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Success count since</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Error count since</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Invocation log</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Invocation Details</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>live event stream</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: Last ran</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duration)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="functionService_authIsEnabled" xml:space="preserve">
+    <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
+  </data>
+  <data name="functionService_errorRunningFunc" xml:space="preserve">
+    <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
+  </data>
+  <data name="input" xml:space="preserve">
+    <value>Inputs</value>
+  </data>
+  <data name="logStreaming_logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="newInput" xml:space="preserve">
+    <value>New Input</value>
+  </data>
+  <data name="newOutput" xml:space="preserve">
+    <value>New Output</value>
+  </data>
+  <data name="newTrigger" xml:space="preserve">
+    <value>New Trigger</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="notValidValue" xml:space="preserve">
+    <value>Not valid value</value>
+  </data>
+  <data name="output" xml:space="preserve">
+    <value>Outputs</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="tabNames_develop" xml:space="preserve">
+    <value>Develop</value>
+  </data>
+  <data name="tabNames_integrate" xml:space="preserve">
+    <value>Integrate</value>
+  </data>
+  <data name="tabNames_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="tabNames_monitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="templatePicker_chooseInput" xml:space="preserve">
+    <value>Choose an input binding</value>
+  </data>
+  <data name="templatePicker_chooseOutput" xml:space="preserve">
+    <value>Choose an output binding</value>
+  </data>
+  <data name="templatePicker_chooseTemplate" xml:space="preserve">
+    <value>Choose a template</value>
+  </data>
+  <data name="templatePicker_chooseTrigger" xml:space="preserve">
+    <value>Choose a trigger</value>
+  </data>
+  <data name="templatePicker_language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="templatePicker_scenario" xml:space="preserve">
+    <value>Scenario:</value>
+  </data>
+  <data name="trigger" xml:space="preserve">
+    <value>Triggers</value>
+  </data>
+  <data name="tryNow_trialExpired" xml:space="preserve">
+    <value>Trial expired</value>
+  </data>
+  <data name="tutorial_changesMade" xml:space="preserve">
+    <value>Changes made here will affect all of the functions within your function app.</value>
+  </data>
+  <data name="tutorial_createNew" xml:space="preserve">
+    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the pre-built function templates</value>
+  </data>
+  <data name="tutorial_develop" xml:space="preserve">
+    <value>Develop</value>
+  </data>
+  <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
+    <value>&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="tutorial_functionAppSettings" xml:space="preserve">
+    <value>Function App Settings</value>
+  </data>
+  <data name="tutorial_integrate" xml:space="preserve">
+    <value>Integrate</value>
+  </data>
+  <data name="tutorial_integrateYourFunction" xml:space="preserve">
+    <value>Integrating your functions with other services and data sources is easy.</value>
+  </data>
+  <data name="tutorial_nextSteps" xml:space="preserve">
+    <value>Next Steps</value>
+  </data>
+  <data name="tutorial_setUpAutomated" xml:space="preserve">
+    <value>Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets.</value>
+  </data>
+  <data name="tutorial_skip" xml:space="preserve">
+    <value>Skip the tour and start coding</value>
+  </data>
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
+  </data>
+  <data name="tutorial_thisPageInclude" xml:space="preserve">
+    <value>This page also includes a log stream and a test console for helping you debug your function.</value>
+  </data>
+  <data name="tutorial_tweakThisSample" xml:space="preserve">
+    <value>&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard</value>
+  </data>
+  <data name="tutorial_yourFunction" xml:space="preserve">
+    <value>Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app.</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="bindingInput_select" xml:space="preserve">
+    <value>select</value>
+  </data>
+  <data name="binding_delete" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="bindingsValidationDirectionMissed" xml:space="preserve">
+    <value>Parameter 'direction' is missed.</value>
+  </data>
+  <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
+    <value>Unknown direction: '{{direction}}'.</value>
+  </data>
+  <data name="bindingsValidationNameDublicate" xml:space="preserve">
+    <value>Parameter name must be unique in a function: '{{functionName}}'</value>
+  </data>
+  <data name="bindingsValidationNameMissed" xml:space="preserve">
+    <value>Parameter 'name' is missed.</value>
+  </data>
+  <data name="bindingsValidationTypeMIssed" xml:space="preserve">
+    <value>Parameter 'type' is missed.</value>
+  </data>
+  <data name="bindingsValidationTypeUnknown" xml:space="preserve">
+    <value>Unknown type: '{{type}}'.</value>
+  </data>
+  <data name="resourceSelect" xml:space="preserve">
+    <value>Waiting for the resource</value>
+  </data>
+  <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
+    <value>We've enjoyed hosting your functions !</value>
+  </data>
+  <data name="trialExpired_signupForAzure" xml:space="preserve">
+    <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
+  </data>
+  <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
+    <value>Choose an auth provider</value>
+  </data>
+  <data name="tryLanding_microsoftAcccount" xml:space="preserve">
+    <value>Microsoft Account</value>
+  </data>
+  <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
+    <value>Create a free Azure account</value>
+  </data>
+  <data name="tryNow_extendTrial" xml:space="preserve">
+    <value>Extend trial to 24 hours</value>
+  </data>
+  <data name="tryNow_trialTimeRemaining" xml:space="preserve">
+    <value>Free Trial - Time remaining:</value>
+  </data>
+  <data name="tryLanding_functionError" xml:space="preserve">
+    <value>Function creation error! Please try again.</value>
+  </data>
+  <data name="tryLanding_functionErrorDetails" xml:space="preserve">
+    <value>Create Function Error</value>
+  </data>
+  <data name="tryLanding_ifYou" xml:space="preserve">
+    <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
+  </data>
+  <data name="tryNow_minutes" xml:space="preserve">
+    <value> minutes</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>new</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
+  </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Create a new function triggered by this output</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Are you sure you want to delete {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Editing binary files is not supported.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Error creating file: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Error deleting file: {{fileName}}</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Less than 1 minute</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS is not configured for this function app. Please add {{origin}} to your CORS list.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes.</value>
+  </data>
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
+    <value>Unable to retrieve Function App ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
+    <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Just a few more seconds...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Hang on while we put the 'fun' in functions...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Discover more</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>See additional options</value>
+  </data>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>See only recommended options</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>A File with the name {{fileName}} already exists.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Function with name '{{name}}' already exists.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Account Key:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Account Name:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>You can now view the blobs, queues and tables associated with this storage binding.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Connecting to your Storage Account</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Download Storage explorer from here:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Connect using these credentials:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="clickToLearnMore" xml:space="preserve">
+    <value>Click to learn more.</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Add header</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Add parameter</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP method</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>'AlwaysOn' is not enabled. Your app may not function properly</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>The 'AzureWebJobsSecretStorageType' setting should be set to 'blob',not having this setting will cause unexpected behavior when using deployment slots</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions release notes.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Host Keys (All functions)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Add new host key</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Add new function key</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Click to show</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Required)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Optional) Leave empty to auto-generate a key.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>NAME</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>VALUE</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Function Keys</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Connection String:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Daily Usage Quota (GB-Sec)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Remove quota</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Set quota</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Are you sure you want to revoke {{name}} key?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Keys</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Loading..</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime version</value>
+  </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Runtime version</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>Azure Functions v1 (.NET Framework)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>Azure Functions v2 (.NET Standard)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>custom</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Parameter name must be unique.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Allowed HTTP methods</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>Proxy or function with that name already exists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Route template</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>function app settings</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Proxies</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Enable Azure Functions Proxies (preview)</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
+  </data>
+  <data name="discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Revoke</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Get function URL</value>
+  </data>
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Get GitHub secret</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Headers</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>There are no headers</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>All subscriptions</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} subscriptions</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Functions (No access)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Functions (ReadOnly lock)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Functions (Stopped)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxies (No access)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxies (Stopped)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxies (ReadOnly lock)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>New function</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Function Apps</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Swap</value>
+  </data>
+  <data name="completeSwap" xml:space="preserve">
+    <value>Complete Swap</value>
+  </data>
+  <data name="cancelSwap" xml:space="preserve">
+    <value>Cancel Swap</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Download publish profile</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Reset publish credentials</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Availability</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>No access</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Not applicable</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Configured features</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Quick links to your features will show up here after you've configured them from the "Platform features" tab above.</value>
+  </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>Unsaved changes for the app '{0}' will be lost.  Are you sure you would like to continue?</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>There was an error retrieving information about the app '{0}'</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>The app '{0}' could not be found</value>
+  </data>
+  <data name="siteDashboard_pinApp" xml:space="preserve">
+    <value>Pin app to dashboard</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Are you sure you would like to stop '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>Stopping app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Starting app '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>Successfully stopped app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>Successfully started app '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Failed to stop app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Failed to start app '{0}'</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Resetting publishing profile</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Successfully reset publishing profile</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Failed to reset publishing profile</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>Deleting app '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>Successfully deleted app '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Failed to delete app '{0}'</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Are you sure you would like to restart '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>Restarting app '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>Successfully restarted app '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Failed to restart app '{0}'</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>This feature is not supported for apps on a Consumption plan</value>
+  </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>This feature is not supported for slots</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to use this feature</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This feature is disabled because the app has a ReadOnly lock on it</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>You must have Read permissions on the associated App Service plan in order to use this feature</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Deployment options</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Deployment credentials</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Learn more&lt;/a&gt;.</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Explore your app's file system from an interactive web-based console.</value>
+  </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH provides a Web SSH console experience for your Linux app code</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Extensions add functionality to your entire app.</value>
+  </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(no application settings to display)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(no connection strings to display)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(no default documents to display)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(no handler mappings to display)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(no virtual applications or directories to display)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Debugging</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Manage app settings, connection strings, runtime settings, and more.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Default documents</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Handler mappings</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Virtual applications and directories</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to edit these settings.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>View settings in read-only mode.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Failed to load settings.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Updating web app settings</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated web app settings</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Failed to update web app settings: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Save Error: Invlid input provided.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework version</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using the .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP version</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python version</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Python</value>
+  </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java version</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java minor version</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Java web container</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>The web container version used to run your web app if using Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>The platform architecture your web app runs</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64-bit configuration requires a basic or higher App Service plan</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web sockets</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Always On</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>Always on requires a basic or higher App Service plan</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Managed Pipeline Version</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Auto swap destinations cannot be configured from production slot</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Auto Swap requires a standard or higher App Service Plan</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Auto Swap Slot</value>
+  </data>
+  <data name="productionSlotDisplayName" xml:space="preserve">
+    <value>production</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR Affinity</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Remote debugging</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Remote Visual Studio version</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Newest</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32-bit</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64-bit</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Integrated</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>View properties of your app.</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Backups</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Use Backup and Restore to easily create automatic or manual backups.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>All settings</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>View all App Service settings.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Code Deployment</value>
+  </data>
+  <data name="feature_deploymentSlotsName" xml:space="preserve">
+    <value>Deployment Slots</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Development tools</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Networking</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Securely access resources through VNET Integration and Hybrid Connections.</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Configure SSL bindings for your app using either a certificate you purchased externally or an App Service Certificate.</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Custom domains</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Configure and purchase custom domain names.</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Authentication / Authorization</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Managed service identity (Preview)</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Push notifications</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Diagnostic logs</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Configure where and when to log application and server events.</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Log streaming</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>View real-time application logs.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Process explorer</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>View details on application processes, memory usage, and CPU utilization.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Security scanning</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Enable security scanning for your app with Tinfoil Security.</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Monitoring</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Configure Cross-Origin Resource Sharing (CORS) rules for your app.</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>API definition</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>Configure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>An App Service plan is the container for your app. The App Service plan settings will determine the location, features, cost and compute resources associated with your app.</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Quotas</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Monitor file system usage quotas.</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Activity log</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>View management operations that have been performed on your app.</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Access control (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Configure Role-Based Access Control (RBAC) for your app.</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Tags are key/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups. </value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Locks</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Lock resources to prevent unexpected changes or deletions.</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Automation script</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Resource management</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Advanced tools (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Use Kudu to inspect environment variables, access the debug console, upload zips, view processes, and more.</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>App Service Editor provides an in-browser editing experience for your code.</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Resource Explorer</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Explore management APIs with Azure Resource Explorer (preview).</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>CORS Rules ({0} defined)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Deployment options configured with {0}</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL certificates</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>WebJobs ({0} defined)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Extensions ({0} installed)</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Platform features</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function app settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>Managing your Function app is not available for this trial.</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>App Service plan</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>App Service plan / pricing tier</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Authorization</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Hybrid connections</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>support request</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>scale</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Connection strings</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Continuous deployment</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>We are not able to access your Azure settings for your function app.</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>First make sure you have proper access to the Azure resource {0}. If you dotTry refreshing the portal to renew your authentication token.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>Please check the storage account connection string in application settings as it appears to be invalid.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>Update the app setting with a valid storage connection string.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is used to host your functions content. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>'{0}' application setting is missing from your app. This setting contains a share name where your function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the functions runtime to handle multiple instances synchronization, log invocation results, and other infrastructure jobs. Your function app will not work correctly without that setting.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>Create the app setting with a valid storage connection string.</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>'{0}' application setting is missing from your app. Without this setting you'll always be running the latest version of the runtime even across major version updates which might contain breaking changes. It's advised to set that value to the current latest major version (~1) and you'll get notified with newer versions for update.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>Azure Storage Account connection string stored in '{0}' is null or empty. This is required to have your function app working.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>Update the app setting with a valid storage connection string.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>Storage account {0} doesn't exist. Deleting the storage account the function app is using will cause the function app to stop working. </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>Update the app setting with a valid existing storage connection string.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>Storage account {0} doesn't support Azure Queues Storage. Functions runtime require queues to work properly. You'll have to delete and recreate your function app with a storage account that supports Azure Queues Storage.</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>There seem to be a problem querying Azure backend for your function app.</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>There seem to be a problem querying Azure backend for your function app.</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>If the problem persists, contact support with the following code {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>We are not able to retrieve the list of functions for this function app.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>We are not able to create function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>We are not able to delete the file {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>We are not able to delete function '{0}'. Please try again later.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>We are not able to get the content for {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>We are not able to retrieve your functions right now. Please try again later.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>We are not able to retrieve secrets file for {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>We are not able to save the content for {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>We are not able to retrieve directory content for your function. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>We are unable to get the content for function '{0}'. Please try again later.</value>
+  </data>
+  <data name="error_unableToSaveFunction" xml:space="preserve">
+    <value>We are unable to save the content for function '{0}'.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>We are unable to retrieve the runtime config. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>We are not able to retrieve the runtime master key. Please try again later.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>We are not able to update function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>The function runtime is unable to start.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>We are not able to delete the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>We are not able to renew the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>We are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>The application is offline. Please check your internet connection.</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>ACTIONS</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>go to the quickstart</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>There are no query parameters</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Are you sure you want to delete your API definition?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>External URL</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Read the feature overview</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Check out our getting started tutorial</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Function (preview)</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>API definition key</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Load API definition</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Generate API definition template</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Export to PowerApps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Cannot save malformed API definition.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Set external definition URL</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>API definition source</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Function API definition (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>API definition URL</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Use your API definition</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>API definition</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>We are unable to update the runtime config. Please try again later.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Revert to last save</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Configure App Service Authentication / Authorization</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Click "Generate API definition template" to get started</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Are you sure you want to overwrite the API definition in the editor?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Use your API definition to access your Functions from within &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; and &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Create a sparse definition with the metadata from your HTTP triggered functions.
+Fill in the &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;operation objects&lt;/a&gt;, and other information about your API before use.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>This key secures your API Definition from access to anyone without the key.
+It does not secure the underlying API. See each Function to see their key security.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Set to "Function" to enable a hosted API definition and template definition generation.
+Set to "External URL" to use an API definition that is hosted elsewhere.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Use this URL to directly access your API definition and import into 3rd party tools </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Change the edit mode of your function app</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Function app edit mode</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Read Only</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Read/Write</value>
+  </data>
+  <data name="validation_decimalFormatError" xml:space="preserve">
+    <value>Please enter a valid decimal value with format 'ddd.dd'.</value>
+  </data>
+  <data name="validation_decimalRangeValueError" xml:space="preserve">
+    <value>Value must be an decimal in the range of {{min}} to {{max}}</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Duplicate values are not allowed</value>
+  </data>
+  <data name="validation_error" xml:space="preserve">
+    <value>ERROR</value>
+  </data>
+  <data name="validation_linuxAppSettingNameError" xml:space="preserve">
+    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="validation_routingTotalPercentError" xml:space="preserve">
+    <value>Sum of routing percentage value of all rules must be less than or equal to 100.0</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>The name must be at least 2 characters</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>The name must be fewer than 60 characters</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>'{0}' is an invalid character</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>The app name '{0}' is not available</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>We are unable to update your function app's edit mode. Please try again later.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+  </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Get function URL</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Download app content</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Are you sure you want to renew {{name}} key?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions are an event-based serverless compute experience to accelerate your development. Scale based on demand and pay only for the resources you consume.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Learn more about azure functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Event Hub</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Not found.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>No function apps to display</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Enable deployment slots (preview).</value>
+  </data>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Known issues:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Manage'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>node for each function.</value>
+  </data>
+  <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
+    <value>A slot create operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
+  </data>
+  <data name="slotNew" xml:space="preserve">
+    <value>Add Slot</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Create a new deployment slot</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Creating new slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Successfully created slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Failed to create slot {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Unable to upate the list of slots</value>
+  </data>
+  <data name="slotNew_quotaReached" xml:space="preserve">
+    <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
+  </data>
+  <data name="slotNew_quotaUpgrade" xml:space="preserve">
+    <value>Please upgrade your plan.</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either.</value>
+  </data>
+  <data name="slots_upgrade" xml:space="preserve">
+    <value>Upgrade to a standard or premium plan to add slots.</value>
+  </data>
+  <data name="slots_description" xml:space="preserve">
+    <value>Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</value>
+  </data>
+  <data name="slotsDiff_settingHeader" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="slotsDiff_typeHeader" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="slotsDiff_oldValueHeader" xml:space="preserve">
+    <value>Old Value</value>
+  </data>
+  <data name="slotsDiff_newValueHeader" xml:space="preserve">
+    <value>New Value</value>
+  </data>
+  <data name="slotsList_noSlots" xml:space="preserve">
+    <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App service plan</value>
+  </data>
+  <data name="slotsList_trafficPercentHeader" xml:space="preserve">
+    <value>Traffic %</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>For a richer monitoring experience, including live metrics and custom queries:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>configure Application Insights for your function app</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Search functions</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Delete function</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Manage application settings</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT hub</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Events (built-in endpoint)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Operations monitoring</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>The proxies.json schema validation failed. Error: '{0}'.</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(hub policy)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(namespace policy)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>App setting is not found.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>show value</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Add app setting</value>
+  </data>
+  <data name="storage_add" xml:space="preserve">
+    <value>Add storage account connection string</value>
+  </data>
+  <data name="storage_accountName" xml:space="preserve">
+    <value>Account name</value>
+  </data>
+  <data name="storage_accountKey" xml:space="preserve">
+    <value>Account key</value>
+  </data>
+  <data name="storage_appSettingName" xml:space="preserve">
+    <value>storage account connection string name</value>
+  </data>
+  <data name="storage_appSettingName_empty_text" xml:space="preserve">
+    <value>Enter a name for storage account connection string</value>
+  </data>
+  <data name="storage_endpoint" xml:space="preserve">
+    <value>Storage endpoints domain</value>
+  </data>
+  <data name="storage_endpoint_azure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+  </data>
+  <data name="storage_endpoint_other" xml:space="preserve">
+    <value>Other(specify bellow)</value>
+  </data>
+  <data name="storage_endpoint_empty_text" xml:space="preserve">
+    <value>Enter storage endpoints domain</value>
+  </data>
+  <data name="sql_add" xml:space="preserve">
+    <value>Add Sql connection string</value>
+  </data>
+  <data name="sql_endpoint" xml:space="preserve">
+    <value>SQL Server endpoint</value>
+  </data>
+  <data name="sql_database_name" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="sql_user_name" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="sql_password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Include app settings in the download</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>This will include a file called local.settings.json which will contain your app settings values. This file will not be encrypted on download, but can be encrypted using the Azure Functions Core Tools command line.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Site content</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Content and Visual Studio project</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>retrieve</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Delete proxy</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>New proxy</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>No override</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Express AAD Registration</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>You need to add Event Grid subscription after function creation.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Manage Event Grid subscriptions</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Add Event Grid subscription</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>All locations</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} locations</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Group by location</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>No grouping</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Group by resource group</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Group by subscription</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>South Central US</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>North Europe</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>West Europe</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Southeast Asia</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Korea Central</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Korea South</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>West US</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>East US</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Japan West</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Japan East</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>East Asia</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>East US 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>North Central US</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Central US</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Brazil South</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Australia East</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Southeast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>West India</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Central India</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>South India</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Canada Central</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Canada East</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>West Central US</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>UK West</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>UK South</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>West US 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>All resource groups</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Resource Group:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} resource groups</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Status code</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Status message</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Request override</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Response override</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="gitCloneUri" xml:space="preserve">
+    <value>Git Clone Uri</value>
+  </data>
+  <data name="rollbackEnabled" xml:space="preserve">
+    <value>Rollback Enabled</value>
+  </data>
+  <data name="scmType" xml:space="preserve">
+    <value>Source Control Type</value>
+  </data>
+  <data name="redeploy" xml:space="preserve">
+    <value>Redeploy</value>
+  </data>
+  <data name="activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="showLogs" xml:space="preserve">
+    <value>Show Logs...</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="commitIdAuthor" xml:space="preserve">
+    <value>Commit ID (Author)</value>
+  </data>
+  <data name="checkinMessage" xml:space="preserve">
+    <value>Checkin Message</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Click to hide</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps allow you to easily utilize your function across multiple platforms</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>Associated Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Orchestrate with Logic Apps</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Create Logic Apps</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>No Logic Apps to display</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Expand or Collapse</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App service Authentication / Authorization:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Configure AAD now</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Add permissions now</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>configured</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Identity requirements (not satisfied)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>not configured</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Required permissions</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>The template needs the following permission:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>This integration requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>This template requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>You may need to configure any additional permissions you function requires. Please see the documentation for this binding.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Manage App Service Authentication / Authorization</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Auth configuration required</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Identity requirements</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>We are not able to get the list of installed runtime extensions</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to install runtime extension {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to uninstall runtime extension {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Installing runtime extensions is taking longer than expected</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>The extension {{extensionId}} with a different version is already installed</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Open Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>App Insights is enabled for your function.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>No Monitoring data to display</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Extension Installation Succeeded</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Extensions not Installed</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>This integration requires the following extensions.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>This template requires the following extensions.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>We are not able to install runtime extension. Install id {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Enter value in GB-sec</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Notification Hub</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java Functions can be built, tested and deployed locally from your machine. No portal required!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Click below to get started with documentation on how to build your first Azure Function with Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxies has been enabled. To disable again, delete or disable all individual proxies.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Java on Azure Functions Quickstart</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Search by trigger, language, or description</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>hide value</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is located in the same subscription as Function App.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Start of row</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>End of row</value>
+  </data>
+  <data name="appFunctionSettings_warning_6" xml:space="preserve">
+    <value>Cannot Upgrade with Existing Functions</value>
+  </data>
+  <data name="appFunctionSettings_warning_7" xml:space="preserve">
+    <value>Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
+  </data>
+  <data name="warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="authorizedAs" xml:space="preserve">
+    <value>Authorized as:</value>
+  </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="authorize" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="changeAuthorization" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="branch" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="repoType" xml:space="preserve">
+    <value>Repository Type</value>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="vstsAccount" xml:space="preserve">
+    <value>Visual Studio Team Service Account</value>
+  </data>
+  <data name="project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="loadTest" xml:space="preserve">
+    <value>Load Test</value>
+  </data>
+  <data name="slot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
+  <data name="production" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="entityColon" xml:space="preserve">
+    <value>Entity:</value>
+  </data>
+  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
+    <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>
+  </data>
+  <data name="deployedSuccessfullyTo" xml:space="preserve">
+    <value>Deployed Successfully to {0}</value>
+  </data>
+  <data name="deployedFailedTo" xml:space="preserve">
+    <value>Failed to deploy to {0}</value>
+  </data>
+  <data name="swapWithPreviewLabel" xml:space="preserve">
+    <value>Perform swap with preview</value>
+  </data>
+  <data name="swapPhaseOneLabel" xml:space="preserve">
+    <value>Start the swap</value>
+  </data>
+  <data name="swapPhaseTwoLabel" xml:space="preserve">
+    <value>Review + complete the swap</value>
+  </data>
+  <data name="swapOperationInProgressWarning" xml:space="preserve">
+    <value>A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
+  </data>
+  <data name="swapOperation" xml:space="preserve">
+    <value>{{swapType}} between slot {{srcSlot}} and slot {{destSlot}}</value>
+  </data>
+  <data name="swapFull" xml:space="preserve">
+    <value>swap</value>
+  </data>
+  <data name="swapPhaseOne" xml:space="preserve">
+    <value>phase one of swap</value>
+  </data>
+  <data name="swapPhaseTwo" xml:space="preserve">
+    <value>phase two of swap</value>
+  </data>
+  <data name="swapStarted" xml:space="preserve">
+    <value>Performing {{operation}}</value>
+  </data>
+  <data name="swapSuccess" xml:space="preserve">
+    <value>Successfully completed {{operation}}</value>
+  </data>
+  <data name="swapFailure" xml:space="preserve">
+    <value>Failed to complete {{operation}}. Error: {{error}}</value>
+  </data>
+  <data name="swapCancelStarted" xml:space="preserve">
+    <value>Cancelling {{operation}}</value>
+  </data>
+  <data name="swapCancelSuccess" xml:space="preserve">
+    <value>Successfully cancelled {{operation}}</value>
+  </data>
+  <data name="swapCancelFailure" xml:space="preserve">
+    <value>Failed to cancel {{operation}}. Error: {{error}}</value>
+  </data>
+  <data name="swappedSlotSuccess" xml:space="preserve">
+    <value>Swapped slot {0} with {1}</value>
+  </data>
+  <data name="swappedSlotFail" xml:space="preserve">
+    <value>Failed to swap slot {0} with {1}</value>
+  </data>
+  <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
+    <value>Successfully setup Continuous Delivery and triggered build</value>
+  </data>
+  <data name="setupCDSuccess" xml:space="preserve">
+    <value>Successfully setup Continuous Delivery for the repository</value>
+  </data>
+  <data name="setupCDFail" xml:space="preserve">
+    <value>Failed to setup Continuous Delivery</value>
+  </data>
+  <data name="createVSTSAccountSuccess" xml:space="preserve">
+    <value>Created new Visual Studio Team Services account</value>
+  </data>
+  <data name="createVSTSAccountFail" xml:space="preserve">
+    <value>Failed to create Visual Studio Team Services account</value>
+  </data>
+  <data name="createdNewSlotSuccess" xml:space="preserve">
+    <value>Created new slot</value>
+  </data>
+  <data name="createdNewSlotFail" xml:space="preserve">
+    <value>Failed to create a slot</value>
+  </data>
+  <data name="createTestWebAppSuccess" xml:space="preserve">
+    <value>Created new Web Application for test environment</value>
+  </data>
+  <data name="createTestWebAppFail" xml:space="preserve">
+    <value>Failed to create new Web Application for test environment</value>
+  </data>
+  <data name="disconnectCICDVSOSuccess" xml:space="preserve">
+    <value>Successfully disconnected Continuous Delivery for {0}</value>
+  </data>
+  <data name="appServiceStartSuccess" xml:space="preserve">
+    <value>{0} got started'</value>
+  </data>
+  <data name="appServiceStartFail" xml:space="preserve">
+    <value>Failed to start {0}</value>
+  </data>
+  <data name="appServiceStopSuccess" xml:space="preserve">
+    <value>{0} got stopped'</value>
+  </data>
+  <data name="appServiceStopFail" xml:space="preserve">
+    <value>Failed to stop {0}</value>
+  </data>
+  <data name="appServiceRestartSuccess" xml:space="preserve">
+    <value>{0} got restarted'</value>
+  </data>
+  <data name="appServiceRestartFail" xml:space="preserve">
+    <value>Failed to restart {0}</value>
+  </data>
+  <data name="vsoSync" xml:space="preserve">
+    <value>Successfully triggered Continuous Delivery with latest source code from repository</value>
+  </data>
+  <data name="buildDefinition" xml:space="preserve">
+    <value>Build Definition</value>
+  </data>
+  <data name="releaseDefinition" xml:space="preserve">
+    <value>Release Definition</value>
+  </data>
+  <data name="buildTriggered" xml:space="preserve">
+    <value>Build Triggered</value>
+  </data>
+  <data name="webApp" xml:space="preserve">
+    <value>Web App</value>
+  </data>
+  <data name="slot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
+  <data name="vsoAccount" xml:space="preserve">
+    <value>Visual Studio Online Account</value>
+  </data>
+  <data name="viewInstructions" xml:space="preserve">
+    <value>View Instructions</value>
+  </data>
+  <data name="buildUrl" xml:space="preserve">
+    <value>Build: {0}</value>
+  </data>
+  <data name="releaseUrl" xml:space="preserve">
+    <value>Release: {0}</value>
+  </data>
+  <data name="deploymentCenter" xml:space="preserve">
+    <value>Deployment Center</value>
+  </data>
+  <data name="sourceControl" xml:space="preserve">
+    <value>Source Control</value>
+  </data>
+  <data name="buildProvider" xml:space="preserve">
+    <value>Build Provider</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="deploy" xml:space="preserve">
+    <value>Deploy</value>
+  </data>
+  <data name="summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="experimentalLanguageSupport" xml:space="preserve">
+    <value>Experimental Language Support:</value>
+  </data>
+  <data name="sourceProvider" xml:space="preserve">
+    <value>Source Provider</value>
+  </data>
+  <data name="onedriveDesc" xml:space="preserve">
+    <value>Sync content from a OneDrive cloud folder.</value>
+  </data>
+  <data name="githubDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Github repo.</value>
+  </data>
+  <data name="vstsDesc" xml:space="preserve">
+    <value>Configure continuous integration with a VSTS repo.</value>
+  </data>
+  <data name="externalDesc" xml:space="preserve">
+    <value>Deploy from a public Git or Mercurial repo.</value>
+  </data>
+  <data name="bitbucketDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Bitbucket repo.</value>
+  </data>
+  <data name="localGitDesc" xml:space="preserve">
+    <value>Deploy from a local Git repo.</value>
+  </data>
+  <data name="dropboxDesc" xml:space="preserve">
+    <value>Sync content from a Dropbox cloud folder.</value>
+  </data>
+  <data name="temp_category_durableFunctions" xml:space="preserve">
+    <value>Durable Functions</value>
+  </data>
+  <data name="DurableFunctionsActivity_description" xml:space="preserve">
+    <value>A function that will be run whenever an Activity is called by an orchestrator function.</value>
+  </data>
+  <data name="DurableFunctionsOrchestrator_description" xml:space="preserve">
+    <value>An orchestrator function that invokes activity functions in a sequence.</value>
+  </data>
+  <data name="DurableFunctionsHttpStart_description" xml:space="preserve">
+    <value>A function that will trigger whenever it receives an HTTP request to execute an orchestrator function.</value>
+  </data>
+  <data name="functionsPreviewTitle" xml:space="preserve">
+    <value>Functions (Preview)</value>
+  </data>
+  <data name="readOnlyRunFromZip" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you are using Run-From-Zip. When using Run-From-Zip, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_USE_ZIP app setting.</value>
+  </data>
+  <data name="diagnostics_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="diagnostics_column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="diagnostics_description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="diagnostics_errorsAndWarnings" xml:space="preserve">
+    <value>Errors and warnings</value>
+  </data>
+  <data name="diagnostics_file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="diagnostics_line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Recommended pricing tiers</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Additional pricing tiers</value>
+  </data>
+  <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
+    <value>Your subscription does not allow this pricing tier</value>
+  </data>
+  <data name="pricing_devTestTitle" xml:space="preserve">
+    <value>Dev / Test</value>
+  </data>
+  <data name="pricing_devTestDesc" xml:space="preserve">
+    <value>For less demanding workloads</value>
+  </data>
+  <data name="pricing_productionTitle" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="pricing_productionDesc" xml:space="preserve">
+    <value>For most production workloads</value>
+  </data>
+  <data name="pricing_isolatedTitle" xml:space="preserve">
+    <value>Isolated</value>
+  </data>
+  <data name="pricing_isolatedDesc" xml:space="preserve">
+    <value>Advanced networking and scale</value>
+  </data>
+  <data name="pricing_notAvailableConsumption" xml:space="preserve">
+    <value>Scale up is not available for consumption plans</value>
+  </data>
+  <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
+    <value>You must have write permissions to scale up this plan</value>
+  </data>
+  <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
+    <value>You must have write permissions on the plan '{0}' to update it</value>
+  </data>
+  <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
+    <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
+  </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Updating App Service Plan</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Updating the plan {0}</value>
+  </data>
+  <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
+    <value>The plan '{0}' was updated successfully!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Successfully submitted job to scale the plan '{0}'.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>A scale operation is currently in progress for the plan '{0}'.  Please wait for the operation to complete before scaling again.</value>
+  </data>
+  <data name="pricing_planUpdateFailFormat" xml:space="preserve">
+    <value>Failed to update the plan '{0}'</value>
+  </data>
+  <data name="pricing_includedFeatures" xml:space="preserve">
+    <value>Included features</value>
+  </data>
+  <data name="pricing_includedFeaturesDesc" xml:space="preserve">
+    <value>Every app hosted on this App Service plan will have access to these features:</value>
+  </data>
+  <data name="pricing_includedHardware" xml:space="preserve">
+    <value>Included hardware</value>
+  </data>
+  <data name="pricing_includedHardwareDesc" xml:space="preserve">
+    <value>Every instance of your App Service plan will include the following hardware configuration:</value>
+  </data>
+  <data name="pricing_linuxAseDiscount" xml:space="preserve">
+    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
+  </data>
+  <data name="pricing_linuxTrial" xml:space="preserve">
+    <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
+  </data>
+  <data name="pricing_windowsContainers" xml:space="preserve">
+    <value>Windows containers are billed at a 50% discount while in preview.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
+    <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Production pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
+  </data>
+  <data name="pricing_pv2NotAvailable" xml:space="preserve">
+    <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Scale up</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/Hour (Estimated)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Choose a different pricing tier to add more resources for your plan</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Update App Service plan</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Shared insfrastructure</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Memory available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Custom domains / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI SSL bindings</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Manual scale</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Auto scale</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Scale to a large number of instances</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Up to 100 instances.  More allowed upon request.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Up to {0} instances.  Subject to availability.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Staging slots</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Daily backup</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Daily backups</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Backup your app {0} times daily.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Single tenant system</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Take more control over the resources being used by your app.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Isolated network</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Runs within your own virtual network.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Private app access</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB memory</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minutes/day compute</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} cores</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A-Series compute</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2-Series compute</value>
+  </data>
+  <data name="proxyJsonInvalid" xml:space="preserve">
+    <value>The proxies.json is not valid. Error: '{0}'.</value>
+  </data>
+  <data name="schemaJsonInvalid" xml:space="preserve">
+    <value>The proxies schema is not valid. Error: '{0}'.</value>
+  </data>
+  <data name="operationId" xml:space="preserve">
+    <value>Operation Id</value>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Date (UTC)</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="resultCode" xml:space="preserve">
+    <value>Result Code</value>
+  </data>
+  <data name="triggerReason" xml:space="preserve">
+    <value>Trigger Reason</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="runInAppInsights" xml:space="preserve">
+    <value>Run in Application Insights</value>
+  </data>
+  <data name="appInsightsInstance" xml:space="preserve">
+    <value>Application Insights Instance</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="duration" xml:space="preserve">
+    <value>Duration (ms)</value>
+  </data>
+  <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
+    <value>Success count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
+    <value>Error count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Query returned {0} items</value>
+  </data>
+  <data name="functionMonitor_message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="functionMonitor_itemCount" xml:space="preserve">
+    <value>Item Count</value>
+  </data>
+  <data name="functionMonitor_logLevel" xml:space="preserve">
+    <value>Log Level</value>
+  </data>
+  <data name="vstsBuildServerTitle" xml:space="preserve">
+    <value>VSTS build server</value>
+  </data>
+  <data name="vstsBuildServerDesc" xml:space="preserve">
+    <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
+  </data>
+  <data name="kuduTitle" xml:space="preserve">
+    <value>App Service Kudu build server</value>
+  </data>
+  <data name="kuduDesc" xml:space="preserve">
+    <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
+  </data>
+  <data name="build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="selectAccount" xml:space="preserve">
+    <value>Select Account</value>
+  </data>
+  <data name="enterAccountName" xml:space="preserve">
+    <value>Enter Account Name</value>
+  </data>
+  <data name="selectProject" xml:space="preserve">
+    <value>Select Project</value>
+  </data>
+  <data name="webAppFramework" xml:space="preserve">
+    <value>Web Application Framework</value>
+  </data>
+  <data name="selectFramework" xml:space="preserve">
+    <value>Select Framework</value>
+  </data>
+  <data name="workingDirectory" xml:space="preserve">
+    <value>Working Directory</value>
+  </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>There is an operation in progress.  Are you sure you would like leave?</value>
+  </data>
+  <data name="taskRunner" xml:space="preserve">
+    <value>Task Runner</value>
+  </data>
+  <data name="pythonFramework" xml:space="preserve">
+    <value>Python Framework</value>
+  </data>
+  <data name="pythonVersion" xml:space="preserve">
+    <value>Python Version</value>
+  </data>
+  <data name="djangoSettings" xml:space="preserve">
+    <value>Django Settings Module</value>
+  </data>
+  <data name="flaskProjectName" xml:space="preserve">
+    <value>flaskProjectName</value>
+  </data>
+  <data name="new" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="existing" xml:space="preserve">
+    <value>Existing</value>
+  </data>
+  <data name="selectRepo" xml:space="preserve">
+    <value>Select Respository</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
+  <data name="selectBranch" xml:space="preserve">
+    <value>Select branch</value>
+  </data>
+  <data name="deployment" xml:space="preserve">
+    <value>Deployment</value>
+  </data>
+  <data name="enableDeploymentSlot" xml:space="preserve">
+    <value>Enable Deployment Slot</value>
+  </data>
+  <data name="deploymentSlot" xml:space="preserve">
+    <value>Deployment Slot</value>
+  </data>
+  <data name="enterDSName" xml:space="preserve">
+    <value>Enter Deployment Slot Name</value>
+  </data>
+  <data name="selectExistingSlot" xml:space="preserve">
+    <value>Select Slot</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="loadTesting" xml:space="preserve">
+    <value>Load Testing</value>
+  </data>
+  <data name="enableLoadTesting" xml:space="preserve">
+    <value>Enable Load Testing</value>
+  </data>
+  <data name="appName" xml:space="preserve">
+    <value>App Name</value>
+  </data>
+  <data name="pricingTier" xml:space="preserve">
+    <value>Pricing Tier</value>
+  </data>
+  <data name="deploymentCenterTitle" xml:space="preserve">
+    <value>Deployment Center (Preview)</value>
+  </data>
+  <data name="deploymentCenterDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
+  <data name="monitorHostFetchFailed" xml:space="preserve">
+    <value>The call to get Host information failed.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Configure Application Insights to capture invocation logs</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Switch to classic view</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configuration Instructions</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Invocation traces</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Results may be delayed for up to 5 minutes.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Drag a file here or</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>browse</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>to upload</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>View metrics and setup alerts.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP access</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Validating...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>The account name supplied is not valid. Please supply another account name.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS Only</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+   <data name="username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+   <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+   <data name="confirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+   <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

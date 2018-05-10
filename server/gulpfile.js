@@ -26,6 +26,7 @@ gulp.task('build-all', function (cb) {
         'build-templates',
         'build-bindings',
         'resx-to-typescript-models',
+        'list-numeric-versions',
         'resources-clean',
         cb
     );
@@ -406,6 +407,18 @@ gulp.task('unzip-templates', function () {
     return gulpMerge(streams);
 });
 
+gulp.task("list-numeric-versions", function () {
+    // Checks version matches patter x.x with unlimited .x and x being any numeric value
+    const regex = /\d+(?:\.\d+)*/;
+    const templateKeys = Object.keys(templateVersionMap);
+    const templateVersions = templateKeys.filter(x => regex.test(x));
+    let writePath = path.join(__dirname, 'src', 'actions', 'data');
+    if (!fs.existsSync(writePath)) {
+        fs.mkdirSync(writePath);
+    }
+    writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
+    fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
+});
 /********
  * UTILITIES
  */
