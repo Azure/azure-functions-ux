@@ -73,7 +73,7 @@ export class FunctionAppService {
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
-                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, true, this.headers(info.token));
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
                 }
             })
             .map(r => r.json());
@@ -261,7 +261,7 @@ export class FunctionAppService {
 
                     return this._cacheService.get(
                         `${Constants.cdnHost}api/templates?runtime=${(extensionVersion || 'latest')}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-                        true,
+                        false,
                         headers);
                 })
                 .map(r => {
@@ -288,7 +288,7 @@ export class FunctionAppService {
 
     getFunctionAppAzureAppSettings(context: FunctionAppContext) {
         return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
-            this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)
+            this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, false)
                 .map(r => r.json() as ArmObj<{ [key: string]: string }>));
     }
 
@@ -780,7 +780,7 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], { resourceId: context.site.id },
             Observable.zip(
                 this.isSourceControlEnabled(context),
-                this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)),
+                this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, false)),
                 this.isSlot(context)
                     ? Observable.of({ isSuccessful: true, result: true, error: null })
                     : this.getSlotsList(context).map(r => r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r),
