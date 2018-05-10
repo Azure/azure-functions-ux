@@ -17,6 +17,7 @@ import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { SiteService } from '../shared/services/site.service';
 
 declare var marked: any;
 
@@ -59,6 +60,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
     constructor(@Inject(ElementRef) elementRef: ElementRef,
         broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _translateService: TranslateService,
@@ -116,7 +118,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
             .switchMap(viewInfo => {
                 // TODO: [alrod] handle error
                 this._functionInfo = viewInfo.functionInfo.result;
-                return this._functionAppService.getFunctionAppAzureAppSettings(viewInfo.context);
+                return this._siteService.getAppSettings(viewInfo.context.site.id);
             })
             .subscribe(appSettingsResult => {
                 // TODO: [alrod] handle error

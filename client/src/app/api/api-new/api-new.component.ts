@@ -15,6 +15,7 @@ import { FunctionInfo } from '../../shared/models/function-info';
 import { errorIds } from '../../shared/models/error-ids';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 import { NavigableComponent } from '../../shared/components/navigable-component';
+import { SiteService } from '../../shared/services/site.service';
 
 @Component({
     selector: 'api-new',
@@ -55,6 +56,7 @@ export class ApiNewComponent extends NavigableComponent {
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         fb: FormBuilder,
         injector: Injector) {
         super('api-new', injector, DashboardType.CreateProxyDashboard);
@@ -94,7 +96,7 @@ export class ApiNewComponent extends NavigableComponent {
                         return Observable.zip(
                             this._functionAppService.getFunctions(context),
                             this._functionAppService.getApiProxies(context),
-                            this._functionAppService.getFunctionAppAzureAppSettings(context),
+                            this._siteService.getAppSettings(context.site.id),
                             (f, p, a) => ({ fcs: f, proxies: p, appSettings: a, context: context }));
                     });
             })

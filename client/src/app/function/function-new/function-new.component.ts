@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ScenarioService } from '../../shared/services/scenario/scenario.service';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
+import { SiteService } from '../../shared/services/site.service';
 
 interface CategoryOrder {
     name: string;
@@ -132,7 +133,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _logService: LogService,
-        private _functionAppService: FunctionAppService) {
+        private _functionAppService: FunctionAppService,
+        private _siteService: SiteService) {
         super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
@@ -155,7 +157,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 return Observable.zip(
                     this._functionAppService.getFunctions(this.context),
                     this._functionAppService.getRuntimeGeneration(this.context),
-                    this._functionAppService.getFunctionAppAzureAppSettings(this.context),
+                    this._siteService.getAppSettings(this.context.site.id),
                     this._functionAppService.getBindingConfig(this.context),
                     this._functionAppService.getTemplates(this.context));
             })

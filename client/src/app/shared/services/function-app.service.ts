@@ -286,12 +286,6 @@ export class FunctionAppService {
                 .map(r => r.json()));
     }
 
-    getFunctionAppAzureAppSettings(context: FunctionAppContext) {
-        return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
-            this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, false)
-                .map(r => r.json() as ArmObj<{ [key: string]: string }>));
-    }
-
     createFunctionV2(context: FunctionAppContext, functionName: string, files: any, config: any) {
         const filesCopy = Object.assign({}, files);
         const sampleData = filesCopy['sample.dat'];

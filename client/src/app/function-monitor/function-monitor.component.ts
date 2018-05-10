@@ -14,6 +14,7 @@ import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInsightsService } from '../shared/services/application-insights.service';
+import { SiteService } from '../shared/services/site.service';
 
 @Component({
     selector: ComponentNames.functionMonitor,
@@ -29,6 +30,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
 
     constructor(
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         private _scenarioService: ScenarioService,
         private _translateService: TranslateService,
         private _applicationInsightsService: ApplicationInsightsService,
@@ -62,7 +64,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
             .switchMap(tuple => Observable.zip(
                 Observable.of(tuple[0]),
                 this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
-                this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
+                this._siteService.getAppSettings(tuple[0].site.id),
                 this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
             ))
             .map((tuple): FunctionMonitorInfo => ({
