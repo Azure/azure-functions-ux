@@ -8,13 +8,18 @@ import { Component, Input } from '@angular/core';
 })
 export class InfoBoxComponent {
 
+    private static _dismissedIds: { [key: string]: boolean } = {};
+    private _dismissId: string;
+
+    public typeClass = 'info';
+    public iconPath = 'image/info.svg';
+    public dismissed = false;
+
     @Input() infoText: string = null;
     @Input() infoLink: string = null;
     @Input() infoActionFn: () => void = null;
     @Input() infoActionIcon: string = null;
-
-    public typeClass = 'info';
-    public iconPath = 'image/info.svg';
+    @Input() dismissable = false;
 
     @Input('typeClass') set type(value: 'info' | 'warning' | 'error') {
         switch (value) {
@@ -33,8 +38,21 @@ export class InfoBoxComponent {
         }
     }
 
+    @Input('dismissId') set id(value: string) {
+        this.dismissed = InfoBoxComponent._dismissedIds && InfoBoxComponent._dismissedIds[value];
+        this._dismissId = value;
+    }
+
     onClick(event: any) {
         this._invoke();
+    }
+
+    onDismiss() {
+        this.dismissed = true;
+
+        if (this._dismissId) {
+            InfoBoxComponent._dismissedIds[this._dismissId] = true;
+        }
     }
 
     onKeyPress(event: KeyboardEvent) {

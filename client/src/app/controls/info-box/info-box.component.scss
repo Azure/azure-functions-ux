@@ -1,67 +1,75 @@
-@import '../../../sass/common/variables';
+@import "../../../sass/common/variables";
 
-.info-box{
-    margin-bottom: 10px;
+.info-box {
+  margin-bottom: 10px;
 
-    .info-icon-container{
-        display: table-cell;
-        vertical-align: middle;
+  .info-icon-container {
+    display: table-cell;
+    vertical-align: middle;
 
-        .info-icon{
-            height: 30px;
-            width: 30px;
-            padding: 5px;
-        }
+    .info-icon {
+      height: 30px;
+      width: 30px;
+      padding: 5px;
     }
+  }
 
-    .info-text-container{
-        display: table-cell;
-        width: 100%;
-        vertical-align: middle;
-        padding: 10px;
-        color: $body-bg-color-dark;
-    }
+  .info-text-container {
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    padding: 10px;
+    color: $body-bg-color-dark;
+  }
 
-    .info-link-container{
-        display: table-cell;
-        vertical-align: top;
-        padding-top: 5px;
-        padding-right: 5px;
-    }
+  .info-link-container {
+    display: table-cell;
+    vertical-align: top;
+    padding-top: 5px;
+    padding-right: 5px;
+  }
+
+  .info-dismiss-container {
+    display: table-cell;
+    vertical-align: top;
+    padding-top: 10px;
+    padding-right: 10px;
+  }
 }
 
-.info-box.info{
-    background-color: $info-box-color;
-    
-    &.clickable:hover{
-        background-color: $info-box-color-hover;
-    }
+.info-box.info {
+  background-color: $info-box-color;
+
+  &.clickable:hover {
+    background-color: $info-box-color-hover;
+  }
 }
 
-.info-box.info /deep/ .msportalfx-svg-c15, .info-box.info /deep/ .msportalfx-svg-c16 {
-    fill: $primary-color;
+.info-box.info /deep/ .msportalfx-svg-c15,
+.info-box.info /deep/ .msportalfx-svg-c16 {
+  fill: $primary-color;
 }
 
-.info-box.warning{
-    background-color: $warning-box-color;
-    
-    &.clickable:hover{
-        background-color: $warning-box-color-hover;
-    }
+.info-box.warning {
+  background-color: $warning-box-color;
+
+  &.clickable:hover {
+    background-color: $warning-box-color-hover;
+  }
 }
 
 .info-box.warning /deep/ .msportalfx-svg-c10 {
-    fill: $warning-color;
+  fill: $warning-color;
 }
 
-.info-box.error{
-    background-color: $error-box-color;
-    
-    &.clickable:hover{
-        background-color: $error-box-color-hover;
-    }
+.info-box.error {
+  background-color: $error-box-color;
+
+  &.clickable:hover {
+    background-color: $error-box-color-hover;
+  }
 }
 
 .info-box.error /deep/ .msportalfx-svg-c22 {
-    fill: $error-color;
+  fill: $error-color;
 }

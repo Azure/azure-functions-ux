@@ -7,10 +7,11 @@ import { LoadImageDirective } from '../load-image/load-image.directive';
 import { Component, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { KeyCodes } from '../../shared/models/constants';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: `app-info-box-host-component`,
-    template: `<info-box [infoText]="infoText" [infoLink]="infoLink" [infoActionFn]="infoActionFn" [typeClass]="type"></info-box>`
+    template: `<info-box [infoText]="infoText" [infoLink]="infoLink" [infoActionFn]="infoActionFn" [typeClass]="type" [dismissable]="dismissable" [dismissId]="dismissId"></info-box>`
 })
 class TestInfoboxHostComponent {
     @ViewChild(InfoBoxComponent)
@@ -20,6 +21,8 @@ class TestInfoboxHostComponent {
     public infoLink = 'testLink';
     public infoActionFn = null;
     public type: 'info' | 'warning' | 'error' = 'info';
+    public dismissable = false;
+    public dismissId = null;
 }
 
 describe('InfoBox', () => {
@@ -30,7 +33,7 @@ describe('InfoBox', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [InfoBoxComponent, TestInfoboxHostComponent, MockDirective(LoadImageDirective)],
-            imports: [CommonModule]
+            imports: [CommonModule, TranslateModule.forRoot()]
         })
             .compileComponents();
 
@@ -115,6 +118,35 @@ describe('InfoBox', () => {
             expect(clicked).toBeTruthy();
         });
     });
+
+    describe('Dismiss actions', () => {
+        it('should show dismiss link if set to dismissable', () => {
+            hostComponent.dismissable = true;
+            testFixture.detectChanges();
+            const elem = testFixture.debugElement.query(By.css('.info-dismiss-container'));
+            expect(elem).not.toBeNull();
+        });
+
+        it('should dimiss the info box on click of dimiss', () => {
+            hostComponent.dismissable = true;
+            testFixture.detectChanges();
+            const elem = testFixture.debugElement.query(By.css('.info-dismiss-container a'));
+            elem.nativeElement.click();
+            expect(hostComponent.ibComponent.dismissed).toBeTruthy();
+        });
+
+        it('should dimiss the info box if dismissId is set', () => {
+            hostComponent.dismissable = true;
+            hostComponent.dismissId = 'id1';
+            testFixture.detectChanges();
+            const elem = testFixture.debugElement.query(By.css('.info-dismiss-container a'));
+            elem.nativeElement.click();
+            expect(infoboxComponent.dismissed).toBeTruthy();
+            expect(InfoBoxComponent['_dismissedIds']).not.toBeNull();
+            expect(InfoBoxComponent['_dismissedIds']['id1']).toBeTruthy();
+        });
+    });
+
     describe('Misc Events', () => {
         it('non enter keycode should do nothing', () => {
             hostComponent.infoLink = 'testEnterLink';
