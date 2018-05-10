@@ -36,6 +36,7 @@ import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
 import { Templates } from './../../function/embedded/temp-templates';
+import { SiteService } from './site.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -50,6 +51,7 @@ export class FunctionAppService {
         private _injector: Injector,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
+        private _siteService: SiteService,
         logService: LogService,
         injector: Injector) {
 
@@ -774,7 +776,7 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], { resourceId: context.site.id },
             Observable.zip(
                 this.isSourceControlEnabled(context),
-                this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, false)),
+                this._siteService.getAppSettings(context.site.id),
                 this.isSlot(context)
                     ? Observable.of({ isSuccessful: true, result: true, error: null })
                     : this.getSlotsList(context).map(r => r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r),
@@ -782,7 +784,7 @@ export class FunctionAppService {
                 (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f }))
                 .map(result => {
                     const appSettings: ArmObj<{ [key: string]: string }> = result.appSettingsResponse.isSuccessful
-                        ? result.appSettingsResponse.result.json()
+                        ? result.appSettingsResponse.result
                         : null;
 
                     const sourceControlled = result.sourceControlEnabled.isSuccessful &&
