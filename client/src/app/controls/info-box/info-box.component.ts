@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class InfoBoxComponent {
 
-    private static _dismissedIds: { [key: string]: boolean };
+    private static _dismissedIds: { [key: string]: boolean } = {};
     private _dismissId: string;
 
     public typeClass = 'info';
@@ -51,10 +51,6 @@ export class InfoBoxComponent {
         this.dismissed = true;
 
         if (this._dismissId) {
-            if (!InfoBoxComponent._dismissedIds) {
-                InfoBoxComponent._dismissedIds = {};
-            }
-
             InfoBoxComponent._dismissedIds[this._dismissId] = true;
         }
     }
