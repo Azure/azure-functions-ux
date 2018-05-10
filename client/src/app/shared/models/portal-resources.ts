@@ -1117,4 +1117,5 @@
     public static failed = 'failed';
     public static saveCredentials = 'saveCredentials';
     public static resetCredentials = 'resetCredentials';
+    public static httpVersion = 'httpVersion';
 }

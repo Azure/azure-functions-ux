@@ -3484,4 +3484,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="resetCredentials" xml:space="preserve">
     <value>Reset Credentials</value>
   </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
+  </data>
 </root>
