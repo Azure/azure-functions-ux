@@ -19,7 +19,7 @@ import { ApiProxy } from 'app/shared/models/api-proxy';
 import * as jsonschema from 'jsonschema';
 import { VfsObject } from 'app/shared/models/vfs-object';
 import { FunctionTemplate } from 'app/shared/models/function-template';
-import { HttpRunModel } from 'app/shared/models/http-run';
+import { HttpRunModel, Param } from 'app/shared/models/http-run';
 import { FunctionKeys, FunctionKey } from 'app/shared/models/function-key';
 import { BindingConfig, RuntimeExtension } from 'app/shared/models/binding';
 import { HostStatus } from 'app/shared/models/host-status';
@@ -310,7 +310,7 @@ export class FunctionAppService {
         return HttpConstants.statusCodeMap[code] || HttpConstants.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
-    runHttpFunction(context: FunctionAppContext, functionInfo: FunctionInfo, url: string, model: HttpRunModel): Result<RunFunctionResult> {
+    runHttpFunction(context: FunctionAppContext, functionInfo: FunctionInfo, url: string, model: HttpRunModel, key?: Param): Result<RunFunctionResult> {
         return this.runtime.executeWithConditions([], { resourceId: context.site.id }, token => {
             const content = model.body;
 
@@ -337,8 +337,8 @@ export class FunctionAppService {
             }
 
             let queryString = '';
-            if (model.code) {
-                queryString = `?${model.code.name}=${model.code.value}`;
+            if (key) {
+                queryString = `?${key.name}=${key.value}`;
             }
             model.queryStringParams.forEach(p => {
                 const findResult = processedParams.find((pr) => {
