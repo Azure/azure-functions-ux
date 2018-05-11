@@ -33,7 +33,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
-    private _dashboardProviderType: ProviderDashboardType = '';
+    public dashboardProviderType: ProviderDashboardType = '';
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.viewInfo = viewInfo;
@@ -48,7 +48,7 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     public showFTPDashboard = false;
     public showWebDeployDashboard = false;
-
+    sidePanelOpened = false;
     constructor(
         private _authZService: AuthzService,
         private _cacheService: CacheService,
@@ -82,7 +82,7 @@ export class DeploymentCenterComponent implements OnDestroy {
                     this._siteConfigObject = r.siteConfig;
                     this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                     if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
-                        this._dashboardProviderType = 'zip';
+                        this.dashboardProviderType = 'zip';
                     }
                     this._busyManager.clearBusy();
                 },
@@ -100,7 +100,13 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     refreshedSCMType(provider: ProviderDashboardType) {
         if (provider) {
-            this._dashboardProviderType = provider;
+            if (provider === 'reset') {
+                this.dashboardProviderType = '';
+            } else {
+                this.dashboardProviderType = provider;
+                this.sidePanelOpened = true;
+            }
+
         } else {
             this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
             this.viewInfoStream.next(this.viewInfo);
@@ -108,15 +114,15 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     get kuduDeploymentSetup() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM' && !this._dashboardProviderType;
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
     }
 
     get vstsDeploymentSetup() {
-        return this.scmType === 'VSTSRM' && !this._dashboardProviderType;
+        return this.scmType === 'VSTSRM';
     }
 
     get noDeploymentSetup() {
-        return this.scmType === 'None' &&  !this._dashboardProviderType;
+        return this.scmType === 'None';
     }
     get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;

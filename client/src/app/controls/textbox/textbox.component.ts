@@ -14,7 +14,7 @@ export class TextboxComponent implements OnInit {
   @Input() highlightDirty: boolean;
   @Input() readonly: boolean;
   @Input() disabled: boolean;
-
+  @Input() type: 'text' | 'password' = 'text';
   @Output() change: Subject<string>;
   @Output() value: Subject<string>;
 

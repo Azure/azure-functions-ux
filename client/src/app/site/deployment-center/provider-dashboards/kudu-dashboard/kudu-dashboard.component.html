@@ -1,10 +1,10 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
-      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
+      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/restart.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="syncScm()"></command>
-      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/Functions.svg" (click)="syncScm()"></command>
+      <command displayText="{{ 'sync' | translate }}" iconUrl="image/swap.svg" (click)="syncScm()"></command>
+      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/reset.svg" (click)="showDeploymentCredentials()"></command>
     </command-bar>
 
     <div id="essentials-container">
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <div class="browse-container">
+    <div class="list-container">
       <tbl [items]="tableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
         <tr>
           <th>
@@ -102,7 +102,7 @@
 
         <tr *ngFor="let item of table.items;trackBy:tableItemTackBy">
 
-          <td>
+          <td class="time-column">
             <div *ngIf="item.type === 'row'">
               {{item.time}}
             </div>
@@ -115,7 +115,9 @@
               <img src="image/success-blue.svg" (click)="details(item)" />
             </div>
           </td>
-          <td>{{item.status}}</td>
+          <td>
+            {{item.status}}
+          </td>
           <td>
             <div *ngIf="item.type === 'row'">
               {{item.commit}} ({{item.author}})
@@ -138,7 +140,7 @@
   </div>
   <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
     [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
-    <app-deployment-detail [deploymentObject]="rightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
-
+    <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
+    <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
   </ng-sidebar>
 </ng-sidebar-container>

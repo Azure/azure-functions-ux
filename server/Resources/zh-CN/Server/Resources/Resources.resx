@@ -1577,7 +1577,7 @@
     <value>使用身份验证/授权来保护应用程序，并使用按用户划分的数据工作。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>托管的服务标识</value>
+    <value>托管的服务标识(预览)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>应用程序可以与其他 Azure 服务通信，因为它本身使用的是托管 Azure Active Directory 标识。</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>资源管理</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>诊断并解决问题</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>我们的自助诊断和故障排除体验帮助你确定和解决应用的问题</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>高级工具(Kudu)</value>
@@ -2057,13 +2063,13 @@
     <value>由于你已将编辑模式设为“只读”，因此应用当前处于只读模式。若要更改编辑模式，请访问 </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>尽管已启用源控件，但由于你已将读取/写入模式设为“读取\写入”，因此应用当前处于读取\写入模式。下次部署可能会替代所做的所有更改。若要更改编辑模式，请访问 </value>
+    <value>尽管已启用源控件，但由于已将编辑模式设置为读/写，因此应用当前处于读/写模式。下次部署可能会替代所做的所有更改。若要更改编辑模式，请访问 </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>应用当前处于只读模式，因为你发布了生成的 function.json。Functions 运行时不会采用对 function.json 所做的更改。</value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>你的应用当前处于读\写模式，因为尽管具有一个生成的 function.json，但你已将编辑模式设置为读\写。对 function.json 进行的更改将不会被 Functions 运行时所采用。</value>
+    <value>尽管具有一个生成的 function.json，但由于已将编辑模式设置为读/写，因此应用当前处于读/写模式。对 function.json 进行的更改将不会被 Functions 运行时所采用。</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>复制</value>
@@ -2648,7 +2654,7 @@
     <value>此模板需要以下扩展。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>安装模板依赖项，安装完成后，可创建一个函数。依赖项安装在后台进行，最多可能需要 10 分钟。在此期间，可继续使用门户。</value>
+    <value>安装模板依赖项，安装完成后即可创建函数。依赖项安装在后台进行，最多可能需要 2 分钟。在此期间，可关闭此边栏选项卡并继续使用门户。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>我们无法安装运行时扩展。安装 ID {{installationId}}</value>
@@ -2948,7 +2954,7 @@
     <value>从本地 Git 存储库部署。</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>使用 Dropbox 文件夹配置持续集成</value>
+    <value>从 Dropbox 云文件夹同步内容。</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable 函数</value>
@@ -3068,16 +3074,19 @@
     <value>应用服务环境(ASE)内的独立定价层不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>开发/测试定价层仅适用于未托管于应用服务环境中的计划。</value>
+    <value>开发/测试定价层不可用于配置，仅适用于未托管于应用服务环境中的计划。</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>生产定价层仅适用于未托管在应用服务环境中的计划。</value>
+    <value>生产定价层不适用于配置，仅适用于未托管在应用服务环境中的计划。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>此缩放单位不支持高级版 V2。请考虑重新部署或克隆应用。</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>纵向扩展</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>免费</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/小时(估计值)</value>
@@ -3148,6 +3157,12 @@
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
     <value>每天备份 {0} 次应用。</value>
   </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>流量管理器</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>在应用的多个实例之间路由流量，改进性能和可用性。</value>
+  </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>单个租户系统</value>
   </data>
@@ -3212,7 +3227,7 @@
     <value>Application Insights 实例</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>成功</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>持续时间(毫秒)</value>
@@ -3222,6 +3237,9 @@
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>过去 30 天内的错误计数</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>查询返回了 {0} 个项</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>消息</value>
@@ -3239,7 +3257,7 @@
     <value>将 VSTS 用作生成服务器。可以选择利用高级选项获得完整的版本管理工作流。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>在服务器上生成</value>
+    <value>应用服务 Kudu 生成服务器</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>将应用服务用作生成服务器。如果无需其他配置，在适用时应用服务 Kudu 引擎将于部署期间自动生成代码。</value>
@@ -3352,6 +3370,9 @@
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>切换到经典视图</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>配置说明</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>配置</value>
   </data>
@@ -3359,7 +3380,7 @@
     <value>调用跟踪</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>结果延迟了 5 分钟之久。</value>
+    <value>结果可能延迟至多 5 分钟。</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>将文件拖动到此处或</value>
@@ -3390,5 +3411,80 @@
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>提供的帐户名无效。请提供其他帐户名。</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>仅 FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>密码和确认密码不匹配。</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>使用 FTP 连接访问和复制应用文件。</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>用户凭据</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>应用凭据</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS 终结点</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>凭据</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>挂起</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>保存凭据</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>重置凭据</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

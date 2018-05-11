@@ -2,7 +2,7 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oauth-helper';
 import { constants } from '../constants';
-import { GUID } from '../utilities';
+import { GUID } from '../utilities/guid';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
 const oauthHelper: oAuthHelper = new oAuthHelper('github');

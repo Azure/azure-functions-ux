@@ -15,6 +15,18 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
+
+enum DeployStatus {
+    Pending,
+    Building,
+    Deploying,
+    Failed,
+    Success
+}
+
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -26,6 +38,7 @@ class KuduTableItem implements TableItem {
     public deploymentObj: ArmObj<Deployment>;
     public active?: boolean;
 }
+
 @Component({
     selector: 'app-kudu-dashboard',
     templateUrl: './kudu-dashboard.component.html',
@@ -49,13 +62,16 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     public sidePanelOpened = false;
     private _ngUnsubscribe$ = new Subject();
     private _oldTableHash = 0;
+
+    public hideCreds = false;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _authZService: AuthzService,
         private _broadcastService: BroadcastService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
@@ -118,18 +134,24 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 }
             );
 
-        //refresh automatically every 5 seconds
+        // refresh automatically every 5 seconds
         Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe$).subscribe(() => {
             this.viewInfoStream$.next(this.resourceId);
         });
     }
 
-    //https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+    // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
     private _hashcode(s: string): number {
-        var h = 0, l = s.length, i = 0;
-        if (l > 0)
-            while (i < l)
+        let h = 0;
+        const l = s.length;
+        let i = 0;
+
+        if (l > 0) {
+            while (i < l) {
+                // tslint:disable-next-line:no-bitwise
                 h = (h << 5) - h + s.charCodeAt(i++) | 0;
+            }
+        }
         return h;
     };
     private _getTableHash(tb) {
@@ -156,7 +178,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 commit: commitId,
                 checkinMessage: item.message,
                 // TODO: Compute status and show appropriate message
-                status: item.complete ? 'Complete' : item.progress,
+                status: this._getStatusString(item.status, item.progress),
                 active: item.active,
                 author: author,
                 deploymentObj: value
@@ -172,6 +194,22 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             this._oldTableHash = newHash;
         }
     }
+
+    private _getStatusString(status: DeployStatus, progressString: string): string {
+        switch (status) {
+            case DeployStatus.Building:
+            case DeployStatus.Deploying:
+                return progressString;
+            case DeployStatus.Pending:
+                return this._translateService.instant(PortalResources.pending);
+            case DeployStatus.Failed:
+                return this._translateService.instant(PortalResources.failed);
+            case DeployStatus.Success:
+                return this._translateService.instant(PortalResources.success);
+            default:
+                return '';
+        }
+    }
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
             this._busyManager.setBusy();
@@ -180,7 +218,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     get folderPath() {
-        if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'Onedrive') {
+        if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'OneDrive') {
             return null;
         }
         const folderPath = this.repo
@@ -230,10 +268,20 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     disconnect() {
         this._busyManager.setBusy();
-        this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`).delay(2000).subscribe(r => {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+
+        const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
+            properties: {
+                scmType: 'None'
+            }
         });
+
+        const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+
+        forkJoin(webConfig, sourceControlsConfig)
+            .subscribe(r => {
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                this._busyManager.clearBusy();
+            });
     }
     refresh() {
         this._busyManager.setBusy();
@@ -241,6 +289,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     details(item: KuduTableItem) {
+        this.hideCreds = false;
         this.rightPaneItem = item.deploymentObj;
         this.sidePanelOpened = true;
     }
@@ -261,7 +310,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             case 'DropboxV2':
                 return 'Dropbox';
             case 'OneDrive':
-                return 'Onedrive';
+                return 'OneDrive';
             case 'VSO':
                 return 'Visual Studio Online';
             default:
@@ -275,5 +324,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     tableItemTackBy(index: number, item: KuduTableItem) {
         return item && item.commit; // or item.id
+    }
+
+    showDeploymentCredentials() {
+        this.hideCreds = true;
+        this.sidePanelOpened = true;
     }
 }

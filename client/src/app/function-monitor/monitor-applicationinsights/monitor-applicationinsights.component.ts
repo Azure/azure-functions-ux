@@ -26,6 +26,8 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.sidePanelOpened = false;
         this.selectedRowId = null;
         this.appInsightsQueryReturnedTitle = this._translateService.instant(PortalResources.loading);
+        this.showDelayWarning = false;
+        this.componentId = `${functionMonitorInfo.functionAppContext.site.id}/functions/${functionMonitorInfo.functionInfo.name}/monitor`;
         this.setInput(functionMonitorInfo);
     }
 
@@ -40,6 +42,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public selectedRowId: string;
     public showDelayWarning = false;
     public appInsightsQueryReturnedTitle: string;
+    public componentId: string;
 
     constructor(
         private _portalService: PortalService,

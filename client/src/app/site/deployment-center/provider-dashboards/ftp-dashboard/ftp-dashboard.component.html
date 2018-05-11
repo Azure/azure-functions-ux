@@ -1,0 +1,12 @@
+<command-bar>
+  <command displayText="{{ 'downloadProfile' | translate}}" iconUrl="image/download.svg" (click)="downloadPublishProfile()"></command>
+</command-bar>
+<app-card-info-control [image]="'image/deployment-source.svg'" header="FTP" description="{{'ftpInfoCardCredsDesc' | translate}}"
+  [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
+<div class="ftp-endpoint">
+  <copy-pre [content]="ftpsEndpoint" [label]="'ftpsEndpoint' | translate"></copy-pre>
+</div>
+<div class="credentials">
+  <app-deployment-credentials [resourceId]="resourceId"></app-deployment-credentials>
+</div>
+<a id="hidden-publish-profile-link-ftp" [hidden]="true" [href]="publishProfileLink" [download]="siteName + '.PublishSettings'"></a>
