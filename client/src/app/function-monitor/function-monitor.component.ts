@@ -1,5 +1,5 @@
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { ScenarioIds, Constants } from './../shared/models/constants';
+import { ScenarioIds, Constants, LogCategories } from './../shared/models/constants';
 import { ComponentNames } from 'app/shared/models/constants';
 import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +15,7 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInsightsService } from '../shared/services/application-insights.service';
 import { SiteService } from '../shared/services/site.service';
+import { LogService } from '../shared/services/log.service';
 
 @Component({
     selector: ComponentNames.functionMonitor,
@@ -34,6 +35,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         private _scenarioService: ScenarioService,
         private _translateService: TranslateService,
         private _applicationInsightsService: ApplicationInsightsService,
+        private _logService: LogService,
         public globalStateService: GlobalStateService,
         injector: Injector
     ) {
@@ -129,6 +131,11 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),
                 resourceId: this.functionMonitorInfo.functionAppContext.site.id
             };
+
+            this._logService.error(
+                LogCategories.applicationInsightsKeyNotFound,
+                errorIds.applicationInsightsInstrumentationKeyMismatch,
+                'Application Insights Instrumentation Key not found');
         }
 
         this.monitorConfigureInfo = {
