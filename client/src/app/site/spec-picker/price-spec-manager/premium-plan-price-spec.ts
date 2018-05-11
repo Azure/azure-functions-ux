@@ -127,7 +127,7 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
     meterFriendlyName = 'Premium Large App Service Hours';
 
     specResourceSet = {
-        id: 'p2',
+        id: 'p3',
         firstParty: [{
             quantity: 744,
             resourceId: null
