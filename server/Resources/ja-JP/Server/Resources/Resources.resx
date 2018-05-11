@@ -1466,7 +1466,7 @@
     <value>常にオンにするには、Basic 以上の App Service プランが必要です</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
-    <value>マネージ パイプライン バージョン</value>
+    <value>マネージド パイプライン バージョン</value>
   </data>
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>自動スワップの送信先を運用スロットから構成することはできません</value>
@@ -1577,10 +1577,10 @@
     <value>アプリケーションを保護してユーザーごとのデータを取り扱うには、認証/承認を使用します。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>管理対象サービス ID</value>
+    <value>マネージド サービス ID (プレビュー)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
-    <value>アプリケーションが、管理されている Azure Active Directory ID を使って自ら他の Azure サービスと通信できます。</value>
+    <value>アプリケーションが、マネージド Azure Active Directory ID を使って自ら他の Azure サービスと通信できます。</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>プッシュ通知</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>リソース管理</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>問題の診断と解決</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>セルフサービス診断とトラブルシューティングのエクスペリエンスは、アプリの問題を識別して解決するのに役立ちます</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>高度なツール (Kudu)</value>
@@ -2057,13 +2063,13 @@
     <value>編集モードが [読み取り専用] に設定されたため、アプリが現在 [読み取り専用] モードになっています。編集モードを変更するには、</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>ソース管理が有効になっているにもかかわらず編集モードが [読み取り\書き込み] に設定されたため、アプリが現在 [読み取り\書き込み] モードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、</value>
+    <value>ソース管理が有効になっているにもかかわらず編集モードが読み取り/書き込みに設定されたため、アプリが現在、読み取り/書き込みモードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、以下にアクセスしてください: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>生成された function.json を公開しているため、アプリは現在読み取り専用モードになっています。function.json に加えられた変更は、Functions ランタイムでは受け入れられません。</value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>生成された function.json があるにもかかわらず編集モードが [読み取り/書き込み] に設定されたため、アプリは現在 [読み取り/書き込み] モードです。function.json に対する変更は Functions ランタイムでは受け入れられません。</value>
+    <value>生成された function.json があるにもかかわらず編集モードが読み取り/書き込みに設定されたため、アプリは現在、読み取り/書き込みモードです。function.json に対する変更は Functions ランタイムでは受け入れられません。</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>コピー</value>
@@ -2345,7 +2351,7 @@
     <value>新しいプロキシ</value>
   </data>
   <data name="apiProxy_noOverride" xml:space="preserve">
-    <value>上書きなし</value>
+    <value>オーバーライドなし</value>
   </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>簡易 AAD の登録</value>
@@ -2486,10 +2492,10 @@
     <value>状態メッセージ</value>
   </data>
   <data name="rrOverride_request" xml:space="preserve">
-    <value>要求の上書き</value>
+    <value>要求のオーバーライド</value>
   </data>
   <data name="rrOverride_response" xml:space="preserve">
-    <value>応答の上書き</value>
+    <value>応答のオーバーライド</value>
   </data>
   <data name="optional" xml:space="preserve">
     <value>省略可能</value>
@@ -2648,7 +2654,7 @@
     <value>このテンプレートには次の拡張機能が必要です。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>テンプレート依存関係をインストールするとき、インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 10 分かかる可能性があります。この間、ポータルは引き続き使用できます。</value>
+    <value>テンプレート依存関係をインストールすると、インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このブレードを閉じて、ポータルを引き続き使用できます。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>ランタイム拡張機能をインストールできません。インストール ID: {{installationId}}</value>
@@ -2948,7 +2954,7 @@
     <value>ローカル Git リポジトリからデプロイします。</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Dropbox フォルダーを使用して継続的インテグレーションを構成します</value>
+    <value>Dropbox クラウド フォルダーからコンテンツを同期します。</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3068,16 +3074,19 @@
     <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>開発/テスト環境の価格レベルは、App Service 環境でホストされていないプランだけで利用できます。</value>
+    <value>お客様の構成では開発/テストの価格レベルを利用できません。これは、App Service 環境でホストされていないプランでしか利用できません。</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>運用環境の価格レベルは、App Service 環境でホストされていないプランだけで利用できます。</value>
+    <value>お客様の構成では運用の価格レベルを利用できません。これは、App Service 環境でホストされていないプランでしか利用できません。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>このスケール ユニットでは Premium V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>スケール アップ</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>無料</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/時間 (推定)</value>
@@ -3148,6 +3157,12 @@
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
     <value>アプリを毎日 {0} 回バックアップします。</value>
   </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic Manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>アプリの複数のインスタンス間でトラフィックをルーティングすると、パフォーマンスと可用性が向上します。</value>
+  </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>単一のテナント システム</value>
   </data>
@@ -3212,7 +3227,7 @@
     <value>Application Insights インスタンス</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>成功</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>期間 (ミリ秒)</value>
@@ -3222,6 +3237,9 @@
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>過去 30 日間のエラー数</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>クエリによって {0} 件の項目が返されました</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>メッセージ</value>
@@ -3239,7 +3257,7 @@
     <value>ビルド サーバーとして VSTS を使用します。完全なリリース管理ワークフローのために詳細オプションを活用できます。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>サーバーでビルド</value>
+    <value>App Service Kudu ビルド サーバー</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>ビルド サーバーとして App Service を使用します。App Service Kudu エンジンによって、該当する場合にはデプロイ中に、追加構成を必要とせずにコードが自動的にビルドされます。</value>
@@ -3352,6 +3370,9 @@
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>クラシック ビューに切り替えます</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>構成の説明</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>構成</value>
   </data>
@@ -3359,7 +3380,7 @@
     <value>呼び出しのトレース</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>結果まで最大 5 分の遅延があります。</value>
+    <value>結果は、最大で 5 分遅れる可能性があります。</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>ファイルをここ、または次にドラッグします:</value>
@@ -3390,5 +3411,80 @@
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>指定したアカウント名が無効です。別のアカウント名を指定してください。</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS のみ</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>無効にする</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>消去</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>非表示</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>ダッシュボード</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>ユーザーの資格情報</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>ユーザー名</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>パスワードの確認</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>資格情報</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>保留中</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>
