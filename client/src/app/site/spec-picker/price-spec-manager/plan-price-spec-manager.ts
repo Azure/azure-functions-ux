@@ -73,10 +73,8 @@ export class PlanPriceSpecManager {
         this.selectedSpecGroup = this.specGroups[0];
 
         let specInitCalls: Observable<void>[] = [];
-
         return this._getPlan(inputs)
             .switchMap(plan => {
-
                 // plan is null for new plans
                 this._plan = plan;
 
@@ -136,13 +134,11 @@ export class PlanPriceSpecManager {
     }
 
     getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-
         return this._getBillingMeters(inputs)
             .switchMap(meters => {
                 if (!meters) {
                     return Observable.of(null);
                 }
-
                 let specResourceSets: SpecResourceSet[] = [];
                 let specsToAllowZeroCost: string[] = [];
 
