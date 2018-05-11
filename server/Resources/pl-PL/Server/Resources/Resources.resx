@@ -1577,7 +1577,7 @@
     <value>Chroń aplikację i pracuj z danymi pojedynczych użytkowników dzięki uwierzytelnianiu/autoryzacji.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Tożsamość usługi zarządzanej</value>
+    <value>Tożsamość usługi zarządzanej (wersja zapoznawcza)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Twoja aplikacja może komunikować się z innymi usługami platformy Azure w swoim imieniu, używając zarządzanej tożsamości usługi Azure Active Directory.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Zarządzanie zasobami</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnozowanie i rozwiązywanie problemów</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Nasze samoobsługowe środowisko do diagnostyki i rozwiązywania problemów ułatwia identyfikowanie i rozwiązywanie problemów z Twoją aplikacją</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Narzędzia zaawansowane (Kudu)</value>
@@ -2057,7 +2063,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ tryb edycji został ustawiony na tylko do odczytu. Aby zmienić tryb edycji, odwiedź </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Twoja aplikacja jest obecnie w trybie Odczyt\zapis, ponieważ masz ustawiony tryb edycji Odczyt\zapis mimo włączonej kontroli źródła. Wszelkie wprowadzone zmiany mogą zostać zastąpione kolejnym wdrożeniem. Aby zmienić tryb edycji, odwiedź </value>
+    <value>Twoja aplikacja jest obecnie w trybie odczytu/zapisu, ponieważ masz ustawiony tryb edycji odczyt/zapis mimo włączonej kontroli źródła. Wszelkie wprowadzone zmiany mogą zostać zastąpione kolejnym wdrożeniem. Aby zmienić tryb edycji, odwiedź </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Twoja aplikacja jest obecnie w trybie tylko do odczytu, ponieważ opublikowano wygenerowany plik function.json. Zmiany wprowadzone w pliku function.json nie będą uznawane przez środowisko uruchomieniowe usługi Functions.</value>
@@ -2648,7 +2654,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ten szablon wymaga następujących rozszerzeń.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Po zainstalowaniu zależności szablonu możliwe będzie utworzenie funkcji. Instalacja zależności przebiega w tle i może potrwać do 10 minut. W tym czasie możesz nadal korzystać z portalu.</value>
+    <value>Po zainstalowaniu zależności szablonu możliwe będzie utworzenie funkcji. Instalacja zależności przebiega w tle i może potrwać do 2 minut. W tym czasie możesz zamknąć ten blok i nadal korzystać z portalu.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nie możemy zainstalować rozszerzenia środowiska uruchomieniowego. Identyfikator instalacji: {{installationId}}</value>
@@ -2948,7 +2954,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wdróż z lokalnego repozytorium Git.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Skonfiguruj ciągłą integrację z folderem Dropbox.</value>
+    <value>Synchronizuj zawartość z folderu Dropbox w chmurze.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Trwałe funkcje</value>
@@ -3068,16 +3074,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Izolowane warstwy cenowe w środowisku App Service Environment (ASE) nie są dostępne dla danej konfiguracji. Środowisko ASE to zaawansowana oferta funkcji usługi Azure App Service zapewniająca izolację sieciową i ulepszone możliwości skalowania.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Deweloperskie lub testowe warstwy cenowe są dostępne tylko w przypadku planów, które nie są hostowane w środowisku usługi App Service.</value>
+    <value>Deweloperskie lub testowe warstwy cenowe nie są dostępne dla Twojej konfiguracji. Są one dostępne tylko w przypadku planów, które nie są hostowane w środowisku App Service Environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Produkcyjne warstwy cenowe są dostępne tylko w przypadku planów, które nie są hostowane w środowisku usługi App Service.</value>
+    <value>Produkcyjne warstwy cenowe nie są dostępne dla Twojej konfiguracji. Są one dostępne tylko w przypadku planów, które nie są hostowane w środowisku App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Warstwa Premium V2 nie jest obsługiwana w przypadku tej jednostki skalowania. Rozważ ponowne wdrożenie lub sklonowanie aplikacji.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Skaluj w górę</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Bezpłatna</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/godz. (szacowane)</value>
@@ -3146,7 +3155,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Codzienne kopie zapasowe</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Wykonuj kopię zapasową aplikacji {0} raz(y) dziennie.</value>
+    <value>Wykonuj kopię zapasową aplikacji {0} razy dziennie.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Menedżer ruchu</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Zwiększ wydajność i dostępność, kierując ruch do wielu wystąpień aplikacji.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>System z jedną dzierżawą</value>
@@ -3212,7 +3227,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wystąpienie usługi Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Powodzenie</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Czas trwania (ms)</value>
@@ -3222,6 +3237,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Liczba błędów w ciągu ostatnich 30 dni</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Zapytanie zwróciło następującą liczbę elementów: {0}</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Komunikat</value>
@@ -3239,7 +3257,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Użyj usług VSTS jako serwera kompilacji. Możesz wykorzystać opcje zaawansowane na potrzeby przepływu pracy zarządzania pełnym wydaniem.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Kompilowanie na serwerze</value>
+    <value>Serwer kompilacji Kudu usługi App Service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Użyj usługi App Service jako serwera kompilacji. Gdy będzie to stosowne, aparat Kudu usługi App Service automatycznie skompiluje kod podczas wdrażania bez konieczności dodatkowej konfiguracji.</value>
@@ -3352,6 +3370,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Przełącz na widok klasyczny</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Instrukcje dotyczące konfiguracji</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Konfiguruj</value>
   </data>
@@ -3359,7 +3380,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ślady wywołania</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Wyniki opóźnione maksymalnie o 5 minut.</value>
+    <value>Wyniki mogą być opóźnione maksymalnie o 5 minut.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Przeciągnij plik tutaj lub</value>
@@ -3390,5 +3411,80 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Podana nazwa konta jest nieprawidłowa. Podaj inną nazwę konta.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Tylko FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Wyłącz</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Odrzuć</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Pokaż</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Ukryj</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Hasło i jego potwierdzenie są niezgodne.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Pulpit nawigacyjny</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Użyj połączenia FTP, aby uzyskać dostęp do plików aplikacji i je kopiować.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Poświadczenia użytkownika</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>Poświadczenia aplikacji</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Nazwa użytkownika</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Potwierdź hasło</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>Punkt końcowy FTPS</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Poświadczenia</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Oczekiwanie</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Niepowodzenie</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Powodzenie</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Zapisz poświadczenia</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Resetuj poświadczenia</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>
