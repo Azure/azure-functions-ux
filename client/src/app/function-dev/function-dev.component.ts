@@ -240,7 +240,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         : { name: this.fileName, href: href, mime: 'file' };
                     this.selectedFileStream.next(this.scriptFile);
                     this.functionInfo = functionInfo;
-                    this.setInvokeUrlVisibility();
 
                     this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
@@ -745,6 +744,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         this.onChangeKey(allKeys[0].value);
                     }
                 }
+
+                this.setInvokeUrlVisibility();
             });
     }
 }
