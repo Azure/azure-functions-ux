@@ -274,7 +274,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
             let FTPAccessSupported = true;
-            const http20Supported = true;
+            let http20Supported = true;
 
             this._sku = siteArm.properties.sku;
 
@@ -313,6 +313,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
             if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {
                 FTPAccessSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.addHTTPSwitch, { site: siteArm }).status === 'disabled') {
+                http20Supported = false;
             }
 
             this.netFrameworkSupported = netFrameworkSupported;
