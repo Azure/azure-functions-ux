@@ -6,7 +6,7 @@
     * [Node 8.*](https://nodejs.org/en/download/)
     * [yarn](https://yarnpkg.com/en/docs/install)
 
-3. **Clone and Build**
+2. **Clone and Build**
 
  ``` bash
 git clone git@github.com:Azure/azure-functions-ux.git
@@ -14,7 +14,8 @@ git clone git@github.com:Azure/azure-functions-ux.git
 yarn install
 yarn run gulp run-dev
  ```
-
+3. **Allow SSL Connections**
+Go to `https://localhost:44300` and proceed to website in advanced section
 
 4. Visit `https://portal.azure.com?websitesextension_ext=appsvc.env=local` and load up Function Apps from browse
 
