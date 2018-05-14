@@ -6,7 +6,10 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
-
+interface SummaryItem {
+    label: string;
+    value: string;
+}
 @Component({
     selector: 'app-step-complete',
     templateUrl: './step-complete.component.html',
@@ -47,5 +50,35 @@ export class StepCompleteComponent {
 
     clearBusy() {
         this._busyManager.clearBusy();
+    }
+
+    get SummaryGroups(): SummaryItem[][] {
+        return [
+            this._sourceControlGroup()
+        ];
+    }
+    // 'dropbox' | 'onedrive' | 'github' | 'vsts' | 'external' | 'bitbucket' | 'localgit' | 'ftp' | 'webdeploy' | 'kudu' | 'zip';
+    private _sourceControlGroup(): SummaryItem[] {
+        const wizValues = this.wizard.wizardValues;
+        const sourceProvider = wizValues.sourceProvider;
+        const returnSummaryItems = [];
+        if (sourceProvider === 'dropbox' || sourceProvider === 'onedrive') {
+            returnSummaryItems.push({
+                label: 'Folder',
+                value: wizValues.sourceSettings.repoUrl
+            });
+        }
+
+        if (sourceProvider === 'github' || sourceProvider === 'bitbucket' || sourceProvider === 'external' || sourceProvider === 'vsts' || sourceProvider === 'localgit') {
+            returnSummaryItems.push({
+                label: 'Repository',
+                value: wizValues.sourceSettings.repoUrl
+            });
+            returnSummaryItems.push({
+                label: 'Branch',
+                value: wizValues.sourceSettings.branch || 'master'
+            });
+        }
+        return returnSummaryItems;
     }
 }

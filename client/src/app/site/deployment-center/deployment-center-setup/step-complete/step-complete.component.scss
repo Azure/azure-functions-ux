@@ -4,3 +4,26 @@
     width: 100%;
     height: 100%;
 }
+
+.summary-wrapper {
+    padding: 25px;
+}
+
+.summary-group {
+    padding: 10px;
+
+    .heading {
+        text-decoration: underline;
+    }
+
+    .label {
+        float: left;
+        width: 33%;
+    }
+
+    .value {
+        float: left;
+        width: 66%;
+    }
+
+}

@@ -10,6 +10,8 @@ export class CardInfoControlComponent{
   @Input() public header = '';
   @Input() public description = '';
   @Input() public learnMoreLink = '';
+
+  @Input() public backgroundImageColor = undefined;
   constructor() { }
 
 
