@@ -219,6 +219,7 @@ export class ScenarioIds {
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
+    public static readonly addHTTPSwitch = 'addHTTPSwitch';
 }
 
 export class ServerFarmSku {
