@@ -313,12 +313,14 @@ export class PlanPriceSpecManager {
         specs.forEach(spec => {
             const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
             if (!costResult) {
+                // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
                 spec.priceString = ' ';
             } else if (costResult.amount === 0.0) {
                 spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
-                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
+                const rate = (meter.perUnitAmount * 744).toFixed(2);    // 744 hours in a month
+                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
             }
         });
     }
