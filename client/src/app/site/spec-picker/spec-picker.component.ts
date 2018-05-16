@@ -35,7 +35,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   @Input() isOpenedFromMenu: boolean;
   @ViewChild('specGroupTabs') groupElements: ElementRef;
 
-  specManager: PlanPriceSpecManager;
   statusMessage: StatusMessage = null;
   isInitializing = false;
   isUpdating = false;
@@ -63,11 +62,12 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   }
 
   constructor(
+    public specManager: PlanPriceSpecManager,
     private _authZService: AuthzService,
     private _ts: TranslateService,
     private _portalService: PortalService,
-    private _injector: Injector) {
-    super('SpecPickerComponent', _injector, SiteTabIds.scaleUp);
+    injector: Injector) {
+    super('SpecPickerComponent', injector, SiteTabIds.scaleUp);
 
     this.isParentComponent = true;
     this.featureName = 'SpecPickerComponent';
@@ -86,19 +86,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         this.statusMessage = null;
         this.shieldEnabled = false;
 
+        // The resourceId would be a plan resourceId if it's an existing plan.  Or a subscription resourceId
+        // if it's a new plan.
         this._planOrSubResourceId = info.resourceId;
-
-        this.specManager = new PlanPriceSpecManager(this, this._injector);
 
         // data will be null if opened as a tab
         if (!info.data) {
           this._input = {
             id: info.resourceId,
-            data: null
+            data: null,
+            specPicker: this
           };
         } else {
           // data will be set if opened from Ibiza
           this._input = info.data;
+          this._input.specPicker = this;
         }
 
         return this.specManager.initialize(this._input);

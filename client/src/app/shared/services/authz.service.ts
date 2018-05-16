@@ -8,8 +8,13 @@ import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { Permissions, PermissionsAsRegExp } from '../models/arm/permission';
 
+export interface IAuthzService {
+    hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean>;
+    hasReadOnlyLock(resourceId: string): Observable<boolean>;
+}
+
 @Injectable()
-export class AuthzService {
+export class AuthzService implements IAuthzService {
     public static readScope = './read';
     public static writeScope = './write';
     public static deleteScope = './delete';
@@ -46,7 +51,7 @@ export class AuthzService {
         return this._getLocks(resourceId)
             .map(locks => {
                 return !!locks.find(l => l.properties.level === 'ReadOnly' &&
-                       l.id.split('/providers/')[1].toLocaleLowerCase() === resourceId.split('/providers/')[1].toLocaleLowerCase());
+                    l.id.split('/providers/')[1].toLocaleLowerCase() === resourceId.split('/providers/')[1].toLocaleLowerCase());
             })
             .catch(e => {
                 return Observable.of(false);
