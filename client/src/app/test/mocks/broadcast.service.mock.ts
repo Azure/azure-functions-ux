@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class MockBroadcastService {

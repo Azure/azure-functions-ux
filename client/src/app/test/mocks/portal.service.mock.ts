@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { TimerEvent, OpenBladeInfo, DataMessage, PinPartInfo, LogEntryLevel } from '../../shared/models/portal';
 import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from '../../shared/models/subscription';
-
-
 
 @Injectable()
 export class MockPortalService {
