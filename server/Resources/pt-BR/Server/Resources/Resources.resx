@@ -1577,7 +1577,7 @@
     <value>Use a Autenticação/Autorização para proteger seu aplicativo e trabalhar com dados por usuário.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identidade de serviço gerenciada</value>
+    <value>Identidade de serviço gerenciado (Versão Prévia)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Seu aplicativo pode se comunicar com outros serviços do Azure usando uma identidade gerenciada do Azure Active Directory.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Gerenciamento de recursos</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnosticar e resolver problemas</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>O diagnóstico de autoatendimento e a experiência de solução de problemas ajudam a identificar e resolver problemas com o seu aplicativo</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Ferramentas avançadas (Kudu)</value>
@@ -2057,13 +2063,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Atualmente, seu aplicativo está no modo somente leitura porque você definiu o modo de edição como somente leitura. Para alterar o modo de edição, visite </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Atualmente, seu aplicativo está no modo leitura\gravação porque você definiu o modo de edição como leitura\gravação apesar de não ter o controle do código-fonte habilitado. Quaisquer alterações feitas podem ser substituídas em sua próxima implantação. Para alterar o modo de edição, visite </value>
+    <value>Atualmente, seu aplicativo está no modo leitura/gravação porque você definiu o modo de edição como leitura/gravação apesar de o controle do código-fonte estar habilitado. Quaisquer alterações feitas podem ser substituídas em sua próxima implantação. Para alterar o modo de edição, visite </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Atualmente, seu aplicativo está no modo somente leitura porque você publicou um function.json gerado. As alterações feitas em function.json não serão respeitadas pelo tempo de execução das Funções. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Seu aplicativo está atualmente no modo de leitura\gravação porque você definiu o modo de edição para leitura\gravação mesmo tendo um function.json gerado. As alterações feitas ao function.json não serão respeitadas pelo tempo de execução do Functions.</value>
+    <value>Seu aplicativo está atualmente no modo de leitura/gravação porque você definiu o modo de edição para leitura/gravação apesar de ter um function.json gerado. As alterações feitas ao function.json não serão respeitadas pelo tempo de execução do Functions.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copiar</value>
@@ -2648,7 +2654,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Este modelo requer as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Com a instalação de dependências do modelo, você poderá criar uma função assim que isto for feito. A instalação da dependência ocorre em segundo plano e pode levar até 10 minutos. Você pode continuar a usar o portal durante esse período.</value>
+    <value>Com a instalação de dependências do modelo, você poderá criar uma função assim que isto for feito. A instalação da dependência ocorre em segundo plano e pode levar até 2 minutos. Você pode fechar essa folha e continuar a usar o portal durante esse período.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão de tempo de execução. Instale a ID {{installationId}}</value>
@@ -2948,7 +2954,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Implante a partir de um repositório Git local.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Configure a integração contínua com uma pasta do Dropbox</value>
+    <value>Sincronizar conteúdo de uma pasta de nuvem do Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Funções Duráveis</value>
@@ -3068,16 +3074,19 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Os tipos de preço isolados dentro de um Ambiente do Serviço de Aplicativo (ASE) não estão disponíveis para sua configuração. Um ASE é uma oferta de recursos avançados do Serviço de Aplicativo do Azure que oferece isolamento de rede e melhores capacidades de dimensionamento.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Os tipos de preço de Desenvolvimento/Teste só estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de Desenvolvimento/Teste não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Os tipos de preço de produção só estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de produção não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Não há suporte para a versão premium V2 para esta unidade de dimensionamento. Considere reimplantar ou clonar o aplicativo.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Escalar verticalmente</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratuito</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/Hora (Estimado)</value>
@@ -3148,6 +3157,12 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
     <value>Faça backup de seu aplicativo {0} vezes diariamente.</value>
   </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Gerenciador de tráfego</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Melhore o desempenho e a disponibilidade ao encaminhar o tráfego entre várias instâncias do seu aplicativo.</value>
+  </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Sistema único de locatário</value>
   </data>
@@ -3212,7 +3227,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Instância do Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Êxito</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Duração (ms)</value>
@@ -3222,6 +3237,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Contagem de erros nos últimos 30 dias</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>A consulta retornou {0} itens</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Mensagem</value>
@@ -3239,7 +3257,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Use o VSTS como o servidor de compilação. Você pode optar por aproveitar as opções avançadas para um fluxo de trabalho de gerenciamento de versão completa.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Compilar no servidor</value>
+    <value>Servidor de build Kudu do Serviço de Aplicativo</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use o Serviço de Aplicativo como o servidor de compilação. O mecanismo do Kudu do Serviço de Aplicativo compilará automaticamente seu código durante a implantação, quando aplicável, sem nenhuma configuração adicional necessária.</value>
@@ -3352,6 +3370,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Mudar para o modo de exibição clássico</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Instruções de Configuração</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configurar</value>
   </data>
@@ -3359,7 +3380,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Rastreamentos de invocação</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Resultados adiados em até 5 minutos.</value>
+    <value>Os resultados podem atrasar até 5 minutos.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Arraste um arquivo aqui ou</value>
@@ -3390,5 +3411,80 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>O nome da conta fornecido não é válido. Forneça outro nome de conta.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Somente FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Desabilitar</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Ocultar</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>A senha e a senha de confirmação não correspondem.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use uma conexão FTP para acessar e copiar arquivos de aplicativo.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Credenciais do Usuário</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>Credenciais do Aplicativo</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Nome de usuário</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Confirmar Senha</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>Ponto de Extremidade de FTPS</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credenciais</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Pendente</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Falha</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Êxito</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Salvar Credenciais</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Redefinir Credenciais</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

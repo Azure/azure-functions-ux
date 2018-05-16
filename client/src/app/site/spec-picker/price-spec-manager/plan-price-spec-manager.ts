@@ -73,10 +73,8 @@ export class PlanPriceSpecManager {
         this.selectedSpecGroup = this.specGroups[0];
 
         let specInitCalls: Observable<void>[] = [];
-
         return this._getPlan(inputs)
             .switchMap(plan => {
-
                 // plan is null for new plans
                 this._plan = plan;
 
@@ -136,13 +134,11 @@ export class PlanPriceSpecManager {
     }
 
     getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-
         return this._getBillingMeters(inputs)
             .switchMap(meters => {
                 if (!meters) {
                     return Observable.of(null);
                 }
-
                 let specResourceSets: SpecResourceSet[] = [];
                 let specsToAllowZeroCost: string[] = [];
 
@@ -317,12 +313,14 @@ export class PlanPriceSpecManager {
         specs.forEach(spec => {
             const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
             if (!costResult) {
+                // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
                 spec.priceString = ' ';
             } else if (costResult.amount === 0.0) {
                 spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
-                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
+                const rate = (meter.perUnitAmount * 744).toFixed(2);    // 744 hours in a month
+                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
             }
         });
     }

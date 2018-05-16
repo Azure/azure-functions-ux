@@ -988,7 +988,7 @@
     public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
     public static pricing_scaleUp = 'pricing_scaleUp';
     public static free = 'free';
-    public static pricing_pricePerHour = 'pricing_pricePerHour';
+    public static pricing_pricePerMonth = 'pricing_pricePerMonth';
     public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
@@ -1098,6 +1098,7 @@
     public static FTPBoth = 'FTPBoth';
     public static FTPSOnly = 'FTPSOnly';
     public static FTPDisable = 'FTPDisable';
+    public static dismiss = 'dismiss';
     public static show = 'show';
     public static hide = 'hide';
     public static nomatchpassword = 'nomatchpassword';
@@ -1117,4 +1118,5 @@
     public static failed = 'failed';
     public static saveCredentials = 'saveCredentials';
     public static resetCredentials = 'resetCredentials';
+    public static httpVersion = 'httpVersion';
 }

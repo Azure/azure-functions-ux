@@ -219,6 +219,7 @@ export class ScenarioIds {
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
+    public static readonly addHTTPSwitch = 'addHTTPSwitch';
 }
 
 export class ServerFarmSku {
@@ -271,6 +272,7 @@ export class LogCategories {
     public static readonly addSlot = 'AddSlot';
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
     public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
+    public static readonly applicationInsightsKeyNotFound = 'ApplicationInsightsInstrumentationKeyNotFound';
     public static readonly serverFarm = 'ServerFarm';
 }
 

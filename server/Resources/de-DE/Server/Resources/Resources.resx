@@ -1577,7 +1577,7 @@
     <value>Mit der Authentifizierung/Autorisierung können Sie Ihre Anwendung schützen und mit benutzerbasierten Daten arbeiten.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Verwaltete Dienstidentität</value>
+    <value>Verwaltete Dienstidentität (Vorschau)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Ihre Anwendung kann unter Verwendung einer verwalteten Azure Active Directory-Identität als sie selbst mit anderen Azure-Diensten kommunizieren.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Ressourcenverwaltung</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose und Problembehandlung</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Mithilfe der Oberfläche für Self-Service-Diagnose und Problembehandlung können Sie Probleme mit Ihrer App identifizieren und lösen.</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Erweiterte Tools (Kudu)</value>
@@ -2063,7 +2069,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Ihre App befindet sich zurzeit im schreibgeschützten Modus, weil Sie eine generierte Datei "function.json" veröffentlicht haben. Änderungen an "function.json" werden von der Functions-Laufzeit nicht berücksichtigt. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Ihre App befindet sich gerade im Lese-/Schreibmodus, weil Sie den Bearbeitungsmodus auf Lesen/Schreiben festgelegt haben, obwohl eine generierte "function.json" vorliegt. Änderungen an "function.json" werden von der Functions-Runtime nicht berücksichtigt.</value>
+    <value>Ihre App befindet sich gerade im Lese-/Schreibmodus, weil Sie den Bearbeitungsmodus auf "Lesen/Schreiben" festgelegt haben, obwohl eine generierte "function.json" vorliegt. Änderungen an "function.json" werden von der Functions-Runtime nicht berücksichtigt.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopieren</value>
@@ -2201,7 +2207,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Für eine leistungsstärkere Überwachungsoberfläche einschließlich von Livemetriken und benutzerdefinierten Abfragen:</value>
   </data>
   <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
-    <value>configure Application Insights for your function app</value>
+    <value>Application Insights für Ihre Funktions-App konfigurieren</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Dieser Wert wird an die Haupt-URL Ihrer Web-App angefügt und dient als öffentliche Adresse des Slots. Lautet der Name Ihrer Web-App z. B. "contoso" und der Ihres Slots "staging", dann lautet die URL des neuen Slots "http://contoso-staging.azurewebsites.net".</value>
@@ -2648,7 +2654,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Diese Vorlage erfordert die folgenden Erweiterungen.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Sobald dieser Vorgang abgeschlossen wurde, können Sie eine Funktion erstellen. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 10 Minuten dauern. Während dieser Zeit können Sie das Portal weiter nutzen.</value>
+    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Sobald dieser Vorgang abgeschlossen wurde, können Sie eine Funktion erstellen. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 2 Minuten dauern. Sie können dieses Blatt schließen und währenddessen das Portal weiter nutzen.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Die Laufzeiterweiterung kann nicht installiert werden. Installations-ID: {{installationId}}</value>
@@ -2948,7 +2954,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Hiermit erfolgt die Bereitstellung von einem lokalen Git-Repository aus.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Continuous Integration mit Dropbox-Ordner konfigurieren</value>
+    <value>Hiermit wird Inhalt aus einem Dropbox-Cloudordner synchronisiert.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Robuste Funktionen</value>
@@ -2990,7 +2996,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Empfohlene Tarife</value>
   </data>
   <data name="pricing_additionalTiers" xml:space="preserve">
-    <value>Additional pricing tiers</value>
+    <value>Zusätzliche Tarife</value>
   </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Dieser Tarif ist für Ihr Abonnement nicht zulässig.</value>
@@ -3035,10 +3041,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Der Plan "{0}" wurde erfolgreich aktualisiert.</value>
   </data>
   <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
-    <value>Successfully submitted job to scale the plan '{0}'.</value>
+    <value>Der Auftrag zum Skalieren des Plans "{0}" wurde erfolgreich übermittelt.</value>
   </data>
   <data name="pricing_planScaleInProgress" xml:space="preserve">
-    <value>A scale operation is currently in progress for the plan '{0}'.  Please wait for the operation to complete before scaling again.</value>
+    <value>Für den Plan "{0}" wird zurzeit ein Skalierungsvorgang ausgeführt. Warten Sie, bis der Vorgang abgeschlossen ist, bevor Sie einen neuen Skalierungsvorgang starten.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Fehler beim Aktualisieren des Plans "{0}".</value>
@@ -3068,16 +3074,19 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Isolierte Tarife innerhalb einer App Service-Umgebung (ASE) sind für Ihre Konfiguration nicht verfügbar. Eine App Service-Umgebung ist ein leistungsstarkes Azure App Service-Feature, das Netzwerkisolation und eine verbesserte Skalierung ermöglicht.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Dev/Test-Tarife sind nur für Pläne verfügbar, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
+    <value>Dev/Test-Tarife sind für Ihre Konfiguration nicht verfügbar, sondern nur für Pläne, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Produktionstarife sind nur für Pläne verfügbar, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
+    <value>Produktionstarife sind für Ihre Konfiguration nicht verfügbar, sondern nur für Pläne, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 wird für diese Skalierungseinheit nicht unterstützt. Erwägen Sie eine erneute Bereitstellung, oder klonen Sie ggf. Ihre App.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Zentral hochskalieren</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Frei</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/Stunde (geschätzt)</value>
@@ -3095,10 +3104,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Gemeinsam genutzte Computeressourcen zum Ausführen von Anwendungen, die im Rahmen des App Service-Plans bereitgestellt werden.</value>
   </data>
   <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>Dedizierte Computeressourcen der A-Serie, die zum Ausführen von im App Service-Plan bereitgestellten Anwendungen verwendet werden.</value>
   </data>
   <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>Dedizierte Computeressourcen der Dv2-Serie, die zum Ausführen von im App Service-Plan bereitgestellten Anwendungen verwendet werden.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Verfügbarer Arbeitsspeicher zum Ausführen von Anwendungen, die im Rahmen des App Service-Plans bereitgestellt und ausgeführt werden.</value>
@@ -3146,7 +3155,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Tägliche Sicherungen</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Hiermit wird Ihre App {0} Mal pro Tag gesichert.</value>
+    <value>Hiermit wird Ihre App {0}-mal pro Tag gesichert.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic Manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Verbessern Sie Leistung und Verfügbarkeit, indem Sie Datenverkehr zwischen mehreren Instanzen Ihrer App routen.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Einzelnes Mandantensystem</value>
@@ -3176,10 +3191,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>{0} Kerne</value>
   </data>
   <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A-Series compute</value>
+    <value>A-Serie – Compute</value>
   </data>
   <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2-Series compute</value>
+    <value>Dv2-Serie – Compute</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>"proxies.json" ist ungültig. Fehler: {0}.</value>
@@ -3212,7 +3227,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Application Insights-Instanz</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>ERFOLGREICH</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Dauer (ms)</value>
@@ -3222,6 +3237,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Anzahl von Fehlern in den letzten 30 Tagen</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Die Abfrage gab {0} Elemente zurück.</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Meldung</value>
@@ -3239,7 +3257,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Hiermit wird VSTS als Buildserver verwendet. Für einen vollständigen Releaseverwaltungsworkflow können Sie die erweiterten Optionen nutzen.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Auf Server erstellen</value>
+    <value>App Service-Kudu-Buildserver</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Hiermit wird App Service als Buildserver verwendet. Die App Service-Kudu-Engine erstellt während der Bereitstellung ggf. automatisch Ihren Code, eine zusätzliche Konfiguration ist nicht erforderlich.</value>
@@ -3338,7 +3356,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
-    <value>Not Authorized</value>
+    <value>Nicht autorisiert</value>
   </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>Fehler beim Abrufen der Hostinformationen.</value>
@@ -3347,19 +3365,22 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Application Insights zum Erfassen von Aufrufprotokollen konfigurieren</value>
   </data>
   <data name="configureAppInsightsDesc" xml:space="preserve">
-    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
+    <value>Azure Functions unterstützt ab sofort Application Insights als bevorzugte Überwachungslösung für Apps in der Entwicklung und Produktion. App Insights bietet leistungsstarke Analysen, Benachrichtigungen und Visualisierungen für Ihre Protokolldaten sowie eine höhere Gesamtzuverlässigkeit.</value>
   </data>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Zur klassischen Ansicht wechseln</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Konfigurationsanweisungen</value>
   </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Konfigurieren</value>
   </data>
   <data name="invocationTraces" xml:space="preserve">
-    <value>Invocation traces</value>
+    <value>Aufrufablaufverfolgungen</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>Ergebnisse können bis zu fünf Minuten verzögert sein.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Ziehen Sie eine Datei hierher, oder</value>
@@ -3386,9 +3407,84 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Überprüfung wird durchgeführt...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+    <value>Sie haben keine Berechtigungen zum Erstellen einer Build- oder Releasedefinition für dieses Projekt. Wenden Sie sich an Ihren Projektadministrator.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>The account name supplied is not valid. Please supply another account name.</value>
+    <value>Der angegebene Kontoname ist ungültig. Geben Sie einen anderen Kontonamen an.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP und FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Nur FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Deaktivieren</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Anzeigen</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Ausblenden</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Ihr Kennwort und das Bestätigungskennwort stimmen nicht überein.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Verwenden Sie eine FTP-Verbindung, um auf App-Dateien zuzugreifen und sie zu kopieren.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Benutzeranmeldeinformationen</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App-Anmeldeinformationen</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Kennwort</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Kennwort bestätigen</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS-Endpunkt</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Anmeldeinformationen</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Ausstehend</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Erfolgreich</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Anmeldeinformationen speichern</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Anmeldeinformationen zurücksetzen</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

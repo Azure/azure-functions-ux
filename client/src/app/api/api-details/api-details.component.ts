@@ -16,6 +16,7 @@ import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
+import { SiteService } from '../../shared/services/site.service';
 
 @Component({
     selector: 'api-details',
@@ -42,6 +43,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         injector: Injector) {
         super('api-details', injector, DashboardType.ProxyDashboard);
 
@@ -62,7 +64,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                         this.initEdit();
                         return Observable.zip(
                             this._functionAppService.getApiProxies(context),
-                            this._functionAppService.getFunctionAppAzureAppSettings(context));
+                            this._siteService.getAppSettings(context.site.id));
                     });
             })
             .do(r => {
