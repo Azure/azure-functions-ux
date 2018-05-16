@@ -3359,7 +3359,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deployment Center (Preview)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service Deployment Center enables you to choose the location of your code as well as options for build and deployment to the cloud.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Not Authorized</value>
