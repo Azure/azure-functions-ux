@@ -1,21 +1,19 @@
 @import '../../../../sass/main';
 @import '../../site-config/site-config.component.scss';
-
 .centered-content {
-	margin: auto;
-	text-align: center;
+    margin: auto;
+    text-align: center;
 }
 
 .form-button {
-	width: 114px;
-	height: 25px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    width: 114px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
-.footer {
+.form-footer {
     position: fixed;
     background-color: $body-bg-color;
     height: 50px;
@@ -23,34 +21,31 @@
     bottom: 0px;
     width: 100vw;
     box-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
-	justify-content: center;
-	display: flex;
-	align-items: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
-
 
 .settings-wrapper {
     margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 10px;
-
     .setting-wrapper {
         width: 600px;
     }
 }
 
-.newOrExistingSelection{
+.newOrExistingSelection {
     margin-bottom: 5px;
     font-size: 12px;
     color: $value-text-color;
-
-    input{
+    input {
         margin: 0px 10px;
     }
 }
 
-#app-root[theme=dark]{
-    .footer {
+:host-context(#app-root[theme=dark]) {
+    .form-footer {
         background-color: $body-bg-color-dark;
     }
 }
