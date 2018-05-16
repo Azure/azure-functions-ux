@@ -40,7 +40,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedProject = '';
     public selectedRepo = '';
     public selectedBranch = '';
-    public accountNameToIdMap = {};
     public accountListLoading = false;
     public branchesLoading = false;
     constructor(public wizard: DeploymentCenterStateManager,
@@ -81,11 +80,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
-                this.accountNameToIdMap = r.reduce((accumulator, currentValue) => {
-                    accumulator[currentValue.accountName] = currentValue.accountId;
-                    return accumulator;
-                });
-
                 const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
