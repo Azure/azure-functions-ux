@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { CacheService } from '../../../../shared/services/cache.service';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
 import { DeploymentCenterConstants } from '../../../../shared/models/constants';
@@ -31,12 +31,12 @@ export class VstsValidators {
     }
     static createProjectPermissionsValidator(_wizard: DeploymentCenterStateManager,
         _translateService: TranslateService,
-        _cacheService: CacheService) {
-        return (abstractForm: FormGroup) => {
+        _cacheService: CacheService,
+        _accountControl: AbstractControl) {
+        return (projectControl: AbstractControl) => {
 
-            const vstsAccountValue: string = abstractForm.get('vstsAccount').value;
-            const vstsProject = abstractForm.get('vstsProject');
-            const vstsProjectValue: string = vstsProject.value;
+            const vstsAccountValue: string = _accountControl.value;
+            const vstsProjectValue: string = projectControl.value;
             if (vstsAccountValue && vstsProjectValue) {
                 return _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/projects?includeCapabilities=true`)
                     .switchMap(r => {

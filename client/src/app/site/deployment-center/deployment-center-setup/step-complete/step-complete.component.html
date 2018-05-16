@@ -1,13 +1,10 @@
 <div class="summary-wrapper">
-
-  <h3 id="step-complete-summary-heading" class="first-config-heading">{{'summary' | translate}}</h3>
-  <!-- <pre>{{wizard?.wizardValues|json}}</pre> -->
   <div *ngFor="let group of SummaryGroups" class="summary-group">
-    <h3 class="heading">Source Control Configuration</h3>
-    <ng-container *ngFor="let item of group">
-      <div class="label">{{item.label}}</div>
-      <div class="value">{{item.value}}</div>
-    </ng-container>
+    <h3 class="heading">{{group.label}}</h3>
+    <div *ngFor="let item of group.items">  
+      <span class="summary-label">{{item.label}}</span>
+      <span class="summary-value">{{item.value}}</span>
+    </div>
   </div>
 </div>
 <div class="footer">

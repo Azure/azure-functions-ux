@@ -14,6 +14,7 @@ import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -27,6 +28,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _vstsApiToken: string;
     private _pricingTier: string;
     public siteArm: ArmObj<Site>;
+    public selectedVstsRepoId = '';
+    public subscriptionName = '';
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -34,10 +37,13 @@ export class DeploymentCenterStateManager implements OnDestroy {
         portalService: PortalService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return siteService.getSite(this._resourceId);
+            const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
+            return forkJoin(siteService.getSite(this._resourceId), this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion));
         })
-            .subscribe(s => {
-                this.siteArm = s.result;
+            .subscribe(result => {
+                const [site, sub] = result;
+                this.siteArm = site.result;
+                this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
             });
@@ -50,7 +56,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .subscribe(tokenData => {
                 this._vstsApiToken = tokenData.result.token;
             });
-
     }
 
     public get wizardValues(): WizardForm {
@@ -160,7 +165,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: DeploymentSourceType.CodeRepository,
             buildConfiguration: {
                 type: this._applicationType,
-                workingDirectory: this.wizardValues.buildSettings.workerDirecory
+                workingDirectory: this.wizardValues.buildSettings.workingDirectory
             },
             repository: this._repoInfo
         };
@@ -206,7 +211,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private get _vstsRepoInfo(): CodeRepository {
         return {
             type: 'TfsGit',
-            id: '',
+            id: this.selectedVstsRepoId,
             defaultBranch: 'refs/heads/master',
             authorizationInfo: null
         };
@@ -245,7 +250,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             environmentType: TargetEnvironmentType.Production,
             friendlyName: 'Production',
             subscriptionId: siteDescriptor.subscription,
-            subscriptionName: '',
+            subscriptionName: this.subscriptionName,
             tenantId: tid,
             resourceIdentifier: siteDescriptor.site,
             location: this._location,
@@ -279,7 +284,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             environmentType: TargetEnvironmentType.Test,
             friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
-            subscriptionName: '',
+            subscriptionName: this.subscriptionName,
             tenantId: tid,
             resourceIdentifier: siteDescriptor.site,
             location: this._location,

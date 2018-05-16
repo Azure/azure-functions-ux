@@ -23,14 +23,14 @@ export class VstsBuildSettings {
     public vstsAccount: string;
     public vstsProject: string;
     public location: string;
-    public applicationFramework: string;
-    public workerDirecory: string;
+    public applicationFramework: 'AspNetWap' | 'AspNetCore' | 'Node' | 'PHP' | 'Python' | 'StaticWebapp';
+    public workingDirectory: string;
     public nodejsTaskRunner: string;
-    public pythonSettings: any;
+    public pythonSettings: PythonSettings;
 }
 
 export class PythonSettings {
-    public framework: string;
+    public framework: 'Bottle' | 'Django' | 'Flask';
     public version: string;
     public flaskProjectName: string;
     public djangoSettingsModule: string;

@@ -40,7 +40,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedProject = '';
     public selectedRepo = '';
     public selectedBranch = '';
-
+    public accountNameToIdMap = {};
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
@@ -60,16 +60,14 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     updateFormValidation() {
         if (this.wizard.wizardValues.buildProvider === 'vsts') {
-            this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
-            this.wizard.buildSettings.updateValueAndValidity();
+            this.wizard.buildSettings.get('vstsProject').setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService, this.wizard.buildSettings.get('vstsAccount')).bind(this));
+            this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
         }
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
-        this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
-        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
 
     }
 
@@ -80,6 +78,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
+                this.accountNameToIdMap = r.reduce((accumulator, currentValue) => {
+                    accumulator[currentValue.accountName] = currentValue.accountId;
+                    return accumulator;
+                });
+
                 const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
@@ -201,6 +204,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     repoChanged(repoUri: DropDownElement<string>) {
+        const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri.value));
+        this.wizard.selectedVstsRepoId = repoObj.id;
         this._branchSubscription.next(repoUri.value);
         this.selectedBranch = '';
     }
