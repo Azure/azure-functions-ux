@@ -13,7 +13,7 @@
     justify-content: center;
 }
 
-.form-footer {
+.footer {
     position: fixed;
     background-color: $body-bg-color;
     height: 50px;
@@ -45,7 +45,7 @@
 }
 
 :host-context(#app-root[theme=dark]) {
-    .form-footer {
+    .footer {
         background-color: $body-bg-color-dark;
     }
 }
