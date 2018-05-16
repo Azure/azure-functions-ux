@@ -20,7 +20,7 @@ export interface IPortalService {
 
     getStartupInfo();
     sendTimerEvent(evt: TimerEvent);
-    openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string)
+    openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string);
     openBlade(bladeInfo: OpenBladeInfo, source: string);
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void);
     openCollectorBladeWithInputs(
