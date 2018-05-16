@@ -6,6 +6,8 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 interface SummaryItem {
     label: string;
     value: string;
@@ -27,6 +29,7 @@ export class StepCompleteComponent {
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _broadcastService: BroadcastService,
+        private _translateService: TranslateService,
         private _logService: LogService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
@@ -75,54 +78,56 @@ export class StepCompleteComponent {
         const returnSummaryItems = [];
         if (buildProvider === 'kudu') {
             returnSummaryItems.push({
-                label: 'Provider',
-                value: 'App Service Kudu'
+                label: this._translateService.instant(PortalResources.provider),
+                value: this._translateService.instant(PortalResources.kuduTitle)
             });
         } else {
             const appFramework = wizValues.buildSettings.applicationFramework;
 
             returnSummaryItems.push({
-                label: 'Provider',
-                value: 'VSTS'
+                label: this._translateService.instant(PortalResources.provider),
+                value: this._translateService.instant(PortalResources.vstsBuildServerTitle)
             });
 
             returnSummaryItems.push({
-                label: 'New Account',
-                value: buildSettings.createNewVsoAccount ? 'YES' : 'NO'
+                label: this._translateService.instant(PortalResources.newAccount),
+                value: buildSettings.createNewVsoAccount ?
+                    this._translateService.instant(PortalResources.yes) :
+                    this._translateService.instant(PortalResources.no)
             });
 
             returnSummaryItems.push({
-                label: 'Account',
+                label: this._translateService.instant(PortalResources.account),
                 value: buildSettings.vstsAccount
             });
 
             returnSummaryItems.push({
-                label: 'Project',
+                label: this._translateService.instant(PortalResources.project),
                 value: buildSettings.vstsProject
             });
 
             if (wizValues.buildSettings.createNewVsoAccount) {
                 returnSummaryItems.push({
-                    label: 'Location',
+                    label: this._translateService.instant(PortalResources.location),
                     value: buildSettings.location
                 });
             }
 
             returnSummaryItems.push({
-                label: 'Application Framework',
+                label: this._translateService.instant(PortalResources.webAppFramework),
                 value: buildSettings.applicationFramework
             });
 
             if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {
                 returnSummaryItems.push({
-                    label: 'Worker Directory',
+                    label: this._translateService.instant(PortalResources.workingDirectory),
                     value: buildSettings.workingDirectory
                 });
             }
 
             if (appFramework === 'Node') {
                 returnSummaryItems.push({
-                    label: 'NodeJS Task Runner',
+                    label: this._translateService.instant(PortalResources.taskRunner),
                     value: buildSettings.nodejsTaskRunner
                 });
             }
@@ -134,27 +139,27 @@ export class StepCompleteComponent {
                 });
 
                 returnSummaryItems.push({
-                    label: 'Python Framework',
+                    label: this._translateService.instant(PortalResources.pythonVersionLabel),
                     value: buildSettings.pythonSettings.framework
                 });
 
                 if (wizValues.buildSettings.pythonSettings.framework === 'Flask') {
                     returnSummaryItems.push({
-                        label: 'Flask Project',
+                        label: this._translateService.instant(PortalResources.flaskProjectName),
                         value: buildSettings.pythonSettings.flaskProjectName
                     });
                 }
 
                 if (wizValues.buildSettings.pythonSettings.framework === 'Django') {
                     returnSummaryItems.push({
-                        label: 'Django Settings Module',
+                        label: this._translateService.instant(PortalResources.djangoSettings),
                         value: buildSettings.pythonSettings.djangoSettingsModule
                     });
                 }
             }
         }
         return {
-            label: 'Build Provider',
+            label: this._translateService.instant(PortalResources.buildProvider),
             items: returnSummaryItems
         };
     }
@@ -164,21 +169,23 @@ export class StepCompleteComponent {
         const testSettings = wizValues.testEnvironment;
         const returnSummaryItems = [];
         returnSummaryItems.push({
-            label: 'Enabled',
-            value: testSettings.enabled ? 'YES' : 'NO'
+            label: this._translateService.instant(PortalResources.enabled),
+            value: testSettings.enabled ?
+                this._translateService.instant(PortalResources.yes)
+                : this._translateService.instant(PortalResources.no)
         });
         if (testSettings.enabled) {
             returnSummaryItems.push({
-                label: 'App Service Plan',
+                label: this._translateService.instant(PortalResources.appServicePlan),
                 value: testSettings.appServicePlanId
             });
             returnSummaryItems.push({
-                label: 'Web App',
+                label: this._translateService.instant(PortalResources.webApp),
                 value: testSettings.webAppId
             });
         }
         return {
-            label: 'Test',
+            label: this._translateService.instant(PortalResources.test),
             items: returnSummaryItems
         };
     }
@@ -188,21 +195,21 @@ export class StepCompleteComponent {
         const deployValues = wizValues.deploymentSlotSetting;
         const returnSummaryItems = [];
         returnSummaryItems.push({
-            label: 'Enabled',
+            label: this._translateService.instant(PortalResources.enabled),
             value: deployValues.deploymentSlotEnabled ? 'YES' : 'NO'
         });
         if (deployValues.deploymentSlotEnabled) {
             returnSummaryItems.push({
-                label: 'New Deployment Slot',
+                label: this._translateService.instant(PortalResources.newDeploymentSlot),
                 value: deployValues.newDeploymentSlot ? 'YES' : 'NO'
             });
             returnSummaryItems.push({
-                label: 'Deployment Slot Name',
+                label: this._translateService.instant(PortalResources.deploymentSlotName),
                 value: deployValues.deploymentSlot
             });
         }
         return {
-            label: 'Deploy',
+            label: this._translateService.instant(PortalResources.deploy),
             items: returnSummaryItems
         };
     }
@@ -212,34 +219,34 @@ export class StepCompleteComponent {
         const returnSummaryItems = [];
         if (sourceProvider === 'dropbox' || sourceProvider === 'onedrive') {
             returnSummaryItems.push({
-                label: 'Folder',
+                label: this._translateService.instant(PortalResources.folder),
                 value: wizValues.sourceSettings.repoUrl
             });
         }
 
         if (sourceProvider === 'github' || sourceProvider === 'bitbucket' || sourceProvider === 'external' || sourceProvider === 'vsts') {
             returnSummaryItems.push({
-                label: 'Repository',
+                label: this._translateService.instant(PortalResources.repository),
                 value: wizValues.sourceSettings.repoUrl
             });
             returnSummaryItems.push({
-                label: 'Branch',
+                label: this._translateService.instant(PortalResources.branch),
                 value: wizValues.sourceSettings.branch || 'master'
             });
         }
 
         if (sourceProvider === 'localgit') {
             returnSummaryItems.push({
-                label: 'Repository',
-                value: 'Your local git repository url will be generated upon completion'
+                label: this._translateService.instant(PortalResources.repository),
+                value: this._translateService.instant(PortalResources.localGitRepoMessage)
             });
             returnSummaryItems.push({
-                label: 'Branch',
+                label: this._translateService.instant(PortalResources.branch),
                 value: 'master'
             });
         }
         return {
-            label: 'Source Control',
+            label: this._translateService.instant(PortalResources.sourceControl),
             items: returnSummaryItems
         };
     }

@@ -3305,7 +3305,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Django Settings Module</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask Project</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>New</value>
@@ -3492,5 +3492,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="dismiss" xml:space="preserve">
     <value>Dismiss</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>New Account</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>New Deployment Slot</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Deployment Slot Name</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>Your local git repository url will be generated upon completion</value>
   </data>
 </root>
