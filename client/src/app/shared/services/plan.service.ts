@@ -89,7 +89,11 @@ export class PlanService {
         return this._client.execute({ resourceId: resourceId }, t => getSkus).map(r => r.result.json().value);
     }
 
-    getAvailablePremiumV2GeoRegions(subscriptionId: string) {
+    getAvailablePremiumV2GeoRegions(subscriptionId: string, isLinux: boolean) {
+        if (isLinux) {
+            return this._getLinuxPv2Locations();
+        }
+
         return Observable.zip(
             this._getProviderLocations(subscriptionId, 'serverFarms'),
             this._getAllPremiumV2GeoRegions(subscriptionId))
@@ -119,6 +123,151 @@ export class PlanService {
             .map(r => {
                 return r.result.json();
             });
+    }
+
+    // Temporary until the georegions API call can return us the proper set of regions when passing in 
+    // "?linuxWorkersEnabled=true&sku=PremiumV2"
+    private _getLinuxPv2Locations() {
+        return Observable.of([
+            {
+                name: 'West Europe',
+                properties: {
+                    name: 'West Europe'
+                }
+            },
+            {
+                name: 'West US',
+                properties: {
+                    name: 'West US'
+                }
+            },
+            {
+                name: 'East US 2',
+                properties: {
+                    name: 'East US 2'
+                }
+            },
+            {
+                name: 'East US',
+                properties: {
+                    name: 'East US'
+                }
+            },
+            {
+                name: 'North Central US',
+                properties: {
+                    name: 'North Central US'
+                }
+            },
+            {
+                name: 'Brazil South',
+                properties: {
+                    name: 'Brazil South'
+                }
+            },
+            {
+                name: 'North Europe',
+                properties: {
+                    name: 'North Europe'
+                }
+            },
+            {
+                name: 'Central US',
+                properties: {
+                    name: 'Central US'
+                }
+            },
+            {
+                name: 'East Asia',
+                properties: {
+                    name: 'East Asia'
+                }
+            },
+            {
+                name: 'Central India',
+                properties: {
+                    name: 'Central India'
+                }
+            },
+            {
+                name: 'West India',
+                properties: {
+                    name: 'West India'
+                }
+            },
+            {
+                name: 'South India',
+                properties: {
+                    name: 'South India'
+                }
+            },
+            {
+                name: 'South Central US',
+                properties: {
+                    name: 'South Central US'
+                }
+            },
+            {
+                name: 'Australia Southeast',
+                properties: {
+                    name: 'Australia Southeast'
+                }
+            },
+            {
+                name: 'Australia East',
+                properties: {
+                    name: 'Australia East'
+                }
+            },
+            {
+                name: 'Southeast Asia',
+                properties: {
+                    name: 'Southeast Asia'
+                }
+            },
+            {
+                name: 'Canada Central',
+                properties: {
+                    name: 'Canada Central'
+                }
+            },
+            {
+                name: 'Canada East',
+                properties: {
+                    name: 'Canada East'
+                }
+            },
+            {
+                name: 'Japan West',
+                properties: {
+                    name: 'Japan West'
+                }
+            },
+            {
+                name: 'UK West',
+                properties: {
+                    name: 'UK West'
+                }
+            },
+            {
+                name: 'West Central US',
+                properties: {
+                    name: 'West Central US'
+                }
+            },
+            {
+                name: 'West US 2',
+                properties: {
+                    name: 'West US 2'
+                }
+            },
+            {
+                name: 'Korea South',
+                properties: {
+                    name: 'Korea South'
+                }
+            }
+        ]);
     }
 
     private _getProviderLocations(subscriptionId: string, resourceType: string): Observable<string[]> {

@@ -1,22 +1,26 @@
 <command-bar>
-  <command displayText="{{ 'refresh' | translate }}"
+  <command [displayText]="'refresh' | translate"
       (click)="refresh()"
       iconUrl="image/reset.svg"></command>
 
-  <command *ngIf="allowSwitchToClassic" displayText="{{ 'configureAppInsightsSwitchToClassic' | translate }}"
+  <command *ngIf="allowSwitchToClassic" [displayText]="'configureAppInsightsSwitchToClassic' | translate"
       (click)="switchToClassicView()"
       iconUrl="image/swap.svg"></command>
+
+  <command *ngIf="isLinuxApp" [displayText]="'configureAppInsightsInstructions' | translate"
+      (click)="navigateToConfigureInstructions()"
+      iconUrl="image/open-external.svg"></command>
 </command-bar>
 
 <app-card-info-control
   image="image/appInsights.svg"
   header="{{ 'configureAppInsightsTitle' | translate }}"
   description="{{ 'configureAppInsightsDesc' | translate }}"
-  learnMoreLink="https://docs.microsoft.com/azure/azure-functions/functions-monitoring">
+  learnMoreLink="https://go.microsoft.com/fwlink/?linkid=873203">
 </app-card-info-control>
 
 <div>
-  <button
+  <button *ngIf="!isLinuxApp"
     (click)="configure()"
     [disabled]="!enableConfigureButton"
     class="custom-button">{{ 'configureAppInsightsButton' | translate }}</button>

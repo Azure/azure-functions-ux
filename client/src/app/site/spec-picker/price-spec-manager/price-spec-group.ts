@@ -1,3 +1,4 @@
+import { Links, Kinds } from 'app/shared/models/constants';
 import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
@@ -10,6 +11,7 @@ import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargeP
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { AppKind } from '../../../shared/Utilities/app-kind';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
@@ -52,7 +54,7 @@ export class DevSpecGroup extends PriceSpecGroup {
     id = 'devtest';
     description = this.ts.instant(PortalResources.pricing_devTestDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
@@ -98,7 +100,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
     id = 'prod';
     description = this.ts.instant(PortalResources.pricing_productionDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
@@ -136,7 +138,7 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     id = 'isolated';
     description = this.ts.instant(PortalResources.pricing_isolatedDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
@@ -144,6 +146,14 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
 
     initialize(input: PriceSpecInput) {
         if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
+            this.bannerMessage = {
+                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
+                level: 'info'
+            };
+        } else if (input.plan
+            && input.plan.properties.hostingEnvironmentProfile
+            && AppKind.hasKinds(input.plan, [Kinds.linux])) {
+
             this.bannerMessage = {
                 message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
                 level: 'info'

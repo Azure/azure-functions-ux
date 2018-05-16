@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -1583,7 +1583,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity</value>
+    <value>Managed service identity (Preview)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -1671,6 +1671,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resource management</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Advanced tools (Kudu)</value>
@@ -2063,13 +2069,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
@@ -2654,7 +2660,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
+    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -2954,7 +2960,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deploy from a local Git repo.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Configure continuous integration with a Dropbox folder</value>
+    <value>Sync content from a Dropbox cloud folder.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3074,10 +3080,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Production pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
@@ -3085,8 +3091,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Scale up</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Hour (Estimated)</value>
+  <data name="free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/Month (Estimated)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Choose a different pricing tier to add more resources for your plan</value>
@@ -3152,7 +3161,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Daily backups</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Backup your app {0} time daily.</value>
+    <value>Backup your app {0} times daily.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Single tenant system</value>
@@ -3229,6 +3244,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Error count in last 30 days</value>
   </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Query returned {0} items</value>
+  </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Message</value>
   </data>
@@ -3245,7 +3263,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Build on server</value>
+    <value>App Service Kudu build server</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
@@ -3358,6 +3376,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Switch to classic view</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configuration Instructions</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -3365,7 +3386,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invocation traces</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>Results may be delayed for up to 5 minutes.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Drag a file here or</value>
@@ -3396,5 +3417,80 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The account name supplied is not valid. Please supply another account name.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS Only</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+   <data name="username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+   <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+   <data name="confirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+   <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

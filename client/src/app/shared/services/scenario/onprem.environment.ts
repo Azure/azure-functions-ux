@@ -28,8 +28,8 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
             runCheckAsync: (input: ScenarioCheckInput) => {
                 return Observable.of<ScenarioResult>({
                     status: 'disabled',
@@ -46,7 +46,7 @@ export class OnPremEnvironment extends Environment {
         };
 
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
-            id: ScenarioIds.enableAppInsights,
+            id: ScenarioIds.enableAlwaysOn,
             runCheckAsync: (input: ScenarioCheckInput) => {
                 const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
                 return this._quotaService.getQuotaLimit(

@@ -7,6 +7,10 @@
   <command displayText="{{ 'runInAppInsights' | translate }}"
     (click)="openAppInsightsQueryEditor()"
     iconUrl="image/open-external.svg"></command>
+
+  <span class="close-button" (click)="close()">
+    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+  </span>
 </command-bar>
 
 <div *ngIf="!traceHistory || traceHistory.length === 0" class="monitor-detail-content">

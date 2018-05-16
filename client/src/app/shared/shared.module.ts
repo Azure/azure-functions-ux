@@ -74,6 +74,7 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
 import { QuotaService } from './services/quota.service';
 
+import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 
 export function ArmServiceFactory(
     http: Http,
@@ -133,7 +134,8 @@ export function AiServiceFactory() {
         ActivateWithKeysDirective,
         CardInfoControlComponent,
         InvalidmessageDirective,
-        FlexListDirective
+        FlexListDirective,
+        RemoveSpacesPipe
     ],
     exports: [
         CommonModule,
@@ -175,7 +177,8 @@ export function AiServiceFactory() {
         CardInfoControlComponent,
         InvalidmessageDirective,
         NgUploaderModule,
-        FlexListDirective
+        FlexListDirective,
+        RemoveSpacesPipe
     ],
     imports: [
         FormsModule,

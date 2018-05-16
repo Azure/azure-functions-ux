@@ -9,6 +9,7 @@ export enum ComputeMode {
 export interface Site {
     state: string;
     hostNames: string[];
+    enabledHostNames?: string[];
     hostNameSslStates: Array<{
         name: string;
         hostType: number;

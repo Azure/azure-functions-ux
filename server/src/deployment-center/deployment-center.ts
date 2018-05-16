@@ -10,11 +10,11 @@ import { LogHelper } from '../logHelper';
 import { setupVsoPassthroughAuthentication } from './vso-deployment-passthrough';
 
 export function setupDeploymentCenter(app: Application) {
-    app.get('/api/SourceControlAuthenticationState', async (req, res) => {
+    app.post('/api/SourceControlAuthenticationState', async (req, res) => {
         try {
             const r = await axios.get(`${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols?api-version=${constants.AntaresApiVersion}`, {
                 headers: {
-                    Authorization: req.headers.authorization
+                    Authorization: req.body.authToken
                 }
             });
             if(r.status !== 200){

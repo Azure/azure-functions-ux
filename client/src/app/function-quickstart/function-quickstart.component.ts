@@ -25,6 +25,7 @@ import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
+import { SiteService } from '../shared/services/site.service';
 
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
@@ -59,7 +60,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _functionAppService: FunctionAppService) {
+        private _functionAppService: FunctionAppService,
+        private _siteService: SiteService) {
         super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
         this.selectedFunction = 'HttpTrigger';
@@ -78,7 +80,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 return Observable.zip(
                     this._functionAppService.getFunctions(this.context),
                     this._functionAppService.getRuntimeGeneration(this.context),
-                    this._functionAppService.getFunctionAppAzureAppSettings(this.context));
+                    this._siteService.getAppSettings(this.context.site.id));
             })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/function-quickstart');

@@ -127,6 +127,12 @@ export class ApplicationInsightsService {
       return item && item.value ? item.value : null;
   }
 
+  public removeFunctionMonitorClassicViewPreference(functionAppResourceId: string): void {
+      const key = `${functionAppResourceId}/monitor/view`;
+
+      this._localStorage.removeItem(key);
+  }
+
   private _getQueryForLast30DaysSummary(functionName: string): string {
     this._validateFunctionName(functionName);
     return `requests | where timestamp >= ago(30d) | where name == '${functionName}' | summarize count=count() by success`;
@@ -209,7 +215,7 @@ export class ApplicationInsightsService {
           summaryTable.Rows.forEach(row => {
             traces.push({
               timestamp: row[0],
-              timestampFriendly: moment.utc(row[0]).from(moment.utc()),
+              timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
               id: row[1],
               name: row[2],
               success: row[3],

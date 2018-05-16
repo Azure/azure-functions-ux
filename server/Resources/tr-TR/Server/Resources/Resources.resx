@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>İptal</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Uygula</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} öğe seçildi</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Bellek</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Depolama alanı</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>İşlev Oluşturma Hatası: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Çağrı günlüğü</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Çağrı Ayrıntıları</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Günlükler</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Karşıya Yükle</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Daha fazla seçeneğe göz atın</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>Ek seçenekleri gör</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Daha az seçenek göster</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Yalnızca önerilen seçeneklere bakın</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Bir veya daha fazla işlev uygulaması bu depolama hesabına bağlandı. Hesaba bağlı tüm işlev uygulamalarını 'dosyalar' veya 'Paylaşımlar' altında görebilirsiniz.</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Storage Explorer'ı buradan indirin:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Bağlanmak için bu kimlik bilgilerini kullan:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Uygulamanızı korumak ve kullanıcı başına verilerle çalışmak için Kimlik Doğrulaması / Yetkilendirme kullanın.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Yönetilen hizmet kimliği</value>
+    <value>Yönetilen hizmet kimliği (Önizleme)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uygulamanız diğer Azure hizmetleriyle kendisi olarak iletişim kurmak için, yönetilen bir Azure Active Directory kimliği kullanabilir.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Kaynak yönetimi</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Sorunları tanılama ve çözme</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Self servis tanılama ve sorun giderme deneyimimiz, uygulamanızla ilgili sorunları belirlemenize ve çözmenize yardımcı olur</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Gelişmiş araçlar (Kudu)</value>
@@ -2057,13 +2063,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Düzenleme modunu salt okunur olarak ayarladığınız için uygulamanız şu anda salt okunur modda. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Kaynak denetimini etkinleştirmiş olmanıza karşın düzenleme modunu okuma\yazma olarak ayarladığınız için uygulamanız şu anda okuma\yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
+    <value>Kaynak denetimini etkinleştirmiş olmanıza karşın düzenleme modunu okuma/yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Oluşturulan bir function.json yayımlamış olduğundan uygulamanız şu anda salt okunur modda çalışıyor. Function.json içinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından kullanılmaz. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Oluşturulmuş bir function.json olduğu halde düzenleme modunu okuma\yazma olarak ayarladığınızdan uygulamanız şu anda okuma\yazma modunda. Function.json üzerinde yapılan değişiklikler İşlevler çalışma zamanı tarafından uygulanmayacak.</value>
+    <value>Oluşturulmuş bir function.json olduğu halde düzenleme modunu okuma\yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Function.json üzerinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından uygulanmayacak.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopyala</value>
@@ -2198,7 +2204,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yuvalar (önizleme)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;İşlev uygulamanız için Application Insights'ı etkinleştirin&lt;/a&gt;</value>
+    <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>işlev uygulamanız için Application Insights'ı yapılandırın</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Bu değer ana web uygulamanızın URL'sine eklenir ve yuvanın genel adresi görevini görür. Örneğin, 'contoso' adında bir web uygulamanız ve ‘staging’ adında bir yuvanız varsa, yeni yuvanın URL'si ‘http://contoso-staging.azurewebsites.net’ olacaktır.</value>
@@ -2645,7 +2654,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu şablon aşağıdaki uzantıları gerektirir.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Şablon bağımlılıkları yükleniyor. Bu tamamlandıktan sonra bir işlev oluşturmanız mümkün olacaktır. Bağımlılık yüklemesi arka planda gerçekleşir ve 10 dakika kadar sürebilir. Bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+    <value>Şablon bağımlılıkları yükleniyor. Bu tamamlandıktan sonra bir işlev oluşturabileceksiniz. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu dikey pencereyi kapatıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Çalışma zamanı uzantısını yükleyemiyoruz. Yükleme kimliği {{installationId}}</value>
@@ -2945,7 +2954,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yerel bir Git deposundan dağıtın.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Bir Dropbox klasörü ile sürekli tümleştirmeyi yapılandırın</value>
+    <value>İçerikleri bir Dropbox bulut klasöründen eşitleyin.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Dayanıklı İşlevler</value>
@@ -2983,6 +2992,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="diagnostics_line" xml:space="preserve">
     <value>Satır</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Önerilen fiyatlandırma katmanları</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Ek fiyatlandırma katmanları</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Aboneliğiniz bu fiyatlandırma katmanına izin vermiyor</value>
   </data>
@@ -3016,8 +3031,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>'{0}' planı üzerinde bir salt okunur kilidi var ve güncelleştirilemiyor</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>App Service Planı Güncelleştiriliyor</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>{0} planı güncelleştiriliyor</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>'{0}' planı başarıyla güncelleştirildi!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>'{0}' planını ölçeklendirme işi başarıyla gönderildi.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Şu anda '{0}' planı için bir ölçeklendirme işlemi devam ediyor.  Yeniden ölçeklendirmeden önce lütfen işlemin tamamlanmasını bekleyin.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>'{0}' planı güncelleştirilemedi</value>
@@ -3044,10 +3071,130 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Windows kapsayıcıları önizleme sırasında %50 indirimli faturalama avantajından yararlanır.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>App Service Ortamı (ASE) içinde yalıtılmış planlar yapılandırmanız için kullanılabilir değil. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
+    <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Ölçeği artır</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Ücretsiz</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/Saat (Tahmini)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Planınıza daha fazla kaynak eklemek için farklı bir fiyatlandırma katmanı seçin</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>App Service planını güncelleştir</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Paylaşılan altyapı</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>App Service Planı'nda dağıtılan uygulamaları çalıştırmak için kullanılan paylaşılan işlem kaynakları.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış A serisi işlem kaynakları.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış Dv2 serisi işlem kaynakları.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>App Service planında dağıtılan ve çalışan uygulamaları çalıştırmak için kullanılabilen bellek.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>App Service planında dağıtılan ve çalışan uygulamaları çalıştırmak için bulunan örnek başına bellek.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} App Service planında dağıtılan tüm uygulamalar tarafından paylaşılan disk depolama alanı.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Özel etki alanları / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>SNI SSL bağlamaları ile özel etki alanları yapılandırın ve satın alın</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>SNI ve IP SSL bağlamaları ile özel etki alanları yapılandırın ve satın alın</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>El ile ölçekleme</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Otomatik ölçeklendir</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Ölçeği çok büyük sayıda örneğe büyüt</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>En fazla 100 örnek.  İstek üzerine daha fazlasına izin verilir.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>En çok {0} örnek.  Kullanılabilirliğe bağlıdır.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Hazırlama yuvası</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Üretime almadan önce test ve dağıtım için kullanılacak {0} hazırlama yuvası.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Günlük yedekleme</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Günlük yedeklemeler</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Uygulamanızı her gün {0} kez yedekleyin.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Trafiği uygulamanızın birden çok örneği arasında yönlendirerek performans ve kullanılabilirliği artırın.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Tek kiracılı sistem</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Uygulamanızın kullandığı kaynaklar üzerinde daha fazla denetim elde edin.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Yalıtılmış ağ</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Kendi sanal ağınız içinde çalışır.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Özel uygulama erişimi</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>İç Yük Dengelemeli (ILB) bir App Service Ortamı kullanılıyor.</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB bellek</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} dakikalık/günlük işlem</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} çekirdek</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A Serisi işlem</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2 serisi işlem</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Proxies.json geçerli değil. Hata: '{0}'.</value>
@@ -3059,7 +3206,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlem kimliği</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Tarih</value>
+    <value>Tarih (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3215,31 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Sonuç Kodu</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Tetikleyici Nedeni</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Hata</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Application Insights'ta çalıştır</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights Örneği</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Başarılı</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Süre</value>
+    <value>Süre (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Son 30 gün içindeki başarı sayısı</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Son 30 gün içindeki hata sayısı</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Sorgu {0} öğe döndürdü</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>İleti</value>
@@ -3107,7 +3257,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Derleme sunucusu olarak VSTS kullanın. Bir tam sürüm yönetimi iş akışı için gelişmiş seçeneklerden yararlanmayı seçebilirsiniz.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Sunucuda derleme</value>
+    <value>App Service Kudu derleme sunucusu</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Derleme sunucusu olarak App Service kullanın. App Service Kudu altyapısı kodunuzu gerektiğinde dağıtım sırasında ek yapılandırma gerektirmeden otomatik olarak derler.</value>
@@ -3133,6 +3283,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="workingDirectory" xml:space="preserve">
     <value>Çalışma Dizini</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>Devam eden bir işlem yok. Ayrılmak istediğinizden emin misiniz?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Görev Çalıştırıcı</value>
   </data>
@@ -3156,6 +3309,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Depo seçin</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Klasör Seç</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Dal seçin</value>
@@ -3199,7 +3355,136 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Yetkili Değil</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
+    <value>Ana bilgisayar bilgilerini alma çağrısı başarısız oldu.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Çağırma günlükleri tutmak için Application Insights'ı yapılandırın</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure İşlevleri artık geliştirilmekte ve üretimde olan uygulamalar için tercih edilen izleme çözümü olarak Application Insights'ı desteklemektedir. App Insights güçlü analiz yöntemleri, bildirimler ve günlük verileriniz için görselleştirmeler, ayrıca daha büyük ölçekte daha fazla güvenilebilirlik sunmaktadır.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Klasik görünümüne geç</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Yapılandırma Yönergeleri</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Yapılandır</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Çağırma izleri</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Sonuçlar 5 dakika kadar gecikebilir.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Buraya bir dosya sürükleyin veya</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>gözat</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>karşıya yükleyin</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Ölçümler</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Ölçümleri görüntüleyin ve uyarıları ayarlayın.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP tabanlı dağıtım devre dışı bırakılabilir veya FTP (düz metin) veya FTPS (güvenli) bağlantıları kabul edecek şekilde yapılandırılabilir. Daha fazla bilgi için tıklayın.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP erişimi</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Doğrulanıyor...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>Bu projede Derleme Tanımı veya Sürüm tanımı oluşturmak için izniniz yok. Proje yöneticinize başvurun</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Belirtilen hesap adı geçerli değil. Lütfen başka bir hesap adı sağlayın.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Yalnızca FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Devre dışı bırak</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Anımsatma</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Göster</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Gizle</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Pano</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Parolayı Doğrula</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Kimlik Bilgileri</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Beklemede</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Başarısız</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

@@ -5,7 +5,6 @@ export interface ProviderCard {
     name: string;
     icon: string;
     color: string;
-    barColor: string;
     description: string;
     authorizedStatus: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none';
     authenticatedId?: string;

@@ -74,7 +74,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     .spec-container {
         padding: 0;
-        margin: 0px 10px;
+        margin: 0px 5px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -262,11 +262,21 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 }
 
 #app-root[theme=dark]{
+    #spec-picker-shield{
+        background-color: $translucent-shield-color-dark;
+    }
+
     .spec-group{
-        background-color: $chrome-color-dark;
+        background-color: lighten($chrome-color-dark, 10%);
 
         &.selected-spec-group{
-            background-color: lighten($chrome-color-dark, 10%);
+            background-color: $chrome-color-dark;
+        }
+    }
+
+    .spec-container{
+        h2{
+            color: $default-text-color-dark;
         }
     }
 

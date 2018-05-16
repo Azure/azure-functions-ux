@@ -1,4 +1,4 @@
-<div
+<div *ngIf="!dismissed"
     class="info-box"
     [ngClass]="typeClass"
     [class.clickable]="!!infoLink || !!infoActionFn"
@@ -17,6 +17,10 @@
             class="icon-small"
             [load-image]="infoActionIcon || 'image/learn-more.svg'">
         </span>
+    </div>
+
+    <div *ngIf="dismissable" class="info-dismiss-container">
+        <a (click)="onDismiss()">{{ 'dismiss' | translate }}</a>
     </div>
 
 </div>

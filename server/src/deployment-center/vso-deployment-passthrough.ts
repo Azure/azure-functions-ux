@@ -5,7 +5,7 @@ import axios from 'axios';
 import { LogHelper } from "../logHelper";
 
 export function setupVsoPassthroughAuthentication(app: Application) {
-    app.post('/api/sepupvso', async (req: ApiRequest<any>, res) => {
+    app.post('/api/setupvso', async (req: ApiRequest<any>, res) => {
         const uri = `https://${req.query.accountName}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
         const headers = req.headers;
         const body = req.body;
@@ -14,6 +14,7 @@ export function setupVsoPassthroughAuthentication(app: Application) {
             const githubToken = await getGithubTokens(req)
             body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
         }
+        delete body.authToken;
         try {
             const result = await axios.post(uri, body, {
                 headers: {

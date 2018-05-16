@@ -90,9 +90,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
-            properties: payload
-        }).map(r => r.json());
+
+        if (this.wizardValues.sourceProvider === 'localgit') {
+            return this._cacheService.patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion, {
+                properties: {
+                    scmType: 'LocalGit'
+                }
+            }).map(r => r.json());
+        } else {
+            return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
+                properties: payload
+            }).map(r => r.json());
+        }
+
     }
 
     private _deployVsts() {
@@ -111,18 +121,25 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private _pollVstsCheck(id: string) {
-        return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`, true, this.getVstsDirectHeaders());
+        return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
+            true,
+            this.getVstsDirectHeaders());
     }
     private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
+            authToken: this.getToken(),
             ciConfiguration: this._ciConfig,
             id: null,
             source: this._deploymentSource,
             targets: this._deploymentTargets
         };
-        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
+        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
+            true, this.getVstsPassthroughHeaders(), deploymentObject);
+
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders())
+            return this._cacheService.post(
+                `https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
+                true, this.getVstsDirectHeaders())
                 .switchMap(r => setupvsoCall)
                 .switchMap(r => Observable.of(r.json().id));
         }
@@ -260,7 +277,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Test,
-            friendlyName: 'Load Test', //DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
+            friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
             tenantId: tid,
@@ -304,7 +321,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this._token}`);
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
@@ -314,11 +330,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this._token}`);
+        headers.append('Authorization', this.getToken());
         headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
     }
 
+    public getToken(): string {
+        return `Bearer ${this._token}`;
+    }
 
     ngOnDestroy(): void {
         this._ngUnsubscribe$.next();
@@ -331,9 +350,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
     markSectionAsTouched(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(field => {
             const control = formGroup.get(field);
-            if (control instanceof FormControl) {
+            if (control instanceof FormControl && !control.touched && !control.dirty) {
                 control.markAsTouched();
-                control.updateValueAndValidity({ onlySelf: false, emitEvent: true });
+                control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             } else if (control instanceof FormGroup) {
                 this.markSectionAsTouched(control);
             }

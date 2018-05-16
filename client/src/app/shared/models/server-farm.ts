@@ -7,4 +7,5 @@ export interface ServerFarm {
     geoRegion: string;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     provisioningState: 'InProgress' | 'Succeeded' | 'Failed';
+    isXenon: boolean;
 }

@@ -2,12 +2,12 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oauth-helper';
 import { constants } from '../constants';
-import { GUID } from '../utilities';
+import { GUID } from '../utilities/guid';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
 const oauthHelper: oAuthHelper = new oAuthHelper('bitbucket');
 export async function getBitbucketTokens(req: any): Promise<any> {
-    return await oauthHelper.getToken(req.headers.authorization);
+    return await oauthHelper.getToken(req.body.authToken);
 }
 export function setupBitbucketAuthentication(app: Application) {
     app.post('/api/bitbucket/passthrough', async (req: ApiRequest<PassthroughRequestBody>, res) => {
@@ -79,7 +79,7 @@ export function setupBitbucketAuthentication(app: Application) {
                 }
             );
             const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-            oauthHelper.saveToken(token.access_token, req.headers.authorization as string, token.refresh_token as string, environment);
+            oauthHelper.saveToken(token.access_token, req.body.authToken as string, token.refresh_token as string, environment);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('bitbucket-token-store', err);

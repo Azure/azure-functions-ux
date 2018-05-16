@@ -6,7 +6,6 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
-import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 
 @Component({
     selector: 'app-step-complete',
@@ -48,18 +47,5 @@ export class StepCompleteComponent {
 
     clearBusy() {
         this._busyManager.clearBusy();
-    }
-
-    renderDashboard() {
-        this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this.wizard.wizardValues.sourceProvider);
-    }
-
-    get showSave(): boolean {
-        return !this.showDashboard;
-    }
-
-    get showDashboard(): boolean {
-        const sourceProvider: sourceControlProvider = this.wizard.wizardValues.sourceProvider;
-        return sourceProvider === 'ftp' || sourceProvider === 'webdeploy';
     }
 }

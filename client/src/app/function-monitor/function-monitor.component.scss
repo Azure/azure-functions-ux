@@ -12,3 +12,9 @@
 .tableBody tr:hover{
     background-color: $row-hover-color;
 }
+
+:host-context(#app-root[theme=dark]){
+    .rowSelected {
+        background-color: $row-selected-color-dark;
+    }
+}

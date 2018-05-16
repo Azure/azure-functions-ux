@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
@@ -7,12 +9,13 @@ import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector } from '@angular/core';
 import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
-import { Observable } from 'rxjs/Observable';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
+import { BillingMeter } from '../../../shared/models/arm/billingMeter';
+import { LogCategories } from '../../../shared/models/constants';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
@@ -51,6 +54,7 @@ export class PlanPriceSpecManager {
     private _planService: PlanService;
     private _portalService: PortalService;
     private _ts: TranslateService;
+    private _logService: LogService;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
     private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
@@ -60,6 +64,7 @@ export class PlanPriceSpecManager {
         this._planService = _injector.get(PlanService);
         this._portalService = _injector.get(PortalService);
         this._ts = _injector.get(TranslateService);
+        this._logService = _injector.get(LogService);
     }
 
     initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
@@ -67,61 +72,110 @@ export class PlanPriceSpecManager {
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
 
-        return this._getBillingMeters(inputs)
-            .switchMap(r => {
-                if (!r) {
-                    return Observable.of(null);
-                }
-
-                const billingMeters = r;
-                let specInitCalls: Observable<void>[] = [];
+        let specInitCalls: Observable<void>[] = [];
+        return this._getPlan(inputs)
+            .switchMap(plan => {
+                // plan is null for new plans
+                this._plan = plan;
 
                 // Initialize every spec for each spec group.  For most cards this is a no-op, but
                 // some require special handling so that we know if we need to hide/disable a card.
                 this.specGroups.forEach(g => {
-                    const input: PriceSpecInput = {
+                    const priceSpecInput: PriceSpecInput = {
                         specPickerInput: inputs,
-                        billingMeters: billingMeters,
                         plan: this._plan,
                         subscriptionId: this._subscriptionId
                     };
 
-                    g.initialize(input);
-                    specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(input)));
-                    specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(input)));
+                    g.initialize(priceSpecInput);
+                    specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(priceSpecInput)));
+                    specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
                 });
 
-                return Observable.zip(...specInitCalls);
-            })
-            .do(_ => {
-                this._cleanUpGroups();
+                return Observable.zip(...specInitCalls)
+                    .do(_ => {
+                        this._cleanUpGroups();
+                    });
             });
     }
 
-    getSpecCosts() {
-        let specResourceSets: SpecResourceSet[] = [];
-        let specsToAllowZeroCost: string[] = [];
+    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        if (!inputs.data) {
+            return this._planService.getPlan(inputs.id, true)
+                .map(r => {
 
-        this.specGroups.forEach(g => {
-            specResourceSets = specResourceSets.concat(g.recommendedSpecs.map(s => s.specResourceSet));
-            specResourceSets = specResourceSets.concat(g.additionalSpecs.map(s => s.specResourceSet));
-            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.recommendedSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
-            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.additionalSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
-        });
+                    if (r.isSuccessful) {
+                        this._plan = r.result;
 
-        const query: SpecCostQueryInput = {
-            subscriptionId: this._subscriptionId,
-            specResourceSets: specResourceSets,
-            specsToAllowZeroCost: specsToAllowZeroCost,
-            specType: 'WebsitesExtension',
-        };
+                        if (this._plan.sku.name === 'Y1') {
+                            this._specPicker.statusMessage = {
+                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
+                                level: 'error'
+                            };
 
-        return this._portalService.getSpecCosts(query)
-            .do(result => {
-                this.specGroups.forEach(g => {
-                    this._updatePriceStrings(result, g.recommendedSpecs);
-                    this._updatePriceStrings(result, g.additionalSpecs);
+                            this._specPicker.shieldEnabled = true;
+                        }
+
+                        return r.result;
+                    } else {
+                        this._specPicker.statusMessage = {
+                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
+                            level: 'error'
+                        };
+
+                        this._specPicker.shieldEnabled = true;
+                    }
+
+                    return null;
                 });
+        }
+
+        return Observable.of(null);
+    }
+
+    getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        return this._getBillingMeters(inputs)
+            .switchMap(meters => {
+                if (!meters) {
+                    return Observable.of(null);
+                }
+                let specResourceSets: SpecResourceSet[] = [];
+                let specsToAllowZeroCost: string[] = [];
+
+                this.specGroups.forEach(g => {
+                    g.recommendedSpecs.forEach(s => this._setBillingResourceId(s, meters));
+                    g.additionalSpecs.forEach(s => this._setBillingResourceId(s, meters));
+
+                    specResourceSets = this._concatValidResourceSets(specResourceSets, g.recommendedSpecs);
+                    specResourceSets = this._concatValidResourceSets(specResourceSets, g.additionalSpecs);
+
+                    specsToAllowZeroCost = specsToAllowZeroCost.concat(g.recommendedSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
+                    specsToAllowZeroCost = specsToAllowZeroCost.concat(g.additionalSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
+                });
+
+                const query: SpecCostQueryInput = {
+                    subscriptionId: this._subscriptionId,
+                    specResourceSets: specResourceSets,
+                    specsToAllowZeroCost: specsToAllowZeroCost,
+                    specType: 'WebsitesExtension',
+                };
+
+                return this._portalService.getSpecCosts(query)
+                    .do(result => {
+                        this.specGroups.forEach(g => {
+                            this._updatePriceStrings(result, g.recommendedSpecs);
+                            this._updatePriceStrings(result, g.additionalSpecs);
+                        });
+                    });
+            })
+            .catch(e => {
+                this.specGroups.forEach(g => {
+                    this._updatePriceStrings(null, g.recommendedSpecs);
+                    this._updatePriceStrings(null, g.additionalSpecs);
+                });
+
+                this._logService.error(LogCategories.specPicker, '/get-spec-costs', `Failed to get/set price for specs: ${e}`);
+                return Observable.of(null);
             });
     }
 
@@ -219,59 +273,62 @@ export class PlanPriceSpecManager {
             });
     }
 
+    private _concatValidResourceSets(allResourceSets: SpecResourceSet[], specs: PriceSpec[]) {
+        return allResourceSets.concat(specs
+            .filter(s => s.specResourceSet.firstParty[0].resourceId)
+            .map(s => s.specResourceSet));
+    }
+
     private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        // If we're getting meters for an existing plan
         if (!inputs.data) {
 
-            return this._planService.getPlan(inputs.id, true)
-                .switchMap(r => {
-
-                    if (r.isSuccessful) {
-                        this._plan = r.result;
-
-                        if (this._plan.sku.name === 'Y1') {
-                            this._specPicker.statusMessage = {
-                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
-                            };
-
-                            this._specPicker.shieldEnabled = true;
-                        }
-                    } else {
-                        this._specPicker.statusMessage = {
-                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
-                        };
-
-                        this._specPicker.shieldEnabled = true;
-
-                        return Observable.of(null);
-                    }
-
-                    return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
-                });
+            // If we're getting meters for an existing plan
+            return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
         }
 
         // We're getting meters for a new plan
         return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
     }
 
+    private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
+        if (!spec.meterFriendlyName) {
+            throw Error('meterFriendlyName must be set');
+        }
+
+        if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length !== 1) {
+            throw Error('Spec must contain a specResourceSet with one firstParty item defined');
+        }
+
+        const billingMeter = billingMeters.find(m => m.properties.friendlyName === spec.meterFriendlyName);
+
+        if (!billingMeter) {
+            this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.meterFriendlyName}`);
+            return;
+        }
+
+        spec.specResourceSet.firstParty[0].resourceId = billingMeter.properties.meterId;
+    }
+
     private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
         specs.forEach(spec => {
-            const costResult = result.costs.find(c => c.id === spec.specResourceSet.id);
-            if (costResult.amount === 0.0) {
-                spec.priceString = 'Free';
+            const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
+            if (!costResult) {
+                // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
+                spec.priceString = ' ';
+            } else if (costResult.amount === 0.0) {
+                spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
-                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
+                const rate = (meter.perUnitAmount * 744).toFixed(2);    // 744 hours in a month
+                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
             }
         });
     }
 
-
     private _cleanUpGroups() {
         let nonEmptyGroupIndex = 0;
         let foundNonEmptyGroup = false;
+        let foundDefaultGroup = false;
 
         // Remove hidden and forbidden specs and move disabled specs to end of list.
         this.specGroups.forEach((g, i) => {
@@ -285,12 +342,30 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's already a spec that's selected within a group
+            // Find if there's a spec in the current group that matches the plan sku
             g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
             if (!g.selectedSpec) {
                 g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
-                g.isExpanded = g.selectedSpec ? true : false;   // Expand if selected spec is in the "all specs" list
             }
+
+            // If a plan's sku matches a spec in the current group, then make that group the default group
+            if (g.selectedSpec && !foundDefaultGroup) {
+                foundDefaultGroup = true;
+                this.selectedSpecGroup = this.specGroups[i];
+            }
+
+            // If we still haven't found a default spec in the group, pick the first recommended one
+            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
+                g.selectedSpec = g.recommendedSpecs[0];
+            }
+
+            // If we still haven't found a defautl spec in the group, pick the first additional one
+            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
+                g.selectedSpec = g.additionalSpecs[0];
+            }
+
+            // Expand if selected spec is in the "all specs" list
+            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;
@@ -299,11 +374,7 @@ export class PlanPriceSpecManager {
             }
         });
 
-        if (nonEmptyGroupIndex < this.specGroups.length) {
-            // The UI loads the default set of cards immediately, but the specManager filters them out
-            // based on each cards initialization logic.  Angular isn't able to detect the updated filtered
-            // view in the list, so we're forcing an update by creating a new reference
-            this.specGroups[nonEmptyGroupIndex] = Object.assign({}, this.specGroups[nonEmptyGroupIndex]);
+        if (!foundDefaultGroup && nonEmptyGroupIndex < this.specGroups.length) {
             this.selectedSpecGroup = this.specGroups[nonEmptyGroupIndex];
 
             // Find the first group with a selectedSpec and make that group the default

@@ -112,7 +112,8 @@ export class Links {
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
-    public static vmSizeLearnMore = 'https://docs.microsoft.com/azure/virtual-machines/windows/sizes-general';
+    public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
+    public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
 }
 
 export class Kinds {
@@ -177,7 +178,10 @@ export class ScenarioIds {
     public static readonly addSsh = 'AddSsh';
     public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
     public static readonly addLogicApps = 'AddLogicApps';
-    public static readonly enableAppInsights = 'EnableAppInsights';
+    public static readonly appInsightsConfigurable = 'AppInsightsConfigurable';
+    public static readonly addScaleUp = 'AddScaleUp';
+    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -189,8 +193,7 @@ export class ScenarioIds {
     public static readonly enableMetrics = 'EnableMetrics';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
-    public static readonly addScaleUp = 'AddScaleUp';
-    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
     public static readonly showSideNavMenu = 'ShowSideNavMenu';
@@ -218,6 +221,7 @@ export class ScenarioIds {
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
+    public static readonly addHTTPSwitch = 'addHTTPSwitch';
 }
 
 export class ServerFarmSku {
@@ -271,6 +275,7 @@ export class LogCategories {
     public static readonly addSlot = 'AddSlot';
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
     public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
+    public static readonly applicationInsightsKeyNotFound = 'ApplicationInsightsInstrumentationKeyNotFound';
     public static readonly serverFarm = 'ServerFarm';
 }
 

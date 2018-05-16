@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Toepassen</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} items geselecteerd</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Geheugen</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Opslag</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Fout bij het maken van de functie: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Aanroeplogbestand</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Aanroepdetails</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Logboeken</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Uploaden</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Meer opties weergeven</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>Aanvullende opties bekijken</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>See fewer options</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Alleen aanbevolen opties weergeven</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Een of meer functie-apps zijn gekoppeld aan dit opslagaccount. U kunt alle functie-apps die zijn gekoppeld aan het account weergeven onder bestanden of Shares.</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>U kunt Storage Explorer hier downloaden:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Verbinding maken met deze referenties:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Gebruik Verificatie/autorisatie om uw toepassing te beschermen en met individuele gebruikersgegevens te werken.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Beheerde service-identiteit</value>
+    <value>Beheerde service-identiteit (preview)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uw toepassing kan met een beheerde Azure Active Directory-id als zichzelf met andere Azure-services communiceren.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resourcebeheer</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Problemen vaststellen en oplossen</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Met de selfservice-ervaring voor diagnose en probleemoplossing kunt u problemen met uw app identificeren en oplossen</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Geavanceerde hulpmiddelen (Kudu)</value>
@@ -2057,13 +2063,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Uw app bevindt zich momenteel in de modus alleen-lezen omdat u de bewerkingsmodus hebt ingesteld op alleen-lezen. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Uw app bevindt zich momenteel in de modus lezen\schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen\schrijven ondanks dat bronbeheer is ingeschakeld. Wijzigingen die u hebt aangebracht kunnen worden overschreven bij de volgende implementatie. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
+    <value>Uw app bevindt zich momenteel in de modus lezen/schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen/schrijven ondanks dat bronbeheer is ingeschakeld. Wijzigingen die u hebt aangebracht kunnen worden overschreven bij de volgende implementatie. Voor het wijzigen van de bewerkingsmodus gaat u naar </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>De app is momenteel in de modus alleen-lezen omdat u hebt gegenereerde function.json hebt gepubliceerd. Wijzigingen in de function.json worden niet verwerkt in de Functions-runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Uw app bevindt zich momenteel in de modus lezen\schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen\schrijven ondanks dat .json-functie is gegenereerd. Wijzigingen die u hebt aangebracht in de .json-functie worden niet gehonoreerd door de runtime van de functies.</value>
+    <value>Uw app bevindt zich momenteel in de modus lezen/schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen/schrijven ondanks dat .json-functie is gegenereerd. Wijzigingen die u hebt aangebracht in de .json-functie, worden niet gehonoreerd door de runtime van de functies.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopiëren</value>
@@ -2198,7 +2204,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Sites (preview-versies)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Schakel voor een uitgebreidere controle, waaronder live metrische gegevens en aangepaste query's &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt; Application Insights&lt;/a&gt; in voor uw functie-app</value>
+    <value>Voor een uitgebreidere controle, waaronder live metrische gegevens en aangepaste query's:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>Application Insights configureren voor uw functie-app</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Deze waarde wordt aan het eind van de URL van uw hoofdweb-app toegevoegd en dient als het publieke adres van de site. Als u bijvoorbeeld een web-app hebt met de naam 'contoso' en een site met de naam 'staging', krijgt de nieuwe site de URL 'http://contoso-staging.azurewebsites.net'.</value>
@@ -2645,7 +2654,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voor dit sjabloon zijn de volgende extensies vereist.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Wanneer u sjabloonafhankelijkheden installeert, kunt u een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot tien minuten duren. U kunt tijdens deze bewerking de portal blijven gebruiken.</value>
+    <value>Wanneer u sjabloonafhankelijkheden installeert, kunt u een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze blade sluiten en tijdens deze bewerking de portal blijven gebruiken.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>De runtime-extensie kan niet worden geïnstalleerd. Installatie-id {{installationId}}
@@ -2682,7 +2691,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>waarde verbergen</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen maar App Insights is niet gevonden in het abonnement van de functie-app. Controleer of App Insights zich bevindt in hetzelfde abonnement als de functie-app.</value>
+    <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen, maar App Insights is niet gevonden in het abonnement van de app Function. Controleer of App Insights zich bevindt in hetzelfde abonnement als de app Function.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Begin van rij</value>
@@ -2946,7 +2955,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Implementeren vanuit een lokale Git-opslagplaats.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Continue integratie configureren met een Dropbox-map.</value>
+    <value>De inhoud van een OneDrive-cloudmap synchroniseren.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Duurzame functies</value>
@@ -2984,11 +2993,17 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="diagnostics_line" xml:space="preserve">
     <value>Lijn</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Aanbevolen prijscategorieën</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Extra prijscategorieën</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
-    <value>Your subscription does not allow this pricing tier</value>
+    <value>Deze prijscategorie is niet toegestaan voor uw abonnement</value>
   </data>
   <data name="pricing_devTestTitle" xml:space="preserve">
-    <value>Dev / Test</value>
+    <value>Ontwikkelen/testen</value>
   </data>
   <data name="pricing_devTestDesc" xml:space="preserve">
     <value>Voor minder veeleisende workloads</value>
@@ -3003,52 +3018,184 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Afgeschermd</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
-    <value>Advanced networking and scale</value>
+    <value>Geavanceerde netwerken en schaalbaarheid</value>
   </data>
   <data name="pricing_notAvailableConsumption" xml:space="preserve">
-    <value>Scale up is not available for consumption plans</value>
+    <value>Omhoog schalen is niet beschikbaar voor verbruiksabonnementen</value>
   </data>
   <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
-    <value>You must have write permissions to scale up this plan</value>
+    <value>U hebt schrijfmachtigingen nodig om dit abonnement omhoog te schalen</value>
   </data>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
-    <value>You must have write permissions on the plan '{0}' to update it</value>
+    <value>U hebt schrijfmachtigingen voor het abonnement {0} nodig om het abonnement bij te werken</value>
   </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
-    <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
+    <value>Het abonnement {0} bevat een alleen-lezenvergrendeling en kan niet worden bijgewerkt</value>
+  </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>App Service-plan bijwerken</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Het abonnement {0} bijwerken</value>
   </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
-    <value>The plan '{0}' was updated successfully!</value>
+    <value>Het abonnement {0} is bijgewerkt.</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>De taak voor het schalen van het plan {0} is ingediend.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Er wordt momenteel een schaalbewerking uitgevoerd voor het plan {0}. Wacht tot de bewerking is voltooid voordat u een nieuwe schaalbewerking uitvoert.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
-    <value>Failed to update the plan '{0}'</value>
+    <value>Kan het abonnement {0} niet bijwerken</value>
   </data>
   <data name="pricing_includedFeatures" xml:space="preserve">
-    <value>Included features</value>
+    <value>Inbegrepen functies</value>
   </data>
   <data name="pricing_includedFeaturesDesc" xml:space="preserve">
-    <value>Every app hosted on this App Service plan will have access to these features:</value>
+    <value>Elke app die in dit App Service-abonnement wordt gehost, krijgt toegang tot deze functies:</value>
   </data>
   <data name="pricing_includedHardware" xml:space="preserve">
-    <value>Included hardware</value>
+    <value>Inbegrepen hardware</value>
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
-    <value>Every instance of your App Service plan will include the following hardware configuration:</value>
+    <value>Elke instantie van uw App Service-abonnement bevat de volgende hardwareconfiguratie:</value>
   </data>
   <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
+    <value>Linux-web-apps in een App Service Environment worden tijdens de preview-fase gefactureerd met 50% korting.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
-    <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
+    <value>De eerste Basic-kern (B1) voor Linux is de eerste dertig dagen gratis.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows containers are billed at a 50% discount while in preview.</value>
+    <value>Windows-containers worden tijdens de preview-fase gefactureerd met 50% korting.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolated plans within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+    <value>Er zijn geen geïsoleerde categorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie. Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>De prijscategorieën voor ontwikkelen/testen zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>De prijscategorieën voor productie zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
-    <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    <value>Premium V2 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Omhoog schalen</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratis</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/uur (schatting)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Kies een andere prijscategorie om meer resources aan uw abonnement toe te voegen</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>App Service-abonnement bijwerken</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Gedeelde infrastructuur</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Gedeelde rekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>De toegewezen A-reeksrekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>De toegewezen Dv2-reeksrekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Geheugen dat beschikbaar is om toepassingen uit te voeren die zijn geïmplementeerd en worden uitgevoerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Geheugen dat per exemplaar beschikbaar is om toepassingen uit te voeren die zijn geïmplementeerd en worden uitgevoerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} schijfopslag gedeeld door alle apps die zijn geïmplementeerd in het App Service-plan.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Aangepaste domeinen/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Aangepaste domeinen configureren en aanschaffen met SNI SSL-bindingen</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Aangepaste domeinen configureren en aanschaffen met SNI en IP-SSL-bindingen</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Handmatig schalen</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Automatisch schalen</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Schalen naar een groot aantal exemplaren</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Maximaal 100 exemplaren. Meer toegestaan op aanvraag.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Maximaal {0} exemplaren. Afhankelijk van beschikbaarheid.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Faseringssleuven</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Maximaal {0} faseringssleuven voor testen en implementaties voordat ze in productie gaan.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Dagelijkse back-up</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Dagelijkse back-ups</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Dagelijks {0} keer een back-up van uw app maken.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>De prestaties en beschikbaarheid verbeteren door het routeren van verkeer tussen meerdere exemplaren van uw app.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Systeem met één tenant</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Meer controle over de resources die door uw app worden gebruikt.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Geïsoleerd netwerk</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Wordt uitgevoerd binnen uw eigen virtuele netwerk.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Persoonlijke app-toegang</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Een App Service Environment met een interne Load Balancing (ILB) gebruiken.</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB geheugen</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minuten/dag berekenen</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} cores</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A-reeks berekenen</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2-reeks berekenen</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>De proxies.json is niet geldig. Fout: {0}.</value>
@@ -3060,7 +3207,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Bewerkings-id</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Datum</value>
+    <value>Datum (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3069,28 +3216,31 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Resultaatcode</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Triggerreden</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Fout</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Uitvoeren in Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights-instantie</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Voltooid</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Duur</value>
+    <value>Duur (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Het aantal geslaagde pogingen in de afgelopen dertig dagen</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Het aantal fouten in de afgelopen dertig dagen</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>De query heeft {0} items geretourneerd</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Bericht</value>
@@ -3108,7 +3258,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>VSTS gebruiken als de build-server. U kunt profiteren van geavanceerde opties voor een volledige release management-werkstroom.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Bouwen op server</value>
+    <value>App Service Kudu maken server</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>App Service gebruiken als de build-server. De engine voor het App Service Kudu bouwt automatisch uw code tijdens de implementatie indien van toepassing, zonder aanvullende configuratie vereist.</value>
@@ -3134,6 +3284,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="workingDirectory" xml:space="preserve">
     <value>Werkmap</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>Er wordt een bewerking uitgevoerd. Weet u zeker dat u de bewerking wilt verlaten?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Taakuitvoerder</value>
   </data>
@@ -3157,6 +3310,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Opslagplaats selecteren</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Map selecteren</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Vertakking selecteren</value>
@@ -3200,7 +3356,136 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Niet gemachtigd</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
+    <value>De aanroep om hostgegevens op te halen is mislukt.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Application Insights configureren voor het vastleggen van aanroeplogboeken</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions ondersteunt nu Application Insights als de voorkeursoplossing voor bewaking voor apps onder constructie en in productie. App Insights biedt krachtige analyses, meldingen en visualisaties van uw logboekgegevens, evenals een grotere betrouwbaarheid op schaal.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Overschakelen naar de klassieke weergave</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configuratie-instructies</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Configureren</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Aanroeptraceringen</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Resultaten kunnen maximaal 5 minuten worden uitgesteld.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Een bestand hierheen slepen of</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>bladeren</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>om te uploaden</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Metrieken</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Metrische gegevens weergeven en waarschuwingen instellen.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP-implementatie kan worden uitgeschakeld of geconfigureerd om FTP- (tekst zonder opmaak) of FTPS-verbindingen (beveiligde verbindingen) te accepteren. Klik voor meer informatie.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP-toegang</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Valideren...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>U hebt geen machtigingen om een builddefinitie of een versiedefinitie te maken voor dit project. Neem contact op met de projectbeheerder</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>De opgegeven naam van het account is ongeldig. Geef een andere accountnaam op.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP- + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Alleen FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Uitschakelen</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Weergeven</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Verbergen</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Uw wachtwoord en bevestigingswachtwoord komen niet overeen.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Gebruik een FTP-verbinding voor toegang tot en het kopiëren van app-bestanden.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Gebruikersreferenties</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App-referenties</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Wachtwoord bevestigen</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS-eindpunt</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Referenties</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>In behandeling</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Mislukt</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Voltooid</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Referenties opslaan</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Referenties opnieuw instellen</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

@@ -58,8 +58,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
             runCheckAsync: (input: ScenarioCheckInput) => {
                 return Observable.of<ScenarioResult>({
                     status: 'disabled',
@@ -95,6 +95,21 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
+            id: ScenarioIds.addDiagnoseAndSolve,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.addHTTPSwitch] = {
+            id: ScenarioIds.addHTTPSwitch,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

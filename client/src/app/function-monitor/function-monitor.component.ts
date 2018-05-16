@@ -1,5 +1,5 @@
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { ScenarioIds, Constants } from './../shared/models/constants';
+import { ScenarioIds, Constants, LogCategories } from './../shared/models/constants';
 import { ComponentNames } from 'app/shared/models/constants';
 import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -14,6 +14,8 @@ import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInsightsService } from '../shared/services/application-insights.service';
+import { SiteService } from '../shared/services/site.service';
+import { LogService } from '../shared/services/log.service';
 
 @Component({
     selector: ComponentNames.functionMonitor,
@@ -29,9 +31,11 @@ export class FunctionMonitorComponent extends NavigableComponent {
 
     constructor(
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         private _scenarioService: ScenarioService,
         private _translateService: TranslateService,
         private _applicationInsightsService: ApplicationInsightsService,
+        private _logService: LogService,
         public globalStateService: GlobalStateService,
         injector: Injector
     ) {
@@ -62,8 +66,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
             .switchMap(tuple => Observable.zip(
                 Observable.of(tuple[0]),
                 this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
-                this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
-                this._scenarioService.checkScenarioAsync(ScenarioIds.enableAppInsights, { site: tuple[0].site })
+                this._siteService.getAppSettings(tuple[0].site.id),
+                this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
             ))
             .map((tuple): FunctionMonitorInfo => ({
                 functionAppContext: tuple[0],
@@ -98,11 +102,17 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _shouldLoadClassicView(): boolean {
         const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
 
+        const loadClassicView = view === FunctionMonitorComponent.CLASSIC_VIEW &&
+            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+
+        if (!loadClassicView) {
+            this._applicationInsightsService.removeFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        }
+
         // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
         // the user has selected to switch to classic view and has not setup an instrumentation key.
         return !this.functionMonitorInfo.appInsightsFeatureEnabled ||
-            (view === FunctionMonitorComponent.CLASSIC_VIEW &&
-            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName]);
+            loadClassicView;
     }
 
     private _shouldLoadApplicationInsightsView(): boolean {
@@ -121,6 +131,11 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),
                 resourceId: this.functionMonitorInfo.functionAppContext.site.id
             };
+
+            this._logService.error(
+                LogCategories.applicationInsightsKeyNotFound,
+                errorIds.applicationInsightsInstrumentationKeyMismatch,
+                'Application Insights Instrumentation Key not found');
         }
 
         this.monitorConfigureInfo = {

@@ -73,6 +73,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public autoSwapSupported = false;
     public autoSwapEnabledOptions: SelectOption<boolean>[];
 
+    public http20Supported = false;
+    public http20EnabledOptions: SelectOption<boolean>[];
+
     public dropDownOptionsMap: { [key: string]: DropDownElement<string>[] };
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
@@ -264,6 +267,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.autoSwapSupported = false;
         this.linuxRuntimeSupported = false;
         this.FTPAccessSupported = false;
+        this.http20Supported = false;
     }
 
     private _processSupportedControls(siteArm: ArmObj<Site>, siteConfigArm: ArmObj<SiteConfig>) {
@@ -280,7 +284,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
-            let FTPAccessSupported = Url.getParameterByName(null, 'appsvc.feature.ftps') === 'true';
+            let FTPAccessSupported = true;
+            let http20Supported = true;
 
             this._sku = siteArm.properties.sku;
 
@@ -294,7 +299,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 classicPipelineModeSupported = false;
                 remoteDebuggingSupported = false;
 
-                if ((siteConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+                const linuxFxVersion = (siteConfigArm.properties.linuxFxVersion || '');
+                if (linuxFxVersion.indexOf(LinuxConstants.dockerPrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.composePrefix) === -1 &&
+                linuxFxVersion.indexOf(LinuxConstants.kubernetesPrefix) === -1  ) {
                     linuxRuntimeSupported = true;
                 }
 
@@ -320,6 +328,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
             if (this._scenarioService.checkScenario(ScenarioIds.enableRemoteDebugging).status === 'disabled') {
                 remoteDebuggingSupported = false;
+            if (this._scenarioService.checkScenario(ScenarioIds.addHTTPSwitch, { site: siteArm }).status === 'disabled') {
+                http20Supported = false;
             }
 
             this.netFrameworkSupported = netFrameworkSupported;
@@ -335,6 +345,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             this.autoSwapSupported = autoSwapSupported;
             this.linuxRuntimeSupported = linuxRuntimeSupported;
             this.FTPAccessSupported = FTPAccessSupported;
+            this.http20Supported = http20Supported;
         }
     }
 
@@ -453,9 +464,13 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             { displayLabel: onString, value: true }];
 
         this.FTPAccessOptions =
-            [{ displayLabel: 'FTP + FTPS', value: 'AllAllowed' },
-            { displayLabel: 'FTPS Only', value: 'FtpsOnly' },
-            { displayLabel: 'Disable', value: 'Disabled' }];
+            [{ displayLabel: this._translateService.instant(PortalResources.FTPBoth), value: 'AllAllowed' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
+
+        this.http20EnabledOptions =
+            [{ displayLabel: '1.1', value: false },
+            { displayLabel: '2.0', value: true }];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -481,6 +496,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         }
         if (this.FTPAccessSupported) {
             group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.ftpsState, disabled: !this.hasWritePermissions }));
+        }
+        if (this.http20Supported) {
+            group.addControl('http20Enabled', this._fb.control({ value: siteConfigArm.properties.http20Enabled, disabled: !this.hasWritePermissions }));
         }
     }
 
@@ -1122,6 +1140,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             }
             if (this.FTPAccessSupported) {
                 siteConfigArm.properties.ftpsState = <string>(generalSettingsControls['FTPAccessOptions'].value);
+            }
+            if (this.http20Supported) {
+                siteConfigArm.properties.http20Enabled = <boolean>(generalSettingsControls['http20Enabled'].value);
             }
 
             // -- stacks settings --

@@ -128,8 +128,8 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
             runCheckAsync: (input: ScenarioCheckInput) => {
                 return Observable.of<ScenarioResult>({
                     status: 'disabled',

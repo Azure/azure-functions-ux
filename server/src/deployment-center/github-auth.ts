@@ -2,12 +2,12 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oauth-helper';
 import { constants } from '../constants';
-import { GUID } from '../utilities';
+import { GUID } from '../utilities/guid';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
 const oauthHelper: oAuthHelper = new oAuthHelper('github');
 export async function getGithubTokens(req: any): Promise<any> {
-    return await oauthHelper.getToken(req.headers.authorization);
+    return await oauthHelper.getToken(req.body.authToken);
 }
 
 export function setupGithubAuthentication(app: Application) {
@@ -69,7 +69,7 @@ export function setupGithubAuthentication(app: Application) {
                 code: code
             });
             const token = oauthHelper.getParameterByName('access_token', '?' + r.data);
-            oauthHelper.saveToken(token, req.headers.authorization as string);
+            oauthHelper.saveToken(token, req.body.authToken as string);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('github-token-store', err);

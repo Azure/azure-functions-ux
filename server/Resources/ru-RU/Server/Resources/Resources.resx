@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>Выбрано элементов: {0}</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>ЦП</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Память</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Служба хранилища</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Ошибка при создании функции: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Журнал вызовов</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Сведения о вызове</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Журналы</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Отправить</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Дополнительные варианты</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>См. дополнительные параметры</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Показать меньше вариантов</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Просмотреть только рекомендуемые варианты</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>С этой учетной записью хранения были связаны приложения-функции. Все приложения-функции, связанные с этой учетной записью, можно просмотреть в разделах "Файлы" или "Общие файловые ресурсы".</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Скачайте обозреватель службы хранилища отсюда:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Подключитесь по этим учетным данным:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Управляемое удостоверение службы</value>
+    <value>Удостоверение управляемой службы (предварительная версия)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Приложение может взаимодействовать с другими службами Azure, так как использует управляемое удостоверение Azure Active Directory.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Управление ресурсами</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Диагностика и решение проблем</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Интерфейс самостоятельной диагностики и устранения неполадок помогает определить и устранить неполадки приложения</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Дополнительные инструменты (Kudu)</value>
@@ -2057,13 +2063,13 @@
     <value>Приложение сейчас находится в режиме "только для чтения", так как вы перевели его в режим правки. Чтобы изменить режим правки, посетите </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Приложение сейчас находится в режиме "чтение и запись", так как вы перевели его в режим правки, несмотря на включенную систему управления версиями. Любые вносимые изменения могут быть переопределены при следующем развертывании. Чтобы изменить режим правки, посетите </value>
+    <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на включенную систему управления версиями. Все вносимые изменения могут быть перезаписаны при следующем развертывании. Чтобы изменить режим правки, воспользуйтесь </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Ваше приложение сейчас находится в режиме "только для чтения", так как вы опубликовали созданный function.json. Изменения, вносимые в function.json, не будут учитываться средой выполнения Функций Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме чтения и записи, так как вы задали такой режим правки несмотря на созданный function.json. Изменения, внесенные в function.json, не будут учитываться в среде выполнения функций.</value>
+    <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на созданный function.json. Изменения, внесенные в function.json, не будут учитываться в среде выполнения функций.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Копировать</value>
@@ -2198,7 +2204,10 @@
     <value>Слоты (предварительная версия)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Чтобы получить дополнительные возможности мониторинга, включая пользовательские запросы и метрики в реальном времени, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;активируйте для своего приложения-функции службу Application Insights.&lt;/a&gt;</value>
+    <value>Чтобы получить дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы,</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>настройте Application Insights для своего приложения-функции</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Это значение будет добавлено к URL-адресу вашего главного веб-приложения и будет общедоступным адресом слота. Например, если у вас есть веб-приложение "contoso" и слот "staging", то новый слот будет иметь URL-адрес вида "http://contoso-staging.azurewebsites.net".</value>
@@ -2645,7 +2654,7 @@
     <value>Для шаблона требуются следующие расширения.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Установив зависимости шаблона, можно создать функцию. Установка происходит в фоновом режиме и может занять до 10 минут. В течение этого времени можно продолжать использовать портал.</value>
+    <value>Установив зависимости шаблона, можно создать функцию. Установка происходит в фоновом режиме и может занять до 2 минут. В течение этого времени можно закрыть эту колонку и продолжать использовать портал.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
@@ -2681,7 +2690,7 @@
     <value>Скрыть значение</value>
   </data>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
-    <value>Ключ инструментирования App Insights указан в параметрах приложения, но найти App Insights в подписке приложения-функции не удалось. Убедитесь, что App Insights находится в той же подписке, что и приложение-функция.</value>
+    <value>Ключ инструментирования App Insights указан в параметрах приложения, но найти App Insights в подписке приложения-функции не удалось. Убедитесь, что App Insights относится к той же подписке, что и приложение-функция.</value>
   </data>
   <data name="table_startOfRow" xml:space="preserve">
     <value>Начало строки</value>
@@ -2945,7 +2954,7 @@
     <value>Развертывание из локального репозитория Git.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Настройка непрерывной интеграции с папкой папки Dropbox</value>
+    <value>Синхронизация содержимого из облачной папки Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Устойчивые функции</value>
@@ -2983,6 +2992,12 @@
   <data name="diagnostics_line" xml:space="preserve">
     <value>Строка</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Рекомендованные ценовые категории</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Дополнительные ценовые категории</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Эта ценовая категория недоступна для вашей подписки</value>
   </data>
@@ -3016,8 +3031,20 @@
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>План "{0}" доступен только для чтения и не может быть обновлен</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Обновление плана службы приложений</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Обновляется план {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>План "{0}" успешно обновлен.</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Задание масштабирования плана "{0}" успешно отправлено.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Операция масштабирования сейчас выполняется для плана "{0}". Дождитесь завершения операции перед следующей попыткой масштабирования.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Не удалось обновить план "{0}".</value>
@@ -3044,10 +3071,130 @@
     <value>Контейнеры для Windows предоставляются в предварительной версии с 50-процентной скидкой.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Изолированные планы в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
+    <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Ценовые категории для разработки и тестирования недоступны для вашей конфигурации и доступны только для планов, не размещаемых в среде службы приложений.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Ценовые категории для рабочих сред недоступны для вашей конфигурации и доступны только для планов, не размещенных в среде службы приложений.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ценовая категория "Премиум V2" для этой единицы масштабирования не поддерживается. Разверните ваше приложение повторно или клонируйте его.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Увеличить масштаб</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Бесплатно</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/ч (предварительно)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Обновить план службы приложений</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Общая инфраструктура</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Общие вычислительные ресурсы для запуска приложений, развернутых в плане службы приложений.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Выделенные вычислительные ресурсы серии A для запуска приложений, развернутых в плане службы приложений.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Выделенные вычислительные ресурсы серии Dv2 для запуска приложений, развернутых в плане службы приложений.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Объем памяти для запуска приложений, развернутых и запущенных в плане службы приложений.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Объем памяти на экземпляр для запуска приложений, развернутых и запущенных в плане службы приложений.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>Хранилище дисков {0}, совместно используемое всеми приложениями, развернутыми в плане службы приложений.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Настраиваемые домены и SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Настройка и покупка личных доменов с привязками SNI SSL</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Настройка и покупка личных доменов с привязками SNI и SSL на основе IP</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Ручное масштабирование</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Автомасштабирование</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Масштабировать до большого числа экземпляров</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>До 100 экземпляров. Дополнительные экземпляры доступны по запросу.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Максимум экземпляров: {0} (если это возможно).</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Промежуточные слоты</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Максимум промежуточных слотов для тестирования и развертывания до переключения их на рабочие: {0}.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Ежедневная архивация</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Ежедневные архивы</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Ежедневная архивация приложения (количество раз: {0}).</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Диспетчер трафика</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Повышение производительности и доступности путем маршрутизации трафика между несколькими экземплярами приложения.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Система из одного клиента</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Больший контроль над ресурсами, используемыми приложением.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Изолированная сеть</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Запускается в вашей виртуальной сети.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Закрытый доступ к приложению</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Использование среды службы приложений с внутренней балансировкой нагрузки.</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} ГБ памяти</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} мин вычислений в день</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>Ядер: {0}</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>Серия A, вычисления</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Серия Dv2, вычисления</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Файл proxies.json недопустим. Ошибка: "{0}".</value>
@@ -3059,7 +3206,7 @@
     <value>ИД операции</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Дата</value>
+    <value>Дата (время в формате UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL-адрес</value>
@@ -3068,28 +3215,31 @@
     <value>Код результата</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Причина активации</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Ошибка</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Запустить в Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Экземпляр Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Успех</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Длительность</value>
+    <value>Длительность (мс)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Число успешных попыток за последние 30 дней</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Число ошибок за последние 30 дней</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Запрос вернул следующее число элементов: {0}</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Сообщение</value>
@@ -3107,7 +3257,7 @@
     <value>Используйте VSTS как сервер сборки. Вы можете использовать дополнительные параметры для реализации полноценного рабочего процесса управления выпуском.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Сборка на сервере</value>
+    <value>Сервер сборки Kudu службы приложений</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Используйте службу приложений как сервер сборки. Подсистема Kudu в службе приложений автоматически создаст код во время развертывания, когда это потребуется, без дополнительной настройки.</value>
@@ -3133,6 +3283,9 @@
   <data name="workingDirectory" xml:space="preserve">
     <value>Рабочий каталог</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>Выполняется операция. Вы действительно хотите уйти?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Запускатель задач</value>
   </data>
@@ -3156,6 +3309,9 @@
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Выбрать репозиторий</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Выбор папки</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Выбрать ветвь</value>
@@ -3199,7 +3355,136 @@
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Запрещено</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>Не удалось сделать вызов для получения сведений узла.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Настройка записи журналов вызовов в Application Insights</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Функции Azure теперь поддерживают Application Insights как предпочтительное решение мониторинга для приложений в процессе разработки и в рабочей среде. Application Insights обеспечивает эффективную аналитику, уведомления и визуализацию данных журналов, а также повышенную надежность при масштабировании.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Перейти к классическому представлению</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Настройка инструкций</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Настроить</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Трассировка вызовов</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Вывод результатов может занять до 5 минут.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Перетащите сюда файл или</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>обзор</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>для отправки</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Метрики</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Просмотрите метрики и настройте оповещения.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>Развертывание на основе FTP можно отключить или настроить для приема подключений по протоколу FTP (обычный текст) или FTPS (безопасный). Щелкните здесь, чтобы получить дополнительные сведения.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>Доступ к FTP</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Идет проверка...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>У вас нет разрешений на создание определения сборки или выпуска в этом проекте. Свяжитесь с администратором проекта</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Указанное имя учетной записи недопустимо. Укажите другое имя.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Только FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Скрыть</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Пароль и его подтверждение не совпадают.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Панель мониторинга</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Использование FTP-подключения для доступа к файлам приложений и их копирования.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Учетные данные пользователя</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>Учетные данные приложения</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>Конечная точка FTPS</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Учетные данные</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Ожидание</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Сбой</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Выполнено</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Сохранить учетные данные</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Сбросить учетные данные</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>Версия HTTP</value>
   </data>
 </root>

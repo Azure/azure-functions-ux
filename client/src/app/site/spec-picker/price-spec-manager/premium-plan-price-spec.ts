@@ -25,6 +25,11 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
@@ -61,7 +66,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile) {
+            } else if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             }
         }
@@ -122,7 +127,7 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
     meterFriendlyName = 'Premium Large App Service Hours';
 
     specResourceSet = {
-        id: 'p2',
+        id: 'p3',
         firstParty: [{
             quantity: 744,
             resourceId: null

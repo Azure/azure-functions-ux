@@ -1,24 +1,3 @@
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/observable/zip';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/observable/interval';
 import { TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { DeploymentCenterStateManager } from './deployment-center-state-manager';
 import { Injectable } from '@angular/core';
@@ -117,6 +96,14 @@ describe('Deployment State Manager', () => {
         it('get tfs token on first load', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
             expect(service['_vstsApiToken']).toBe('vststoken');
         }));
+
+        it('get ad token on first load', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            expect(service['_token']).toBe('adtoken');
+        }));
+
+        it('get token should return ad token', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            expect(service.getToken()).toBe('Bearer adtoken');
+        }));
     });
 
     describe('wizard form', () => {
@@ -189,6 +176,13 @@ describe('Deployment State Manager', () => {
             service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
         })));
 
+        it('Local git sets the web config', fakeAsync(inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.wizardForm = starterWizardForm();
+            const wizardFormValues = service.wizardValues;
+            wizardFormValues.sourceProvider = 'localgit';
+            service.wizardValues = wizardFormValues;
+            service.deploy().subscribe(result => expect(result.properties.scmType).toBe('LocalGit'));
+        })));
     });
 
     describe('vsts deployment', () => {
@@ -215,12 +209,10 @@ describe('Deployment State Manager', () => {
             const headers = service.getVstsPassthroughHeaders();
             expect(headers.get('Content-Type')).toBe('application/json');
             expect(headers.get('Accept')).toBe('application/json');
-            expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
             expect(headers.get('Vstsauthorization')).toBe(`Bearer ${service['_vstsApiToken']}`);
         }));
     });
 });
-
 
 @Injectable()
 class MockCacheService {
@@ -241,6 +233,13 @@ class MockCacheService {
         return Observable.of(null);
     }
 
+    patchArm(resourceId: string, apiVersion?: string, content?: any) {
+        return Observable.of({
+            json: () => {
+                return content;
+            }
+        });
+    }
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         return Observable.of({
             json: () => {

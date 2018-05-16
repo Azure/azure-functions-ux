@@ -21,6 +21,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppContext } from 'app/shared/function-app-context';
+import { SiteService } from '../../shared/services/site.service';
 
 declare var marked: any;
 
@@ -76,6 +77,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _functionAppService: FunctionAppService,
+        private _siteService: SiteService,
         private _logService: LogService) {
         super('binding-v2', _functionAppService, broadcastService);
 
@@ -124,7 +126,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
             .switchMap(view => {
                 this._functionInfo = view.functionInfo.result;
                 return Observable.zip(
-                    this._functionAppService.getFunctionAppAzureAppSettings(view.context),
+                    this._siteService.getAppSettings(view.context.site.id),
                     this._functionAppService.getAuthSettings(view.context),
                     Observable.of(view)
                 );

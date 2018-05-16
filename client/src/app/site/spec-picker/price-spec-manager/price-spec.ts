@@ -2,7 +2,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { BillingService } from './../../../shared/services/billing.service';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { SpecResourceSet } from './billing-models';
-import { BillingMeter } from './../../../shared/models/arm/billingMeter';
 import { Observable } from 'rxjs/Rx';
 import { PriceSpecDetail } from './price-spec-detail';
 import { ArmObj } from '../../../shared/models/arm/arm-obj';
@@ -15,7 +14,6 @@ import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manage
 export interface PriceSpecInput {
     specPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
     subscriptionId: string;
-    billingMeters: ArmObj<BillingMeter>[];
     plan?: ArmObj<ServerFarm>;
 }
 
@@ -40,7 +38,7 @@ export abstract class PriceSpec {
     disabledInfoLink: string;
     priceString: string;
 
-    protected meterFriendlyName: string;
+    public meterFriendlyName: string;
     protected _billingService: BillingService;
     protected _logService: LogService;
     protected _ts: TranslateService;
@@ -52,7 +50,6 @@ export abstract class PriceSpec {
     }
 
     initialize(input: PriceSpecInput): Observable<void> {
-        this._setBillingResourceId(input.billingMeters);
 
         this._logService.debug(LogCategories.specPicker, `Call runInitialize for ${this.skuCode}`);
         return this.runInitialization(input)
@@ -62,24 +59,6 @@ export abstract class PriceSpec {
     }
 
     abstract runInitialization(input: PriceSpecInput): Observable<void>;
-
-    private _setBillingResourceId(billingMeters: ArmObj<BillingMeter>[]) {
-        if (!this.meterFriendlyName) {
-            throw Error('meterFriendlyName must be set');
-        }
-
-        if (!this.specResourceSet || !this.specResourceSet.firstParty || this.specResourceSet.firstParty.length !== 1) {
-            throw Error('Spec must contain a specResourceSet with one firstParty item defined');
-        }
-
-        const billingMeter = billingMeters.find(m => m.properties.friendlyName === this.meterFriendlyName);
-
-        if (!billingMeter) {
-            throw Error(`billingMeter ${this.meterFriendlyName} not found!`);
-        }
-
-        this.specResourceSet.firstParty[0].resourceId = billingMeter.properties.meterId;
-    }
 
     protected checkIfDreamspark(subscriptionId: string) {
         if (this.state !== 'hidden') {

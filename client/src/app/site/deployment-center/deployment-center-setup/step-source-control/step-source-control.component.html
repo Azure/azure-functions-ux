@@ -1,32 +1,29 @@
 <div class="sourceContainer">
   <div class="selectionContainer" flex-list>
-
-    <div *ngFor="let card of providerCards">
-      <div *ngIf="!card.manual" class="cardContainer" (click)="selectProvider(card)">
-        <div class="headerBox" [style.background-color]="card.barColor">
-          <img [src]="card.icon" [style.background-color]="card.color" [style.color]="white" style="padding: 5px" /> {{card.name}}
-          <img *ngIf="selectedProvider && selectedProvider.name === card.name" style="float:right" src="image/success-blue.svg">
-        </div>
-        <div class="sourceDescription">
-          {{card.description}}
-        </div>
-        <div class="cardFooter" [style.background-color]="card.barColor">
-          <div *ngIf="card.authorizedStatus==='authorized'">{{ 'authorizedAs' | translate}}
-            <br> {{card.authenticatedId}}</div>
-          <div *ngIf="card.authorizedStatus==='loadingAuth'">
-            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
-          <div *ngIf="card.authorizedStatus==='notAuthorized'">{{ 'notAuthorized' | translate}}</div>
-        </div>
+    <div *ngFor="let card of providerCards" class="cardContainer" [class.selected]="selectedProvider && selectedProvider.name === card.name"
+      (click)="selectProvider(card)">
+      <div class="headerBox">
+        <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
+      </div>
+      <div class="sourceDescription">
+        {{card.description}}
+      </div>
+      <div class="cardFooter">
+        <div *ngIf="card.authorizedStatus==='authorized'">{{card.authenticatedId}}</div>
+        <div *ngIf="card.authorizedStatus==='loadingAuth'">
+          <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
+        <div *ngIf="card.authorizedStatus==='notAuthorized'">{{ 'notAuthorized' | translate}}</div>
       </div>
     </div>
   </div>
-  
-  <div class="footer">
-    <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
+</div>
+<div class="footer">
+    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
       (click)="authorize()">{{'authorize' | translate}}</button>
-    <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button form-button"
+    <button type="button" *ngIf="selectedProvider?.authorizedStatus === 'authorized'" class="custom-button form-button"
       (click)="authorize()">{{'changeAuthorization' | translate}}</button>
-    <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none')"
+    <button type="button" *ngIf="(selectedProvider?.authorizedStatus === 'authorized' || selectedProvider?.authorizedStatus === 'none') && !selectedProvider?.manual"
       class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
-  </div>
+  <button id="step-complete-show-dashboard-button" type="button" *ngIf="selectedProvider?.manual" class="custom-button form-button"
+    (click)="renderDashboard()">{{'dashboard' | translate}}</button>
 </div>

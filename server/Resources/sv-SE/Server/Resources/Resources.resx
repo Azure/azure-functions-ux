@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Avbryt</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Använd</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} objekt har valts</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Minne</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Lagring</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Fel när funktion skapades: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Anropslogg</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Anropsinformation</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Loggar</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Ladda upp</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Läs om fler alternativ.</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>Visa ytterligare alternativ</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>See fewer options</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Visa endast rekommenderade alternativ</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>En eller flera funktionsappar länkades till det här lagringskontot. Du kan se alla funktionsappar som har länkats till kontot under "filer" eller "Delningar".</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Ladda ned lagringsutforskaren härifrån:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Anslut med följande autentiseringsuppgifter:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Använd autentisering/auktorisering för att skydda program och arbeta med data per användare.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Hanterad tjänstidentitet</value>
+    <value>Hanterad ACS-tjänstidentitet (förhandsversion)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Ditt program kan kommunicera med andra Azure-tjänster som sig självt med hjälp av en hanterad Azure Active Directory-identitet.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resurshantering</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnosticera och lösa problem</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Via vår diagnostik- och felsökningsupplevelse för självbetjäning kan du identifiera och lösa problem med din webbapp</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Avancerade verktyg (Kudu)</value>
@@ -2057,13 +2063,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Appen är för närvarande i skrivskyddat läge eftersom redigeringsläget har angetts som skrivskyddat. Om du vill ändra redigeringsläge går du till </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Appen är för närvarande i läs\skrivläge eftersom redigeringsläget har angetts till läs\skriv trots att källkontroll är aktiverat. Eventuella ändringar som du gör kanske skrivs över vid nästa distribution. Om du vill ändra redigeringsläget går du till </value>
+    <value>Din app är för närvarande i läs-/skrivläge eftersom redigeringsläget har angetts till läs-/skriv trots att källkontroll har aktiverats. Eventuella ändringar som du gör kanske skrivs över vid nästa distribution. Om du vill ändra redigeringsläget går du till </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Appen är nu i skrivskyddat läge eftersom du har publicerat en genererad function.json. Ändringar i function.json kommer inte att hanteras av Functions-körningen. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Appen är för närvarande i läs-/skrivläge eftersom redigeringsläget har angetts till läs-/skriv trots att en function.json har genererats. Ändringar i function.json hanteras inte av Functions-körningen.</value>
+    <value>Din app är för närvarande i läs-/skrivläge eftersom redigeringsläget har angetts till läs-/skriv trots att en function.json har genererats. Körmiljön för Azure Functions hanterar inte ändringar i function.json.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopiera</value>
@@ -2198,7 +2204,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Platser (förhandsversion)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Om du är ute efter mer avancerad övervakning med Live Metrics och anpassade sökfrågor så &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;aktivera Application Insights för din funktionsapp&lt;/a&gt;</value>
+    <value>Om vill ha en mer avancerad övervakningsupplevelse, inklusive livemått och anpassade frågor:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>konfigurera Application Insights för din funktionsapp</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Det här värdet läggs till ditt huvudwebbprograms URL och fungerar som platsens offentliga adress. Om du t.ex. har ett webbprogram med namnet "contoso" och en plats med namnet "staging" får den nya platsen en adress som ser ut så här: http://contoso-staging.azurewebsites.net.</value>
@@ -2645,7 +2654,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Den här mallen kräver följande tillägg.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Mallberoenden installeras. Du kan skapa en funktion så fort det här är klart. Installationen av beroenden sker i bakgrunden och kan ta upp till 10 minuter. Du kan fortsätta använda portalen under tiden.</value>
+    <value>Mallberoenden installeras. Du kan skapa en funktion så fort det här är klart. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga det här bladet och fortsätta använda portalen under tiden.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Vi kunde inte installera runtime-tillägget. Installations-ID {{installationId}}</value>
@@ -2945,7 +2954,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Distribuera från en lokal Git-lagringsplats.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Konfigurera kontinuerlig integrering med en Dropbox-mapp</value>
+    <value>Synkronisera innehåll från en Dropbox-molnmapp.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Varaktiga funktioner</value>
@@ -2983,11 +2992,17 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="diagnostics_line" xml:space="preserve">
     <value>Rad</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Rekommenderade prisnivåer</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Ytterligare prisnivåer</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
-    <value>Your subscription does not allow this pricing tier</value>
+    <value>Prenumerationen tillåter inte den här prisnivån</value>
   </data>
   <data name="pricing_devTestTitle" xml:space="preserve">
-    <value>Dev / Test</value>
+    <value>Dev/Test</value>
   </data>
   <data name="pricing_devTestDesc" xml:space="preserve">
     <value>För mindre krävande arbetsbelastningar</value>
@@ -3002,52 +3017,184 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Isolerat</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
-    <value>Advanced networking and scale</value>
+    <value>Avancerat nätverk och skalning</value>
   </data>
   <data name="pricing_notAvailableConsumption" xml:space="preserve">
-    <value>Scale up is not available for consumption plans</value>
+    <value>Uppskalning är inte tillgängligt för förbrukningsplaner</value>
   </data>
   <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
-    <value>You must have write permissions to scale up this plan</value>
+    <value>Du måste ha skrivbehörighet för att skala upp den här planen</value>
   </data>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
-    <value>You must have write permissions on the plan '{0}' to update it</value>
+    <value>Du måste ha skrivbehörighet för planen {0} för att kunna uppdatera den</value>
   </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
-    <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
+    <value>Planen {0} är skrivskyddad och kan inte uppdateras</value>
+  </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Uppdaterar App Service-plan</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Uppdaterar planen {0}</value>
   </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
-    <value>The plan '{0}' was updated successfully!</value>
+    <value>Planen {0} har uppdaterats!</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Jobbet har skickats för att skala planen {0}.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>En skalningsåtgärd pågår för plan {0}.  Vänta tills åtgärden är klar innan du skalar igen.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
-    <value>Failed to update the plan '{0}'</value>
+    <value>Det gick inte att uppdatera planen {0}</value>
   </data>
   <data name="pricing_includedFeatures" xml:space="preserve">
-    <value>Included features</value>
+    <value>Funktioner som ingår</value>
   </data>
   <data name="pricing_includedFeaturesDesc" xml:space="preserve">
-    <value>Every app hosted on this App Service plan will have access to these features:</value>
+    <value>Alla appar i den här App Service-planen får åtkomst till följande funktioner:</value>
   </data>
   <data name="pricing_includedHardware" xml:space="preserve">
-    <value>Included hardware</value>
+    <value>Maskinvara som ingår</value>
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
-    <value>Every instance of your App Service plan will include the following hardware configuration:</value>
+    <value>Varje instans av din App Service-plan omfattar följande maskinvarukonfiguration:</value>
   </data>
   <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
+    <value>Linux-webbappar i en App Service Environment-plan faktureras med 50 % rabatt under förhandsversionen.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
-    <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
+    <value>Den första Basic-kärnan (B1) för Linux är kostnadsfri de första 30 dagarna!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows containers are billed at a 50% discount while in preview.</value>
+    <value>Windows-behållare debiteras med 50 % rabatt under förhandsversionen.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolated plans within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+    <value>Isolerade prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Dev/Test-prissättningsnivåer finns inte tillgängliga för din konfiguration och finns bara tillgängliga för planer som inte finns inom en App Service-miljö.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Produktionsprissättningnivåer finns inte tillgängliga för din konfiguration och finns bara tillgängliga för planer som inte ligger inom en App Service-miljö.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
-    <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+    <value>Premium V2 stöds inte för den här skalningsenheten. Distribuera om eller klona din app.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Skala upp</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratis</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/timme (uppskattat)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Välj en annan prisnivå om du vill lägga till fler resurser i din plan</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Uppdatera App Service-planen</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Delad infrastruktur</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Delade compute-resurser som används för att köra program som distribuerats i App Service-prenumerationsavtalet.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedikerade A-serieberäkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedikerade Dv2-serieberäkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Minne som finns tillgängligt för att köra program som distribuerats och körs i App Service-prenumerationsavtalet.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Minne per instans tillgängligt för att köra program som distribuerats och körs i App Service-planen.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} disklagring som delas av alla appar som distribuerats i App Service-planen.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Anpassade domäner/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Konfigurera och köp anpassade domäner med SNI SSL-bindningar</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Konfigurera och köpa anpassade domäner med SNI- och IP SSL-bindningar</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Manuell skala</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Autoskala</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Skala till ett stort antal instanser</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Upp till 100 instanser. Fler tillåts på begäran.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Upp till {0} instanser. I mån av tillgänglighet.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Mellanlagringsplatser</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Upp till {0} mellanlagringsplatser att använda för testning och distribution innan du växlar dem till produktion.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Daglig säkerhetskopiering</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Säkerhetskopiera en gång per dag</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Säkerhetskopiera din app {0} gånger dagligen.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic Manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Förbättra prestanda och tillgänglighet genom att dirigera trafiken mellan flera instanser av din app.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>System med enskild klient</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Få mer kontroll över de resurser som används av din app.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Isolerat nätverk</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Körs inom ditt eget virtuella nätverk.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Privat appåtkomst</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Använd en App Service-miljö med intern belastningsutjämning (ILB).</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB minne</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minuter/dag compute</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} kärnor</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>Serie A-beräkning</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Beräkna Dv2-serie</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Proxies.json är inte giltig. Fel: {0}.</value>
@@ -3059,7 +3206,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Åtgärds-ID</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Datum</value>
+    <value>Datum (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3215,31 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Resultatkod</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Orsak till utlösare</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Fel</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Kör i Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Application Insights-instans</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Klar</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Varaktighet</value>
+    <value>Varaktighet (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Antal slutförda de senaste 30 dagarna</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Antal fel senaste 30 dagarna</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Frågan returnerade {0} objekt</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Meddelande</value>
@@ -3107,7 +3257,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Använd VSTS som versionsserver. Du kan välja att använda avancerade alternativ för ett arbetsflöde för fullständig versionshantering.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Version på server</value>
+    <value>App Service Kudu-versionsserver</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Använd App Service som versionsserver. App Service Kudu-motorn bygger automatiskt din kod under distributionen när det är möjligt utan att någon ytterligare konfiguration krävs.</value>
@@ -3133,6 +3283,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="workingDirectory" xml:space="preserve">
     <value>Arbetskatalog</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>En åtgärd pågår. Vill du avsluta?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Uppgiftsköraren</value>
   </data>
@@ -3157,6 +3310,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="selectRepo" xml:space="preserve">
     <value>Välj lager</value>
   </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Välj mapp</value>
+  </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Välj gren</value>
   </data>
@@ -3164,7 +3320,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Distribuering</value>
   </data>
   <data name="enableDeploymentSlot" xml:space="preserve">
-    <value>Enable Deployment Slot</value>
+    <value>Aktivera distributionsplats</value>
   </data>
   <data name="deploymentSlot" xml:space="preserve">
     <value>Distributionsplats</value>
@@ -3199,7 +3355,136 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Saknar behörighet</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
+    <value>Anropet för att hämta värdinformation misslyckades.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Konfigurera Application Insights för att samla in anropsloggar</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions stöder nu Application Insights som den föredragna övervakningslösningen för appar under utveckling och i produktion. App Insights erbjuder kraftfull analys, meddelanden och visualiseringar av dina loggdata samt högre övergripande tillförlitlighet i skala.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Växla till klassisk vy</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Konfigurationsinstruktioner</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Konfigurera</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Anropsspår</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Resultaten kan fördröjas i upp till 5 minuter.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Dra en fil hit eller</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>bläddra</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>att ladda upp</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Mått</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Visa mått och konfigurera aviseringar.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP-baserad distribution kan inaktiveras eller konfigurerad för att acceptera FTP- (klartext) eller FTPS- (säkra) anslutningar. Klicka för att läsa mer.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP-åtkomst</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Validerar...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>Du har inte behörighet att skapa en versionsdefinition i projektet. Kontakta din projektadministratör</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Kontonamnet som angetts är inte giltig. Ange ett annat kontonamn.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Endast FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Inaktivera</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Visa</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Dölj</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Instrumentpanel</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Användarnamn</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Bekräfta lösenord</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Autentiseringsuppgifter</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Väntar</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Misslyckades</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

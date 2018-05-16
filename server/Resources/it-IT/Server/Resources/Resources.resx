@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Applica</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} elementi selezionati</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Memoria</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Archiviazione</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Errore durante la creazione della funzione: {{error}}</value>
@@ -575,7 +575,7 @@
     <value>Log chiamate</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation Details</value>
+    <value>Dettagli chiamata</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Log</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Carica</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Visualizza altre opzioni</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>Visualizza opzioni aggiuntive</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Visualizza meno opzioni</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Visualizza solo le opzioni consigliate</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Una o più app per le funzioni sono state collegate a questo account di archiviazione. È possibile visualizzare tutte le app per le funzioni collegate all'account in 'file' o 'Condivisioni'.</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Scaricare Storage Explorer da qui:      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Connetti con queste credenziali:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Consente di usare la modalità Autenticazione/Autorizzazione per proteggere l'applicazione e di lavorare con i dati per utente.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identità del servizio gestito</value>
+    <value>Identità del servizio gestita (anteprima)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>L'applicazione può comunicare con altri servizi di Azure come se stessa usando un'identità di Azure Active Directory gestita.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Gestione risorse</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnostica e risoluzione dei problemi</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>L'esperienza di diagnostica e risoluzione dei problemi in modalità self-service consente di identificare i problemi nell'app e di risolverli</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Strumenti avanzati (Kudu)</value>
@@ -2057,13 +2063,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>L'app è attualmente in modalità di sola lettura perché la modalità di modifica è stata impostata su sola lettura. Per cambiare la modalità di modifica, vedere </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
+    <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>L'app è attualmente in modalità di sola lettura perché è stato pubblicato un file function.json generato. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
+    <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copia</value>
@@ -2198,7 +2204,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Slot (anteprima)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Per un'esperienza di monitoraggio avanzata, con metriche in tempo reale e query personalizzate, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;abilitare Application Insights per l'app per le funzioni&lt;/a&gt;</value>
+    <value>Per un'esperienza di monitoraggio avanzata, con metriche attive e query personalizzate:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>configurare Application Insights per l'app per le funzioni</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Questo valore verrà aggiunto all'URL dell'app Web principale e verrà usato come indirizzo pubblico dello slot. Ad esempio, per un'app Web denominata 'contoso' e uno slot denominato 'staging', l'URL del nuovo slot sarà il seguente 'http://contoso-staging.azurewebsites.net'.</value>
@@ -2645,7 +2654,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Questo modello richiede le estensioni seguenti.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installando le dipendenze del modello, al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 10 minuti. Durante questo periodo sarà comunque possibile usare il portale.</value>
+    <value>Installando le dipendenze del modello, al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 2 minuti. Durante questo periodo è possibile chiudere il pannello e continuare a usare il portale.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
@@ -2945,7 +2954,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Consente di eseguire la distribuzione da un repository Git locale.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Consente di configurare l'integrazione continua con una cartella Dropbox</value>
+    <value>Consente di sincronizzare il contenuto da una cartella nel cloud Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Funzioni durevoli</value>
@@ -2983,6 +2992,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="diagnostics_line" xml:space="preserve">
     <value>Riga</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Piani tariffari consigliati</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Piani tariffari aggiuntivi</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Questo piano tariffario non è consentito per la sottoscrizione corrente</value>
   </data>
@@ -3016,8 +3031,20 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Al piano '{0}' è stato applicato un blocco di sola lettura e non può essere aggiornato</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Aggiornamento del piano di servizio app</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Aggiornamento del piano {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>Il piano '{0}' è stato aggiornato.</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Il processo per il ridimensionamento del piano '{0}' è stato inviato.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Un'operazione di ridimensionamento per il piano '{0}' è attualmente in corso. Attendere il completamento dell'operazione prima di procedere a un altro ridimensionamento.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Non è stato possibile aggiornare il piano '{0}'</value>
@@ -3044,10 +3071,130 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Durante il periodo di anteprima, i contenitori Windows vengono fatturati con uno sconto del 50%.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>I piani isolati all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
+    <value>I piani tariffari isolati all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>I piani tariffari di sviluppo/test non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>I piani tariffari di produzione non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Lo SKU Premium V2 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Aumenta</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratuito</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/ora (costo stimato)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Per aggiungere più risorse al piano, scegliere un piano tariffario diverso</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Aggiorna piano di servizio app</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Infrastruttura condivisa</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Risorse di calcolo condivise usate per eseguire le applicazioni distribuite nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Risorse di calcolo della serie A condivise usate per eseguire le applicazioni distribuite nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Risorse di calcolo della serie Dv2 condivise usate per eseguire le applicazioni distribuite nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Memoria disponibile per eseguire le applicazioni distribuite e in esecuzione nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Memoria disponibile per ogni istanza per eseguire le applicazioni distribuite e in esecuzione nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} di spazio di archiviazione su disco condiviso da tutte le app distribuite nel piano di servizio app.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Domini personalizzati/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Consente di configurare e acquistare domini personalizzati con associazioni SNI SSL</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Consente di configurare e acquistare domini personalizzati con associazioni SNI e IP SSL</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Scalabilità manuale</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Scalabilità automatica</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Scalabile per l'aggiunta di un numero elevato di istanze</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Fino a 100 istanze. Possibilità di aggiungerne su richiesta.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Fino a {0} istanze. Soggetto a disponibilità.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Slot di staging</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Fino a {0} slot di staging da usare per il test e le distribuzioni prima di passare alla produzione.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Backup giornalieri</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Backup giornalieri</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Consente di eseguire il backup dell'app {0} volte al giorno.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Gestione traffico</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Migliora le prestazioni e la disponibilità instradando il traffico tra più istanze dell'app.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Sistema a tenant singolo</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Maggiore controllo sulle risorse usate dall'app.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Rete isolata</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Viene eseguita all'interno della rete virtuale dell'utente.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Accesso privato all'app</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Usa un ambiente del servizio app con bilanciamento del carico interno.</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB di memoria</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minuti al giorno di calcolo</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} core</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>Risorse di calcolo della serie A</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Risorse di calcolo della serie Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Il file proxies.json non è valido. Errore: '{0}'.</value>
@@ -3059,7 +3206,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>ID operazione</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Data</value>
+    <value>Data (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3215,31 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Codice risultato</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Motivo dell'attivazione</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Errore</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Esegui in Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Istanza di Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Operazione riuscita</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Durata</value>
+    <value>Durata (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Numero di operazioni riuscite negli ultimi 30 giorni</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Numero di errori negli ultimi 30 giorni</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>La query ha restituito {0} elementi</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Messaggio</value>
@@ -3107,7 +3257,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Consente di usare VSTS come server di compilazione. È possibile scegliere di usare le ozioni avanzate per un flusso di lavoro di gestione del rilascio completo.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Compila nel server</value>
+    <value>Server di compilazione Kudu del servizio app</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Consente di usare il servizio app come server di compilazione. Il motore Kudu del servizio app compilerà automaticamente il codice durante la distribuzione, se possibile, senza richiedere ulteriori configurazioni.</value>
@@ -3133,6 +3283,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="workingDirectory" xml:space="preserve">
     <value>Directory di lavoro</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>È in corso un'operazione. Uscire comunque?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Strumento di esecuzione attività</value>
   </data>
@@ -3156,6 +3309,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Seleziona repository</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Seleziona cartella</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Seleziona ramo</value>
@@ -3199,7 +3355,136 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Non autorizzato</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>La chiamata per il recupero delle informazioni sull'host non è riuscita.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Configura Application Insights per acquisire i log delle chiamate</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Funzioni di Azure ora supporta Application Insights come soluzione di monitoraggio preferita per le applicazioni in fase di creazione e produzione e offre potenti funzionalità di analisi, notifica e visualizzazione dei dati di log, oltre a una maggiore affidabilità complessiva su vasta scala.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Passa alla visualizzazione classica</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Istruzioni di configurazione</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Configura</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Analisi chiamata</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>I risultati potrebbero essere ritardati fino a 5 minuti.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Trascinare un file qui oppure</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>sfoglia</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>da caricare</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Metrica</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Consente di visualizzare le metriche e configurare gli avvisi.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>La distribuzione basata su FTP può essere disabilitata o configurata per accettare connessioni FTP (testo normale) o FTPS (sicure). Fare clic per altre informazioni.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>Accesso FTP</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Convalida...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>Non si è autorizzati a creare una definizione di compilazione o una definizione di versione per questo progetto. Contattare l'amministratore di progetto</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Il nome dell'account specificato non è valido. Specificarne un altro.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP e FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Solo FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disabilita</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Mostra</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Nascondi</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>La password e la password di conferma non corrispondono.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Usare una connessione FTP per l'accesso e la copia dei file dell'app.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Credenziali utente</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>Credenziali dell'app</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Nome utente</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Conferma password</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>Endpoint FTPS</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credenziali</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>In sospeso</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Operazione non riuscita</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Operazione riuscita</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Salva credenziali</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reimposta credenziali</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

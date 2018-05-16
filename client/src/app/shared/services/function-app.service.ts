@@ -19,7 +19,7 @@ import { ApiProxy } from 'app/shared/models/api-proxy';
 import * as jsonschema from 'jsonschema';
 import { VfsObject } from 'app/shared/models/vfs-object';
 import { FunctionTemplate } from 'app/shared/models/function-template';
-import { HttpRunModel } from 'app/shared/models/http-run';
+import { HttpRunModel, Param } from 'app/shared/models/http-run';
 import { FunctionKeys, FunctionKey } from 'app/shared/models/function-key';
 import { BindingConfig, RuntimeExtension } from 'app/shared/models/binding';
 import { HostStatus } from 'app/shared/models/host-status';
@@ -36,6 +36,7 @@ import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
 import { Templates } from './../../function/embedded/temp-templates';
+import { SiteService } from './site.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -50,6 +51,7 @@ export class FunctionAppService {
         private _injector: Injector,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
+        private _siteService: SiteService,
         logService: LogService,
         injector: Injector) {
 
@@ -73,7 +75,7 @@ export class FunctionAppService {
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
-                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, true, this.headers(info.token));
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
                 }
             })
             .map(r => r.json());
@@ -261,7 +263,7 @@ export class FunctionAppService {
 
                     return this._cacheService.get(
                         `${Constants.cdnHost}api/templates?runtime=${(extensionVersion || 'latest')}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-                        true,
+                        false,
                         headers);
                 })
                 .map(r => {
@@ -286,12 +288,6 @@ export class FunctionAppService {
                 .map(r => r.json()));
     }
 
-    getFunctionAppAzureAppSettings(context: FunctionAppContext) {
-        return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
-            this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)
-                .map(r => r.json() as ArmObj<{ [key: string]: string }>));
-    }
-
     createFunctionV2(context: FunctionAppContext, functionName: string, files: any, config: any) {
         const filesCopy = Object.assign({}, files);
         const sampleData = filesCopy['sample.dat'];
@@ -314,7 +310,7 @@ export class FunctionAppService {
         return HttpConstants.statusCodeMap[code] || HttpConstants.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
-    runHttpFunction(context: FunctionAppContext, functionInfo: FunctionInfo, url: string, model: HttpRunModel): Result<RunFunctionResult> {
+    runHttpFunction(context: FunctionAppContext, functionInfo: FunctionInfo, url: string, model: HttpRunModel, key?: Param): Result<RunFunctionResult> {
         return this.runtime.executeWithConditions([], { resourceId: context.site.id }, token => {
             const content = model.body;
 
@@ -341,8 +337,8 @@ export class FunctionAppService {
             }
 
             let queryString = '';
-            if (model.code) {
-                queryString = `?${model.code.name}=${model.code.value}`;
+            if (key) {
+                queryString = `?${key.name}=${key.value}`;
             }
             model.queryStringParams.forEach(p => {
                 const findResult = processedParams.find((pr) => {
@@ -780,7 +776,7 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], { resourceId: context.site.id },
             Observable.zip(
                 this.isSourceControlEnabled(context),
-                this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)),
+                this._siteService.getAppSettings(context.site.id),
                 this.isSlot(context)
                     ? Observable.of({ isSuccessful: true, result: true, error: null })
                     : this.getSlotsList(context).map(r => r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r),
@@ -788,7 +784,7 @@ export class FunctionAppService {
                 (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f }))
                 .map(result => {
                     const appSettings: ArmObj<{ [key: string]: string }> = result.appSettingsResponse.isSuccessful
-                        ? result.appSettingsResponse.result.json()
+                        ? result.appSettingsResponse.result
                         : null;
 
                     const sourceControlled = result.sourceControlEnabled.isSuccessful &&

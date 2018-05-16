@@ -17,4 +17,4 @@ export enum VSTSLogMessageType {
 export type ProviderType = 'None' | 'VSTSRM' | 'BitbucketGit' | 'BitbucketHg' | 'ExternalGit' | 'GitHub'
     | 'LocalGit' | 'Dropbox' | 'DropboxV2' | 'OneDrive' | 'VSO';
 
-export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' ;
+export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' | 'reset' ;

@@ -521,6 +521,8 @@
     public static feature_automationScriptName = 'feature_automationScriptName';
     public static feature_automationScriptInfo = 'feature_automationScriptInfo';
     public static feature_resourceManagement = 'feature_resourceManagement';
+    public static feature_diagnoseAndSolveName = 'feature_diagnoseAndSolveName';
+    public static feature_diagnoseAndSolveInfo = 'feature_diagnoseAndSolveInfo';
     public static feature_advancedToolsName = 'feature_advancedToolsName';
     public static feature_advancedToolsInfo = 'feature_advancedToolsInfo';
     public static feature_appServiceEditorName = 'feature_appServiceEditorName';
@@ -986,7 +988,8 @@
     public static pricing_emptyProdGroup = 'pricing_emptyProdGroup';
     public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
     public static pricing_scaleUp = 'pricing_scaleUp';
-    public static pricing_pricePerHour = 'pricing_pricePerHour';
+    public static free = 'free';
+    public static pricing_pricePerMonth = 'pricing_pricePerMonth';
     public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
@@ -1009,6 +1012,8 @@
     public static pricing_dailyBackup = 'pricing_dailyBackup';
     public static pricing_dailyBackups = 'pricing_dailyBackups';
     public static pricing_dailyBackupDesc = 'pricing_dailyBackupDesc';
+    public static pricing_trafficManager = 'pricing_trafficManager';
+    public static pricing_trafficManagerDesc = 'pricing_trafficManagerDesc';
     public static pricing_ase = 'pricing_ase';
     public static pricing_aseDesc = 'pricing_aseDesc';
     public static pricing_isolatedNetwork = 'pricing_isolatedNetwork';
@@ -1034,6 +1039,7 @@
     public static duration = 'duration';
     public static functionMonitor_successAggregate_30days = 'functionMonitor_successAggregate_30days';
     public static functionMonitor_errorsAggregate_30days = 'functionMonitor_errorsAggregate_30days';
+    public static functionMonitor_appInsightsQueryReturnedTitle = 'functionMonitor_appInsightsQueryReturnedTitle';
     public static functionMonitor_message = 'functionMonitor_message';
     public static functionMonitor_itemCount = 'functionMonitor_itemCount';
     public static functionMonitor_logLevel = 'functionMonitor_logLevel';
@@ -1076,6 +1082,7 @@
     public static configureAppInsightsTitle = 'configureAppInsightsTitle';
     public static configureAppInsightsDesc = 'configureAppInsightsDesc';
     public static configureAppInsightsSwitchToClassic = 'configureAppInsightsSwitchToClassic';
+    public static configureAppInsightsInstructions = 'configureAppInsightsInstructions';
     public static configureAppInsightsButton = 'configureAppInsightsButton';
     public static invocationTraces = 'invocationTraces';
     public static appInsightsDelay = 'appInsightsDelay';
@@ -1089,4 +1096,28 @@
     public static validating = 'validating';
     public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
     public static vstsNameUnavailable = 'vstsNameUnavailable';
+    public static FTPBoth = 'FTPBoth';
+    public static FTPSOnly = 'FTPSOnly';
+    public static FTPDisable = 'FTPDisable';
+    public static dismiss = 'dismiss';
+    public static show = 'show';
+    public static hide = 'hide';
+    public static nomatchpassword = 'nomatchpassword';
+    public static dashboard = 'dashboard';
+    public static ftpDesc = 'ftpDesc';
+    public static ftpInfoCardCredsDesc = 'ftpInfoCardCredsDesc';
+    public static userCreds = 'userCreds';
+    public static userCredsDesc = 'userCredsDesc';
+    public static appCreds = 'appCreds';
+    public static appCredsDesc = 'appCredsDesc';
+    public static username = 'username';
+    public static password = 'password';
+    public static confirmPassword = 'confirmPassword';
+    public static ftpsEndpoint = 'ftpsEndpoint';
+    public static credentials = 'credentials';
+    public static pending = 'pending';
+    public static failed = 'failed';
+    public static saveCredentials = 'saveCredentials';
+    public static resetCredentials = 'resetCredentials';
+    public static httpVersion = 'httpVersion';
 }

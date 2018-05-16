@@ -13,19 +13,7 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -126,6 +114,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -143,6 +134,15 @@
   </data>
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} éléments sélectionnés</value>
+  </data>
+  <data name="cpu" xml:space="preserve">
+    <value>Processeur</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Mémoire</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Stockage</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Erreur de création de la fonction : {{error}}</value>
@@ -859,11 +859,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Charger</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>Voir plus d'options</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>Afficher d'autres options</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>Voir moins d'options</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>Afficher uniquement les options recommandées</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Une ou plusieurs applications de fonction sont liées à ce compte de stockage. Vous pouvez consulter toutes les applications de fonction liées au compte sous « fichiers » ou « Partages ».</value>
@@ -889,7 +889,7 @@
   <data name="binding_storageInfoHeader2" xml:space="preserve">
     <value>Téléchargez l'Explorateur de stockage ici :      </value>
   </data>
-  <data name="binding_storageInfoHeader3" xml:space="preserve"> 
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Se connecter à l'aide des informations d'identification suivantes :</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
@@ -1577,7 +1577,7 @@
     <value>Utilisez Authentification/autorisation pour protéger votre application et utiliser les données par utilisateur.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed Service Identity</value>
+    <value>Identité du service managé (préversion)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Votre application peut communiquer en son nom avec d'autres services Azure à l'aide d'une identité Azure Active Directory managée.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Gestion des ressources</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnostiquer et résoudre les problèmes</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Nos outils de diagnostic et de résolution des problèmes en libre-service vous aident à identifier les problèmes liés à votre application et à les résoudre.</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Outils avancés (Kudu)</value>
@@ -2057,13 +2063,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Votre application est actuellement en mode lecture seule, car vous avez défini le mode d'édition en lecture seule. Pour changer le mode d'édition, visitez </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Votre application est actuellement en mode lecture\écriture, car vous avez défini le mode d'édition en lecture\écriture (bien que la gestion de code source soit activée). Tout changement risque d'être remplacé par votre prochain déploiement. Pour changer le mode d'édition, visitez </value>
+    <value>Votre application est actuellement en mode lecture/écriture, car vous avez défini le mode d'édition en lecture/écriture (bien que le contrôle de code source soit activé). Tout changement risque d'être remplacé par votre prochain déploiement. Pour changer le mode d'édition, visitez </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Votre application est actuellement en lecture seule, car vous avez publié du code function.json généré. Les modifications apportées à function.json ne sont pas honorées par le runtime Functions. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Votre application est actuellement en mode lecture\écriture, car vous avez défini le mode d'édition en lecture\écriture même si un fichier function.json a été généré. Aucun changement apporté à function.json ne sera honoré par le runtime Functions.</value>
+    <value>Votre application est actuellement en mode lecture/écriture, car vous avez défini le mode d'édition en lecture/écriture même si un fichier function.json a été généré. Aucun changement apporté à function.json ne sera honoré par le runtime Functions.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copier</value>
@@ -2198,7 +2204,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Emplacements (préversion)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Pour obtenir une expérience de surveillance plus complète, notamment des métriques en temps réel et des requêtes personnalisées, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;activez Application Insights pour votre application de fonction&lt;/a&gt;</value>
+    <value>Pour bénéficier d'une expérience de monitoring plus complète, notamment des métriques en temps réel et des requêtes personnalisées :</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>configurer Application Insights pour votre application de fonction</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Cette valeur sera ajoutée à l'URL de votre application web principale et servira d'adresse publique de l'emplacement. Par exemple, si votre application web s'appelle « contoso » et que votre emplacement s'appelle « staging », le nouvel emplacement aura une URL similaire à « http://contoso-staging.azurewebsites.net ».</value>
@@ -2645,7 +2654,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Ce modèle nécessite les extensions suivantes.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installation des dépendances de modèle en cours, vous pourrez créer une fonction une fois l'installation terminée. L'installation de dépendances se produit en arrière-plan et peut prendre jusqu'à 10 minutes. Vous pouvez continuer à utiliser le portail pendant ce temps.</value>
+    <value>Une fois que vous avez installé les dépendances du modèle, vous pouvez créer une fonction. L'installation de dépendance se produit en arrière-plan et peut prendre jusqu'à 2 minutes. Vous pouvez fermer ce panneau et continuer à utiliser le portail pendant ce temps.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Impossible d'installer l'extension de runtime. ID d'installation {{installationId}}</value>
@@ -2945,7 +2954,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Déploie à partir d'un dépôt Git local.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Configure l'intégration continue avec un dossier Dropbox</value>
+    <value>Synchronisez du contenu à partir d'un dossier cloud Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Fonctions durables</value>
@@ -2983,6 +2992,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="diagnostics_line" xml:space="preserve">
     <value>Ligne</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Niveaux tarifaires recommandés</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Autres niveaux tarifaires</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Votre abonnement n'autorise pas ce niveau tarifaire</value>
   </data>
@@ -3016,8 +3031,20 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Le plan '{0}' a un verrou en lecture seule et ne peut pas être mis à jour</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Mise à jour du plan App Service</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Mise à jour du plan {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>Le plan '{0}' a été mis à jour !</value>
+  </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Le travail pour mettre à l'échelle l'offre « {0} » a été soumis correctement.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>Une opération de mise à l'échelle est actuellement en cours d'exécution pour l'offre « {0} ». Attendez que l'opération se termine avant d'effectuer une nouvelle mise à l'échelle.</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Échec de mise à jour du plan '{0}'</value>
@@ -3044,10 +3071,130 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Les plans isolés dans un environnement App Service ne sont pas disponibles pour votre configuration. L'environnement App Service est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
+    <value>Les niveaux tarifaires Isolé dans un environnement App Service ne sont pas disponibles pour votre configuration. L'environnement App Service est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Les niveaux tarifaires Dev/Test ne sont pas disponibles pour votre configuration et ils sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Les niveaux tarifaires Production ne sont pas disponibles pour votre configuration et sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez l'application.</value>
+  </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Mettre à l'échelle vers le haut</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratuit</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/heure (estimation)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Choisir un autre niveau tarifaire pour ajouter d'autres ressources à votre plan</value>
+  </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Mettre à jour le plan App Service</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Infrastructure partagée</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Ressources de calcul partagées utilisées pour exécuter des applications déployées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Ressources de calcul Série A dédiées utilisées pour exécuter des applications déployées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Ressources de calcul Série Dv2 dédiées utilisées pour exécuter des applications déployées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Mémoire disponible pour exécuter des applications déployées et exécutées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Mémoire par instance disponible pour exécuter des applications déployées et exécutées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} stockage sur disque partagé par toutes les applications déployées dans l'offre App Service.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Domaines personnalisés/SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Configurer et acheter des domaines personnalisés avec des liaisons SNI SSL</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Configurer et acheter des domaines personnalisés avec des liaisons SNI et IP SSL</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Mise à l'échelle manuelle</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Mise à l'échelle automatique</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Mettre à l’échelle pour obtenir un grand nombre d'instances</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Jusqu'à 100 instances. Un nombre plus élevé est disponible à la demande.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Jusqu'à {0} instances. Sous réserve de disponibilité.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Emplacements de préproduction</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Jusqu'à {0} emplacements de préproduction à utiliser pour les tests et les déploiements avant le passage en production.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Sauvegarde quotidienne</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Sauvegardes quotidiennes</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Sauvegardez votre application {0} fois quotidiennement.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic Manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Améliorez les performances et la disponibilité en routant le trafic entre plusieurs instances de votre application.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Système à un seul locataire</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Bénéficiez d'un contrôle accru des ressources utilisées par votre application.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Réseau isolé</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>S'exécute dans votre propre réseau virtuel.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Accès privé à l'application</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Utilisation d'un environnement App Service avec équilibrage de charge interne.</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} Go de mémoire</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>Calcul pendant {0} minutes/jour</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} cœurs</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>Calcul Série A</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Calcul Série Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Le schéma proxies.json n'est pas valide. Erreur : '{0}'.</value>
@@ -3059,7 +3206,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>ID d'opération</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Date</value>
+    <value>Date (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3068,28 +3215,31 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Code de résultat</value>
   </data>
   <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
+    <value>Motif de déclenchement</value>
   </data>
   <data name="error" xml:space="preserve">
     <value>Erreur</value>
   </data>
   <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
+    <value>Exécuter dans Application Insights</value>
   </data>
   <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
+    <value>Instance Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Opération réussie</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Durée</value>
+    <value>Durée (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
+    <value>Nombre de réussites des 30 derniers jours</value>
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
+    <value>Nombre d'erreurs des 30 derniers jours</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>La requête a retourné {0} éléments</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Message</value>
@@ -3107,7 +3257,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Utilisez VSTS comme serveur de builds. Vous pouvez choisir des options avancées pour configurer un flux de travail complet de gestion des mises en production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Générer sur le serveur</value>
+    <value>Serveur de builds Kudu App Service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Utilisez App Service comme serveur de builds. Le moteur App Service Kudu génère automatiquement votre code durant le déploiement, le cas échéant, sans aucune configuration supplémentaire.</value>
@@ -3133,6 +3283,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="workingDirectory" xml:space="preserve">
     <value>Répertoire de travail</value>
   </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>Une opération est en cours. Voulez-vous vraiment quitter ?</value>
+  </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Exécuteur de tâches</value>
   </data>
@@ -3156,6 +3309,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="selectRepo" xml:space="preserve">
     <value>Sélectionner un référentiel</value>
+  </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Sélectionner un dossier</value>
   </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Sélectionner une branche</value>
@@ -3199,7 +3355,136 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Non autorisé</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>L'appel pour obtenir les informations de l'hôte a échoué.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Configurer Application Insights pour capturer les journaux d'invocations</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Azure Functions prend à présent en charge Application Insights en tant que solution de monitoring favorite pour les applications en cours de création et en production. Application Insights offre de puissantes fonctionnalités d'analytique, de notifications et de visualisations de vos données de journal, ainsi qu'une fiabilité globale supérieure à grande échelle.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Passer en mode classique</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Instructions de configuration</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Configurer</value>
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Traces de l'appel</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Les résultats peuvent être retardés jusqu'à 5 minutes.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Faites glisser un fichier ici ou</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>parcourir</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>à charger</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Métriques</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>Affichez les métriques et les alertes de configuration.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>Le déploiement FTP peut être désactivé ou configuré pour accepter les connexions FTP (texte brut) ou FTPS (sécurisées). Cliquez ici pour en savoir plus.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>Accès FTP</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Validation...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>Vous n'avez pas les autorisations nécessaires pour créer une définition de build ou une définition de mise en production sur ce projet. Contactez l'administrateur du projet.</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>Le nom de compte fourni n'est pas valide. Indiquez un autre nom de compte.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>FTPS uniquement</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Désactiver</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Ignorer</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Afficher</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Masquer</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Tableau de bord</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Informations d'identification de l'utilisateur</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Nom d’utilisateur</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Confirmer le mot de passe</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Informations d'identification</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>En attente</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Échec</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>
