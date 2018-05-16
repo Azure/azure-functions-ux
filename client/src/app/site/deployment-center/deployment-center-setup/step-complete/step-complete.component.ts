@@ -196,12 +196,16 @@ export class StepCompleteComponent {
         const returnSummaryItems = [];
         returnSummaryItems.push({
             label: this._translateService.instant(PortalResources.enabled),
-            value: deployValues.deploymentSlotEnabled ? 'YES' : 'NO'
+            value: deployValues.deploymentSlotEnabled ?
+                this._translateService.instant(PortalResources.yes)
+                : this._translateService.instant(PortalResources.no)
         });
         if (deployValues.deploymentSlotEnabled) {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.newDeploymentSlot),
-                value: deployValues.newDeploymentSlot ? 'YES' : 'NO'
+                value: deployValues.newDeploymentSlot ?
+                    this._translateService.instant(PortalResources.yes)
+                    : this._translateService.instant(PortalResources.no)
             });
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.deploymentSlotName),

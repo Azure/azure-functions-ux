@@ -10,6 +10,9 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { By } from '@angular/platform-browser';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { WizardForm } from '../wizard-logic/deployment-center-setup-models';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 describe('StepCompleteComponent', () => {
     let buildStepTest: StepCompleteComponent;
@@ -25,7 +28,7 @@ describe('StepCompleteComponent', () => {
                 { provide: LogService, useClass: MockLogService },
                 { provide: BroadcastService, useValue: new BroadcastService(null) }
             ],
-            imports: [TranslateModule.forRoot()]
+            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule,]
         })
             .compileComponents();
     }));
@@ -59,6 +62,257 @@ describe('StepCompleteComponent', () => {
         }));
     });
 
+    describe('Build Group', () => {
+        it('Kudu build provider should return only 2 summary groups', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu' };
+            expect(buildStepTest.SummaryGroups.length).toBe(2);
+        });
+
+        it('Vsts build provider should return 4 summary groups', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts' };
+            expect(buildStepTest.SummaryGroups.length).toBe(4);
+        });
+
+        it('create new vso account', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: true,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                location: 'Timbucktwo',
+                applicationFramework: 'AspNetWap'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(6);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('yes');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('Timbucktwo');
+            expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('AspNetWap');
+        });
+        it('use existing vso account', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: false,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                applicationFramework: 'AspNetWap'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(5);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('AspNetWap');
+        });
+
+        it('vsts with nodejs', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: false,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                workingDirectory: '/dir/',
+                nodejsTaskRunner: 'Grunt',
+                applicationFramework: 'Node'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(7);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('Node');
+            expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('/dir/');
+            expect(buildStepTest.SummaryGroups[1].items[6].value).toBe('Grunt');
+        });
+
+        it('vsts with python bottle', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: false,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                workingDirectory: '/dir/',
+                pythonSettings: {
+                    ...wizardService.wizardValues.buildSettings.pythonSettings,
+                    version: 'pythonversion',
+                    framework: 'Bottle'
+                },
+                applicationFramework: 'Python'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(8);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('Python');
+            expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('/dir/');
+            expect(buildStepTest.SummaryGroups[1].items[6].value).toBe('pythonversion');
+            expect(buildStepTest.SummaryGroups[1].items[7].value).toBe('Bottle');
+        });
+        it('vsts with python flask', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: false,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                workingDirectory: '/dir/',
+                pythonSettings: {
+                    ...wizardService.wizardValues.buildSettings.pythonSettings,
+                    version: 'pythonversion',
+                    framework: 'Flask',
+                    flaskProjectName: 'flaskproject'
+                },
+                applicationFramework: 'Python'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(9);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('Python');
+            expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('/dir/');
+            expect(buildStepTest.SummaryGroups[1].items[6].value).toBe('pythonversion');
+            expect(buildStepTest.SummaryGroups[1].items[7].value).toBe('Flask');
+            expect(buildStepTest.SummaryGroups[1].items[8].value).toBe('flaskproject');
+        });
+        it('vsts with python django', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                ...wizardService.wizardValues.buildSettings,
+                createNewVsoAccount: false,
+                vstsAccount: 'vstsAccount',
+                vstsProject: 'vstsProject',
+                workingDirectory: '/dir/',
+                pythonSettings: {
+                    ...wizardService.wizardValues.buildSettings.pythonSettings,
+                    version: 'pythonversion',
+                    framework: 'Django',
+                    djangoSettingsModule: 'settingsModule'
+                },
+                applicationFramework: 'Python'
+            } };
+            expect(buildStepTest.SummaryGroups[1].items.length).toBe(9);
+            expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
+            expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[1].items[2].value).toBe('vstsAccount');
+            expect(buildStepTest.SummaryGroups[1].items[3].value).toBe('vstsProject');
+            expect(buildStepTest.SummaryGroups[1].items[4].value).toBe('Python');
+            expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('/dir/');
+            expect(buildStepTest.SummaryGroups[1].items[6].value).toBe('pythonversion');
+            expect(buildStepTest.SummaryGroups[1].items[7].value).toBe('Django');
+            expect(buildStepTest.SummaryGroups[1].items[8].value).toBe('settingsModule');
+        });
+    });
+
+    describe('Load Test Group', () => {
+        it('if disabled should have only one item saying not enabled', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
+                ...wizardService.wizardValues.testEnvironment,
+                enabled: false
+            } };
+            expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
+            expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
+        });
+
+        it('if enabled should say yes to enabled and give app service plan id and web app id', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
+                ...wizardService.wizardValues.testEnvironment,
+                enabled: true,
+                appServicePlanId: 'aspId',
+                webAppId: 'appId'
+            } };
+            expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
+            expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
+            expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('aspId');
+            expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('appId');
+        });
+    });
+
+    describe('Deployment Slot Group', () => {
+        it('if disabled should have only one item saying not enabled', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                ...wizardService.wizardValues.deploymentSlotSetting,
+                deploymentSlotEnabled: false
+            } };
+            expect(buildStepTest.SummaryGroups[3].items.length).toBe(1);
+            expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('no');
+        });
+
+        it('if enabled should say yes to enabled and deployment slot name', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                ...wizardService.wizardValues.deploymentSlotSetting,
+                deploymentSlotEnabled: true,
+                deploymentSlot: 'slot',
+                newDeploymentSlot: false
+            } };
+            expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
+            expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
+            expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('no');
+            expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+        });
+
+        it('if enabled and creating new slot should say yes to new slot', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                ...wizardService.wizardValues.deploymentSlotSetting,
+                deploymentSlotEnabled: true,
+                deploymentSlot: 'slot',
+                newDeploymentSlot: true
+            } };
+            expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
+            expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
+            expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('yes');
+            expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+        });
+    });
+
+    describe('Source Control Group', () => {
+        it('dropbox', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'dropbox', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'dropboxFolder' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(1);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('dropboxFolder');
+        });
+
+        it('onedrive', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'onedrive', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'onedriveFolder' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(1);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('onedriveFolder');
+        });
+
+        it('github', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'github', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'githubUrl', branch: 'githubBranch' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(2);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('githubUrl');
+            expect(buildStepTest.SummaryGroups[0].items[1].value).toBe('githubBranch');
+        });
+
+        it('bitbucket', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'bitbucket', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'bitbucketUrl', branch: 'bitbucketBranch' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(2);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('bitbucketUrl');
+            expect(buildStepTest.SummaryGroups[0].items[1].value).toBe('bitbucketBranch');
+        });
+
+        it('external', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'bitbucket', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'exUrl', branch: 'exBranch' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(2);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('exUrl');
+            expect(buildStepTest.SummaryGroups[0].items[1].value).toBe('exBranch');
+        });
+
+        it('vsts', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'vsts', sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'vstsUrl', branch: 'vstsBranch' } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(2);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('vstsUrl');
+            expect(buildStepTest.SummaryGroups[0].items[1].value).toBe('vstsBranch');
+        });
+
+        it('localgit', () => {
+            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'kudu', sourceProvider: 'localgit', sourceSettings: { ...wizardService.wizardValues.sourceSettings } };
+            expect(buildStepTest.SummaryGroups[0].items.length).toBe(2);
+            expect(buildStepTest.SummaryGroups[0].items[0].value).toBe(PortalResources.localGitRepoMessage);
+            expect(buildStepTest.SummaryGroups[0].items[1].value).toBe('master');
+        });
+    });
     describe('Automated Solution', () => {
         it('finish button should trigger save', fakeAsync((done) => {
             const button = testFixture.debugElement.query(By.css('#step-complete-finish-button')).nativeElement;
@@ -85,10 +339,53 @@ describe('StepCompleteComponent', () => {
 
 @Injectable()
 class MockDeploymentCenterStateManager {
-    public wizardValues = {
-        buildProvider: 'kudu',
-        sourceProvider: 'test'
+    public wizardForm: FormGroup;
+    constructor(_fb: FormBuilder) {
+        this.wizardForm = _fb.group({
+            sourceProvider: ['github'],
+            buildProvider: ['kudu'],
+            sourceSettings: _fb.group({
+                repoUrl: ['github'],
+                branch: [null],
+                isManualIntegration: [false],
+                deploymentRollbackEnabled: [false],
+                isMercurial: [false]
+            }),
+            buildSettings: _fb.group({
+                createNewVsoAccount: [false],
+                vstsAccount: ['account'],
+                vstsProject: [null],
+                location: [null],
+                applicationFramework: [null],
+                workingDirectory: [null],
+                pythonSettings: _fb.group({
+                    framework: [null],
+                    version: [null],
+                    flaskProjectName: ['flaskProjectName'],
+                    djangoSettingsModule: ['DjangoProjectName.settings']
+                }),
+                nodejsTaskRunner: [null]
+            }),
+            deploymentSlotSetting: _fb.group({
+                newDeploymentSlot: [false],
+                deploymentSlotEnabled: [false],
+                deploymentSlot: ['slot']
+            }),
+            testEnvironment: _fb.group({
+                enabled: [false],
+                newApp: [true],
+                appServicePlanId: ['aspid'],
+                webAppId: [null]
+            })
+        });
     };
+
+    public get wizardValues(): WizardForm {
+        return this.wizardForm.value;
+    }
+    public set wizardValues(values: WizardForm) {
+        this.wizardForm.patchValue(values);
+    }
 
     public resourceIdStream$ = new ReplaySubject<string>(1);
     public deployTriggered = false;

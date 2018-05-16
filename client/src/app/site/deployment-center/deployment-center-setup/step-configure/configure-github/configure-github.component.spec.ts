@@ -190,7 +190,6 @@ describe('ConfigureGithubComponent', () => {
     });
 });
 
-
 @Injectable()
 class MockDeploymentCenterStateManager {
     public wizardForm: FormGroup;
