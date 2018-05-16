@@ -3298,6 +3298,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="selectRepo" xml:space="preserve">
     <value>Select Respository</value>
   </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Select branch</value>
   </data>
@@ -3340,6 +3343,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
+  <data name="notAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>The call to get Host information failed.</value>
   </data>
@@ -3381,5 +3387,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="FTPLabel" xml:space="preserve">
     <value>FTP access</value>
+  </data>
+  <data name="validating" xml:space="preserve">
+    <value>Validating...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>The account name supplied is not valid. Please supply another account name.</value>
   </data>
 </root>

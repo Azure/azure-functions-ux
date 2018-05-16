@@ -4,6 +4,7 @@ import { oAuthHelper } from './oauth-helper';
 import { GUID } from '../utilities';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
+import { constants } from '../constants';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('dropbox');
 export async function getDropboxTokens(req: any): Promise<any> {
@@ -34,7 +35,7 @@ export function setupDropboxAuthentication(app: Application) {
     app.get('/auth/dropbox/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['dropbox_state_key'] = GUID.newGuid();
+            stateKey = req.session[constants.oauthApis.dropbox_state_key] = GUID.newGuid();
         } else {
             //Should be impossible to hit this
             LogHelper.error('session-not-found', {});
@@ -55,14 +56,14 @@ export function setupDropboxAuthentication(app: Application) {
     app.post('/auth/dropbox/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['dropbox_state_key'] || oauthHelper.hashStateGuid(req.session['dropbox_state_key']).substr(0, 10) !== state) {
+        if (!req || !req.session || !req.session[constants.oauthApis.dropbox_state_key] || oauthHelper.hashStateGuid(req.session[constants.oauthApis.dropbox_state_key]).substr(0, 10) !== state) {
             LogHelper.error('dropbox-invalid-sate-key', {});
             res.sendStatus(403);
             return;
         }
         try {
             const r = await axios.post(
-                `https://api.dropbox.com/oauth2/token`,
+                'https://api.dropbox.com/oauth2/token',
                 `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${process.env.DROPBOX_CLIENT_ID}&client_secret=${process.env
                     .DROPBOX_CLIENT_SECRET}`,
                 {

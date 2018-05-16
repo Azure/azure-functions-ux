@@ -6,7 +6,7 @@ import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TblComponent } from '../../../../controls/tbl/tbl.component';
 import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/vso-build-models';
-import { VSTSLogMessageType } from '../../Models/Deployment-enums';
+import { VSTSLogMessageType } from '../../Models/deployment-enums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
@@ -55,19 +55,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
-                    this._cacheService.getArm(`${resourceId}/config/web`),
                     this._cacheService.postArm(`${resourceId}/config/metadata/list`),
-                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`),
-                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`),
                     this._cacheService.getArm(`${resourceId}/deployments`),
                     this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
-                    (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm: boolean, readLock: boolean) => ({
+                    (site,  metadata,  deployments, writePerm: boolean, readLock: boolean) => ({
                         site: site.json(),
-                        siteConfig: siteConfig.json(),
                         metadata: metadata.json(),
-                        pubCreds: pubCreds.json(),
-                        sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
                         writePermission: writePerm,
                         readOnlyLock: readLock
@@ -77,12 +71,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             .switchMap(r => {
                 this.deploymentObject = {
                     site: r.site,
-                    siteConfig: r.siteConfig,
                     siteMetadata: r.metadata,
-                    sourceControls: r.sourceControl,
-                    publishingCredentials: r.pubCreds,
                     deployments: r.deployments,
-                    publishingUser: null,
                     VSOData: null
                 };
                 this._tableItems = [];
@@ -109,9 +99,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             })
             .subscribe(
                 r => {
+                    this._busyManager.clearBusy();
                     this.deploymentObject.VSOData = r.json();
                 },
                 err => {
+                    this._busyManager.clearBusy();
                     this.deploymentObject = null;
                     this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
                 }

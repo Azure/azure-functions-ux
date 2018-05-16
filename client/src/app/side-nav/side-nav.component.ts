@@ -20,7 +20,7 @@ import { ConfigService } from './../shared/services/config.service';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { LocalStorageKeys, Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
+import { LocalStorageKeys, ARM, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { TreeNode } from '../tree-view/tree-node';
@@ -483,7 +483,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 return {
                     displayLabel: e.displayName,
                     value: e,
-                    isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
+                    isSelected: subSelected && count <= ARM.MaxSubscriptionBatchSize
                 };
             })
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));

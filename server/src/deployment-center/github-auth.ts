@@ -36,7 +36,7 @@ export function setupGithubAuthentication(app: Application) {
     app.get('/auth/github/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['github_state_key'] = GUID.newGuid();
+            stateKey = req.session[constants.oauthApis.github_state_key] = GUID.newGuid();
         } else {
             //Should be impossible to hit this
             LogHelper.error('session-not-found', {});
@@ -56,7 +56,7 @@ export function setupGithubAuthentication(app: Application) {
 
     app.post('/auth/github/storeToken', async (req, res) => {
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['github_state_key'] || oauthHelper.hashStateGuid(req.session['github_state_key']) !== state) {
+        if (!req || !req.session || !req.session[constants.oauthApis.github_state_key] || oauthHelper.hashStateGuid(req.session[constants.oauthApis.github_state_key]) !== state) {
             LogHelper.error('github-invalid-sate-key', {});
             res.sendStatus(403);
             return;

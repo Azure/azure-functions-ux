@@ -28,8 +28,9 @@ export class ConfigureExternalComponent {
 
     repoTypeChanged(evt) {
         this.repoMode = evt;
-        this.wizard.wizardForm.controls.sourceSettings.value.isMercurial = evt === 'Mercurial';
-        console.log(evt);
+        const wizardValues = this.wizard.wizardValues;
+        wizardValues.sourceSettings.isMercurial = evt === 'Mercurial';
+        this.wizard.wizardValues = wizardValues;
     }
     updateFormValidation() {
         const required = new RequiredValidator(this._translateService, false);

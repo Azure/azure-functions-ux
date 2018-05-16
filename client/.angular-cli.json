@@ -61,7 +61,8 @@
         "src/**/*.mock.ts",
         "src/**/*.spec.ts",
         "src/app/shared/**/*.ts",
-        "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts"
+        "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts",
+        "**/radio-selector/**"
       ]
     },
     "karma": {

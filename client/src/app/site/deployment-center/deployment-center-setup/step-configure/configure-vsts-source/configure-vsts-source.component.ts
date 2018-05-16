@@ -13,6 +13,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
+import { VstsValidators } from '../../validators/vsts-validators';
 
 
 @Component({
@@ -62,9 +63,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
+        this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
+        this.wizard.buildSettings.updateValueAndValidity();
     }
 
     setupSubscriptions() {
@@ -201,5 +204,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this._ngUnsubscribe$.next();
+        this.wizard.buildSettings.setAsyncValidators([]);
+        this.wizard.buildSettings.updateValueAndValidity();
     }
 }

@@ -20,26 +20,31 @@ export class LoadImageDirective implements OnChanges {
 
     ngOnChanges() {
         if (this.imageUrl) {
-            const cdnUrl = Constants.cdnNgMin;
-            if (!this.imageUrl.toLowerCase().endsWith('.svg')) {
-                this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}" />`;
-            } else {
-                const headers = new Headers();
-                headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
-                headers.append('x-ms-client-request-id', Guid.newGuid());
-                // headers.append('Cache-Control', 'max-age=60000');
+            LoadImageDirective.injectImageToElement(this.imageUrl, this._elementRef.nativeElement, this._cacheService, this._logService);
+        }
+    }
 
-                // Static content should be taking advantage of browser caching so using the
-                // cacheService isn't entirely necessary, though it does mimic actual browser
-                // behavior a little better which doesn't make new requests (even to local disk) for
-                // every instance of an image
-                this._cacheService.get(`${cdnUrl}${this.imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
-                    .subscribe(image => {
-                        this._elementRef.nativeElement.innerHTML = image.text();
-                    }, (e => {
-                        this._logService.error(LogCategories.svgLoader, '/download-image', e);
-                    }));
-            }
+    // tslint:disable-next-line:member-ordering
+    public static injectImageToElement(imageUrl: string, element: any, cacheService: CacheService, logService: LogService) {
+        const cdnUrl = Constants.cdnNgMin;
+        if (!imageUrl.toLowerCase().endsWith('.svg')) {
+            element.innerHTML = `<img src="${cdnUrl}${imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}" />`;
+        } else {
+            const headers = new Headers();
+            headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
+            headers.append('x-ms-client-request-id', Guid.newGuid());
+            // headers.append('Cache-Control', 'max-age=60000');
+
+            // Static content should be taking advantage of browser caching so using the
+            // cacheService isn't entirely necessary, though it does mimic actual browser
+            // behavior a little better which doesn't make new requests (even to local disk) for
+            // every instance of an image
+            cacheService.get(`${cdnUrl}${imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
+                .subscribe(image => {
+                    element.innerHTML = image.text();
+                }, (e => {
+                    logService.error(LogCategories.svgLoader, '/download-image', e);
+                }));
         }
     }
 }

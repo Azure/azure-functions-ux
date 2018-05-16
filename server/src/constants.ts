@@ -12,5 +12,10 @@ export namespace constants {
     export namespace oauthApis {
         export const bitbucketUri = 'https://bitbucket.org/site/oauth2';
         export const githubApiUri = 'https://github.com/login/oauth';
+
+        export const bitbucket_state_key = 'bitbucket_state_key';
+        export const github_state_key = 'github_state_key';
+        export const onedrive_state_key = 'onedrive_state_key';
+        export const dropbox_state_key = 'dropbox_state_key';
     }
 }

@@ -1,23 +1,12 @@
 <div class="settings-group-wrapper">
 
-  <h3 class="first-config-heading">Summary</h3>
-
-  <div class="settings-wrapper">
-    <div class="setting-wrapper" *ngFor="let item of summaryItems">
-      <div class="setting-label">{{item.name}}
-      </div>
-      <div class="setting-control-container">
-        {{item.value}}
-      </div>
-    </div>
-
-  </div>
-
+  <h3 id="step-complete-summary-heading" class="first-config-heading">{{'summary' | translate}}</h3>
   <pre>
     {{wizard?.wizardValues | json}}
   </pre>
 </div>
 <div class="footer">
-  <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
-  <button type="button" class="custom-button form-button" (click)="Save()">{{'finish' | translate}}</button>
+  <button id="step-complete-back-button" type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+  <button id="step-complete-finish-button" type="button" *ngIf="showSave" class="custom-button form-button" (click)="Save()">{{'finish' | translate}}</button>
+  <button id="step-complete-show-dashboard-button" type="button" *ngIf="showDashboard" class="custom-button form-button" (click)="renderDashboard()">{{'showDashboard' | translate}}</button>
 </div>

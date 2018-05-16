@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { errorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
-import { LogCategories, ScenarioIds, Arm } from './../shared/models/constants';
+import { LogCategories, ScenarioIds, ARM } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -223,7 +223,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         const exactSearchResult = regex.exec(term);
         const exactSearch = !!exactSearchResult && exactSearchResult.length > 1;
 
-        const subsBatch = subscriptions.slice(subsIndex, subsIndex + Arm.MaxSubscriptionBatchSize);
+        const subsBatch = subscriptions.slice(subsIndex, subsIndex + ARM.MaxSubscriptionBatchSize);
 
         // If the user wants an exact match, then we'll query everything and then filter to that
         // item.  This would be slower for some scenario's where you do an exact search and there
@@ -282,12 +282,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                     this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, children);
                 }
 
-                if (result.nextLink || (subsIndex + Arm.MaxSubscriptionBatchSize < subscriptions.length)) {
+                if (result.nextLink || (subsIndex + ARM.MaxSubscriptionBatchSize < subscriptions.length)) {
                     return this._doSearch(
                         children,
                         term,
                         subscriptions,
-                        subsIndex + Arm.MaxSubscriptionBatchSize,
+                        subsIndex + ARM.MaxSubscriptionBatchSize,
                         result.nextLink);
                 } else {
                     return Observable.of({

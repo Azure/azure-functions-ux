@@ -33,7 +33,7 @@ export function setupBitbucketAuthentication(app: Application) {
     app.get('/auth/bitbucket/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['bitbucket_state_key'] = GUID.newGuid();
+            stateKey = req.session[constants.oauthApis.bitbucket_state_key] = GUID.newGuid();
         } else {
             LogHelper.error('session-not-found', {});
             res.sendStatus(500);
@@ -50,9 +50,15 @@ export function setupBitbucketAuthentication(app: Application) {
     });
 
     app.post('/auth/bitbucket/storeToken', async (req, res) => {
+        const hostUrl = req.headers.origin as string;
+        const environment = oauthHelper.getEnvironment(hostUrl);
+        if(!environment){
+            res.sendStatus(403);
+            return;
+        }
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['dropbox_state_key'] || oauthHelper.hashStateGuid(req.session['bitbucket_state_key']).substr(0, 10) !== state) {
+        if (!req || !req.session || !req.session[constants.oauthApis.bitbucket_state_key] || oauthHelper.hashStateGuid(req.session[constants.oauthApis.bitbucket_state_key]).substr(0, 10) !== state) {
             LogHelper.error('bitbucket-invalid-sate-key', {});
             res.sendStatus(403);
             return;
@@ -73,7 +79,7 @@ export function setupBitbucketAuthentication(app: Application) {
                 }
             );
             const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-            oauthHelper.saveToken(token.access_token, req.headers.authorization as string, token.refresh_token);
+            oauthHelper.saveToken(token.access_token, req.headers.authorization as string, token.refresh_token as string, environment);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('bitbucket-token-store', err);

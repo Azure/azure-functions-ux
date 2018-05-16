@@ -63,6 +63,10 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.webSocketsEnabled,
             runCheck: (input: ScenarioCheckInput) => {
                 return { status: 'enabled' };
+        this.scenarioChecks[ScenarioIds.enableSlots] = {
+            id: ScenarioIds.enableSlots,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfStandardOrHigher(input);
             }
         };
 
