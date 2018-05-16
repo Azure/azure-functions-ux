@@ -28,7 +28,7 @@ describe('StepCompleteComponent', () => {
                 { provide: LogService, useClass: MockLogService },
                 { provide: BroadcastService, useValue: new BroadcastService(null) }
             ],
-            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule,]
+            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule]
         })
             .compileComponents();
     }));
@@ -74,14 +74,16 @@ describe('StepCompleteComponent', () => {
         });
 
         it('create new vso account', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: true,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                location: 'Timbucktwo',
-                applicationFramework: 'AspNetWap'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: true,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    location: 'Timbucktwo',
+                    applicationFramework: 'AspNetWap'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(6);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('yes');
@@ -91,13 +93,15 @@ describe('StepCompleteComponent', () => {
             expect(buildStepTest.SummaryGroups[1].items[5].value).toBe('AspNetWap');
         });
         it('use existing vso account', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: false,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                applicationFramework: 'AspNetWap'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: false,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    applicationFramework: 'AspNetWap'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(5);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
@@ -107,15 +111,17 @@ describe('StepCompleteComponent', () => {
         });
 
         it('vsts with nodejs', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: false,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                workingDirectory: '/dir/',
-                nodejsTaskRunner: 'Grunt',
-                applicationFramework: 'Node'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: false,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    workingDirectory: '/dir/',
+                    nodejsTaskRunner: 'Grunt',
+                    applicationFramework: 'Node'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(7);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
@@ -127,19 +133,21 @@ describe('StepCompleteComponent', () => {
         });
 
         it('vsts with python bottle', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: false,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                workingDirectory: '/dir/',
-                pythonSettings: {
-                    ...wizardService.wizardValues.buildSettings.pythonSettings,
-                    version: 'pythonversion',
-                    framework: 'Bottle'
-                },
-                applicationFramework: 'Python'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: false,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    workingDirectory: '/dir/',
+                    pythonSettings: {
+                        ...wizardService.wizardValues.buildSettings.pythonSettings,
+                        version: 'pythonversion',
+                        framework: 'Bottle'
+                    },
+                    applicationFramework: 'Python'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(8);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
@@ -151,20 +159,22 @@ describe('StepCompleteComponent', () => {
             expect(buildStepTest.SummaryGroups[1].items[7].value).toBe('Bottle');
         });
         it('vsts with python flask', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: false,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                workingDirectory: '/dir/',
-                pythonSettings: {
-                    ...wizardService.wizardValues.buildSettings.pythonSettings,
-                    version: 'pythonversion',
-                    framework: 'Flask',
-                    flaskProjectName: 'flaskproject'
-                },
-                applicationFramework: 'Python'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: false,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    workingDirectory: '/dir/',
+                    pythonSettings: {
+                        ...wizardService.wizardValues.buildSettings.pythonSettings,
+                        version: 'pythonversion',
+                        framework: 'Flask',
+                        flaskProjectName: 'flaskproject'
+                    },
+                    applicationFramework: 'Python'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(9);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
@@ -177,20 +187,22 @@ describe('StepCompleteComponent', () => {
             expect(buildStepTest.SummaryGroups[1].items[8].value).toBe('flaskproject');
         });
         it('vsts with python django', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
-                ...wizardService.wizardValues.buildSettings,
-                createNewVsoAccount: false,
-                vstsAccount: 'vstsAccount',
-                vstsProject: 'vstsProject',
-                workingDirectory: '/dir/',
-                pythonSettings: {
-                    ...wizardService.wizardValues.buildSettings.pythonSettings,
-                    version: 'pythonversion',
-                    framework: 'Django',
-                    djangoSettingsModule: 'settingsModule'
-                },
-                applicationFramework: 'Python'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', buildSettings: {
+                    ...wizardService.wizardValues.buildSettings,
+                    createNewVsoAccount: false,
+                    vstsAccount: 'vstsAccount',
+                    vstsProject: 'vstsProject',
+                    workingDirectory: '/dir/',
+                    pythonSettings: {
+                        ...wizardService.wizardValues.buildSettings.pythonSettings,
+                        version: 'pythonversion',
+                        framework: 'Django',
+                        djangoSettingsModule: 'settingsModule'
+                    },
+                    applicationFramework: 'Python'
+                }
+            };
             expect(buildStepTest.SummaryGroups[1].items.length).toBe(9);
             expect(buildStepTest.SummaryGroups[1].items[0].value).toBe('vstsBuildServerTitle');
             expect(buildStepTest.SummaryGroups[1].items[1].value).toBe('no');
@@ -206,21 +218,25 @@ describe('StepCompleteComponent', () => {
 
     describe('Load Test Group', () => {
         it('if disabled should have only one item saying not enabled', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
-                ...wizardService.wizardValues.testEnvironment,
-                enabled: false
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
+                    ...wizardService.wizardValues.testEnvironment,
+                    enabled: false
+                }
+            };
             expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
             expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
         });
 
         it('if enabled should say yes to enabled and give app service plan id and web app id', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
-                ...wizardService.wizardValues.testEnvironment,
-                enabled: true,
-                appServicePlanId: 'aspId',
-                webAppId: 'appId'
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', testEnvironment: {
+                    ...wizardService.wizardValues.testEnvironment,
+                    enabled: true,
+                    appServicePlanId: 'aspId',
+                    webAppId: 'appId'
+                }
+            };
             expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
             expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
             expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('aspId');
@@ -230,21 +246,25 @@ describe('StepCompleteComponent', () => {
 
     describe('Deployment Slot Group', () => {
         it('if disabled should have only one item saying not enabled', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
-                ...wizardService.wizardValues.deploymentSlotSetting,
-                deploymentSlotEnabled: false
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                    ...wizardService.wizardValues.deploymentSlotSetting,
+                    deploymentSlotEnabled: false
+                }
+            };
             expect(buildStepTest.SummaryGroups[3].items.length).toBe(1);
             expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('no');
         });
 
         it('if enabled should say yes to enabled and deployment slot name', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
-                ...wizardService.wizardValues.deploymentSlotSetting,
-                deploymentSlotEnabled: true,
-                deploymentSlot: 'slot',
-                newDeploymentSlot: false
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                    ...wizardService.wizardValues.deploymentSlotSetting,
+                    deploymentSlotEnabled: true,
+                    deploymentSlot: 'slot',
+                    newDeploymentSlot: false
+                }
+            };
             expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
             expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
             expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('no');
@@ -252,12 +272,14 @@ describe('StepCompleteComponent', () => {
         });
 
         it('if enabled and creating new slot should say yes to new slot', () => {
-            wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
-                ...wizardService.wizardValues.deploymentSlotSetting,
-                deploymentSlotEnabled: true,
-                deploymentSlot: 'slot',
-                newDeploymentSlot: true
-            } };
+            wizardService.wizardValues = {
+                ...wizardService.wizardValues, buildProvider: 'vsts', deploymentSlotSetting: {
+                    ...wizardService.wizardValues.deploymentSlotSetting,
+                    deploymentSlotEnabled: true,
+                    deploymentSlot: 'slot',
+                    newDeploymentSlot: true
+                }
+            };
             expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
             expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
             expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('yes');
