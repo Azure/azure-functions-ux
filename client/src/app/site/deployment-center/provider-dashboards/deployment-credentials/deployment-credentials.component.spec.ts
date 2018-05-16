@@ -70,6 +70,8 @@ describe('DeploymentCredentialsComponent', () => {
 
   describe('tabs', () => {
     it('should show user creds when user tab is selected', () => {
+      component.selectTab('user');
+      fixture.detectChanges();
       const elem = fixture.debugElement.query(By.css('#userCredsForm'));
       expect(elem).toBeTruthy();
     });
