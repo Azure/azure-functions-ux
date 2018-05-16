@@ -3091,400 +3091,404 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="free" xml:space="preserve">
     <value>Free</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Hour (Estimated)</value>
-  </data>
-  <data name="pricing_scaleUpDescription" xml:space="preserve">
-    <value>Choose a different pricing tier to add more resources for your plan</value>
-  </data>
-  <data name="pricing_applyButtonLabel" xml:space="preserve">
-    <value>Update App Service plan</value>
-  </data>
-  <data name="pricing_sharedInfrastructure" xml:space="preserve">
-    <value>Shared insfrastructure</value>
-  </data>
-  <data name="pricing_sharedCpu" xml:space="preserve">
-    <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
-  </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
-  </data>
-  <data name="pricing_sharedMemory" xml:space="preserve">
-    <value>Memory available to run applications deployed and running in the App Service plan.</value>
-  </data>
-  <data name="pricing_dedicatedMemory" xml:space="preserve">
-    <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
-  </data>
-  <data name="pricing_sharedDisk" xml:space="preserve">
-    <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
-  </data>
-  <data name="pricing_customDomainsSsl" xml:space="preserve">
-    <value>Custom domains / SSL</value>
-  </data>
-  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
-    <value>Configure and purchase custom domains with SNI SSL bindings</value>
-  </data>
-  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
-    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
-  </data>
-  <data name="pricing_manualScale" xml:space="preserve">
-    <value>Manual scale</value>
-  </data>
-  <data name="pricing_autoScale" xml:space="preserve">
-    <value>Auto scale</value>
-  </data>
-  <data name="pricing_largeScale" xml:space="preserve">
-    <value>Scale to a large number of instances</value>
-  </data>
-  <data name="pricing_largeScaleDesc" xml:space="preserve">
-    <value>Up to 100 instances.  More allowed upon request.</value>
-  </data>
-  <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Up to {0} instances.  Subject to availability.</value>
-  </data>
-  <data name="pricing_stagingSlots" xml:space="preserve">
-    <value>Staging slots</value>
-  </data>
-  <data name="pricing_slotsDesc" xml:space="preserve">
-    <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
-  </data>
-  <data name="pricing_dailyBackup" xml:space="preserve">
-    <value>Daily backup</value>
-  </data>
-  <data name="pricing_dailyBackups" xml:space="preserve">
-    <value>Daily backups</value>
-  </data>
-  <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Backup your app {0} times daily.</value>
-  </data>
-  <data name="pricing_trafficManager" xml:space="preserve">
-    <value>Traffic manager</value>
-  </data>
-  <data name="pricing_trafficManagerDesc" xml:space="preserve">
-    <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
-  </data>
-  <data name="pricing_ase" xml:space="preserve">
-    <value>Single tenant system</value>
-  </data>
-  <data name="pricing_aseDesc" xml:space="preserve">
-    <value>Take more control over the resources being used by your app.</value>
-  </data>
-  <data name="pricing_isolatedNetwork" xml:space="preserve">
-    <value>Isolated network</value>
-  </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Runs within your own virtual network.</value>
-  </data>
-  <data name="pricing_privateAppAccess" xml:space="preserve">
-    <value>Private app access</value>
-  </data>
-  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
-  </data>
-  <data name="pricing_memory" xml:space="preserve">
-    <value>{0} GB memory</value>
-  </data>
-  <data name="pricing_computeLimit" xml:space="preserve">
-    <value>{0} minutes/day compute</value>
-  </data>
-  <data name="pricing_numCores" xml:space="preserve">
-    <value>{0} cores</value>
-  </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A-Series compute</value>
-  </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2-Series compute</value>
-  </data>
-  <data name="proxyJsonInvalid" xml:space="preserve">
-    <value>The proxies.json is not valid. Error: '{0}'.</value>
-  </data>
-  <data name="schemaJsonInvalid" xml:space="preserve">
-    <value>The proxies schema is not valid. Error: '{0}'.</value>
-  </data>
-  <data name="operationId" xml:space="preserve">
-    <value>Operation Id</value>
-  </data>
-  <data name="date" xml:space="preserve">
-    <value>Date (UTC)</value>
-  </data>
-  <data name="url" xml:space="preserve">
-    <value>URL</value>
-  </data>
-  <data name="resultCode" xml:space="preserve">
-    <value>Result Code</value>
-  </data>
-  <data name="triggerReason" xml:space="preserve">
-    <value>Trigger Reason</value>
-  </data>
-  <data name="error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="runInAppInsights" xml:space="preserve">
-    <value>Run in Application Insights</value>
-  </data>
-  <data name="appInsightsInstance" xml:space="preserve">
-    <value>Application Insights Instance</value>
-  </data>
-  <data name="success" xml:space="preserve">
-    <value>Success</value>
-  </data>
-  <data name="duration" xml:space="preserve">
-    <value>Duration (ms)</value>
-  </data>
-  <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
-    <value>Success count in last 30 days</value>
-  </data>
-  <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
-    <value>Error count in last 30 days</value>
-  </data>
-  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
-    <value>Query returned {0} items</value>
-  </data>
-  <data name="functionMonitor_message" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="functionMonitor_itemCount" xml:space="preserve">
-    <value>Item Count</value>
-  </data>
-  <data name="functionMonitor_logLevel" xml:space="preserve">
-    <value>Log Level</value>
-  </data>
-  <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS build server</value>
-  </data>
-  <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
-  </data>
-  <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu build server</value>
-  </data>
-  <data name="kuduDesc" xml:space="preserve">
-    <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
-  </data>
-  <data name="build" xml:space="preserve">
-    <value>Build</value>
-  </data>
-  <data name="selectAccount" xml:space="preserve">
-    <value>Select Account</value>
-  </data>
-  <data name="enterAccountName" xml:space="preserve">
-    <value>Enter Account Name</value>
-  </data>
-  <data name="selectProject" xml:space="preserve">
-    <value>Select Project</value>
-  </data>
-  <data name="webAppFramework" xml:space="preserve">
-    <value>Web Application Framework</value>
-  </data>
-  <data name="selectFramework" xml:space="preserve">
-    <value>Select Framework</value>
-  </data>
-  <data name="workingDirectory" xml:space="preserve">
-    <value>Working Directory</value>
-  </data>
-  <data name="clearDirtyConfirmation" xml:space="preserve">
-    <value>There is an operation in progress.  Are you sure you would like leave?</value>
-  </data>
-  <data name="taskRunner" xml:space="preserve">
-    <value>Task Runner</value>
-  </data>
-  <data name="pythonFramework" xml:space="preserve">
-    <value>Python Framework</value>
-  </data>
-  <data name="pythonVersion" xml:space="preserve">
-    <value>Python Version</value>
-  </data>
-  <data name="djangoSettings" xml:space="preserve">
-    <value>Django Settings Module</value>
-  </data>
-  <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
-  </data>
-  <data name="new" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="existing" xml:space="preserve">
-    <value>Existing</value>
-  </data>
-  <data name="selectRepo" xml:space="preserve">
-    <value>Select Respository</value>
-  </data>
-  <data name="selectFolder" xml:space="preserve">
-    <value>Select Folder</value>
-  </data>
-  <data name="selectBranch" xml:space="preserve">
-    <value>Select branch</value>
-  </data>
-  <data name="deployment" xml:space="preserve">
-    <value>Deployment</value>
-  </data>
-  <data name="enableDeploymentSlot" xml:space="preserve">
-    <value>Enable Deployment Slot</value>
-  </data>
-  <data name="deploymentSlot" xml:space="preserve">
-    <value>Deployment Slot</value>
-  </data>
-  <data name="enterDSName" xml:space="preserve">
-    <value>Enter Deployment Slot Name</value>
-  </data>
-  <data name="selectExistingSlot" xml:space="preserve">
-    <value>Select Slot</value>
-  </data>
-  <data name="yes" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="no" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="loadTesting" xml:space="preserve">
-    <value>Load Testing</value>
-  </data>
-  <data name="enableLoadTesting" xml:space="preserve">
-    <value>Enable Load Testing</value>
-  </data>
-  <data name="appName" xml:space="preserve">
-    <value>App Name</value>
-  </data>
-  <data name="pricingTier" xml:space="preserve">
-    <value>Pricing Tier</value>
-  </data>
-  <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Deployment Center (Preview)</value>
-  </data>
-  <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
-  </data>
-  <data name="notAuthorized" xml:space="preserve">
-    <value>Not Authorized</value>
-  </data>
-  <data name="monitorHostFetchFailed" xml:space="preserve">
-    <value>The call to get Host information failed.</value>
-  </data>
-  <data name="configureAppInsightsTitle" xml:space="preserve">
-    <value>Configure Application Insights to capture invocation logs</value>
-  </data>
-  <data name="configureAppInsightsDesc" xml:space="preserve">
-    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
-  </data>
-  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
-    <value>Switch to classic view</value>
-  </data>
-  <data name="configureAppInsightsInstructions" xml:space="preserve">
-    <value>Configuration Instructions</value>
-  </data>
-  <data name="configureAppInsightsButton" xml:space="preserve">
-    <value>Configure</value>
-  </data>
-  <data name="invocationTraces" xml:space="preserve">
-    <value>Invocation traces</value>
-  </data>
-  <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results may be delayed for up to 5 minutes.</value>
-  </data>
-  <data name="dragFileHereOr" xml:space="preserve">
-    <value>Drag a file here or</value>
-  </data>
-  <data name="browse" xml:space="preserve">
-    <value>browse</value>
-  </data>
-  <data name="toUpload" xml:space="preserve">
-    <value>to upload</value>
-  </data>
-  <data name="feature_metricsName" xml:space="preserve">
-    <value>Metrics</value>
-  </data>
-  <data name="feature_metricsInfo" xml:space="preserve">
-    <value>View metrics and setup alerts.</value>
-  </data>
-  <data name="FTPMessage" xml:space="preserve">
-    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
-  </data>
-  <data name="FTPLabel" xml:space="preserve">
-    <value>FTP access</value>
-  </data>
-  <data name="validating" xml:space="preserve">
-    <value>Validating...</value>
-  </data>
-  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
-  </data>
-  <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>The account name supplied is not valid. Please supply another account name.</value>
-  </data>
-  <data name="FTPBoth" xml:space="preserve">
-    <value>FTP + FTPS</value>
-  </data>
-  <data name="FTPSOnly" xml:space="preserve">
-    <value>FTPS Only</value>
-  </data>
-  <data name="FTPDisable" xml:space="preserve">
-    <value>Disable</value>
-  </data>
-  <data name="show" xml:space="preserve">
-    <value>Show</value>
-  </data>
-  <data name="hide" xml:space="preserve">
-    <value>Hide</value>
-  </data>
-  <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
-  </data>
-  <data name="dashboard" xml:space="preserve">
-    <value>Dashboard</value>
-  </data>
-  <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
-  </data>
-  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>App Service enables you to access your app content through FTP/S.</value>
-  </data>
-  <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
-  </data>
-  <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy.</value>
-  </data>
-  <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
-  </data>
-  <data name="appCredsDesc" xml:space="preserve">
-    <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy.</value>
-  </data>
-   <data name="username" xml:space="preserve">
-    <value>Username</value>
-  </data>
-   <data name="password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-   <data name="confirmPassword" xml:space="preserve">
-    <value>Confirm Password</value>
-  </data>
-   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
-  </data>
-  <data name="credentials" xml:space="preserve">
-    <value>Credentials</value>
-  </data>
-  <data name="pending" xml:space="preserve">
-    <value>Pending</value>
-  </data>
-  <data name="failed" xml:space="preserve">
-    <value>Failed</value>
-  </data>
-  <data name="success" xml:space="preserve">
-    <value>Succcess</value>
-  </data>
-  <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
-  </data>
-  <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
-  </data>
-  <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
-  </data>
-</root>
+  <data name="pricing_pricePerMonth" xml:space="preserve">	+  
+    <data name="pricing_pricePerHour" xml:space="preserve">
+      <value>{0} {1}/Month (Estimated)</value>
+    </data>
+    <data name="pricing_scaleUpDescription" xml:space="preserve">
+      <value>Choose a different pricing tier to add more resources for your plan</value>
+    </data>
+    <data name="pricing_applyButtonLabel" xml:space="preserve">
+      <value>Update App Service plan</value>
+    </data>
+    <data name="pricing_sharedInfrastructure" xml:space="preserve">
+      <value>Shared insfrastructure</value>
+    </data>
+    <data name="pricing_sharedCpu" xml:space="preserve">
+      <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
+    </data>
+    <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+      <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+    </data>
+    <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+      <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+    </data>
+    <data name="pricing_sharedMemory" xml:space="preserve">
+      <value>Memory available to run applications deployed and running in the App Service plan.</value>
+    </data>
+    <data name="pricing_dedicatedMemory" xml:space="preserve">
+      <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
+    </data>
+    <data name="pricing_sharedDisk" xml:space="preserve">
+      <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
+    </data>
+    <data name="pricing_customDomainsSsl" xml:space="preserve">
+      <value>Custom domains / SSL</value>
+    </data>
+    <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+      <value>Configure and purchase custom domains with SNI SSL bindings</value>
+    </data>
+    <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+      <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
+    </data>
+    <data name="pricing_manualScale" xml:space="preserve">
+      <value>Manual scale</value>
+    </data>
+    <data name="pricing_autoScale" xml:space="preserve">
+      <value>Auto scale</value>
+    </data>
+    <data name="pricing_largeScale" xml:space="preserve">
+      <value>Scale to a large number of instances</value>
+    </data>
+    <data name="pricing_largeScaleDesc" xml:space="preserve">
+      <value>Up to 100 instances.  More allowed upon request.</value>
+    </data>
+    <data name="pricing_scaleDesc" xml:space="preserve">
+      <value>Up to {0} instances.  Subject to availability.</value>
+    </data>
+    <data name="pricing_stagingSlots" xml:space="preserve">
+      <value>Staging slots</value>
+    </data>
+    <data name="pricing_slotsDesc" xml:space="preserve">
+      <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
+    </data>
+    <data name="pricing_dailyBackup" xml:space="preserve">
+      <value>Daily backup</value>
+    </data>
+    <data name="pricing_dailyBackups" xml:space="preserve">
+      <value>Daily backups</value>
+    </data>
+    <data name="pricing_dailyBackupDesc" xml:space="preserve">
+      <value>Backup your app {0} times daily.</value>
+    </data>
+    <data name="pricing_trafficManager" xml:space="preserve">
+      <value>Traffic manager</value>
+    </data>
+    <data name="pricing_trafficManagerDesc" xml:space="preserve">
+      <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
+    </data>
+    <data name="pricing_ase" xml:space="preserve">
+      <value>Single tenant system</value>
+    </data>
+    <data name="pricing_aseDesc" xml:space="preserve">
+      <value>Take more control over the resources being used by your app.</value>
+    </data>
+    <data name="pricing_isolatedNetwork" xml:space="preserve">
+      <value>Isolated network</value>
+    </data>
+    <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+      <value>Runs within your own virtual network.</value>
+    </data>
+    <data name="pricing_privateAppAccess" xml:space="preserve">
+      <value>Private app access</value>
+    </data>
+    <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+      <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
+    </data>
+    <data name="pricing_memory" xml:space="preserve">
+      <value>{0} GB memory</value>
+    </data>
+    <data name="pricing_computeLimit" xml:space="preserve">
+      <value>{0} minutes/day compute</value>
+    </data>
+    <data name="pricing_numCores" xml:space="preserve">
+      <value>{0} cores</value>
+    </data>
+    <data name="pricing_aSeriesCompute" xml:space="preserve">
+      <value>A-Series compute</value>
+    </data>
+    <data name="pricing_dSeriesCompute" xml:space="preserve">
+      <value>Dv2-Series compute</value>
+    </data>
+    <data name="proxyJsonInvalid" xml:space="preserve">
+      <value>The proxies.json is not valid. Error: '{0}'.</value>
+    </data>
+    <data name="schemaJsonInvalid" xml:space="preserve">
+      <value>The proxies schema is not valid. Error: '{0}'.</value>
+    </data>
+    <data name="operationId" xml:space="preserve">
+      <value>Operation Id</value>
+    </data>
+    <data name="date" xml:space="preserve">
+      <value>Date (UTC)</value>
+    </data>
+    <data name="url" xml:space="preserve">
+      <value>URL</value>
+    </data>
+    <data name="resultCode" xml:space="preserve">
+      <value>Result Code</value>
+    </data>
+    <data name="triggerReason" xml:space="preserve">
+      <value>Trigger Reason</value>
+    </data>
+    <data name="error" xml:space="preserve">
+      <value>Error</value>
+    </data>
+    <data name="runInAppInsights" xml:space="preserve">
+      <value>Run in Application Insights</value>
+    </data>
+    <data name="appInsightsInstance" xml:space="preserve">
+      <value>Application Insights Instance</value>
+    </data>
+    <data name="success" xml:space="preserve">
+      <value>Success</value>
+    </data>
+    <data name="duration" xml:space="preserve">
+      <value>Duration (ms)</value>
+    </data>
+    <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
+      <value>Success count in last 30 days</value>
+    </data>
+    <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
+      <value>Error count in last 30 days</value>
+    </data>
+    <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+      <value>Query returned {0} items</value>
+    </data>
+    <data name="functionMonitor_message" xml:space="preserve">
+      <value>Message</value>
+    </data>
+    <data name="functionMonitor_itemCount" xml:space="preserve">
+      <value>Item Count</value>
+    </data>
+    <data name="functionMonitor_logLevel" xml:space="preserve">
+      <value>Log Level</value>
+    </data>
+    <data name="vstsBuildServerTitle" xml:space="preserve">
+      <value>VSTS build server</value>
+    </data>
+    <data name="vstsBuildServerDesc" xml:space="preserve">
+      <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
+    </data>
+    <data name="kuduTitle" xml:space="preserve">
+      <value>App Service Kudu build server</value>
+    </data>
+    <data name="kuduDesc" xml:space="preserve">
+      <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
+    </data>
+    <data name="build" xml:space="preserve">
+      <value>Build</value>
+    </data>
+    <data name="selectAccount" xml:space="preserve">
+      <value>Select Account</value>
+    </data>
+    <data name="enterAccountName" xml:space="preserve">
+      <value>Enter Account Name</value>
+    </data>
+    <data name="selectProject" xml:space="preserve">
+      <value>Select Project</value>
+    </data>
+    <data name="webAppFramework" xml:space="preserve">
+      <value>Web Application Framework</value>
+    </data>
+    <data name="selectFramework" xml:space="preserve">
+      <value>Select Framework</value>
+    </data>
+    <data name="workingDirectory" xml:space="preserve">
+      <value>Working Directory</value>
+    </data>
+    <data name="clearDirtyConfirmation" xml:space="preserve">
+      <value>There is an operation in progress.  Are you sure you would like leave?</value>
+    </data>
+    <data name="taskRunner" xml:space="preserve">
+      <value>Task Runner</value>
+    </data>
+    <data name="pythonFramework" xml:space="preserve">
+      <value>Python Framework</value>
+    </data>
+    <data name="pythonVersion" xml:space="preserve">
+      <value>Python Version</value>
+    </data>
+    <data name="djangoSettings" xml:space="preserve">
+      <value>Django Settings Module</value>
+    </data>
+    <data name="flaskProjectName" xml:space="preserve">
+      <value>flaskProjectName</value>
+    </data>
+    <data name="new" xml:space="preserve">
+      <value>New</value>
+    </data>
+    <data name="existing" xml:space="preserve">
+      <value>Existing</value>
+    </data>
+    <data name="selectRepo" xml:space="preserve">
+      <value>Select Respository</value>
+    </data>
+    <data name="selectFolder" xml:space="preserve">
+      <value>Select Folder</value>
+    </data>
+    <data name="selectBranch" xml:space="preserve">
+      <value>Select branch</value>
+    </data>
+    <data name="deployment" xml:space="preserve">
+      <value>Deployment</value>
+    </data>
+    <data name="enableDeploymentSlot" xml:space="preserve">
+      <value>Enable Deployment Slot</value>
+    </data>
+    <data name="deploymentSlot" xml:space="preserve">
+      <value>Deployment Slot</value>
+    </data>
+    <data name="enterDSName" xml:space="preserve">
+      <value>Enter Deployment Slot Name</value>
+    </data>
+    <data name="selectExistingSlot" xml:space="preserve">
+      <value>Select Slot</value>
+    </data>
+    <data name="yes" xml:space="preserve">
+      <value>Yes</value>
+    </data>
+    <data name="no" xml:space="preserve">
+      <value>No</value>
+    </data>
+    <data name="loadTesting" xml:space="preserve">
+      <value>Load Testing</value>
+    </data>
+    <data name="enableLoadTesting" xml:space="preserve">
+      <value>Enable Load Testing</value>
+    </data>
+    <data name="appName" xml:space="preserve">
+      <value>App Name</value>
+    </data>
+    <data name="pricingTier" xml:space="preserve">
+      <value>Pricing Tier</value>
+    </data>
+    <data name="deploymentCenterTitle" xml:space="preserve">
+      <value>Deployment Center (Preview)</value>
+    </data>
+    <data name="deploymentCenterDesc" xml:space="preserve">
+      <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    </data>
+    <data name="notAuthorized" xml:space="preserve">
+      <value>Not Authorized</value>
+    </data>
+    <data name="monitorHostFetchFailed" xml:space="preserve">
+      <value>The call to get Host information failed.</value>
+    </data>
+    <data name="configureAppInsightsTitle" xml:space="preserve">
+      <value>Configure Application Insights to capture invocation logs</value>
+    </data>
+    <data name="configureAppInsightsDesc" xml:space="preserve">
+      <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
+    </data>
+    <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+      <value>Switch to classic view</value>
+    </data>
+    <data name="configureAppInsightsInstructions" xml:space="preserve">
+      <value>Configuration Instructions</value>
+    </data>
+    <data name="configureAppInsightsButton" xml:space="preserve">
+      <value>Configure</value>
+    </data>
+    <data name="invocationTraces" xml:space="preserve">
+      <value>Invocation traces</value>
+    </data>
+    <data name="appInsightsDelay" xml:space="preserve">
+      <value>Results may be delayed for up to 5 minutes.</value>
+    </data>
+    <data name="dragFileHereOr" xml:space="preserve">
+      <value>Drag a file here or</value>
+    </data>
+    <data name="browse" xml:space="preserve">
+      <value>browse</value>
+    </data>
+    <data name="toUpload" xml:space="preserve">
+      <value>to upload</value>
+    </data>
+    <data name="feature_metricsName" xml:space="preserve">
+      <value>Metrics</value>
+    </data>
+    <data name="feature_metricsInfo" xml:space="preserve">
+      <value>View metrics and setup alerts.</value>
+    </data>
+    <data name="FTPMessage" xml:space="preserve">
+      <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+    </data>
+    <data name="FTPLabel" xml:space="preserve">
+      <value>FTP access</value>
+    </data>
+    <data name="validating" xml:space="preserve">
+      <value>Validating...</value>
+    </data>
+    <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+      <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+    </data>
+    <data name="vstsNameUnavailable" xml:space="preserve">
+      <value>The account name supplied is not valid. Please supply another account name.</value>
+    </data>
+    <data name="FTPBoth" xml:space="preserve">
+      <value>FTP + FTPS</value>
+    </data>
+    <data name="FTPSOnly" xml:space="preserve">
+      <value>FTPS Only</value>
+    </data>
+    <data name="FTPDisable" xml:space="preserve">
+      <value>Disable</value>
+    </data>
+    <data name="show" xml:space="preserve">
+      <value>Show</value>
+    </data>
+    <data name="hide" xml:space="preserve">
+      <value>Hide</value>
+    </data>
+    <data name="nomatchpassword" xml:space="preserve">
+      <value>Your password and confirmation password do not match.</value>
+    </data>
+    <data name="dashboard" xml:space="preserve">
+      <value>Dashboard</value>
+    </data>
+    <data name="ftpDesc" xml:space="preserve">
+      <value>Use an FTP connection to access and copy app files.</value>
+    </data>
+    <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+      <value>App Service enables you to access your app content through FTP/S.</value>
+    </data>
+    <data name="userCreds" xml:space="preserve">
+      <value>User Credentials</value>
+    </data>
+    <data name="userCredsDesc" xml:space="preserve">
+      <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+    </data>
+    <data name="appCreds" xml:space="preserve">
+      <value>App Credentials</value>
+    </data>
+    <data name="appCredsDesc" xml:space="preserve">
+      <value>Application Credentials are auto-generated and provide access only to this specific app or deployment slot. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+    </data>
+    <data name="username" xml:space="preserve">
+      <value>Username</value>
+    </data>
+    <data name="password" xml:space="preserve">
+      <value>Password</value>
+    </data>
+    <data name="confirmPassword" xml:space="preserve">
+      <value>Confirm Password</value>
+    </data>
+    <data name="ftpsEndpoint" xml:space="preserve">
+      <value>FTPS Endpoint</value>
+    </data>
+    <data name="credentials" xml:space="preserve">
+      <value>Credentials</value>
+    </data>
+    <data name="pending" xml:space="preserve">
+      <value>Pending</value>
+    </data>
+    <data name="failed" xml:space="preserve">
+      <value>Failed</value>
+    </data>
+    <data name="success" xml:space="preserve">
+      <value>Succcess</value>
+    </data>
+    <data name="saveCredentials" xml:space="preserve">
+      <value>Save Credentials</value>
+    </data>
+    <data name="resetCredentials" xml:space="preserve">
+      <value>Reset Credentials</value>
+    </data>
+    <data name="httpVersion" xml:space="preserve">
+      <value>HTTP Version</value>
+    </data>
+    <data name="dismiss" xml:space="preserve">
+      <value>Dismiss</value>
+    </data>
+  </root>
