@@ -196,6 +196,7 @@ export class ScenarioIds {
     public static readonly showSideNavMenu = 'ShowSideNavMenu';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
