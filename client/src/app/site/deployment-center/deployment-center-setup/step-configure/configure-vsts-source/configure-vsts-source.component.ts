@@ -41,6 +41,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedRepo = '';
     public selectedBranch = '';
     public accountNameToIdMap = {};
+    public accountListLoading = false;
+    public branchesLoading = false;
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
@@ -74,6 +76,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     setupSubscriptions() {
         this._memberIdSubscription
             .takeUntil(this._ngUnsubscribe$)
+            .do(() => this.accountListLoading = true)
             .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
@@ -93,6 +96,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 });
                 return forkJoin(projectCalls);
             })
+            .do(() => this.accountListLoading = false)
             .subscribe(
                 r => {
                     this._vstsRepositories = [];
@@ -124,6 +128,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
         this._branchSubscription
             .takeUntil(this._ngUnsubscribe$)
+            .do(() => this.branchesLoading = true)
             .switchMap(repoUri => {
                 if (repoUri) {
                     const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
@@ -138,6 +143,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     return Observable.of(null);
                 }
             })
+            .do(() => this.branchesLoading = false)
             .subscribe(
                 r => {
                     if (r) {

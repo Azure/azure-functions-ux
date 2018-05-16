@@ -117,6 +117,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
 
+  public accountListLoading = false;
   constructor(
     private _translateService: TranslateService,
     private _cacheService: CacheService,
@@ -175,7 +176,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   private setupSubscriptions() {
     this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
       .map(r => r.json())
+      .do(() => this.accountListLoading = true)
       .switchMap(r => this.fetchAccounts(r.id))
+      .do(() => this.accountListLoading = false)
       .switchMap(r => {
         this.accountList =
           r.map(account => {
