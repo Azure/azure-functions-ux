@@ -7,7 +7,7 @@ import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/bi
 import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
-import { Injector } from '@angular/core';
+import { Injector, Injectable } from '@angular/core';
 import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
@@ -20,6 +20,7 @@ import { LogCategories } from '../../../shared/models/constants';
 export interface SpecPickerInput<T> {
     id: ResourceId;
     data?: T;
+    specPicker: SpecPickerComponent;
 }
 
 export interface NewPlanSpecPickerData {
@@ -35,6 +36,7 @@ export interface NewPlanSpecPickerData {
 
 export type ApplyButtonState = 'enabled' | 'disabled';
 
+@Injectable()
 export class PlanPriceSpecManager {
 
     selectedSpecGroup: PriceSpecGroup;
@@ -51,23 +53,23 @@ export class PlanPriceSpecManager {
         return this._plan.sku.name;
     }
 
-    private _planService: PlanService;
-    private _portalService: PortalService;
-    private _ts: TranslateService;
-    private _logService: LogService;
+    private _specPicker: SpecPickerComponent;
+
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
     private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
     private _ngUnsubscribe$ = new Subject();
 
-    constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
-        this._planService = _injector.get(PlanService);
-        this._portalService = _injector.get(PortalService);
-        this._ts = _injector.get(TranslateService);
-        this._logService = _injector.get(LogService);
+    constructor(
+        private _planService: PlanService,
+        private _portalService: PortalService,
+        private _ts: TranslateService,
+        private _logService: LogService,
+        private _injector: Injector) {
     }
 
     initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        this._specPicker = inputs.specPicker;
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
@@ -231,6 +233,8 @@ export class PlanPriceSpecManager {
             });
     }
 
+    // The lifetime of the spec manager really should be tied to the spec picker component, which is why we allow
+    // components to dispose when they're ready.
     dispose() {
         this._ngUnsubscribe$.next();
     }
