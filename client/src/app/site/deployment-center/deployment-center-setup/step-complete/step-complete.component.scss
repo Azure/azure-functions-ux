@@ -15,7 +15,7 @@
         margin-bottom: 5px;
         font-weight: bold;
         text-transform: uppercase;
-        color: rgb(0, 88, 173);
+        color: $primary-color;
     }
     .summary-label {
         float: left;
@@ -27,5 +27,14 @@
         float: left;
         width: 90%;
         height: 20px;
+    }
+}
+
+
+:host-context(#app-root[theme=dark]) {
+    .summary-group {
+        .heading {
+            color: $primary-color-dark;
+        }
     }
 }

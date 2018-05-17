@@ -1,9 +1,9 @@
 //colors
 @import '../../sass/common/variables';
-// ng-select.ng-invalid.ng-touched .ng-control {
-//     border-color: #dc3545;
-//     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
-// }
+ng-select.ng-invalid.ng-touched .ng-control {
+    border-color: $error-color;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+}
 .ng-select.custom-select {
     &.ng-select-opened {
         >.ng-select-container {
@@ -70,7 +70,7 @@
             border-style: solid;
             border-width: 5px 5px 2.5px;
             &:hover {
-                border-top-color: #666;
+                border-top-color: $border-color;
             }
         }
     }

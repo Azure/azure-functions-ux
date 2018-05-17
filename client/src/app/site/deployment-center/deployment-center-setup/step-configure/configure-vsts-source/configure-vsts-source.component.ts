@@ -3,7 +3,6 @@ import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import first from 'lodash-es/first';
 import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
 import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo';
@@ -125,7 +124,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .do(() => this.branchesLoading = true)
             .switchMap(repoUri => {
                 if (repoUri) {
-                    const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri);
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
@@ -204,7 +203,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     repoChanged(repoUri: DropDownElement<string>) {
-        const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri.value));
+        const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri.value);
         this.wizard.selectedVstsRepoId = repoObj.id;
         this._branchSubscription.next(repoUri.value);
         this.selectedBranch = '';
