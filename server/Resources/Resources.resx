@@ -3506,6 +3506,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deployment Slot Name</value>
   </data>
   <data name="localGitRepoMessage" xml:space="preserve">
-    <value>Your local git repository url will be generated upon completion</value>
+    <value>Your local git repository url will be generated upon completion.</value>
   </data>
 </root>

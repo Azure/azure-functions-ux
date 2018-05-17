@@ -106,7 +106,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   public accountList: DropDownElement<string>[];
   public projectList: DropDownElement<string>[];
   public locationList: DropDownElement<string>[];
-
+  public accountListLoading = false;
+  
   private vsoAccountToProjectMap: { [key: string]: DropDownElement<string>[] } = {};
 
   selectedAccount = '';
@@ -117,7 +118,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
 
-  public accountListLoading = false;
+  
   constructor(
     private _translateService: TranslateService,
     private _cacheService: CacheService,

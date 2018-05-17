@@ -8,14 +8,17 @@ import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+
 interface SummaryItem {
     label: string;
     value: string;
 }
+
 interface SummaryGroup {
     label: string;
     items: SummaryItem[];
 }
+
 @Component({
     selector: 'app-step-complete',
     templateUrl: './step-complete.component.html',
@@ -134,7 +137,7 @@ export class StepCompleteComponent {
 
             if (appFramework === 'Python') {
                 returnSummaryItems.push({
-                    label: 'Python Version',
+                    label: this._translateService.instant(PortalResources.pythonVersionLabel),
                     value: buildSettings.pythonSettings.version
                 });
 
