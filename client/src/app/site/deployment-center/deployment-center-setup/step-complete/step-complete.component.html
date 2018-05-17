@@ -1,9 +1,11 @@
-<div class="settings-group-wrapper">
-
-  <h3 id="step-complete-summary-heading" class="first-config-heading">{{'summary' | translate}}</h3>
-  <pre>
-    {{wizard?.wizardValues | json}}
-  </pre>
+<div class="summary-wrapper">
+  <div *ngFor="let group of SummaryGroups" class="summary-group">
+    <h3 class="heading">{{group.label}}</h3>
+    <div *ngFor="let item of group.items">  
+      <span class="summary-label">{{item.label}}</span>
+      <span class="summary-value">{{item.value}}</span>
+    </div>
+  </div>
 </div>
 <div class="footer">
   <button id="step-complete-back-button" type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>

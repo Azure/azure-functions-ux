@@ -163,9 +163,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@ng-select/ng-select@^0.36.0":
-  version "0.36.2"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-0.36.2.tgz#bd1945a524c48015bd2503488cb1d4da31aa7349"
+"@ng-select/ng-select@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-1.5.0.tgz#06ad54312640eaa239b035e80a7a0f3942f95eba"
   dependencies:
     tslib "^1.7.1"
 

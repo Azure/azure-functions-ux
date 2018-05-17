@@ -3,7 +3,6 @@ import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import first from 'lodash-es/first';
 import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
 import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo';
@@ -40,7 +39,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedProject = '';
     public selectedRepo = '';
     public selectedBranch = '';
-
+    public accountListLoading = false;
+    public branchesLoading = false;
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
@@ -60,22 +60,21 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     updateFormValidation() {
         if (this.wizard.wizardValues.buildProvider === 'vsts') {
-            this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
-            this.wizard.buildSettings.updateValueAndValidity();
+            this.wizard.buildSettings.get('vstsProject').setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService, this.wizard.buildSettings.get('vstsAccount')).bind(this));
+            this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
         }
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
-        this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
-        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
 
     }
 
     setupSubscriptions() {
         this._memberIdSubscription
             .takeUntil(this._ngUnsubscribe$)
+            .do(() => this.accountListLoading = true)
             .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
@@ -90,6 +89,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 });
                 return forkJoin(projectCalls);
             })
+            .do(() => this.accountListLoading = false)
             .subscribe(
                 r => {
                     this._vstsRepositories = [];
@@ -121,9 +121,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
         this._branchSubscription
             .takeUntil(this._ngUnsubscribe$)
+            .do(() => this.branchesLoading = true)
             .switchMap(repoUri => {
                 if (repoUri) {
-                    const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri);
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
@@ -135,6 +136,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     return Observable.of(null);
                 }
             })
+            .do(() => this.branchesLoading = false)
             .subscribe(
                 r => {
                     if (r) {
@@ -201,6 +203,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     repoChanged(repoUri: DropDownElement<string>) {
+        const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri.value);
+        this.wizard.selectedVstsRepoId = repoObj.id;
         this._branchSubscription.next(repoUri.value);
         this.selectedBranch = '';
     }

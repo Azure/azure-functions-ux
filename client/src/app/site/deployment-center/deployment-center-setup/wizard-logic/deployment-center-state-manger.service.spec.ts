@@ -81,12 +81,12 @@ describe('Deployment State Manager', () => {
         }));
 
         it('should recieve inital resource id', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-            service.resourceIdStream$.next('testValue');
-            expect(service['_resourceId']).toBe('testValue');
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
+            expect(service['_resourceId']).toBe('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
         }));
 
         it('should fetch site location and sku on resourceId recieve', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-            service.resourceIdStream$.next('testValue');
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
             expect(service['_location']).toBe('loc');
             expect(service['_pricingTier']).toBe('sku');
             expect(service.siteArm.location).toBe('loc');
@@ -103,6 +103,11 @@ describe('Deployment State Manager', () => {
 
         it('get token should return ad token', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
             expect(service.getToken()).toBe('Bearer adtoken');
+        }));
+
+        it('should fetch subscription name on resourceId recieve', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
+            expect(service.subscriptionName).toBe('displayName');
         }));
     });
 
@@ -226,7 +231,13 @@ class MockCacheService {
     }
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean) {
-        return Observable.of(null);
+        return Observable.of({
+            json: () => {
+                return {
+                    displayName: 'displayName'
+                };
+            }
+        });
     }
 
     postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any): Observable<Response> {
@@ -282,4 +293,3 @@ class MockPortalService {
         });
     }
 }
-

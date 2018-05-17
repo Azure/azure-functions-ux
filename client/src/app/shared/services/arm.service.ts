@@ -15,7 +15,7 @@ export class ArmService {
     public static availabilityApiVersion = '2015-01-01';
 
     public armUrl = '';
-    public armApiVersion = '2014-04-01';
+    public armApiVersion = ARMApiVersions.armApiVersion;
     public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
