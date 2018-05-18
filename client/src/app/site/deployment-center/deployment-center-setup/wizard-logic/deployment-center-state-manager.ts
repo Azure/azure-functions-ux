@@ -8,13 +8,15 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { AuthzService } from '../../../../shared/services/authz.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -30,22 +32,36 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public siteArm: ArmObj<Site>;
     public selectedVstsRepoId = '';
     public subscriptionName = '';
+    public deploymentSlotsAvailable = true;
+    public canCreateNewSite = true;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
         userService: UserService,
-        portalService: PortalService) {
+        portalService: PortalService,
+        scenarioService: ScenarioService,
+        authZService: AuthzService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
             const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
-            return forkJoin(siteService.getSite(this._resourceId), this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion));
+            return forkJoin(siteService.getSite(this._resourceId),
+                this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion));
         })
-            .subscribe(result => {
+            .switchMap(result => {
                 const [site, sub] = result;
                 this.siteArm = site.result;
                 this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
+                const siteDesc = new ArmSiteDescriptor(this._resourceId);
+                return forkJoin(
+                    scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
+                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]));
+            })
+            .subscribe(r => {
+                const [s, p] = r;
+                this.deploymentSlotsAvailable = s.status === 'enabled';
+                this.canCreateNewSite = p;
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {

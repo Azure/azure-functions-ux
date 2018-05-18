@@ -44,10 +44,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
-        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
-        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
 
     fetchRepos() {
