@@ -9,6 +9,7 @@ export interface VSORepo {
 export interface VSOAccount {
     isAccountOwner: boolean;
     accountName: string;
+    accountId: string;
 }
 
 export interface VsoProject {
