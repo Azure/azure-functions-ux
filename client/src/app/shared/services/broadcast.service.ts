@@ -82,13 +82,13 @@ export class BroadcastService implements IBroadcastService {
 
     // DEPRECATED - Use broadcastEvent
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
-        var emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
+        const emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
         emitter.emit(obj);
     }
 
     // DEPRECATED - Use getEvents
     subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void): Subscription {
-        var emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
+        const emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
         return emitter.subscribe(callback, errorCallback, completedCallback);
     }
 
