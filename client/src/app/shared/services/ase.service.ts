@@ -1,17 +1,16 @@
-// import { ArmService } from './arm.service';
 import { Injectable, Injector } from '@angular/core';
-import { ConditionalHttpClient } from '../conditional-http-client';
+import { ConditionalHttpClient, Result } from '../conditional-http-client';
 import { UserService } from './user.service';
 import { CacheService } from './cache.service';
 import { ResourceId, ArmObj } from '../models/arm/arm-obj';
-import { Observable } from 'rxjs/Observable';
-import { HttpResult } from '../models/http-result';
 import { HostingEnvironment } from '../models/arm/hosting-environment';
 
-type Result<T> = Observable<HttpResult<T>>;
+export interface IAseService {
+    getAse(resourceId: ResourceId): Result<ArmObj<HostingEnvironment>>;
+}
 
 @Injectable()
-export class AseService {
+export class AseService implements IAseService {
     private readonly _client: ConditionalHttpClient;
 
     constructor(

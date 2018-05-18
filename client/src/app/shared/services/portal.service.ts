@@ -16,9 +16,37 @@ import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/
 import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
 
+export interface IPortalService {
+
+    getStartupInfo();
+    sendTimerEvent(evt: TimerEvent);
+    openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string);
+    openBlade(bladeInfo: OpenBladeInfo, source: string);
+    openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void);
+    openCollectorBladeWithInputs(
+        resourceId: string,
+        obj: any,
+        source: string,
+        getAppSettingCallback: (appSettingName: string) => void,
+        bladeName?: string);
+    getAdToken(tokenType: 'graph' | 'azureTfsApi');
+    getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult>;
+    getSubscription(subscriptionId: string): Observable<Subscription>;
+    closeBlades();
+    updateBladeInfo(title: string, subtitle: string);
+    pinPart(pinPartInfo: PinPartInfo);
+    startNotification(title: string, description: string);
+    stopNotification(id: string, success: boolean, description: string);
+    logAction(subcomponent: string, action: string, data?: any): void;
+    setDirtyState(dirty: boolean);
+    updateDirtyState(dirty: boolean, message?: string);
+    logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]);
+    returnPcv3Results<T>(results: T);
+
+}
 
 @Injectable()
-export class PortalService {
+export class PortalService implements IPortalService {
     public sessionId = '';
     public resourceId: string;
     public isEmbeddedFunctions = Url.getParameterByName(window.location.href, 'appsvc.embedded') === 'functions';
