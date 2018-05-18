@@ -10,6 +10,12 @@
     }
 }
 
+.sidebar-ftp-dashboard {
+    background-color: $body-bg-color;
+    min-width: 500px;
+    width: 50%;
+}
+
 .sidebar-new-function {
     background-color: $body-bg-color;
     z-index: 11 !important;
@@ -58,6 +64,10 @@
 
 #app-root[theme=dark]{
     .sidebar{
+        background-color: $body-bg-color-dark;
+    }
+
+    .sidebar-ftp-dashboard {
         background-color: $body-bg-color-dark;
     }
 

@@ -13,7 +13,7 @@
     </div>
     <div *ngIf="wizard?.wizardValues?.testEnvironment?.enabled">
 
-      <div class="setting-wrapper">
+      <div class="setting-wrapper" *ngIf="wizard.canCreateNewSite">
         <div class="setting-label">{{'webApp' | translate}}</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">

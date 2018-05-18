@@ -7,7 +7,7 @@
     </div>
 
     <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="false" [trapFocus]="true"
-        [autoFocus]="true" [sidebarClass]="'sidebar'" [animate]="true" [showBackdrop]="true">
+        [autoFocus]="true" sidebarClass="sidebar-ftp-dashboard" [animate]="true" [showBackdrop]="true">
         <app-ftp-dashboard *ngIf="dashboardProviderType === 'ftp'" [resourceId]="resourceId"></app-ftp-dashboard>
         <span class="close-button" (click)="sidebar.close()">
             <i class="fa fa-times fa-lg" aria-hidden="true"></i>
