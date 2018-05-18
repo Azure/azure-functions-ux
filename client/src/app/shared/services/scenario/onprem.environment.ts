@@ -6,14 +6,18 @@ import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
 import { QuotaNames, QuotaScope } from 'app/shared/models/arm/quotaSettings';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from './../../../shared/models/portal-resources';
 
 export class OnPremEnvironment extends Environment {
     name = 'OnPrem';
     private _quotaService: QuotaService;
+    private _translateService: TranslateService;
 
     constructor(injector: Injector) {
         super();
         this._quotaService = injector.get(QuotaService);
+        this._translateService = injector.get(TranslateService);
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
@@ -57,8 +61,9 @@ export class OnPremEnvironment extends Environment {
                     QuotaScope.Site
                 ).map(limit => {
                     return <ScenarioResult> {
+                        // limit is infinity when it is -1
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: null
+                        data: this._translateService.instant(PortalResources.upgradeUpsell)
                     };
                 });
             }
@@ -76,7 +81,7 @@ export class OnPremEnvironment extends Environment {
                 ).map(limit => {
                     return <ScenarioResult> {
                         status: limit > 1 ? 'enabled' : 'disabled',
-                        data: null
+                        data: this._translateService.instant(PortalResources.upgradeUpsell)
                     };
                 });
             }
@@ -94,7 +99,7 @@ export class OnPremEnvironment extends Environment {
                 ).map(limit => {
                     return <ScenarioResult> {
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: null
+                        data: this._translateService.instant(PortalResources.upgradeUpsell)
                     };
                 });
             }
@@ -112,7 +117,7 @@ export class OnPremEnvironment extends Environment {
                 ).map(limit => {
                     return <ScenarioResult> {
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: null
+                        data: this._translateService.instant(PortalResources.upgradeUpsell)
                     };
                 });
             }

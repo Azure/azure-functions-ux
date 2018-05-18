@@ -149,7 +149,7 @@
         </radio-selector>
         <span check-scenario="WebSocketsEnabled" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over [message]="upgradeUpsell">
+          <pop-over [message]="webSocketUpsell">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>

@@ -21,8 +21,6 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
-import { Url } from '../../../shared/Utilities/url';
-import { ConfigService } from 'app/shared/services/config.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
@@ -47,7 +45,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public use32BitWorkerProcessUpsell: string;
     public alwaysOnUpsell: string;
     public autoSwapUpsell: string;
-    public upgradeUpsell: string;
+    public webSocketUpsell: string;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -98,7 +96,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _authZService: AuthzService,
         private _portalService: PortalService,
         private _siteService: SiteService,
-        private _configService: ConfigService,
         private _scenarioService: ScenarioService,
         injector: Injector
     ) {
@@ -109,10 +106,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
-        this.upgradeUpsell = this._translateService.instant(PortalResources.upgradeUpsell);
-        this.use32BitWorkerProcessUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.use32BitWorkerProcessUpsell);
-        this.alwaysOnUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.alwaysOnUpsell);
-        this.autoSwapUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.autoSwapUpsell);
     }
 
     protected get _isPristine() {
@@ -188,6 +181,18 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
                     this._processSupportedControls(this.siteArm, this.siteConfigArm);
                     this._setupForm(this.siteConfigArm, this.siteArm);
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, {site: this.siteArm}).subscribe(res => {
+                        this.use32BitWorkerProcessUpsell = res.data;
+                    });
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, {site: this.siteArm}).subscribe(res => {
+                        this.alwaysOnUpsell = res.data;
+                    });
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, {site: this.siteArm}).subscribe(res => {
+                        this.autoSwapUpsell = res.data;
+                    });
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, {site: this.siteArm}).subscribe(res => {
+                        this.webSocketUpsell = res.data;
+                    });
                 }
 
                 this.loadingMessage = null;
@@ -328,6 +333,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
             if (this._scenarioService.checkScenario(ScenarioIds.enableRemoteDebugging).status === 'disabled') {
                 remoteDebuggingSupported = false;
+            }
             if (this._scenarioService.checkScenario(ScenarioIds.addHTTPSwitch, { site: siteArm }).status === 'disabled') {
                 http20Supported = false;
             }

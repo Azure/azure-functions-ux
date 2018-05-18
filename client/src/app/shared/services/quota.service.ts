@@ -15,18 +15,17 @@ export class QuotaService {
     private static readonly _shared = 'shared';
     private static readonly _dedicated = 'dedicated';
     private static readonly _dynamic = 'dynamic';
-    private static readonly _unrecognized  = 'unrecognized ';
     private static readonly _quotaSettingsResourceIdFormat = '/subscriptions/{0}/providers/Microsoft.Web/quotaSettings';
     private static readonly _fullQuotaFormat = '{0}_{1}_{2}_{3}';
 
     private readonly _client: ConditionalHttpClient;
 
     constructor(
-        private _userService: UserService,
+        userService: UserService,
         private _cacheService: CacheService,
         private _logService: LogService,
-        private _injector: Injector) {
-            this._client = new ConditionalHttpClient(this._injector, _ => this._userService.getStartupInfo().map(i => i.token));
+        injector: Injector) {
+            this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
 
     getQuotaSettings(subscriptionId: string):  Observable<QuotaSettings> {
@@ -34,6 +33,10 @@ export class QuotaService {
         // TODO RDBug 12292335:[UR3]Simplify QuotaSettings API
         const quotaSettings = this._cacheService.getArm(resourceId).map(r => r.json());
         return this._client.execute({ resourceId: resourceId }, t => quotaSettings).map(r => {
+            if (!r.isSuccessful) {
+                this._logService.error(LogCategories.quotaService, '/quota-service', r.error);
+                return null;
+            }
             const quotaSettingsForAllSubs: QuotaSettings[] = r.result.value;
             const quotaSettingForCurrentSub = quotaSettingsForAllSubs.find(quota => quota.properties.subscriptionId === subscriptionId);
             return quotaSettingForCurrentSub;
@@ -47,13 +50,23 @@ export class QuotaService {
         computeMode: ComputeMode,
         quotaScope: QuotaScope = QuotaScope.WebSpace): Observable<number> {
             const fullQuotaName = this._generateFullQuotaName(quotaName, sku, computeMode, quotaScope);
+            if (!fullQuotaName) {
+                return null;
+            }
             // BUGBUG we should cache quota settings in a JavaScript object lookup instead of array
             // since quota setting doesn’t change that often.
             // Also object lookup is faster than array iteration.
             return this.getQuotaSettings(subscriptionId).map(quotas => {
                 const quota = quotas.properties.quotaSettings.find(qs => qs.key.toLowerCase() === fullQuotaName);
-                const quotaValue = JSON.parse(quota.value);
-                return quotaValue.Limit;
+                let quotaLimit: number = null;
+                try {
+                    const quotaValue = JSON.parse(quota.value);
+                    quotaLimit = quotaValue.Limit;
+
+                } catch (e) {
+                    this._logService.error(LogCategories.quotaService, '/quota-service', e);
+                }
+                return quotaLimit;
             });
     }
 
@@ -71,8 +84,8 @@ export class QuotaService {
             } else if (computeMode === ComputeMode.Dynamic) {
                 mode = QuotaService._dynamic;
             } else {
-                mode = QuotaService._unrecognized;
                 this._logService.error(LogCategories.quotaService, '/quota-service', 'Unrecognized compute mode' + computeMode);
+                return null;
             }
             return QuotaService._fullQuotaFormat.format(quotaName, mode, scope, sku).toLowerCase();
     }
