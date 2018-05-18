@@ -6,20 +6,23 @@ import { ArmProviderInfo } from './../models/arm/ArmProviderInfo';
 import { ServerFarm } from './../models/server-farm';
 import { ResourceId, ArmObj, AvailableSku } from 'app/shared/models/arm/arm-obj';
 import { Observable } from 'rxjs/Observable';
-import { HttpResult } from '../models/http-result';
 import { Injectable, Injector } from '@angular/core';
-import { ConditionalHttpClient } from '../conditional-http-client';
+import { ConditionalHttpClient, Result } from '../conditional-http-client';
 import { UserService } from './user.service';
 import { CacheService } from './cache.service';
 import { GeoRegion } from '../models/arm/georegion';
-import { SpecCostQueryInput } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { Subject } from 'rxjs/Subject';
 
-
-type Result<T> = Observable<HttpResult<T>>;
+export interface IPlanService {
+    getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
+    updatePlan(plan: ArmObj<ServerFarm>);
+    getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]>;
+    getAvailablePremiumV2GeoRegions(subscriptionId: string, isLinux: boolean);
+    getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]>;
+}
 
 @Injectable()
-export class PlanService {
+export class PlanService implements IPlanService {
     private readonly _client: ConditionalHttpClient;
 
     constructor(
@@ -36,7 +39,6 @@ export class PlanService {
         const getPlan = this._cacheService.getArm(resourceId, force).map(r => r.json());
         return this._client.execute({ resourceId: resourceId }, t => getPlan);
     }
-
 
     updatePlan(plan: ArmObj<ServerFarm>) {
         const updatePlan = this._cacheService.putArm(plan.id, null, plan);
@@ -112,16 +114,6 @@ export class PlanService {
         return this._client.execute({ resourceId: url }, t => getMeters)
             .map(r => {
                 return r.result.json().value;
-            });
-    }
-
-    getSpecCosts(query: SpecCostQueryInput) {
-        const url = `https://s2.billing.ext.azure.com/api/Billing/Subscription/GetSpecsCosts`;
-
-        const getSpecCosts = this._cacheService.post(url, false, null, query);
-        return this._client.execute({ resourceId: url }, t => getSpecCosts)
-            .map(r => {
-                return r.result.json();
             });
     }
 
