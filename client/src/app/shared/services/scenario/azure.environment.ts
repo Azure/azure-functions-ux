@@ -9,7 +9,6 @@ import { PortalService } from '../portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../../shared/models/portal-resources';
 
-
 export class AzureEnvironment extends Environment {
     name = 'Azure';
     private _applicationInsightsService: ApplicationInsightsService;

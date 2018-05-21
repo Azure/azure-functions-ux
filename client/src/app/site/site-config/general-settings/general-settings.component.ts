@@ -133,7 +133,11 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                     this._siteService.getAvailableStacks(AvailableStacksOsType.Windows),
                     this._siteService.getAvailableStacks(AvailableStacksOsType.Linux),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId));
+                    this._authZService.hasReadOnlyLock(this.resourceId),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, {site: this.siteArm}));
             })
             .do(results => {
                 const siteResult = results[0];
@@ -143,6 +147,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 const stacksResultLinux = results[4];
                 const hasWritePermission = results[5];
                 const hasReadonlyLock = results[6];
+                this.use32BitWorkerProcessUpsell = results[7].data;
+                this.alwaysOnUpsell = results[8].data;
+                this.autoSwapUpsell = results[9].data;
+                this.webSocketUpsell = results[10].data;
 
                 if (!siteResult.isSuccessful
                     || !slotsResult.isSuccessful
@@ -181,18 +189,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
                     this._processSupportedControls(this.siteArm, this.siteConfigArm);
                     this._setupForm(this.siteConfigArm, this.siteArm);
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, {site: this.siteArm}).subscribe(res => {
-                        this.use32BitWorkerProcessUpsell = res.data;
-                    });
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, {site: this.siteArm}).subscribe(res => {
-                        this.alwaysOnUpsell = res.data;
-                    });
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, {site: this.siteArm}).subscribe(res => {
-                        this.autoSwapUpsell = res.data;
-                    });
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, {site: this.siteArm}).subscribe(res => {
-                        this.webSocketUpsell = res.data;
-                    });
                 }
 
                 this.loadingMessage = null;
