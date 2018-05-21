@@ -17,7 +17,7 @@ const _languageMap: { [key: string]: string } = {
 const versionList: string[] = require('./data/supportedFunctionsFxVersions.json').sort(versionCompare);
 
 function findLatestTemplateVersion(version: string): string {
-  if (isNumericVersion(version)) {
+  if (!isNumericVersion(version)) {
     return version;
   }
   let retVersion = versionList.filter(x => versionCompare(version, x) >= 0);
