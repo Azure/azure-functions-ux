@@ -498,6 +498,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 }
 
                 this.content = this.updatedContent;
+
+                this._portalService.logAction('function-dev', 'save-script', {
+                    scriptName: this.scriptFile.name,
+                    mimeType: this.scriptFile.mime
+                });
             },
                 () => {
                     this._globalStateService.clearBusyState();
