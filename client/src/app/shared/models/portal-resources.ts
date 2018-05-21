@@ -453,6 +453,7 @@
     public static alwaysOnLabel = 'alwaysOnLabel';
     public static alwaysOnLabelHelp = 'alwaysOnLabelHelp';
     public static alwaysOnUpsell = 'alwaysOnUpsell';
+    public static upgradeUpsell = 'upgradeUpsell';
     public static managedPipelineModeLabel = 'managedPipelineModeLabel';
     public static autoSwapNotSupportedFromProd = 'autoSwapNotSupportedFromProd';
     public static autoSwapUpsell = 'autoSwapUpsell';

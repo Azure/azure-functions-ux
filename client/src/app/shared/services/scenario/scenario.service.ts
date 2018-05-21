@@ -29,7 +29,7 @@ export class ScenarioService {
 
     private _environments: Environment[] = [
         new StandaloneEnvironment(),
-        new OnPremEnvironment(),
+        new OnPremEnvironment(this._injector),
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
@@ -42,14 +42,14 @@ export class ScenarioService {
         private _logService: LogService,
         private _translateService: TranslateService,
         private _portalService: PortalService,
-        injector: Injector) {
+        private _injector: Injector) {
 
         // National cloud environments inherit from AzureEnvironment so we ensure there
         // aren't duplicates to reduce the chance of conflicts in behavior.
         if (NationalCloudEnvironment.isNationalCloud()) {
-            this._environments.splice(0, 0, new NationalCloudEnvironment(injector));
+            this._environments.splice(0, 0, new NationalCloudEnvironment(_injector));
         } else {
-            this._environments.splice(0, 0, new AzureEnvironment(injector));
+            this._environments.splice(0, 0, new AzureEnvironment(_injector));
         }
     }
 

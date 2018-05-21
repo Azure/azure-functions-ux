@@ -1468,6 +1468,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on requires a basic or higher App Service plan</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>The App Service plan associated with this app does not support this feature. Please contact your administrator to enable this feature for your current plan, or upgrade to a plan that already has it enabled.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Managed Pipeline Version</value>
   </data>

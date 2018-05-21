@@ -199,6 +199,7 @@ export class ScenarioIds {
     public static readonly showSideNavMenu = 'ShowSideNavMenu';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
@@ -210,6 +211,7 @@ export class ScenarioIds {
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
     public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
     public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly webSocketsEnabled = 'WebSocketsEnabled';
     public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
@@ -250,6 +252,7 @@ export class LogCategories {
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
+    public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
