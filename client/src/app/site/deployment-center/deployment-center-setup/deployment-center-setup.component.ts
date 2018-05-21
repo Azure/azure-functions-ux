@@ -15,8 +15,8 @@ import { MovingDirection } from '../../../controls/form-wizard/util/moving-direc
 export class DeploymentCenterSetupComponent implements OnChanges {
     @Input() resourceId: string;
 
-    constructor(private _wizardService: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
-        this._wizardService.wizardForm = this._fb.group({
+    constructor(public wizard: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
+        this.wizard.wizardForm = this._fb.group({
             sourceProvider: [null, []],
             buildProvider: ['kudu', []],
             sourceSettings: this._fb.group({
@@ -57,28 +57,28 @@ export class DeploymentCenterSetupComponent implements OnChanges {
 
     get showTestStep() {
         const buildProvider: sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['buildProvider'] &&
-            this._wizardService.wizardForm.controls['buildProvider'].value;
+            this.wizard &&
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls['buildProvider'] &&
+            this.wizard.wizardForm.controls['buildProvider'].value;
         return buildProvider === 'vsts';
     }
 
     get showDeployStep() {
         const buildProvider: sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['buildProvider'] &&
-            this._wizardService.wizardForm.controls['buildProvider'].value;
-        return buildProvider === 'vsts';
+            this.wizard &&
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls['buildProvider'] &&
+            this.wizard.wizardForm.controls['buildProvider'].value;
+        return buildProvider === 'vsts' && this.wizard.deploymentSlotsAvailable;
     }
 
     get showBuildStep() {
         const sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['sourceProvider'] &&
-            this._wizardService.wizardForm.controls['sourceProvider'].value;
+            this.wizard &&
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls['sourceProvider'] &&
+            this.wizard.wizardForm.controls['sourceProvider'].value;
         return (
             sourceControlProvider !== 'onedrive' &&
             sourceControlProvider !== 'dropbox' &&
@@ -91,38 +91,38 @@ export class DeploymentCenterSetupComponent implements OnChanges {
 
     get showConfigureStep() {
         const sourceControlProvider: sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['sourceProvider'] &&
-            this._wizardService.wizardForm.controls['sourceProvider'].value;
+            this.wizard &&
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls['sourceProvider'] &&
+            this.wizard.wizardForm.controls['sourceProvider'].value;
 
         const buildProvider: sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['buildProvider'] &&
-            this._wizardService.wizardForm.controls['buildProvider'].value;
+            this.wizard &&
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls['buildProvider'] &&
+            this.wizard.wizardForm.controls['buildProvider'].value;
         const localGitKudu = sourceControlProvider === 'localgit' && buildProvider === 'kudu';
         return sourceControlProvider !== 'ftp' && sourceControlProvider !== 'webdeploy' && !localGitKudu;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
-            this._wizardService.resourceIdStream$.next(this.resourceId);
+            this.wizard.resourceIdStream$.next(this.resourceId);
         }
     }
 
     // This is ran when the user attempts to exit the configuration step of the wizard
     buildConfigValid(direction: MovingDirection) {
         if (direction === MovingDirection.Forwards) {
-            this._wizardService.markSectionAsTouched(this._wizardService.buildSettings);
-            this._wizardService.markSectionAsTouched(this._wizardService.sourceSettings);
-            return this._wizardService.buildSettings.valid && this._wizardService.sourceSettings.valid;
+            this.wizard.markSectionAsTouched(this.wizard.buildSettings);
+            this.wizard.markSectionAsTouched(this.wizard.sourceSettings);
+            return this.wizard.buildSettings.valid && this.wizard.sourceSettings.valid;
         }
         return true;
     }
 
     get showSummaryStep() {
-        const sourceProvider = this._wizardService && this._wizardService.wizardValues && this._wizardService.wizardValues.sourceProvider;
+        const sourceProvider = this.wizard && this.wizard.wizardValues && this.wizard.wizardValues.sourceProvider;
         return sourceProvider && sourceProvider !== 'ftp' && sourceProvider !== 'webdeploy';
     }
 }

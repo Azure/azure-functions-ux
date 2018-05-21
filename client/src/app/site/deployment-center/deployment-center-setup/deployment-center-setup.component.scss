@@ -44,6 +44,12 @@
     }
 }
 
+.wizard-container {
+    height: 100vh;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
 :host-context(#app-root[theme=dark]) {
     .footer {
         background-color: $body-bg-color-dark;

@@ -18,6 +18,12 @@ import { Injectable, Injector } from '@angular/core';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 
+export interface IScenarioService {
+    checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
+    checkScenarioAsync(id: string, input?: ScenarioCheckInput): Observable<ScenarioCheckResult>;
+    _getFinalResult(id: string, results: ScenarioCheckResult[]);
+}
+
 @Injectable()
 export class ScenarioService {
 
