@@ -110,12 +110,12 @@ export class RunHttpComponent {
             });
         }
         this.headerOptions = {
-            items: this.model.headers,
+            items: this.model.headers || [],
             nameValidators: [Validators.required, Validators.pattern(Regex.header)]
         };
 
         this.paramsOptions = {
-            items: this.model.queryStringParams,
+            items: this.model.queryStringParams || [],
             nameValidators: [Validators.required, Validators.pattern(Regex.queryParam)]
         };
 
