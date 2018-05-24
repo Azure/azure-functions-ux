@@ -12,19 +12,19 @@ import { ProviderCard } from '../../Models/provider-card';
 export class StepBuildProviderComponent {
     public readonly providerCards: ProviderCard[] = [
         {
-            id: 'vsts',
-            name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#68227A',
-            description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
-            authorizedStatus: 'none'
-        },
-        {
             id: 'kudu',
             name: this._translateService.instant(PortalResources.kuduTitle),
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
             description: this._translateService.instant(PortalResources.kuduDesc),
+            authorizedStatus: 'none'
+        },
+        {
+            id: 'vsts',
+            name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
+            icon: 'image/deployment-center/vsts.svg',
+            color: '#68227A',
+            description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none'
         }
     ];
