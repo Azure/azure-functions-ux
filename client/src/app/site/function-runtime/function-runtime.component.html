@@ -67,12 +67,12 @@
     <div *ngIf="!GlobalDisabled && !isStopped" class="setting-wrapper">
         <label id="runtimeVersionLabel" class="title-label">{{ 'runtimeVersion' | translate }}</label>
         <div>
-            <label *ngIf="!needUpdateExtensionVersion">
+            <label *ngIf="!needUpdateExtensionVersion && !badRuntimeVersion">
                 {{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}
             </label>
-            <div *ngIf="needUpdateExtensionVersion">
+            <div *ngIf="needUpdateExtensionVersion && !badRuntimeVersion">
                 <label id="updateRuntimeVersionLabel">
-                    {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
+                    {{ 'appFunctionSettings_functionAppSettings1' | translate: {exactExtensionVersion: exactExtensionVersion, latestExtensionVersion:latestExtensionVersion} }}
                 </label>
                 <button
                     class="custom-button"
@@ -82,6 +82,18 @@
                     aria-labelledby="updateRuntimeVersionLabel updateRuntimeVersionButton">
                         {{ 'update' | translate }}
                 </button>
+            </div>
+            <div *ngIf="badRuntimeVersion">
+                <label id="updateRuntimeVersionLabel">
+                    {{ 'appFunctionSettings_functionAppSettings_badVersion' | translate: {extensionVersion: extensionVersion} }}
+                </label>
+            </div>
+            <div *ngIf="badRuntimeVersion" class="alert alert-warning">
+                <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                <div class="alert-message">
+                    <span class="title-label">{{ 'appFunctionSettings_warning_badVersionTitle' | translate }}</span><br/>
+                    <span>{{ 'appFunctionSettings_warning_badVersionDescription' | translate: {exactExtensionVersion: exactExtensionVersion} }}</span><br/>
+                </div>
             </div>
             <div *ngIf="hasFunctions" class="alert alert-warning">
                 <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
