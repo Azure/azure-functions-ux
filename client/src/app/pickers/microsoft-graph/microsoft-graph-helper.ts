@@ -100,6 +100,7 @@ export class MicrosoftGraphHelper {
             displayName: name,
             homepage: appUri,
             identifierUris: [appUri],
+            oauth2AllowImplicitFlow: true,
             replyUrls: [trimTrailingSlash(appUri) + MSGraphConstants.General.AADReplyUrl],
             passwordCredentials: [GeneratePasswordCredentials()],
             requiredResourceAccess: necessaryAADPermisisons
