@@ -405,8 +405,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
             delete appSettings[Constants.azureJobsExtensionVersion];
         }
+
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
-        appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+
+        if (version === 'beta') {
+            appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
+        } else {
+            appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+        }
 
         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
     }
