@@ -1058,7 +1058,7 @@
     <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Runtime version: {{exactExtensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -2723,7 +2723,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Authorize</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Authorize</value>
+    <value>Change Account</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
@@ -2930,7 +2930,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Deploy</value>
+    <value>Deploy to staging</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Summary</value>
@@ -3260,10 +3260,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Log Level</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS build server</value>
+    <value>VSTS Continuous Delivery</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
+    <value>Visual Studio Team Services sets up a robust deployment pipeline for your application. The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu build server</value>
@@ -3347,10 +3347,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>No</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Load Testing</value>
+    <value>Load Test</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Enable Load Testing</value>
+    <value>Enable Load Test</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>App Name</value>
@@ -3510,5 +3510,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="localGitRepoMessage" xml:space="preserve">
     <value>Your local git repository url will be generated upon completion.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Runtime version loaded from Application Settings: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Unsupported Runtime Version</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Your custom runtime version is not supported. As a result {{exactExtensionVersion}} runtime is being used. </value>
   </data>
 </root>
