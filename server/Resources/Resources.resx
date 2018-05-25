@@ -1058,7 +1058,7 @@
     <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Runtime version: {{exactExtensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -3510,5 +3510,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="localGitRepoMessage" xml:space="preserve">
     <value>Your local git repository url will be generated upon completion.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Runtime version loaded from Application Settings: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Unsupported Runtime Version</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Your custom runtime version is not supported. As a result {{exactExtensionVersion}} runtime is being used. </value>
   </data>
 </root>
