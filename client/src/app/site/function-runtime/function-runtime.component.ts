@@ -264,8 +264,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
                 if (!match) {
                     this.badRuntimeVersion = true;
-                } else {
-                    this.badRuntimeVersion = false;
                 }
 
                 this.setNeedUpdateExtensionVersion();
