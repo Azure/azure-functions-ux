@@ -19,17 +19,13 @@
     }
     .summary-label {
         float: left;
-        width: 10%;
-        height: 20px;
+        width: 20%;
     }
-    
     .summary-value {
         float: left;
-        width: 90%;
-        height: 20px;
+        width: 80%;
     }
 }
-
 
 :host-context(#app-root[theme=dark]) {
     .summary-group {

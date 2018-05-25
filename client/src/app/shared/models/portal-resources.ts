@@ -1126,4 +1126,7 @@
     public static newDeploymentSlot = 'newDeploymentSlot';
     public static deploymentSlotName = 'deploymentSlotName';
     public static localGitRepoMessage = 'localGitRepoMessage';
+    public static appFunctionSettings_functionAppSettings_badVersion = 'appFunctionSettings_functionAppSettings_badVersion';
+    public static appFunctionSettings_warning_badVersionTitle = 'appFunctionSettings_warning_badVersionTitle';
+    public static appFunctionSettings_warning_badVersionDescription = 'appFunctionSettings_warning_badVersionDescription';
 }
