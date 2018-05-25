@@ -106,6 +106,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   public accountList: DropDownElement<string>[];
   public projectList: DropDownElement<string>[];
   public locationList: DropDownElement<string>[];
+  public accountListLoading = false;
 
   private vsoAccountToProjectMap: { [key: string]: DropDownElement<string>[] } = {};
 
@@ -149,12 +150,11 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
       this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([]);
       this.wizard.buildSettings.get('vstsProject').setValidators(required.validate.bind(required));
-      this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
+      this.wizard.buildSettings.get('vstsProject').setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService, this.wizard.buildSettings.get('vstsAccount')).bind(this));
     }
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     this.wizard.buildSettings.get('location').updateValueAndValidity();
-    this.wizard.buildSettings.updateValueAndValidity();
   }
 
   private removeFormValidators() {
@@ -176,7 +176,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   private setupSubscriptions() {
     this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
       .map(r => r.json())
+      .do(() => this.accountListLoading = true)
       .switchMap(r => this.fetchAccounts(r.id))
+      .do(() => this.accountListLoading = false)
       .switchMap(r => {
         this.accountList =
           r.map(account => {

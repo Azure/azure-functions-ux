@@ -56,10 +56,8 @@ export class ConfigureGithubComponent implements OnDestroy {
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
-        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
-        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
     fetchOrgs() {
         return Observable.zip(
@@ -115,7 +113,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                             for (let i = 2; i <= lastPageNumber; i++) {
                                 pageCalls.push(
                                     this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`
+                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`,
+                                        authToken: this.wizard.getToken()
                                     })
                                 );
                             }

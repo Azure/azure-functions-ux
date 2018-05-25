@@ -45,7 +45,7 @@
         "swagger-editor": "git+https://github.com/azure/swagger-editor.git#5c7736ff93ffe36569e1f21efd72a91c9c1f9f77",
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.20",
-        "@ng-select/ng-select": "^0.36.0",
+        "@ng-select/ng-select": "^1.5.0",
         "prismjs": "^1.13.0",
         "ngx-uploader": "^4.2.4",
         "pako": "^1.0.6"

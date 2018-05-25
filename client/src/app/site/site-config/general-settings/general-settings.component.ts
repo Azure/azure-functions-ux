@@ -42,6 +42,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public loadingMessage: string;
     public FwLinks = Links;
     public isProductionSlot: boolean;
+    public use32BitWorkerProcessUpsell: string;
+    public alwaysOnUpsell: string;
+    public autoSwapUpsell: string;
+    public webSocketUpsell: string;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -129,7 +133,11 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                     this._siteService.getAvailableStacks(AvailableStacksOsType.Windows),
                     this._siteService.getAvailableStacks(AvailableStacksOsType.Linux),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId));
+                    this._authZService.hasReadOnlyLock(this.resourceId),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, {site: this.siteArm}),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, {site: this.siteArm}));
             })
             .do(results => {
                 const siteResult = results[0];
@@ -139,6 +147,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 const stacksResultLinux = results[4];
                 const hasWritePermission = results[5];
                 const hasReadonlyLock = results[6];
+                this.use32BitWorkerProcessUpsell = results[7].data;
+                this.alwaysOnUpsell = results[8].data;
+                this.autoSwapUpsell = results[9].data;
+                this.webSocketUpsell = results[10].data;
 
                 if (!siteResult.isSuccessful
                     || !slotsResult.isSuccessful
@@ -274,7 +286,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
             let FTPAccessSupported = true;
-            const http20Supported = true;
+            let http20Supported = true;
 
             this._sku = siteArm.properties.sku;
 
@@ -313,6 +325,13 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
             if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {
                 FTPAccessSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.enableRemoteDebugging).status === 'disabled') {
+                remoteDebuggingSupported = false;
+            }
+            if (this._scenarioService.checkScenario(ScenarioIds.addHTTPSwitch, { site: siteArm }).status === 'disabled') {
+                http20Supported = false;
             }
 
             this.netFrameworkSupported = netFrameworkSupported;

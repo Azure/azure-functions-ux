@@ -8,12 +8,15 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { SiteService } from '../../../../shared/services/site.service';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { AuthzService } from '../../../../shared/services/authz.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -27,19 +30,38 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _vstsApiToken: string;
     private _pricingTier: string;
     public siteArm: ArmObj<Site>;
+    public selectedVstsRepoId = '';
+    public subscriptionName = '';
+    public deploymentSlotsAvailable = true;
+    public canCreateNewSite = true;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
         userService: UserService,
-        portalService: PortalService) {
+        portalService: PortalService,
+        scenarioService: ScenarioService,
+        authZService: AuthzService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return siteService.getSite(this._resourceId);
+            const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
+            return forkJoin(siteService.getSite(this._resourceId),
+                this._cacheService.getArm(`/subscriptions/${siteDescriptor.subscription}`, false, ARMApiVersions.armApiVersion));
         })
-            .subscribe(s => {
-                this.siteArm = s.result;
+            .switchMap(result => {
+                const [site, sub] = result;
+                this.siteArm = site.result;
+                this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
+                const siteDesc = new ArmSiteDescriptor(this._resourceId);
+                return forkJoin(
+                    scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
+                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]));
+            })
+            .subscribe(r => {
+                const [s, p] = r;
+                this.deploymentSlotsAvailable = s.status === 'enabled';
+                this.canCreateNewSite = p;
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -50,7 +72,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .subscribe(tokenData => {
                 this._vstsApiToken = tokenData.result.token;
             });
-
     }
 
     public get wizardValues(): WizardForm {
@@ -160,7 +181,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: DeploymentSourceType.CodeRepository,
             buildConfiguration: {
                 type: this._applicationType,
-                workingDirectory: this.wizardValues.buildSettings.workerDirecory
+                workingDirectory: this.wizardValues.buildSettings.workingDirectory
             },
             repository: this._repoInfo
         };
@@ -206,7 +227,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private get _vstsRepoInfo(): CodeRepository {
         return {
             type: 'TfsGit',
-            id: '',
+            id: this.selectedVstsRepoId,
             defaultBranch: 'refs/heads/master',
             authorizationInfo: null
         };
@@ -245,7 +266,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             environmentType: TargetEnvironmentType.Production,
             friendlyName: 'Production',
             subscriptionId: siteDescriptor.subscription,
-            subscriptionName: '',
+            subscriptionName: this.subscriptionName,
             tenantId: tid,
             resourceIdentifier: siteDescriptor.site,
             location: this._location,
@@ -279,7 +300,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             environmentType: TargetEnvironmentType.Test,
             friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
-            subscriptionName: '',
+            subscriptionName: this.subscriptionName,
             tenantId: tid,
             resourceIdentifier: siteDescriptor.site,
             location: this._location,

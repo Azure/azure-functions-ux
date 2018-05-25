@@ -185,10 +185,13 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 return Observable.zip(
                     Observable.of(functionView),
                     this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
-                    this._functionAppService.getFunctionHostStatus(functionView.context),
-                    this._functionAppService.getFunctionKeys(functionView.context, functionView.functionInfo.result));
+                    this._functionAppService.getFunctionHostStatus(functionView.context));
             })
-            .do(() => this._globalStateService.clearBusyState())
+            .do(() => {
+                this.runValid = false;
+                this.showFunctionInvokeUrl = false;
+                this._globalStateService.clearBusyState();
+            })
             .subscribe(tuple => {
                 if (tuple[2].isSuccessful) {
                     const status = tuple[2].result;
@@ -237,7 +240,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         : { name: this.fileName, href: href, mime: 'file' };
                     this.selectedFileStream.next(this.scriptFile);
                     this.functionInfo = functionInfo;
-                    this.setInvokeUrlVisibility();
 
                     this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
@@ -709,7 +711,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
             const result = (this.runHttp)
-                ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.functionInvokeUrl, this.runHttp.model)
+                ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.functionInvokeUrl, this.runHttp.model, this.runHttp.key)
                 : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
 
             this.running = result
@@ -747,6 +749,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         this.onChangeKey(allKeys[0].value);
                     }
                 }
+
+                this.setInvokeUrlVisibility();
             });
     }
 }

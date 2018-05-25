@@ -103,6 +103,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.addHTTPSwitch] = {
+            id: ScenarioIds.addHTTPSwitch,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

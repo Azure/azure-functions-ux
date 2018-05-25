@@ -17,6 +17,7 @@ export class Constants {
     public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
     public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
     public static nodeVersion = '6.5.0';
+    public static nodeVersionV2 = '8.11.1';
     public static latest = 'latest';
     public static disabled = 'disabled';
     public static runtimeVersionAppSettingName = 'FUNCTIONS_EXTENSION_VERSION';
@@ -199,6 +200,7 @@ export class ScenarioIds {
     public static readonly showSideNavMenu = 'ShowSideNavMenu';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
@@ -210,6 +212,7 @@ export class ScenarioIds {
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
     public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
     public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly webSocketsEnabled = 'WebSocketsEnabled';
     public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
@@ -219,6 +222,7 @@ export class ScenarioIds {
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
+    public static readonly addHTTPSwitch = 'addHTTPSwitch';
 }
 
 export class ServerFarmSku {
@@ -249,6 +253,7 @@ export class LogCategories {
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
+    public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
@@ -277,6 +282,7 @@ export class LogCategories {
 
 export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
+    public static armApiVersion = '2014-04-01';
 }
 export class SubscriptionQuotaIds {
     public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';

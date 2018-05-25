@@ -6,16 +6,20 @@ import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
 import { PortalService } from '../portal.service';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from './../../../shared/models/portal-resources';
 
 export class AzureEnvironment extends Environment {
     name = 'Azure';
     private _applicationInsightsService: ApplicationInsightsService;
     private _portalService: PortalService;
+    private _translateService: TranslateService;
 
     constructor(injector: Injector) {
         super();
         this._applicationInsightsService = injector.get(ApplicationInsightsService);
         this._portalService = injector.get(PortalService);
+        this._translateService = injector.get(TranslateService);
 
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
@@ -48,14 +52,25 @@ export class AzureEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.enablePlatform64] = {
             id: ScenarioIds.enablePlatform64,
             runCheck: (input: ScenarioCheckInput) => {
-                return this._enableIfBasicOrHigher(input);
+                const scenarioResult = this._enableIfBasicOrHigher(input);
+                scenarioResult.data = this._translateService.instant(PortalResources.alwaysOnUpsell);
+                return scenarioResult;
             }
         };
 
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
             id: ScenarioIds.enableAlwaysOn,
             runCheck: (input: ScenarioCheckInput) => {
-                return this._enableIfBasicOrHigher(input);
+                const scenarioResult = this._enableIfBasicOrHigher(input);
+                scenarioResult.data = this._translateService.instant(PortalResources.alwaysOnUpsell);
+                return scenarioResult;
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
+            id: ScenarioIds.webSocketsEnabled,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
             }
         };
 
@@ -69,7 +84,9 @@ export class AzureEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
             id: ScenarioIds.enableAutoSwap,
             runCheck: (input: ScenarioCheckInput) => {
-                return this._enableIfStandardOrHigher(input);
+                const scenarioResult = this._enableIfStandardOrHigher(input);
+                scenarioResult.data = this._translateService.instant(PortalResources.autoSwapUpsell);
+                return scenarioResult;
             }
         };
 

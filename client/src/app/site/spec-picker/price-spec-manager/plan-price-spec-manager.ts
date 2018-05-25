@@ -7,7 +7,7 @@ import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/bi
 import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
-import { Injector } from '@angular/core';
+import { Injector, Injectable } from '@angular/core';
 import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
@@ -20,6 +20,7 @@ import { LogCategories } from '../../../shared/models/constants';
 export interface SpecPickerInput<T> {
     id: ResourceId;
     data?: T;
+    specPicker: SpecPickerComponent;
 }
 
 export interface NewPlanSpecPickerData {
@@ -35,13 +36,12 @@ export interface NewPlanSpecPickerData {
 
 export type ApplyButtonState = 'enabled' | 'disabled';
 
+@Injectable()
 export class PlanPriceSpecManager {
+    private readonly DynamicSku = 'Y1';
 
     selectedSpecGroup: PriceSpecGroup;
-    specGroups: PriceSpecGroup[] = [
-        new DevSpecGroup(this._injector),
-        new ProdSpecGroup(this._injector),
-        new IsolatedSpecGroup(this._injector)];
+    specGroups: PriceSpecGroup[] = [];
 
     get currentSkuCode(): string {
         if (!this._plan) {
@@ -51,23 +51,30 @@ export class PlanPriceSpecManager {
         return this._plan.sku.name;
     }
 
-    private _planService: PlanService;
-    private _portalService: PortalService;
-    private _ts: TranslateService;
-    private _logService: LogService;
+    private _specPicker: SpecPickerComponent;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
     private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
     private _ngUnsubscribe$ = new Subject();
 
-    constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
-        this._planService = _injector.get(PlanService);
-        this._portalService = _injector.get(PortalService);
-        this._ts = _injector.get(TranslateService);
-        this._logService = _injector.get(LogService);
+    constructor(
+        private _planService: PlanService,
+        private _portalService: PortalService,
+        private _ts: TranslateService,
+        private _logService: LogService,
+        private _injector: Injector) {
+    }
+
+    resetGroups() {
+        this.specGroups = [
+            new DevSpecGroup(this._injector),
+            new ProdSpecGroup(this._injector),
+            new IsolatedSpecGroup(this._injector)
+        ];
     }
 
     initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        this._specPicker = inputs.specPicker;
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
@@ -92,49 +99,12 @@ export class PlanPriceSpecManager {
                     specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
                 });
 
-                return Observable.zip(...specInitCalls)
-                    .do(_ => {
-                        this._cleanUpGroups();
-                    });
+                return Observable.zip(...specInitCalls);
             });
     }
 
-    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        if (!inputs.data) {
-            return this._planService.getPlan(inputs.id, true)
-                .map(r => {
-
-                    if (r.isSuccessful) {
-                        this._plan = r.result;
-
-                        if (this._plan.sku.name === 'Y1') {
-                            this._specPicker.statusMessage = {
-                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
-                            };
-
-                            this._specPicker.shieldEnabled = true;
-                        }
-
-                        return r.result;
-                    } else {
-                        this._specPicker.statusMessage = {
-                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
-                        };
-
-                        this._specPicker.shieldEnabled = true;
-                    }
-
-                    return null;
-                });
-        }
-
-        return Observable.of(null);
-    }
-
-    getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        return this._getBillingMeters(inputs)
+    getSpecCosts() {
+        return this._getBillingMeters(this._inputs)
             .switchMap(meters => {
                 if (!meters) {
                     return Observable.of(null);
@@ -201,7 +171,7 @@ export class PlanPriceSpecManager {
                 if (r.isSuccessful) {
 
                     this._plan = r.result.json();
-                    this._cleanUpGroups();
+                    this.cleanUpGroups();
 
                     if (this._plan.properties.hostingEnvironmentProfile && this._plan.properties.provisioningState === 'InProgress') {
                         this._portalService.stopNotification(
@@ -231,8 +201,113 @@ export class PlanPriceSpecManager {
             });
     }
 
+    cleanUpGroups() {
+        let nonEmptyGroupIndex = 0;
+        let foundNonEmptyGroup = false;
+        let foundDefaultGroup = false;
+
+        // Remove hidden and forbidden specs and move disabled specs to end of list.
+        this.specGroups.forEach((g, i) => {
+
+            let recommendedSpecs = g.recommendedSpecs.filter(s => s.state !== 'hidden');
+            let specs = g.additionalSpecs.filter(s => s.state !== 'hidden');
+
+            recommendedSpecs = this._filterOutForbiddenSkus(this._inputs, recommendedSpecs);
+            specs = this._filterOutForbiddenSkus(this._inputs, specs);
+
+            g.recommendedSpecs = recommendedSpecs;
+            g.additionalSpecs = specs;
+
+            // Find if there's a spec in the current group that matches the plan sku
+            g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
+            if (!g.selectedSpec) {
+                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
+            }
+
+            // If a plan's sku matches a spec in the current group, then make that group the default group
+            if (g.selectedSpec && !foundDefaultGroup) {
+                foundDefaultGroup = true;
+                this.selectedSpecGroup = this.specGroups[i];
+            }
+
+            // If we still haven't found a default spec in the group, pick the first recommended one
+            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
+                g.selectedSpec = g.recommendedSpecs[0];
+            }
+
+            // If we still haven't found a defautl spec in the group, pick the first additional one
+            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
+                g.selectedSpec = g.additionalSpecs[0];
+            }
+
+            // Expand if selected spec is in the "all specs" list
+            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
+
+            if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
+                nonEmptyGroupIndex++;
+            } else {
+                foundNonEmptyGroup = true;
+            }
+        });
+
+        if (!foundDefaultGroup && nonEmptyGroupIndex < this.specGroups.length) {
+            this.selectedSpecGroup = this.specGroups[nonEmptyGroupIndex];
+
+            // Find the first group with a selectedSpec and make that group the default
+            for (let i = nonEmptyGroupIndex; i < this.specGroups.length; i++) {
+                if (this.specGroups[i].selectedSpec) {
+                    this.selectedSpecGroup = this.specGroups[i];
+                    break;
+                }
+            }
+        }
+
+        // If an isolated plan is currently being scaled, then poll for completion
+        if (this._plan
+            && this._plan.properties.hostingEnvironmentProfile
+            && this._plan.properties.provisioningState === 'InProgress') {
+            this._pollForIsolatedScaleCompletion(this._plan.id);
+        }
+    }
+
+    // The lifetime of the spec manager really should be tied to the spec picker component, which is why we allow
+    // components to dispose when they're ready.
     dispose() {
         this._ngUnsubscribe$.next();
+    }
+
+    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+        if (!inputs.data) {
+            return this._planService.getPlan(inputs.id, true)
+                .map(r => {
+
+                    if (r.isSuccessful) {
+                        this._plan = r.result;
+
+                        if (this._plan.sku.name === this.DynamicSku) {
+                            this._specPicker.statusMessage = {
+                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
+                                level: 'error'
+                            };
+
+                            this._specPicker.shieldEnabled = true;
+                        }
+
+                        return r.result;
+                    } else {
+                        this._specPicker.statusMessage = {
+                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
+                            level: 'error'
+                        };
+
+                        this._specPicker.shieldEnabled = true;
+                    }
+
+                    return null;
+                });
+        }
+
+        return Observable.of(null);
     }
 
     // Scale operations for isolated can take a really long time.  When that happens, we'll show a warning
@@ -313,83 +388,16 @@ export class PlanPriceSpecManager {
         specs.forEach(spec => {
             const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
             if (!costResult) {
+                // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
                 spec.priceString = ' ';
             } else if (costResult.amount === 0.0) {
                 spec.priceString = this._ts.instant(PortalResources.free);
             } else {
                 const meter = costResult.firstParty[0].meters[0];
-                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
+                const rate = (meter.perUnitAmount * 744).toFixed(2);    // 744 hours in a month
+                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
             }
         });
-    }
-
-    private _cleanUpGroups() {
-        let nonEmptyGroupIndex = 0;
-        let foundNonEmptyGroup = false;
-        let foundDefaultGroup = false;
-
-        // Remove hidden and forbidden specs and move disabled specs to end of list.
-        this.specGroups.forEach((g, i) => {
-
-            let recommendedSpecs = g.recommendedSpecs.filter(s => s.state !== 'hidden');
-            let specs = g.additionalSpecs.filter(s => s.state !== 'hidden');
-
-            recommendedSpecs = this._filterOutForbiddenSkus(this._inputs, recommendedSpecs);
-            specs = this._filterOutForbiddenSkus(this._inputs, specs);
-
-            g.recommendedSpecs = recommendedSpecs;
-            g.additionalSpecs = specs;
-
-            // Find if there's a spec in the current group that matches the plan sku
-            g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
-            if (!g.selectedSpec) {
-                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
-            }
-
-            // If a plan's sku matches a spec in the current group, then make that group the default group
-            if (g.selectedSpec && !foundDefaultGroup) {
-                foundDefaultGroup = true;
-                this.selectedSpecGroup = this.specGroups[i];
-            }
-
-            // If we still haven't found a default spec in the group, pick the first recommended one
-            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
-                g.selectedSpec = g.recommendedSpecs[0];
-            }
-
-            // If we still haven't found a defautl spec in the group, pick the first additional one
-            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
-                g.selectedSpec = g.additionalSpecs[0];
-            }
-
-            // Expand if selected spec is in the "all specs" list
-            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
-
-            if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
-                nonEmptyGroupIndex++;
-            } else {
-                foundNonEmptyGroup = true;
-            }
-        });
-
-        if (!foundDefaultGroup && nonEmptyGroupIndex < this.specGroups.length) {
-            this.selectedSpecGroup = this.specGroups[nonEmptyGroupIndex];
-
-            // Find the first group with a selectedSpec and make that group the default
-            for (let i = nonEmptyGroupIndex; i < this.specGroups.length; i++) {
-                if (this.specGroups[i].selectedSpec) {
-                    this.selectedSpecGroup = this.specGroups[i];
-                    break;
-                }
-            }
-        }
-
-        // If an isolated plan is currently being scaled, then poll for completion
-        if (this._plan
-            && this._plan.properties.hostingEnvironmentProfile
-            && this._plan.properties.provisioningState === 'InProgress') {
-            this._pollForIsolatedScaleCompletion(this._plan.id);
-        }
     }
 
     private _findSelectedSpec(specs: PriceSpec[]) {

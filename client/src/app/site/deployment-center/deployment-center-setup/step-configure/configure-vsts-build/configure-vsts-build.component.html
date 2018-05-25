@@ -13,7 +13,7 @@
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" class="custom-select" [items]="accountList"
             [clearable]="false" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectAccount' | translate}}" [(ngModel)]="selectedAccount"
-            formControlName="vstsAccount" (change)="accountChanged($event)">
+            formControlName="vstsAccount" [loading]="accountListLoading" (change)="accountChanged($event)">
           </ng-select>
           <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" [control]="wizard?.buildSettings?.controls?.vstsAccount"
             placeholder="{{'enterAccountName' | translate}}"></textbox>
@@ -38,7 +38,6 @@
             [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject">
           </ng-select>
           <div invalidmessage="vstsProject"></div>
-          <div invalidmessage="form-group"></div>
         </div>
       </div>
     </div>
@@ -90,7 +89,7 @@
         </div>
 
         <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Django'">
-          <div class="setting-label"> {{'djangoSettings' | translate} </div>
+          <div class="setting-label"> {{'djangoSettings' | translate}} </div>
           <div class="setting-control-container">
             <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule"></textbox>
           </div>
