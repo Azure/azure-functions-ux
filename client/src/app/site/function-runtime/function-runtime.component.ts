@@ -258,13 +258,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     this.extensionVersion = Constants.latest;
                 }
 
-                const match = this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
+                this.badRuntimeVersion = !this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
                     return this.extensionVersion.toLowerCase() === v;
                 });
-
-                if (!match) {
-                    this.badRuntimeVersion = true;
-                }
 
                 this.setNeedUpdateExtensionVersion();
 

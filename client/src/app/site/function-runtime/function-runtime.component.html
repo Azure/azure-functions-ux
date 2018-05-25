@@ -83,18 +83,20 @@
                         {{ 'update' | translate }}
                 </button>
             </div>
-            <div *ngIf="badRuntimeVersion">
-                <label id="updateRuntimeVersionLabel">
-                    {{ 'appFunctionSettings_functionAppSettings_badVersion' | translate: {extensionVersion: extensionVersion} }}
-                </label>
-            </div>
-            <div *ngIf="badRuntimeVersion" class="alert alert-warning">
-                <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
-                <div class="alert-message">
-                    <span class="title-label">{{ 'appFunctionSettings_warning_badVersionTitle' | translate }}</span><br/>
-                    <span>{{ 'appFunctionSettings_warning_badVersionDescription' | translate: {exactExtensionVersion: exactExtensionVersion} }}</span><br/>
+            <ng-container *ngIf="badRuntimeVersion">
+                <div>
+                    <label id="updateRuntimeVersionLabel">
+                        {{ 'appFunctionSettings_functionAppSettings_badVersion' | translate: {extensionVersion: extensionVersion} }}
+                    </label>
                 </div>
-            </div>
+                <div class="alert alert-warning">
+                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                    <div class="alert-message">
+                        <span class="title-label">{{ 'appFunctionSettings_warning_badVersionTitle' | translate }}</span><br/>
+                        <span>{{ 'appFunctionSettings_warning_badVersionDescription' | translate: {exactExtensionVersion: exactExtensionVersion} }}</span><br/>
+                    </div>
+                </div>
+            </ng-container>
             <div *ngIf="hasFunctions" class="alert alert-warning">
                 <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                 <div class="alert-message">
