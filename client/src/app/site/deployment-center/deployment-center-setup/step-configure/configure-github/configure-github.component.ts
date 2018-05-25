@@ -113,7 +113,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                             for (let i = 2; i <= lastPageNumber; i++) {
                                 pageCalls.push(
                                     this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`
+                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`,
+                                        authToken: this.wizard.getToken()
                                     })
                                 );
                             }
