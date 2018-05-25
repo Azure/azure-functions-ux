@@ -6,12 +6,13 @@
 }
 
 .form-button {
-    width: 114px;
+    min-width: 114px;
     height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 .footer {
     position: fixed;
@@ -19,6 +20,7 @@
     height: 50px;
     margin-bottom: 0px;
     bottom: 0px;
+    left: 0px;
     width: 100vw;
     box-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
     justify-content: center;
