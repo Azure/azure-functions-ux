@@ -125,7 +125,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     edit() {
-        const url = this.deploymentObject.VSOData.url;
+        const url = this.deploymentObject.VSOData._links.editor.href;
         const win = window.open(url, '_blank');
         win.focus();
     }

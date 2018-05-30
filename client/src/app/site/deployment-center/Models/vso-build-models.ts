@@ -34,6 +34,16 @@ export interface Project {
     visibility: string;
 }
 
+interface Link {
+    href: string;
+}
+
+interface Links {
+    web: Link;
+    self: Link;
+    editor: Link;
+}
+
 export interface VSOBuildDefinition {
     repository: Repository;
     authoredBy: AuthoredBy;
@@ -45,6 +55,7 @@ export interface VSOBuildDefinition {
     revision: number;
     createdDate: Date;
     project: Project;
+    _links: Links;
 }
 
 export interface UrlInfo {
