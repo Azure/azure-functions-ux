@@ -51,7 +51,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         this.viewInfoStream$ = new Subject<string>();
         this.viewInfoStream$
             .takeUntil(this._ngUnsubscribe$)
-            .distinctUntilChanged()
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
