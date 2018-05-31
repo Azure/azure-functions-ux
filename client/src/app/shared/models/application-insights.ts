@@ -8,7 +8,7 @@ export interface AIInvocationTrace {
     timestampFriendly: string;
     id: string;
     name: string;
-    success: string;
+    success: boolean;
     resultCode: string;
     duration: number;
     operationId: string;

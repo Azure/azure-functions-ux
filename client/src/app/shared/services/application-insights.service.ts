@@ -218,7 +218,7 @@ export class ApplicationInsightsService {
               timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
               id: row[1],
               name: row[2],
-              success: row[3],
+              success: row[3] === 'True',
               resultCode: row[4],
               duration: Number.parseFloat(row[5]),
               operationId: row[6]
