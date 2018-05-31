@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.buildProvider === 'kudu'">
       <div class="setting-label">{{'repoType' | translate}}</div>
       <div class="setting-control-container">
         <radio-selector [defaultValue]="repoMode" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>

@@ -1577,7 +1577,7 @@
     <value>Consente di usare la modalità Autenticazione/Autorizzazione per proteggere l'applicazione e di lavorare con i dati per utente.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identità del servizio gestito</value>
+    <value>Identità del servizio gestita (anteprima)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>L'applicazione può comunicare con altri servizi di Azure come se stessa usando un'identità di Azure Active Directory gestita.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Gestione risorse</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnostica e risoluzione dei problemi</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>L'esperienza di diagnostica e risoluzione dei problemi in modalità self-service consente di identificare i problemi nell'app e di risolverli</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Strumenti avanzati (Kudu)</value>
@@ -2057,13 +2063,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>L'app è attualmente in modalità di sola lettura perché la modalità di modifica è stata impostata su sola lettura. Per cambiare la modalità di modifica, vedere </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
+    <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>L'app è attualmente in modalità di sola lettura perché è stato pubblicato un file function.json generato. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
+    <value>L'app è attualmente in modalità di lettura/scrittura perché la modalità di modifica è stata impostata su lettura/scrittura nonostante sia stato generato un file function.json. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copia</value>
@@ -2648,7 +2654,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Questo modello richiede le estensioni seguenti.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installando le dipendenze del modello, al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 10 minuti. Durante questo periodo sarà comunque possibile usare il portale.</value>
+    <value>Installando le dipendenze del modello, al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 2 minuti. Durante questo periodo è possibile chiudere il pannello e continuare a usare il portale.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
@@ -2948,7 +2954,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Consente di eseguire la distribuzione da un repository Git locale.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Consente di configurare l'integrazione continua con una cartella Dropbox</value>
+    <value>Consente di sincronizzare il contenuto da una cartella nel cloud Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Funzioni durevoli</value>
@@ -3068,16 +3074,19 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>I piani tariffari isolati all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>I piani tariffari di sviluppo/test sono disponibili solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
+    <value>I piani tariffari di sviluppo/test non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>I piani tariffari di produzione sono disponibili solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
+    <value>I piani tariffari di produzione non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Lo SKU Premium V2 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Aumenta</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Gratuito</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/ora (costo stimato)</value>
@@ -3146,7 +3155,13 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Backup giornalieri</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Consente di eseguire il backup dell'app {0} volta al giorno.</value>
+    <value>Consente di eseguire il backup dell'app {0} volte al giorno.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Gestione traffico</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Migliora le prestazioni e la disponibilità instradando il traffico tra più istanze dell'app.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Sistema a tenant singolo</value>
@@ -3212,7 +3227,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Istanza di Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Operazione riuscita</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Durata (ms)</value>
@@ -3222,6 +3237,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Numero di errori negli ultimi 30 giorni</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>La query ha restituito {0} elementi</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Messaggio</value>
@@ -3239,7 +3257,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Consente di usare VSTS come server di compilazione. È possibile scegliere di usare le ozioni avanzate per un flusso di lavoro di gestione del rilascio completo.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Compila nel server</value>
+    <value>Server di compilazione Kudu del servizio app</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Consente di usare il servizio app come server di compilazione. Il motore Kudu del servizio app compilerà automaticamente il codice durante la distribuzione, se possibile, senza richiedere ulteriori configurazioni.</value>
@@ -3352,6 +3370,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Passa alla visualizzazione classica</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Istruzioni di configurazione</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configura</value>
   </data>
@@ -3359,7 +3380,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Analisi chiamata</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Risultati ritardati di un massimo di 5 minuti.</value>
+    <value>I risultati potrebbero essere ritardati fino a 5 minuti.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Trascinare un file qui oppure</value>
@@ -3390,5 +3411,80 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Il nome dell'account specificato non è valido. Specificarne un altro.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP e FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Solo FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Disabilita</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Mostra</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Nascondi</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>La password e la password di conferma non corrispondono.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Usare una connessione FTP per l'accesso e la copia dei file dell'app.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>Credenziali utente</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>Credenziali dell'app</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Nome utente</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Conferma password</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>Endpoint FTPS</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Credenziali</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>In sospeso</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Operazione non riuscita</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Operazione riuscita</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Salva credenziali</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reimposta credenziali</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

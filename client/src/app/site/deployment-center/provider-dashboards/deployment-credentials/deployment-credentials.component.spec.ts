@@ -63,13 +63,15 @@ describe('DeploymentCredentialsComponent', () => {
       expect(component.userPasswordForm.value.userName).toBe('username');
     });
 
-    it('should default to user tab', () => {
-      expect(component.activeTab).toBe('user');
+    it('should default to application credentials tab', () => {
+      expect(component.activeTab).toBe('app');
     });
   });
 
   describe('tabs', () => {
     it('should show user creds when user tab is selected', () => {
+      component.selectTab('user');
+      fixture.detectChanges();
       const elem = fixture.debugElement.query(By.css('#userCredsForm'));
       expect(elem).toBeTruthy();
     });

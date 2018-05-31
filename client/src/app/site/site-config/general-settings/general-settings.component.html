@@ -126,7 +126,7 @@
 
         <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over [message]="'use32BitWorkerProcessUpsell' | translate">
+          <pop-over [message]="use32BitWorkerProcessUpsell">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -143,8 +143,16 @@
         <radio-selector
           [control]="!!group ? group.controls['webSocketsEnabled'] : null"
           [options]="webSocketsEnabledOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="WebSocketsEnabled"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+        <span check-scenario="WebSocketsEnabled" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="webSocketUpsell">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
     </div>
 
@@ -165,7 +173,7 @@
 
         <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over [message]="'alwaysOnUpsell' | translate">
+          <pop-over [message]="alwaysOnUpsell">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -232,7 +240,7 @@
 
           <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
             <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-            <pop-over [message]="'autoSwapUpsell' | translate">
+            <pop-over [message]="autoSwapUpsell">
               <span load-image="image/upsell.svg" class="icon-small"></span>
             </pop-over>
           </span>

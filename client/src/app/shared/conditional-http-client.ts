@@ -14,6 +14,8 @@ interface ExecuteOptions {
     retryBounce: Milliseconds;
 }
 
+export type Result<T> = Observable<HttpResult<T>>;
+
 export class ConditionalHttpClient {
 
     private readonly preconditionsMap: p.PreconditionMap = {} as p.PreconditionMap;

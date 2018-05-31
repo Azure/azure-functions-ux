@@ -18,7 +18,8 @@ export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
     @Output() disableTestData = new EventEmitter<boolean>();
 
-    model: HttpRunModel = new HttpRunModel();
+    model: HttpRunModel;
+    key: Param;
     valid: boolean;
     availableMethods: string[] = [];
     headerOptions: PairListOptions;
@@ -33,6 +34,13 @@ export class RunHttpComponent {
         if (value.test_data) {
             try {
                 this.model = JSON.parse(value.test_data);
+
+                // NOTE(michinoy): delete the code from mode object if it exists.
+                // this will prevent it from showing up in the sampledata file.
+                if (this.model && this.model['code']) {
+                    delete this.model['code'];
+                }
+
                 // Check if it's valid model
                 if (!Array.isArray(this.model.headers)) {
                     this.model = undefined;
@@ -65,9 +73,10 @@ export class RunHttpComponent {
         }
 
         if (this.model === undefined) {
-            this.model = new HttpRunModel();
-            this.model.method = HttpMethods.POST;
-            this.model.body = value.test_data;
+            this.model = {
+                method: HttpMethods.POST,
+                body: value.test_data
+            };
         }
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
@@ -84,7 +93,7 @@ export class RunHttpComponent {
             let params = this.getQueryParams(value);
             const codeIndex = params.findIndex(p => (p.name.toLowerCase() === 'code'));
             if (codeIndex > -1) {
-                this.model.code = params[codeIndex];
+                this.key = params[codeIndex];
                 params.splice(codeIndex, 1);
             }
 
@@ -101,12 +110,12 @@ export class RunHttpComponent {
             });
         }
         this.headerOptions = {
-            items: this.model.headers,
+            items: this.model.headers || [],
             nameValidators: [Validators.required, Validators.pattern(Regex.header)]
         };
 
         this.paramsOptions = {
-            items: this.model.queryStringParams,
+            items: this.model.queryStringParams || [],
             nameValidators: [Validators.required, Validators.pattern(Regex.queryParam)]
         };
 

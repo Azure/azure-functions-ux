@@ -29,6 +29,7 @@ export abstract class PriceSpec {
     abstract featureItems: PriceSpecDetail[];
     abstract hardwareItems: PriceSpecDetail[];
     abstract specResourceSet: SpecResourceSet;
+    abstract meterFriendlyName: string;
 
     cssClass = 'spec';
 
@@ -38,7 +39,6 @@ export abstract class PriceSpec {
     disabledInfoLink: string;
     priceString: string;
 
-    public meterFriendlyName: string;
     protected _billingService: BillingService;
     protected _logService: LogService;
     protected _ts: TranslateService;

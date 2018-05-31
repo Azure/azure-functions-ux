@@ -1577,7 +1577,7 @@
     <value>使用驗證/授權保護您的應用程式及使用個別使用者的資料。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>受管理服務識別</value>
+    <value>受管理的服務身分識別 （預覽）</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>因為您的應用程式使用受管理的 Azure Active Directory 身分識別，所以可與其他 Azure 服務通訊。</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>資源管理</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>診斷並解決問題</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>我們的自助式診斷與疑難排解體驗，可協助您透過應用程式識別並解決問題</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>進階工具 (Kudu)</value>
@@ -2057,13 +2063,13 @@
     <value>因為您已將編輯模式設定為唯讀模式，所以應用程式目前是唯讀模式。若要變更編輯模式，請瀏覽</value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>因為雖然已啟用了原始檔控制，但您仍已將編輯模式設定為讀寫，所以應用程式目前是讀寫模式。您所進行的任何變更，都會覆寫下一次的部署。若要變更編輯模式，請瀏覽</value>
+    <value>因為根據您的設定，即使已啟用了原始檔控制，仍將編輯模式設定為讀取/寫入模式，所以您的應用程式目前為讀取/寫入模式。您的所有變更在下次部署時皆會予以覆寫。若要變更編輯模式，請前往</value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>因為您已發行產生的 function.json，所以應用程式目前為唯讀模式。Functions 執行階段不會接受 Function.json 的變更。</value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>您的應用程式目前處於讀取\寫入模式，原因是雖然您有已產生的 function.json，但仍將編輯模式設為讀取\寫入。Functions 執行階段不會執行對 function.json 進行的變更。</value>
+    <value>因為根據您的設定，即使已產生了 function.json，仍將編輯模式設定為讀取/寫入模式，所以您的應用程式目前為讀取/寫入模式。Functions 執行階段不會執行 function.json 的變更。</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>複製</value>
@@ -2201,7 +2207,7 @@
     <value>如需更多的監視體驗，包括即時計量與自訂查詢:</value>
   </data>
   <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
-    <value>configure Application Insights for your function app</value>
+    <value>為您的函數應用程式設定 Application Insights</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>此值之後會附加您主要 Web 應用程式的 URL，並會用為位置的公用位址。例如，若您的 Web 應用程式名稱為 'contoso'，位置名稱為 'staging'，則新位置的 URL 會類似於 'http://contoso-staging.azurewebsites.net'。</value>
@@ -2648,7 +2654,7 @@
     <value>此範本需要下列延伸模組。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>正在安裝範本相依性，該動作完成後，你將可以建立函式。相依性安裝會在背景進行，而且最多可能會花費 10 分鐘。在這段時間內，您可以繼續使用入口網站。</value>
+    <value>安裝範本相依性之後就能建立函式。相依性安裝會在背景執行，最長可能需要 2 分鐘的時間。您可以關閉此刀鋒視窗。在這段期間內，您可以繼續使用入口網站。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>無法安裝執行階段延伸模組。安裝識別碼 {{installationId}}</value>
@@ -2948,7 +2954,7 @@
     <value>從本機 Git 存放庫部署。</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>設定與 Dropbox 資料夾的持續整合</value>
+    <value>從 Dropbox 雲端資料夾同步內容。</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -2990,7 +2996,7 @@
     <value>建議的定價層</value>
   </data>
   <data name="pricing_additionalTiers" xml:space="preserve">
-    <value>Additional pricing tiers</value>
+    <value>其他定價層</value>
   </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>您的訂用帳戶不允許此定價層</value>
@@ -3035,10 +3041,10 @@
     <value>方案 '{0}' 已成功更新!</value>
   </data>
   <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
-    <value>Successfully submitted job to scale the plan '{0}'.</value>
+    <value>已成功提交作業以調整方案 '{0}'。</value>
   </data>
   <data name="pricing_planScaleInProgress" xml:space="preserve">
-    <value>A scale operation is currently in progress for the plan '{0}'.  Please wait for the operation to complete before scaling again.</value>
+    <value>方案 '{0}' 的調整作業目前進行中。 請等候作業完成後再次調整。</value>
   </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>無法更新方案 '{0}'</value>
@@ -3068,16 +3074,19 @@
     <value>您的設定不適用於 App Service 環境 (ASE) 中隔離環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離網路並提升調整的能力。</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>只有未裝載在 App Service 環境中的方案，才可使用開發/測試定價層。</value>
+    <value>開發/測試定價並不適用於您的設定，而僅適用於未託管於 App Service 環境中的方案。</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>生產環境定價層僅適用於不是裝載在 App Service 環境中的方案。</value>
+    <value>生產定價層並不適用於您的設定，而僅適用於未託管於 App Service 環境中的方案。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>此縮放單位不支援進階 V2。請考慮重新部署或複製您的應用程式。</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>相應增加</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>免費</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>每小時 {0} {1} (預估)</value>
@@ -3095,10 +3104,10 @@
     <value>用以執行部署在 App Service 方案中之應用程式的共用計算資源。</value>
   </data>
   <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>用來執行應用程式部署於 App Service 方案中之應用程式的專用 A 系列計算資源。</value>
   </data>
   <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>用來執行應用程式部署於 App Service 方案中之應用程式的專用 Dv2 系列計算資源。</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>App Service 方案中所部署用以執行應用程式的記憶體及正在使用的記憶體。</value>
@@ -3146,7 +3155,13 @@
     <value>每日備份</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>每日備份您的應用程式 {0} 的時間。</value>
+    <value>每日備份您的應用程式 {0} 次。</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>流量管理員</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>在多個應用程式執行個體間路由流量，進而提升效能與可用性。</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>單一租用戶系統</value>
@@ -3176,10 +3191,10 @@
     <value>{0} 個核心</value>
   </data>
   <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A-Series compute</value>
+    <value>A 系列計算</value>
   </data>
   <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2-Series compute</value>
+    <value>Dv2 系列計算</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json 無效。錯誤: '{0}'。</value>
@@ -3212,7 +3227,7 @@
     <value>Application Insights 執行個體</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>成功</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>持續期間 (毫秒)</value>
@@ -3222,6 +3237,9 @@
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>過去 30 天內的錯誤計數</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>查詢傳回了 {0} 個項目</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>訊息</value>
@@ -3239,7 +3257,7 @@
     <value>使用 VSTS 作為組建伺服器。您可以選擇對整個發行管理工作流程使用進階選項。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>在伺服器上建置</value>
+    <value>App Service Kudu 組建伺服器</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>使用 App Service 作為組建伺服器。App Service Kudu 引擎會在適用且無須其他設定的情況下，自動在部署期間建置您的程式碼。</value>
@@ -3338,7 +3356,7 @@
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
-    <value>Not Authorized</value>
+    <value>未獲授權</value>
   </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>取得主機資訊的呼叫失敗。</value>
@@ -3347,19 +3365,22 @@
     <value>設定 Application Insights 擷取引動過程記錄</value>
   </data>
   <data name="configureAppInsightsDesc" xml:space="preserve">
-    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
+    <value>Azure Functions 現在支援使用 Application Insights 當作監視建構中及生產中應用程式時偏好的解決方案。App Insights 提供強大的記錄資料分析、通知及視覺化功能，而且提升大規模的整體可靠性。</value>
   </data>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>切換至傳統檢視</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>組態指示</value>
   </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="invocationTraces" xml:space="preserve">
-    <value>Invocation traces</value>
+    <value>引動過程追蹤</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>結果最長可能會延遲 5 分鐘。</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>將檔案拖曳到此處或</value>
@@ -3386,9 +3407,84 @@
     <value>正在驗證...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+    <value>您無權在此專案上建立組建定義或版本定義。請連絡您的專案系統管理員</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>The account name supplied is not valid. Please supply another account name.</value>
+    <value>提供的帳戶名稱無效。請提供另一個帳戶名稱。</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>僅 FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>停用</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>隱藏</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>您的密碼與確認密碼不相符。</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>儀表板</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>請使用 FTP 連線存取及複製應用程式檔案。</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>使用者認證</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>應用程式認證</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>使用者名稱</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>確認密碼</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS 端點</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>認證</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>暫止</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>儲存認證</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>重設認證</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP 版本</value>
   </data>
 </root>

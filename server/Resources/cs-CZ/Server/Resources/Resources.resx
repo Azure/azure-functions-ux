@@ -1577,7 +1577,7 @@
     <value>Použije ověřování/autorizaci k ochraně aplikace a pracuje s daty jednotlivých uživatelů.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identita spravované služby</value>
+    <value>Identita spravované služby (Preview)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Vaše aplikace může s ostatními službami Azure komunikovat sama za sebe pomocí spravované identity Azure Active Directory.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Správa prostředků</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnostikovat a řešit problémy</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Naše prostředí pro samoobslužnou diagnostiku a řešení potíží vám pomůže identifikovat a vyřešit problémy s vaší aplikací.</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Rozšířené nástroje (Kudu)</value>
@@ -2057,13 +2063,13 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Vaše aplikace je aktuálně v režimu jen pro čtení, protože jste tak nastavili režim úprav. Pokud chcete režim úprav změnit, navštivte </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Vaše aplikace je aktuálně v režimu čtení\zápis, protože jste tak nastavili režim úprav, přestože máte aktivovanou správu zdrojového kódu. Případné změny, které provedete, se můžou přepsat při příštím nasazení. Pokud chcete režim úprav změnit, navštivte </value>
+    <value>Vaše aplikace je aktuálně v režimu čtení a zápisu, protože jste tak nastavili režim úprav, přestože máte aktivovanou správu zdrojového kódu. Případné změny, které provedete, se můžou přepsat při příštím nasazení. Pokud chcete režim úprav změnit, navštivte </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože jste publikovali vygenerovaný soubor function.json. Modul runtime Functions bude změny v souboru function.json ignorovat. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu čtení a zápisu, protože jste nastavili režim úprav na čtení a zápis, i když se vygeneroval soubor function.json. Modul runtime služby Functions nebude respektovat změny, které se provedou v souboru function.json.</value>
+    <value>Vaše aplikace je v tuto chvíli v režimu čtení a zápisu, protože jste tak nastavili režim úprav, přestože se vygeneroval soubor function.json. Modul runtime služby Functions nebude respektovat změny, které se provedou v souboru function.json.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopírovat</value>
@@ -2648,7 +2654,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Tato šablona vyžaduje následující rozšíření.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Instalují se závislosti šablony. Až to bude hotové, budete moct vytvořit funkci. Instalace závislostí probíhá na pozadí a může trvat až 10 minut. Během instalace můžete na portálu dále pracovat.</value>
+    <value>Instalují se závislosti šablony. Až to bude hotové, budete moct vytvořit funkci. Instalace závislostí probíhá na pozadí a může trvat až 2 minuty. Během instalace můžete toto okno zavřít a dále pracovat na portálu.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nepovedlo se nám nainstalovat rozšíření modulu runtime. ID instalace: {{installationId}}</value>
@@ -2948,7 +2954,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nasazení z místního úložiště Gitu</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Nakonfiguruje kontinuální integraci se složkou Dropboxu.</value>
+    <value>Synchronizuje obsah z cloudové složky Dropboxu.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3068,16 +3074,19 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Cenové úrovně pro vývoj a testování jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
+    <value>Cenové úrovně pro vývoj a testování nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Produkční cenové úrovně jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
+    <value>Produkční cenové úrovně nejsou k dispozici pro vaši konfiguraci. Jsou k dispozici jen plánům, které se nehostují ve službě App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Škálovat nahoru</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Zdarma</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/hod. (odhad)</value>
@@ -3148,6 +3157,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
     <value>Zálohovat aplikaci {0}krát denně</value>
   </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Správce provozu</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Pokud chcete zvýšit výkon a dostupnost, můžete provoz nasměrovat mezi několik instancí aplikace.</value>
+  </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Systém s jedním tenantem</value>
   </data>
@@ -3212,7 +3227,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Instance Application Insights</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Úspěch</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Doba trvání (ms)</value>
@@ -3222,6 +3237,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Počet chyb za posledních 30 dní</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>Dotaz vrátil tento počet položek: {0}</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Zpráva</value>
@@ -3239,7 +3257,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Jako buildovací server se použije VSTS. Pro úplný pracovní postup správy vydaných verzí se můžete rozhodnout využít rozšířené možnosti.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Sestavit na serveru</value>
+    <value>Buildovací server App Service Kudu</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Jako buildovací server se použije služba App Service. Když to půjde, modul App Service Kudu automaticky sestaví váš kód během nasazování bez nutnosti něco dále konfigurovat.</value>
@@ -3352,6 +3370,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Přepnout do klasického zobrazení</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Pokyny ke konfiguraci</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Konfigurovat</value>
   </data>
@@ -3359,7 +3380,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Trasy volání</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Výsledky jsou zpožděné až o 5 minut.</value>
+    <value>Výsledky můžou být až o 5 minut zpožděné.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Přetáhněte sem soubor nebo</value>
@@ -3390,5 +3411,80 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>Zadaný název účtu není platný. Zadejte prosím nějaký jiný.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP a FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Jen FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Zakázat</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Zamítnout</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Skrýt</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Řídicí panel</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Potvrdit heslo</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Pověření</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Čeká na dokončení</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Nepodařilo se.</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

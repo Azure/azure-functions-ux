@@ -13,13 +13,12 @@
 
 .save-button {
     @extend .custom-button;
+    float:right;
     margin-top: 10px;
     margin-left: 0px;
 }
 
 .credentials {
-    margin: auto;
     width: 95%;
-    border-top: $border;
-    padding-bottom: 20px;
+    margin: auto;
 }

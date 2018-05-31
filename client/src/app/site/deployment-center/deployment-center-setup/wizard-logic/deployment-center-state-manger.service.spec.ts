@@ -9,6 +9,10 @@ import { PortalService } from '../../../../shared/services/portal.service';
 import { FormBuilder } from '@angular/forms';
 import * as graphHelper from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { SiteService } from '../../../../shared/services/site.service';
+import { ScenarioService, IScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ScenarioCheckInput, ScenarioCheckResult } from '../../../../shared/services/scenario/scenario.models';
+import { of } from 'rxjs/observable/of';
+import { AuthzService } from '../../../../shared/services/authz.service';
 
 describe('Deployment State Manager', () => {
     let _fb: FormBuilder;
@@ -60,6 +64,8 @@ describe('Deployment State Manager', () => {
                 { provide: SiteService, useClass: MockSiteService },
                 { provide: UserService, useClass: MockUserService },
                 { provide: PortalService, useClass: MockPortalService },
+                { provide: ScenarioService, useClass: MockScenarioService },
+                { provide: AuthzService, useClass: MockAuthZService },
                 FormBuilder
             ]
         });
@@ -81,12 +87,12 @@ describe('Deployment State Manager', () => {
         }));
 
         it('should recieve inital resource id', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-            service.resourceIdStream$.next('testValue');
-            expect(service['_resourceId']).toBe('testValue');
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
+            expect(service['_resourceId']).toBe('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
         }));
 
         it('should fetch site location and sku on resourceId recieve', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
-            service.resourceIdStream$.next('testValue');
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
             expect(service['_location']).toBe('loc');
             expect(service['_pricingTier']).toBe('sku');
             expect(service.siteArm.location).toBe('loc');
@@ -103,6 +109,11 @@ describe('Deployment State Manager', () => {
 
         it('get token should return ad token', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
             expect(service.getToken()).toBe('Bearer adtoken');
+        }));
+
+        it('should fetch subscription name on resourceId recieve', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
+            expect(service.subscriptionName).toBe('displayName');
         }));
     });
 
@@ -226,7 +237,13 @@ class MockCacheService {
     }
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean) {
-        return Observable.of(null);
+        return Observable.of({
+            json: () => {
+                return {
+                    displayName: 'displayName'
+                };
+            }
+        });
     }
 
     postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any): Observable<Response> {
@@ -283,3 +300,33 @@ class MockPortalService {
     }
 }
 
+class MockScenarioService implements IScenarioService {
+    checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult {
+        return {
+            status: 'enabled',
+            environmentName: 'any',
+            id: id
+        };
+    }
+    checkScenarioAsync(id: string, input?: ScenarioCheckInput): Observable<ScenarioCheckResult> {
+        const result: ScenarioCheckResult = {
+            status: 'enabled',
+            environmentName: 'any',
+            id: id
+        };
+
+        return of(result);
+    }
+    _getFinalResult(id: string, results: ScenarioCheckResult[]) {
+        return {
+            status: 'enabled',
+            environmentName: 'any',
+            id: id
+        };
+    }
+}
+class MockAuthZService {
+    hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean> {
+        return of(true);
+    }
+}

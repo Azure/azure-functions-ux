@@ -863,7 +863,7 @@
     <value>További lehetőségek megjelenítése</value>
   </data>
   <data name="seeRecommendedOptions" xml:space="preserve">
-    <value>See only recommended options</value>
+    <value>Csak az ajánlott beállítások megtekintése</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>Egy vagy több függvényalkalmazás ehhez a tárfiókhoz lett csatolva. Az összes, a fiókhoz csatolt függvényalkalmazás a Fájlok vagy a Megosztások szakaszban jelenik meg.</value>
@@ -1577,7 +1577,7 @@
     <value>Hitelesítéssel és engedélyezéssel biztosíthatja az alkalmazás védelmét, és használat felhasználónkénti adatokat.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Felügyeltszolgáltatás-identitás</value>
+    <value>Felügyeltszolgáltatás-identitás (előzetes verzió)</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Az alkalmazás egy Azure Active Directory-identitás használatával képes saját magaként kommunikálni más Azure-szolgáltatásokkal.</value>
@@ -1665,6 +1665,12 @@
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Erőforrás-kezelés</value>
+  </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Problémák diagnosztizálása és megoldása</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Önkiszolgáló diagnosztikai és hibaelhárítási eszközünk segítségével azonosíthatja és megoldhatja az alkalmazással kapcsolatos problémákat</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Speciális eszközök (Kudu)</value>
@@ -2057,13 +2063,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az alkalmazás jelenleg írásvédett módban van, mivel írásvédettre állította a szerkesztési módot. A szerkesztési módot itt változtathatja meg: </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Az alkalmazás jelenleg olvasási\írási módban van, mivel olvasási\írásira állította a szerkesztési módot annak ellenére, hogy engedélyezve van a verziókövetés. Az Ön által végrehajtott módosítások bármelyikét felülírhatja a következő üzemelő példány. A szerkesztési módot itt változtathatja meg: </value>
+    <value>Az alkalmazás jelenleg olvasási/írási módban van, mivel olvasási/írásira állította a szerkesztési módot annak ellenére, hogy engedélyezve van a verziókövetés. Az Ön által végrehajtott módosítások bármelyikét felülírhatja a következő üzemelő példány. A szerkesztési módot itt változtathatja meg: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert generált function.json fájlt tett közzé. A function.json fájlban végrehajtott módosítások a Functions-futtatókörnyezetben nem lesznek figyelembe véve. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Az alkalmazás azért van jelenleg olvasási\írási módban, mert az olvasás\írás értékre állította a szerkesztési módot annak ellenére, hogy generált function.json fájllal rendelkezik. A Functions-futtatókörnyezet nem fogja figyelembe venni a function.json módosításait.</value>
+    <value>Az alkalmazás azért van jelenleg olvasási/írási módban, mert az olvasás/írás értékre állította a szerkesztési módot annak ellenére, hogy generált function.json fájllal rendelkezik. A Functions-futtatókörnyezet nem fogja figyelembe venni a function.json módosításait.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Másolás</value>
@@ -2648,7 +2654,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>A sablonfüggőségek telepítésekor, annak befejeztével létre tud majd hozni egy függvényt. A függőségek telepítése a háttérben történik és akár 10 percig is eltarthat. Ez idő alatt tovább használhatja a portált.</value>
+    <value>A sablonfüggőségek telepítésekor, annak befejeztével létre tud majd hozni egy függvényt. A függőségek telepítése a háttérben történik és akár 2 percig is eltarthat. Ez idő alatt bezárhatja ezt a panelt, és tovább használhatja a portált.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -2948,7 +2954,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Üzembe helyezés egy helyi Git-adattárból.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Egy Dropbox-mappával való folyamatos integráció konfigurálása</value>
+    <value>Tartalom szinkronizálása egy felhőbeli Dropbox-mappából.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3065,19 +3071,22 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+    <value>Az App Service Environment (ASE) csomagbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Az éles tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ez a skálázási egység nem támogatja a Premium V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Felskálázás</value>
+  </data>
+  <data name="free" xml:space="preserve">
+    <value>Ingyenes</value>
   </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
     <value>{0} {1}/óra (becsült érték)</value>
@@ -3089,10 +3098,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Frissítse az App Service-csomagot</value>
   </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
-    <value>Shared insfrastructure</value>
+    <value>Megosztott infrastruktúra</value>
   </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
-    <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához felhasznált megosztott számítási erőforrások.</value>
   </data>
   <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
     <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált A sorozatú számítási erőforrások.</value>
@@ -3101,22 +3110,22 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált Dv2 sorozatú számítási erőforrások.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
-    <value>Memory available to run applications deployed and running in the App Service plan.</value>
+    <value>Az App Service-csomagban üzembe helyezett és működő alkalmazások futtatása számára rendelkezésre álló memória.</value>
   </data>
   <data name="pricing_dedicatedMemory" xml:space="preserve">
-    <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
+    <value>Az App Service-csomagban üzembe helyezett és működő alkalmazások futtatása számára példányonként rendelkezésre álló memória.</value>
   </data>
   <data name="pricing_sharedDisk" xml:space="preserve">
-    <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
+    <value>{0} megosztott lemezterület az App Service-csomagban üzembe helyezett összes alkalmazás számára.</value>
   </data>
   <data name="pricing_customDomainsSsl" xml:space="preserve">
     <value>Egyéni tartományok/SSL</value>
   </data>
   <data name="pricing_customDomainsSslDesc" xml:space="preserve">
-    <value>Configure and purchase custom domains with SNI SSL bindings</value>
+    <value>SNI SSL-kötésekkel rendelkező egyéni tartományok konfigurálása és megvásárlása</value>
   </data>
   <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
-    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
+    <value>SNI- és IP SSL-kötésekkel rendelkező egyéni tartományok konfigurálása és megvásárlása</value>
   </data>
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Manuális skálázás</value>
@@ -3125,55 +3134,61 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Automatikus skálázás</value>
   </data>
   <data name="pricing_largeScale" xml:space="preserve">
-    <value>Scale to a large number of instances</value>
+    <value>Nagy számú példány használatát biztosító skálázás</value>
   </data>
   <data name="pricing_largeScaleDesc" xml:space="preserve">
-    <value>Up to 100 instances.  More allowed upon request.</value>
+    <value>Legfeljebb 100 példány. A példányszám kérésre növelhető.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Up to {0} instances.  Subject to availability.</value>
+    <value>Legfeljebb {0} példány, az elérhetőség függvényében.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
-    <value>Staging slots</value>
+    <value>Előkészítési pontok</value>
   </data>
   <data name="pricing_slotsDesc" xml:space="preserve">
-    <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
+    <value>Legfeljebb {0} előkészítési pont az éles üzem előtti teszteléshez és üzembe helyezéshez.</value>
   </data>
   <data name="pricing_dailyBackup" xml:space="preserve">
-    <value>Daily backup</value>
+    <value>Napi biztonsági mentés</value>
   </data>
   <data name="pricing_dailyBackups" xml:space="preserve">
     <value>Napi biztonsági mentések</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Backup your app {0} time daily.</value>
+    <value>Az alkalmazás biztonsági mentése naponta {0} alkalommal.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic Manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Növelje a teljesítményt és javítsa az elérhetőséget az alkalmazáspéldányok közötti forgalom szabályozásával.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Egybérlős rendszer</value>
   </data>
   <data name="pricing_aseDesc" xml:space="preserve">
-    <value>Take more control over the resources being used by your app.</value>
+    <value>Fokozott ellenőrzés az alkalmazás által használt erőforrások felett.</value>
   </data>
   <data name="pricing_isolatedNetwork" xml:space="preserve">
-    <value>Isolated network</value>
+    <value>Izolált hálózat</value>
   </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Runs within your own virtual network.</value>
+    <value>A saját virtuális hálózaton belül fut.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Privát alkalmazáselérés</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
+    <value>App Service Environment-környezet használata belső terheléselosztással (ILB).</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
-    <value>{0} GB memory</value>
+    <value>{0} GB memória</value>
   </data>
   <data name="pricing_computeLimit" xml:space="preserve">
-    <value>{0} minutes/day compute</value>
+    <value>Napi {0} perc számítás</value>
   </data>
   <data name="pricing_numCores" xml:space="preserve">
-    <value>{0} cores</value>
+    <value>{0} mag</value>
   </data>
   <data name="pricing_aSeriesCompute" xml:space="preserve">
     <value>A sorozatú számítási erőforrás</value>
@@ -3212,7 +3227,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Application Insights-példány</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Sikerült</value>
+    <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Időtartam (ms)</value>
@@ -3222,6 +3237,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
     <value>Hibák száma az elmúlt 30 napban</value>
+  </data>
+  <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
+    <value>A lekérdezés {0} elemet adott vissza</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Üzenet</value>
@@ -3239,7 +3257,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A VSTS használata buildelési kiszolgálóként. Ha ezt a lehetőséget választja, a speciális beállítások révén egy teljes körű kiadáskezelési munkafolyamat áll a rendlkezésére.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Buildelés a kiszolgálón</value>
+    <value>App Service Kudu-buildelési kiszolgáló</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Az App Service használata buildelési kiszolgálóként. Az App Service Kudu-modulja, amikor szükséges, automatikusan, külön konfigurálás nélkül lefordítja az Ön programkódját az üzembe helyezés során.</value>
@@ -3338,7 +3356,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
-    <value>Not Authorized</value>
+    <value>Nem engedélyezett</value>
   </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>A gazdagépadatok lekérésére irányuló hívás nem sikerült.</value>
@@ -3351,6 +3369,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Váltás klasszikus nézetre</value>
+  </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Konfigurációs útmutatás</value>
   </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Konfigurálás</value>
@@ -3377,18 +3398,93 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A metrikák és a telepítési értesítések megtekintése.</value>
   </data>
   <data name="FTPMessage" xml:space="preserve">
-    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+    <value>Az FTP-alapú üzembe helyezés letiltható, vagy beállítható az egyszerű szöveges FTP-kapcsolatok vagy a biztonságos FTPS-kapcsolatok fogadására. További információért kattintson ide.</value>
   </data>
   <data name="FTPLabel" xml:space="preserve">
-    <value>FTP access</value>
+    <value>FTP-hozzáférés</value>
   </data>
   <data name="validating" xml:space="preserve">
     <value>Érvényesítés...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+    <value>Nem jogosult build- vagy kiadásdefiníció létrehozására ebben a projektben. Forduljon a projekt rendszergazdájához</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>The account name supplied is not valid. Please supply another account name.</value>
+    <value>A megadott fióknév érvénytelen. Adjon meg egy másik fióknevet.</value>
+  </data>
+  <data name="FTPBoth" xml:space="preserve">
+    <value>FTP + FTPS</value>
+  </data>
+  <data name="FTPSOnly" xml:space="preserve">
+    <value>Csak FTPS</value>
+  </data>
+  <data name="FTPDisable" xml:space="preserve">
+    <value>Letiltás</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Elvetés</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Megjelenítés</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Elrejtés</value>
+  </data>
+  <data name="nomatchpassword" xml:space="preserve">
+    <value>Your password and confirmation password do not match.</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Irányítópult</value>
+  </data>
+  <data name="ftpDesc" xml:space="preserve">
+    <value>Use an FTP connection to access and copy app files.</value>
+  </data>
+  <data name="ftpInfoCardCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="userCreds" xml:space="preserve">
+    <value>User Credentials</value>
+  </data>
+  <data name="userCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="appCreds" xml:space="preserve">
+    <value>App Credentials</value>
+  </data>
+  <data name="appCredsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Felhasználónév</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Jelszó megerősítése</value>
+  </data>
+  <data name="ftpsEndpoint" xml:space="preserve">
+    <value>FTPS Endpoint</value>
+  </data>
+  <data name="credentials" xml:space="preserve">
+    <value>Hitelesítő adatok</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Függőben</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Sikertelen</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succcess</value>
+  </data>
+  <data name="saveCredentials" xml:space="preserve">
+    <value>Save Credentials</value>
+  </data>
+  <data name="resetCredentials" xml:space="preserve">
+    <value>Reset Credentials</value>
+  </data>
+  <data name="httpVersion" xml:space="preserve">
+    <value>HTTP Version</value>
   </data>
 </root>

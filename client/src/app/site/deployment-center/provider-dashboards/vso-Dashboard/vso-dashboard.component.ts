@@ -51,7 +51,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         this.viewInfoStream$ = new Subject<string>();
         this.viewInfoStream$
             .takeUntil(this._ngUnsubscribe$)
-            .distinctUntilChanged()
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
@@ -59,7 +58,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     this._cacheService.getArm(`${resourceId}/deployments`),
                     this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
-                    (site,  metadata,  deployments, writePerm: boolean, readLock: boolean) => ({
+                    (site, metadata, deployments, writePerm: boolean, readLock: boolean) => ({
                         site: site.json(),
                         metadata: metadata.json(),
                         deployments: deployments.json(),
@@ -113,10 +112,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     disconnect() {
         //TODO: ADD NOTIFIATION ON SUCCESS OR ERROR
         this._busyManager.setBusy();
-        Observable.zip(
-            this._cacheService.delete(`${this.deploymentObject.VSOData.url}&api-version=2.0`),
-            this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } })
-        )
+        this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } })
             .subscribe(r => {
                 this._busyManager.clearBusy();
                 this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
@@ -128,7 +124,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     edit() {
-        const url = this.deploymentObject.VSOData.url;
+        const url = this.deploymentObject.VSOData._links.editor.href;
         const win = window.open(url, '_blank');
         win.focus();
     }

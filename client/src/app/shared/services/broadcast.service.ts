@@ -19,8 +19,20 @@ interface EventInfo<T> {
     obj: T;
 }
 
+export interface IBroadcastService {
+
+    broadcast<T>(eventType: BroadcastEvent, obj?: T);
+    subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void);
+    broadcastEvent<T>(eventType: BroadcastEvent, obj?: T);
+    getEvents<T>(eventType: BroadcastEvent): Observable<T>;
+    setDirtyState(reason?: string);
+    clearDirtyState(reason?: string, all?: boolean);
+    getDirtyState(reason?: string);
+    clearAllDirtyStates();
+}
+
 @Injectable()
-export class BroadcastService {
+export class BroadcastService implements IBroadcastService {
     private functionDeletedEvent: EventEmitter<FunctionInfo>;
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
@@ -70,13 +82,13 @@ export class BroadcastService {
 
     // DEPRECATED - Use broadcastEvent
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
-        var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
+        const emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
         emitter.emit(obj);
     }
 
     // DEPRECATED - Use getEvents
     subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void): Subscription {
-        var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
+        const emitter = <EventEmitter<T>>this._getEventEmitter(eventType);
         return emitter.subscribe(callback, errorCallback, completedCallback);
     }
 
@@ -137,8 +149,8 @@ export class BroadcastService {
     }
 
     // http://stackoverflow.com/a/20494546/3234163
-    isEmptyMap(map: any): boolean {
-        for (var key in map) {
+    private isEmptyMap(map: any): boolean {
+        for (const key in map) {
             if (map.hasOwnProperty(key)) {
                 return false;
             }
@@ -146,7 +158,7 @@ export class BroadcastService {
         return true;
     }
 
-    getEventEmitter(eventType: BroadcastEvent): any {
+    private _getEventEmitter(eventType: BroadcastEvent): any {
         switch (eventType) {
 
             case BroadcastEvent.FunctionDeleted:

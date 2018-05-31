@@ -62,6 +62,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     public isLinuxApp: boolean;
     public isStopped: boolean;
     public hasFunctions: boolean;
+    public badRuntimeVersion: boolean;
 
     private _appNode: AppNode;
 
@@ -257,6 +258,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     this.extensionVersion = Constants.latest;
                 }
 
+                this.badRuntimeVersion = !this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
+                    return this.extensionVersion.toLowerCase() === v;
+                });
+
                 this.setNeedUpdateExtensionVersion();
 
                 this.showProxyEnable = appSettings.properties[Constants.routingExtensionVersionAppSettingName]
@@ -384,7 +389,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
     }
 
-
     keyDown(event: any, command: string) {
         if (AccessibilityHelper.isEnterOrSpace(event)) {
             switch (command) {
@@ -401,8 +405,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
             delete appSettings[Constants.azureJobsExtensionVersion];
         }
+
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
-        appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+
+        if (version === 'beta') {
+            appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
+        } else {
+            appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+        }
 
         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
     }
@@ -427,7 +437,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, body);
     }
-
 
     private _updateMemorySize(site: ArmObj<Site>, memorySize: string | number) {
         const nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize, 10) : memorySize;
