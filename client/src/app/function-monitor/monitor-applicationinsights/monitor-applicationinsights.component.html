@@ -80,8 +80,8 @@
               <tr *ngFor="let trace of table.items" [ngClass]="{rowSelected: trace.operationId === selectedRowId}" (click)="showTraceHistory(trace)">
                 <td>{{trace.timestampFriendly}}</td>
                 <td>
-                    <span *ngIf="trace.success === 'True'" load-image="image/success.svg" class="icon-small"></span>
-                    <span *ngIf="trace.success === 'False'" load-image="image/error.svg" class="icon-small"></span>
+                    <span *ngIf="trace.success" load-image="image/success.svg" class="icon-small"></span>
+                    <span *ngIf="!trace.success" load-image="image/error.svg" class="icon-small"></span>
                 </td>
                 <td>{{trace.resultCode}}</td>
                 <td>{{trace.duration}}</td>
