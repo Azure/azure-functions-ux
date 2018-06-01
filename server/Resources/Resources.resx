@@ -3520,4 +3520,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
     <value>Your custom runtime version is not supported. As a result {{exactExtensionVersion}} runtime is being used. </value>
   </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Deployment Slot Name</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Deployment Credentials</value>
+  </data>
 </root>
