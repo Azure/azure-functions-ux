@@ -191,4 +191,8 @@ export class UrlTemplates {
     get getSwaggerDocumentUrl() {
         return `${this.mainSiteUrl}/admin/host/swagger`;
     }
+
+    get restartHostUrl() {
+        return `${this.mainSiteUrl}/admin/host/restart`;
+    }
 }
