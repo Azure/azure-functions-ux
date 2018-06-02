@@ -348,7 +348,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                     this._globalStateService.clearBusyState();
                 });
         } else {
-            this._functionAppService.createFunctionV2(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+            this._functionAppService.createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
                 .subscribe(newFunctionInfo => {
                     if (newFunctionInfo.isSuccessful) {
                         this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });

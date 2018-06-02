@@ -178,7 +178,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
                             this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                            this._functionAppService.createFunctionV2(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+                            this._functionAppService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
                                 .subscribe(res => {
                                     if (res.isSuccessful) {
                                         this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });

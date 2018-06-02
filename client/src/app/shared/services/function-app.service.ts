@@ -1,6 +1,6 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { HttpMethods, HttpConstants } from './../models/constants';
+import { HttpMethods, HttpConstants, LogCategories } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -52,7 +52,7 @@ export class FunctionAppService {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _siteService: SiteService,
-        logService: LogService,
+        private _logService: LogService,
         injector: Injector) {
 
         this.runtime = new ConditionalHttpClient(injector, resourceId => this.getRuntimeToken(resourceId), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
@@ -70,15 +70,19 @@ export class FunctionAppService {
             })
             .concatMap(info => {
                 if (ArmUtil.isLinuxDynamic(context.site)) {
-                    // TODO: [ahmels] use ARM for token update
-                    return Observable.of({ json: () => '' });
+                    return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
                     return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
                 }
             })
-            .map(r => r.json());
+            .map(r => {
+                const value: string | FunctionKey = r.json();
+                return typeof value === 'string'
+                    ? value
+                    : `masterKey ${value.value}`;
+            });
     }
 
     getClient(context: FunctionAppContext) {
@@ -273,22 +277,7 @@ export class FunctionAppService {
                 }));
     }
 
-    createFunction(context: FunctionAppContext, functionName: string, templateId: string): Result<FunctionInfo> {
-        const body = templateId
-            ? {
-                name: functionName,
-                templateId: (templateId && templateId !== 'Empty' ? templateId : null)
-            }
-            : {
-                config: {}
-            };
-
-        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-            this._cacheService.put(context.urlTemplates.getFunctionUrl(functionName), this.jsonHeaders(t), JSON.stringify(body))
-                .map(r => r.json()));
-    }
-
-    createFunctionV2(context: FunctionAppContext, functionName: string, files: any, config: any) {
+    createFunction(context: FunctionAppContext, functionName: string, files: any, config: any) {
         const filesCopy = Object.assign({}, files);
         const sampleData = filesCopy['sample.dat'];
         delete filesCopy['sample.dat'];
@@ -299,6 +288,11 @@ export class FunctionAppService {
         return this.getClient(context).executeWithConditions([], { resourceId: context.site.id }, t => {
             const headers = this.jsonHeaders(t);
             return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo)
+                .concatMap(r => {
+                    return ArmUtil.isLinuxApp(context.site)
+                        ? this.restartFunctionsHost(context).map(() => r)
+                        : Observable.of(r);
+                })
                 .do(() => {
                     this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
                 });
@@ -683,9 +677,16 @@ export class FunctionAppService {
     }
 
     fireSyncTrigger(context: FunctionAppContext): void {
-        const url = context.urlTemplates.syncTriggersUrl;
-        this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
-            .subscribe(success => console.log(success), error => console.log(error));
+        if (ArmUtil.isLinuxDynamic(context.site)) {
+            this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
+                .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+        } else {
+            const url = context.urlTemplates.syncTriggersUrl;
+            this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
+                .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+        }
     }
 
     isSourceControlEnabled(context: FunctionAppContext): Result<boolean> {
@@ -1028,6 +1029,11 @@ export class FunctionAppService {
         }
     }
 
+    restartFunctionsHost(context: FunctionAppContext): Result<void> {
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
+            this._cacheService.post(context.urlTemplates.restartHostUrl, true, this.headers(t)));
+    }
+
 
     getAppContext(resourceId: string): Observable<FunctionAppContext> {
         return this._cacheService.getArm(resourceId)
@@ -1082,7 +1088,11 @@ export class FunctionAppService {
     private headers(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers = new Headers();
         if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
-            headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
+            if (authTokenOrHeader.startsWith('masterKey ')) {
+                headers.set('x-functions-key', authTokenOrHeader.substring('masterKey '.length));
+            } else {
+                headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
+            }
         } else if (this._tryFunctionsBasicAuthToken) {
             headers.set('Authorization', `Basic ${this._tryFunctionsBasicAuthToken}`);
         }

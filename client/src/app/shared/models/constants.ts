@@ -283,6 +283,8 @@ export class LogCategories {
     public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
     public static readonly applicationInsightsKeyNotFound = 'ApplicationInsightsInstrumentationKeyNotFound';
     public static readonly serverFarm = 'ServerFarm';
+    public static readonly syncTriggers = 'syncTriggers';
+    public static readonly functionHostRestart = 'functionHostRestart';
 }
 
 export class ARMApiVersions {

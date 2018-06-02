@@ -90,18 +90,18 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
                                 this.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, this._tryFunctionsService.selectedFunctionName);
                             },
-                            error => {
-                                if (error.status === 400) {
-                                    // If there is already a free resource assigned ,
-                                    // we'll get a HTTP 400 ..so lets get it.
-                                    this._tryFunctionsService.getTrialResource(this._tryFunctionsService.selectedProvider)
-                                        .subscribe((resource) => {
-                                            this.createFunctioninResource(resource, selectedTemplate, this._tryFunctionsService.selectedFunctionName);
-                                        });
-                                } else {
-                                    this.clearBusyState();
-                                }
-                            });
+                                error => {
+                                    if (error.status === 400) {
+                                        // If there is already a free resource assigned ,
+                                        // we'll get a HTTP 400 ..so lets get it.
+                                        this._tryFunctionsService.getTrialResource(this._tryFunctionsService.selectedProvider)
+                                            .subscribe((resource) => {
+                                                this.createFunctioninResource(resource, selectedTemplate, this._tryFunctionsService.selectedFunctionName);
+                                            });
+                                    } else {
+                                        this.clearBusyState();
+                                    }
+                                });
                     }
                 }
             });
@@ -244,7 +244,7 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
 
-        this._functionAppService.createFunctionV2(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+        this._functionAppService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
                 if (res.isSuccessful) {
@@ -262,7 +262,7 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
                     });
                 }
             },
-            e => this.clearBusyState());
+                e => this.clearBusyState());
     }
 
     setBusyState() {
