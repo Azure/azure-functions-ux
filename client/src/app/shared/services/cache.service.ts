@@ -186,9 +186,23 @@ export class CacheService {
             }
 
             const responseObs = this._armService.send(method, url, content, etag, headers, invokeApi)
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    // ARM returns 429 (Too Many Request) with a retry after: 5 seconds.
+                    // That happens to dynamic linux apps if there is no container ready
+                    // On average that could last for about 30 to 40 seconds
+                    // so I'm retrying every 5 seconds for 12 times for a total of 12 * 5 = 60 seconds
+                    if (errorCount >= 12 || err.status !== 429) {
+                        throw err;
+                    }
+                    this._aiService.trackEvent('429-retry-cache-service', {
+                        retryCount: `${errorCount}`
+                    });
+                    return errorCount + 1;
+                }, 0).delay(5000))
                 .map(response => {
                     return this._mapAndCacheResponse(method, response, key);
                 })
+
                 .catch(error => {
                     if (error.status === 304) {
                         this._cache[key] = this.createCacheItem(
