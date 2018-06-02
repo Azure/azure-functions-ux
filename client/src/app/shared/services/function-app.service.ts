@@ -308,7 +308,6 @@ export class FunctionAppService {
             return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo)
                 .do(() => {
                     this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
-                    this._broadcastService.broadcastEvent(BroadcastEvent.FunctionAdded);
                 });
         });
     }
