@@ -189,6 +189,12 @@ export class CacheService {
                 .map(response => {
                     return this._mapAndCacheResponse(method, response, key);
                 })
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    if (errorCount >= 12 || err.status !== 429) {
+                        throw err;
+                    }
+                    return errorCount + 1;
+                }, 0).delay(5000))
                 .catch(error => {
                     if (error.status === 304) {
                         this._cache[key] = this.createCacheItem(
