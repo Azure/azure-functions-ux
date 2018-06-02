@@ -1,6 +1,6 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { HttpMethods, HttpConstants } from './../models/constants';
+import { HttpMethods, HttpConstants, LogCategories } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -37,6 +37,8 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
 import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
+import { BroadcastService } from './broadcast.service';
+import { BroadcastEvent } from '../models/broadcast-event';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -52,7 +54,8 @@ export class FunctionAppService {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _siteService: SiteService,
-        logService: LogService,
+        private _broadcastService: BroadcastService,
+        private logService: LogService,
         injector: Injector) {
 
         this.runtime = new ConditionalHttpClient(injector, resourceId => this.getRuntimeToken(resourceId), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
@@ -70,15 +73,19 @@ export class FunctionAppService {
             })
             .concatMap(info => {
                 if (ArmUtil.isLinuxDynamic(context.site)) {
-                    // TODO: [ahmels] use ARM for token update
-                    return Observable.of({ json: () => '' });
+                    return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
                     return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
                 }
             })
-            .map(r => r.json());
+            .map(r => {
+                const value: string | FunctionKey = r.json();
+                return typeof value === 'string'
+                    ? value
+                    : `masterKey ${value.value}`;
+            });
     }
 
     getClient(context: FunctionAppContext) {
@@ -683,9 +690,16 @@ export class FunctionAppService {
     }
 
     fireSyncTrigger(context: FunctionAppContext): void {
-        const url = context.urlTemplates.syncTriggersUrl;
-        this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
-            .subscribe(success => console.log(success), error => console.log(error));
+        if (ArmUtil.isLinuxDynamic(context.site)) {
+            this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
+                .subscribe(success => this.logService.verbose(LogCategories.syncTriggers, success),
+                    error => this.logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+        } else {
+            const url = context.urlTemplates.syncTriggersUrl;
+            this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
+                .subscribe(success => this.logService.verbose(LogCategories.syncTriggers, success),
+                    error => this.logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+        }
     }
 
     isSourceControlEnabled(context: FunctionAppContext): Result<boolean> {
@@ -1082,7 +1096,11 @@ export class FunctionAppService {
     private headers(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers = new Headers();
         if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
-            headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
+            if (authTokenOrHeader.startsWith('masterKey ')) {
+                headers.set('x-functions-key', authTokenOrHeader.substring('masterKey '.length));
+            } else {
+                headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
+            }
         } else if (this._tryFunctionsBasicAuthToken) {
             headers.set('Authorization', `Basic ${this._tryFunctionsBasicAuthToken}`);
         }
