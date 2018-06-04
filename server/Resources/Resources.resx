@@ -3532,7 +3532,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Deployment Credentials</value>
   </data>
-  <data name="featureNotSupportedForXenonApps" xml:space="preserve">
-    <value>This feature is not supported for Xenon apps</value>
-  </data>
 </root>
