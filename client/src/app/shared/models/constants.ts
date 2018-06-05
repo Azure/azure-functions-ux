@@ -194,6 +194,10 @@ export class ScenarioIds {
     public static readonly enableMetrics = 'EnableMetrics';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
+    public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
+    public static readonly phpSupported = 'phpSupported';
+    public static readonly pythonSupported = 'PythonSupported';
+    public static readonly javaSupported = 'JavaSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
@@ -202,6 +206,7 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
+    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
     public static readonly createApp = 'createApp';

@@ -183,6 +183,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
                     this.viewInfo.data.siteTabFullReadyTraceKey);
 
+                this._appNode.refresh();
                 this._busyManager.clearBusy();
             });
 
