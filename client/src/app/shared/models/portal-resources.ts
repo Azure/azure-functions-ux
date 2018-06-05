@@ -1129,4 +1129,9 @@
     public static appFunctionSettings_functionAppSettings_badVersion = 'appFunctionSettings_functionAppSettings_badVersion';
     public static appFunctionSettings_warning_badVersionTitle = 'appFunctionSettings_warning_badVersionTitle';
     public static appFunctionSettings_warning_badVersionDescription = 'appFunctionSettings_warning_badVersionDescription';
+    public static disconnect = 'disconnect';
+    public static edit = 'edit';
+    public static sync = 'sync';
+    public static deploymentCredentials = 'deploymentCredentials';
+    public static featureNotSupportedForXenonApps = 'featureNotSupportedForXenonApps';
 }
