@@ -22,7 +22,8 @@ export type BusyStateName =
     | 'logic-apps'
     | 'scale-up'
     | 'deployment-slots-config'
-    | 'standalone-config';
+    | 'standalone-config'
+    | 'embedded-function-editor';
 
 @Component({
     selector: 'busy-state',

@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { DashboardType } from '../../tree-view/models/dashboard-type';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'embedded-editor-shell',
@@ -12,17 +13,20 @@ import { DashboardType } from '../../tree-view/models/dashboard-type';
 })
 export class EmbeddedEditorShellComponent implements OnDestroy {
     viewInfo: TreeViewInfo<SiteData>;
+    ngUnsubscribe: Subject<void>;
 
     private routeParamsSubscription: Subscription;
     constructor(translateService: TranslateService, route: ActivatedRoute) {
-
-        this.routeParamsSubscription = route.params.subscribe(x => {
-            this.viewInfo = {
-                resourceId: `providers/microsoft.blueridge/environments/:environmentId/functions/:functionId`,
-                dashboardType: DashboardType.none,
-                node: null,
-                data: null
-            };
+        this.ngUnsubscribe = new Subject<void>();
+        route.params
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(x => {
+                this.viewInfo = {
+                    resourceId: `/providers/Microsoft.Blueridge/environments/${x['environmentId']}/functionapps/${x['functionAppId']}/functions/${x['functionId']}`,
+                    dashboardType: DashboardType.none,
+                    node: null,
+                    data: null
+                };
         });
     }
 

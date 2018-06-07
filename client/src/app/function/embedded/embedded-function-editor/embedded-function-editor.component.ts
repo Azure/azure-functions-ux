@@ -5,26 +5,23 @@ import { HttpResult } from './../../../shared/models/http-result';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
-import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
 import { TextEditorComponent } from './../../../controls/text-editor/text-editor.component';
-import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { FunctionInfo } from './../../../shared/models/function-info';
 import { CacheService } from './../../../shared/services/cache.service';
-import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent, TreeUpdateEvent } from './../../../shared/models/broadcast-event';
-import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { TreeViewInfo, SiteData } from './../../../tree-view/models/tree-view-info';
+import { Component, ViewChild, OnDestroy, Input, Injector } from '@angular/core';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
+import { FeatureComponent } from '../../../shared/components/feature-component';
+import { SiteTabIds } from '../../../shared/models/constants';
+import { RightTabEvent } from '../../../controls/right-tabs/right-tab-event';
 
 @Component({
   selector: 'embedded-function-editor',
   templateUrl: './embedded-function-editor.component.html',
   styleUrls: ['./embedded-function-editor.component.scss']
 })
-export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit, OnDestroy {
+export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
 
   @ViewChild(TextEditorComponent) codeEditor: TextEditorComponent;
 
@@ -34,67 +31,44 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   public rightBarExpanded = false;
   public bottomBarExpanded = false;
   public displayName = '';
+  public viewInfo: TreeViewInfo<SiteData>;
+
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    this.setInput(viewInfo);
+  }
 
   private _updatedEditorContent = '';
-
   private _functionInfo: FunctionInfo;
-  private _ngUnsubscribe: Subject<void> = new Subject<void>();
-  private _busyManager: BusyStateScopeManager;
 
   constructor(
-    private _broadcastService: BroadcastService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
-    private _embeddedService: EmbeddedService) {
+    private _embeddedService: EmbeddedService,
+    injector: Injector) {
 
-    this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
+    super('EmbeddedFunctionEditorComponent', injector, SiteTabIds.embeddedEditor);
 
-    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
-      .distinctUntilChanged()
-      .filter(info => info.dashboardType === DashboardType.FunctionDashboard)
-      .takeUntil(this._ngUnsubscribe)
-      .switchMap(info => {
-        return this._getScriptContent(info.resourceId);
-      })
-      .retry()
-      .subscribe(r => {
-
-        this._busyManager.clearBusy();
-
-        if (r.isSuccessful) {
-          this.initialEditorContent = r.result;
-          this._updatedEditorContent = this.initialEditorContent;
-        } else {
-
-          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            message: r.error.message,
-            errorId: r.error.errorId,
-            resourceId: this.resourceId,
-          });
-        }
-      });
+    this.featureName = 'embeddededitor';
+    this.isParentComponent = true;
 
     this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
       .filter(e => e.type === 'isExpanded')
-      .takeUntil(this._ngUnsubscribe)
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(e => {
         this.toggleRightBarExpanded();
       });
   }
 
   private _getScriptContent(resourceId: string): Observable<HttpResult<string>> {
-    this._busyManager.setBusy();
+    this.setBusy();
     this.resourceId = resourceId;
 
     return this._cacheService.getArm(resourceId, true)
       .switchMap(r => {
         this._functionInfo = r.json();
-
         const scriptHrefParts = this._functionInfo.script_href.split('/');
         this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
-        const event = this._functionInfo.config.bindings[0].message.toLowerCase();
-        const entity = scriptHrefParts[8].toLowerCase();
-        this.displayName = `${entity}/${event}/${this.fileName}`;
+        this.displayName = `Functions > ${this._functionInfo.name} > ${this.fileName}`;
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {
@@ -116,14 +90,42 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       });
   }
 
-  ngOnInit() {
+  protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
+    return inputEvents
+      .distinctUntilChanged()
+      .switchMap(viewInfo => {
+        this.viewInfo = viewInfo;
+
+        this.initialEditorContent = '';
+        this.fileName = '';
+        this.rightBarExpanded = false;
+        this.bottomBarExpanded = false;
+        this.displayName = '';
+
+        return Observable.of(viewInfo);
+      })
+      .switchMap(info => {
+        return this._getScriptContent(info.resourceId);
+      })
+      .retry()
+      .do(r => {
+        this.clearBusy();
+        if (r.isSuccessful) {
+          this.initialEditorContent = r.result;
+          this._updatedEditorContent = this.initialEditorContent;
+        } else {
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: r.error.message,
+            errorId: r.error.errorId,
+            resourceId: this.resourceId,
+          });
+        }
+      });
   }
 
-  ngAfterContentInit() {
-  }
-
-  ngOnDestroy() {
-    this._ngUnsubscribe.next();
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.clearBusy();
   }
 
   toggleRightBarExpanded() {
@@ -143,14 +145,14 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   }
 
   saveEditorContent() {
-    this._busyManager.setBusy();
+    this.setBusy();
     this._cacheService.putArm(this._functionInfo.script_href, null, this._updatedEditorContent)
       .subscribe(r => {
-        this._busyManager.clearBusy();
+        this.clearBusy();
         this.initialEditorContent = r.text();
         this._updatedEditorContent = this.initialEditorContent;
       }, err => {
-        this._busyManager.clearBusy();
+        this.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToSaveFunction).format(this._functionInfo.name),
           errorId: errorIds.embeddedEditorSaveError,
@@ -166,17 +168,17 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   deleteFunction() {
     const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
     if (result) {
-      this._busyManager.setBusy();
+      this.setBusy();
       this._embeddedService.deleteFunction(this.resourceId)
         .subscribe(r => {
           if (r.isSuccessful) {
-            this._busyManager.clearBusy();
+            this.clearBusy();
             this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
               resourceId: this.resourceId,
               operation: 'remove'
             });
           } else {
-            this._busyManager.clearBusy();
+            this.clearBusy();
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
               message: r.error.message,
               errorId: r.error.errorId,

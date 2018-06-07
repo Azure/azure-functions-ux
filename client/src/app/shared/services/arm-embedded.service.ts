@@ -16,7 +16,8 @@ export class ArmEmbeddedService extends ArmService {
 
     private _whitelistedAPIMUrls: string[] = [
         'https://blueridge.azure-api.net',
-        'https://tip1.api.cds.microsoft.com'
+        'https://tip1.api.cds.microsoft.com',
+        'https://tip1.admin.blueridge.ms'
     ];
 
     private _whitelistedRPPrefixUrls: string[] = [

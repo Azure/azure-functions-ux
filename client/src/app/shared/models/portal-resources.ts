@@ -1,5 +1,5 @@
 // This file is auto generated
-export class PortalResources {
+    export class PortalResources {
     public static azureFunctions = 'azureFunctions';
     public static azureFunctionsRuntime = 'azureFunctionsRuntime';
     public static cancel = 'cancel';
@@ -1133,5 +1133,4 @@ export class PortalResources {
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
-    public static featureNotSupportedForXenonApps = 'featureNotSupportedForXenonApps';
 }
