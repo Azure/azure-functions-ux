@@ -53,7 +53,11 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             {
                 path: 'subscriptions/:subscriptionId/scaleup',
                 loadChildren: 'app/site/spec-picker/spec-picker-shell/spec-picker-shell.module#SpecPickerShellModule'
-            }
+            },
+            {
+                path: 'environments/:environmentId/functions/:functionId',
+                loadChildren: 'app/ibiza-feature/embedded-editor-shell/embedded-editor-shell.module#EmbeddedEditorShellModule'
+            },
         ]
     }
 ]);

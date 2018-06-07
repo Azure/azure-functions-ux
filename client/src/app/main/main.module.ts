@@ -54,10 +54,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 loadChildren: 'app/proxies.module#ProxiesModule'
             },
             {
-                path: 'providers/microsoft.blueridge',
-                loadChildren: 'app/functions.module#FunctionsModule'
-            },
-            {
                 path: '**',
                 component: EmptyDashboardComponent
             }
