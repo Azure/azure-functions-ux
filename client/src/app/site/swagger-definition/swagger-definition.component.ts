@@ -40,7 +40,8 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     public keyVisible: boolean;
     public documentationVisible: boolean;
     public swaggerEnabled: boolean;
-    public exportToPowerAppsEnabled = false;
+    public exportToPowerAppsAvailable = false;
+    public exportToPowerAppsDisabled = true;
     public swaggerStatusOptions: SelectOption<boolean>[];
     public valueChange: Subject<boolean>;
     public swaggerKey: string;
@@ -99,10 +100,11 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
             .switchMap(result => {
                 this.generation = result.gen;
                 this.swaggerEnabled = false;
-                this.exportToPowerAppsEnabled = this._scenarioService.checkScenario(ScenarioIds.enableExportToPowerApps).status !== 'disabled';
                 if (result.host && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
                     this.swaggerEnabled = result.host.result.swagger.enabled;
                 }
+
+                this.exportToPowerAppsAvailable = this._scenarioService.checkScenario(ScenarioIds.enableExportToPowerApps).status !== 'disabled';
 
                 if (this.swaggerEnabled) {
                     return this.restoreSwaggerSecrets();
@@ -308,6 +310,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
                     .subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument.result;
                         this._busyManager.clearBusy();
+                        this.exportToPowerAppsDisabled = false;
                     }, () => {
                         this._busyManager.clearBusy();
                     });
@@ -447,6 +450,8 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
                 const document = swaggerDoc.isSuccessful
                     ? swaggerDoc.result
                     : this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
+
+                this.exportToPowerAppsDisabled = !swaggerDoc.isSuccessful;
 
                 this.swaggerDocument = document;
                 this.assignDocumentToEditor(document);
