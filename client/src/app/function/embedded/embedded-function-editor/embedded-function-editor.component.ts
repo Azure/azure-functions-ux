@@ -1,3 +1,4 @@
+import { PortalService } from 'app/shared/services/portal.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ErrorEvent } from 'app/shared/models/error-event';
@@ -8,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TextEditorComponent } from './../../../controls/text-editor/text-editor.component';
 import { FunctionInfo } from './../../../shared/models/function-info';
 import { CacheService } from './../../../shared/services/cache.service';
-import { BroadcastEvent, TreeUpdateEvent } from './../../../shared/models/broadcast-event';
+import { BroadcastEvent } from './../../../shared/models/broadcast-event';
 import { TreeViewInfo, SiteData } from './../../../tree-view/models/tree-view-info';
 import { Component, ViewChild, OnDestroy, Input, Injector } from '@angular/core';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
@@ -44,6 +45,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     private _cacheService: CacheService,
     private _translateService: TranslateService,
     private _embeddedService: EmbeddedService,
+    private _portalService: PortalService,
     injector: Injector) {
 
     super('EmbeddedFunctionEditorComponent', injector, SiteTabIds.embeddedEditor);
@@ -172,11 +174,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
       this._embeddedService.deleteFunction(this.resourceId)
         .subscribe(r => {
           if (r.isSuccessful) {
-            this.clearBusy();
-            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-              resourceId: this.resourceId,
-              operation: 'remove'
-            });
+            this._portalService.closeBlades();
           } else {
             this.clearBusy();
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
