@@ -109,7 +109,7 @@
     <value>Azure Functions</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Azure Functions-körning</value>
+    <value>Körmiljö för Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Avbryt</value>
@@ -1055,7 +1055,7 @@
     <value>funktionsappinställningar</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Körningsversion: {{extensionVersion}}. En nyare version är tillgänglig ({{latestExtensionVersion}}).</value>
+    <value>Körningsversion: {{exactExtensionVersion}}. En nyare version är tillgänglig ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Körningsversion: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>För "Alltid på" krävs en grundläggande eller högre App Service-plan</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>App Service-planen som är associerad med den här appen stöder inte den här funktionen. Kontakta din administratör om du vill aktivera den här funktionen för din aktuella plan eller uppgradera till en plan som redan har den aktiverad.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Hanterad pipelineversion</value>
@@ -2717,7 +2720,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Auktorisera</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Auktorisera</value>
+    <value>Ändra konto</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Bakåt</value>
@@ -2924,7 +2927,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Konfigurera</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Distribuera</value>
+    <value>Distribuera till mellanlagring</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Sammanfattning</value>
@@ -3014,7 +3017,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>För flertalet produktionsbelastningar</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Isolerat</value>
+    <value>Isolerad</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Avancerat nätverk och skalning</value>
@@ -3071,7 +3074,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Windows-behållare debiteras med 50 % rabatt under förhandsversionen.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolerade prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
+    <value>Isolerad-prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Dev/Test-prissättningsnivåer finns inte tillgängliga för din konfiguration och finns bara tillgängliga för planer som inte finns inom en App Service-miljö.</value>
@@ -3088,8 +3091,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/månad (uppskattat)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/timme (uppskattat)</value>
+    <value>{0} {1}/månad (uppskattat)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Välj en annan prisnivå om du vill lägga till fler resurser i din plan</value>
@@ -3251,10 +3257,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Loggningsnivå</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-versionsserver</value>
+    <value>VSTS-kontinuerlig leverans</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Använd VSTS som versionsserver. Du kan välja att använda avancerade alternativ för ett arbetsflöde för fullständig versionshantering.</value>
+    <value>Visual Studio Team Services konfigurerar en robust distributionspipeline för ditt program. Pipelinen skapar, kör inläsningstester och distribuerar till mellanlagringsplatsen och därefter till produktionen.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu-versionsserver</value>
@@ -3299,7 +3305,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Django-inställningsmodul</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask-projekt</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Ny</value>
@@ -3338,10 +3344,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Nej</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Belastningstest</value>
+    <value>Läs in test</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Aktivera belastningstest</value>
+    <value>Aktivera Läs in test</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Appnamn</value>
@@ -3353,7 +3359,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Distributionscenter (förhandsversion)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service-distributionscenter låter dig välja platsen för din kod samt alternativ för att skapa och distribuera till molnet.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Saknar behörighet</value>
@@ -3421,9 +3427,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="FTPDisable" xml:space="preserve">
     <value>Inaktivera</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Stäng</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Visa</value>
   </data>
@@ -3431,28 +3434,28 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Dölj</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>Ditt lösenord och bekräftelselösenord matchar inte.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>Instrumentpanel</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>Använd en FTP-anslutningsapp om du vill ha åtkomst till och kopiera appfiler.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service låter dig komma åt ditt appinnehåll via FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
+    <value>Användarautentiseringsuppgifter</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Användarautentiseringsuppgifter definieras av dig, användaren och kan användas med alla appar som du har åtkomst till. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>Appautentiseringsuppgifter</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Autentiseringsuppgifter för programmet skapas automatiskt och ger enbart åtkomst till den här specifika appen eller distributionsfacket. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Användarnamn</value>
@@ -3464,7 +3467,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Bekräfta lösenord</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>FTPS-slutpunkt</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>Autentiseringsuppgifter</value>
@@ -3476,15 +3479,54 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Misslyckades</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Lyckades</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>Spara autentiseringsuppgifter</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>Återställ autentiseringsuppgifter</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP-version</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Leverantör</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nytt konto</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nytt distributionsfack</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Namn på distributionsfacket</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>URL:en för din lokala git-lagringsplats genereras vid slutförande.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Runtime-versionen har lästs in från Programinställningar: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Runtime-versionen stöds inte</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Din anpassade runtime-version stöds inte. Därför används {{exactExtensionVersion}} runtime.</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Koppla från</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Redigera</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Synkronisera</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Autentiseringsuppgifter för distributions</value>
   </data>
 </root>

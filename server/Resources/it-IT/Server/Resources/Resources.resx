@@ -1055,7 +1055,7 @@
     <value>impostazioni dell'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Versione runtime: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
+    <value>Versione runtime: {{exactExtensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Versione runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>La modalità Always On richiede un piano di servizio app Basic o superiore</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Il piano di servizio app associato a questa app non supporta questa funzionalità. Contattare l'amministratore per richiedere l'abilitazione di questa funzionalità per il piano corrente o eseguire l'aggiornamento a un piano in cui è già abilitata.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Versione pipeline gestita</value>
@@ -2717,7 +2720,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Autorizza</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorizza</value>
+    <value>Cambia account</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Indietro</value>
@@ -2924,7 +2927,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Configura</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Distribuisci</value>
+    <value>Distribuisci nell'ambiente di staging</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Riepilogo</value>
@@ -3071,7 +3074,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Durante il periodo di anteprima, i contenitori Windows vengono fatturati con uno sconto del 50%.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>I piani tariffari isolati all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
+    <value>I piani tariffari di tipo Isolato all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>I piani tariffari di sviluppo/test non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
@@ -3088,8 +3091,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/mese (costi stimati)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/ora (costo stimato)</value>
+    <value>{0} {1}/mese (costi stimati)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Per aggiungere più risorse al piano, scegliere un piano tariffario diverso</value>
@@ -3251,10 +3257,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Livello log</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Server di compilazione VSTS</value>
+    <value>Distribuzione continua di VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Consente di usare VSTS come server di compilazione. È possibile scegliere di usare le ozioni avanzate per un flusso di lavoro di gestione del rilascio completo.</value>
+    <value>Visual Studio Team Services configura una pipeline di distribuzione affidabile per l'applicazione. La pipeline compila, esegue i test del carico e distribuisce prima nello slot di staging e quindi in quello di produzione.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Server di compilazione Kudu del servizio app</value>
@@ -3299,7 +3305,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Modulo delle impostazioni di Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Progetto Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Nuovo</value>
@@ -3338,7 +3344,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>No</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Test di carico</value>
+    <value>Carica test</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
     <value>Abilita test del carico</value>
@@ -3353,7 +3359,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Centro distribuzione (anteprima)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Centro distribuzione del servizio app consente di scegliere la posizione del codice e le opzioni per la compilazione e la distribuzione nel cloud.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Non autorizzato</value>
@@ -3421,9 +3427,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="FTPDisable" xml:space="preserve">
     <value>Disabilita</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Mostra</value>
   </data>
@@ -3440,19 +3443,19 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Usare una connessione FTP per l'accesso e la copia dei file dell'app.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Servizio app consente di accedere al contenuto dell'app tramite FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Credenziali utente</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Le credenziali utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenziali dell'app</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Le credenziali dell'applicazione vengono generate automaticamente e consentono l'accesso solo a questa app o slot di distribuzione specifico. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nome utente</value>
@@ -3485,6 +3488,45 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Reimposta credenziali</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Versione HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nuovo account</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nuovo slot di distribuzione</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Nome slot di distribuzione</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>L'URL del repository Git locale sarà generato al termine dell'operazione.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Versione runtime caricata dalle impostazioni dell'applicazione: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Versione runtime non supportata</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>La versione personalizzata del runtime non è supportata. Verrà usato il runtime {{exactExtensionVersion}}. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Disconnetti</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sincronizza</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Credenziali distribuzione</value>
   </data>
 </root>

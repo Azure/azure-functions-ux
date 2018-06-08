@@ -109,7 +109,7 @@
     <value>Azure Functions</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Azure Functions-Laufzeit</value>
+    <value>Azure Functions-Runtime</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -1055,7 +1055,7 @@
     <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Laufzeitversion: {{extensionVersion}}. Eine neuere Version ist verfügbar ({{latestExtensionVersion}}).</value>
+    <value>Laufzeitversion: {{exactExtensionVersion}}. Eine neuere Version ist verfügbar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Laufzeitversion: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always On erfordert App Service-Plan "Basic" oder höher</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Der dieser App zugeordnete App Service-Plan bietet keine Unterstützung für dieses Feature. Wenden Sie sich an Ihren Administrator, um dieses Feature für Ihren aktuellen Plan zu aktivieren, oder führen Sie ein Upgrade auf einen Plan durch, für den das Feature bereits aktiviert ist.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Verwaltete Pipelineversion</value>
@@ -2717,7 +2720,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Autorisieren</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorisieren</value>
+    <value>Konto ändern</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Zurück</value>
@@ -2924,7 +2927,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Konfigurieren</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Bereitstellen</value>
+    <value>In Stagingslot bereitstellen</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Zusammenfassung</value>
@@ -3014,7 +3017,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Für die meisten Produktionsworkloads</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Isoliert</value>
+    <value>App Service (isoliert)</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Erweiterte Funktionen für Netzwerkbetrieb und Skalierung</value>
@@ -3071,7 +3074,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Windows-Container werden während der Vorschau mit einem Rabatt von 50 % abgerechnet.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolierte Tarife innerhalb einer App Service-Umgebung (ASE) sind für Ihre Konfiguration nicht verfügbar. Eine App Service-Umgebung ist ein leistungsstarkes Azure App Service-Feature, das Netzwerkisolation und eine verbesserte Skalierung ermöglicht.</value>
+    <value>Die Tarife "App Service (isoliert)" innerhalb einer App Service-Umgebung (ASE) sind für Ihre Konfiguration nicht verfügbar. Eine App Service-Umgebung ist ein leistungsstarkes Azure App Service-Feature, das Netzwerkisolation und eine verbesserte Skalierung ermöglicht.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Dev/Test-Tarife sind für Ihre Konfiguration nicht verfügbar, sondern nur für Pläne, die nicht innerhalb einer App Service-Umgebung gehostet werden.</value>
@@ -3088,8 +3091,11 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="free" xml:space="preserve">
     <value>Frei</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/Monat (geschätzt)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Stunde (geschätzt)</value>
+    <value>{0} {1}/Monat (geschätzt)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Wählen Sie einen anderen Tarif, um weitere Ressourcen für Ihren Plan hinzuzufügen.</value>
@@ -3251,10 +3257,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Protokollebene</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-Buildserver</value>
+    <value>Continuous Delivery mit VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Hiermit wird VSTS als Buildserver verwendet. Für einen vollständigen Releaseverwaltungsworkflow können Sie die erweiterten Optionen nutzen.</value>
+    <value>Visual Studio Team Services richtet eine stabile Bereitstellungspipeline für Ihre Anwendung ein. Die Pipeline übernimmt die Erstellung, führt Auslastungstests durch und sorgt für die Bereitstellung im Stagingslot und anschließend in der Produktion.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service-Kudu-Buildserver</value>
@@ -3299,7 +3305,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Django-Einstellungsmodul</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask-Projekt</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Neu</value>
@@ -3338,10 +3344,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Nein</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Auslastungstests</value>
+    <value>Auslastungstest</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Auslastungstests aktivieren</value>
+    <value>Auslastungstest aktivieren</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>App-Name</value>
@@ -3353,7 +3359,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Bereitstellungscenter (Vorschau)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Mit dem App Service-Bereitstellungscenter können Sie den Speicherort für Ihren Code sowie Optionen für Build und Bereitstellung in der Cloud auswählen.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Nicht autorisiert</value>
@@ -3421,9 +3427,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="FTPDisable" xml:space="preserve">
     <value>Deaktivieren</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Anzeigen</value>
   </data>
@@ -3440,19 +3443,19 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Verwenden Sie eine FTP-Verbindung, um auf App-Dateien zuzugreifen und sie zu kopieren.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Mit App Service können Sie über FTP/S auf Ihre App-Inhalte zugreifen.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Benutzeranmeldeinformationen</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Benutzeranmeldeinformationen werden von Ihnen (dem Benutzer) definiert und können für alle Apps verwendet werden, auf die Sie Zugriff besitzen. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-Anmeldeinformationen</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Anwendungsanmeldeinformationen werden automatisch generiert und ermöglichen nur den Zugriff auf diese spezifische App oder diesen spezifischen Bereitstellungsslot. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Benutzername</value>
@@ -3485,6 +3488,45 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Anmeldeinformationen zurücksetzen</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP-Version</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Anbieter</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Neues Konto</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Neuer Bereitstellungsslot</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Name des Bereitstellungsslots</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>Die URL für Ihr lokales Git-Repository wird nach dem Abschluss des Vorgangs generiert.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Aus Anwendungseinstellungen geladene Runtimeversion: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Nicht unterstützte Runtimeversion</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Ihre benutzerdefinierte Runtimeversion wird nicht unterstützt. Als Ergebnis wird Runtime {{exactExtensionVersion}} verwendet.</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Trennen</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Synchronisieren</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Anmeldeinformationen für die Bereitstellung</value>
   </data>
 </root>

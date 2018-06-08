@@ -1055,7 +1055,7 @@
     <value>Function App 设置</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>运行时版本: {{extensionVersion}}。更新的版本可用({{latestExtensionVersion}})。</value>
+    <value>运行时版本: {{exactExtensionVersion}}。已提供较新版本({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>运行时版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>始终开启需要基本或更高级别的应用服务计划</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>与此应用关联的应用服务计划不支持此功能。请联系管理员为当前计划启用此功能，或升级到已启用此功能的计划。</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>托管管道版本</value>
@@ -2717,7 +2720,7 @@
     <value>授权</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>授权</value>
+    <value>更改帐户</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>上一步</value>
@@ -2924,7 +2927,7 @@
     <value>配置</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>部署</value>
+    <value>部署到过渡</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>摘要</value>
@@ -3014,7 +3017,7 @@
     <value>对于大多数生产工作负载</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>独立的</value>
+    <value>独立</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>高级网络连接和缩放</value>
@@ -3080,7 +3083,7 @@
     <value>生产定价层不适用于配置，仅适用于未托管在应用服务环境中的计划。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
-    <value>此缩放单位不支持高级版 V2。请考虑重新部署或克隆应用。</value>
+    <value>此缩放单元不支持高级版 V2。请考虑重新部署或克隆应用。</value>
   </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>纵向扩展</value>
@@ -3088,8 +3091,11 @@
   <data name="free" xml:space="preserve">
     <value>免费</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/月(估计值)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/小时(估计值)</value>
+    <value>{0} {1}/月(估计值)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>选择一个不同的定价层，为计划添加更多资源</value>
@@ -3251,10 +3257,10 @@
     <value>日志级别</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 生成服务器</value>
+    <value>VSTS 持续交付</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>将 VSTS 用作生成服务器。可以选择利用高级选项获得完整的版本管理工作流。</value>
+    <value>Visual Studio Team Services 为应用程序设置强大的部署管道。生成管道、 运行负载测试并部署到过渡槽，然后再部署到生产。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>应用服务 Kudu 生成服务器</value>
@@ -3299,7 +3305,7 @@
     <value>Django 设置模块</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask 项目</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>新建</value>
@@ -3353,7 +3359,7 @@
     <value>部署中心(预览)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>应用服务部署中心使你能够选择代码的位置以及生成和部署到云的选项。</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>未授权</value>
@@ -3421,9 +3427,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>禁用</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>显示</value>
   </data>
@@ -3440,19 +3443,19 @@
     <value>使用 FTP 连接访问和复制应用文件。</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>应用程序服务使你能够通过 FTP/s 访问应用内容。</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>用户凭据</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>用户凭据由用户定义，并且可以用于用户有权访问的所有应用。这些凭据可以用于 FTP、本地 GIT 和 WebDeploy。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>应用凭据</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>应用程序凭据是自动生成的，它提供仅对此特定应用和部署槽位的访问权限。这些凭据可以用于 FTP、本地 GIT 和 WebDeploy。</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>用户名</value>
@@ -3485,6 +3488,45 @@
     <value>重置凭据</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP 版本</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>消除</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>提供程序</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>新建帐户</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>新的部署槽位</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>部署槽位名称</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>完成时会生成本地 GIT 存储库 URL。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>从应用程序设置加载的运行时版本: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>不受支持的运行时版本</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>不支持自定义运行时版本。因此使用 {{exactExtensionVersion}} 运行时。 </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>部署凭据</value>
   </data>
 </root>
