@@ -1055,7 +1055,7 @@
     <value>Nastavení aplikace Function App</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
+    <value>Verze modulu runtime: {{exactExtensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Verze modulu runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Funkce Always On vyžaduje plán služby App Service Basic nebo vyšší.</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Plán služby App Service přidružený k této aplikaci nepodporuje tuto funkci. Požádejte prosím svého správce, aby tuto funkci povolil pro aktuální plán, nebo upgradujte na plán, který ji už má povolenou.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Spravovaná verze kanálu</value>
@@ -2717,7 +2720,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Autorizovat</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorizovat</value>
+    <value>Změnit účet</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Zpět</value>
@@ -2924,7 +2927,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Konfigurovat</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Nasadit</value>
+    <value>Nasadit do přípravného slotu</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Souhrn</value>
@@ -3014,7 +3017,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Pro většinu produkčních úloh</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Izolovaný</value>
+    <value>Izolovaný režim</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Pokročilé funkce pro práci v síti a škálování</value>
@@ -3088,8 +3091,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="free" xml:space="preserve">
     <value>Zdarma</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/měsíc (odhad)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/hod. (odhad)</value>
+    <value>{0} {1}/měsíc (odhad)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Pokud chcete přidat další prostředky pro svůj plán, zvolte jinou cenovou úroveň.</value>
@@ -3251,10 +3257,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Úroveň protokolování</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Buildovací server VSTS</value>
+    <value>Průběžné doručování VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Jako buildovací server se použije VSTS. Pro úplný pracovní postup správy vydaných verzí se můžete rozhodnout využít rozšířené možnosti.</value>
+    <value>Služba Visual Studio Team Services nastavuje pro vaši aplikaci robustní nasazovací kanál. Kanál aplikaci sestavuje, spouští zátěžové testy a pak provádí nasazení do přípravného slotu a následně do produkce.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Buildovací server App Service Kudu</value>
@@ -3299,7 +3305,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Modul nastavení Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Projekt Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Nová</value>
@@ -3338,10 +3344,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Ne</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Zátěžové testování</value>
+    <value>Načíst test</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Povolit zátěžové testování</value>
+    <value>Povolit zátěžový test</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Název aplikace</value>
@@ -3353,7 +3359,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Deployment Center (Preview)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service Deployment Center umožňuje zvolit umístění kódu i možnosti pro sestavování a nasazování do cloudu.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Neautorizováno</value>
@@ -3421,9 +3427,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="FTPDisable" xml:space="preserve">
     <value>Zakázat</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Zamítnout</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Zobrazit</value>
   </data>
@@ -3431,28 +3434,28 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Skrýt</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>Vaše heslo a potvrzení hesla se neshodují.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>Řídicí panel</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>K přístupu a kopírování souborů aplikace použijte připojení FTP.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service umožňuje přistupovat k obsahu aplikace přes protokol FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
+    <value>Přihlašovací údaje uživatele</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Přihlašovací údaje uživatele si definujete jakožto uživatelé sami a dají se použít ve všech aplikacích, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít ve službách FTP, Místní úložiště Git a WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>Přihlašovací údaje aplikace</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Přihlašovací údaje aplikace se generují automaticky a umožňují přístup jen k této konkrétní aplikaci nebo slotu nasazení. Tyto přihlašovací údaje se dají použít ve službách FTP, Místní úložiště Git a WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Uživatelské jméno</value>
@@ -3464,7 +3467,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Potvrdit heslo</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>Koncový bod FTPS</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>Pověření</value>
@@ -3476,15 +3479,54 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Nepodařilo se.</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Úspěch</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>Uložit přihlašovací údaje</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>Resetovat přihlašovací údaje</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Verze protokolu HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Zamítnout</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Poskytovatel</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nový účet</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nový slot nasazení</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Název slotu nasazení</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>Adresa URL vašeho místního úložiště Git se vygeneruje po dokončení.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Verze modulu runtime načtená z Nastavení aplikace: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Nepodporovaná verze modulu runtime</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Verze vlastního modulu runtime se nepodporuje. Proto se používá modul runtime {{exactExtensionVersion}}. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Odpojit</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Synchronizace</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Pověření nasazení</value>
   </data>
 </root>

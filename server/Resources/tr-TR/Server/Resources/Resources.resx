@@ -1055,7 +1055,7 @@
     <value>işlev uygulaması ayarları</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Çalışma zamanı sürümü: {{extensionVersion}}. Daha yeni bir sürüm mevcut ({{latestExtensionVersion}}).</value>
+    <value>Çalışma zamanı sürümü: {{exactExtensionVersion}}. Daha yeni bir sürüm mevcut ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Çalışma zamanı sürümü: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always On için temel veya daha yüksek bir App Service planı gerekir</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Bu uygulamayla ilişkili App Service planı, bu özelliği desteklemiyor. Lütfen geçerli planınız için bu özelliği etkinleştirmek veya bu özelliğin etkin olduğu bir plana yükseltmek için yöneticinize başvurun.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Yönetilen Ardışık Düzen Sürümü</value>
@@ -2717,7 +2720,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yetkilendir</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Yetkilendir</value>
+    <value>Hesabı Değiştir</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Geri</value>
@@ -2924,7 +2927,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yapılandır</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Dağıt</value>
+    <value>Hazırlama için dağıt</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Özet</value>
@@ -3088,8 +3091,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="free" xml:space="preserve">
     <value>Ücretsiz</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/Ay (Tahmini)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Saat (Tahmini)</value>
+    <value>{0} {1}/Ay (Tahmini)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Planınıza daha fazla kaynak eklemek için farklı bir fiyatlandırma katmanı seçin</value>
@@ -3251,10 +3257,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Günlük Düzeyi</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS derleme sunucusu</value>
+    <value>VSTS Sürekli Teslim</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Derleme sunucusu olarak VSTS kullanın. Bir tam sürüm yönetimi iş akışı için gelişmiş seçeneklerden yararlanmayı seçebilirsiniz.</value>
+    <value>Visual Studio Team Services, uygulamanız için güçlü bir dağıtım işlem hattı ayarlar. Bu işlem hattı derlemeyi yapar, yük testleri çalıştırır ve ardından önce hazırlama yuvasına sonra da üretime dağıtır.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu derleme sunucusu</value>
@@ -3299,7 +3305,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Django Ayarlar Modülü</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask Projesi</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Yeni</value>
@@ -3353,7 +3359,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtım Merkezi (Önizleme)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service Dağıtım Merkezi, kodunuzun konumunu seçebilmenin yanı sıra derleme ve buluta dağıtım seçenekleri sunar.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Yetkili Değil</value>
@@ -3421,9 +3427,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="FTPDisable" xml:space="preserve">
     <value>Devre dışı bırak</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Anımsatma</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Göster</value>
   </data>
@@ -3431,28 +3434,28 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Gizle</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>Parolanız ile onay parolası aynı değil.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>Pano</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>Uygulama dosyalarına erişmek ve bunları kopyalamak için FTP bağlantısı kullanın.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service FTP/S üzerinden uygulama içeriğinize erişmenize olanak sağlar.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
+    <value>Kullanıcı Kimlik Bilgileri</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Kullanıcı Kimlik Bilgileri sizin tarafınızdan tanımlanır ve erişiminiz olan tüm uygulamalar ile birlikte kullanılabilir. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>Uygulama Kimlik Bilgileri</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Uygulama Kimlik Bilgileri otomatik olarak oluşturulur ve yalnızca bu belirli uygulama veya dağıtım yuvasına erişim sağlar. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Kullanıcı Adı</value>
@@ -3464,7 +3467,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Parolayı Doğrula</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>FTPS Uç Noktası</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>Kimlik Bilgileri</value>
@@ -3476,15 +3479,54 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Başarısız</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Başarılı</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>Kimlik Bilgilerini Kaydet</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>Kimlik Bilgilerini Sıfırla</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP Sürümü</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Anımsatma</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Sağlayıcı</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Yeni Hesap</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Yeni Dağıtım Yuvası</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Dağıtım Yuvası Adı</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>Yerel git deposu URL'niz tamamlandıktan sonra oluşturulur.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Çalışma zamanı sürümü Uygulama Ayarlarından yüklendi: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Desteklenmeyen Çalışma Zamanı Sürümü</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Özel çalışma zamanı sürümünüz desteklenmiyor. Bu nedenle {{exactExtensionVersion}} çalışma zamanı kullanılıyor. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Bağlantıyı Kes</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Eşitle</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Dağıtım Kimlik Bilgileri</value>
   </data>
 </root>
