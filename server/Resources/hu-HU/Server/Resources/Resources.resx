@@ -374,7 +374,7 @@
     <value>+ Új beállítás hozzáadása</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
-    <value>+ Új kapcsolati karakterlánc hozzáadása</value>
+    <value>+ Új kapcsolati sztring hozzáadása</value>
   </data>
   <data name="addNewDocument" xml:space="preserve">
     <value>+ Új dokumentum hozzáadása</value>
@@ -950,7 +950,7 @@
     <value>Függvénykulcsok</value>
   </data>
   <data name="binding_storageConnectionString" xml:space="preserve">
-    <value>Kapcsolati karakterlánc:</value>
+    <value>Kapcsolati sztring:</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
     <value>Napi használati kvóta (GB/s)</value>
@@ -1055,7 +1055,7 @@
     <value>függvényalkalmazás beállításai</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Futtatókörneyzet verziója: {{extensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
+    <value>Futtatókörneyzet verziója: {{exactExtensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Futtatókörneyzet verziója: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1337,7 +1337,7 @@
     <value>(nincsenek megjeleníthető alkalmazásbeállítások)</value>
   </data>
   <data name="emptyConnectionStrings" xml:space="preserve">
-    <value>(nincsenek megjeleníthető kapcsolati karakterláncok)</value>
+    <value>(nincsenek megjeleníthető kapcsolati sztringek)</value>
   </data>
   <data name="emptyDefaultDocuments" xml:space="preserve">
     <value>(nincsenek megjeleníthető alapértelmezett dokumentumok)</value>
@@ -1364,7 +1364,7 @@
     <value>Alkalmazásbeállítások</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
-    <value>Kezelheti az alkalmazásbeállításokat, a kapcsolati karakterláncokat, a futásidejű beállításokat és sok más funkciót.</value>
+    <value>Kezelheti az alkalmazásbeállításokat, a kapcsolati sztringeket, a futásidejű beállításokat és sok más funkciót.</value>
   </data>
   <data name="feature_defaultDocumentsName" xml:space="preserve">
     <value>Alapértelmezett dokumentumok</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Az AlwaysOn megoldáshoz alap- vagy magasabb szintű App Service-csomag szükséges</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Az ehhez az alkalmazáshoz hozzárendelt App Service-csomag nem támogatja ezt a funkciót. Kérje meg a rendszergazdát, hogy engedélyezze ezt a funkciót a jelenlegi csomagban, vagy frissítsen egy olyan csomagra, amelyben már engedélyezve van ez a funkció.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Kezelt folyamatverzió</value>
@@ -1778,40 +1781,40 @@
     <value>Először győződjön meg arról, hogy megfelelő hozzáférése van a(z) {0} Azure-erőforráshoz. Ha nincs, próbálja meg frissíteni a portált a hitelesítési jogkivonat megújításához.</value>
   </data>
   <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
-    <value>Ellenőrizze a tárfiók kapcsolati karakterláncát az alkalmazásbeállításokban, mert úgy tűnik, hogy az érvénytelen.</value>
+    <value>Ellenőrizze a tárfiók kapcsolati sztringjét az alkalmazásbeállításokban, mert úgy tűnik, hogy az érvénytelen.</value>
   </data>
   <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
-    <value>Frissítse az alkalmazásbeállítást egy érvényes tárolási kapcsolati karakterlánccal.</value>
+    <value>Frissítse az alkalmazásbeállítást egy érvényes tárolási kapcsolati sztringgel.</value>
   </data>
   <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
-    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás a függvények tartalmának tárolására használt Azure Storage-fiókhoz tartozó kapcsolati karakterláncot tartalmazza. A beállítás nélkül az alkalmazás teljesen működésképtelen lesz. Ha már nem fér hozzá az alkalmazásbeállítás értékéhez, lehetséges, hogy törölnie kell, majd újból létre kell hoznia a függvényalkalmazást.</value>
+    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás a függvények tartalmának tárolására használt Azure Storage-fiókhoz tartozó kapcsolati sztringet tartalmazza. A beállítás nélkül az alkalmazás teljesen működésképtelen lesz. Ha már nem fér hozzá az alkalmazásbeállítás értékéhez, lehetséges, hogy törölnie kell, majd újból létre kell hoznia a függvényalkalmazást.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
     <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás azon megosztás nevét tartalmazza, melyben a függvények tartalma található. A beállítás nélkül az alkalmazás teljesen működésképtelen lesz. Ha már nem fér hozzá az alkalmazásbeállítás értékéhez, lehetséges, hogy törölnie kell, majd újból létre kell hoznia a függvényalkalmazást.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás a függvények figyelési nézetéhez szükséges Azure Storage-fiókhoz tartozó kapcsolati karakterláncot tartalmazza. A rendszer itt összesíti a hívási adatokat, majd megjeleníti azokat a figyelési nézetben. Előfordulhat, hogy a figyelési nézet hibás.</value>
+    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás a függvények figyelési nézetéhez szükséges Azure Storage-fiókhoz tartozó kapcsolati sztringet tartalmazza. A rendszer itt összesíti a hívási adatokat, majd megjeleníti azokat a figyelési nézetben. Előfordulhat, hogy a figyelési nézet hibás.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
-    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás az ahhoz az Azure Storage-fiókhoz tartozó kapcsolati karakterláncot tartalmazza, melyre a Functions futtatókörnyezetének ahhoz van szüksége, hogy kezelje több példány szinkronizálását, naplózza a hívási eredményeket, és egyéb infrastrukturális feladatokat végezzen el. A függvényalkalmazás a beállítás nélkül nem fog megfelelően működni.</value>
+    <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás az ahhoz az Azure Storage-fiókhoz tartozó kapcsolati sztringet tartalmazza, melyre a Functions futtatókörnyezetének ahhoz van szüksége, hogy kezelje több példány szinkronizálását, naplózza a hívási eredményeket, és egyéb infrastrukturális feladatokat végezzen el. A függvényalkalmazás a beállítás nélkül nem fog megfelelően működni.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
-    <value>Hozza létre az alkalmazásbeállítást egy érvényes tárolási kapcsolati karakterlánccal.</value>
+    <value>Hozza létre az alkalmazásbeállítást egy érvényes tárolási kapcsolati sztringgel.</value>
   </data>
   <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
     <value>A(z) {0} alkalmazásbeállítás hiányzik az alkalmazásból. A beállítás nélkül mindig a futtatókörnyezet legfrissebb verzióját fogja futtatni, még a főverzió frissítései esetén is, melyek meghibásodást okozó módosításokat tartalmazhatnak. Az értéket javasolt a jelenlegi legfrissebb főverzióra (~1) állítani, az újabb frissítéshez elérhető verziókról pedig értesítést fog kapni.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
-    <value>A(z) {0} tulajdonságban tárolt, Azure Storage-fiókhoz tartozó kapcsolati karakterlánc null értékű vagy üres. Ezt kötelező megadni a függvényalkalmazás működéséhez.</value>
+    <value>A(z) {0} tulajdonságban tárolt, Azure Storage-fiókhoz tartozó kapcsolati sztring null értékű vagy üres. Ezt kötelező megadni a függvényalkalmazás működéséhez.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
-    <value>Frissítse az alkalmazásbeállítást egy érvényes tárolási kapcsolati karakterlánccal.</value>
+    <value>Frissítse az alkalmazásbeállítást egy érvényes tárolási kapcsolati sztringgel.</value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
     <value>A(z) {0} tárfiók nem létezik. A függvényalkalmazás által használt tárfiók törlése esetén a függvényalkalmazás nem fog tovább működni. </value>
   </data>
   <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
-    <value>Frissítse az alkalmazásbeállítást egy érvényes, létező tárolási kapcsolati karakterlánccal.</value>
+    <value>Frissítse az alkalmazásbeállítást egy érvényes, létező tárolási kapcsolati sztringgel.</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
     <value>A(z) {0} tárfiók nem támogatja az Azure Queues Storage szolgáltatást. A függvények futtatókörnyezetének a megfelelő működéshez üzenetsorokra van szüksége. Törölnie kell a függvényalkalmazást, és újból létre kell hoznia egy olyan tárfiókkal, mely támogatja az Azure Queues Storage szolgáltatást.</value>
@@ -2717,7 +2720,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Engedélyezés</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Engedélyezés</value>
+    <value>Fiók módosítása</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Vissza</value>
@@ -2924,7 +2927,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Konfigurálás</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Üzembe helyezés</value>
+    <value>Átmeneti üzembe helyezés</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Összegzés</value>
@@ -3014,7 +3017,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A legtöbbi üzemi számítási feladathoz</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Elszigetelt</value>
+    <value>Izolált</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Speciális hálózatkezelés és méretezés</value>
@@ -3088,8 +3091,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="free" xml:space="preserve">
     <value>Ingyenes</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/hónap (becsült díj)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/óra (becsült érték)</value>
+    <value>{0} {1}/hónap (becsült díj)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>További erőforrások hozzáadásához válasszon másik tarifacsomagot</value>
@@ -3251,10 +3257,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Naplózási szint</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-alapú buildelési kiszolgáló</value>
+    <value>VSTS Continuous Delivery</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>A VSTS használata buildelési kiszolgálóként. Ha ezt a lehetőséget választja, a speciális beállítások révén egy teljes körű kiadáskezelési munkafolyamat áll a rendlkezésére.</value>
+    <value>A Visual Studio Team Services beállít egy robusztus üzembe helyezési folyamatot az alkalmazás számára. A folyamat elkészíti a buildet, futtatja a terhelési teszteket, és üzembe helyezi az alkalmazást az előkészítési ponton, valamint az éles környezetben.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu-buildelési kiszolgáló</value>
@@ -3299,7 +3305,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Django-beállítások modul</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask-projekt</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Új</value>
@@ -3338,10 +3344,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Terheléses tesztelés</value>
+    <value>Terheléses teszt</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Terheléses tesztelés engedélyezése</value>
+    <value>Terheléses teszt engedélyezése</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Alkalmazásnév</value>
@@ -3353,7 +3359,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Deployment Center (előzetes verzió)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service Deployment Center lehetővé teszi, hogy megadja a programkód helyét, valamint a buildelési és a felhőben való üzembe helyezési beállításokat.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Nem engedélyezett</value>
@@ -3421,9 +3427,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="FTPDisable" xml:space="preserve">
     <value>Letiltás</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Elvetés</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Megjelenítés</value>
   </data>
@@ -3431,28 +3434,28 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Elrejtés</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>A jelszó és a jelszó megerősítése nem egyezik.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>Irányítópult</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>FTP-kapcsolat használata az alkalmazásfájlok eléréséhez és másolásához.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service lehetővé teszi az alkalmazástartalom FTP vagy FTPS használatával történő elérését</value>
   </data>
   <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
+    <value>Felhasználó hitelesítő adatai</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>A felhasználói hitelesítő adatokat, Ön, a felhasználó adja meg, és ezek minden olyan alkalmazásban használhatók, amelyhez Ön hozzáféréssel rendelkezik. Ezek a hitelesítő adatok FTP-vel, helyi gittel és a WebDeployjal egyaránt használhatók.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>Alkalmazás hitelesítő adatai</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Az alkalmazás automatikusan létrehozott hitelesítő adatai csak ehhez az alkalmazáshoz üzembe helyezési ponthoz biztosítanak hozzáférést. Ezek a hitelesítő adatok FTP-vel, helyi gittel és a WebDeployjal egyaránt használhatók.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Felhasználónév</value>
@@ -3464,7 +3467,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Jelszó megerősítése</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>FTPS-végpont</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>Hitelesítő adatok</value>
@@ -3476,15 +3479,54 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Sikertelen</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Sikeres művelet</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>Hitelesítő adatok mentése</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>Hitelesítő adatok alaphelyzetbe állítása</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP-verzió</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Elvetés</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Szolgáltató</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Új fiók</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Új üzembe helyezési pont</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Üzembe helyezési pont neve</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>A helyi git-tárház URL-címe a befejezés után jön létre.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Alkalmazásbeállításokból betöltött futtatókörnyezet-verzió: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Nem támogatott futtatókörnyezet-verzió</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Az egyéni futtatókörnyezet-verzió nem támogatott, ezért a rendszer a(z) {{exactExtensionVersion}} futtatókörnyezetet használja. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Leválasztás</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Szinkronizálás</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Központi telepítés hitelesítő adatai</value>
   </data>
 </root>

@@ -109,7 +109,7 @@
     <value>Функции Azure</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Среда выполнения функций Azure</value>
+    <value>Среда выполнения Функций Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Отмена</value>
@@ -1055,7 +1055,7 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Версия среды выполнения: {{extensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
+    <value>Версия среды выполнения: {{exactExtensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Для AlwaysOn необходим план службы приложений "Базовый" или выше</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>План служб приложений, связанный с приложением, не поддерживает эту функцию. Обратитесь к администратору, чтобы включить эту функцию для текущего плана, или перейдите на план, в котором она уже включена.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Версия управляемого конвейера</value>
@@ -2717,7 +2720,7 @@
     <value>Авторизовать</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Авторизовать</value>
+    <value>Изменить учетную запись</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Назад</value>
@@ -2924,7 +2927,7 @@
     <value>Настроить</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Развернуть</value>
+    <value>Развертывание в промежуточной среде</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Сводка</value>
@@ -3088,8 +3091,11 @@
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1} в месяц (приблизительно)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/ч (предварительно)</value>
+    <value>{0} {1} в месяц (приблизительно)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
@@ -3251,10 +3257,10 @@
     <value>Уровень ведения журнала</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Сервер сборки VSTS</value>
+    <value>Непрерывная поставка VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Используйте VSTS как сервер сборки. Вы можете использовать дополнительные параметры для реализации полноценного рабочего процесса управления выпуском.</value>
+    <value>Visual Studio Team Services настраивает для вашего приложения надежный конвейер развертывания. Он отвечает за сборку, выполнение нагрузочных тестов, развертывание в промежуточный слот и затем в рабочую среду.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Сервер сборки Kudu службы приложений</value>
@@ -3299,7 +3305,7 @@
     <value>Модуль параметров Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Проект Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Создать</value>
@@ -3338,10 +3344,10 @@
     <value>Нет</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Нагрузочное тестирование</value>
+    <value>Нагрузочный тест</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Включить нагрузочное тестирование</value>
+    <value>Включить нагрузочный тест</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Имя приложения</value>
@@ -3353,7 +3359,7 @@
     <value>Центр развертывания (предварительная версия)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Центр развертывания службы приложений позволяет выбрать расположение кода, а также параметры сборки и развертывания в облаке.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Запрещено</value>
@@ -3421,9 +3427,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>Отключить</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Отклонить</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Показать</value>
   </data>
@@ -3440,19 +3443,19 @@
     <value>Использование FTP-подключения для доступа к файлам приложений и их копирования.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Служба приложений позволяет получить доступ к содержимому приложения через FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Учетные данные пользователя</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Учетные данные задаются вами. Они используются со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Учетные данные приложения</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Учетные данные приложения создаются автоматически и дают доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Имя пользователя</value>
@@ -3486,5 +3489,44 @@
   </data>
   <data name="httpVersion" xml:space="preserve">
     <value>Версия HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Поставщик</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Создать учетную запись</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Новый слот развертывания</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Имя слота развертывания</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>По завершении будет создан URL-адрес вашего локального репозитория Git.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Версия среды выполнения, загруженная из параметров приложения: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Неподдерживаемая версия среды выполнения</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Версия настраиваемой среды выполнения не поддерживается. В результате используется среда выполнения {{exactExtensionVersion}}. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Синхронизация</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Мандат на развертывание</value>
   </data>
 </root>

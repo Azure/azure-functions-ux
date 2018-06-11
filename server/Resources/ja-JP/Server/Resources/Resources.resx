@@ -109,7 +109,7 @@
     <value>Azure Functions</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Azure Functions ランタイム</value>
+    <value>Azure Functions Runtime</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -1055,7 +1055,7 @@
     <value>Function App の設定</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>ランタイム バージョン: {{extensionVersion}}。新しいバージョンが利用できます ({{latestExtensionVersion}})。</value>
+    <value>ランタイム バージョン: {{exactExtensionVersion}}。新しいバージョン ({{latestExtensionVersion}}) を利用できます。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>ランタイム バージョン: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>常にオンにするには、Basic 以上の App Service プランが必要です</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>このアプリに関連付けられている App Service プランは、この機能をサポートしていません。管理者に問い合わせて、現在のプランでこの機能を有効にするか、この機能が既に有効になっているプランにアップグレードしてください。</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>マネージド パイプライン バージョン</value>
@@ -2717,7 +2720,7 @@
     <value>承認</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>承認</value>
+    <value>アカウントの変更</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>戻る</value>
@@ -2924,7 +2927,7 @@
     <value>構成</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>展開</value>
+    <value>ステージングにデプロイする</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>概要</value>
@@ -3014,7 +3017,7 @@
     <value>ほとんどの実稼働ワークロード</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>分離</value>
+    <value>Isolated</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>高度なネットワークとスケール</value>
@@ -3088,8 +3091,11 @@
   <data name="free" xml:space="preserve">
     <value>無料</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/月 (推定)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/時間 (推定)</value>
+    <value>{0} {1}/月 (推定)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>ご利用のプランにさらにリソースを追加するには、別の価格レベルを選択してください</value>
@@ -3251,10 +3257,10 @@
     <value>ログ レベル</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS ビルド サーバー</value>
+    <value>VSTS による継続的デリバリー</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>ビルド サーバーとして VSTS を使用します。完全なリリース管理ワークフローのために詳細オプションを活用できます。</value>
+    <value>Visual Studio Team Services は、アプリケーションの堅牢なデプロイ パイプラインを設定します。このパイプラインではロード テストをビルドして実行し、ステージング スロットにデプロイしてから運用環境にデプロイします。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu ビルド サーバー</value>
@@ -3299,7 +3305,7 @@
     <value>Django 設定モジュール</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask プロジェクト</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>新規</value>
@@ -3353,7 +3359,7 @@
     <value>デプロイ センター (プレビュー)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service デプロイ センターを使用すると、コードの場所や、クラウドへのビルド &amp; デプロイのオプションを選択できます。</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>許可されていません</value>
@@ -3421,9 +3427,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>無効にする</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>消去</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>表示</value>
   </data>
@@ -3431,28 +3434,28 @@
     <value>非表示</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>パスワードと確認のパスワードが一致しません。</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>ダッシュボード</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>FTP 接続を使ってアプリのファイルにアクセスし、コピーします。</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service では、FTP/S 経由でアプリ コンテンツにアクセスできます。</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>ユーザーの資格情報</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>ユーザー資格情報がお客様 (ユーザー) によって定義されており、お客様がアクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>アプリの資格情報</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>アプリケーションの資格情報は自動生成され、この特定のアプリまたはデプロイ スロットへのアクセスのみを提供します。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>ユーザー名</value>
@@ -3464,7 +3467,7 @@
     <value>パスワードの確認</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>FTPS エンドポイント</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>資格情報</value>
@@ -3476,15 +3479,54 @@
     <value>失敗</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>成功</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>資格情報の保存</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>資格情報のリセット</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP バージョン</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>消去</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>プロバイダー</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>新しいアカウント</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>新しいデプロイ スロット</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>デプロイ スロット名</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>完了時に、ローカル Git リポジトリ URL が生成されます。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>アプリケーション設定から読み込まれたランタイム バージョン: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>サポートされていないランタイム バージョン</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>カスタム ランタイム バージョンはサポートされていません。そのため、{{exactExtensionVersion}} ランタイムが使用されています。</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>切断</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>同期</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>展開の資格情報</value>
   </data>
 </root>

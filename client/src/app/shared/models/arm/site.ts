@@ -6,6 +6,9 @@ export enum ComputeMode {
     Dynamic
 }
 
+export class SiteProperties {
+    properties: {name: string, value: string}[];
+}
 export interface Site {
     state: string;
     hostNames: string[];
@@ -28,4 +31,6 @@ export interface Site {
     name?: string;
     resourceGroup?: string;
     computeMode?: ComputeMode;
+    isXenon?: boolean;
+    siteProperties?: SiteProperties;
 }
