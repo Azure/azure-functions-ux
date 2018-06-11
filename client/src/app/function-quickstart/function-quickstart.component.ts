@@ -27,7 +27,6 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
 
-
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
 @Component({
@@ -66,7 +65,6 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
         this.selectedFunction = 'HttpTrigger';
         this.selectedLanguage = 'CSharp';
-
 
         this.setShowJavaSplashPage.subscribe(show => {
             this.showJavaSplashPage = show;
@@ -111,7 +109,6 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
             this.selectedFunction = selectedFunction;
         }
     }
-
 
     onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
         const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
