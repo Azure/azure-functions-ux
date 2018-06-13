@@ -51,30 +51,30 @@
   <section class="bottom-command-bar-section">
         <command-bar id="command-bar-embedded-bottom">
           <command  displayText="{{ 'logStreaming_logs' | translate }}"
-                    (click)="setBottomBarState($event)"
+                    (click)="setBottomBarState()"
                     cssClass="list-item clickable command">
           </command>
           <span *ngIf="bottomBarExpanded" class="right-edge">
             <command  *ngIf="getLogs"
                       displayText="{{ 'logStreaming_pause' | translate }}"
                       iconUrl="image/pause.svg"
-                      (click)="pauseLogs()"
+                      (click)="sendLogMessage('pauseLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="!getLogs"
                       displayText="{{ 'logStreaming_start' | translate }}"
                       iconUrl="image/start.svg"
-                      (click)="startLogs()"
+                      (click)="sendLogMessage('startLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  displayText="{{ 'logStreaming_clear' | translate }}"
                       iconUrl="image/stop.svg"
-                      (click)="clearLogs()"
+                      (click)="sendLogMessage('clearLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  displayText="{{ 'logStreaming_copyLogs' | translate }}"
                       iconUrl="image/tags.svg"
-                      (click)="copyLogs()"
+                      (click)="sendLogMessage('copyLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="!bottomBarMaximized" 

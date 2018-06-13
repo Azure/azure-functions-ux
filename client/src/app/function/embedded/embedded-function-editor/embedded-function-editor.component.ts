@@ -1,4 +1,4 @@
-import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
+import { FunctionEditorEvent, FunctionEditorEventType } from 'app/function/embedded/function-editor-event';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
@@ -169,43 +169,26 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     });
   }
 
-  copyLogs() {
-    setTimeout(() => {
-      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
-        type: 'copyLogs',
-        value: null
-      });
-    });
-  }
+  sendLogMessage(message: FunctionEditorEventType) {
+    switch (message) {
+      case 'pauseLogs':
+      case 'clearLogs':
+        this.getLogs = false;
+        break;
+      case 'startLogs':
+        this.getLogs = true;
+        break;
+      default:
+        break;
+    }
 
-  pauseLogs() {
-    this.getLogs = false;
     setTimeout(() => {
       this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
-        type: 'pauseLogs',
+        type: message,
         value: null
       });
     });
-  }
 
-  startLogs() {
-    this.getLogs = true;
-    setTimeout(() => {
-      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
-        type: 'startLogs',
-        value: null
-      });
-    });
-  }
-
-  clearLogs() {
-    this.getLogs = false;
-    setTimeout(() => {
-      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
-        type: 'clearLogs',
-        value: null
-      });
-    });
   }
 
   saveEditorContent() {
