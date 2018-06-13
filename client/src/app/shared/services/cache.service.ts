@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Response, RequestOptionsArgs, ResponseType } from '@angular/http';
+import { Headers, Response, RequestOptionsArgs, ResponseType, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -74,8 +74,8 @@ export class CacheService {
         return this._armService.send('PATCH', url, content);
     }
 
-    get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean): Observable<Response> {
-        return this.send(url, 'GET', force, headers, null, invokeApi);
+    get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean, responseContentType?: ResponseContentType): Observable<Response> {
+        return this.send(url, 'GET', force, headers, null, invokeApi, null, responseContentType);
     }
 
     post(url: string, force?: boolean, headers?: Headers, content?: any) {
@@ -129,7 +129,8 @@ export class CacheService {
         headers?: Headers,
         content?: any,
         invokeApi?: boolean,
-        keyPrefix?: string) {
+        keyPrefix?: string,
+        responseContentType?: ResponseContentType) {
 
         if (url.startsWith('http://')) {
             // This is only for seabreaze function apps.
@@ -185,7 +186,7 @@ export class CacheService {
                 headers.append('If-None-Match', etag);
             }
 
-            const responseObs = this._armService.send(method, url, content, etag, headers, invokeApi)
+            const responseObs = this._armService.send(method, url, content, etag, headers, invokeApi, responseContentType)
                 .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                     // ARM returns 429 (Too Many Request) with a retry after: 5 seconds.
                     // That happens to dynamic linux apps if there is no container ready
@@ -218,7 +219,7 @@ export class CacheService {
                         return Observable.throw(error);
                     }
                 })
-                .catch(e => this.tryPassThroughController(e, method, url, content, { headers: headers })
+                .catch(e => this.tryPassThroughController(e, method, url, content, { headers: headers, responseType: responseContentType })
                     .map(response => {
                         return this._mapAndCacheResponse(method, response, key);
                     }))
@@ -280,7 +281,7 @@ export class CacheService {
                         const endTime = performance.now();
                         this._aiService.trackDependency(Guid.newGuid(), passThroughBody.method, passThroughBody.url, passThroughBody.url, endTime - startTime, success, status);
                     };
-                    return this._armService.send('POST', '/api/passthrough', passThroughBody, null, new Headers(), false)
+                    return this._armService.send('POST', '/api/passthrough', passThroughBody, null, new Headers(), false, options.responseType)
                         .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
                         .catch((e: Response) => {
                             if (e.status === 400) {
