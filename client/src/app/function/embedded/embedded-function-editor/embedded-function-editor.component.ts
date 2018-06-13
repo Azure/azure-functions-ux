@@ -1,3 +1,4 @@
+import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
@@ -15,8 +16,6 @@ import { Component, ViewChild, OnDestroy, Input, Injector } from '@angular/core'
 import { EmbeddedService } from 'app/shared/services/embedded.service';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { SiteTabIds } from '../../../shared/models/constants';
-import { RightTabEvent } from '../../../controls/right-tabs/right-tab-event';
-
 @Component({
   selector: 'embedded-function-editor',
   templateUrl: './embedded-function-editor.component.html',
@@ -31,7 +30,9 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   public fileName = '';
   public rightBarExpanded = false;
   public bottomBarExpanded = false;
-  public displayName = '';
+  public bottomBarMaximized = false;
+  public functionName = '';
+  public getLogs = false;
   public viewInfo: TreeViewInfo<SiteData>;
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -52,13 +53,6 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
 
     this.featureName = 'embeddededitor';
     this.isParentComponent = true;
-
-    this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
-      .filter(e => e.type === 'isExpanded')
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(e => {
-        this.toggleRightBarExpanded();
-      });
   }
 
   private _getScriptContent(resourceId: string): Observable<HttpResult<string>> {
@@ -69,8 +63,8 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
       .switchMap(r => {
         this._functionInfo = r.json();
         const scriptHrefParts = this._functionInfo.script_href.split('/');
-        this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
-        this.displayName = `Functions > ${this._functionInfo.name} > ${this.fileName}`;
+        this.fileName = ` > ${scriptHrefParts[scriptHrefParts.length - 1]}`;
+        this.functionName = ` > ${this._functionInfo.name}`;
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {
@@ -102,7 +96,9 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
         this.fileName = '';
         this.rightBarExpanded = false;
         this.bottomBarExpanded = false;
-        this.displayName = '';
+        this.bottomBarMaximized = false;
+        this.functionName = '';
+        this.getLogs = false;
 
         return Observable.of(viewInfo);
       })
@@ -130,7 +126,42 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     this.clearBusy();
   }
 
-  toggleRightBarExpanded() {
+  setBottomBarState() {
+    this.bottomBarExpanded = !this.bottomBarExpanded;
+    this.bottomBarMaximized = false;
+    this.getLogs = this.bottomBarExpanded;
+
+    if (this.getLogs) {
+      setTimeout(() => {
+        this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+          type: 'startLogs',
+          value: null
+        });
+      });
+    }
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  maximizeBottomBar() {
+    this.bottomBarMaximized = true;
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  compressBottomBar( ) {
+    this.bottomBarMaximized = false;
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  setRightBarState() {
     this.rightBarExpanded = !this.rightBarExpanded;
 
     setTimeout(() => {
@@ -138,11 +169,51 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     });
   }
 
-  setBottomBarState(expanded: boolean) {
-    this.bottomBarExpanded = expanded;
+  run() {
+    this.rightBarExpanded = true;
+    this.bottomBarExpanded = true;
 
     setTimeout(() => {
       this.codeEditor.resize();
+    });
+  }
+
+  copyLogs() {
+    setTimeout(() => {
+      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+        type: 'copyLogs',
+        value: null
+      });
+    });
+  }
+
+  pauseLogs() {
+    this.getLogs = false;
+    setTimeout(() => {
+      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+        type: 'pauseLogs',
+        value: null
+      });
+    });
+  }
+
+  startLogs() {
+    this.getLogs = true;
+    setTimeout(() => {
+      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+        type: 'startLogs',
+        value: null
+      });
+    });
+  }
+
+  clearLogs() {
+    this.getLogs = false;
+    setTimeout(() => {
+      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+        type: 'clearLogs',
+        value: null
+      });
     });
   }
 
@@ -185,5 +256,10 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
           }
         });
     }
+  }
+
+  navigateToList() {
+    this.setBusy();
+    this._portalService.closeBlades();
   }
 }

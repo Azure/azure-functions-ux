@@ -1,48 +1,38 @@
 
 @import '../../../../sass/common/variables';
 
-$expanded-width: 460px;
-
-section{
-    padding: 10px;
+.test-tab-right {
+    margin: 20px;
+    height: calc(100% - 60px);
 }
 
-#test-tab-request-body{
-    border-top: $border;
-    height: 275px;
+label {
+    font-size: 14px;
+    font-weight: 400;
+    color: $pa-text-color;
+    -webkit-margin-bottom-collapse: 8px;
+    font-family: "Segoe UI", "Segoe";
+}
+
+#test-tab-request-body {
+    height: 50%;
 
     .request-editor-container{
-        height: calc(100% - 15px);
         border: $border;
+        height: calc(100% - 20px);
     }
 
 }
 
-#test-tab-output{
-    pre{
-        height: 275px;
+#test-tab-output {
+    margin-top: 20px;
+    height: 50%;
+    pre {
+        height: calc(100% - 20px);
         white-space: pre-wrap;       /* Since CSS 2.1 */
         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
         white-space: -pre-wrap;      /* Opera 4-6 */
         white-space: -o-pre-wrap;    /* Opera 7 */
         word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    }
-}
-
-footer{
-    position: absolute;
-    bottom: 0px;
-    border-top: $border;
-    width: $expanded-width;
-    height: 47px;
-
-    button{
-        position: absolute;
-        right: 8px;
-        bottom: 10px;
-
-        span{
-            margin-left: 5px;
-        }
     }
 }
