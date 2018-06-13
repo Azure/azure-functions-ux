@@ -131,15 +131,6 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     this.bottomBarMaximized = false;
     this.getLogs = this.bottomBarExpanded;
 
-    if (this.getLogs) {
-      setTimeout(() => {
-        this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
-          type: 'startLogs',
-          value: null
-        });
-      });
-    }
-
     setTimeout(() => {
       this.codeEditor.resize();
     });
