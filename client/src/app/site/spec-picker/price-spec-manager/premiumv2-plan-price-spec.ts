@@ -147,6 +147,19 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
@@ -167,6 +180,19 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
@@ -187,4 +213,17 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }
