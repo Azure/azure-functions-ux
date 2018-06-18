@@ -99,6 +99,9 @@ export class RunHttpComponent {
 
             const pathParams = this.getPathParams(value);
             params = pathParams.concat(params);
+            if (!this.model.queryStringParams) {
+                this.model.queryStringParams = [];
+            }
             params.forEach((p) => {
                 const findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;

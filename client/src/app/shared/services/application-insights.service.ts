@@ -151,7 +151,7 @@ export class ApplicationInsightsService {
     `| where operation_Id == '${operationId}'; ` +
     `dataset ` +
     `| sort by timestamp asc ` +
-    `| project message, itemCount, logLevel = customDimensions.LogLevel `;
+    `| project timestamp, message, itemCount, logLevel = customDimensions.LogLevel `;
   }
 
   private _validateAiResourceid(aiResourceId: string): void {
@@ -245,9 +245,11 @@ export class ApplicationInsightsService {
           summaryTable.Rows.forEach(row => {
             history.push({
               rowId: rowNum++,
-              message: row[0],
-              itemCount: row[1],
-              logLevel: row[2]
+              timestamp: row[0],
+              timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+              message: row[1],
+              itemCount: row[2],
+              logLevel: row[3]
             });
           });
         }
