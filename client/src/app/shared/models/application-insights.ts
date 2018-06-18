@@ -16,6 +16,8 @@ export interface AIInvocationTrace {
 
 export interface AIInvocationTraceHistory {
     rowId: number;
+    timestamp: string;
+    timestampFriendly: string;
     message: string;
     itemCount: number;
     logLevel: string;
