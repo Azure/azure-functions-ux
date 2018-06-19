@@ -3532,4 +3532,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Deployment Credentials</value>
   </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>
+  </data>
 </root>
