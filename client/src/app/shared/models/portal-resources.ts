@@ -1133,4 +1133,6 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
+    public static pricing_dv3SeriesCompute = 'pricing_dv3SeriesCompute';
+    public static pricing_dv3SeriesDedicatedCpu = 'pricing_dv3SeriesDedicatedCpu';
 }

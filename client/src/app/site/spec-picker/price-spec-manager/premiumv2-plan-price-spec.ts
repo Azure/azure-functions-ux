@@ -65,14 +65,6 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
     runInitialization(input: PriceSpecInput) {
         let $checkStamp: Observable<any> = Observable.of(null);
 
-        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon)
-            || (input.plan && input.plan.properties.isXenon)) {
-            const slotsFeatureIndex = this.featureItems.findIndex(f => f.title === this._ts.instant(PortalResources.pricing_stagingSlots));
-            if (slotsFeatureIndex > -1) {
-                this.featureItems.splice(slotsFeatureIndex, 1);
-            }
-        }
-
         if (input.specPickerInput.data) {
 
             if (input.specPickerInput.data.hostingEnvironmentName) {

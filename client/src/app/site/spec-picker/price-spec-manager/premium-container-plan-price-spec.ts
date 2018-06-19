@@ -22,11 +22,6 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
         description: this._ts.instant(PortalResources.pricing_slotsDesc).format(20)
     },
     {
-        iconUrl: 'image/backups.svg',
-        title: this._ts.instant(PortalResources.pricing_dailyBackups),
-        description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
-    },
-    {
         iconUrl: 'image/globe.svg',
         title: this._ts.instant(PortalResources.pricing_trafficManager),
         description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
@@ -35,7 +30,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        description: this._ts.instant(PortalResources.pricing_dv3SeriesDedicatedCpu),
         learnMoreUrl: Links.vmSizeLearnMore
     },
     {
@@ -48,7 +43,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
         title: this._ts.instant(PortalResources.storage),
         description: this._ts.instant(PortalResources.pricing_sharedDisk).format('250 GB')
     }];
-    
+
     cssClass = 'spec premium-spec';
 
     constructor(injector: Injector) {
@@ -62,11 +57,11 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
 
 export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpec {
     skuCode = 'PC2';
-    legacySkuName = '';
+    legacySkuName = 'small_premium_container';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
-        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_memory).format('8'),
+        this._ts.instant(PortalResources.pricing_dv3SeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Container Small App Service Hours';
@@ -82,11 +77,11 @@ export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpe
 
 export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSpec {
     skuCode = 'PC3';
-    legacySkuName = '';
+    legacySkuName = 'medium_premium_container';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
-        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_memory).format('16'),
+        this._ts.instant(PortalResources.pricing_dv3SeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Container Medium App Service Hours';
@@ -102,11 +97,11 @@ export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSp
 
 export class PremiumContainerLargePriceSpec extends PremiumContainerPlanPriceSpec {
     skuCode = 'PC4';
-    legacySkuName = '';
+    legacySkuName = 'large_premium_container';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
-        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_numCores).format('8x'),
+        this._ts.instant(PortalResources.pricing_memory).format('32'),
+        this._ts.instant(PortalResources.pricing_dv3SeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Container Large App Service Hours';
