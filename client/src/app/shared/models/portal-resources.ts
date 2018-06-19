@@ -1133,4 +1133,5 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
+    public static funcConnStringsInfoText = 'funcConnStringsInfoText';
 }

@@ -115,6 +115,7 @@ export class Links {
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
     public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
     public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
+    public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
 }
 
 export class Kinds {
