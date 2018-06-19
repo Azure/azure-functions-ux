@@ -3,6 +3,7 @@
     background-color: $body-bg-color;
     height: calc(100% - 6px);
     width: 100%;
+    overflow: hidden;
 
     display: grid;
     grid-template-rows: 40px 71px auto 40px 0px;
