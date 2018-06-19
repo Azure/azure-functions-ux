@@ -1055,7 +1055,7 @@
     <value>ustawienia aplikacji funkcji</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Wersja środowiska uruchomieniowego: {{extensionVersion}}. Jest dostępna nowsza wersja ({{latestExtensionVersion}}).</value>
+    <value>Wersja środowiska uruchomieniowego: {{exactExtensionVersion}}. Jest dostępna nowsza wersja ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Wersja środowiska uruchomieniowego: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1394,7 +1394,7 @@
     <value>Aktualizowanie ustawień aplikacji internetowej</value>
   </data>
   <data name="configUpdateSuccess" xml:space="preserve">
-    <value>Pomyślnie zaktualizowano ustawienia aplikacji sieci Web</value>
+    <value>Pomyślnie zaktualizowano ustawienia aplikacji internetowej</value>
   </data>
   <data name="configUpdateFailure" xml:space="preserve">
     <value>Nie można zaktualizować ustawień aplikacji internetowej:</value>
@@ -1406,19 +1406,19 @@
     <value>Wersja platformy .NET Framework</value>
   </data>
   <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
-    <value>Wersja użyta do uruchomienia aplikacji sieci Web, jeśli jest używana platforma .NET Framework</value>
+    <value>Wersja użyta do uruchomienia aplikacji internetowej, jeśli jest używana platforma .NET Framework</value>
   </data>
   <data name="phpVersionLabel" xml:space="preserve">
     <value>Wersja języka PHP</value>
   </data>
   <data name="phpVersionLabelHelp" xml:space="preserve">
-    <value>Wersja użyta do uruchomienia aplikacji sieci Web, jeśli jest używany język PHP</value>
+    <value>Wersja użyta do uruchomienia aplikacji internetowej, jeśli jest używany język PHP</value>
   </data>
   <data name="pythonVersionLabel" xml:space="preserve">
     <value>Wersja języka Python</value>
   </data>
   <data name="pythonVersionLabelHelp" xml:space="preserve">
-    <value>Wersja użyta do uruchomienia aplikacji sieci Web, jeśli jest używany język Python</value>
+    <value>Wersja użyta do uruchomienia aplikacji internetowej, jeśli jest używany język Python</value>
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Usługa App Service obsługuje instalowanie nowszych wersji języka Python. Kliknij tutaj, aby dowiedzieć się więcej.</value>
@@ -1427,7 +1427,7 @@
     <value>Wersja języka Java</value>
   </data>
   <data name="javaVersionLabelHelp" xml:space="preserve">
-    <value>Wersja użyta do uruchomienia aplikacji sieci Web, jeśli jest używany język Java</value>
+    <value>Wersja użyta do uruchomienia aplikacji internetowej, jeśli jest używany język Java</value>
   </data>
   <data name="javaMinorVersionLabel" xml:space="preserve">
     <value>Wersja pomocnicza środowiska Java</value>
@@ -1439,13 +1439,13 @@
     <value>Kontener internetowy Java</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
-    <value>Wersja kontenera sieci Web użyta do uruchomienia aplikacji sieci Web, jeśli jest używany język Java</value>
+    <value>Wersja kontenera internetowego użyta do uruchomienia aplikacji internetowej, jeśli jest używany język Java</value>
   </data>
   <data name="use32BitWorkerProcessLabel" xml:space="preserve">
     <value>Platforma</value>
   </data>
   <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
-    <value>Architektura platformy, na której działa aplikacja sieci Web</value>
+    <value>Architektura platformy, na której działa aplikacja internetowa</value>
   </data>
   <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
     <value>Konfiguracja 64-bitowa wymaga planu usługi App Service w warstwie Podstawowa lub wyższej</value>
@@ -1454,16 +1454,19 @@
     <value>Gniazda sieci Web</value>
   </data>
   <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
-    <value>Gniazda WebSocket umożliwiają nawiązywanie bardziej elastycznych połączeń między aplikacjami sieci Web a nowoczesnymi przeglądarkami. Aplikacja sieci Web musi być utworzona pod kątem tej funkcji, aby można było ją wykorzystać.</value>
+    <value>Gniazda WebSocket umożliwiają nawiązywanie bardziej elastycznych połączeń między aplikacjami internetowymi a nowoczesnymi przeglądarkami. Aplikacja internetowa musi być utworzona pod kątem tej funkcji, aby można było ją wykorzystać.</value>
   </data>
   <data name="alwaysOnLabel" xml:space="preserve">
     <value>Zawsze włączone</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Wskazuje, że aplikacja sieci Web powinna być załadowana przez cały czas. Domyślnie aplikacje sieci Web są usuwane z pamięci po okresie bezczynności. Zalecamy włączenie tej opcji, jeśli w aplikacji sieci Web istnieją zadania Web Job działające w sposób ciągły.</value>
+    <value>Wskazuje, że aplikacja internetowa powinna być załadowana przez cały czas. Domyślnie aplikacje internetowe są usuwane z pamięci po okresie bezczynności. Zalecamy włączenie tej opcji, jeśli w aplikacji internetowej istnieją zadania WebJob działające w sposób ciągły.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Opcja Zawsze włączone wymaga planu usługi App Service w warstwie Podstawowa lub wyższej</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Plan usługi App Service skojarzony z tą aplikacją nie obsługuje tej funkcji. Skontaktuj się z administratorem, aby włączyć tę funkcję dla bieżącego planu, lub przejdź na plan, który już ma włączoną tę funkcję.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Wersja potoku zarządzanego</value>
@@ -1499,7 +1502,7 @@
     <value>Stos</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Aplikacje internetowe w systemie Linux udostępniają opcje czasu wykonywania za pośrednictwem kolekcji wbudowanych kontenerów. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Dowiedz się więcej&lt;/a&gt;.</value>
+    <value>Usługa Web Apps on Linux udostępnia opcje czasu wykonywania za pośrednictwem kolekcji wbudowanych kontenerów. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Dowiedz się więcej&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Plik startowy</value>
@@ -2210,7 +2213,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>skonfiguruj usługę Application Insights dla aplikacji funkcji</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
-    <value>Ta wartość zostanie dołączona do głównego adresu URL aplikacji sieci Web i będzie służyć jako publiczny adres miejsca. Jeśli na przykład aplikacja sieci Web nazywa się „contoso”, a nazwa miejsca to „staging”, adres URL nowego miejsca będzie mieć postać „http://contoso-staging.azurewebsites.net”.</value>
+    <value>Ta wartość zostanie dołączona do głównego adresu URL aplikacji internetowej i będzie służyć jako publiczny adres miejsca. Jeśli na przykład aplikacja internetowa nazywa się „contoso”, a nazwa miejsca to „staging”, adres URL nowego miejsca będzie mieć postać „http://contoso-staging.azurewebsites.net”.</value>
   </data>
   <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
     <value>Plan zużycia pozwala na użycie tylko jednego miejsca. Jeśli potrzebujesz więcej niż jednego miejsca, użyj dedykowanych planów usługi App Service.</value>
@@ -2717,7 +2720,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Autoryzuj</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autoryzuj</value>
+    <value>Zmień konto</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Wstecz</value>
@@ -2894,7 +2897,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Kompilacja wyzwolona</value>
   </data>
   <data name="webApp" xml:space="preserve">
-    <value>Aplikacja sieci Web</value>
+    <value>Aplikacja internetowa</value>
   </data>
   <data name="slot" xml:space="preserve">
     <value>Miejsce</value>
@@ -2924,7 +2927,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Konfiguruj</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Wdróż</value>
+    <value>Wdróż do obszaru przemieszczania</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Podsumowanie</value>
@@ -3014,7 +3017,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Odpowiednia do większości obciążeń produkcyjnych</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Izolowany</value>
+    <value>Izolowane</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Zaawansowana sieć i skalowanie</value>
@@ -3088,8 +3091,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="free" xml:space="preserve">
     <value>Bezpłatna</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1} miesięcznie (szacowana)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/godz. (szacowane)</value>
+    <value>{0} {1} miesięcznie (szacowana)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Wybierz inną warstwę cenową, aby dodać więcej zasobów do planu</value>
@@ -3251,10 +3257,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Poziom dziennika</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Serwer kompilacji usług VSTS</value>
+    <value>Ciągłe dostarczanie usługi VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Użyj usług VSTS jako serwera kompilacji. Możesz wykorzystać opcje zaawansowane na potrzeby przepływu pracy zarządzania pełnym wydaniem.</value>
+    <value>Usługi Visual Studio Team Services służą do konfigurowania niezawodnego potoku wdrożenia na potrzeby aplikacji. Za pomocą potoku przeprowadzana jest kompilacja, uruchamiane są testy obciążenia i odbywa się wdrażanie — najpierw w miejscu przejściowym, a następnie w środowisku produkcyjnym.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Serwer kompilacji Kudu usługi App Service</value>
@@ -3299,7 +3305,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Moduł ustawień platformy Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Projekt platformy Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Nowy</value>
@@ -3338,10 +3344,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nie</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Testowanie obciążenia</value>
+    <value>Test obciążenia</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Włącz testowanie obciążenia</value>
+    <value>Włącz test obciążenia</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Nazwa aplikacji</value>
@@ -3353,7 +3359,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Centrum wdrażania (wersja zapoznawcza)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Centrum wdrażania usługi App Service umożliwia wybranie lokalizacji Twojego kodu, jak również opcji kompilowania i wdrażania w chmurze.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Brak autoryzacji.</value>
@@ -3421,9 +3427,6 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="FTPDisable" xml:space="preserve">
     <value>Wyłącz</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Odrzuć</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Pokaż</value>
   </data>
@@ -3440,19 +3443,19 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Użyj połączenia FTP, aby uzyskać dostęp do plików aplikacji i je kopiować.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Usługa App Service umożliwia uzyskiwanie dostępu do zawartości aplikacji za pośrednictwem protokołu FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Poświadczenia użytkownika</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Poświadczenia użytkownika są definiowane przez Ciebie, użytkownika, i mogą być używane we wszystkich aplikacjach, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Poświadczenia aplikacji</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorę ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Poświadczenia aplikacji są generowane automatycznie i zapewniają dostęp tylko do tej określonej aplikacji lub miejsca wdrożenia. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nazwa użytkownika</value>
@@ -3485,6 +3488,45 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Resetuj poświadczenia</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Wersja HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Odrzuć</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Dostawca</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nowe konto</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nowe miejsce wdrożenia</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Nazwa miejsca wdrożenia</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>Adres URL lokalnego repozytorium Git zostanie wygenerowany po zakończeniu.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Załadowana wersja środowiska uruchomieniowego z ustawień aplikacji: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Nieobsługiwana wersja środowiska uruchomieniowego</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Twoja wersja niestandardowego środowiska uruchomieniowego jest nieobsługiwana. W rezultacie zostanie użyte środowisko uruchomieniowe {{exactExtensionVersion}}.</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Rozłącz</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Synchronizuj</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Poświadczenia wdrożenia</value>
   </data>
 </root>

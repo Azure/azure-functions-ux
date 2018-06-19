@@ -334,6 +334,26 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 http20Supported = false;
             }
 
+            if (this._scenarioService.checkScenario(ScenarioIds.dotNetFrameworkSupported, { site: siteArm }).status === 'disabled') {
+                netFrameworkSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.phpSupported, { site: siteArm }).status === 'disabled') {
+                phpSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.pythonSupported, { site: siteArm }).status === 'disabled') {
+                pythonSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.javaSupported, { site: siteArm }).status === 'disabled') {
+                javaSupported = false;
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.autoSwapSuuported, { site: siteArm }).status === 'disabled') {
+                autoSwapSupported = false;
+            }
+
             this.netFrameworkSupported = netFrameworkSupported;
             this.phpSupported = phpSupported;
             this.pythonSupported = pythonSupported;

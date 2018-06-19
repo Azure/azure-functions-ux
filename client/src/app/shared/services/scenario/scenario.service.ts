@@ -16,6 +16,7 @@ import { OnPremEnvironment } from './onprem.environment';
 import { Environment } from './scenario.models';
 import { Injectable, Injector } from '@angular/core';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
+import { XenonSiteEnvironment } from 'app/shared/services/scenario/xenon-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 
 export interface IScenarioService {
@@ -33,6 +34,7 @@ export class ScenarioService {
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
+        new XenonSiteEnvironment(this._injector),
         new AzureTryEnvironment(),
         new EmbeddedFunctionsEnvironment(this._portalService),
         new DynamicLinuxEnvironment()

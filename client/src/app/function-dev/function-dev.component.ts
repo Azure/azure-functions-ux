@@ -34,6 +34,9 @@ import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
+import { LogService } from '../shared/services/log.service';
+import { LogCategories } from '../shared/models/constants';
+import { ArmUtil } from '../shared/Utilities/arm-utils';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -98,13 +101,15 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     private updatedContent: string;
     private updatedTestContent: string;
     private _disableTestDataAfterViewInit = false;
+    private _restartHostSubscription: Subscription;
 
-    constructor(broadcastService: BroadcastService,
+    constructor(private broadcastService: BroadcastService,
         configService: ConfigService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _functionAppService: FunctionAppService,
+        private _logService: LogService,
         private cd: ChangeDetectorRef) {
         super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
@@ -211,6 +216,17 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         errorId: errorIds.functionRuntimeIsUnableToStart,
                         resourceId: this.context.site.id
                     });
+                }
+                if (this._restartHostSubscription) {
+                    this._restartHostSubscription.unsubscribe();
+                    delete this._restartHostSubscription;
+                }
+                if (ArmUtil.isLinuxApp(this.context.site)) {
+                    this._restartHostSubscription = this.broadcastService.getEvents(BroadcastEvent.FunctionCodeUpdate)
+                        .merge(() => Observable.create(o => this.broadcastService.subscribe(BroadcastEvent.FunctionUpdated, () => o.onNext(0))))
+                        .debounceTime(500)
+                        .concatMap(() => this._functionAppService.restartFunctionsHost(this.context))
+                        .subscribe(() => this._logService.verbose(LogCategories.functionHostRestart, `restart for ${this.context.site.id}`));
                 }
                 if (tuple[0].functionInfo.isSuccessful) {
                     const functionInfo = tuple[0].functionInfo.result;
@@ -340,6 +356,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         super.ngOnDestroy();
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
+        if (this._restartHostSubscription) {
+            this._restartHostSubscription.unsubscribe();
+        }
         if (this.logStreamings) {
             this.logStreamings.toArray().forEach((ls) => {
                 ls.ngOnDestroy();
@@ -485,6 +504,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
         return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
+                this._broadcastService.broadcastEvent<void>(BroadcastEvent.FunctionCodeUpdate);
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
                 }

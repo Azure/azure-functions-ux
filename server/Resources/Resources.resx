@@ -1583,7 +1583,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity (Preview)</value>
+    <value>Managed service identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -3519,5 +3519,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
     <value>Your custom runtime version is not supported. As a result {{exactExtensionVersion}} runtime is being used. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Deployment Credentials</value>
   </data>
 </root>

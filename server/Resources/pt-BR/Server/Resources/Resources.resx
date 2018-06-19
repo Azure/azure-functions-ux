@@ -109,7 +109,7 @@
     <value>Azure Functions</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Tempo de Execução do Azure Functions</value>
+    <value>Azure Functions Runtime</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -1055,7 +1055,7 @@
     <value>configurações do aplicativo de funções</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Versão de tempo de execução: {{extensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
+    <value>Versão de tempo de execução: {{exactExtensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Versão de tempo de execução: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1464,6 +1464,9 @@
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>A opção Sempre ativado requer um Plano do Serviço de Aplicativo básico ou superior</value>
+  </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>O plano de Serviço de Aplicativo associado a este aplicativo não dá suporte a esse recurso. Entre em contato com o administrador para habilitá-lo para o seu plano atual, ou atualize para um plano em que ele já está habilitado.</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Versão do Pipeline Gerenciada</value>
@@ -2408,7 +2411,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Sudeste da Ásia</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>Centro da Coreia</value>
+    <value>Coreia Central</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
     <value>Sul da Coreia</value>
@@ -2717,7 +2720,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Autorizar</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorizar</value>
+    <value>Alterar Conta</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Voltar</value>
@@ -2924,7 +2927,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Configurar</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Implantar</value>
+    <value>Implantar para preparo</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Resumo</value>
@@ -3088,8 +3091,11 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/Mês (Estimado)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Hora (Estimado)</value>
+    <value>{0} {1}/Mês (Estimado)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Escolha um tipo de preço diferente para adicionar mais recursos ao seu plano</value>
@@ -3251,10 +3257,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Nível de Log</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Servidor de build do VSTS</value>
+    <value>Entrega Contínua do VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Use o VSTS como o servidor de compilação. Você pode optar por aproveitar as opções avançadas para um fluxo de trabalho de gerenciamento de versão completa.</value>
+    <value>O Visual Studio Team Services configura um pipeline de implantação robusto para o aplicativo. O pipeline cria, executa testes de carga e implanta no slot de preparo e depois no de produção.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Servidor de build Kudu do Serviço de Aplicativo</value>
@@ -3299,7 +3305,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Módulo de Configurações do Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Projeto Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Novo</value>
@@ -3341,7 +3347,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Teste de Carga</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Habilitar o Teste de Carga</value>
+    <value>Habilitar Teste de Carga</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Nome do aplicativo</value>
@@ -3353,7 +3359,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Central de Implantação (Versão prévia)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>O Centro de Implantação do Serviço de Aplicativo permite escolher o local do seu código, bem como as opções de build e implantação em nuvem.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Não Autorizado</value>
@@ -3421,9 +3427,6 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="FTPDisable" xml:space="preserve">
     <value>Desabilitar</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Mostrar</value>
   </data>
@@ -3440,19 +3443,19 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Use uma conexão FTP para acessar e copiar arquivos de aplicativo.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>O Serviço de Aplicativo permite acessar o conteúdo do aplicativo por meio de FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Credenciais do Usuário</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com FTP, Git Local e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenciais do Aplicativo</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>As Credenciais do Aplicativo são geradas automaticamente e fornecem acesso apenas para este slot de implantação ou aplicativo específico. Essas credenciais podem ser usadas com FTP, Git Local e WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nome de usuário</value>
@@ -3485,6 +3488,45 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Redefinir Credenciais</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Versão HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Ignorar</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Provedor</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nova Conta</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Novo Slot de Implantação</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Nome do Slot de Implantação</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>A URL do repositório git local será gerada após a conclusão.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Versão de tempo de execução carregada das Configurações do Aplicativo: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Versão de Tempo de Execução Sem Suporte</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Não há suporte para a versão de tempo de execução personalizada. Como resultado, o tempo de execução {{exactExtensionVersion}} está sendo usado. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Desconectar</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sincronização</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Credenciais da Implantação</value>
   </data>
 </root>
