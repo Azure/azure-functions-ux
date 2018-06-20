@@ -6,6 +6,7 @@ export interface StorageItem {
 
 export interface ResourceStringsStorageItem extends StorageItem {
     lang: string;
+    cache: string;
     resources: { [key: string]: ResourceStrings };
 }
 
