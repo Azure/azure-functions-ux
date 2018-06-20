@@ -157,7 +157,7 @@
     <value>Function Error: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>Function ({{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Function Url</value>
