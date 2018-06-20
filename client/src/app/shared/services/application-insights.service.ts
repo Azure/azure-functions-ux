@@ -146,12 +146,12 @@ export class ApplicationInsightsService {
   private _getQueryForInvocationTraceHistory(operationId: string): string {
     this._validateOperationId(operationId);
 
-    return `let dataset=traces ` +
-    `| where timestamp > ago(30d) ` +
-    `| where operation_Id == '${operationId}'; ` +
-    `dataset ` +
-    `| sort by timestamp asc ` +
-    `| project timestamp, message, itemCount, logLevel = customDimensions.LogLevel `;
+    return `union traces` +
+    `| union exceptions` +
+    `| where timestamp > ago(30d)` +
+    `| where operation_Id == '${operationId}'` +
+    `| order by timestamp asc` +
+    `| project timestamp, message = iff(message != '', message, customDimensions.["prop__{OriginalFormat}"]), logLevel = customDimensions.["LogLevel"]`;
   }
 
   private _validateAiResourceid(aiResourceId: string): void {
@@ -248,8 +248,7 @@ export class ApplicationInsightsService {
               timestamp: row[0],
               timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
               message: row[1],
-              itemCount: row[2],
-              logLevel: row[3]
+              logLevel: row[2]
             });
           });
         }
