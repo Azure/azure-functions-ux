@@ -33,6 +33,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   public bottomBarMaximized = false;
   public functionName = '';
   public getLogs = false;
+  public firstRun = false;
   public viewInfo: TreeViewInfo<SiteData>;
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -153,6 +154,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   }
 
   setRightBarState() {
+    this.firstRun = false;
     this.rightBarExpanded = !this.rightBarExpanded;
 
     setTimeout(() => {
@@ -161,9 +163,22 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   }
 
   run() {
+    if (this.rightBarExpanded) {
+      setTimeout(() => {
+        this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+          type: 'runTest',
+          value: null
+        });
+      });
+    }
+
+    if (!this.bottomBarExpanded) {
+      this.getLogs = true;
+    }
+
+    this.firstRun = true;
     this.rightBarExpanded = true;
     this.bottomBarExpanded = true;
-    this.getLogs = true;
 
     setTimeout(() => {
       this.codeEditor.resize();

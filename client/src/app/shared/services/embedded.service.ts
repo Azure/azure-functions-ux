@@ -123,6 +123,16 @@ export class EmbeddedService {
             });
     }
 
+    runFunction(triggerUrl: string, body: string) {
+        return this._userService
+            .getStartupInfo()
+            .first()
+            .switchMap(info => {
+                const headers = this._getHeaders(info);
+                return this._cacheService.post(triggerUrl, true, headers, body);
+        });
+    }
+
     private _getHeaders(info: StartupInfo<void>) {
         const headers = this._armService.getHeaders();
         headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
