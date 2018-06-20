@@ -79,13 +79,13 @@
             </command>
             <command  *ngIf="!bottomBarMaximized" 
                       displayText="{{ 'logStreaming_expand' | translate }}"
-                      iconUrl="image/icon-expand.svg"
+                      iconUrl="image/caret-up.svg"
                       (click)="maximizeBottomBar()"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="bottomBarMaximized" 
                       displayText="{{ 'logStreaming_compress' | translate }}"
-                      iconUrl="image/reset.svg"
+                      iconUrl="image/caret-down.svg"
                       (click)="compressBottomBar()"
                       cssClass="list-item clickable command">
             </command>

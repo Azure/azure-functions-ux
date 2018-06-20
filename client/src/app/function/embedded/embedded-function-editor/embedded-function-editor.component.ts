@@ -163,6 +163,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   run() {
     this.rightBarExpanded = true;
     this.bottomBarExpanded = true;
+    this.getLogs = true;
 
     setTimeout(() => {
       this.codeEditor.resize();
