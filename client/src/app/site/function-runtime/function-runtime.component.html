@@ -142,13 +142,20 @@
         <div class="features-wrapper">
             <div>
                 <label class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</label>
+                <div *ngIf="!!functionAppEditModeForcedWarning" class="alert alert-warning">
+                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                    <div class="alert-message">
+                        <span [innerHtml]="(functionAppEditModeForcedWarning | translate)"></span>
+                    </div>
+                </div>
                 <div>
                     <radio-selector
                         [defaultValue]="functionAppEditMode"
                         [options]="functionAppEditModeOptions"
                         (value)="functionEditModeValueStream.next($event)"
                         id="editModeRadioButton"
-                        aria-labelledby="editModeRadioLabel editModeRadioButton">
+                        aria-labelledby="editModeRadioLabel editModeRadioButton"
+                        [disabled]="!!functionAppEditModeForcedWarning">
                     </radio-selector>
                 </div>
             </div>
