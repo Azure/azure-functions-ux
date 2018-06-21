@@ -796,7 +796,9 @@ export class FunctionAppService {
                     const vsCreatedFunc = result.functions.isSuccessful
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
-                    const usingRunFromZip = appSettings ? appSettings.properties[Constants.WebsiteUseZip] || '' : '';
+                    const usingRunFromZip = appSettings
+                    ? appSettings.properties[Constants.WebsiteUseZip] || appSettings.properties[Constants.WebsiteRunFromZip] || ''
+                    : '';
                     const hasSlots = result.hasSlots.result;
 
                     const resolveReadOnlyMode = () => {
