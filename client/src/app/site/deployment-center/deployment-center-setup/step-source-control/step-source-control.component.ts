@@ -33,7 +33,7 @@ export class StepSourceControlComponent {
             id: 'vsts',
             name: 'VSTS',
             icon: 'image/deployment-center/vsts.svg',
-            color: '#0071bc',
+            color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsDesc),
             authorizedStatus: 'none'
         },
