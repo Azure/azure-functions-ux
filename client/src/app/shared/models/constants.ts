@@ -32,6 +32,7 @@ export class Constants {
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
     public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
+    public static WebsiteRunFromZip = 'WEBSITE_RUN_FROM_ZIP';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
