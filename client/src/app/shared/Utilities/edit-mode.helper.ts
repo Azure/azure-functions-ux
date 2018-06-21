@@ -9,4 +9,14 @@ export class EditModeHelper {
             editMode === FunctionAppEditMode.ReadOnlyRunFromZip ||
             editMode === FunctionAppEditMode.ReadOnlyLocalCache;
     }
+
+    public static getWarningIfForced(editMode: FunctionAppEditMode): string {
+        if (editMode === FunctionAppEditMode.ReadOnlyRunFromZip) {
+            return 'readOnlyRunFromZip';
+        } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
+            return 'readOnlyLocalCache';
+        } else {
+            return null;
+        }
+    }
 }
