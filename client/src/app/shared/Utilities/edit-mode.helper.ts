@@ -6,6 +6,7 @@ export class EditModeHelper {
             editMode === FunctionAppEditMode.ReadOnlySourceControlled ||
             editMode === FunctionAppEditMode.ReadOnlySlots ||
             editMode === FunctionAppEditMode.ReadOnlyVSGenerated ||
-            editMode === FunctionAppEditMode.ReadOnlyRunFromZip;
+            editMode === FunctionAppEditMode.ReadOnlyRunFromZip ||
+            editMode === FunctionAppEditMode.ReadOnlyLocalCache;
     }
 }
