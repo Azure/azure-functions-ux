@@ -1135,4 +1135,5 @@
     public static deploymentCredentials = 'deploymentCredentials';
     public static funcConnStringsInfoText = 'funcConnStringsInfoText';
     public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
+    public static readOnlyLocalCache = 'readOnlyLocalCache';
 }

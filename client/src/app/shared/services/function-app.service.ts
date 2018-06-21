@@ -131,13 +131,13 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-                { resourceId: context.site.id }, /*input*/
-                token => Observable /*query*/
-                    .zip(
-                        this.retrieveProxies(context, token),
-                        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
-                        (p, s) => ({ proxies: p, schema: s }))
-                    .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
+            { resourceId: context.site.id }, /*input*/
+            token => Observable /*query*/
+                .zip(
+                this.retrieveProxies(context, token),
+                this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+                (p, s) => ({ proxies: p, schema: s }))
+                .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
     }
 
     private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
@@ -680,12 +680,12 @@ export class FunctionAppService {
         if (ArmUtil.isLinuxDynamic(context.site)) {
             this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         } else {
             const url = context.urlTemplates.syncTriggersUrl;
             this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         }
     }
 
@@ -797,8 +797,9 @@ export class FunctionAppService {
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
                     const usingRunFromZip = appSettings
-                    ? appSettings.properties[Constants.WebsiteUseZip] || appSettings.properties[Constants.WebsiteRunFromZip] || ''
-                    : '';
+                        ? appSettings.properties[Constants.WebsiteUseZip] || appSettings.properties[Constants.WebsiteRunFromZip] || ''
+                        : '';
+                    const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
 
                     const resolveReadOnlyMode = () => {
@@ -839,6 +840,8 @@ export class FunctionAppService {
 
                     if (usingRunFromZip) {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
+                    } else if (usingLocalCache) {
+                        return FunctionAppEditMode.ReadOnlyLocalCache;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
