@@ -577,7 +577,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
             }
 
             let setting = this.bindingValue.settings.find((s) => {
-                return s.name === input.id;
+                return s.name === input.id && !input.isHidden;
             });
             const isNotRequiredEmptyInput = (!input.required && !input.value && input.value !== false);
 
