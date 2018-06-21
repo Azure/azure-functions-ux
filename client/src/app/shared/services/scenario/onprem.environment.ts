@@ -13,11 +13,13 @@ export class OnPremEnvironment extends Environment {
     name = 'OnPrem';
     private _quotaService: QuotaService;
     private _translateService: TranslateService;
+    private _upSellMessage: string;
 
     constructor(injector: Injector) {
         super();
         this._quotaService = injector.get(QuotaService);
         this._translateService = injector.get(TranslateService);
+        this._upSellMessage = this._translateService.instant(PortalResources.upgradeUpsell);
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
@@ -42,8 +44,8 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableRemoteDebugging] = {
-            id: ScenarioIds.enableRemoteDebugging,
+        this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
+            id: ScenarioIds.remoteDebuggingSupported,
             runCheck: () => {
                 return { status: 'disabled' };
             }
@@ -52,6 +54,12 @@ export class OnPremEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
             id: ScenarioIds.enableAlwaysOn,
             runCheckAsync: (input: ScenarioCheckInput) => {
+                if (!input || !input.site || !input.site.id) {
+                    return Observable.of<ScenarioResult> ({
+                        status: 'disabled',
+                        data: this._upSellMessage
+                    });
+                }
                 const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
                 return this._quotaService.getQuotaLimit(
                     armResourceDescriptor.subscription,
@@ -63,7 +71,7 @@ export class OnPremEnvironment extends Environment {
                     return <ScenarioResult> {
                         // limit is infinity when it is -1
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: this._translateService.instant(PortalResources.upgradeUpsell)
+                        data: this._upSellMessage
                     };
                 });
             }
@@ -72,6 +80,12 @@ export class OnPremEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
             id: ScenarioIds.enableAutoSwap,
             runCheckAsync: (input: ScenarioCheckInput) => {
+                if (!input || !input.site || !input.site.id) {
+                    return Observable.of<ScenarioResult> ({
+                        status: 'disabled',
+                        data: this._upSellMessage
+                    });
+                }
                 const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
                 return this._quotaService.getQuotaLimit(
                     armResourceDescriptor.subscription,
@@ -80,8 +94,8 @@ export class OnPremEnvironment extends Environment {
                     input.site.properties.computeMode
                 ).map(limit => {
                     return <ScenarioResult> {
-                        status: limit > 1 ? 'enabled' : 'disabled',
-                        data: this._translateService.instant(PortalResources.upgradeUpsell)
+                        status: limit > 1 || limit === -1 ? 'enabled' : 'disabled',
+                        data: this._upSellMessage
                     };
                 });
             }
@@ -90,6 +104,12 @@ export class OnPremEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.enablePlatform64] = {
             id: ScenarioIds.enablePlatform64,
             runCheckAsync: (input: ScenarioCheckInput) => {
+                if (!input || !input.site || !input.site.id) {
+                    return Observable.of<ScenarioResult> ({
+                        status: 'disabled',
+                        data: this._upSellMessage
+                    });
+                }
                 const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
                 return this._quotaService.getQuotaLimit(
                     armResourceDescriptor.subscription,
@@ -99,7 +119,7 @@ export class OnPremEnvironment extends Environment {
                 ).map(limit => {
                     return <ScenarioResult> {
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: this._translateService.instant(PortalResources.upgradeUpsell)
+                        data: this._upSellMessage
                     };
                 });
             }
@@ -108,6 +128,12 @@ export class OnPremEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
             id: ScenarioIds.webSocketsEnabled,
             runCheckAsync: (input: ScenarioCheckInput) => {
+                if (!input || !input.site || !input.site.id) {
+                    return Observable.of<ScenarioResult> ({
+                        status: 'disabled',
+                        data: this._upSellMessage
+                    });
+                }
                 const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
                 return this._quotaService.getQuotaLimit(
                     armResourceDescriptor.subscription,
@@ -117,7 +143,7 @@ export class OnPremEnvironment extends Environment {
                 ).map(limit => {
                     return <ScenarioResult> {
                         status: limit !== 0 ? 'enabled' : 'disabled',
-                        data: this._translateService.instant(PortalResources.upgradeUpsell)
+                        data: this._upSellMessage
                     };
                 });
             }
