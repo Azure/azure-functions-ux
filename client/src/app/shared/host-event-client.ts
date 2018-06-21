@@ -5,6 +5,7 @@ import { FunctionAppContext } from './function-app-context';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from './services/user.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ArmUtil } from './Utilities/arm-utils';
 
 
 export class HostEventClient implements Disposable {
@@ -85,6 +86,11 @@ export class HostEventClient implements Disposable {
                         this.timeouts = [];
                     }
                     this.req.abort();
+                }
+
+                if (ArmUtil.isLinuxApp(this.context.site)) {
+                    // Linux apps don't have structured logs
+                    return;
                 }
 
                 this.req = new XMLHttpRequest();
