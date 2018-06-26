@@ -157,7 +157,7 @@
     <value>Function Error: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>Function ({{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Function Url</value>
@@ -1583,7 +1583,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity (Preview)</value>
+    <value>Managed service identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -3537,5 +3537,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
     <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Runtime version: loading...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you are using Local Cache. When using Local Cache, changes made on the local file system are not persisted to the site content. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
 </root>
