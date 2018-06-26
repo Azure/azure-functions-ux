@@ -12,6 +12,12 @@
     [infoText]="loadingFailureMessage">
   </info-box>
 
+  <info-box
+    *ngIf="isFunctionApp"
+    [infoText]="('funcConnStringsInfoText' | translate)"
+    [infoLink]="FwLinks.funcConnStringsLearnMore">
+  </info-box>
+
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
