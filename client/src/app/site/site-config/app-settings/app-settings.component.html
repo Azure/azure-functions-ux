@@ -17,6 +17,19 @@
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_applicationSettingsName | translate" [items]="groupArray?.controls" #appSettingsTable>
 
+      <!-- Header Row -->
+      <tr table-row>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_appSettingName | translate }}</th>
+
+        <th class="two-thirds-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_value | translate }}</th>
+
+        <th class="slot-setting-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_isSlotSetting | translate }}</th>
+
+        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
+
+      </tr>
+
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
       <tr *ngFor="let group of appSettingsTable.items | excludeDeleted:true" table-row [group]="group">

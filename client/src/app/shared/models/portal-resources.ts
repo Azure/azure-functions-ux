@@ -1136,4 +1136,17 @@
     public static funcConnStringsInfoText = 'funcConnStringsInfoText';
     public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
     public static readOnlyLocalCache = 'readOnlyLocalCache';
+    public static appSettingsHeader_delete = 'appSettingsHeader_delete';
+    public static appSettingsHeader_value = 'appSettingsHeader_value';
+    public static appSettingsHeader_isSlotSetting = 'appSettingsHeader_isSlotSetting';
+    public static appSettingsHeader_appSettingName = 'appSettingsHeader_appSettingName';
+    public static appSettingsHeader_connectionStringName = 'appSettingsHeader_connectionStringName';
+    public static appSettingsHeader_type = 'appSettingsHeader_type';
+    public static appSettingsHeader_documentName = 'appSettingsHeader_documentName';
+    public static appSettingsHeader_extension = 'appSettingsHeader_extension';
+    public static appSettingsHeader_scriptProcessor = 'appSettingsHeader_scriptProcessor';
+    public static appSettingsHeader_arguments = 'appSettingsHeader_arguments';
+    public static appSettingsHeader_virtualPath = 'appSettingsHeader_virtualPath';
+    public static appSettingsHeader_physicalPath = 'appSettingsHeader_physicalPath';
+    public static appSettingsHeader_isApplication = 'appSettingsHeader_isApplication';
 }
