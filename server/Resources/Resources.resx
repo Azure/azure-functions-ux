@@ -3482,7 +3482,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Success</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Save Credentials</value>
