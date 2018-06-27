@@ -17,6 +17,15 @@
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_defaultDocumentsName | translate" [items]="groupArray?.controls" #defaultDocumentsTable>
 
+      <!-- Header Row -->
+      <tr table-row>
+
+        <th class="single-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_documentName | translate }}</th>
+
+        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
+
+      </tr>
+
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each default document returned (if any) -->
       <tr *ngFor="let group of defaultDocumentsTable.items | excludeDeleted:true" table-row [group]="group">
