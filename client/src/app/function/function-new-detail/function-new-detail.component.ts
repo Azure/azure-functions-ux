@@ -319,7 +319,11 @@ export class FunctionNewDetailComponent implements OnChanges {
     }
 
     private _createFunction() {
-        this._portalService.logAction('new-function', 'creating', { template: this.currentTemplate.id, name: this.functionName });
+        this._portalService.logAction('new-function', 'creating', {
+            template: this.currentTemplate.id,
+            name: this.functionName,
+            appResourceId: this.context.site.id
+        });
 
         this._exclutionFileList.forEach((file) => {
             for (const p in this.currentTemplate.files) {
@@ -351,7 +355,12 @@ export class FunctionNewDetailComponent implements OnChanges {
             this._functionAppService.createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
                 .subscribe(newFunctionInfo => {
                     if (newFunctionInfo.isSuccessful) {
-                        this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });
+                        this._portalService.logAction('new-function', 'success', {
+                            template: this.currentTemplate.id,
+                            name: this.functionName,
+                            appResourceId: this.context.site.id
+                        });
+
                         this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
                         newFunctionInfo.result.context = this.context;
