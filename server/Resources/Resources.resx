@@ -412,9 +412,6 @@
   <data name="isApplication" xml:space="preserve">
     <value>Application</value>
   </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Slot Setting</value>
-  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
@@ -3548,7 +3545,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Value</value>
   </data>
   <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
-    <value>Is Slot Setting</value>
+    <value>Slot Setting</value>
   </data>
   <data name="appSettingsHeader_appSettingName" xml:space="preserve">
     <value>App Setting Name</value>
