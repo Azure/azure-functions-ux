@@ -3,7 +3,7 @@
 [role="radiogroup"] {
     position: relative;
     display: inline-block;
-    height: 25px;
+    vertical-align: middle;
 
     &:focus:not(.selected) {
         outline: none;
@@ -34,6 +34,14 @@ $border-light: 1px $primary-color solid;
 
 [role="radio"] ~ [role="radio"] {
     border-left-width: 0px;
+}
+
+[role="radiogroup"].small {
+    [role="radio"] {
+        line-height: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
 
 [role="radiogroup"]:not([aria-disabled="true"]):focus {

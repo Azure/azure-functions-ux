@@ -409,9 +409,6 @@
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Enter physical path</value>
   </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
@@ -3574,7 +3571,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appSettingsHeader_physicalPath" xml:space="preserve">
     <value>Physical Path</value>
   </data>
-  <data name="appSettingsHeader_isApplication" xml:space="preserve">
-    <value>Is Application</value>
+  <data name="type_application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directory</value>
   </data>
 </root>
