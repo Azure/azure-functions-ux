@@ -100,7 +100,6 @@
     public static enterArguments = 'enterArguments';
     public static enterVirtualPath = 'enterVirtualPath';
     public static enterPhysicalPath = 'enterPhysicalPath';
-    public static isApplication = 'isApplication';
     public static hiddenValueClickToShow = 'hiddenValueClickToShow';
     public static sideBar_changeMade = 'sideBar_changeMade';
     public static sideBar_newFunction = 'sideBar_newFunction';
@@ -1147,5 +1146,6 @@
     public static appSettingsHeader_arguments = 'appSettingsHeader_arguments';
     public static appSettingsHeader_virtualPath = 'appSettingsHeader_virtualPath';
     public static appSettingsHeader_physicalPath = 'appSettingsHeader_physicalPath';
-    public static appSettingsHeader_isApplication = 'appSettingsHeader_isApplication';
+    public static type_application = 'type_application';
+    public static type_directory = 'type_directory';
 }
