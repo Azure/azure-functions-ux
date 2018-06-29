@@ -53,10 +53,7 @@
         <td class="slot-setting-col padded-col" table-cell [editable]="false">
           <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
 
-            <label>
-              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-              {{ 'isSlotSetting' | translate }}
-            </label>
+            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
 
           </click-to-edit>
         </td>

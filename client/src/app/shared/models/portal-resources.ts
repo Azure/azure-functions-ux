@@ -101,7 +101,6 @@
     public static enterVirtualPath = 'enterVirtualPath';
     public static enterPhysicalPath = 'enterPhysicalPath';
     public static isApplication = 'isApplication';
-    public static isSlotSetting = 'isSlotSetting';
     public static hiddenValueClickToShow = 'hiddenValueClickToShow';
     public static sideBar_changeMade = 'sideBar_changeMade';
     public static sideBar_newFunction = 'sideBar_newFunction';
