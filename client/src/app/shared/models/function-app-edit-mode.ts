@@ -6,6 +6,5 @@ export enum FunctionAppEditMode {
     ReadOnlySlots,
     ReadOnlyVSGenerated,
     ReadWriteVSGenerated,
-    ReadOnlyRunFromZip,
-    ReadOnlyLocalCache
+    ReadOnlyRunFromZip
 }

@@ -20,6 +20,12 @@ import { HostEditorComponent } from './../host-editor/host-editor.component';
 import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 import { SpecPickerModule } from './spec-picker/spec-picker.module';
 import { ProdFunctionInitialUploadComponent } from '../prod-function-initial-upload/prod-function-initial-upload.component';
+import { ClickOutsideDirective } from './console/directives/click.directive';
+import { ConsoleComponent } from './console/console.component';
+import { PromptComponent } from './console/templates/prompt.component';
+import { MessageComponent } from './console/templates/message.component';
+import { ErrorComponent } from './console/templates/error.component';
+
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
@@ -30,7 +36,11 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SiteConfigComponent,
-        LogicAppsComponent
+        LogicAppsComponent,
+        ConsoleComponent,
+        PromptComponent,
+        MessageComponent,
+        ErrorComponent
     ],
     imports: [
         TranslateModule.forChild(),
@@ -54,7 +64,12 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         HostEditorComponent,
         SiteTabComponent,
         LogicAppsComponent,
-        ProdFunctionInitialUploadComponent
+        ProdFunctionInitialUploadComponent,
+        ConsoleComponent,
+        ClickOutsideDirective,
+        PromptComponent,
+        MessageComponent,
+        ErrorComponent
     ],
     providers: []
 })

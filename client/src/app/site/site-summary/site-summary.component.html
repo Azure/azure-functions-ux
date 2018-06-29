@@ -35,7 +35,7 @@
     [disabled]="!hasWriteAccess"></command>
 </command-bar>
 
-<download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [context]="context"></download-function-app-content>
+<download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [scmUrl]="context?.scmUrl"></download-function-app-content>
 
 <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink" [href]="publishProfileLink" [download]="context?.site.name + '.PublishSettings'"></a>
 

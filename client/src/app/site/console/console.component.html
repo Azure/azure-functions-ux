@@ -1,0 +1,31 @@
+<div class="browse-container">
+  <!--<img src="image/console.svg" />-->
+  <h2 #header>{{ 'feature_consoleName' | translate}}<i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i></h2>
+  <br />
+  <div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
+    <div class = "console">
+      <div class="console-inner" #consoleBody [scrollTop]="consoleBody.scrollHeight">
+        <textarea class = "console-typer" style="position: absolute; top: 0px; left: -9999px;" #consoleText (copy)="handleCopy($event)" 
+        (onfocus)="focusConsoleOnTabPress()" (paste)="handlePaste($event)" (keydown)="keyEvent($event)" ng-blur="unFocusConsole()"></textarea>
+        <div class = "console-message-header" aria-live="polite" >
+          <span style="white-space:pre-wrap;">
+            _    _____   _ ___ ___ 
+            /_\  |_  / | | | _ \ __| 
+      _ ___/ _ \__/ /| |_| |   / _|___ _ _ 
+    (___  /_/ \_\/___|\___/|_|_\___| _____) 
+      (_______ _ _)         _ ______ _)_ _ 
+              (______________ _ )   (___ _ _) 
+          </span>
+          <br />
+          Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges won't work.
+        </div>
+        <br />
+        
+        <div class = "console-prompt-box" id = "prompt" >
+          <span class = "console-prompt-label">{{dir}}></span><span class = "console-prompt" aria-live="polite"><span class="console-command">{{commandInParts.lCmd}}</span><span class = "console-cursor" *ngIf = "isFocused" >{{commandInParts.mCmd}}</span>{{commandInParts.rCmd}}</span>
+        </div>
+        <ng-container #prompt></ng-container>
+      </div>
+    </div>
+  </div>
+</div>

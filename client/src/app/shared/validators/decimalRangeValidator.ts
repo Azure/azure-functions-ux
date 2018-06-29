@@ -25,7 +25,7 @@ export class DecimalRangeValidator implements Validator {
 
     validate(control: CustomFormControl): ValidationErrors {
         if (control.dirty || control._msRunValidation) {
-            const stringValue = control.value ? control.value.toString() : '0';
+            const stringValue = (control.value as string) || '0';
 
             const trimmedValue = (stringValue.charAt(0) === '-') ? stringValue.substring(1) : stringValue; // trim leading '-'
             if (!trimmedValue || (!DecimalRangeValidator.leftRegExp.test(trimmedValue) && !DecimalRangeValidator.rightRegExp.test(trimmedValue))) {

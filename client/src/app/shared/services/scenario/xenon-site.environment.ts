@@ -28,41 +28,6 @@ export class XenonSiteEnvironment extends Environment {
             runCheck: () => disabledResult
         };
 
-        this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
-            id: ScenarioIds.platform64BitSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
-            id: ScenarioIds.webSocketsSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
-            id: ScenarioIds.classicPipelineModeSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.defaultDocumentsSupported] = {
-            id: ScenarioIds.defaultDocumentsSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.virtualDirectoriesSupported] = {
-            id: ScenarioIds.virtualDirectoriesSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.handlerMappingsSupported] = {
-            id: ScenarioIds.handlerMappingsSupported,
-            runCheck: () => disabledResult
-        };
-
-        this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
-            id: ScenarioIds.remoteDebuggingSupported,
-            runCheck: () => disabledResult
-        };
-
         this.scenarioChecks[ScenarioIds.phpSupported] = {
             id: ScenarioIds.phpSupported,
             runCheck: () => disabledResult

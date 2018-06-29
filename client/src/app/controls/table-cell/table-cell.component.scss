@@ -2,12 +2,6 @@
   position: relative;
 }
 
-:host(th) .cell-liner {
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
 .boundary-left, .boundary-right {
   position: absolute;
   top: 0px;

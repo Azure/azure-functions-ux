@@ -68,7 +68,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
     public functionAppEditMode = true;
     public functionAppEditModeOptions: SelectOption<boolean>[];
-    public functionAppEditModeForcedWarning: string;
 
     private _isSlotApp = false;
     public slotsStatusOptions: SelectOption<boolean>[];
@@ -270,12 +269,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     ? appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
                     : false;
 
-                if (tuple[2].isSuccessful) {
-                    this.functionAppEditMode = !EditModeHelper.isReadOnly(tuple[2].result);
-                    this.functionAppEditModeForcedWarning = EditModeHelper.getWarningIfForced(tuple[2].result);
+                if (tuple[2].isSuccessful && EditModeHelper.isReadOnly(tuple[2].result)) {
+                    this.functionAppEditMode = false;
                 } else {
                     this.functionAppEditMode = true;
-                    this.functionAppEditModeForcedWarning = null;
                 }
                 this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
