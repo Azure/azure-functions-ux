@@ -409,12 +409,6 @@
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Enter physical path</value>
   </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Slot Setting</value>
-  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
@@ -3540,5 +3534,47 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
     <value>Your app is currently in read-only mode because you are using Local Cache. When using Local Cache, changes made on the local file system are not persisted to the site content. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>App Setting Name</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Connection String Name</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Document Name</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Script Processor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtual Path</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Physical Path</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directory</value>
   </data>
 </root>

@@ -2,11 +2,12 @@
     #radioGroup
     *ngIf="options"
     role="radiogroup"
-    [class.dirty]="control?.dirty"
+    [class.dirty]="highlightDirty && control?.dirty"
     [attr.aria-disabled]="control ? control.disabled : disabled"
     [tabIndex]="(control && control.disabled) || disabled ? -1 : 0"
     [attr.aria-activedescendant]="activeDescendantId"
     [class.selected]="activeDescendantId === null"
+    [ngClass]="!!size ? size : 'medium'"
     (keydown)="onKeyDown($event)">
 
     <div *ngFor="let option of options"
