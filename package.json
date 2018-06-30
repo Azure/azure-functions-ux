@@ -1,9 +1,9 @@
 {
     "name": "azure-functions-ux-build",
     "version": "0.0.0",
-    "scripts": {
-    },
+    "scripts": {},
     "dependencies": {
+        "angular2-click-outside": "^0.1.0",
         "gulp": "^3.9.1",
         "gulp-multi-process": "^1.3.1",
         "shelljs": "^0.8.1"

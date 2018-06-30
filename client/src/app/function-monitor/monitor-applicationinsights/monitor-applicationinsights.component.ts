@@ -99,7 +99,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public openInAppInsights() {
         this._portalService.openBlade(
             {
-                detailBlade: 'AspNetOverviewV3',
+                detailBlade: 'AspNetOverview',
                 detailBladeInputs: {
                     id: this.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId()
                 },

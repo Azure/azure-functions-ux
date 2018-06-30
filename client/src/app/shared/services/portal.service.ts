@@ -126,12 +126,13 @@ export class PortalService implements IPortalService {
     // Deprecated
     openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string) {
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
+        //console.log("Got Here..openBlade");
         this._aiService.trackEvent('/site/open-blade', {
             targetBlade: bladeInfo.detailBlade,
             targetExtension: bladeInfo.extension,
             source: source
         });
-
+        
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
@@ -322,7 +323,7 @@ export class PortalService implements IPortalService {
             action: action,
             data: data
         });
-
+        //console.log("--->" + actionStr);
         this.postMessage(Verbs.logAction, actionStr);
     }
 

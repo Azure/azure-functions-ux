@@ -203,7 +203,6 @@ export class UserService {
 
                     storageItem = {
                         id: key,
-                        cache: window.appsvc.cacheBreakQuery,
                         lang: input.lang,
                         resources: resources
                     };
@@ -216,7 +215,7 @@ export class UserService {
                     });
                 });
 
-            if (storageItem && storageItem.lang === input.lang && storageItem.cache === window.appsvc.cacheBreakQuery) {
+            if (storageItem && storageItem.lang === input.lang) {
                 LanguageServiceHelper.setTranslation(storageItem.resources, input.lang, this._translateService);
                 getResources.subscribe(() => { });
 

@@ -5,6 +5,7 @@ import { IAppInsights, IConfig, SeverityLevel } from '../models/app-insights';
 declare var appInsights: IAppInsights;
 
 function AiDefined(checkFunctionName?: boolean) {
+    
     checkFunctionName = typeof checkFunctionName !== 'undefined' ? checkFunctionName : true;
     return (_: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         const originalMethod = descriptor.value;
@@ -154,6 +155,7 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     trackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+        //console.log("Got Here..trackEvent");
         return appInsights.trackEvent(name, properties, measurements);
     }
 

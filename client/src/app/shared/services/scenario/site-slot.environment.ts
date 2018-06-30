@@ -1,5 +1,6 @@
 import { ScenarioIds } from './../../models/constants';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { PortalResources } from './../../models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { ScenarioCheckInput } from './scenario.models';
@@ -14,6 +15,16 @@ export class SiteSlotEnvironment extends Environment {
             id: ScenarioIds.showSiteAvailability,
             runCheck: () => {
                 return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.enableMsi] = {
+            id: ScenarioIds.enableMsi,
+            runCheck: () => {
+                return {
+                    status: 'disabled',
+                    data: translateService.instant(PortalResources.featureNotSupportedForSlots)
+                };
             }
         };
 
