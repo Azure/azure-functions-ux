@@ -361,9 +361,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
     openPlanBlade() {
         this._portalService.openBladeDeprecated({
-            detailBlade: this._scenarioService.checkScenario(ScenarioIds.openOldWebhostingPlanBlade).status === 'enabled'
-                ? 'WebHostingPlanBlade'
-                : 'PlansOverviewBlade',
+            detailBlade: 'WebHostingPlanBlade',
             detailBladeInputs: { id: this.context.site.properties.serverFarmId }
         },
             'site-summary'

@@ -100,6 +100,8 @@
     public static enterArguments = 'enterArguments';
     public static enterVirtualPath = 'enterVirtualPath';
     public static enterPhysicalPath = 'enterPhysicalPath';
+    public static isApplication = 'isApplication';
+    public static isSlotSetting = 'isSlotSetting';
     public static hiddenValueClickToShow = 'hiddenValueClickToShow';
     public static sideBar_changeMade = 'sideBar_changeMade';
     public static sideBar_newFunction = 'sideBar_newFunction';
@@ -1131,21 +1133,4 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
-    public static funcConnStringsInfoText = 'funcConnStringsInfoText';
-    public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
-    public static readOnlyLocalCache = 'readOnlyLocalCache';
-    public static appSettingsHeader_delete = 'appSettingsHeader_delete';
-    public static appSettingsHeader_value = 'appSettingsHeader_value';
-    public static appSettingsHeader_isSlotSetting = 'appSettingsHeader_isSlotSetting';
-    public static appSettingsHeader_appSettingName = 'appSettingsHeader_appSettingName';
-    public static appSettingsHeader_connectionStringName = 'appSettingsHeader_connectionStringName';
-    public static appSettingsHeader_type = 'appSettingsHeader_type';
-    public static appSettingsHeader_documentName = 'appSettingsHeader_documentName';
-    public static appSettingsHeader_extension = 'appSettingsHeader_extension';
-    public static appSettingsHeader_scriptProcessor = 'appSettingsHeader_scriptProcessor';
-    public static appSettingsHeader_arguments = 'appSettingsHeader_arguments';
-    public static appSettingsHeader_virtualPath = 'appSettingsHeader_virtualPath';
-    public static appSettingsHeader_physicalPath = 'appSettingsHeader_physicalPath';
-    public static type_application = 'type_application';
-    public static type_directory = 'type_directory';
 }

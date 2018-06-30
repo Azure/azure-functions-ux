@@ -14,7 +14,6 @@ import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
-import { SelectOption } from 'app/shared/models/select-option';
 
 @Component({
     selector: 'virtual-directories',
@@ -35,7 +34,6 @@ export class VirtualDirectoriesComponent extends ConfigSaveComponent implements 
     public loadingMessage: string;
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
-    public isApplicationOptions: SelectOption<boolean>[];
 
     private _requiredValidator: RequiredValidator;
     private _uniqueValidator: UniqueValidator;
@@ -54,10 +52,6 @@ export class VirtualDirectoriesComponent extends ConfigSaveComponent implements 
 
         this.newItem = null;
         this.originalItemsDeleted = 0;
-
-        this.isApplicationOptions =
-            [{ displayLabel: this._translateService.instant(PortalResources.type_application), value: true },
-            { displayLabel: this._translateService.instant(PortalResources.type_directory), value: false }];
     }
 
     protected get _isPristine() {

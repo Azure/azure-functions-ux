@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+angular2-click-outside@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/angular2-click-outside/-/angular2-click-outside-0.1.0.tgz#fa156b0f7893311cfbbbaba1ba02127afcf7db87"
+
 ansi-gray@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ansi-gray/-/ansi-gray-0.1.1.tgz#2962cf54ec9792c48510a3deb524436861ef7251"

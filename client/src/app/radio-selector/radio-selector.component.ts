@@ -19,7 +19,6 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
     @Input() options: SelectOption<T>[];
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
-    @Input() size: null | 'small' | 'medium' = 'medium';
     @Input() defaultValue: T;
     @Input() focusOnLoad: boolean;
     @Input() id: string;

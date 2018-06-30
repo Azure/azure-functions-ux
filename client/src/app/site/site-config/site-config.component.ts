@@ -17,12 +17,11 @@ import { HandlerMappingsComponent } from './handler-mappings/handler-mappings.co
 import { VirtualDirectoriesComponent } from './virtual-directories/virtual-directories.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
-import { LogCategories, SiteTabIds, ScenarioIds } from './../../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
-import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 export interface SaveOrValidationResult {
     success: boolean;
@@ -68,7 +67,6 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
         private _authZService: AuthzService,
         private _cacheService: CacheService,
         private _siteService: SiteService,
-        private _scenarioService: ScenarioService,
         injector: Injector
     ) {
         super('site-config', injector, SiteTabIds.applicationSettings);
@@ -92,18 +90,6 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this.defaultDocumentsSupported = true;
                     this.handlerMappingsSupported = true;
                     this.virtualDirectoriesSupported = true;
-                }
-
-                if (this._scenarioService.checkScenario(ScenarioIds.defaultDocumentsSupported, { site: this._site }).status === 'disabled') {
-                    this.defaultDocumentsSupported = false;
-                }
-
-                if (this._scenarioService.checkScenario(ScenarioIds.handlerMappingsSupported, { site: this._site }).status === 'disabled') {
-                    this.handlerMappingsSupported = false;
-                }
-
-                if (this._scenarioService.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site: this._site }).status === 'disabled') {
-                    this.virtualDirectoriesSupported = false;
                 }
 
                 this._setupForm();
