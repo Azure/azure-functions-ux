@@ -68,15 +68,11 @@
         <label id="runtimeVersionLabel" class="title-label">{{ 'runtimeVersion' | translate }}</label>
         <div>
             <label *ngIf="!needUpdateExtensionVersion && !badRuntimeVersion">
-                {{ ((latestExtensionVersion && exactExtensionVersion) ?
-                    'appFunctionSettings_functionAppSettings2' :
-                    'appFunctionSettings_functionAppSettings_versionLoading') | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}
+                {{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}
             </label>
             <div *ngIf="needUpdateExtensionVersion && !badRuntimeVersion">
                 <label id="updateRuntimeVersionLabel">
-                    {{ ((latestExtensionVersion && exactExtensionVersion) ?
-                        'appFunctionSettings_functionAppSettings1' :
-                        'appFunctionSettings_functionAppSettings_versionLoading') | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}
+                    {{ 'appFunctionSettings_functionAppSettings1' | translate: {exactExtensionVersion: exactExtensionVersion, latestExtensionVersion:latestExtensionVersion} }}
                 </label>
                 <button
                     class="custom-button"
@@ -142,20 +138,13 @@
         <div class="features-wrapper">
             <div>
                 <label class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</label>
-                <div *ngIf="!!functionAppEditModeForcedWarning" class="alert alert-warning">
-                    <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
-                    <div class="alert-message">
-                        <span [innerHtml]="(functionAppEditModeForcedWarning | translate)"></span>
-                    </div>
-                </div>
                 <div>
                     <radio-selector
                         [defaultValue]="functionAppEditMode"
                         [options]="functionAppEditModeOptions"
                         (value)="functionEditModeValueStream.next($event)"
                         id="editModeRadioButton"
-                        aria-labelledby="editModeRadioLabel editModeRadioButton"
-                        [disabled]="!!functionAppEditModeForcedWarning">
+                        aria-labelledby="editModeRadioLabel editModeRadioButton">
                     </radio-selector>
                 </div>
             </div>

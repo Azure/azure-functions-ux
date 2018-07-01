@@ -9,8 +9,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     disabledBindings: string[] = [
         'apiHubFile',
         'apiHubTable',
-        'apiHubFileTrigger',
-        'eventGridTrigger'
+        'apiHubFileTrigger'
     ];
 
     public static isNationalCloud() {

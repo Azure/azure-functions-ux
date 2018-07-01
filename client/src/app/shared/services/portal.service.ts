@@ -131,7 +131,7 @@ export class PortalService implements IPortalService {
             targetExtension: bladeInfo.extension,
             source: source
         });
-
+        
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
@@ -322,7 +322,6 @@ export class PortalService implements IPortalService {
             action: action,
             data: data
         });
-
         this.postMessage(Verbs.logAction, actionStr);
     }
 

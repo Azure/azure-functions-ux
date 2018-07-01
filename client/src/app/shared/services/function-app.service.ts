@@ -6,7 +6,7 @@ import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Injectable, Injector } from '@angular/core';
-import { Headers, Response, ResponseType, ResponseContentType } from '@angular/http';
+import { Headers, Response, ResponseType } from '@angular/http';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
@@ -131,13 +131,13 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-            { resourceId: context.site.id }, /*input*/
-            token => Observable /*query*/
-                .zip(
-                this.retrieveProxies(context, token),
-                this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
-                (p, s) => ({ proxies: p, schema: s }))
-                .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
+                { resourceId: context.site.id }, /*input*/
+                token => Observable /*query*/
+                    .zip(
+                        this.retrieveProxies(context, token),
+                        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+                        (p, s) => ({ proxies: p, schema: s }))
+                    .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
     }
 
     private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
@@ -680,12 +680,12 @@ export class FunctionAppService {
         if (ArmUtil.isLinuxDynamic(context.site)) {
             this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         } else {
             const url = context.urlTemplates.syncTriggersUrl;
             this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         }
     }
 
@@ -796,10 +796,7 @@ export class FunctionAppService {
                     const vsCreatedFunc = result.functions.isSuccessful
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
-                    const usingRunFromZip = appSettings
-                        ? appSettings.properties[Constants.WebsiteUseZip] || appSettings.properties[Constants.WebsiteRunFromZip] || ''
-                        : '';
-                    const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
+                    const usingRunFromZip = appSettings ? appSettings.properties[Constants.WebsiteUseZip] || '' : '';
                     const hasSlots = result.hasSlots.result;
 
                     const resolveReadOnlyMode = () => {
@@ -840,8 +837,6 @@ export class FunctionAppService {
 
                     if (usingRunFromZip) {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
-                    } else if (usingLocalCache) {
-                        return FunctionAppEditMode.ReadOnlyLocalCache;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
@@ -1039,22 +1034,10 @@ export class FunctionAppService {
             this._cacheService.post(context.urlTemplates.restartHostUrl, true, this.headers(t)));
     }
 
+
     getAppContext(resourceId: string): Observable<FunctionAppContext> {
         return this._cacheService.getArm(resourceId)
             .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
-    }
-
-    getAppContentAsZip(context: FunctionAppContext, includeCsProj: boolean, includeAppSettings: boolean): Result<any> {
-        const url = ArmUtil.isLinuxApp(context.site)
-            ? `${context.mainSiteUrl}/admin/functions/download?includeCsproj=${includeCsProj}&includeAppSettings=${includeAppSettings}`
-            : `${context.scmUrl}/api/functions/admin/download?includeCsproj=${includeCsProj}&includeAppSettings=${includeAppSettings}`;
-        const client = ArmUtil.isLinuxApp(context.site)
-            ? this.runtime
-            : this.azure;
-
-        return client.execute({ resourceId: context.site.id }, t =>
-            this._cacheService.get(url, true, this.headers(t), null, ResponseContentType.Blob)
-                .map(r => new Blob([r.blob()], { type: 'application/octet-stream' })));
     }
 
     // these 2 functions are only for try app service scenarios.

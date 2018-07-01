@@ -327,28 +327,15 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 FTPAccessSupported = false;
             }
 
+            if (this._scenarioService.checkScenario(ScenarioIds.enableRemoteDebugging).status === 'disabled') {
+                remoteDebuggingSupported = false;
+            }
             if (this._scenarioService.checkScenario(ScenarioIds.addHTTPSwitch, { site: siteArm }).status === 'disabled') {
                 http20Supported = false;
             }
 
             if (this._scenarioService.checkScenario(ScenarioIds.dotNetFrameworkSupported, { site: siteArm }).status === 'disabled') {
                 netFrameworkSupported = false;
-            }
-
-            if (this._scenarioService.checkScenario(ScenarioIds.platform64BitSupported, { site: siteArm }).status === 'disabled') {
-                platform64BitSupported = false;
-            }
-
-            if (this._scenarioService.checkScenario(ScenarioIds.webSocketsSupported, { site: siteArm }).status === 'disabled') {
-                webSocketsSupported = false;
-            }
-
-            if (this._scenarioService.checkScenario(ScenarioIds.classicPipelineModeSupported, { site: siteArm }).status === 'disabled') {
-                classicPipelineModeSupported = false;
-            }
-
-            if (this._scenarioService.checkScenario(ScenarioIds.remoteDebuggingSupported, { site: siteArm }).status === 'disabled') {
-                remoteDebuggingSupported = false;
             }
 
             if (this._scenarioService.checkScenario(ScenarioIds.phpSupported, { site: siteArm }).status === 'disabled') {

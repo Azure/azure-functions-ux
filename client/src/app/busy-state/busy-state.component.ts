@@ -20,6 +20,7 @@ export type BusyStateName =
     | 'site-api-definition'
     | 'site-continuous-deployment'
     | 'logic-apps'
+    | 'console'
     | 'scale-up'
     | 'deployment-slots-config'
     | 'standalone-config';

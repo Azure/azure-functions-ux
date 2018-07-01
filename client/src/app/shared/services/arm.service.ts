@@ -1,7 +1,7 @@
 import { PortalService } from './portal.service';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
-import { Http, Headers, Request, ResponseContentType } from '@angular/http';
+import { Http, Headers, Request } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
@@ -46,7 +46,7 @@ export class ArmService {
         return ArmServiceHelper.getHeaders(this._token, this._sessionId, etag);
     }
 
-    send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean, responseContentType?: ResponseContentType) {
+    send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean) {
 
         headers = headers ? headers : this.getHeaders(etag);
 
@@ -62,8 +62,8 @@ export class ArmService {
             method: method,
             search: null,
             headers: headers,
-            body: body ? body : null,
-            responseType: responseContentType
+            body: body ? body : null
+
         });
 
         return this._http.request(request);

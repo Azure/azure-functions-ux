@@ -17,19 +17,6 @@
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_handlerMappingsName | translate" [items]="groupArray?.controls" #handlerMappingsTable>
 
-      <!-- Header Row -->
-      <tr table-row>
-
-        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_extension | translate }}</th>
-
-        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_scriptProcessor | translate }}</th>
-
-        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_arguments | translate }}</th>
-
-        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
-
-      </tr>
-
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each handler mapping returned (if any) -->
       <tr *ngFor="let group of handlerMappingsTable.items | excludeDeleted:true" table-row [group]="group">

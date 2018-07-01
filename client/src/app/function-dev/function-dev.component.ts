@@ -190,8 +190,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 return Observable.zip(
                     Observable.of(functionView),
                     this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
-                    this._functionAppService.getFunctionHostStatus(functionView.context),
-                    this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result));
+                    this._functionAppService.getFunctionHostStatus(functionView.context));
             })
             .do(() => {
                 this.runValid = false;
@@ -215,16 +214,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     this.showComponentError({
                         message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
                         errorId: errorIds.functionRuntimeIsUnableToStart,
-                        resourceId: this.context.site.id
-                    });
-                }
-                if (tuple[3].isSuccessful && tuple[3].result.length > 0) {
-                    this.showComponentError({
-                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, {
-                            name: tuple[0].functionInfo.result.name,
-                            error: tuple[3].result.reduce((a, b) => `${a}\n${b}`, '\n')
-                        }),
-                        errorId: errorIds.generalFunctionErrorFromHost,
                         resourceId: this.context.site.id
                     });
                 }

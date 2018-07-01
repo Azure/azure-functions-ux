@@ -1,6 +1,6 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from 'app/shared/services/log.service';
-import { Links, LogCategories, SiteTabIds } from './../../../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../../../shared/models/constants';
 import { errorIds } from 'app/shared/models/error-ids';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +17,6 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { SiteService } from 'app/shared/services/site.service';
-import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
     selector: 'connection-strings',
@@ -36,10 +35,8 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
     public connectionStringTypes: DropDownElement<ConnectionStringType>[];
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public FwLinks = Links;
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
-    public isFunctionApp: boolean;
 
     private _requiredValidator: RequiredValidator;
     private _uniqueCsValidator: UniqueValidator;
@@ -75,27 +72,22 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this._resetPermissionsAndLoadingState();
-                this.isFunctionApp = false;
                 this._slotConfigNamesArmPath =
                     `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
 
                 return Observable.zip(
                     this._siteService.getConnectionStrings(this.resourceId, true),
-                    this._siteService.getSlotConfigNames(this.resourceId),
-                    this._siteService.getSite(this.resourceId));
+                    this._siteService.getSlotConfigNames(this.resourceId));
             })
             .do(results => {
                 const csResult = results[0];
                 const slotNamesResult = results[1];
-                const siteResult = results[2];
 
                 const noWritePermission = !csResult.isSuccessful
                     && csResult.error.errorId === errorIds.armErrors.noAccess;
 
                 const hasReadOnlyLock = !csResult.isSuccessful
                     && csResult.error.errorId === errorIds.armErrors.scopeLocked;
-
-                this.isFunctionApp = siteResult.isSuccessful && ArmUtil.isFunctionApp(siteResult.result);
 
                 this._setPermissions(!noWritePermission, hasReadOnlyLock);
                 if (this.hasWritePermissions) {

@@ -237,6 +237,14 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this._portalService,
                     this._hasSiteWritePermissionStream
                 )
+                // ? new TabFeature(
+                //     this._translateService.instant(PortalResources.feature_consoleName),
+                //     this._translateService.instant(PortalResources.feature_consoleName),
+                //     this._translateService.instant(PortalResources.feature_consoleInfo),
+                //     'image/console.svg',
+                //     SiteTabIds.console,
+                //     this._broadcastService
+                // )
                 : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'

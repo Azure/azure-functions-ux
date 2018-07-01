@@ -1,0 +1,94 @@
+@import '../../../sass/common/variables';
+
+h2{
+    display: inline;
+}
+div.browse-container{
+    overflow: auto;
+}
+
+#console-container{
+    position: absolute;
+    height: calc(100% - 50px);
+    width: calc(100% - 50px);
+    //box-shadow: 5px 5px grey;
+}
+
+div.console{
+    font-family: 'serif', monospace; //'Courier New', 'Lucida Console', monospace;
+    height: 100%;
+    font-size: medium;
+    white-space: normal;
+    width: 100%;
+}
+
+div.console div.console-inner{
+    background-color: black;//#215b7e;
+    color: white;
+    margin-left:auto;
+    margin-right: auto;
+    overflow: auto;
+    word-break: break-word;
+    word-wrap: break-word;
+    padding: 0.8em;
+    width: 100%;
+    height: 100%;
+}
+
+div.console-message-header{
+    color: rgb(197, 195, 195);
+}
+
+div.console-message-value{
+    color: white;
+    white-space: pre;
+}
+
+div.console-message-error{
+    color:red;
+    white-space: pre;
+}
+
+span.console-prompt-box{
+    font-size: 0;
+}
+
+span.console-prompt-label{
+    font-size: medium;
+    color: white;
+}
+
+// span.console-command{
+//     font-size: medium;
+//     white-space: pre-wrap;
+//     color:white;
+// }
+
+span.console-prompt{
+    font-size: medium;
+    white-space: pre-wrap;
+    color:white;
+}
+
+span.console-cursor{
+    text-decoration: none;
+    border-bottom: 4px solid white;
+    font-size: medium;
+    font-weight: 900;
+    color: white;
+    animation: blink 1s steps(3, start) infinite;
+    -webkit-animation: blink 1s steps(3, start) infinite;
+}
+
+@-webkit-keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
+
+@keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
+

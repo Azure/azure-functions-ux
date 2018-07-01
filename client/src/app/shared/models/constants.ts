@@ -32,9 +32,6 @@ export class Constants {
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
     public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
-    public static WebsiteRunFromZip = 'WEBSITE_RUN_FROM_ZIP';
-    public static localCacheOptionSettingName = 'WEBSITE_LOCAL_CACHE_OPTION';
-    public static localCacheOptionSettingValue = 'always';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -73,6 +70,7 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'site-config';
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
+    public static readonly console = 'console';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
@@ -118,7 +116,6 @@ export class Links {
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
     public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
     public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
-    public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
 }
 
 export class Kinds {
@@ -199,17 +196,9 @@ export class ScenarioIds {
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
     public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
-    public static readonly platform64BitSupported = 'Platform64BitSupported';
-    public static readonly webSocketsSupported = 'WebSocketsSupported';
-    public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
-    public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
     public static readonly phpSupported = 'phpSupported';
     public static readonly pythonSupported = 'PythonSupported';
     public static readonly javaSupported = 'JavaSupported';
-    public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
-    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
-    public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
-    public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
@@ -218,6 +207,7 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
+    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
     public static readonly createApp = 'createApp';

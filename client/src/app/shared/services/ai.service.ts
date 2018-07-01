@@ -4,7 +4,7 @@ import { IAppInsights, IConfig, SeverityLevel } from '../models/app-insights';
 
 declare var appInsights: IAppInsights;
 
-function AiDefined(checkFunctionName?: boolean) {
+function AiDefined(checkFunctionName?: boolean) { 
     checkFunctionName = typeof checkFunctionName !== 'undefined' ? checkFunctionName : true;
     return (_: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         const originalMethod = descriptor.value;

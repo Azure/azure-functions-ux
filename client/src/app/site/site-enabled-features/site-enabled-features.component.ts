@@ -200,7 +200,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                     feature: feature,
                     iconUrl: 'image/appInsights.svg',
                     bladeInfo: {
-                        detailBlade: 'AspNetOverviewV3',
+                        detailBlade: 'AspNetOverview',
                         detailBladeInputs: {
                             id: args[0]
                         },

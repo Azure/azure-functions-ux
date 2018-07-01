@@ -22,19 +22,19 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 export class StepSourceControlComponent {
 
     private _authProviderSpots = {
-        onedrive: 4,
+        onedrive: 0,
         github: 1,
-        bitbucket: 2,
+        bitbucket: 4,
         dropbox: 5
     };
 
     public readonly providerCards: ProviderCard[] = [
         {
-            id: 'vsts',
-            name: 'VSTS',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc),
+            id: 'onedrive',
+            name: 'OneDrive',
+            icon: 'image/deployment-center/onedrive.svg',
+            color: '#0A4BB3',
+            description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none'
         },
         {
@@ -46,27 +46,27 @@ export class StepSourceControlComponent {
             authorizedStatus: 'none'
         },
         {
+            id: 'vsts',
+            name: 'VSTS',
+            icon: 'image/deployment-center/vsts.svg',
+            color: '#0071bc',
+            description: this._translateService.instant(PortalResources.vstsDesc),
+            authorizedStatus: 'none'
+        },
+        {
+            id: 'external',
+            name: 'External',
+            icon: 'image/deployment-center/External.svg',
+            color: '#7FBA00',
+            description: this._translateService.instant(PortalResources.externalDesc),
+            authorizedStatus: 'none'
+        },
+        {
             id: 'bitbucket',
             name: 'Bitbucket',
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
             description: this._translateService.instant(PortalResources.bitbucketDesc),
-            authorizedStatus: 'none'
-        },
-        {
-            id: 'localgit',
-            name: 'Local Git',
-            icon: 'image/deployment-center/LocalGit.svg',
-            color: '#ba141a',
-            description: this._translateService.instant(PortalResources.localGitDesc),
-            authorizedStatus: 'none'
-        },
-        {
-            id: 'onedrive',
-            name: 'OneDrive',
-            icon: 'image/deployment-center/onedrive.svg',
-            color: '#0A4BB3',
-            description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none'
         },
         {
@@ -78,11 +78,11 @@ export class StepSourceControlComponent {
             authorizedStatus: 'none'
         },
         {
-            id: 'external',
-            name: 'External',
-            icon: 'image/deployment-center/External.svg',
-            color: '#7FBA00',
-            description: this._translateService.instant(PortalResources.externalDesc),
+            id: 'localgit',
+            name: 'Local Git',
+            icon: 'image/deployment-center/LocalGit.svg',
+            color: '#ba141a',
+            description: this._translateService.instant(PortalResources.localGitDesc),
             authorizedStatus: 'none'
         },
         {
