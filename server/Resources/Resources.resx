@@ -3532,4 +3532,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Deployment Credentials</value>
   </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
 </root>

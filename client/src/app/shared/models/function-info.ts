@@ -16,6 +16,7 @@ export interface FunctionInfo {
     context: FunctionAppContext;
     trigger_url?: string;         // Only used for embedded scenario's.  Doing a POST will trigger function
     entity?: string;              // Only used for embedded scenario's
+    disabled?: boolean;           // Only used for embedded scenario's
 }
 
 export class FunctionInfoHelper {

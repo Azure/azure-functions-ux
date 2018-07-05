@@ -55,6 +55,11 @@
             svg{
                 fill: $pa-icon-color;
             }
+
+            i{
+                color: $pa-icon-color;
+                padding-right: 3px;
+            }
         }
     }
 }
@@ -84,6 +89,11 @@
 
             svg{
                 fill: $pa-icon-color;
+            }
+
+            i{
+                color: $pa-icon-color;
+                padding-right: 3px;
             }
         }
     }

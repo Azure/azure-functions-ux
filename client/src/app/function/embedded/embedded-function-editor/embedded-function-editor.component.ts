@@ -34,6 +34,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   public functionName = '';
   public getLogs = false;
   public firstRun = false;
+  public disabled = false;
   public viewInfo: TreeViewInfo<SiteData>;
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -66,6 +67,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
         const scriptHrefParts = this._functionInfo.script_href.split('/');
         this.fileName = ` > ${scriptHrefParts[scriptHrefParts.length - 1]}`;
         this.functionName = ` > ${this._functionInfo.name}`;
+        this.disabled = this._functionInfo.disabled;
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {
@@ -100,6 +102,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
         this.bottomBarMaximized = false;
         this.functionName = '';
         this.getLogs = false;
+        this.disabled = false;
 
         return Observable.of(viewInfo);
       })
@@ -246,6 +249,22 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
           }
         });
     }
+  }
+
+  toggleDisabled() {
+    this.disabled = !this.disabled;
+    this.setBusy();
+    this._embeddedService.toggleFunctionStatus(this.resourceId, this.disabled)
+      .subscribe(r => {
+        this.clearBusy();
+        if (!r.isSuccessful) {
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: r.error.message,
+            errorId: r.error.errorId,
+            resourceId: this.resourceId,
+          });
+        }
+      });
   }
 
   navigateToList() {

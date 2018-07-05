@@ -6,17 +6,29 @@
   <section class="top-command-bar-section">
     <command-bar id="command-bar-embedded-top">
         <command  displayText="{{ 'save' | translate }}"
-                  iconUrl="image/save.svg"
+                  iconName="ms-Icon ms-Icon--Save"
                   (click)="saveEditorContent()"
                   cssClass="list-item clickable command">
         </command>
         <command  displayText="{{ 'run' | translate }}"
-                  iconUrl="image/start.svg"
+                  iconName="ms-Icon ms-Icon--Play"
                   (click)="run()"
                   cssClass="list-item clickable command">
         </command>
+        <command  *ngIf="!disabled"
+                  displayText="{{ 'Disable' | translate }}"
+                  iconName="ms-Icon ms-Icon--Blocked"
+                  (click)="toggleDisabled()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  *ngIf="disabled"
+                  displayText="{{ 'Enable' | translate }}"
+                  iconName="ms-Icon ms-Icon--Completed"
+                  (click)="toggleDisabled()"
+                  cssClass="list-item clickable command">
+        </command>
         <command  displayText="{{ '_delete' | translate }}"
-                  iconUrl="image/delete.svg"
+                  iconName="ms-Icon ms-Icon--Delete"
                   (click)="deleteFunction()"
                   cssClass="list-item clickable command">
         </command>
@@ -35,13 +47,12 @@
         <span>{{fileName}}</span>
   </section>
 
-  <section class="text-editor-container">
+  <section class="text-editor-container" [class.disable-editor]="disabled">
       <text-editor
         [content]="initialEditorContent"
         (onContentChanged)="editorContentChanged($event)"
         [fileName]="fileName"></text-editor>
   </section>
-
 
   <embedded-function-test-tab class="right-tabs-bar"
             *ngIf="rightBarExpanded"
@@ -58,35 +69,35 @@
           <span *ngIf="bottomBarExpanded" class="right-edge">
             <command  *ngIf="getLogs"
                       displayText="{{ 'logStreaming_pause' | translate }}"
-                      iconUrl="image/pause.svg"
+                      iconName="ms-Icon ms-Icon--Pause"
                       (click)="sendLogMessage('pauseLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="!getLogs"
                       displayText="{{ 'logStreaming_start' | translate }}"
-                      iconUrl="image/start.svg"
+                      iconName="ms-Icon ms-Icon--Play"
                       (click)="sendLogMessage('startLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  displayText="{{ 'logStreaming_clear' | translate }}"
-                      iconUrl="image/stop.svg"
+                      iconName="ms-Icon ms-Icon--StatusCircleErrorX"
                       (click)="sendLogMessage('clearLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  displayText="{{ 'logStreaming_copyLogs' | translate }}"
-                      iconUrl="image/tags.svg"
+                      iconName="ms-Icon ms-Icon--Copy"
                       (click)="sendLogMessage('copyLogs')"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="!bottomBarMaximized" 
                       displayText="{{ 'logStreaming_expand' | translate }}"
-                      iconUrl="image/caret-up.svg"
+                      iconName="ms-Icon ms-Icon--MiniExpand"
                       (click)="maximizeBottomBar()"
                       cssClass="list-item clickable command">
             </command>
             <command  *ngIf="bottomBarMaximized" 
                       displayText="{{ 'logStreaming_compress' | translate }}"
-                      iconUrl="image/caret-down.svg"
+                      iconName="ms-Icon ms-Icon--MiniContract"
                       (click)="compressBottomBar()"
                       cssClass="list-item clickable command">
             </command>

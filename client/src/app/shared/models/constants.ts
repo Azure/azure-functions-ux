@@ -75,6 +75,7 @@ export class SiteTabIds {
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
     public static readonly scaleUp = 'scale-up';
     public static readonly embeddedEditor = 'embedded-function-editor';
+    public static readonly embeddedTest = 'embedded-function-test-tab';
 }
 
 export class ARM {

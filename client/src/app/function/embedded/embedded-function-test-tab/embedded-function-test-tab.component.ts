@@ -1,3 +1,4 @@
+import { SiteTabIds } from 'app/shared/models/constants';
 import { EmbeddedService } from './../../../shared/services/embedded.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -47,7 +48,7 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _embeddedService: EmbeddedService) {
 
-    this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
+    this._busyManager = new BusyStateScopeManager(this._broadcastService, SiteTabIds.embeddedTest);
 
     this._resourceIdStream
       .takeUntil(this._ngUnsubscribe)

@@ -23,7 +23,8 @@ export type BusyStateName =
     | 'scale-up'
     | 'deployment-slots-config'
     | 'standalone-config'
-    | 'embedded-function-editor';
+    | 'embedded-function-editor'
+    | 'embedded-function-test-tab';
 
 @Component({
     selector: 'busy-state',
