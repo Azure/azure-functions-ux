@@ -725,7 +725,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             //     'New support request',
             //     'support request',
             //     'Info'),
-        ];
 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
