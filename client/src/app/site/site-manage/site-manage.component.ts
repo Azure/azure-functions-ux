@@ -247,7 +247,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         developmentToolFeatures.push(new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._scenarioService));
 
         if (this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled') {
-            developmentToolFeatures.push(new OpenResourceExplorer(site, this._translateService))
+            developmentToolFeatures.push(new OpenResourceExplorer(site, this._translateService));
         }
 
         developmentToolFeatures.push(new DisableableBladeFeature(
