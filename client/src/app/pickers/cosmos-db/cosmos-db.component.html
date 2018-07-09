@@ -7,24 +7,24 @@
             </div>
             <div class="modal-body" style="display: flex;flex-direction:column;">
                 <div style="margin-bottom: 10px;">
-                    <radio-selector [options]="options" [defaultValue]="optionTypes.serviceBus" (value)="optionsChange.next($event)"></radio-selector>
+                    <radio-selector [options]="options" [defaultValue]="optionTypes.cosmosDB" (value)="optionsChange.next($event)"></radio-selector>
                 </div>
 
-                <div *ngIf="option === optionTypes.serviceBus" class="line">
+                <div *ngIf="option === optionTypes.cosmosDB" class="line">
                     <div class="select-container">
-                        <label>{{'eventHubPicker_namespace' | translate}}</label>
-                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
-                            <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
+                        <label>Subscription</label>
+                        <div *ngIf="subscriptions?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!subscriptions" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="subscriptions?.length > 0" (change)="onChangeSubscription($event.target.value)" [(ngModel)]="selectedSubscription">
+                            <option *ngFor="let item of subscriptions" [value]="item.value.subscriptionId">{{item.displayLabel}}</option>
                         </select>
                     </div>
-                    <div *ngIf="selectedNamespace" class="select-container">
-                        <label>{{'eventHubPicker_policy' | translate}}</label>
-                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="polices?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedPolicy">
-                            <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
+                    <div *ngIf="selectedSubscription" class="select-container">
+                        <label>Database</label>
+                        <div *ngIf="databases?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!databases?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="databases?.value?.length > 0" [(ngModel)]="selectedDatabase">
+                            <option *ngFor="let item of databases.value" [value]="item.id">{{item.name}}</option>
                         </select>
                     </div>
                 </div>

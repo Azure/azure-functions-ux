@@ -1,4 +1,4 @@
-import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
+// import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -13,9 +13,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
+import { UserService } from '../../shared/services/user.service';
+import { Subscription  as Sub} from '../../shared/models/subscription';
 
 class OptionTypes {
-    serviceBus = 'ServiceBus';
+    cosmosDB = 'CosmosDB';
     custom = 'Custom';
 }
 
@@ -26,10 +28,10 @@ class OptionTypes {
 })
 
 export class CosmosDBComponent extends FunctionAppContextComponent {
-    public namespaces: ArmArrayResult<any>;
-    public polices: ArmArrayResult<any>;
-    public selectedNamespace: string;
-    public selectedPolicy: string;
+    public subscriptions: SelectOption<Sub>[];
+    public databases: ArmArrayResult<any>;
+    public selectedSubscription: string;
+    public selectedDatabase: string;
     public appSettingName: string;
     public appSettingValue: string;
     public optionsChange: Subject<string>;
@@ -49,14 +51,15 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
         private _armService: ArmService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
+        private _userService: UserService,
         functionAppService: FunctionAppService,
         broadcastService: BroadcastService) {
         super('cosmos-db', functionAppService, broadcastService);
 
         this.options = [
             {
-                displayLabel: this._translateService.instant(PortalResources.serviceBusPicker_serviceBus),
-                value: this.optionTypes.serviceBus,
+                displayLabel: 'Azure Cosmos DB account',
+                value: this.optionTypes.cosmosDB,
             },
             {
                 displayLabel: this._translateService.instant(PortalResources.eventHubPicker_custom),
@@ -64,7 +67,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
             }
         ];
 
-        this.option = this.optionTypes.serviceBus;
+        this.option = this.optionTypes.cosmosDB;
 
         this.optionsChange = new Subject<string>();
         this.optionsChange.subscribe((option) => {
@@ -74,29 +77,31 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
     }
 
     setup(): Subscription {
-        return this.viewInfoEvents
-            .subscribe(view => {
-                const id = `/subscriptions/${(<ArmSiteDescriptor>view.siteDescriptor).subscription}/providers/Microsoft.ServiceBus/namespaces`;
-                this._cacheService.getArm(id, true).subscribe(r => {
-                    this.namespaces = r.json();
-                    if (this.namespaces.value.length > 0) {
-                        this.selectedNamespace = this.namespaces.value[0].id;
-                        this.onChangeNamespace(this.selectedNamespace);
+        return this._userService.getStartupInfo()
+            .first()
+            .subscribe(r => {
+                this.subscriptions = r.subscriptions
+                    .map(e => ({ displayLabel: e.displayName, value: e }))
+                    .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+
+                    if (this.subscriptions.length > 0) {
+                        this.selectedSubscription = this.subscriptions[0].value.subscriptionId;
+                        this.onChangeSubscription(this.selectedSubscription);
                     }
-                });
-            });
+        });
     }
 
-    onChangeNamespace(value: string) {
-        this.polices = null;
-        this.selectedPolicy = null;
+    onChangeSubscription(value: string) {
+        this.databases = null;
+        this.selectedDatabase = null;
         if (this._subscription) {
             this._subscription.unsubscribe();
         }
-        this._subscription = this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
-            this.polices = r.json();
-            if (this.polices.value.length > 0) {
-                this.selectedPolicy = this.polices.value[0].id;
+        const id = `/subscriptions/${value}/providers/microsoft.documentdb/databaseAccounts`;
+        this._subscription = this._cacheService.getArm(id, true, '2015-04-08').subscribe(r => {
+            this.databases = r.json();
+            if (this.databases.value.length > 0) {
+                this.selectedDatabase = this.databases.value[0].id;
                 this.setSelect();
             }
         });
@@ -109,21 +114,21 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
     }
 
     onSelect(): Subscription | null {
-        if (this.option === this.optionTypes.serviceBus) {
-            if (this.selectedPolicy) {
+        if (this.option === this.optionTypes.cosmosDB) {
+            if (this.selectedDatabase) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 let appSettingName: string;
 
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
+                    this._cacheService.postArm(this.selectedDatabase + '/listkeys', true, '2015-08-01'),
                     this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
-                        const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
+                        const namespace = this.subscriptions.find(p => p.value.subscriptionId === this.selectedSubscription);
                         const keys = r.keys.json();
 
-                        appSettingName = `${namespace.name}_${keys.keyName}_SERVICEBUS`;
+                        appSettingName = `${namespace.displayLabel}_${keys.keyName}_SERVICEBUS`;
                         const appSettingValue = keys.primaryConnectionString;
 
                         const appSettings: ArmObj<any> = r.appSettings.json();
@@ -146,7 +151,6 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
             let appSettingValue: string;
             appSettingName = this.appSettingName;
             appSettingValue = this.appSettingValue;
-
 
             if (appSettingName && appSettingValue) {
                 this.selectInProcess = true;
@@ -177,9 +181,9 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
                     this.canSelect = !!(this.appSettingName && this.appSettingValue);
                     break;
                 }
-            case this.optionTypes.serviceBus:
+            case this.optionTypes.cosmosDB:
                 {
-                    this.canSelect = !!(this.selectedPolicy);
+                    this.canSelect = !!(this.selectedDatabase);
                     break;
                 }
         }
