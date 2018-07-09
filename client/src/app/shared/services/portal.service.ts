@@ -316,12 +316,14 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.setNotification, JSON.stringify(payload));
     }
 
-    logAction(subcomponent: string, action: string, data?: any): void {
+    logAction(subcomponent: string, action: string, data?: { [name: string]: string; }): void {
         const actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
             action: action,
             data: data
         });
+
+        this._aiService.trackEvent(`/${subcomponent}/${action}`, data);
 
         this.postMessage(Verbs.logAction, actionStr);
     }
