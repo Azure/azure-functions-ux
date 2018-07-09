@@ -1,0 +1,63 @@
+<div class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+                <label>{{'eventHubPicker_connection' | translate}} </label>
+            </div>
+            <div class="modal-body" style="display: flex;flex-direction:column;">
+                <div style="margin-bottom: 10px;">
+                    <radio-selector [options]="options" [defaultValue]="optionTypes.serviceBus" (value)="optionsChange.next($event)"></radio-selector>
+                </div>
+
+                <div *ngIf="option === optionTypes.serviceBus" class="line">
+                    <div class="select-container">
+                        <label>{{'eventHubPicker_namespace' | translate}}</label>
+                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
+                            <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="selectedNamespace" class="select-container">
+                        <label>{{'eventHubPicker_policy' | translate}}</label>
+                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="polices?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedPolicy">
+                            <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="option === optionTypes.custom">
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingName' | translate}}</label>
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-conainer">
+                    <button *ngIf="!selectInProcess"
+                            (click)="onSelect()"
+                            [disabled]="!canSelect"
+                            class="custom-button">
+
+                        <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
+                        <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
+                    </button>
+                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade in"></div>
