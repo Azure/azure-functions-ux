@@ -6,6 +6,7 @@ import { ErrorComponent } from './templates/error.component';
 import { MessageComponent } from './templates/message.component';
 import { CommonModule } from '@angular/common';
 import { ClickOutsideDirective } from './directives/click.directive';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
     entryComponents: [
@@ -15,7 +16,7 @@ import { ClickOutsideDirective } from './directives/click.directive';
       MessageComponent
     ],
     imports: [
-      TranslateModule.forChild(), CommonModule
+      TranslateModule.forChild(), CommonModule, SharedModule
     ],
     declarations: [
       CmdConsoleComponent,
@@ -24,6 +25,8 @@ import { ClickOutsideDirective } from './directives/click.directive';
       ErrorComponent,
       MessageComponent
     ],
-    exports: []
+    exports: [
+      CmdConsoleComponent
+    ]
   })
 export class ConsoleModule { }

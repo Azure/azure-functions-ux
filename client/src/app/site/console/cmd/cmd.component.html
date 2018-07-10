@@ -1,10 +1,10 @@
 <div class="browse-container">
-  <img src = "image/console.svg" />
+  <i load-image ="{{consoleIcon}}" class="icon-medium"></i>
   <h2 #header>
     {{ 'feature_cmdConsoleName' | translate}}
     <i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
   </h2>
-  <br />
+  <br /><br />
   <div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
     <div class = "console">
       <div #consoleBody class="console-inner" [scrollTop]="consoleBody.scrollHeight">

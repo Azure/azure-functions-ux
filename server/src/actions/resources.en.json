@@ -367,7 +367,7 @@
         "feature_deploymentCredsName": "Deployment credentials",
         "feature_deploymentCredsInfo": "Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. <a href=\"https://go.microsoft.com/fwlink/?linkid=846056\">Learn more</a>.",
         "feature_consoleName": "Console",
-        "feature_cmdConsoleName": "CMD - Console",
+        "feature_cmdConsoleName": "CMD",
         "feature_consoleInfo": "Explore your app's file system from an interactive web-based console.",
         "feature_consoleMsg": "Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges won't work.",
         "feature_extensionsName": "Extensions",

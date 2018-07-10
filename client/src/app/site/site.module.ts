@@ -31,7 +31,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SiteConfigComponent,
-        LogicAppsComponent,
+        LogicAppsComponent
     ],
     imports: [
         TranslateModule.forChild(),

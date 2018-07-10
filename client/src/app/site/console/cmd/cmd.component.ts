@@ -34,7 +34,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
   public dir = 'D:\\home\\site\\wwwroot';
   public initialized = false;
   private _site: ArmObj<Site>;
-  private _pubCred: ArmObj<PublishingCredentials>;
+  private _publishingCredentials: ArmObj<PublishingCredentials>;
   private _lastAPICall: Subscription = undefined;
   /*** Variables for Tab-key ***/
   private _listOfDir: string[] = [];
@@ -84,16 +84,16 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
         return Observable.zip(
           this._siteService.getSite(this.resourceId),
           this._cacheService.postArm(`${this.resourceId}/config/publishingcredentials/list`),
-          (site, pubCred) => ({
+          (site, _publishingCredentials) => ({
             site: site.result,
-            pubCred: pubCred.json()
+            _publishingCredentials: _publishingCredentials.json()
           })
         );
       })
       .do(
         r => {
           this._site = r.site;
-          this._pubCred = r.pubCred;
+          this._publishingCredentials = r._publishingCredentials;
           this.clearBusyEarly();
         },
         err => {
@@ -300,7 +300,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
       res.subscribe(
         data => {
           const output = data.json();
-          if (output.ExitCode === 1) {
+          if (output.ExitCode !== 0) {
             // unable to fetch the list of files/folders in the current directory
           } else {
             const cmd = this._command.substring(0, this._ptrPosition);
@@ -315,10 +315,8 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._ptrPosition = this._command.length;
             this._divideCommandForPtr();
           }
-          // console.log(output);
         },
         err => {
-          // console.log('Tab Error: ' + err);
         }
       );
       return;
@@ -379,7 +377,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append('Authorization', `Basic ` + ((this._pubCred) ? btoa(`${this._pubCred.properties.publishingUserName}:${this._pubCred.properties.publishingPassword}`) : btoa(`admin:kudu`)));
+    headers.append('Authorization', `Basic ` + ((this._publishingCredentials) ? btoa(`${this._publishingCredentials.properties.publishingUserName}:${this._publishingCredentials.properties.publishingPassword}`) : btoa(`admin:kudu`)));
     return headers;
   }
 
@@ -396,7 +394,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     this._lastAPICall = res.subscribe(
       data => {
         const output = data.json();
-        if (output.ExitCode === 1 && output.Output === '') {
+        if (output.ExitCode !== 0 && output.Output === '') {
           this._addErrorComponent(output.Error + '\r\n');
           this._addPromptComponent();
         } else {

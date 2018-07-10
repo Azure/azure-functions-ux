@@ -16,6 +16,8 @@ import { ErrorComponent } from './../templates/error.component';
 import { CommonModule } from '@angular/common';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
+import { MockDirective } from 'ng-mocks';
+import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
 
 describe('CmdConsoleComponent', () => {
   let component: CmdConsoleComponent;
@@ -33,7 +35,7 @@ describe('CmdConsoleComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [CmdConsoleComponent],
+      declarations: [CmdConsoleComponent, MockDirective(LoadImageDirective)],
     })
       .compileComponents().then(() => {
         fixture = TestBed.createComponent(CmdConsoleComponent);
