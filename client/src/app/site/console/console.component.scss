@@ -1,0 +1,98 @@
+@import '../../../sass/common/variables';
+
+h2{
+    display: inline;
+}
+div.browse-container{
+    overflow: auto;
+}
+
+#console-container{
+    position: absolute;
+    height: calc(100% - 90px);
+    width: calc(100% - 50px);
+}
+
+div.console{
+    font-family: 'serif', monospace; // 'Courier New', 'Lucida Console', monospace;
+    height: 100%;
+    font-size: medium;
+    white-space: normal;
+    width: 100%;
+}
+
+div.console div.console-inner{
+    background-color: $console-background-color; // #215b7e;
+    color: $console-text-color;
+    margin-left:auto;
+    margin-right: auto;
+    overflow: auto;
+    word-break: break-word;
+    word-wrap: break-word;
+    padding: 0.8em;
+    width: 100%;
+    height: 100%;
+}
+
+div.console-message-header{
+    color: $console-default-msg-color;
+}
+
+div.console-message-header span{
+    white-space:pre-wrap;
+}
+
+div.console-message-value{
+    white-space: pre-wrap;
+}
+
+div.console-message-error{
+    color: $console-error-color;
+    white-space: pre-wrap;
+}
+
+div.console-prompt-box{
+    font-size: 0;
+}
+
+span.console-prompt-label{
+    font-size: medium;
+}
+
+textarea.console-typer{
+    position: absolute;
+    top: 0px;
+    left: -9999px;
+}
+
+span.console-prompt{
+    font-size: medium;
+    white-space: pre-wrap;
+}
+
+span.console-cursor{
+    text-decoration: none;
+    border-bottom: 5px solid $console-text-color;
+    font-size: medium;
+    animation: blink 1s steps(3, start) infinite;
+    -webkit-animation: blink 1s steps(3, start) infinite;
+}
+
+span.bash-cursor{
+    border: none;
+    color: $bash-cursor-text-color;
+    background-color: $bash-cursor-background-color;
+}
+
+@-webkit-keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
+
+@keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
+

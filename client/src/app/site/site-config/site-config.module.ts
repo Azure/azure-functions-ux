@@ -28,7 +28,7 @@ import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
     AppSettingsShellComponent,
     DefaultDocumentsComponent,
     HandlerMappingsComponent,
-    VirtualDirectoriesComponent
+    VirtualDirectoriesComponent,
   ],
   exports: [
     SiteConfigComponent,

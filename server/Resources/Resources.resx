@@ -1318,6 +1318,12 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore your app's file system from an interactive web-based console.</value>
   </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges won't work.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD - Console</value>
+  </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
   </data>
