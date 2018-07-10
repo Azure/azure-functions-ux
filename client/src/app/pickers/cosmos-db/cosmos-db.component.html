@@ -12,7 +12,7 @@
 
                 <div *ngIf="option === optionTypes.cosmosDB" class="line">
                     <div class="select-container">
-                        <label>Subscription</label>
+                        <label>{{'subscriptionName' | translate}}</label>
                         <div *ngIf="subscriptions?.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!subscriptions" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="subscriptions?.length > 0" (change)="onChangeSubscription($event.target.value)" [(ngModel)]="selectedSubscription">
@@ -20,7 +20,7 @@
                         </select>
                     </div>
                     <div *ngIf="selectedSubscription" class="select-container">
-                        <label>Database</label>
+                        <label>{{'databaseAccount' | translate}}</label>
                         <div *ngIf="databases?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!databases?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="databases?.value?.length > 0" [(ngModel)]="selectedDatabase">

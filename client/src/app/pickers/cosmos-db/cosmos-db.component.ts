@@ -57,7 +57,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
 
         this.options = [
             {
-                displayLabel: 'Azure Cosmos DB account',
+                displayLabel: this._translateService.instant(PortalResources.azureCosmosDB_account),
                 value: this.optionTypes.cosmosDB,
             },
             {
