@@ -65,7 +65,8 @@ export class InfoBoxComponent {
         if (!!this.infoActionFn) {
             this.infoActionFn();
         } else if (!!this.infoLink) {
-            window.open(this.infoLink, '_blank');
+            const link = this.infoLink;
+            window.open(link, '_blank');
         }
     }
 }
