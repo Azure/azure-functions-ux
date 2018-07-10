@@ -3577,4 +3577,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="type_directory" xml:space="preserve">
     <value>Directory</value>
   </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Database Account</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB account</value>
+  </data>
 </root>

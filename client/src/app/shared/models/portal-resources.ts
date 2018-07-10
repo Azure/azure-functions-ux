@@ -1148,4 +1148,6 @@
     public static appSettingsHeader_physicalPath = 'appSettingsHeader_physicalPath';
     public static type_application = 'type_application';
     public static type_directory = 'type_directory';
+    public static databaseAccount = 'databaseAccount';
+    public static azureCosmosDB_account = 'azureCosmosDB_account';
 }
