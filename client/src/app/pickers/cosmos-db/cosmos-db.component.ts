@@ -1,4 +1,3 @@
-// import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -77,7 +76,10 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
     }
 
     setup(): Subscription {
-        return this._userService.getStartupInfo()
+        return this.viewInfoEvents
+            .switchMap(view => {
+                return this._userService.getStartupInfo();
+            })
             .first()
             .subscribe(r => {
                 this.subscriptions = r.subscriptions
@@ -121,15 +123,15 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
                 let appSettingName: string;
 
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedDatabase + '/listkeys', true, '2015-08-01'),
+                    this._cacheService.postArm(this.selectedDatabase + '/listkeys', true, '2015-04-08'),
                     this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
-                        const namespace = this.subscriptions.find(p => p.value.subscriptionId === this.selectedSubscription);
+                        const database = this.databases.value.find(d => d.id === this.selectedDatabase);
                         const keys = r.keys.json();
 
-                        appSettingName = `${namespace.displayLabel}_${keys.keyName}_SERVICEBUS`;
-                        const appSettingValue = keys.primaryConnectionString;
+                        appSettingName = `${database.name}_DOCUMENTDB`;
+                        const appSettingValue = `AccountEndpoint=${database.properties.documentEndpoint};AccountKey=${keys.primaryMasterKey};`;
 
                         const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
@@ -139,7 +141,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
                     .do(null, e => {
                         this._globalStateService.clearBusyState();
                         this.selectInProcess = false;
-                        console.log(e);
+                        this.showComponentError(e);
                     })
                     .subscribe(() => {
                         this._globalStateService.clearBusyState();
@@ -163,7 +165,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
                     .do(null, e => {
                         this._globalStateService.clearBusyState();
                         this.selectInProcess = false;
-                        console.log(e);
+                        this.showComponentError(e);
                     })
                     .subscribe(() => {
                         this._globalStateService.clearBusyState();
