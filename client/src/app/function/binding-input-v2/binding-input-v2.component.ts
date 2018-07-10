@@ -128,7 +128,10 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting' && this.pickerName !== 'CosmosDB') {
+        if (this.pickerName !== 'EventHub' &&
+            this.pickerName !== 'ServiceBus' &&
+            this.pickerName !== 'AppSetting' &&
+            this.pickerName !== 'CosmosDB') {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 

@@ -14,6 +14,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { UserService } from '../../shared/services/user.service';
 import { Subscription  as Sub} from '../../shared/models/subscription';
+import { SiteService } from '../../shared/services/site.service';
 
 class OptionTypes {
     cosmosDB = 'CosmosDB';
@@ -51,6 +52,7 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _userService: UserService,
+        private _siteService: SiteService,
         functionAppService: FunctionAppService,
         broadcastService: BroadcastService) {
         super('cosmos-db', functionAppService, broadcastService);
@@ -115,65 +117,12 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
         }
     }
 
-    onSelect(): Subscription | null {
+    onSelect() {
         if (this.option === this.optionTypes.cosmosDB) {
-            if (this.selectedDatabase) {
-                this.selectInProcess = true;
-                this._globalStateService.setBusyState();
-                let appSettingName: string;
-
-                return Observable.zip(
-                    this._cacheService.postArm(this.selectedDatabase + '/listkeys', true, '2015-04-08'),
-                    this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
-                    (p, a) => ({ keys: p, appSettings: a }))
-                    .flatMap(r => {
-                        const database = this.databases.value.find(d => d.id === this.selectedDatabase);
-                        const keys = r.keys.json();
-
-                        appSettingName = `${database.name}_DOCUMENTDB`;
-                        const appSettingValue = `AccountEndpoint=${database.properties.documentEndpoint};AccountKey=${keys.primaryMasterKey};`;
-
-                        const appSettings: ArmObj<any> = r.appSettings.json();
-                        appSettings.properties[appSettingName] = appSettingValue;
-                        return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-
-                    })
-                    .do(null, e => {
-                        this._globalStateService.clearBusyState();
-                        this.selectInProcess = false;
-                        this.showComponentError(e);
-                    })
-                    .subscribe(() => {
-                        this._globalStateService.clearBusyState();
-                        this.selectItem.next(appSettingName);
-                    });
-            }
+            this._cosmosDBSelected();
         } else {
-            let appSettingName: string;
-            let appSettingValue: string;
-            appSettingName = this.appSettingName;
-            appSettingValue = this.appSettingValue;
-
-            if (appSettingName && appSettingValue) {
-                this.selectInProcess = true;
-                this._globalStateService.setBusyState();
-                this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true).flatMap(r => {
-                    const appSettings: ArmObj<any> = r.json();
-                    appSettings.properties[appSettingName] = appSettingValue;
-                    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-                })
-                    .do(null, e => {
-                        this._globalStateService.clearBusyState();
-                        this.selectInProcess = false;
-                        this.showComponentError(e);
-                    })
-                    .subscribe(() => {
-                        this._globalStateService.clearBusyState();
-                        this.selectItem.next(appSettingName);
-                    });
-            }
+            this._customSelected();
         }
-        return null;
     }
 
     public setSelect() {
@@ -189,5 +138,70 @@ export class CosmosDBComponent extends FunctionAppContextComponent {
                     break;
                 }
         }
+    }
+
+    private _cosmosDBSelected(): Subscription | null {
+        if (this.selectedDatabase) {
+            this.selectInProcess = true;
+            this._globalStateService.setBusyState();
+            let appSettingName: string;
+
+            return Observable.zip(
+                this._cacheService.postArm(this.selectedDatabase + '/listkeys', true, '2015-04-08'),
+                this._siteService.getAppSettings(this.context.site.id),
+                (p, a) => ({ keys: p, appSettings: a }))
+                .flatMap(r => {
+                    const database = this.databases.value.find(d => d.id === this.selectedDatabase);
+                    const keys = r.keys.json();
+
+                    appSettingName = `${database.name}_DOCUMENTDB`;
+                    const appSettingValue = `AccountEndpoint=${database.properties.documentEndpoint};AccountKey=${keys.primaryMasterKey};`;
+
+                    const appSettings: ArmObj<any> = r.appSettings.result;
+                    appSettings.properties[appSettingName] = appSettingValue;
+                    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+
+                })
+                .do(null, e => {
+                    this._globalStateService.clearBusyState();
+                    this.selectInProcess = false;
+                    this.showComponentError(e);
+                })
+                .subscribe(() => {
+                    this._globalStateService.clearBusyState();
+                    this.selectItem.next(appSettingName);
+                });
+        } else {
+            return null;
+        }
+    }
+
+    private _customSelected(): Subscription | null {
+        let appSettingName: string;
+        let appSettingValue: string;
+        appSettingName = this.appSettingName;
+        appSettingValue = this.appSettingValue;
+
+        if (appSettingName && appSettingValue) {
+            this.selectInProcess = true;
+            this._globalStateService.setBusyState();
+            this._siteService.getAppSettings(this.context.site.id).flatMap(r => {
+                const appSettings: ArmObj<any> = r.result;
+                appSettings.properties[appSettingName] = appSettingValue;
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            })
+            .do(null, e => {
+                this._globalStateService.clearBusyState();
+                this.selectInProcess = false;
+                this.showComponentError(e);
+            })
+            .subscribe(() => {
+                this._globalStateService.clearBusyState();
+                this.selectItem.next(appSettingName);
+            });
+        } else {
+            return null;
+        }
+        return null;
     }
 }
