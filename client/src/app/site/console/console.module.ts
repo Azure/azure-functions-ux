@@ -5,6 +5,7 @@ import { PromptComponent } from './templates/prompt.component';
 import { ErrorComponent } from './templates/error.component';
 import { MessageComponent } from './templates/message.component';
 import { CommonModule } from '@angular/common';
+import { ClickOutsideDirective } from './directives/click.directive';
 
 @NgModule({
     entryComponents: [
@@ -19,6 +20,7 @@ import { CommonModule } from '@angular/common';
     declarations: [
       CmdConsoleComponent,
       PromptComponent,
+      ClickOutsideDirective,
       ErrorComponent,
       MessageComponent
     ],
