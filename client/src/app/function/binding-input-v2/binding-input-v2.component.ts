@@ -105,7 +105,7 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
                 this.pickerName = 'AppSetting';
                 break;
             case ResourceType.DocumentDB:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'DocDbPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'CosmosDB';
                 break;
             case ResourceType.ServiceBus:
                 this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'NotificationHubPickerBlade';
@@ -128,7 +128,10 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting') {
+        if (this.pickerName !== 'EventHub' &&
+            this.pickerName !== 'ServiceBus' &&
+            this.pickerName !== 'AppSetting' &&
+            this.pickerName !== 'CosmosDB') {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
