@@ -57,7 +57,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
    * UI Elements
    */
   @ViewChild('prompt', {read: ViewContainerRef})
-  private prompt: ViewContainerRef;
+  private _prompt: ViewContainerRef;
   @ViewChild('consoleText')
   private _consoleText: ElementRef;
 
@@ -84,16 +84,16 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
         return Observable.zip(
           this._siteService.getSite(this.resourceId),
           this._cacheService.postArm(`${this.resourceId}/config/publishingcredentials/list`),
-          (site, _publishingCredentials) => ({
+          (site, publishingCredentials) => ({
             site: site.result,
-            _publishingCredentials: _publishingCredentials.json()
+            publishingCredentials: publishingCredentials.json()
           })
         );
       })
       .do(
         r => {
           this._site = r.site;
-          this._publishingCredentials = r._publishingCredentials;
+          this._publishingCredentials = r.publishingCredentials;
           this.clearBusyEarly();
         },
         err => {
@@ -302,6 +302,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
           const output = data.json();
           if (output.ExitCode !== 0) {
             // unable to fetch the list of files/folders in the current directory
+            return;
           } else {
             const cmd = this._command.substring(0, this._ptrPosition);
             const allFiles = output.Output.split('\r\n');
@@ -317,6 +318,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
           }
         },
         err => {
+          console.log('Tab Key Error' + err.text);
         }
       );
       return;
@@ -535,7 +537,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     if (!this._messageComponent) {
       this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
     }
-    const msgComponent = this.prompt.createComponent(this._messageComponent);
+    const msgComponent = this._prompt.createComponent(this._messageComponent);
     msgComponent.instance.message = (message ? message : (this.dir + '>' + this._command));
     this._msgComponents.push(msgComponent);
   }
@@ -549,7 +551,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     if (!this._promptComponent) {
       this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
     }
-    this._currentPrompt = this.prompt.createComponent(this._promptComponent);
+    this._currentPrompt = this._prompt.createComponent(this._promptComponent);
     this._currentPrompt.instance.dir = this.dir + '>';
   }
 
@@ -561,7 +563,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     if (!this._errorComponent) {
       this._errorComponent = this._componentFactoryResolver.resolveComponentFactory(ErrorComponent);
     }
-    const errorComponent = this.prompt.createComponent(this._errorComponent);
+    const errorComponent = this._prompt.createComponent(this._errorComponent);
     this._msgComponents.push(errorComponent);
     errorComponent.instance.message = error;
   }

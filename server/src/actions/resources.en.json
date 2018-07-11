@@ -369,7 +369,7 @@
         "feature_consoleName": "Console",
         "feature_cmdConsoleName": "CMD",
         "feature_consoleInfo": "Explore your app's file system from an interactive web-based console.",
-        "feature_consoleMsg": "Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges won't work.",
+        "feature_consoleMsg": "Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges will not work.",
         "feature_extensionsName": "Extensions",
         "feature_extensionsInfo": "Extensions add functionality to your entire app.",
         "feature_generalSettingsName": "General settings",
