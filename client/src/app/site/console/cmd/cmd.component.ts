@@ -300,21 +300,18 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
       res.subscribe(
         data => {
           const output = data.json();
-          if (output.ExitCode !== 0) {
-            // unable to fetch the list of files/folders in the current directory
-            return;
-          } else {
+          if (output.ExitCode === 0) {
+            // fetch the list of files/folders in the current directory
             const cmd = this._command.substring(0, this._ptrPosition);
             const allFiles = output.Output.split('\r\n');
             this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
-            if (this._listOfDir.length === 0) {
-              return;
+            if (this._listOfDir.length > 0) {
+              this._dirIndex = 0;
+              this._command = this._command.substring(0, this._ptrPosition);
+              this._command = this._command.substring(0, this._command.lastIndexOf(' ') + 1) + this._listOfDir[0];
+              this._ptrPosition = this._command.length;
+              this._divideCommandForPtr();
             }
-            this._dirIndex = 0;
-            this._command = this._command.substring(0, this._ptrPosition);
-            this._command = this._command.substring(0, this._command.lastIndexOf(' ') + 1) + this._listOfDir[0];
-            this._ptrPosition = this._command.length;
-            this._divideCommandForPtr();
           }
         },
         err => {
@@ -396,7 +393,7 @@ export class CmdConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>
     this._lastAPICall = res.subscribe(
       data => {
         const output = data.json();
-        if (output.ExitCode !== 0 && output.Output === '') {
+        if (output.Output === '' && output.ExitCode !== 0) {
           this._addErrorComponent(output.Error + '\r\n');
           this._addPromptComponent();
         } else {
