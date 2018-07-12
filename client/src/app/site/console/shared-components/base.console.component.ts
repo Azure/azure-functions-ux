@@ -1,17 +1,19 @@
-import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef } from '@angular/core';
-import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { Site } from '../../shared/models/arm/site';
-import { PublishingCredentials } from '../../shared/models/publishing-credentials';
+import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input } from '@angular/core';
+import { ArmObj } from '../../../shared/models/arm/arm-obj';
+import { Site } from '../../../shared/models/arm/site';
+import { PublishingCredentials } from '../../../shared/models/publishing-credentials';
 import { Subscription } from 'rxjs/Subscription';
-import { ConsoleService, ConsoleTypes } from './services/console.service';
-import { KeyCodes } from '../../shared/models/constants';
-import { ErrorComponent } from './templates/error.component';
-import { MessageComponent } from './templates/message.component';
-import { PromptComponent } from './templates/prompt.component';
+import { ConsoleService, ConsoleTypes } from './../services/console.service';
+import { KeyCodes } from '../../../shared/models/constants';
+import { ErrorComponent } from './../templates/error.component';
+import { MessageComponent } from './../templates/message.component';
+import { PromptComponent } from './../templates/prompt.component';
 import { Headers } from '@angular/http';
 
-export abstract class ConsoleComponent implements OnInit, OnDestroy {
+export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
 
+    @Input()
+    public appName: string;
     public resourceId: string;
     public consoleType: number;
     public isFocused = false;
@@ -35,6 +37,9 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
     private _errorComponent: ComponentFactory<any>;
     private _msgComponents: ComponentRef<any>[] = [];
     private _currentPrompt: ComponentRef<any> = null;
+    private _resourceIdSubscription: Subscription;
+    private _siteSubscription: Subscription;
+    private _publishingCredSubscription: Subscription;
 
     /**
      * UI Elements
@@ -50,15 +55,24 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this._consoleService.getResourceId().subscribe(resourceId => { this.resourceId = resourceId; });
-        this._consoleService.getSite().subscribe(site => { this.site = site; });
-        this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => { this.publishingCredentials = publishingCredentials; });
+        this._resourceIdSubscription = this._consoleService.getResourceId().subscribe(resourceId => {
+            this.resourceId = resourceId; });
+        this._siteSubscription = this._consoleService.getSite().subscribe(site => {
+            this.site = site; });
+        this._publishingCredSubscription = this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
+            this.publishingCredentials = publishingCredentials;
+        });
         this.initialized = true;
         this.focusConsole();
     }
 
     ngOnDestroy() {
-
+        this._resourceIdSubscription.unsubscribe();
+        this._siteSubscription.unsubscribe();
+        this._publishingCredSubscription.unsubscribe();
+        if (this.lastAPICall && !this.lastAPICall.closed) {
+            this.lastAPICall.unsubscribe();
+        }
     }
 
     /**
@@ -186,6 +200,8 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
         this._refreshTabFunctionElements();
     }
 
+    protected abstract getTabKeyCommand(): string;
+
     /**
     * perform action on key pressed.
     */
@@ -227,6 +243,64 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
         --len;
         this._msgComponents.pop().destroy();
         }
+    }
+
+    /**
+     * Add a message component, this is usually called after user presses enter
+     * and we have a response from the Kudu API(might be an error).
+     * @param message: String, represents a message to be passed to be shown
+     */
+    protected addMessageComponent(message?: string) {
+        if (!this._messageComponent) {
+        this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
+        }
+        const msgComponent = this._prompt.createComponent(this._messageComponent);
+        msgComponent.instance.message = (message ? message : (this._getConsoleLeft() + this.command));
+        this._msgComponents.push(msgComponent);
+    }
+
+    /**
+     * Creates a new prompt box,
+     * created everytime a command is entered by the user and
+     * some response is generated from the server, or 'cls', 'exit'
+     */
+    protected addPromptComponent() {
+        if (!this._promptComponent) {
+        this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
+        }
+        this._currentPrompt = this._prompt.createComponent(this._promptComponent);
+        this._currentPrompt.instance.dir = this._getConsoleLeft();
+    }
+
+    /**
+     * Create a error message
+     * @param error : String, represents the error message to be shown
+     */
+    protected addErrorComponent(error: string) {
+        if (!this._errorComponent) {
+        this._errorComponent = this._componentFactoryResolver.resolveComponentFactory(ErrorComponent);
+        }
+        const errorComponent = this._prompt.createComponent(this._errorComponent);
+        this._msgComponents.push(errorComponent);
+        errorComponent.instance.message = error;
+    }
+
+    /**
+     * Divide the commands into left, current and right
+     */
+    protected divideCommandForPtr() {
+        if (this.ptrPosition < 0 || this.ptrPosition > this.command.length) {
+        return;
+        }
+        if (this.ptrPosition === this.command.length) {
+        this.commandInParts.leftCmd = this.command;
+        this.commandInParts.middleCmd = ' ';
+        this.commandInParts.rightCmd = '';
+        return;
+        }
+        this.commandInParts.leftCmd = this.command.substring(0, this.ptrPosition);
+        this.commandInParts.middleCmd = this.command.substring(this.ptrPosition, this.ptrPosition + 1);
+        this.commandInParts.rightCmd = this.command.substring(this.ptrPosition + 1, this.command.length);
     }
 
     /**
@@ -309,71 +383,26 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Add a message component, this is usually called after user presses enter
-     * and we have a response from the Kudu API(might be an error).
-     * @param message: String, represents a message to be passed to be shown
+     * Get the left-hand-side text for the console command
      */
-    protected addMessageComponent(message?: string) {
-        if (!this._messageComponent) {
-        this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
+    private _getConsoleLeft() {
+        let left = this._getConsleLeftPrefix();
+        if (this.consoleType === ConsoleTypes.BASH) {
+            left += this.appName;
+        }else {
+            left += this.dir;
         }
-        const msgComponent = this._prompt.createComponent(this._messageComponent);
-        msgComponent.instance.message = (message ? message : (this._getDirectoryPrefix() + this.dir + this._getDirectorySuffix() + this.command));
-        this._msgComponents.push(msgComponent);
-    }
-
-    /**
-     * Creates a new prompt box,
-     * created everytime a command is entered by the user and
-     * some response is generated from the server, or 'cls', 'exit'
-     */
-    protected addPromptComponent() {
-        if (!this._promptComponent) {
-        this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
-        }
-        this._currentPrompt = this._prompt.createComponent(this._promptComponent);
-        this._currentPrompt.instance.dir = this._getDirectoryPrefix() + this.dir + this._getDirectorySuffix();
-    }
-
-    /**
-     * Create a error message
-     * @param error : String, represents the error message to be shown
-     */
-    protected addErrorComponent(error: string) {
-        if (!this._errorComponent) {
-        this._errorComponent = this._componentFactoryResolver.resolveComponentFactory(ErrorComponent);
-        }
-        const errorComponent = this._prompt.createComponent(this._errorComponent);
-        this._msgComponents.push(errorComponent);
-        errorComponent.instance.message = error;
-    }
-
-    /**
-     * Divide the commands into left, current and right
-     */
-    protected divideCommandForPtr() {
-        if (this.ptrPosition < 0 || this.ptrPosition > this.command.length) {
-        return;
-        }
-        if (this.ptrPosition === this.command.length) {
-        this.commandInParts.leftCmd = this.command;
-        this.commandInParts.middleCmd = ' ';
-        this.commandInParts.rightCmd = '';
-        return;
-        }
-        this.commandInParts.leftCmd = this.command.substring(0, this.ptrPosition);
-        this.commandInParts.middleCmd = this.command.substring(this.ptrPosition, this.ptrPosition + 1);
-        this.commandInParts.rightCmd = this.command.substring(this.ptrPosition + 1, this.command.length);
+        return left + this._getConsoleLeftSuffix();
     }
 
     /**
      * Returns the directory suffix for specific console type
      */
-    private _getDirectorySuffix(): string {
+    private _getConsoleLeftSuffix(): string {
         switch (this.consoleType) {
             case ConsoleTypes.CMD: { return '>'; }
             case ConsoleTypes.PS: { return '>'; }
-            case ConsoleTypes.BASH: { return ':$>'; }
+            case ConsoleTypes.BASH: { return ':~$ '; }
         }
         return '';
     }
@@ -381,7 +410,7 @@ export abstract class ConsoleComponent implements OnInit, OnDestroy {
     /**
      * Returns the directory prefix for specific console type
      */
-    private _getDirectoryPrefix(): string {
+    private _getConsleLeftPrefix(): string {
         if (this.consoleType === ConsoleTypes.PS) {
             return 'PS ';
         }

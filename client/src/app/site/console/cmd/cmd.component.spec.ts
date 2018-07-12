@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { CmdConsoleComponent } from './cmd.component';
+import { CmdComponent } from './cmd.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from './../services/console.service';
 import { Injectable, NgModule, Injector } from '@angular/core';
@@ -20,8 +20,8 @@ import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
 
 describe('CmdConsoleComponent', () => {
-  let component: CmdConsoleComponent;
-  let fixture: ComponentFixture<CmdConsoleComponent>;
+  let component: CmdComponent;
+  let fixture: ComponentFixture<CmdComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,17 +35,17 @@ describe('CmdConsoleComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [CmdConsoleComponent, MockDirective(LoadImageDirective)],
+      declarations: [CmdComponent, MockDirective(LoadImageDirective)],
     })
       .compileComponents().then(() => {
-        fixture = TestBed.createComponent(CmdConsoleComponent);
+        fixture = TestBed.createComponent(CmdComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });
   }));
 
   describe('init', () => {
-    it('should create', async(() => {
+    fit('should create', async(() => {
       expect(component).toBeTruthy();
     }));
 

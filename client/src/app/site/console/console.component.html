@@ -5,4 +5,6 @@
   <br /><br />
   <app-cmd *ngIf="windows && toggleConsole"></app-cmd>
   <app-powershell *ngIf="windows && !toggleConsole"></app-powershell>
+  <app-bash *ngIf="!windows && toggleConsole" [appName]= "appName"></app-bash>
+  <app-ssh *ngIf="!windows && !toggleConsole"></app-ssh>
 </div>

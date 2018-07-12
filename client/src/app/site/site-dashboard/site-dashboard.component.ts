@@ -32,8 +32,8 @@ import { PartSize } from '../../shared/models/portal';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 import { Observable } from 'rxjs/Observable';
-import { WindowsConsoleComponent } from '../console/windows.component';
-import { LinuxConsoleComponent } from '../console/linux.component';
+import { WindowsConsoleComponent } from '../console/windows.console.component';
+import { LinuxConsoleComponent } from '../console/linux.console.component';
 
 @Component({
     selector: 'site-dashboard',

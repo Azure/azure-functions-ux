@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { PowershellComponent } from './powershell.component';
+import { BashComponent } from './bash.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from './../services/console.service';
 import { Injectable, NgModule, Injector } from '@angular/core';
@@ -16,12 +16,10 @@ import { ErrorComponent } from './../templates/error.component';
 import { CommonModule } from '@angular/common';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
-import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
-import { MockDirective } from 'ng-mocks';
 
-describe('PowershellConsoleComponent', () => {
-  let component: PowershellComponent;
-  let fixture: ComponentFixture<PowershellComponent>;
+describe('BashComponent', () => {
+  let component: BashComponent;
+  let fixture: ComponentFixture<BashComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,10 +33,10 @@ describe('PowershellConsoleComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [PowershellComponent, MockDirective(LoadImageDirective)],
+      declarations: [BashComponent],
     })
       .compileComponents().then(() => {
-        fixture = TestBed.createComponent(PowershellComponent);
+        fixture = TestBed.createComponent(BashComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });
