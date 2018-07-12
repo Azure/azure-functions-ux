@@ -403,6 +403,8 @@
     public static feature_deploymentCredsInfo = 'feature_deploymentCredsInfo';
     public static feature_consoleName = 'feature_consoleName';
     public static feature_consoleInfo = 'feature_consoleInfo';
+    public static feature_consoleMsg = 'feature_consoleMsg';
+    public static feature_cmdConsoleName = 'feature_cmdConsoleName';
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
     public static feature_extensionsName = 'feature_extensionsName';

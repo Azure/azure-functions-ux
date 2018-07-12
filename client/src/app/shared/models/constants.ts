@@ -73,6 +73,7 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'site-config';
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
+    public static readonly winConsole = 'win-console';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
@@ -320,6 +321,14 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
     public static readonly f2 = 113;
+    public static readonly backspace = 8;
+    public static readonly ctrl = 17;
+    public static readonly f1 = 112;
+    public static readonly scrollLock = 145;
+    public static readonly leftWindow = 91;
+    public static readonly select = 93;
+    public static readonly c = 67;
+    public static readonly v = 86;
 }
 
 export class ExtensionInstallStatusConstants {
