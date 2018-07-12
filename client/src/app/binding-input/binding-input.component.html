@@ -34,6 +34,12 @@
              (selectItem)="finishDialogPicker($event)">
 </notification-hub>
 
+<cosmos-db *ngIf="pickerName === 'CosmosDB'"
+             [viewInfo]="viewInfo"
+             (close)="closePicker($event)"
+             (selectItem)="finishDialogPicker($event)">
+</cosmos-db>
+
 <popover-content #pickerPopover
                  placement="auto right"
                  [animation]="true"

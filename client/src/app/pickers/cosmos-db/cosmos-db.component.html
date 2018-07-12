@@ -1,0 +1,63 @@
+<div class="modal fade in" id="cosmos-picker" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+                <label>{{'eventHubPicker_connection' | translate}} </label>
+            </div>
+            <div class="modal-body" style="display: flex;flex-direction:column;">
+                <div style="margin-bottom: 10px;">
+                    <radio-selector [options]="options" [defaultValue]="optionTypes.cosmosDB" (value)="optionsChange.next($event)"></radio-selector>
+                </div>
+
+                <div *ngIf="option === optionTypes.cosmosDB" class="line">
+                    <div class="select-container">
+                        <label>{{'subscriptionName' | translate}}</label>
+                        <div *ngIf="subscriptions?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!subscriptions" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="subscriptions?.length > 0" (change)="onChangeSubscription($event.target.value)" [(ngModel)]="selectedSubscription">
+                            <option *ngFor="let item of subscriptions" [value]="item.value.subscriptionId">{{item.displayLabel}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="selectedSubscription" class="select-container">
+                        <label>{{'databaseAccount' | translate}}</label>
+                        <div *ngIf="databases?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+                        <i *ngIf="!databases?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+                        <select *ngIf="databases?.value?.length > 0" [(ngModel)]="selectedDatabase">
+                            <option *ngFor="let item of databases.value" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="option === optionTypes.custom">
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingName' | translate}}</label>
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-conainer">
+                    <button *ngIf="!selectInProcess"
+                            (click)="onSelect()"
+                            [disabled]="!canSelect"
+                            class="custom-button">
+
+                        <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
+                        <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
+                    </button>
+                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade in"></div>

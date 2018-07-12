@@ -409,12 +409,6 @@
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Enter physical path</value>
   </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Slot Setting</value>
-  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
@@ -1323,6 +1317,12 @@
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore your app's file system from an interactive web-based console.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges will not work.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -2543,7 +2543,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Checkin Message</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
+    <value>You are using a pre-release version of Azure Functions. Click 'learn more' to stay updated on the latest changes through our announcement page.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
@@ -3482,7 +3482,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Success</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Save Credentials</value>
@@ -3545,5 +3545,53 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
     <value>Your app is currently in read-only mode because you are using Local Cache. When using Local Cache, changes made on the local file system are not persisted to the site content. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>App Setting Name</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Connection String Name</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Document Name</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Script Processor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtual Path</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Physical Path</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Database Account</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB account</value>
   </data>
 </root>
