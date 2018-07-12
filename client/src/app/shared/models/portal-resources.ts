@@ -405,6 +405,9 @@
     public static feature_consoleInfo = 'feature_consoleInfo';
     public static feature_consoleMsg = 'feature_consoleMsg';
     public static feature_cmdConsoleName = 'feature_cmdConsoleName';
+    public static feature_powerShellConsoleName = 'feature_powerShellConsoleName';
+    public static feature_bashConsoleName = 'feature_bashConsoleName';
+    public static feature_sshConsoleName = 'feature_sshConsoleName';
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
     public static feature_extensionsName = 'feature_extensionsName';

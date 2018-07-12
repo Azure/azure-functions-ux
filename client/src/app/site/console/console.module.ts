@@ -7,10 +7,17 @@ import { MessageComponent } from './templates/message.component';
 import { CommonModule } from '@angular/common';
 import { ClickOutsideDirective } from './directives/click.directive';
 import { SharedModule } from '../../shared/shared.module';
+import { WindowsConsoleComponent } from './windows.component';
+import { ConsoleService } from './services/console.service';
+import { LinuxConsoleComponent } from './linux.component';
+import { PowershellConsoleComponent } from './powershell/powershell.component';
 
 @NgModule({
     entryComponents: [
+      WindowsConsoleComponent,
+      LinuxConsoleComponent,
       CmdConsoleComponent,
+      PowershellConsoleComponent,
       PromptComponent,
       ErrorComponent,
       MessageComponent
@@ -19,11 +26,17 @@ import { SharedModule } from '../../shared/shared.module';
       TranslateModule.forChild(), CommonModule, SharedModule
     ],
     declarations: [
+      WindowsConsoleComponent,
+      LinuxConsoleComponent,
       CmdConsoleComponent,
+      PowershellConsoleComponent,
       PromptComponent,
       ClickOutsideDirective,
       ErrorComponent,
       MessageComponent
+    ],
+    providers: [
+      ConsoleService
     ],
     exports: [
       CmdConsoleComponent

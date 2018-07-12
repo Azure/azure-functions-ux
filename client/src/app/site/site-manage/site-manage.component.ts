@@ -237,18 +237,26 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService,
                 this._hasSiteWritePermissionStream
             ));
-            // developmentToolFeatures.push(new TabFeature(
-            //     this._translateService.instant(PortalResources.feature_consoleName),
-            //     this._translateService.instant(PortalResources.feature_consoleMsg),
-            //     this._translateService.instant(PortalResources.feature_consoleInfo),
-            //     'image/console.svg',
-            //     SiteTabIds.winConsole,
-            //     this._broadcastService
-            // ));
+            developmentToolFeatures.push(new TabFeature(
+                this._translateService.instant(PortalResources.feature_consoleName),
+                this._translateService.instant(PortalResources.feature_consoleMsg),
+                this._translateService.instant(PortalResources.feature_consoleInfo),
+                'image/console.svg',
+                SiteTabIds.winConsole,
+                this._broadcastService
+            ));
         }
 
         if (this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
             developmentToolFeatures.push(new OpenSshFeature(site, this._hasSiteWritePermissionStream, this._translateService));
+            developmentToolFeatures.push(new TabFeature(
+                this._translateService.instant(PortalResources.feature_consoleName),
+                this._translateService.instant(PortalResources.feature_consoleMsg),
+                this._translateService.instant(PortalResources.feature_consoleInfo),
+                'image/console.svg',
+                SiteTabIds.linuxConsole,
+                this._broadcastService
+            ));
         }
 
         developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));

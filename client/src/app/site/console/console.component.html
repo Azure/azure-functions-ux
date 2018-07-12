@@ -1,0 +1,8 @@
+<div class="browse-container">
+  <!-- <i [load-image]= "consoleIcon" class= "icon-medium"></i>&nbsp; -->
+  <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>
+  <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+  <br /><br />
+  <app-cmd *ngIf="windows && toggleConsole"></app-cmd>
+  <app-powershell *ngIf="windows && !toggleConsole"></app-powershell>
+</div>

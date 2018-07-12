@@ -1,12 +1,70 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Request } from '@angular/http';
+import { ArmObj } from '../../../shared/models/arm/arm-obj';
+import { Site } from '../../../shared/models/arm/site';
+import { PublishingCredentials } from '../../../shared/models/publishing-credentials';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+
+export enum ConsoleTypes{
+  CMD = 1,
+  PS = 2,
+  BASH = 3,
+  SSH = 4
+}
 
 @Injectable()
 export class ConsoleService {
 
+    private _resourceIdSubject = new BehaviorSubject<string>('');
+    private _siteSubject = new BehaviorSubject<ArmObj<Site>>(undefined);
+    private _publishingCredentialsSubject = new BehaviorSubject<ArmObj<PublishingCredentials>>(undefined);
+
     constructor(
         private _http: Http) {
     }
+
+  /**
+   *  Send the resource ID to child components
+   */
+    sendResourceId(resourceId: string){
+      this._resourceIdSubject.next(resourceId);
+    }
+
+  /**
+   *  Send the site object to child components
+   */
+  sendSite(_site: ArmObj<Site>){
+    this._siteSubject.next(_site);
+  }
+
+  /**
+   *  Send the publishing credentials' object to child components
+   */
+  sendPublishingCredentials(_publishingCredentials:  ArmObj<PublishingCredentials>) {
+    this._publishingCredentialsSubject.next(_publishingCredentials);
+  }
+
+  /**
+   *  Get resourceID
+   */
+  getResourceId(): Observable<string> {
+    return this._resourceIdSubject.asObservable();
+  }
+
+  /**
+   *  Get Site object as Observable
+   */
+  getSite(): Observable<ArmObj<Site>> {
+    return this._siteSubject.asObservable();
+  }
+
+  /**
+   *  Get publishing credentials as Observable
+   */
+  getPublishingCredentials(): Observable< ArmObj<PublishingCredentials>> {
+    return this._publishingCredentialsSubject.asObservable();
+  }
 
   /**
    * Connect the given service(url) using the passed in method,

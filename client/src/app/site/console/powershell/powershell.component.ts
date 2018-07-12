@@ -3,11 +3,12 @@ import { ConsoleService, ConsoleTypes } from './../services/console.service';
 import { ConsoleComponent } from '../console.component';
 
 @Component({
-  selector: 'app-cmd',
-  templateUrl: './cmd.component.html',
-  styleUrls: ['./../console.component.scss']
+  selector: 'app-powershell',
+  templateUrl: './powershell.component.html',
+  styleUrls: ['./../console.component.scss', './powershell.component.scss'],
+  providers: []
 })
-export class CmdConsoleComponent extends ConsoleComponent {
+export class PowershellConsoleComponent  extends ConsoleComponent {
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
@@ -15,7 +16,7 @@ export class CmdConsoleComponent extends ConsoleComponent {
     ) {
       super(componentFactoryResolver, consoleService);
       this.dir = 'D:\\home\\site\\wwwroot';
-      this.consoleType = ConsoleTypes.CMD;
+      this.consoleType = ConsoleTypes.PS;
     }
 
   /**
@@ -26,7 +27,7 @@ export class CmdConsoleComponent extends ConsoleComponent {
     if (this.listOfDir.length === 0) {
       const uri = this.getKuduUri();
       const header = this.getHeader();
-      const body = {'command': 'dir /b /a', 'dir': this.dir + '\\'}; // can use ls -a also
+      const body = {'command': 'powershell Get-ChildItem -name', 'dir': this.dir + '\\'}; // can use ls -a also
       const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
       res.subscribe(
         data => {
@@ -73,7 +74,7 @@ export class CmdConsoleComponent extends ConsoleComponent {
     const uri = this.getKuduUri();
     const header = this.getHeader();
     const cmd = this.command;
-    const body = {'command': cmd, 'dir': (this.dir + '\\') };
+    const body = {'command': 'powershell ' + cmd, 'dir': (this.dir + '\\') };
     const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
     this.lastAPICall = res.subscribe(
       data => {
@@ -141,5 +142,4 @@ export class CmdConsoleComponent extends ConsoleComponent {
       this.dir = currentDirs.join('\\');
     }
   }
-
 }

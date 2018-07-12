@@ -32,7 +32,8 @@ import { PartSize } from '../../shared/models/portal';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 import { Observable } from 'rxjs/Observable';
-import { CmdConsoleComponent } from '../console/cmd/cmd.component';
+import { WindowsConsoleComponent } from '../console/windows.component';
+import { LinuxConsoleComponent } from '../console/linux.component';
 
 @Component({
     selector: 'site-dashboard',
@@ -323,7 +324,14 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             case SiteTabIds.winConsole:
                 info.title = this._translateService.instant(PortalResources.feature_consoleName);
                 info.iconUrl = 'image/console.svg';
-                info.componentFactory = CmdConsoleComponent;
+                info.componentFactory = WindowsConsoleComponent;
+                info.closeable = true;
+                break;
+
+            case SiteTabIds.linuxConsole:
+                info.title = this._translateService.instant(PortalResources.feature_consoleName);
+                info.iconUrl = 'image/console.svg';
+                info.componentFactory = LinuxConsoleComponent;
                 info.closeable = true;
                 break;
 
