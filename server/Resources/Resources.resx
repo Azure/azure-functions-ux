@@ -2882,7 +2882,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to stop {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} got restarted'</value>
+    <value>{0} got restarted</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Failed to restart {0}</value>
