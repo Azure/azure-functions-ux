@@ -20,7 +20,7 @@ export type BusyStateName =
     | 'site-api-definition'
     | 'site-continuous-deployment'
     | 'logic-apps'
-    | 'win-console'
+    | 'console'
     | 'scale-up'
     | 'deployment-slots-config'
     | 'standalone-config';

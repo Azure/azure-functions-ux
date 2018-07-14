@@ -1,13 +1,13 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
-import { ConsoleService, ConsoleTypes } from './../services/console.service';
-import { WindowsComponent } from '../shared-components/windows.component';
+import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
+import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 
 @Component({
   selector: 'app-cmd',
   templateUrl: './cmd.component.html',
   styleUrls: ['./../console.component.scss']
 })
-export class CmdComponent extends WindowsComponent {
+export class CmdComponent extends AbstractWindowsComponent {
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,

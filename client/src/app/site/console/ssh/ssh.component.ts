@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { ConsoleService } from './../services/console.service';
+import { ConsoleService } from './../shared/services/console.service';
 import { Site } from '../../../shared/models/arm/site';
 import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { PublishingCredentials } from '../../../shared/models/publishing-credentials';

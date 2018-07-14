@@ -1,4 +1,4 @@
-<div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
+<div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)" >
   <div class = "console">
     <div #consoleBody class="console-inner" [scrollTop]="consoleBody.scrollHeight">
       <textarea #consoleText class = "console-typer" (copy)="handleCopy($event)" 

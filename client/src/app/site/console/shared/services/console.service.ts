@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Request } from '@angular/http';
-import { ArmObj } from '../../../shared/models/arm/arm-obj';
-import { Site } from '../../../shared/models/arm/site';
-import { PublishingCredentials } from '../../../shared/models/publishing-credentials';
+import { ArmObj } from '../../../../shared/models/arm/arm-obj';
+import { Site } from '../../../../shared/models/arm/site';
+import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -34,15 +34,15 @@ export class ConsoleService {
     /**
      *  Send the site object to child components
      */
-    sendSite(_site: ArmObj<Site>) {
-      this._siteSubject.next(_site);
+    sendSite(site: ArmObj<Site>) {
+      this._siteSubject.next(site);
     }
 
     /**
      *  Send the publishing credentials' object to child components
      */
-    sendPublishingCredentials(_publishingCredentials:  ArmObj<PublishingCredentials>) {
-      this._publishingCredentialsSubject.next(_publishingCredentials);
+    sendPublishingCredentials(publishingCredentials:  ArmObj<PublishingCredentials>) {
+      this._publishingCredentialsSubject.next(publishingCredentials);
     }
 
     /**

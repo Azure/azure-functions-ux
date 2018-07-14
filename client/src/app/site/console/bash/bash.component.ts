@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
-import { ConsoleService, ConsoleTypes } from './../services/console.service';
-import { BaseConsoleComponent } from '../shared-components/base.console.component';
+import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
+import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
 
 @Component({
   selector: 'app-bash',
@@ -8,17 +8,21 @@ import { BaseConsoleComponent } from '../shared-components/base.console.componen
   styleUrls: ['./../console.component.scss', './bash.component.scss'],
   providers: []
 })
-export class BashComponent  extends BaseConsoleComponent {
+export class BashComponent  extends AbstractConsoleComponent {
 
+  private _defaultDirectory = '/home';
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService
     ) {
       super(componentFactoryResolver, consoleService);
-      this.dir = '/home';
+      this.dir = this._defaultDirectory;
       this.consoleType = ConsoleTypes.BASH;
     }
 
+  /**
+   * Get the tab-key command for bash console
+   */
   protected getTabKeyCommand(): string {
     return 'ls -a';
   }
@@ -37,31 +41,31 @@ export class BashComponent  extends BaseConsoleComponent {
   protected tabKeyEvent() {
       this.focusConsole();
       if (this.listOfDir.length === 0) {
-      const uri = this.getKuduUri();
-      const header = this.getHeader();
-      const body = {'command': ('bash -c \' ' + this.getTabKeyCommand() + ' && echo \'\' && pwd\''), 'dir': this.dir}; // can use ls -a also
-      const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
-      res.subscribe(
-          data => {
-          const output = data.json();
-          if (output.ExitCode === 0) {
-              // fetch the list of files/folders in the current directory
-              const cmd = this.command.substring(0, this.ptrPosition);
-              const allFiles = output.Output.split('\n\n' + this.dir)[0].split('\n');
-              this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
-              if (this.listOfDir.length > 0) {
-              this.dirIndex = 0;
-              this.command = this.command.substring(0, this.ptrPosition);
-              this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[0];
-              this.ptrPosition = this.command.length;
-              this.divideCommandForPtr();
+        const uri = this.getKuduUri();
+        const header = this.getHeader();
+        const body = {'command': ('bash -c \' ' + this.getTabKeyCommand() + ' && echo \'\' && pwd\''), 'dir': this.dir}; // can use ls -a also
+        const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
+        res.subscribe(
+            data => {
+              const output = data.json();
+              if (output.ExitCode === 0) {
+                // fetch the list of files/folders in the current directory
+                const cmd = this.command.substring(0, this.ptrPosition);
+                const allFiles = output.Output.split('\n\n' + this.dir)[0].split('\n');
+                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
+                if (this.listOfDir.length > 0) {
+                  this.dirIndex = 0;
+                  this.command = this.command.substring(0, this.ptrPosition);
+                  this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[0];
+                  this.ptrPosition = this.command.length;
+                  this.divideCommandForPtr();
+                }
               }
-          }
-          },
-          err => {
-          console.log('Tab Key Error' + err.text);
-          }
-      );
+            },
+            err => {
+                console.log('Tab Key Error' + err.text);
+            }
+        );
       return;
       }
       this.command = this.command.substring(0, this.ptrPosition);
@@ -85,12 +89,8 @@ export class BashComponent  extends BaseConsoleComponent {
           const output = data.json();
           if (output.Output === '' && output.ExitCode !== 0) {
             this.addErrorComponent(output.Error + '\r\n');
-          } else {
-            if (output.ExitCode === 0 && output.Output !== '') {
-              if (this.performAction(cmd, output.Output)) {
-                this.addMessageComponent(output.Output.split('\n\n' + this.dir)[0] + '\r\n\n');
-              }
-            }
+          } else if (output.ExitCode === 0 && output.Output !== '' && this.performAction(cmd, output.Output)) {
+              this.addMessageComponent(output.Output.split('\n\n' + this.dir)[0] + '\r\n\n');
           }
           this.addPromptComponent();
           return output;
@@ -105,13 +105,13 @@ export class BashComponent  extends BaseConsoleComponent {
    * perform action on key pressed.
    */
   protected performAction(cmd?: string, output?: string): boolean {
-      if (this.command.toLowerCase() === 'clear') {
+      if (this.command.toLowerCase() === 'clear') { // bash uses clear to empty the console
         this.removeMsgComponents();
         return false;
       }
       if (this.command.toLowerCase() === 'exit') {
         this.removeMsgComponents();
-        this.dir = '/home';
+        this.dir = this._defaultDirectory;
         return false;
       }
       if (cmd && cmd.toLowerCase().startsWith('cd')) {
@@ -121,5 +121,4 @@ export class BashComponent  extends BaseConsoleComponent {
       }
       return true;
   }
-
 }

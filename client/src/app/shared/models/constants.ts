@@ -73,8 +73,7 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'site-config';
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
-    public static readonly winConsole = 'win-console';
-    public static readonly linuxConsole = 'linux-console';
+    public static readonly console = 'console';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';

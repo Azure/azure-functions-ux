@@ -1,19 +1,16 @@
 import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input } from '@angular/core';
-import { ArmObj } from '../../../shared/models/arm/arm-obj';
-import { Site } from '../../../shared/models/arm/site';
-import { PublishingCredentials } from '../../../shared/models/publishing-credentials';
+import { ArmObj } from '../../../../shared/models/arm/arm-obj';
+import { Site } from '../../../../shared/models/arm/site';
+import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { Subscription } from 'rxjs/Subscription';
 import { ConsoleService, ConsoleTypes } from './../services/console.service';
-import { KeyCodes } from '../../../shared/models/constants';
-import { ErrorComponent } from './../templates/error.component';
-import { MessageComponent } from './../templates/message.component';
-import { PromptComponent } from './../templates/prompt.component';
+import { KeyCodes } from '../../../../shared/models/constants';
+import { ErrorComponent } from './error.component';
+import { MessageComponent } from './message.component';
+import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
 
-export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
-
-    @Input()
-    public appName: string;
+export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     public resourceId: string;
     public consoleType: number;
     public isFocused = false;
@@ -41,6 +38,8 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
     private _siteSubscription: Subscription;
     private _publishingCredSubscription: Subscription;
 
+    @Input()
+    public appName: string;
     /**
      * UI Elements
      */
@@ -200,6 +199,9 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
         this._refreshTabFunctionElements();
     }
 
+    /**
+     * Get the command to list all the directories for the specific console-type
+     */
     protected abstract getTabKeyCommand(): string;
 
     /**
@@ -218,9 +220,9 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
     protected abstract getKuduUri(): string ;
 
     /**
-        * Connect to the kudu API and display the response;
-        * both incase of an error or a valid response
-        */
+    * Connect to the kudu API and display the response;
+    * both incase of an error or a valid response
+    */
     protected abstract connectToKudu();
 
     /**
@@ -235,13 +237,13 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
-        * Remove all the message history
-        */
+    * Remove all the message history
+    */
     protected removeMsgComponents() {
         let len = this._msgComponents.length;
         while (len > 0) {
-        --len;
-        this._msgComponents.pop().destroy();
+            --len;
+            this._msgComponents.pop().destroy();
         }
     }
 
@@ -252,9 +254,10 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     protected addMessageComponent(message?: string) {
         if (!this._messageComponent) {
-        this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
+            this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
         }
         const msgComponent = this._prompt.createComponent(this._messageComponent);
+        msgComponent.instance.loading = (message ? false : true);
         msgComponent.instance.message = (message ? message : (this._getConsoleLeft() + this.command));
         this._msgComponents.push(msgComponent);
     }
@@ -266,10 +269,15 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     protected addPromptComponent() {
         if (!this._promptComponent) {
-        this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
+            this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
         }
         this._currentPrompt = this._prompt.createComponent(this._promptComponent);
         this._currentPrompt.instance.dir = this._getConsoleLeft();
+        // hide the loader on the last 2 msg-components
+        this._msgComponents[this._msgComponents.length - 1].instance.loading = false;
+        if (this._msgComponents.length > 1) {
+            this._msgComponents[this._msgComponents.length - 2].instance.loading = false;
+        }
     }
 
     /**
@@ -278,7 +286,7 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     protected addErrorComponent(error: string) {
         if (!this._errorComponent) {
-        this._errorComponent = this._componentFactoryResolver.resolveComponentFactory(ErrorComponent);
+            this._errorComponent = this._componentFactoryResolver.resolveComponentFactory(ErrorComponent);
         }
         const errorComponent = this._prompt.createComponent(this._errorComponent);
         this._msgComponents.push(errorComponent);
@@ -290,13 +298,13 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     protected divideCommandForPtr() {
         if (this.ptrPosition < 0 || this.ptrPosition > this.command.length) {
-        return;
+            return;
         }
         if (this.ptrPosition === this.command.length) {
-        this.commandInParts.leftCmd = this.command;
-        this.commandInParts.middleCmd = ' ';
-        this.commandInParts.rightCmd = '';
-        return;
+            this.commandInParts.leftCmd = this.command;
+            this.commandInParts.middleCmd = ' ';
+            this.commandInParts.rightCmd = '';
+            return;
         }
         this.commandInParts.leftCmd = this.command.substring(0, this.ptrPosition);
         this.commandInParts.middleCmd = this.command.substring(this.ptrPosition, this.ptrPosition + 1);
@@ -308,8 +316,8 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _leftArrowKeyEvent() {
         if (this.ptrPosition >= 1) {
-        --this.ptrPosition;
-        this.divideCommandForPtr();
+            --this.ptrPosition;
+            this.divideCommandForPtr();
         }
     }
 
@@ -318,8 +326,8 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _rightArrowKeyEvent() {
         if (this.ptrPosition < this.command.length) {
-        ++this.ptrPosition;
-        this.divideCommandForPtr();
+            ++this.ptrPosition;
+            this.divideCommandForPtr();
         }
     }
 
@@ -328,10 +336,10 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _downArrowKeyEvent() {
         if (this.commandHistory.length > 0 && this.commandHistoryIndex < this.commandHistory.length - 1) {
-        this.commandHistoryIndex = (this.commandHistoryIndex + 1) % (this.commandHistory.length);
-        this.command = this.commandHistory[this.commandHistoryIndex];
-        this.ptrPosition = this.command.length;
-        this.divideCommandForPtr();
+            this.commandHistoryIndex = (this.commandHistoryIndex + 1) % (this.commandHistory.length);
+            this.command = this.commandHistory[this.commandHistoryIndex];
+            this.ptrPosition = this.command.length;
+            this.divideCommandForPtr();
         }
     }
 
@@ -340,10 +348,10 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _topArrowKeyEvent() {
         if (this.commandHistoryIndex > 0) {
-        this.command = this.commandHistory[this.commandHistoryIndex - 1];
-        this.commandHistoryIndex = (this.commandHistoryIndex === 1 ? 0 : --this.commandHistoryIndex);
-        this.ptrPosition = this.command.length;
-        this.divideCommandForPtr();
+            this.command = this.commandHistory[this.commandHistoryIndex - 1];
+            this.commandHistoryIndex = (this.commandHistoryIndex === 1 ? 0 : --this.commandHistoryIndex);
+            this.ptrPosition = this.command.length;
+            this.divideCommandForPtr();
         }
     }
 
@@ -352,13 +360,13 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _backspaceKeyEvent() {
         if (this.ptrPosition < 1) {
-        return;
+            return;
         }
         this.commandInParts.leftCmd = this.commandInParts.leftCmd.slice(0, -1);
         if (this.ptrPosition === this.command.length) {
-        this.command = this.commandInParts.leftCmd;
-        --this.ptrPosition;
-        return;
+            this.command = this.commandInParts.leftCmd;
+            --this.ptrPosition;
+            return;
         }
         this.command = this.commandInParts.leftCmd + this.commandInParts.middleCmd + this.commandInParts.rightCmd;
         --this.ptrPosition;
@@ -374,10 +382,10 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
         this.commandHistory.push(this.command);
         this.commandHistoryIndex = this.commandHistory.length;
         if (flag) {
-        this.addMessageComponent();
-        this.connectToKudu();
+            this.addMessageComponent();
+            this.connectToKudu();
         } else {
-        this.addPromptComponent();
+            this.addPromptComponent();
         }
         this._resetCommand();
     }
@@ -454,12 +462,12 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _appendToCommand(cmd: string, key?: number) {
         if (key && ((key > KeyCodes.backspace && key <= KeyCodes.delete) || (key >= KeyCodes.leftWindow && key <= KeyCodes.select) || (key >= KeyCodes.f1 && key < KeyCodes.scrollLock))) {
-        // key-strokes not allowed, for e.g F1-F12
-        return;
+            // key-strokes not allowed, for e.g F1-F12
+            return;
         }
         if (key && (key === KeyCodes.c || key === KeyCodes.v) && this._lastKeyPressed === KeyCodes.ctrl) {
-        // Ctrl + C or Ctrl + V pressed, should not append c/v to the current command
-        return;
+            // Ctrl + C or Ctrl + V pressed, should not append c/v to the current command
+            return;
         }
         this.commandHistoryIndex = this.commandHistory.length; // reset the command-index to the last command
         if (this.ptrPosition === this.command.length) {
@@ -479,9 +487,9 @@ export abstract class BaseConsoleComponent implements OnInit, OnDestroy {
      */
     private _renderPromptVariables() {
         if (this._currentPrompt) {
-        this._currentPrompt.instance.command = this.command;
-        this._currentPrompt.instance.commandInParts = this.commandInParts;
-        this._currentPrompt.instance.isFocused = this.isFocused;
+            this._currentPrompt.instance.command = this.command;
+            this._currentPrompt.instance.commandInParts = this.commandInParts;
+            this._currentPrompt.instance.isFocused = this.isFocused;
         }
     }
 }

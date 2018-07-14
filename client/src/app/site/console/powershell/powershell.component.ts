@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
-import { ConsoleService, ConsoleTypes } from './../services/console.service';
-import { WindowsComponent } from '../shared-components/windows.component';
+import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
+import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 
 @Component({
   selector: 'app-powershell',
@@ -8,7 +8,7 @@ import { WindowsComponent } from '../shared-components/windows.component';
   styleUrls: ['./../console.component.scss', './powershell.component.scss'],
   providers: []
 })
-export class PowershellComponent  extends WindowsComponent {
+export class PowershellComponent  extends AbstractWindowsComponent {
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,

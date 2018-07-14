@@ -1,8 +1,8 @@
-import { BaseConsoleComponent } from './base.console.component';
+import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 
-export abstract class WindowsComponent extends BaseConsoleComponent {
+export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
         public consoleService: ConsoleService
@@ -25,31 +25,31 @@ export abstract class WindowsComponent extends BaseConsoleComponent {
     protected tabKeyEvent() {
         this.focusConsole();
         if (this.listOfDir.length === 0) {
-        const uri = this.getKuduUri();
-        const header = this.getHeader();
-        const body = {'command': (this.getCommandPrefix() + this.getTabKeyCommand()), 'dir': this.dir + '\\'}; // can use ls -a also
-        const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
-        res.subscribe(
-            data => {
-            const output = data.json();
-            if (output.ExitCode === 0) {
-                // fetch the list of files/folders in the current directory
-                const cmd = this.command.substring(0, this.ptrPosition);
-                const allFiles = output.Output.split('\r\n');
-                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
-                if (this.listOfDir.length > 0) {
-                this.dirIndex = 0;
-                this.command = this.command.substring(0, this.ptrPosition);
-                this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[0];
-                this.ptrPosition = this.command.length;
-                this.divideCommandForPtr();
+            const uri = this.getKuduUri();
+            const header = this.getHeader();
+            const body = {'command': (this.getCommandPrefix() + this.getTabKeyCommand()), 'dir': this.dir + '\\'}; // can use ls -a also
+            const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
+            res.subscribe(
+                data => {
+                    const output = data.json();
+                    if (output.ExitCode === 0) {
+                        // fetch the list of files/folders in the current directory
+                        const cmd = this.command.substring(0, this.ptrPosition);
+                        const allFiles = output.Output.split('\r\n');
+                        this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
+                        if (this.listOfDir.length > 0) {
+                        this.dirIndex = 0;
+                        this.command = this.command.substring(0, this.ptrPosition);
+                        this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[0];
+                        this.ptrPosition = this.command.length;
+                        this.divideCommandForPtr();
+                        }
+                    }
+                },
+                err => {
+                    console.log('Tab Key Error' + err.text);
                 }
-            }
-            },
-            err => {
-            console.log('Tab Key Error' + err.text);
-            }
-        );
+            );
         return;
         }
         this.command = this.command.substring(0, this.ptrPosition);
@@ -93,18 +93,18 @@ export abstract class WindowsComponent extends BaseConsoleComponent {
      */
     protected performAction(cmd?: string): boolean {
         if (this.command.toLowerCase() === 'cls') {
-        this.removeMsgComponents();
-        return false;
+            this.removeMsgComponents();
+            return false;
         }
         if (this.command.toLowerCase() === 'exit') {
-        this.removeMsgComponents();
-        this.dir = 'D:\\home\\site\\wwwroot';
-        return false;
+            this.removeMsgComponents();
+            this.dir = 'D:\\home\\site\\wwwroot';
+            return false;
         }
         if (cmd && cmd.toLowerCase().startsWith('cd')) {
-        cmd = cmd.substring(2).trim().replace(/\//g, '\\').replace(/\\\\/g, '\\');
-        this._changeCurrentDirectory(cmd);
-        return false;
+            cmd = cmd.substring(2).trim().replace(/\//g, '\\').replace(/\\\\/g, '\\');
+            this._changeCurrentDirectory(cmd);
+            return false;
         }
         return true;
     }
@@ -117,22 +117,22 @@ export abstract class WindowsComponent extends BaseConsoleComponent {
     private _changeCurrentDirectory(cmd: string) {
         const currentDirs = this.dir.split('\\');
         if (cmd === '\\') {
-        this.dir = currentDirs[0];
+            this.dir = currentDirs[0];
         } else {
-        const dirsInPath = cmd.split('\\');
-        for (let i = 0; i < dirsInPath.length; ++i) {
-            if (dirsInPath[i] === '.') {
-            // remain in current directory
-            } else if (dirsInPath[i] === '' || dirsInPath[i] === '..') {
-            if (currentDirs.length === 1) {
-                break;
+            const dirsInPath = cmd.split('\\');
+            for (let i = 0; i < dirsInPath.length; ++i) {
+                if (dirsInPath[i] === '.') {
+                    // remain in current directory
+                } else if (dirsInPath[i] === '' || dirsInPath[i] === '..') {
+                    if (currentDirs.length === 1) {
+                        break;
+                    }
+                    currentDirs.pop();
+                } else {
+                    currentDirs.push(dirsInPath[i]);
+                }
             }
-            currentDirs.pop();
-            } else {
-            currentDirs.push(dirsInPath[i]);
-            }
-        }
-        this.dir = currentDirs.join('\\');
+            this.dir = currentDirs.join('\\');
         }
     }
 

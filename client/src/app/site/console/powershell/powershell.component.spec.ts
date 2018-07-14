@@ -1,23 +1,19 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { PowershellComponent } from './powershell.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { ConsoleService } from './../services/console.service';
-import { Injectable, NgModule, Injector } from '@angular/core';
-import { Headers, HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { ConsoleService } from './../shared/services/console.service';
+import { Injector } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { SiteService } from '../../../shared/services/site.service';
 import { LogService } from '../../../shared/services/log.service';
 import { MockLogService } from '../../../test/mocks/log.service.mock';
 import { CacheService } from '../../../shared/services/cache.service';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
-import { PromptComponent } from './../templates/prompt.component';
-import { MessageComponent } from './../templates/message.component';
-import { ErrorComponent } from './../templates/error.component';
-import { CommonModule } from '@angular/common';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
 import { MockDirective } from 'ng-mocks';
+import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService, TestModule } from '../shared/services/mock.services';
 
 describe('PowershellConsoleComponent', () => {
   let component: PowershellComponent;
@@ -25,7 +21,7 @@ describe('PowershellConsoleComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(), HttpModule, TestComponents
+        TranslateModule.forRoot(), HttpModule, TestModule
       ],
       providers: [
         BroadcastService, Injector,
@@ -125,83 +121,5 @@ describe('PowershellConsoleComponent', () => {
       component.keyEvent({which: 27, key: 'esc'});
       expect(component.commandInParts.leftCmd).toEqual('');
     }));
-
-    it('enter-key-press', (() => {
-      component.keyEvent({which: 86, key: 'v'});
-      expect(component.commandInParts.leftCmd).toEqual('v');
-      component.keyEvent({which: 13, key: 'enter'});
-      expect(component.commandInParts.leftCmd).toEqual('');
-      expect(fixture.nativeElement.querySelector('.console-message-error')).toBeNull();
-    }));
   });
 });
-
-class TestClipboard {
-  getData(type: string) {
-    return 'paste';
-  }
-}
-
-@Injectable()
-class MockCacheService {
-  postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
-    return Observable.of(null);
-  }
-}
-
-@Injectable()
-class MockSiteService {
-  public siteObject = {
-    properties: {
-      hostNameSslStates: [{ name: '', hostType: 1 }]
-    }
-  };
-  getSite(resourceId: string) {
-    return Observable.of({
-      isSuccessful: true,
-      result: this.siteObject
-    });
-  }
-}
-
-@Injectable()
-class MockConsoleService {
-  /**
-   * Connect the given service(url) using the passed in method,
-   * body and header elements.
-   * @param method : String, one of {GET, POST, PUT, DELETE}
-   * @param url : String
-   * @param body: any?
-   * @param headers: Headers?
-   */
-  send(method: string, url: string, body?: any, headers?: Headers) {
-    return Observable.of(null);
-  }
-
-  /**
-   * Find all the strings which start with the given string, 'cmd' from the given string array
-   * Incase the string is empty, the inital array of strings is returned.
-   */
-  findMatchingStrings(allFiles: string[], cmd: string): string[] {
-    if (!cmd || cmd === '') {
-      return allFiles;
-    }
-    const ltOfDir: string[] = [];
-    cmd = cmd.toLowerCase();
-    allFiles.forEach(element => {
-      if (element.toLowerCase().startsWith(cmd)) {
-        ltOfDir.push(element);
-      }
-    });
-    return ltOfDir;
-  }
-}
-
-@NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [PromptComponent, MessageComponent, ErrorComponent],
-  entryComponents: [PromptComponent, MessageComponent, ErrorComponent]
-})
-class TestComponents {}

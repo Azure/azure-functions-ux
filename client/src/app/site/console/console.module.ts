@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { PromptComponent } from './templates/prompt.component';
-import { ErrorComponent } from './templates/error.component';
-import { MessageComponent } from './templates/message.component';
+import { PromptComponent } from './shared/components/prompt.component';
+import { ErrorComponent } from './shared/components/error.component';
+import { MessageComponent } from './shared/components/message.component';
 import { CommonModule } from '@angular/common';
-import { ClickOutsideDirective } from './directives/click.directive';
+import { ClickOutsideDirective } from './shared/directives/click.directive';
 import { SharedModule } from '../../shared/shared.module';
-import { ConsoleService } from './services/console.service';
-import { WindowsConsoleComponent } from './windows.console.component';
-import { LinuxConsoleComponent } from './linux.console.component';
+import { ConsoleService } from './shared/services/console.service';
 import { CmdComponent } from './cmd/cmd.component';
 import { PowershellComponent } from './powershell/powershell.component';
 import { BashComponent } from './bash/bash.component';
 import { SSHComponent } from './ssh/ssh.component';
+import { ConsoleComponent } from './console.component';
 
 @NgModule({
     entryComponents: [
-      WindowsConsoleComponent,
-      LinuxConsoleComponent,
+      ConsoleComponent,
       CmdComponent,
       PowershellComponent,
       BashComponent,
@@ -30,8 +28,7 @@ import { SSHComponent } from './ssh/ssh.component';
       TranslateModule.forChild(), CommonModule, SharedModule
     ],
     declarations: [
-      WindowsConsoleComponent,
-      LinuxConsoleComponent,
+      ConsoleComponent,
       CmdComponent,
       PowershellComponent,
       BashComponent,
