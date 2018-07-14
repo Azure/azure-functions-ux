@@ -3,12 +3,13 @@ import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
+    private _defaultDirectory = 'D:\\home\\site\\wwwroot';
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
         public consoleService: ConsoleService
         ) {
           super(componentFactoryResolver, consoleService);
-          this.dir = 'D:\\home\\site\\wwwroot';
+          this.dir = this._defaultDirectory;
         }
 
     /**
@@ -98,7 +99,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         }
         if (this.command.toLowerCase() === 'exit') {
             this.removeMsgComponents();
-            this.dir = 'D:\\home\\site\\wwwroot';
+            this.dir = this._defaultDirectory;
             return false;
         }
         if (cmd && cmd.toLowerCase().startsWith('cd')) {
