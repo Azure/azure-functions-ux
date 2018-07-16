@@ -1,9 +1,5 @@
-import { Injectable, NgModule } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { CommonModule } from '@angular/common';
-import { ErrorComponent } from '../components/error.component';
-import { MessageComponent } from '../components/message.component';
-import { PromptComponent } from '../components/prompt.component';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
@@ -81,12 +77,3 @@ export class MockConsoleService {
         return Observable.of(null);
     }
 }
-
-@NgModule({
-    imports: [
-        CommonModule
-    ],
-declarations: [PromptComponent, MessageComponent, ErrorComponent],
-entryComponents: [PromptComponent, MessageComponent, ErrorComponent]
-})
-export class TestModule {}

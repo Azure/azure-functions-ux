@@ -11,7 +11,11 @@ import { CacheService } from '../../../shared/services/cache.service';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
-import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService, TestModule } from '../shared/services/mock.services';
+import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService } from '../shared/services/mock.services';
+import { MessageComponent } from '../shared/components/message.component';
+import { CommonModule } from '@angular/common';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { PromptComponent } from '../shared/components/prompt.component';
 
 describe('BashComponent', () => {
   let component: BashComponent;
@@ -19,7 +23,7 @@ describe('BashComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(), HttpModule, TestModule
+        TranslateModule.forRoot(), HttpModule, CommonModule
       ],
       providers: [
         BroadcastService, Injector,
@@ -29,14 +33,17 @@ describe('BashComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [BashComponent],
-    })
-      .compileComponents().then(() => {
+      declarations: [BashComponent, MessageComponent, PromptComponent]
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [MessageComponent, PromptComponent]
+      }
+    }).compileComponents().then(() => {
         fixture = TestBed.createComponent(BashComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });
-  }));
+    }));
 
   describe('init', () => {
     it('should create', async(() => {

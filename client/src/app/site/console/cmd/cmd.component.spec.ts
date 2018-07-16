@@ -13,7 +13,11 @@ import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
 import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
-import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService, TestModule } from '../shared/services/mock.services';
+import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService } from '../shared/services/mock.services';
+import { MessageComponent } from '../shared/components/message.component';
+import { CommonModule } from '@angular/common';
+import { PromptComponent } from '../shared/components/prompt.component';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 describe('CmdConsoleComponent', () => {
   let component: CmdComponent;
@@ -21,7 +25,7 @@ describe('CmdConsoleComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(), HttpModule, TestModule
+        TranslateModule.forRoot(), HttpModule, CommonModule
       ],
       providers: [
         BroadcastService, Injector,
@@ -31,9 +35,12 @@ describe('CmdConsoleComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [CmdComponent, MockDirective(LoadImageDirective)],
-    })
-      .compileComponents().then(() => {
+      declarations: [CmdComponent, MockDirective(LoadImageDirective), MessageComponent, PromptComponent]
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [MessageComponent, PromptComponent]
+      }
+    }).compileComponents().then(() => {
         fixture = TestBed.createComponent(CmdComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
