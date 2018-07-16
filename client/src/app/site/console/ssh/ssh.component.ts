@@ -43,7 +43,7 @@ export class SSHComponent implements OnInit, OnDestroy {
   /**
    * Get Kudu API URL
    */
-  protected getKuduUri(): string {
+  public getKuduUri(): string {
     const scmHostName = this.site ? (this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name) : 'funcplaceholder01.scm.azurewebsites.net';
     return `https://${scmHostName}/webssh/host`;
   }
