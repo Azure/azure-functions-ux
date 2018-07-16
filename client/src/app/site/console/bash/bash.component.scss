@@ -1,7 +1,0 @@
-@import '../../../../sass/common/variables';
-
-::ng-deep span.console-cursor{
-    border: none;
-    color: $bash-cursor-text-color;
-    background-color: $bash-cursor-background-color;
-}

@@ -3,7 +3,7 @@ import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { Subscription } from 'rxjs/Subscription';
-import { ConsoleService, ConsoleTypes } from './../services/console.service';
+import { ConsoleService } from './../services/console.service';
 import { KeyCodes } from '../../../../shared/models/constants';
 import { ErrorComponent } from './error.component';
 import { MessageComponent } from './message.component';
@@ -220,6 +220,11 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     protected abstract getKuduUri(): string ;
 
     /**
+     * Get the left-hand-side text for the console
+     */
+    protected abstract getConsoleLeft();
+
+    /**
     * Connect to the kudu API and display the response;
     * both incase of an error or a valid response
     */
@@ -258,7 +263,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         }
         const msgComponent = this._prompt.createComponent(this._messageComponent);
         msgComponent.instance.loading = (message ? false : true);
-        msgComponent.instance.message = (message ? message : (this._getConsoleLeft() + this.command));
+        msgComponent.instance.message = (message ? message : (this.getConsoleLeft() + this.command));
         this._msgComponents.push(msgComponent);
     }
 
@@ -272,7 +277,8 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
             this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
         }
         this._currentPrompt = this._prompt.createComponent(this._promptComponent);
-        this._currentPrompt.instance.dir = this._getConsoleLeft();
+        this._currentPrompt.instance.dir = this.getConsoleLeft();
+        this._currentPrompt.instance.consoleType = this.consoleType;
         // hide the loader on the last 2 msg-components
         this._msgComponents[this._msgComponents.length - 1].instance.loading = false;
         if (this._msgComponents.length > 1) {
@@ -388,41 +394,6 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
             this.addPromptComponent();
         }
         this._resetCommand();
-    }
-
-    /**
-     * Get the left-hand-side text for the console command
-     */
-    private _getConsoleLeft() {
-        let left = this._getConsleLeftPrefix();
-        if (this.consoleType === ConsoleTypes.BASH) {
-            left += this.appName;
-        }else {
-            left += this.dir;
-        }
-        return left + this._getConsoleLeftSuffix();
-    }
-
-    /**
-     * Returns the directory suffix for specific console type
-     */
-    private _getConsoleLeftSuffix(): string {
-        switch (this.consoleType) {
-            case ConsoleTypes.CMD: { return '>'; }
-            case ConsoleTypes.PS: { return '>'; }
-            case ConsoleTypes.BASH: { return ':~$ '; }
-        }
-        return '';
-    }
-
-    /**
-     * Returns the directory prefix for specific console type
-     */
-    private _getConsleLeftPrefix(): string {
-        if (this.consoleType === ConsoleTypes.PS) {
-            return 'PS ';
-        }
-        return '';
     }
 
     /**

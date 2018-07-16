@@ -25,4 +25,10 @@ export class CmdComponent extends AbstractWindowsComponent {
     return '';
   }
 
+  /**
+   * Get the left-hand-side text for the console
+   */
+  protected getConsoleLeft() {
+    return this.dir + '>';
+  }
 }

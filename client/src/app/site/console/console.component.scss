@@ -78,6 +78,12 @@ span.console-cursor{
     -webkit-animation: blink 1s steps(3, start) infinite;
 }
 
+span.bash-cursor{
+    border: none;
+    color: $bash-cursor-text-color;
+    background-color: $bash-cursor-background-color;
+}
+
 @-webkit-keyframes blink{
     to{
         visibility: hidden;

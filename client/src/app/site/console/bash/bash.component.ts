@@ -5,7 +5,7 @@ import { AbstractConsoleComponent } from '../shared/components/abstract.console.
 @Component({
   selector: 'app-bash',
   templateUrl: './bash.component.html',
-  styleUrls: ['./../console.component.scss', './bash.component.scss'],
+  styleUrls: ['./../console.component.scss'],
   providers: []
 })
 export class BashComponent  extends AbstractConsoleComponent {
@@ -120,5 +120,12 @@ export class BashComponent  extends AbstractConsoleComponent {
         return false;
       }
       return true;
+  }
+
+  /**
+   * Get the left-hand-side text for the console
+   */
+  protected getConsoleLeft() {
+    return this.appName + ':~$ ';
   }
 }
