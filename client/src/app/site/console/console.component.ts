@@ -13,6 +13,10 @@ import { ArmUtil } from '../../shared/Utilities/arm-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { fade } from './shared/animations/fade.animation';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { PublishingCredentials } from '../../shared/models/publishing-credentials';
+import { Site } from '../../shared/models/arm/site';
+import { errorIds } from '../../shared/models/error-ids';
 
 @Component({
   selector: 'app-console',
@@ -77,20 +81,37 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
             .do(
               r => {
                 this._consoleService.sendSite(r.site);
+                this._consoleService.sendPublishingCredentials(r.publishingCredentials);
+                this.appName = r.publishingCredentials.name;
                 if (ArmUtil.isLinuxApp(r.site)) {
                   // linux-app
                   this._setLinuxDashboard();
                 }else {
                   this._setWindowsDashboard();
                 }
-                this._consoleService.sendPublishingCredentials(r.publishingCredentials);
-                this.appName = r.publishingCredentials.name;
                 this.clearBusyEarly();
+                if (!this._siteDetailAvailable(r.site, r.publishingCredentials)) {
+                  this.showComponentError({
+                    message: this._translateService.instant(PortalResources.error_consoleNotAvailable),
+                    errorId: errorIds.unknown,
+                    resourceId: this.resourceId
+                  });
+                  this.setBusy();
+                  return;
+                }
               },
               err => {
                 this._logService.error(LogCategories.cicd, '/load-linux-console', err);
                 this.clearBusyEarly();
               });
+      }
+
+      private _siteDetailAvailable(site: ArmObj<Site>, publishingCredentials: ArmObj<PublishingCredentials>): boolean {
+        if (!site || !site.properties.hostNameSslStates.find (h => h.hostType === 1) || !publishingCredentials ||
+        publishingCredentials.properties.publishingPassword === '' || publishingCredentials.properties.publishingUserName === '') {
+          return false;
+        }
+        return true;
       }
 
       private _setWindowsDashboard() {

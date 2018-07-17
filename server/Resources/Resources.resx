@@ -1312,6 +1312,9 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Learn more&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>

@@ -220,25 +220,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             ));
         }
 
-        // if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled') {
-        //     developmentToolFeatures.push(new DisableableBladeFeature(
-        //         this._translateService.instant(PortalResources.feature_consoleName),
-        //         this._translateService.instant(PortalResources.feature_consoleName) +
-        //         ' ' +
-        //         this._translateService.instant(PortalResources.debug),
-        //         this._translateService.instant(PortalResources.feature_consoleInfo),
-        //         'image/console.svg',
-        //         {
-        //             detailBlade: 'ConsoleBlade',
-        //             detailBladeInputs: {
-        //                 resourceUri: site.id
-        //             }
-        //         },
-        //         this._portalService,
-        //         this._hasSiteWritePermissionStream
-        //     ));
-        // }
-
         if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
     || this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
             developmentToolFeatures.push(new TabFeature(

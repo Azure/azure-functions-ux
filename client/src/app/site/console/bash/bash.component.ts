@@ -1,6 +1,7 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
+import { Regex, ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
 
 @Component({
   selector: 'app-bash',
@@ -31,7 +32,7 @@ export class BashComponent  extends AbstractConsoleComponent {
    * Get Kudu API URL
    */
   protected getKuduUri(): string {
-    const scmHostName = this.site ? (this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name) : 'funcplaceholder01.scm.azurewebsites.net';
+    const scmHostName = this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
     return `https://${scmHostName}/command`;
   }
 
@@ -43,22 +44,25 @@ export class BashComponent  extends AbstractConsoleComponent {
       if (this.listOfDir.length === 0) {
         const uri = this.getKuduUri();
         const header = this.getHeader();
-        const body = {'command': ('bash -c \' ' + this.getTabKeyCommand() + ' && echo \'\' && pwd\''), 'dir': this.dir}; // can use ls -a also
-        const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
+        const body = {
+          'command': (`bash -c \' ${this.getTabKeyCommand()} && echo \'\' && pwd\'`),
+          'dir': this.dir
+        };
+        const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         res.subscribe(
             data => {
               const output = data.json();
-              if (output.ExitCode === 0) {
+              if (output.ExitCode === ConsoleConstants.successExitcode) {
                 // fetch the list of files/folders in the current directory
                 const cmd = this.command.substring(0, this.ptrPosition);
-                const allFiles = output.Output.split('\n\n' + this.dir)[0].split('\n');
-                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(' ') + 1));
+                const allFiles = output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine);
+                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(ConsoleConstants.whitespace) + 1));
                 if (this.listOfDir.length > 0) {
-                  this.dirIndex = 0;
-                  this.command = this.command.substring(0, this.ptrPosition);
-                  this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[0];
-                  this.ptrPosition = this.command.length;
-                  this.divideCommandForPtr();
+                    this.dirIndex = 0;
+                    this.command = this.command.substring(0, this.ptrPosition);
+                    this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[0];
+                    this.ptrPosition = this.command.length;
+                    this.divideCommandForPtr();
                 }
               }
             },
@@ -69,7 +73,7 @@ export class BashComponent  extends AbstractConsoleComponent {
       return;
       }
       this.command = this.command.substring(0, this.ptrPosition);
-      this.command = this.command.substring(0, this.command.lastIndexOf(' ') + 1) + this.listOfDir[ (++this.dirIndex) % this.listOfDir.length];
+      this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
       this.ptrPosition = this.command.length;
       this.divideCommandForPtr();
   }
@@ -82,15 +86,18 @@ export class BashComponent  extends AbstractConsoleComponent {
       const uri = this.getKuduUri();
       const header = this.getHeader();
       const cmd = this.command;
-      const body = {'command': ('bash -c \' ' + cmd + ' && echo \'\' && pwd\''), 'dir': this.dir };
-      const res = this.consoleService.send('POST', uri, JSON.stringify(body), header);
+      const body = {
+        'command': (`bash -c \' ${cmd} && echo \'\' && pwd\'`),
+        'dir': this.dir
+      };
+      const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       this.lastAPICall = res.subscribe(
       data => {
           const output = data.json();
-          if (output.Output === '' && output.ExitCode !== 0) {
-            this.addErrorComponent(output.Error + '\r\n');
-          } else if (output.ExitCode === 0 && output.Output !== '' && this.performAction(cmd, output.Output)) {
-              this.addMessageComponent(output.Output.split('\n\n' + this.dir)[0] + '\r\n\n');
+          if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
+            this.addErrorComponent(output.Error + ConsoleConstants.newLine);
+          } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '' && this.performAction(cmd, output.Output)) {
+              this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2));
           }
           this.addPromptComponent();
           return output;
@@ -105,17 +112,17 @@ export class BashComponent  extends AbstractConsoleComponent {
    * perform action on key pressed.
    */
   protected performAction(cmd?: string, output?: string): boolean {
-      if (this.command.toLowerCase() === 'clear') { // bash uses clear to empty the console
+      if (this.command.toLowerCase() === ConsoleConstants.linuxClear) { // bash uses clear to empty the console
         this.removeMsgComponents();
         return false;
       }
-      if (this.command.toLowerCase() === 'exit') {
+      if (this.command.toLowerCase() === ConsoleConstants.exit) {
         this.removeMsgComponents();
         this.dir = this._defaultDirectory;
         return false;
       }
-      if (cmd && cmd.toLowerCase().startsWith('cd')) {
-        output = output.replace(/(\n)+/g, '');
+      if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
+        output = output.replace(Regex.newLine, '');
         this.dir = output;
         return false;
       }
@@ -126,6 +133,6 @@ export class BashComponent  extends AbstractConsoleComponent {
    * Get the left-hand-side text for the console
    */
   protected getConsoleLeft() {
-    return this.appName + ':~$ ';
+    return `${this.appName}:~$ `;
   }
 }

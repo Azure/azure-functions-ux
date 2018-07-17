@@ -1,7 +1,6 @@
 <div class="browse-container">
   <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>
-  <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-  <br /><br />
+  &nbsp;<i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
   <app-cmd *ngIf="windows && toggleConsole" @fade></app-cmd>
   <app-powershell *ngIf="windows && !toggleConsole" @fade></app-powershell>
   <app-bash *ngIf="!windows && toggleConsole" [appName]= "appName" @fade></app-bash>

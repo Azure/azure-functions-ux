@@ -41,7 +41,7 @@ export class MockConsoleService {
 
     findMatchingStrings(allFiles: string[], cmd: string): string[] {
         if (!cmd || cmd === '') {
-        return allFiles;
+            return allFiles;
         }
         const ltOfDir: string[] = [];
         cmd = cmd.toLowerCase();

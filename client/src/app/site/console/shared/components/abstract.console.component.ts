@@ -4,7 +4,7 @@ import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { Subscription } from 'rxjs/Subscription';
 import { ConsoleService } from './../services/console.service';
-import { KeyCodes } from '../../../../shared/models/constants';
+import { KeyCodes, ConsoleConstants } from '../../../../shared/models/constants';
 import { ErrorComponent } from './error.component';
 import { MessageComponent } from './message.component';
 import { PromptComponent } from './prompt.component';
@@ -126,10 +126,10 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      */
     handleCopy(event) {
         if (!this.lastAPICall) {
-        this._removePrompt();
-        this.addMessageComponent();
+            this._removePrompt();
+            this.addMessageComponent();
         } else if (!this.lastAPICall.closed) {
-        this.lastAPICall.unsubscribe();
+            this.lastAPICall.unsubscribe();
         }
         this._resetCommand();
         this.addPromptComponent();
@@ -165,7 +165,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         }
 
         case KeyCodes.space: {
-            this._appendToCommand(' ');
+            this._appendToCommand(ConsoleConstants.whitespace);
             break;
         }
 
@@ -280,7 +280,9 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this._currentPrompt.instance.dir = this.getConsoleLeft();
         this._currentPrompt.instance.consoleType = this.consoleType;
         // hide the loader on the last 2 msg-components
-        this._msgComponents[this._msgComponents.length - 1].instance.loading = false;
+        if (this._msgComponents.length > 0) {   // check required if 'clear' command is entered.
+            this._msgComponents[this._msgComponents.length - 1].instance.loading = false;
+        }
         if (this._msgComponents.length > 1) {
             this._msgComponents[this._msgComponents.length - 2].instance.loading = false;
         }
@@ -308,7 +310,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         }
         if (this.ptrPosition === this.command.length) {
             this.commandInParts.leftCmd = this.command;
-            this.commandInParts.middleCmd = ' ';
+            this.commandInParts.middleCmd = ConsoleConstants.whitespace;
             this.commandInParts.rightCmd = '';
             return;
         }
@@ -423,7 +425,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this.command = '';
         this.commandInParts.rightCmd = '';
         this.commandInParts.leftCmd = '';
-        this.commandInParts.middleCmd = ' ';
+        this.commandInParts.middleCmd = ConsoleConstants.whitespace;
         this.ptrPosition = 0;
     }
 

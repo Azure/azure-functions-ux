@@ -30,6 +30,6 @@ export class PowershellComponent  extends AbstractWindowsComponent {
    * Get the left-hand-side text for the console
    */
   protected getConsoleLeft() {
-    return 'PS ' + this.dir + '>';
+    return `PS ${this.dir}>`;
   }
 }

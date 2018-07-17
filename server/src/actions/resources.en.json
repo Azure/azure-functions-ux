@@ -366,6 +366,7 @@
         "feature_deploymentSourceInfo": "Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.",
         "feature_deploymentCredsName": "Deployment credentials",
         "feature_deploymentCredsInfo": "Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. <a href=\"https://go.microsoft.com/fwlink/?linkid=846056\">Learn more</a>.",
+        "error_consoleNotAvailable": "The console service is not available on your app.",
         "feature_consoleName": "Console",
         "feature_cmdConsoleName": "CMD",
         "feature_powerShellConsoleName": "CMD",

@@ -401,6 +401,7 @@
     public static feature_deploymentSourceInfo = 'feature_deploymentSourceInfo';
     public static feature_deploymentCredsName = 'feature_deploymentCredsName';
     public static feature_deploymentCredsInfo = 'feature_deploymentCredsInfo';
+    public static error_consoleNotAvailable = 'error_consoleNotAvailable';
     public static feature_consoleName = 'feature_consoleName';
     public static feature_consoleInfo = 'feature_consoleInfo';
     public static feature_consoleMsg = 'feature_consoleMsg';
