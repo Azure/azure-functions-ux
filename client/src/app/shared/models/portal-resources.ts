@@ -980,7 +980,6 @@
     public static pricing_includedFeaturesDesc = 'pricing_includedFeaturesDesc';
     public static pricing_includedHardware = 'pricing_includedHardware';
     public static pricing_includedHardwareDesc = 'pricing_includedHardwareDesc';
-    public static pricing_linuxAseDiscount = 'pricing_linuxAseDiscount';
     public static pricing_linuxTrial = 'pricing_linuxTrial';
     public static pricing_windowsContainers = 'pricing_windowsContainers';
     public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';

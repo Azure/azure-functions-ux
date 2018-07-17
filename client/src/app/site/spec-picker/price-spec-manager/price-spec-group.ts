@@ -1,4 +1,4 @@
-import { Links, Kinds } from 'app/shared/models/constants';
+import { Links } from 'app/shared/models/constants';
 import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
@@ -11,7 +11,6 @@ import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargeP
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
-import { AppKind } from '../../../shared/Utilities/app-kind';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
@@ -145,19 +144,5 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     }
 
     initialize(input: PriceSpecInput) {
-        if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
-            this.bannerMessage = {
-                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
-                level: 'info'
-            };
-        } else if (input.plan
-            && input.plan.properties.hostingEnvironmentProfile
-            && AppKind.hasKinds(input.plan, [Kinds.linux])) {
-
-            this.bannerMessage = {
-                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
-                level: 'info'
-            };
-        }
     }
 }
