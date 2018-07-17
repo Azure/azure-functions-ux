@@ -39,16 +39,20 @@ export class VstsValidators {
             const vstsProjectValue: string = projectControl.value;
             if (vstsAccountValue && vstsProjectValue) {
                 return _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/projects?includeCapabilities=true`)
-                    .switchMap(r => {
+                    .concatMap(r => {
                         const projectList: [{ id: string, name: string }] = r.json().value;
                         const currentProject = projectList.find(x => x.name.toLowerCase() === vstsProjectValue.toLowerCase());
                         if (currentProject) {
                             const callHeaders = _wizard.getVstsDirectHeaders();
                             callHeaders.append('accept', 'application/json;api-version=3.2-preview.2');
-                            return Observable.forkJoin(
-                                _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`, true, callHeaders),
-                                _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.releaseSecurityNameSpace}/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`, true, callHeaders)
-                            );
+                            // need to ping the release rp in vso in order to subscribe to user to the RP, otherwise the rp call will fail
+                            return _cacheService.get(`https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions/environmenttemplates`, true, callHeaders)
+                                .switchMap(() => {
+                                    return Observable.forkJoin(
+                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`, true, callHeaders),
+                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.releaseSecurityNameSpace}/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`, true, callHeaders)
+                                    );
+                                });
                         }
                         return Observable.of(null);
                     })

@@ -2882,7 +2882,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to stop {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} got restarted'</value>
+    <value>{0} got restarted</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Failed to restart {0}</value>
@@ -3066,9 +3066,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Every instance of your App Service plan will include the following hardware configuration:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
