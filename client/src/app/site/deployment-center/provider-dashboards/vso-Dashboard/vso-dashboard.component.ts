@@ -226,7 +226,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             case VSTSLogMessageType.Deployment:
                 return status === 4
                     ? this._translateService.instant('deployedSuccessfullyTo').format(targetApp)
-                    : this._translateService.instant('deployedSuccessfullyTo').format(targetApp);
+                    : this._translateService.instant('deployedFailedTo').format(targetApp);
             case VSTSLogMessageType.SlotSwap:
                 return status === 4
                     ? this._translateService.instant('swappedSlotSuccess').format(messageJSON.sourceSlot, messageJSON.targetSlot)
