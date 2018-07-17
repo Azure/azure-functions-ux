@@ -220,7 +220,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     private _getMessage(messageJSON: KuduLogMessage, status: number, logType: VSTSLogMessageType, targetApp?: string): string {
-        //TODO: Move strings to localization
         targetApp = targetApp ? targetApp : messageJSON.slotName;
         switch (logType) {
             case VSTSLogMessageType.Deployment:
