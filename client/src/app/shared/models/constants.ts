@@ -440,6 +440,7 @@ export class ComponentNames {
 export class WorkerRuntimeLanguages {
     public static dotnet = 'C#';
     public static node = 'JavaScript';
+    public static nodejs = 'JavaScript';
     public static python = 'Python';
     public static java = 'Java';
 }
