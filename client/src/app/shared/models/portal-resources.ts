@@ -1132,6 +1132,8 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
+    public static pricing_dv3SeriesCompute = 'pricing_dv3SeriesCompute';
+    public static pricing_dv3SeriesDedicatedCpu = 'pricing_dv3SeriesDedicatedCpu';
     public static funcConnStringsInfoText = 'funcConnStringsInfoText';
     public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
     public static readOnlyLocalCache = 'readOnlyLocalCache';

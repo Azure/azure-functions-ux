@@ -11,6 +11,7 @@ import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargeP
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { PremiumContainerSmallPriceSpec, PremiumContainerMediumPriceSpec, PremiumContainerLargePriceSpec } from './premium-container-plan-price-spec';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
@@ -82,7 +83,10 @@ export class ProdSpecGroup extends PriceSpecGroup {
         new StandardSmallPlanPriceSpec(this.injector),
         new PremiumV2SmallPlanPriceSpec(this.injector),
         new PremiumV2MediumPlanPriceSpec(this.injector),
-        new PremiumV2LargePlanPriceSpec(this.injector)
+        new PremiumV2LargePlanPriceSpec(this.injector),
+        new PremiumContainerSmallPriceSpec(this.injector),
+        new PremiumContainerMediumPriceSpec(this.injector),
+        new PremiumContainerLargePriceSpec(this.injector)
     ];
 
     additionalSpecs = [
