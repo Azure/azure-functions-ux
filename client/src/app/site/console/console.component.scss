@@ -9,6 +9,7 @@ div.browse-container{
 
 #console-container{
     position: absolute;
+    padding-top: 2em;
     height: calc(100% - 90px);
     width: calc(100% - 50px);
 }
@@ -76,6 +77,12 @@ span.console-cursor{
     font-size: medium;
     animation: blink 1s steps(3, start) infinite;
     -webkit-animation: blink 1s steps(3, start) infinite;
+}
+
+span.bash-cursor{
+    border: none;
+    color: $bash-cursor-text-color;
+    background-color: $bash-cursor-background-color;
 }
 
 @-webkit-keyframes blink{

@@ -1,16 +1,25 @@
-import { CmdConsoleComponent } from './cmd/cmd.component';
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { PromptComponent } from './templates/prompt.component';
-import { ErrorComponent } from './templates/error.component';
-import { MessageComponent } from './templates/message.component';
+import { PromptComponent } from './shared/components/prompt.component';
+import { ErrorComponent } from './shared/components/error.component';
+import { MessageComponent } from './shared/components/message.component';
 import { CommonModule } from '@angular/common';
-import { ClickOutsideDirective } from './directives/click.directive';
+import { ClickOutsideDirective } from './shared/directives/click.directive';
 import { SharedModule } from '../../shared/shared.module';
+import { ConsoleService } from './shared/services/console.service';
+import { CmdComponent } from './cmd/cmd.component';
+import { PowershellComponent } from './powershell/powershell.component';
+import { BashComponent } from './bash/bash.component';
+import { SSHComponent } from './ssh/ssh.component';
+import { ConsoleComponent } from './console.component';
 
 @NgModule({
     entryComponents: [
-      CmdConsoleComponent,
+      ConsoleComponent,
+      CmdComponent,
+      PowershellComponent,
+      BashComponent,
+      SSHComponent,
       PromptComponent,
       ErrorComponent,
       MessageComponent
@@ -19,14 +28,24 @@ import { SharedModule } from '../../shared/shared.module';
       TranslateModule.forChild(), CommonModule, SharedModule
     ],
     declarations: [
-      CmdConsoleComponent,
+      ConsoleComponent,
+      CmdComponent,
+      PowershellComponent,
+      BashComponent,
+      SSHComponent,
       PromptComponent,
       ClickOutsideDirective,
       ErrorComponent,
       MessageComponent
     ],
+    providers: [
+      ConsoleService
+    ],
     exports: [
-      CmdConsoleComponent
+      CmdComponent,
+      PowershellComponent,
+      BashComponent,
+      SSHComponent
     ]
   })
 export class ConsoleModule { }

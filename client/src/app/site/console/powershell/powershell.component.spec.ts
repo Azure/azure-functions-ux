@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { CmdComponent } from './cmd.component';
+import { PowershellComponent } from './powershell.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from './../shared/services/console.service';
 import { Injector } from '@angular/core';
@@ -11,17 +11,17 @@ import { CacheService } from '../../../shared/services/cache.service';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
-import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
+import { MockDirective } from 'ng-mocks';
 import { TestClipboard, MockConsoleService, MockSiteService, MockCacheService } from '../shared/services/mock.services';
-import { MessageComponent } from '../shared/components/message.component';
 import { CommonModule } from '@angular/common';
+import { MessageComponent } from '../shared/components/message.component';
 import { PromptComponent } from '../shared/components/prompt.component';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
-describe('CmdConsoleComponent', () => {
-  let component: CmdComponent;
-  let fixture: ComponentFixture<CmdComponent>;
+describe('PowershellConsoleComponent', () => {
+  let component: PowershellComponent;
+  let fixture: ComponentFixture<PowershellComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,13 +35,13 @@ describe('CmdConsoleComponent', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [CmdComponent, MockDirective(LoadImageDirective), MessageComponent, PromptComponent]
+      declarations: [PowershellComponent, MockDirective(LoadImageDirective), MessageComponent, PromptComponent],
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {
         entryComponents: [MessageComponent, PromptComponent]
       }
     }).compileComponents().then(() => {
-        fixture = TestBed.createComponent(CmdComponent);
+        fixture = TestBed.createComponent(PowershellComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });

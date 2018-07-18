@@ -3,32 +3,33 @@ import { ConsoleService, ConsoleTypes } from './../shared/services/console.servi
 import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 
 @Component({
-  selector: 'app-cmd',
-  templateUrl: './cmd.component.html',
-  styleUrls: ['./../console.component.scss']
+  selector: 'app-powershell',
+  templateUrl: './powershell.component.html',
+  styleUrls: ['./../console.component.scss', './powershell.component.scss'],
+  providers: []
 })
-export class CmdComponent extends AbstractWindowsComponent {
+export class PowershellComponent  extends AbstractWindowsComponent {
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService
     ) {
       super(componentFactoryResolver, consoleService);
-      this.consoleType = ConsoleTypes.CMD;
+      this.consoleType = ConsoleTypes.PS;
     }
 
   protected getTabKeyCommand(): string {
-    return 'dir /b /a';
+    return 'Get-ChildItem -name';
   }
 
   protected getCommandPrefix(): string {
-    return '';
+    return 'powershell ';
   }
 
   /**
    * Get the left-hand-side text for the console
    */
   protected getConsoleLeft() {
-    return `${this.dir}>`;
+    return `PS ${this.dir}>`;
   }
 }
