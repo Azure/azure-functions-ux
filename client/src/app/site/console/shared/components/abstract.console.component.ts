@@ -330,7 +330,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this.commandInParts.rightCmd = this.command.substring(this.ptrPosition + 1, this.command.length);
     }
 
-    private _isKeyEventValid(key: number){
+    private _isKeyEventValid(key: number) {
         if (this.enterPressed && key !== KeyCodes.ctrl && key !== KeyCodes.c) {
             // command already in progress
             return false;
