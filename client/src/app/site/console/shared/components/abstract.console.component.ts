@@ -17,6 +17,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     public commandInParts = {leftCmd: '', middleCmd: ' ' , rightCmd: ''}; // commands to left, right and on the pointer
     public dir: string;
     public initialized = false;
+    protected enterPressed = false;
     protected site: ArmObj<Site>;
     protected publishingCredentials: ArmObj<PublishingCredentials>;
     /*** Variables for Tab-key ***/
@@ -84,6 +85,13 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Unfocus console manually
+     */
+    unFocusConsoleManually() {
+        this._consoleText.nativeElement.blur();
+    }
+
+    /**
      * Console brought to focus when textarea comes into focus
      */
     focusConsoleOnTabPress() {
@@ -125,7 +133,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      * @param event: Keyevent (copy in particular)
      */
     handleCopy(event) {
-        if (!this.lastAPICall) {
+        if (!this.lastAPICall || this.lastAPICall.closed) {
             this._removePrompt();
             this.addMessageComponent();
         } else if (!this.lastAPICall.closed) {
@@ -141,58 +149,61 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      * @param event: KeyEvent
      */
     keyEvent(event) {
+        if (!this._isKeyEventValid(event.which)) {
+            return;
+        }
         /**
          * Switch case on the key number
          */
         switch (event.which) {
-        case KeyCodes.backspace: {
-            this._backspaceKeyEvent();
-            break;
-        }
-        case KeyCodes.tab: {
-            event.preventDefault();
-            this.tabKeyEvent();
-            return;
-        }
-        case KeyCodes.enter: {
-            this._enterKeyEvent();
-            break;
-        }
+            case KeyCodes.backspace: {
+                this._backspaceKeyEvent();
+                break;
+            }
+            case KeyCodes.tab: {
+                event.preventDefault();
+                this.tabKeyEvent();
+                return;
+            }
+            case KeyCodes.enter: {
+                this._enterKeyEvent();
+                break;
+            }
 
-        case KeyCodes.escape: {
-            this._resetCommand();
-            break;
-        }
+            case KeyCodes.escape: {
+                this._resetCommand();
+                break;
+            }
 
-        case KeyCodes.space: {
-            this._appendToCommand(ConsoleConstants.whitespace);
-            break;
-        }
+            case KeyCodes.space: {
+                this._appendToCommand(ConsoleConstants.whitespace);
+                break;
+            }
 
-        case KeyCodes.arrowLeft: {
-            this._leftArrowKeyEvent();
-            break;
-        }
+            case KeyCodes.arrowLeft: {
+                this._leftArrowKeyEvent();
+                break;
+            }
 
-        case KeyCodes.arrowUp: {
-            this._topArrowKeyEvent();
-            break;
-        }
+            case KeyCodes.arrowUp: {
+                this._topArrowKeyEvent();
+                break;
+            }
 
-        case KeyCodes.arrowRight: {
-            this._rightArrowKeyEvent();
-            break;
-        }
+            case KeyCodes.arrowRight: {
+                this._rightArrowKeyEvent();
+                break;
+            }
 
-        case KeyCodes.arrowDown: {
-            this._downArrowKeyEvent();
-            break;
-        }
+            case KeyCodes.arrowDown: {
+                this._downArrowKeyEvent();
+                break;
+            }
 
-        default: {
-            this._appendToCommand(event.key, event.which);
-            break;
-        }
+            default: {
+                this._appendToCommand(event.key, event.which);
+                break;
+            }
         }
         this._lastKeyPressed = event.which;
         this._renderPromptVariables();
@@ -319,6 +330,14 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this.commandInParts.rightCmd = this.command.substring(this.ptrPosition + 1, this.command.length);
     }
 
+    private _isKeyEventValid(key: number){
+        if (this.enterPressed && key !== KeyCodes.ctrl && key !== KeyCodes.c) {
+            // command already in progress
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Left Arrow key pressed
      */
@@ -385,6 +404,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      * Handle the Enter key pressed operation
      */
     private _enterKeyEvent() {
+        this.enterPressed = true;
         const flag = this.performAction();
         this._removePrompt();
         this.commandHistory.push(this.command);
@@ -394,6 +414,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
             this.connectToKudu();
         } else {
             this.addPromptComponent();
+            this.enterPressed = false;
         }
         this._resetCommand();
     }

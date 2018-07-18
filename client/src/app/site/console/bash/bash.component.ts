@@ -40,7 +40,7 @@ export class BashComponent  extends AbstractConsoleComponent {
    * Handle the tab-pressed event
    */
   protected tabKeyEvent() {
-      this.focusConsole();
+      this.unFocusConsoleManually();
       if (this.listOfDir.length === 0) {
         const uri = this.getKuduUri();
         const header = this.getHeader();
@@ -65,6 +65,7 @@ export class BashComponent  extends AbstractConsoleComponent {
                     this.divideCommandForPtr();
                 }
               }
+              this.focusConsole();
             },
             err => {
                 console.log('Tab Key Error' + err.text);
@@ -76,6 +77,7 @@ export class BashComponent  extends AbstractConsoleComponent {
       this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
       this.ptrPosition = this.command.length;
       this.divideCommandForPtr();
+      this.focusConsole();
   }
 
   /**
@@ -92,19 +94,21 @@ export class BashComponent  extends AbstractConsoleComponent {
       };
       const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       this.lastAPICall = res.subscribe(
-      data => {
-          const output = data.json();
-          if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
-            this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-          } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '' && this.performAction(cmd, output.Output)) {
-              this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2));
-          }
-          this.addPromptComponent();
-          return output;
-      },
-      err => {
-          this.addErrorComponent(err.text);
-      }
+        data => {
+            const output = data.json();
+            if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
+              this.addErrorComponent(output.Error + ConsoleConstants.newLine);
+            } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '' && this.performAction(cmd, output.Output)) {
+                this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2));
+            }
+            this.addPromptComponent();
+            this.enterPressed = false;
+            return output;
+        },
+        err => {
+            this.addErrorComponent(err.text);
+            this.enterPressed = false;
+        }
       );
   }
 
