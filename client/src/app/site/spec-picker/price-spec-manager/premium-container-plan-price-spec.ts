@@ -1,6 +1,5 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { Links } from '../../../shared/models/constants';
 
@@ -51,7 +50,15 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
     }
 
     runInitialization(input: PriceSpecInput) {
-        return Observable.of(null);
+        // NOTE(michinoy): Only allow premium containers for xenon.
+        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon) ||
+            (input.plan && input.plan.properties.isXenon)) {
+            this.state = 'enabled';
+        } else {
+            this.state = 'hidden';
+        }
+
+        return this.checkIfDreamspark(input.subscriptionId);
     }
 }
 
