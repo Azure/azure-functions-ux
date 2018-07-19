@@ -6,6 +6,8 @@ import { Subject } from 'rxjs/Subject';
 import { Component, Input, Output } from '@angular/core';
 import { KeyCodes } from 'app/shared/models/constants';
 import { FunctionAppService } from '../shared/services/function-app.service';
+import { FileUtilities } from '../shared/Utilities/file';
+import { GlobalStateService } from '../shared/services/global-state.service';
 
 type DownloadOption = 'siteContent' | 'vsProject';
 
@@ -22,7 +24,9 @@ export class DownloadFunctionAppContentComponent {
     public currentDownloadOption: DownloadOption;
     public includeAppSettings: boolean;
 
-    constructor(private _translateService: TranslateService, private _functionAppService: FunctionAppService) {
+    constructor(private _translateService: TranslateService,
+        private _functionAppService: FunctionAppService,
+        private _globalStateService: GlobalStateService) {
         this.close = new Subject<boolean>();
         this.downloadOptions = [{
             displayLabel: this._translateService.instant(PortalResources.downloadFunctionAppContent_siteContent),
@@ -38,22 +42,15 @@ export class DownloadFunctionAppContentComponent {
     downloadFunctionAppContent() {
         if (this.context) {
             const includeCsProj = this.currentDownloadOption === 'siteContent' ? false : true;
-
-            // https://github.com/eligrey/FileSaver.js/blob/00e540fda507173f83a9408f1604622538d0c81a/src/FileSaver.js#L128-L136
-            const anchor = document.createElement('a');
-            anchor.style.display = 'none';
-            document.body.appendChild(anchor);
+            this._globalStateService.setBusyState();
+            this.closeModal();
             this._functionAppService.getAppContentAsZip(this.context, includeCsProj, this.includeAppSettings)
                 .subscribe(data => {
                     if (data.isSuccessful) {
-                        const url = window.URL.createObjectURL(data.result);
-                        anchor.href = url;
-                        anchor.download = `${this.context.site.name}.zip`;
-                        anchor.click();
-                        window.URL.revokeObjectURL(url);
+                        FileUtilities.saveFile(data.result, `${this.context.site.name}.zip`);
                     }
-                    anchor.remove();
-                });
+                    this._globalStateService.clearBusyState();
+                }, () => this._globalStateService.clearBusyState());
         }
     }
 
