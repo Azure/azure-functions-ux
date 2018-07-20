@@ -73,6 +73,7 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'site-config';
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
+    public static readonly console = 'console';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
@@ -109,6 +110,9 @@ export class Regex {
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
     public static queryParam: RegExp = /^[a-zA-Z0-9\-_*]+$/;
     public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
+    public static readonly singleForwardSlash: RegExp = /\//g;
+    public static readonly doubleBackslash: RegExp = /\\\\/g;
+    public static readonly newLine: RegExp = /(\n)+/g;
 }
 
 export class Links {
@@ -320,6 +324,14 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
     public static readonly f2 = 113;
+    public static readonly backspace = 8;
+    public static readonly ctrl = 17;
+    public static readonly f1 = 112;
+    public static readonly scrollLock = 145;
+    public static readonly leftWindow = 91;
+    public static readonly select = 93;
+    public static readonly c = 67;
+    public static readonly v = 86;
 }
 
 export class ExtensionInstallStatusConstants {
@@ -408,7 +420,6 @@ export class DeploymentCenterConstants {
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
-
     // VSTS Validation constants
     // Build definition
     public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
@@ -431,6 +442,23 @@ export class ComponentNames {
 export class WorkerRuntimeLanguages {
     public static dotnet = 'C#';
     public static node = 'JavaScript';
+    public static nodejs = 'JavaScript';
     public static python = 'Python';
     public static java = 'Java';
+}
+
+export class ConsoleConstants {
+    public static readonly newLines = '\n\n';
+    public static readonly singleBackslash = '\\';
+    public static readonly currentDirectory = '.';
+    public static readonly previousDirectory = '..';
+    public static readonly successExitcode = 0;
+    public static readonly whitespace = ' ';
+    public static readonly newLine = '\n';
+
+    // commands
+    public static readonly exit = 'exit';
+    public static readonly changeDirectory = 'cd';
+    public static readonly windowsClear = 'cls';
+    public static readonly linuxClear = 'clear';
 }

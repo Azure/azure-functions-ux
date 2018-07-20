@@ -39,11 +39,20 @@ export class DownloadFunctionAppContentComponent {
         if (this.context) {
             const includeCsProj = this.currentDownloadOption === 'siteContent' ? false : true;
 
+            // https://github.com/eligrey/FileSaver.js/blob/00e540fda507173f83a9408f1604622538d0c81a/src/FileSaver.js#L128-L136
+            const anchor = document.createElement('a');
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
             this._functionAppService.getAppContentAsZip(this.context, includeCsProj, this.includeAppSettings)
                 .subscribe(data => {
                     if (data.isSuccessful) {
-                        window.open(window.URL.createObjectURL(data.result));
+                        const url = window.URL.createObjectURL(data.result);
+                        anchor.href = url;
+                        anchor.download = `${this.context.site.name}.zip`;
+                        anchor.click();
+                        window.URL.revokeObjectURL(url);
                     }
+                    anchor.remove();
                 });
         }
     }
