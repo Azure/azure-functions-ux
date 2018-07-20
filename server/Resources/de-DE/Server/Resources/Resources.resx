@@ -154,7 +154,7 @@
     <value>Funktionsfehler: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Fehler bei Funktion (${{name}}): {{error}}</value>
+    <value>Fehler bei Funktion ({{name}}): {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Funktions-URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Physischen Pfad eingeben</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Anwendung</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Sloteinstellung</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Ausgeblendeter Wert. Klicken Sie, um den Wert anzuzeigen.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Konfigurieren Sie Azure-Bereitstellungsanmeldeinformationen auf Kontoebene. Um die Anmeldeinformationen auf App-Ebene zu ändern (auch als "Veröffentlichungsanmeldeinformationen" bezeichnet), wählen Sie auf der Registerkarte "Übersicht" die Option "Veröffentlichungsanmeldeinformationen zurücksetzen". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Weitere Informationen&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konsole</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Erkunden Sie das Dateisystem Ihrer App über eine interaktive, webbasierte Konsole.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Verwalten Sie Ihre Web-App-Umgebung, indem Sie allgemeine Befehle ("mkdir", "cd" zum Wechseln zwischen Verzeichnissen usw.) ausführen. Dies ist eine Sandboxumgebung. Befehle, für die erhöhte Berechtigungen erforderlich sind, funktionieren daher nicht.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Mit der Authentifizierung/Autorisierung können Sie Ihre Anwendung schützen und mit benutzerbasierten Daten arbeiten.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Verwaltete Dienstidentität (Vorschau)</value>
+    <value>Verwaltete Dienstidentität</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Ihre Anwendung kann unter Verwendung einer verwalteten Azure Active Directory-Identität als sie selbst mit anderen Azure-Diensten kommunizieren.</value>
@@ -2540,7 +2558,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Meldung zum Eincheckvorgang</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Sie verwenden eine Vorabversion von Azure Functions. Vielen Dank, dass Sie diese Version ausprobieren!</value>
+    <value>Sie verwenden eine Vorabversion von Azure Functions. Klicken Sie auf "Weitere Informationen", um über unsere Ankündigungsseite stets über die neuesten Änderungen auf dem Laufenden zu bleiben.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Zum Ausblenden klicken</value>
@@ -3064,9 +3082,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Jede Instanz Ihres App Service-Plans umfasst die folgende Hardwarekonfiguration:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux-Web-Apps in einer App Service-Umgebung werden während der Vorschau mit einem Rabatt von 50 % abgerechnet.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Der erste Basic-Kern (B1) für Linux ist für die ersten 30 Tage kostenlos!</value>
   </data>
@@ -3528,5 +3543,68 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Anmeldeinformationen für die Bereitstellung</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Verbindungszeichenfolgen dürfen nur mit einer Funktions-App verwendet werden, wenn Sie Entity Framework einsetzen. In anderen Szenarien verwenden Sie App-Einstellungen. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Runtimeversion wird geladen...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Ihre App wird zurzeit im schreibgeschützten Modus ausgeführt, weil Sie einen lokalen Cache verwenden. Wenn Sie einen lokalen Cache verwenden, werden Änderungen am lokalen Dateisystem nicht dauerhaft im Website-Inhalt gespeichert. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Weitere Informationen&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Wert</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Sloteinstellung</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Name der App-Einstellung</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Name der Verbindungszeichenfolge</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Dokumentname</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Erweiterung</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Skriptprozessor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumente</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtueller Pfad</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Physischer Pfad</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Verzeichnis</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Datenbankkonto</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB-Konto</value>
   </data>
 </root>
