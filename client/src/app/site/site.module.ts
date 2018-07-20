@@ -20,6 +20,7 @@ import { HostEditorComponent } from './../host-editor/host-editor.component';
 import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 import { SpecPickerModule } from './spec-picker/spec-picker.module';
 import { ProdFunctionInitialUploadComponent } from '../prod-function-initial-upload/prod-function-initial-upload.component';
+import { ConsoleModule } from './console/console.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
@@ -37,6 +38,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         SharedModule,
         SharedFunctionsModule,
         SiteConfigModule,
+        ConsoleModule,
         DeploymentCenterModule,
         SpecPickerModule,
         routing

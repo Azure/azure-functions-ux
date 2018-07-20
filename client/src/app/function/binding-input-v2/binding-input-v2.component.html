@@ -27,6 +27,13 @@
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </sql>
+
+<cosmos-db *ngIf="pickerName === 'CosmosDB'"
+             [viewInfo]="viewInfo"
+             (close)="closePicker($event)"
+             (selectItem)="finishDialogPicker($event)">
+</cosmos-db>
+
 <tooltip-content #freeAccountTooltip>
   <p>
     {{ 'tryNow_FreeAccountToolTip' | translate }}

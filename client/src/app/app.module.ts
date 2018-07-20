@@ -3,6 +3,7 @@ import { UserService } from './shared/services/user.service';
 import { RouterModule, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Injectable } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -90,6 +91,7 @@ export class AppModule {
             SharedModule.forRoot(),
             ReactiveFormsModule,
             BrowserModule,
+            BrowserAnimationsModule,
             HttpModule,
             TranslateModule.forRoot(),
             PopoverModule,

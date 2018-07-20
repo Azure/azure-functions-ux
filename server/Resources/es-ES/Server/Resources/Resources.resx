@@ -154,7 +154,7 @@
     <value>Error de la función: {{error}}.</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Función (${{name}}). Error: {{error}}.</value>
+    <value>Función ({{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Dirección URL de la función</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Escribir la ruta de acceso física</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Aplicación</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Configuración de espacios</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valor oculto. Haga clic para mostrarlo.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configure las credenciales de implementación a nivel de cuenta de Azure. Para cambiar las credenciales a nivel de aplicación (también conocidas como "Credenciales de publicación"), elija "Restablecer credenciales de publicación" en la pestaña "Información general". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Más información&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Consola</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore el sistema de archivos de la aplicación desde una consola web interactiva.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Administre el entorno de la aplicación web ejecutando comandos comunes ("mkdir", "cd" para cambiar directorios, etc.). Este es un entorno de espacio aislado, por lo que los comandos que necesiten privilegios elevados no funcionarán.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Use Autenticación o autorización para proteger la aplicación y trabajar con datos por usuario.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identidad de servicio administrada (versión preliminar)</value>
+    <value>Managed Service Identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>La aplicación puede comunicarse con otros servicios de Azure como ella misma con una identidad de Azure Active Directory administrada.</value>
@@ -2540,7 +2558,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Mensaje de inserción en el repositorio</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Está usando una versión preliminar de Azure Functions. Gracias por probar esta solución.</value>
+    <value>Está usando una versión preliminar de Azure Functions. Haga clic en "Más información" para conocer los últimos cambios disponibles gracias a nuestra página de anuncios.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Haga clic aquí para ocultar</value>
@@ -2879,7 +2897,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se pudo detener {0}.</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} se ha reiniciado.</value>
+    <value>Se reinició {0}.</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>No se pudo reiniciar {0}.</value>
@@ -3063,9 +3081,6 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Cada instancia del plan de App Service incluirá la configuración de hardware siguiente:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Las aplicaciones web Linux de un entorno App Service Environment se facturan con un descuento del 50 % en la versión preliminar.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>El primer núcleo Básico (B1) para Linux es gratis durante los primeros 30 días.</value>
@@ -3528,5 +3543,68 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Credenciales de implementación</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Las cadenas de conexión sólo deben utilizarse con una aplicación de función si se usa Entity Framework. Para otros escenarios, use la configuración de la aplicación. Haga clic para obtener más información.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Versión de entorno en tiempo de ejecución: cargando...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>La aplicación está en modo de solo lectura porque está usando la memoria caché local. Cuando se utiliza la memoria caché local, no se guardan en el contenido del sitio los cambios realizados en el sistema de archivos local. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Más información&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Configuración de espacios</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Nombre de la configuración de la aplicación</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Nombre de la cadena de conexión</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Nombre del documento</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extensión</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Procesador de script</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumentos</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Ruta de acceso virtual</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Ruta de acceso física</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directorio</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Cuenta de base de datos</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Cuenta de Azure Cosmos DB</value>
   </data>
 </root>

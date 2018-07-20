@@ -401,8 +401,14 @@
     public static feature_deploymentSourceInfo = 'feature_deploymentSourceInfo';
     public static feature_deploymentCredsName = 'feature_deploymentCredsName';
     public static feature_deploymentCredsInfo = 'feature_deploymentCredsInfo';
+    public static error_consoleNotAvailable = 'error_consoleNotAvailable';
     public static feature_consoleName = 'feature_consoleName';
     public static feature_consoleInfo = 'feature_consoleInfo';
+    public static feature_consoleMsg = 'feature_consoleMsg';
+    public static feature_cmdConsoleName = 'feature_cmdConsoleName';
+    public static feature_powerShellConsoleName = 'feature_powerShellConsoleName';
+    public static feature_bashConsoleName = 'feature_bashConsoleName';
+    public static feature_sshConsoleName = 'feature_sshConsoleName';
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
     public static feature_extensionsName = 'feature_extensionsName';
@@ -978,7 +984,6 @@
     public static pricing_includedFeaturesDesc = 'pricing_includedFeaturesDesc';
     public static pricing_includedHardware = 'pricing_includedHardware';
     public static pricing_includedHardwareDesc = 'pricing_includedHardwareDesc';
-    public static pricing_linuxAseDiscount = 'pricing_linuxAseDiscount';
     public static pricing_linuxTrial = 'pricing_linuxTrial';
     public static pricing_windowsContainers = 'pricing_windowsContainers';
     public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';
@@ -1131,6 +1136,8 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
+    public static pricing_dv3SeriesCompute = 'pricing_dv3SeriesCompute';
+    public static pricing_dv3SeriesDedicatedCpu = 'pricing_dv3SeriesDedicatedCpu';
     public static funcConnStringsInfoText = 'funcConnStringsInfoText';
     public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
     public static readOnlyLocalCache = 'readOnlyLocalCache';
@@ -1148,4 +1155,6 @@
     public static appSettingsHeader_physicalPath = 'appSettingsHeader_physicalPath';
     public static type_application = 'type_application';
     public static type_directory = 'type_directory';
+    public static databaseAccount = 'databaseAccount';
+    public static azureCosmosDB_account = 'azureCosmosDB_account';
 }

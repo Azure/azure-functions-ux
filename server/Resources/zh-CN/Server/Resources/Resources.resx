@@ -154,7 +154,7 @@
     <value>函数错误: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>函数(${{name}})错误: {{error}}</value>
+    <value>函数 ({{name}}) 错误: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>函数 URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>输入物理路径</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>应用程序</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>插槽设置</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>隐藏值。单击以显示。</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>配置 Azure 帐户级部署凭据。若要更改应用级凭据(也称为“发布凭据”)，请在“概述”选项卡中选择“重置公用凭据”。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;了解详细信息&lt;/a&gt;。</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>控制台</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>通过基于 Web 的交互式控制台浏览应用文件系统。</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>通过运行常用命令来管理你的 Web 应用环境(通过 "mkdir"、"cd" 来更改目录等等)。这是一个沙盒环境，因此，任何需要提升权限的命令都不起作用。</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>使用身份验证/授权来保护应用程序，并使用按用户划分的数据工作。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>托管的服务标识(预览)</value>
+    <value>托管服务标识</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>应用程序可以与其他 Azure 服务通信，因为它本身使用的是托管 Azure Active Directory 标识。</value>
@@ -2540,7 +2558,7 @@
     <value>签入消息</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>你正在使用 Azure Functions 的预发行版本。感谢试用!</value>
+    <value>你正在使用 Azure Functions 的预发布版本。单击“了解详细信息”，随时了解公告页面上的最新更改。</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>单击以隐藏</value>
@@ -2879,7 +2897,7 @@
     <value>未能停止 {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} 已重启” </value>
+    <value>{0} 已重启</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>未能重启 {0}</value>
@@ -3063,9 +3081,6 @@
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>应用服务计划的每个实例均包括以下硬件配置:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>应用服务环境中的 Linux Web 应用在预览版期间费用五折。</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>用于 Linux 的第一个 Basic (B1)核心前 30 天免费!</value>
@@ -3528,5 +3543,68 @@
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>部署凭据</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>如果正在使用实体框架，则连接字符串只能用于函数应用。对于其他方案，则使用应用设置。单击以了解详细信息。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>运行时版本: 正在加载...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>因为你正在使用本地缓存，所以应用当前处于只读模式。在使用本地缓存时，本地文件系统上所做的更改将不保存到网站内容。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;了解详细信息&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>插槽设置</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>应用设置名称</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>连接字符串名称</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>文档名</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>扩展</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>脚本处理器</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>虚拟路径</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>物理路径</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>应用程序</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>数据库帐户</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB 帐户</value>
   </data>
 </root>

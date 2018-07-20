@@ -154,7 +154,7 @@
     <value>İşlev Hatası: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>İşlev (${{name}}) Hatası: {{error}}</value>
+    <value>İşlev ({{name}}) Hatası: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>İşlev URL'si</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Fiziksel yolu girin</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Uygulama</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Yuva Ayarı</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Gizli değer. Göstermek için tıklayın.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Azure için hesap düzeyinde dağıtım kimlik bilgilerini yapılandırın. Uygulama düzeyinde kimlik bilgilerinizi değiştirmek için ('Yayımlama Kimlik Bilgileri' olarak da bilinir), 'Genel Bakış' sekmesindeki 'Yayımlama kimlik bilgilerini sıfırla' seçeneğini belirtin. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konsol</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Uygulamanızın dosya sistemini etkileşimli bir web tabanlı konsoldan inceleyin.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Yaygın komutları (dizin değiştirmek için 'mkdir', 'cd' vb.) kullanarak Web uygulaması ortamınızı yönetin. Bu bir korumalı alan ortamıdır, bu yüzden yüksek ayrıcalık gerektiren komutların hiçbiri çalışmaz.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Uygulamanızı korumak ve kullanıcı başına verilerle çalışmak için Kimlik Doğrulaması / Yetkilendirme kullanın.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Yönetilen hizmet kimliği (Önizleme)</value>
+    <value>Yönetilen hizmet kimliği</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uygulamanız diğer Azure hizmetleriyle kendisi olarak iletişim kurmak için, yönetilen bir Azure Active Directory kimliği kullanabilir.</value>
@@ -2540,7 +2558,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İade Etme İletisi</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Azure İşlevleri'nin yayın öncesi sürümlerinden birini kullanıyorsunuz. Denediğiniz için teşekkür ederiz!</value>
+    <value>Azure İşlevleri'nin yayın öncesi bir sürümünü kullanıyorsunuz. Duyuru sayfamız aracılığıyla en son değişiklikleri öğrenmek için 'daha fazla bilgi edinin' seçeneğine tıklayın.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Gizlemek için tıklayın </value>
@@ -2879,7 +2897,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>{0} durdurulamadı</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} yeniden başlatıldı'</value>
+    <value>{0} yeniden başlatıldı</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>{0} yeniden başlatılamadı</value>
@@ -3063,9 +3081,6 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service planınızın her bir örneği aşağıdaki donanım yapılandırmasını içerecek:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Bir App Service Ortamındaki Linux web uygulamaları, önizleme sırasında %50 indirimli faturalama avantajından yararlanır.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux için ilk Temel (B1) çekirdek ilk 30 gündür ücretsizdir!</value>
@@ -3528,5 +3543,68 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Dağıtım Kimlik Bilgileri</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Bağlantı dizeleri, yalnızca Entity Framework kullanıyorsanız bir işlev uygulamasıyla kullanılmalıdır. Diğer senaryolar için Uygulama Ayarları'nı kullanın. Daha fazla bilgi için tıklayın.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Çalışma zamanı sürümü: Yükleniyor...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Yerel Önbellek kullandığınızdan uygulamanız şu anda salt okunur modda. Yerel Önbellek kullanırken, yerel dosya sistemi üzerinde yapılan değişiklikler site içeriğinde kalıcı hale getirilmez. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Değer</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Yuva Ayarı</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Uygulama Ayar Adı</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Bağlantı Dizesi Adı</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Belge Adı</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Uzantı</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Betik İşleyici</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Bağımsız Değişkenler</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Sanal Yol</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Fiziksel Yol</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Dizin</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Veritabanı Hesabı</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB hesabı</value>
   </data>
 </root>
