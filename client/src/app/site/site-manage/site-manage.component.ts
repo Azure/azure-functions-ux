@@ -220,8 +220,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             ));
         }
 
-        if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
-    || this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
+        if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
+            this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
             developmentToolFeatures.push(new TabFeature(
                 this._translateService.instant(PortalResources.feature_consoleName),
                 this._translateService.instant(PortalResources.feature_consoleMsg),
