@@ -63,7 +63,7 @@ export class SlotNewComponent extends NavigableComponent {
                 const validator = new RequiredValidator(this._translateService);
 
                 // parse the site resourceId from slot's
-                this._siteId = viewInfo.resourceId.substring(0, viewInfo.resourceId.indexOf('/slots'));
+                this._siteId = viewInfo.context.site.id;
                 const slotNameValidator = new SlotNameValidator(this.injector, this._siteId);
                 this.newSlotForm = this.fb.group({
                     name: [null,
