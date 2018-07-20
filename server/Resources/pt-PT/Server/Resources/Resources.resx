@@ -154,7 +154,7 @@
     <value>Erro de Função: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Erro da Função (${{name}}): {{error}}</value>
+    <value>Função ({{name}}) Erro: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL de função</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Introduzir o caminho físico</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Aplicação</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Definição de Ranhura</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valor oculto.  Clique para mostrar.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configure as credenciais de implementação ao nível da conta do Azure. Para alterar as credenciais ao nível da aplicação (também conhecidas como "Credenciais de Publicação"), escolha "Redefinir credenciais de publicação" no separador "Descrição Geral". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Consola</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore o sistema de ficheiros de aplicações a partir de uma consola interativa baseada na Web.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Faça a gestão do ambiente de aplicações Web através da execução de comandos comuns ("mkdir", "cd" para mudar de diretório, etc.). Este é um ambiente sandbox, pelo que qualquer comando que precise de privilégios elevados não funcionará.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Utilize a Autenticação/Autorização para proteger a aplicação e o trabalho com dados por utilizador.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identidade de serviço gerida (Pré-visualização)</value>
+    <value>Identidade de serviço gerida</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>A aplicação pode comunicar com outros serviços do Azure em nome próprio utilizando uma identidade do Azure Active Directory gerida.</value>
@@ -2411,10 +2429,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Sudeste Asiático</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>Coreia Central</value>
+    <value>Coreia do Sul Central</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Sul da Coreia</value>
+    <value>Sul da Coreia do Sul</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>E.U.A. Oeste</value>
@@ -2450,7 +2468,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Sudeste da Austrália</value>
   </data>
   <data name="westindia" xml:space="preserve">
-    <value>Índia Ocidental</value>
+    <value>Oeste da Índia</value>
   </data>
   <data name="centralindia" xml:space="preserve">
     <value>Índia Central</value>
@@ -2540,7 +2558,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Mensagem de Entrada</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Está a utilizar uma versão de pré-lançamento das Funções do Azure. Obrigado por experimentar!</value>
+    <value>Está a utilizar uma versão de pré-lançamento das Funções do Azure. Clique em "saber mais" para ficar a par das alterações mais recentes na nossa página de anúncios.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Clique para ocultar</value>
@@ -2879,7 +2897,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Falha ao parar {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} foi reiniciado</value>
+    <value>{0} got restarted</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Falha ao reiniciar {0}</value>
@@ -3063,9 +3081,6 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Todas as instâncias do seu plano do Serviço de Aplicações irão incluir a seguinte configuração de hardware:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>As aplicações Web do Linux num Ambiente do Serviço de Aplicações são faturadas com 50% de desconto durante a pré-visualização.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>O primeiro núcleo Basic (B1) para Linux é gratuito durante os primeiros 30 dias!</value>
@@ -3479,7 +3494,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Falha</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Com êxito</value>
+    <value>Bem Sucedido</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Guardar Credenciais</value>
@@ -3528,5 +3543,68 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Credenciais de Implementação</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação. Clique para saber mais.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Versão de Runtime: a carregar...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>A aplicação está atualmente em modo só de leitura porque está a utilizar a Cache Local. Ao utilizar a Cache Local, as alterações efetuadas no sistema de ficheiros local não são persistidas para o conteúdo do site. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Mais informações&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Definição de Ranhura</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Nome de Definição de Aplicação</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Nome da Cadeia de Ligação</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Nome do Documento</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extensão</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Processador de Script</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumentos</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Caminho Virtual</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Caminho Físico</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Aplicação</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Diretório</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Conta de Base de Dados</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Conta do Azure Cosmos DB</value>
   </data>
 </root>

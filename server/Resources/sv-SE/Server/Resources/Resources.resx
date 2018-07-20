@@ -154,7 +154,7 @@
     <value>Funktionsfel: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Fel på funktion (${{name}}): {{error}}</value>
+    <value>Funktionen (${{name}}) fel: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Funktionswebbadress</value>
@@ -226,7 +226,7 @@
     <value>Ny funktionsapp</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Din prenumeration innehåller inga funktionsappar. Det är de behållare där dina funktioner körs. Skapa en nu.</value>
+    <value>Din prenumeration innehåller inga funktionsappar. Dessa är de containers där dina funktioner körs. Skapa en nu.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
     <value>Eller skapa en funktionsapp från &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
@@ -241,7 +241,7 @@
     <value>Prenumerationen {{displayName}} ({{ subscriptionId }}) är inte godkänd för att köra funktioner</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Den här prenumerationen innehåller en eller flera funktionsappar. Det är de behållare där dina funktioner körs. Välj en eller skapa en ny nedan.</value>
+    <value>Den här prenumerationen innehåller en eller flera funktionsappar. Det är de containers där dina funktioner körs. Välj en eller skapa en ny nedan.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
     <value>Namnet måste innehålla minst 2 tecken.</value>
@@ -265,7 +265,7 @@
     <value>Din prenumeration</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>När du skapar en funktionsapp etableras automatiskt en ny behållare som kan vara värd åt och köra din kod.</value>
+    <value>När du skapar en funktionsapp etableras automatiskt en ny container som kan vara värd åt och köra din kod.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Det gick inte att skapa appen</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Ange fysisk sökväg</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Program</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Platsinställning</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Dolt värde. Klicka för att visa.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Konfigurera autentiseringsuppgifter för distribution på Azure-kontonivå. Om du vill ändra autentiseringsuppgifterna på appnivå (kallas även autentiseringsuppgifter för publicering) väljer du alternativet för att återställa publiceringsautentiseringsuppgifter på fliken Översikt. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konsol</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Utforska appfilsystemet från en interaktiv webbaserad konsol.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Hantera din webbappmiljö genom att köra vanliga kommandon (mkdir, cd för att ändra kataloger osv.) Det här är en sandbox-miljö så alla kommandon som kräver utökade privilegier fungerar inte.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1436,10 +1454,10 @@
     <value>Välj önskad Java minor-version. Om du väljer Nyaste kommer din app att använda den JVM som senast lades till på portalen.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Java-webbehållare</value>
+    <value>Java-webbcontainer</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
-    <value>Den webbehållarversion som används för att köra ditt webbprogram om det använder Java</value>
+    <value>Den webcontainerversion som används för att köra ditt webbprogram om det använder Java</value>
   </data>
   <data name="use32BitWorkerProcessLabel" xml:space="preserve">
     <value>Plattform</value>
@@ -1502,13 +1520,13 @@
     <value>Stack</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web Apps på Linux ger körningsalternativ genom en samling med inbyggda behållare. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
+    <value>Web Apps på Linux ger körningsalternativ genom en samling med inbyggda containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startfil</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Ange ett valfritt startkommando som ska köras som en del av behållarstarten. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
+    <value>Ange ett valfritt startkommando som ska köras som en del av containerstarten. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Nyast</value>
@@ -1580,7 +1598,7 @@
     <value>Använd autentisering/auktorisering för att skydda program och arbeta med data per användare.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Hanterad ACS-tjänstidentitet (förhandsversion)</value>
+    <value>Hanterad tjänstidentitet</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Ditt program kan kommunicera med andra Azure-tjänster som sig självt med hjälp av en hanterad Azure Active Directory-identitet.</value>
@@ -1628,7 +1646,7 @@
     <value>Konfigurera platsen för Swagger 2.0-metadata som beskriver ditt API. Detta gör det enkelt för andra att identifiera och använda API:t.</value>
   </data>
   <data name="feature_appServicePlanInfo" xml:space="preserve">
-    <value>En App Service-plan fungerar som en behållare för din app. Inställningarna för App Service-planen bestämmer vilka platser, funktioner och beräkningsresurser som är kopplade till din app.</value>
+    <value>En App Service-plan fungerar som en container för din app. Inställningarna för App Service-planen bestämmer vilka platser, funktioner och beräkningsresurser som är kopplade till din app.</value>
   </data>
   <data name="feature_quotasName" xml:space="preserve">
     <value>Kvoter</value>
@@ -2411,10 +2429,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Sydostasien</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>Centrala Korea</value>
+    <value>Sydkorea, centrala</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Södra Korea</value>
+    <value>Sydkorea, södra</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>Västra USA</value>
@@ -2432,7 +2450,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Östasien</value>
   </data>
   <data name="eastus2" xml:space="preserve">
-    <value>Östra USA 2</value>
+    <value>USA, östra 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
     <value>Norra centrala USA</value>
@@ -2540,7 +2558,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Incheckningsmeddelande</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Du använder en förhandsversion av Azure Functions. Tack för att du testar den!</value>
+    <value>Du använder en förhandsversion av Azure Functions. Klicka på läs mer för att hålla dig uppdaterad om de senaste ändringarn via vår meddelandesida.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Klicka för att dölja</value>
@@ -2879,7 +2897,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Det gick inte att stoppa {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} har startats om</value>
+    <value>{0} startades om</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Det gick inte att starta om {0}</value>
@@ -3064,14 +3082,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Varje instans av din App Service-plan omfattar följande maskinvarukonfiguration:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux-webbappar i en App Service Environment-plan faktureras med 50 % rabatt under förhandsversionen.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Den första Basic-kärnan (B1) för Linux är kostnadsfri de första 30 dagarna!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows-behållare debiteras med 50 % rabatt under förhandsversionen.</value>
+    <value>Windows-containers debiteras med 50 % rabatt under förhandsversionen.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolerad-prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
@@ -3479,7 +3494,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Misslyckades</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Lyckades</value>
+    <value>Klart</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Spara autentiseringsuppgifter</value>
@@ -3528,5 +3543,68 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Autentiseringsuppgifter för distributions</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Anslutningssträngar ska endast användas med en funktionsapp om du använder Entity Framework. Använd appinställningar för andra scenarier. Klicka för att läsa mer.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Runtime-version: läser in...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Din appen är i skrivskyddat läge eftersom du använder det lokala cacheminnet. När du använder det lokala cacheminnet, sparas ändringar som görs på det lokala filsystemet inte till webbplatsens innehåll. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Läs mer&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Värde</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Platsinställning</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Namn på appinställning</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Namn på anslutningssträng</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Dokumentnamn</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Filtillägg</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Skriptprocessor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtuell sökväg</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Fysisk sökväg</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Databaskonto</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB-konto</value>
   </data>
 </root>
