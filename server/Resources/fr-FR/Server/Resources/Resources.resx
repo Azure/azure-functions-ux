@@ -154,7 +154,7 @@
     <value>Erreur de la fonction : {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Erreur de la fonction (${{name}}) : {{error}}</value>
+    <value>Erreur de la fonction ({{name}}) : {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL de fonction</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Entrer un chemin physique</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Paramètre d'emplacement</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valeur masquée. Cliquez pour l'afficher.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configurez les informations d'identification de déploiement au niveau du compte Azure. Pour changer vos informations d'identification au niveau de l'application (c'est-à-dire les « informations d'identification de publication »), choisissez « Réinitialiser les informations d'identification de publication » sous l'onglet « Vue d'ensemble ». &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;En savoir plus&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explorez le système de fichiers de votre application à partir d'une console web interactive.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Gérez l'environnement de votre application web en exécutant des commandes courantes (« mkdir », « cd » pour changer de répertoire, etc.). Comme il s'agit d'un environnement de bac à sable (sandbox), les commandes nécessitant des privilèges élevés ne fonctionnent pas.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Utilisez Authentification/autorisation pour protéger votre application et utiliser les données par utilisateur.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identité du service managé (préversion)</value>
+    <value>Managed Service Identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Votre application peut communiquer en son nom avec d'autres services Azure à l'aide d'une identité Azure Active Directory managée.</value>
@@ -2399,16 +2417,16 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Grouper par abonnement</value>
   </data>
   <data name="southcentralus" xml:space="preserve">
-    <value>Sud du centre des États-Unis</value>
+    <value>USA Centre Sud</value>
   </data>
   <data name="northeurope" xml:space="preserve">
-    <value>Europe du Nord</value>
+    <value>Europe Nord</value>
   </data>
   <data name="westeurope" xml:space="preserve">
-    <value>Europe de l'Ouest</value>
+    <value>Europe Ouest</value>
   </data>
   <data name="southeastasia" xml:space="preserve">
-    <value>Asie du Sud-Est</value>
+    <value>Asie Sud-Est</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
     <value>Corée - Centre</value>
@@ -2417,46 +2435,46 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Corée - Sud</value>
   </data>
   <data name="westus" xml:space="preserve">
-    <value>Ouest des États-Unis</value>
+    <value>USA Ouest</value>
   </data>
   <data name="eastus" xml:space="preserve">
-    <value>Est des États-Unis</value>
+    <value>USA Est</value>
   </data>
   <data name="japanwest" xml:space="preserve">
-    <value>Ouest du Japon</value>
+    <value>Japon Ouest</value>
   </data>
   <data name="japaneast" xml:space="preserve">
-    <value>Est du Japon</value>
+    <value>Japon Est</value>
   </data>
   <data name="eastasia" xml:space="preserve">
-    <value>Asie de l'Est</value>
+    <value>Asie Est</value>
   </data>
   <data name="eastus2" xml:space="preserve">
-    <value>Est des États-Unis 2</value>
+    <value>USA Est 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
-    <value>Centre-Nord des États-Unis</value>
+    <value>USA Centre Nord</value>
   </data>
   <data name="centralus" xml:space="preserve">
-    <value>Centre des États-Unis</value>
+    <value>USA Centre</value>
   </data>
   <data name="brazilsouth" xml:space="preserve">
-    <value>Sud du Brésil</value>
+    <value>Brésil Sud</value>
   </data>
   <data name="australiaeast" xml:space="preserve">
-    <value>Est de l'Australie</value>
+    <value>Australie Est</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Sud-Est de l'Australie</value>
+    <value>Australie Sud-Est</value>
   </data>
   <data name="westindia" xml:space="preserve">
-    <value>Inde de l'Ouest</value>
+    <value>Inde Ouest</value>
   </data>
   <data name="centralindia" xml:space="preserve">
-    <value>Centre de l'Inde</value>
+    <value>Inde Centre</value>
   </data>
   <data name="southindia" xml:space="preserve">
-    <value>Inde du Sud</value>
+    <value>Inde Sud</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
     <value>Centre du Canada</value>
@@ -2465,7 +2483,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Est du Canada</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
-    <value>Ouest du centre des États-Unis</value>
+    <value>USA Centre-Ouest</value>
   </data>
   <data name="ukwest" xml:space="preserve">
     <value>Ouest du Royaume-Uni</value>
@@ -2474,7 +2492,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Sud du Royaume-Uni</value>
   </data>
   <data name="westus2" xml:space="preserve">
-    <value>Ouest des États-Unis 2</value>
+    <value>USA Ouest 2</value>
   </data>
   <data name="allResourceGroups" xml:space="preserve">
     <value>Tous les groupes de ressources</value>
@@ -2540,7 +2558,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Message d'archivage</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Vous utilisez une préversion d'Azure Functions. Merci de l'avoir essayée !</value>
+    <value>Vous utilisez une préversion d'Azure Functions. Cliquez sur « En savoir plus » pour rester informé des dernières modifications répertoriées sur notre page d'annonce.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Cliquer pour masquer</value>
@@ -2879,7 +2897,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Échec d'arrêt de {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} redémarré</value>
+    <value>{0} a redémarré</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Échec de redémarrage de {0}</value>
@@ -3063,9 +3081,6 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Toutes les instances de votre plan App Service ont la configuration matérielle suivante :</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Les applications web Linux dans un environnement App Service bénéficient d'une remise de 50 % pendant la préversion.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Le premier cœur De base (B1) pour Linux est gratuit pendant les 30 premiers jours !</value>
@@ -3528,5 +3543,68 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Informations d'identification du déploiement</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Les chaînes de connexion ne doivent être utilisées avec une application de fonction que si vous utilisez Entity Framework. Pour d’autres scénarios, utilisez les paramètres de l’application. Cliquez ici pour en savoir plus.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Version du runtime : chargement en cours...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Votre application est actuellement en mode lecture seule, car vous utilisez le cache local. Lorsque vous utilisez le cache local, les modifications apportées sur le système de fichiers local ne sont pas conservées dans le contenu du site. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;En savoir plus&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Paramètre d'emplacement</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Nom du paramètre d'application</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Nom de la chaîne de connexion</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Nom du document</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Processeur de script</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Chemin virtuel</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Chemin d'accès physique</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Annuaire</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Compte de base de données</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Compte Azure Cosmos DB</value>
   </data>
 </root>

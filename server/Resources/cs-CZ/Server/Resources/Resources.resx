@@ -154,7 +154,7 @@
     <value>Chyba funkce: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Funkce (${{name}}) Chyba: {{error}}</value>
+    <value>Funkce ({{name}}) Chyba: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Adresa URL funkce</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Zadejte fyzickou cestu.</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Aplikace</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Nastavení slotu</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Skrytá hodnota. Kliknutím ji zobrazíte.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Nakonfiguruje přihlašovací údaje Azure pro nasazení na úrovni účtu. Pokud chcete změnit svoje přihlašovací údaje na úrovni aplikace (známé taky jako přihlašovací údaje pro publikování), zvolte na kartě Přehled možnost Resetovat přihlašovací údaje pro publikování. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Další informace&lt;/a&gt;</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konzola</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Prozkoumání systému souborů aplikace z interaktivní webové konzoly</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Spravujte prostředí své webové aplikace pomocí běžných příkazů (mkdir nebo cd pro změnu adresáře atd.). Jedná se o prostředí sandboxu, takže nebudou fungovat žádné příkazy, pro které se musí používat zvýšená úroveň oprávnění.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Použije ověřování/autorizaci k ochraně aplikace a pracuje s daty jednotlivých uživatelů.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identita spravované služby (Preview)</value>
+    <value>Identita spravované služby</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Vaše aplikace může s ostatními službami Azure komunikovat sama za sebe pomocí spravované identity Azure Active Directory.</value>
@@ -2411,10 +2429,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Jihovýchodní Asie</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>Korea – střed</value>
+    <value>Jižní Korea – střed</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Korea – jih</value>
+    <value>Jižní Korea – jih</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>Západní USA</value>
@@ -2540,7 +2558,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Zpráva pro vrácení se změnami</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Používáte předběžnou verzi Azure Functions. Děkujeme za vyzkoušení!</value>
+    <value>Používáte předběžnou verzi Azure Functions. Pokud chcete prostřednictvím naší stránky s oznámeními dostávat aktuální informace o nejnovějších změnách, klikněte na další informace.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Kliknutím skryjete položky.</value>
@@ -3064,9 +3082,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Všechny instance plánu služby App Service budou obsahovat následující hardwarovou konfiguraci:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linuxové webové aplikace v prostředí App Service Environment se během verze Preview účtují s 50% slevou.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>První jádro Basic (B1) pro Linux je prvních 30 dní zdarma!</value>
   </data>
@@ -3528,5 +3543,68 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Pověření nasazení</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Připojovací řetězce by se spolu s aplikací funkcí měly používat jen v případě, že používáte Entity Framework. Pro ostatní scénáře použijte Nastavení aplikace. Kliknutím získáte další informace.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Verze modulu runtime: načítá se...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože používáte místní mezipaměť. Když se používá místní mezipaměť, změny provedené v místním souborovém systému se neukládají trvale do obsahu dané lokality. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Další informace&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Nastavení slotu</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Název nastavení aplikace</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Název připojovacího řetězce</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Název dokumentu</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Rozšíření</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Procesor skriptů</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumenty</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtuální cesta</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Fyzická cesta</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Adresář</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Databázový účet</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Účet Azure Cosmos DB</value>
   </data>
 </root>

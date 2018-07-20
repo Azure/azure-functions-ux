@@ -154,7 +154,7 @@
     <value>Függvényhiba: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>A függvény (${{name}}) hibába ütközött: {{error}}</value>
+    <value>A függvény ({{name}}) hibába ütközött: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Függvény URL-címe</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Adja meg a fizikai elérési utat</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Alkalmazás</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Tárhelybeállítás</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Rejtett érték.  A megjelenítéshez kattintson ide.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Konfigurálhatja a Azure-fiókszintű üzembe helyezés hitelesítő adatait. Az alkalmazásszintű hitelesítő adatok (más néven közzétételi hitelesítő adatok) módosításához válassza az Áttekintés lap Reset publish credentials (Közzétételi hitelesítő adatok alaphelyzetbe állítása) elemét. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;További információ&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konzol</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Interaktív webes konzolon böngészhet az alkalmazás fájlrendszerében.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>A webalkalmazás környezete általános jellegű parancsok (például a könyvtárak létrehozására szolgáló mkdir vagy a könyvtárváltásra szolgáló cd parancs) futtatásával kezelhető. Mivel ez egy védőfal mögötti környezet, az emelt szintű jogosultságokat igénylő parancsok nem fognak működni.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>PARANCS</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Hitelesítéssel és engedélyezéssel biztosíthatja az alkalmazás védelmét, és használat felhasználónkénti adatokat.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Felügyeltszolgáltatás-identitás (előzetes verzió)</value>
+    <value>Managed Service Identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Az alkalmazás egy Azure Active Directory-identitás használatával képes saját magaként kommunikálni más Azure-szolgáltatásokkal.</value>
@@ -2540,7 +2558,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Beadási üzenet</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Az Azure Functions előzetes verzióját használja. Köszönjük, hogy kipróbálja!</value>
+    <value>Az Azure Functions előzetes verzióját használja. Kattintson a További információ hivatkozásra, ha a közleményeinket tartalmazó lapon tájékozódni szeretne a legfrissebb változásokról.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Kattintson ide az elrejtéséhez</value>
@@ -2879,7 +2897,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A(z) {0} leállítása nem sikerült</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} újraindítva'</value>
+    <value>A(z) {0} újra lett indítva</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>A(z) {0} újraindítása nem sikerült</value>
@@ -3063,9 +3081,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Az App Service-díjcsomag összes példánya a következő hardverkonfigurációt tartalmazza:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Az App Service Environment előzetes verziójában a linuxos webalkalmazások díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Az első linuxos Basic (B1) mag ingyenes az első 30 napban!</value>
@@ -3479,7 +3494,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Sikertelen</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Sikeres művelet</value>
+    <value>Sikeres</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Hitelesítő adatok mentése</value>
@@ -3528,5 +3543,68 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Központi telepítés hitelesítő adatai</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat. További információért kattintson ide.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Futásidejű verzió: betöltés...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert a helyi gyorsítótárat használja. Helyi gyorsítótár használatakor a helyi fájlrendszer módosításait a webhelytartalom nem őrzi meg. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;További információ&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Érték</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Tárhelybeállítás</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Alkalmazásbeállítás neve</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Kapcsolati sztring neve</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Típus</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Dokumentum neve</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Kiterjesztés</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Szkriptfeldolgozó</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumentumok</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtuális elérési út</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Fizikai elérési út</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Adatbázisfiók</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB-fiók</value>
   </data>
 </root>
