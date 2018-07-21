@@ -154,7 +154,7 @@
     <value>Ошибка функции: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Ошибка функции (${{name}}): {{error}}</value>
+    <value>Ошибка функции ({{name}}): {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL-адрес функции</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Ввести физический путь</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Приложение</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Параметр слота</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Скрытое значение. Щелкните, чтобы показать.</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Вы можете настраивать учетные данные развертывания уровня учетной записи Azure. Чтобы изменить учетные данные уровня приложения (или "учетные данные для публикации"), выберите команду "Сбросить учетные данные публикации" на вкладке "Общие сведения". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Дополнительные сведения&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Консоль</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Просматривайте файловую систему приложения из интерактивной веб-консоли.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Управляйте средой веб-приложений, запуская стандартные команды (mkdir, cd для изменения каталогов и т. д.). Это среда "песочницы", поэтому команды, требующие повышенных прав, не будут работать.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Удостоверение управляемой службы (предварительная версия)</value>
+    <value>Управляемое удостоверение службы</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Приложение может взаимодействовать с другими службами Azure, так как использует управляемое удостоверение Azure Active Directory.</value>
@@ -2399,7 +2417,7 @@
     <value>Группировать по подписке</value>
   </data>
   <data name="southcentralus" xml:space="preserve">
-    <value>Юг и центр США</value>
+    <value>Центрально-южная часть США</value>
   </data>
   <data name="northeurope" xml:space="preserve">
     <value>Северная Европа</value>
@@ -2435,7 +2453,7 @@
     <value>Восточная часть США 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
-    <value>Северо-центральный регион США</value>
+    <value>Центрально-северная часть США</value>
   </data>
   <data name="centralus" xml:space="preserve">
     <value>Центральная часть США</value>
@@ -2540,7 +2558,7 @@
     <value>Сообщение о возврате</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Вы используете предварительную версию функций Azure. Спасибо за участие!</value>
+    <value>Вы используете предварительную версию Функций Azure. Щелкните "Дополнительные сведения", чтобы получать информацию о последних изменениях на нашей странице объявлений.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Щелкните, чтобы скрыть</value>
@@ -2879,7 +2897,7 @@
     <value>Не удалось остановить {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>Служба {0} перезапущена"</value>
+    <value>Служба {0} перезапущена</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Не удалось перезапустить {0}</value>
@@ -3063,9 +3081,6 @@
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Каждый экземпляр вашего плана службы приложений будет включать следующую конфигурацию оборудования:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Веб-приложения для Linux в среде службы приложений предоставляются в предварительной версии с 50-процентной скидкой.</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
@@ -3479,7 +3494,7 @@
     <value>Сбой</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Выполнено</value>
+    <value>Успешно выполнено</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Сохранить учетные данные</value>
@@ -3528,5 +3543,68 @@
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Мандат на развертывание</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Версия среды выполнения: загружается...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. При использовании локального кэша изменения, внесенные в локальную файловую систему, не сохраняются в контенте сайта. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Параметр слота</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Имя параметра приложения</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Имя строки подключения</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Название документа</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Расширение</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Обработчик сценариев</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Аргументы</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Виртуальный путь</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Физический путь</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Учетная запись базы данных</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Учетная запись Azure Cosmos DB</value>
   </data>
 </root>

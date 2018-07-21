@@ -154,7 +154,7 @@
     <value>函式錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>函式 (${{name}}) 錯誤: {{error}}</value>
+    <value>函式 ({{name}}) 錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>函數 URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>輸入實體路徑</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>應用程式</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>位置設定</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>隱藏的值。按一下即可顯示。</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>設定 Azure 帳戶層級部署認證。若要變更您的應用程式層級認證 (亦即「發行認證」)，請選擇 [概觀] 索引標籤中的 [重設發行認證]。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;深入了解&lt;/a&gt;。</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>主控台</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>從互動式 Web 主控台探索您的應用程式檔案系統。</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>藉由執行常用命令 ('mkdir'、可變更目錄的 'cd' 等) 來管理您的 Web 應用程式環境。這是沙箱環境，因此任何需要較高權限的命令皆無法在此運作。</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1580,7 +1598,7 @@
     <value>使用驗證/授權保護您的應用程式及使用個別使用者的資料。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>受管理的服務身分識別 （預覽）</value>
+    <value>受控服務識別</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>因為您的應用程式使用受管理的 Azure Active Directory 身分識別，所以可與其他 Azure 服務通訊。</value>
@@ -2540,7 +2558,7 @@
     <value>簽入訊息</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>您使用的是 Azure Functions 發行前版本。感謝您的試用!</value>
+    <value>您目前使用 Azure Functions 的發行前版本。按一下 [深入了解] 以透過我們的宣告頁面持續掌握最新變更。</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>按一下可隱藏</value>
@@ -2879,7 +2897,7 @@
     <value>無法停止 {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>已重新啟動 {0}」</value>
+    <value>已重新啟動 {0}</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>無法重新啟動 {0}</value>
@@ -3063,9 +3081,6 @@
   </data>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service 方案的每個執行個體都將包含下列硬體組態:</value>
-  </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>在預覽期間，App Service 隔離式方案中的 Linux Web 應用程式會以 50% 的折扣計費。</value>
   </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux 的第一個基本 (B1) 核心前 30 天免費!</value>
@@ -3528,5 +3543,68 @@
   </data>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>部署認證</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>連接字串只有在您使用 Entity Framework 時，才能搭配函數應用程式使用。在其他情況下則請使用應用程式設定。若要深入了解，請按一下。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>run-time 版本: 正在載入...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>因為您在使用本機快取，所以您的應用程式目前處於唯讀模式。在使用本機快取時，在本機檔案系統上所做的變更不會保存至網站內容。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;深入了解&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>位置設定</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>應用程式設定名稱</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>連接字串名稱</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>文件名稱</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>延伸模組</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>指令碼處理器</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>引數</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>虛擬路徑</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>實體路徑</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>目錄</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>資料庫帳戶</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB 帳戶</value>
   </data>
 </root>
