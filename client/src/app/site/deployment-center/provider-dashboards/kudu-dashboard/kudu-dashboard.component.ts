@@ -250,7 +250,12 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     get gitCloneUri() {
         const publishingUsername = this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
         const scmUri = this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
-        const siteName = this.deploymentObject && this.deploymentObject.site.name;
+        let siteName = this.deploymentObject && this.deploymentObject.site.name;
+
+        // If site is a slot, we only care abou the primary site name, not the slot name
+        if (siteName.includes('/')) {
+            siteName = siteName.split('/')[0];
+        }
         return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
     }
 
