@@ -10,6 +10,7 @@ import { HostStatus } from './models/host-status';
 import { Injector } from '@angular/core';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { ArmService } from './services/arm.service';
 
 export namespace Preconditions {
     export type PreconditionErrorId = string;
@@ -20,7 +21,7 @@ export namespace Preconditions {
         | 'RuntimeAvailable'
         | 'NoClientCertificate';
 
-    export type PreconditionMap = {[key in HttpPreconditions]: HttpPrecondition };
+    export type PreconditionMap = { [key in HttpPreconditions]: HttpPrecondition };
 
     export interface PreconditionInput {
         resourceId: string;
@@ -34,10 +35,12 @@ export namespace Preconditions {
     export abstract class HttpPrecondition {
         protected cacheService: CacheService;
         protected logService: LogService;
+        protected armService: ArmService;
 
         constructor(protected injector: Injector) {
             this.cacheService = injector.get(CacheService);
             this.logService = injector.get(LogService);
+            this.armService = injector.get(ArmService);
         }
 
         abstract check(input: PreconditionInput): Observable<PreconditionResult>;
@@ -84,9 +87,14 @@ export namespace Preconditions {
                                 const ase: ArmObj<HostingEnvironment> = a.json();
                                 if (ase.properties.internalLoadBalancingMode &&
                                     ase.properties.internalLoadBalancingMode !== 'None') {
-                                    return this.cacheService.get(context.urlTemplates.runtimeSiteUrl)
+                                    return this.armService.send('GET', context.urlTemplates.runtimeSiteUrl)
                                         .map(() => true)
-                                        .catch(() => Observable.of(false));
+                                        .catch(res => {
+                                            if (res.status === 0) {
+                                                return Observable.of(false);
+                                            }
+                                            return Observable.of(true);
+                                        });
                                 } else {
                                     return Observable.of(true);
                                 }
