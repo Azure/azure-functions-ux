@@ -1,5 +1,7 @@
 import { NotificationIds, SiteTabIds, Constants, LogCategories } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
+import {  ScenarioIds } from './../../shared/models/constants';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ConfigService } from './../../shared/services/config.service';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
@@ -74,6 +76,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     public slotsStatusOptions: SelectOption<boolean>[];
     public slotsAppSetting: string;
     public slotsEnabled: boolean;
+    public functionRuntimeSelectorDisabled = false;
     public slotsValueChange: Subject<boolean>;
     private _busyManager: BusyStateScopeManager;
 
@@ -88,10 +91,15 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         private _configService: ConfigService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService,
+        private _scenarioService: ScenarioService,
         private _languageService: LanguageService) {
         super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
+
+        if (this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled') {
+            this.functionRuntimeSelectorDisabled = true;
+        }
 
         this.functionStatusOptions = [
             {

@@ -51,6 +51,13 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.functionBeta] = {
+            id: ScenarioIds.functionBeta,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
             id: ScenarioIds.enableAlwaysOn,
             runCheckAsync: (input: ScenarioCheckInput) => {
