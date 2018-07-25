@@ -10,7 +10,6 @@ import { HostStatus } from './models/host-status';
 import { Injector } from '@angular/core';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
-import { ArmService } from './services/arm.service';
 
 export namespace Preconditions {
     export type PreconditionErrorId = string;
