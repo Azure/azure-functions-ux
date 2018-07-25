@@ -35,12 +35,10 @@ export namespace Preconditions {
     export abstract class HttpPrecondition {
         protected cacheService: CacheService;
         protected logService: LogService;
-        protected armService: ArmService;
 
         constructor(protected injector: Injector) {
             this.cacheService = injector.get(CacheService);
             this.logService = injector.get(LogService);
-            this.armService = injector.get(ArmService);
         }
 
         abstract check(input: PreconditionInput): Observable<PreconditionResult>;
@@ -87,7 +85,7 @@ export namespace Preconditions {
                                 const ase: ArmObj<HostingEnvironment> = a.json();
                                 if (ase.properties.internalLoadBalancingMode &&
                                     ase.properties.internalLoadBalancingMode !== 'None') {
-                                    return this.armService.send('GET', context.urlTemplates.runtimeSiteUrl)
+                                    return this.cacheService.get(context.urlTemplates.runtimeSiteUrl)
                                         .map(() => true)
                                         .catch(res => {
                                             if (res.status === 0) {
