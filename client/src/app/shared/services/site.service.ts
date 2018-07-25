@@ -1,22 +1,22 @@
-import { Availability } from 'app/site/site-notifications/notifications';
-import { ArmService } from 'app/shared/services/arm.service';
-import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
-import { ConnectionStrings } from 'app/shared/models/arm/connection-strings';
-import { AvailableStack, AvailableStacksOsType } from 'app/shared/models/arm/stacks';
-import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Injectable, Injector } from '@angular/core';
-import { ConditionalHttpClient } from 'app/shared/conditional-http-client';
-import { UserService } from 'app/shared/services/user.service';
-import { CacheService } from 'app/shared/services/cache.service';
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Observable } from 'rxjs/Observable';
-import { HttpResult } from 'app/shared/models/http-result';
-import { ArmObj } from 'app/shared/models/arm/arm-obj';
-import { Site } from 'app/shared/models/arm/site';
-import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
-import { AuthSettings } from 'app/shared/models/arm/auth-settings';
-import { SiteExtension } from 'app/shared/models/arm/site-extension';
+import { ConditionalHttpClient } from './../../shared/conditional-http-client';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
+import { Availability } from './../../site/site-notifications/notifications';
+import { HttpResult } from './../models/http-result';
+import { ApplicationSettings } from './../models/arm/application-settings';
+import { ArmArrayResult } from './../models/arm/arm-obj';
+import { ArmObj } from './../models/arm/arm-obj';
+import { AuthSettings } from './../models/arm/auth-settings';
+import { ConnectionStrings } from './../models/arm/connection-strings';
+import { Site } from './../models/arm/site';
+import { SiteConfig } from './../models/arm/site-config';
+import { SiteExtension } from './../models/arm/site-extension';
+import { SlotConfigNames } from './../models/arm/slot-config-names';
+import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
+import { ArmService } from './arm.service';
+import { CacheService } from './cache.service';
+import { UserService } from './user.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -148,7 +148,7 @@ export class SiteService {
             location: loc,
             properties: {
                 serverFarmId: serverfarmId,
-                siteConfig: config || null
+                siteConfig: config
             }
         });
         const newSlotId = `${resourceId}/slots/${slotName}`;

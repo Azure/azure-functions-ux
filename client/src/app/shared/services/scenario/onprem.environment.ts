@@ -130,6 +130,13 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.getSiteSlotLimits] = {
+            id: ScenarioIds.getSiteSlotLimits,
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return this._getSlotLimit(input);
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enablePlatform64] = {
             id: ScenarioIds.enablePlatform64,
             runCheckAsync: (input: ScenarioCheckInput) => {
@@ -211,6 +218,25 @@ export class OnPremEnvironment extends Environment {
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'OnPrem';
+    }
+
+    private _getSlotLimit(input: ScenarioCheckInput) {
+        if (!input || !input.site || !input.site.id) {
+            throw Error('No site input specified');
+        }
+
+        const armResourceDescriptor = new ArmResourceDescriptor(input.site.id);
+        return this._quotaService.getQuotaLimit(
+            armResourceDescriptor.subscription,
+            QuotaNames.numberOfSlotsPerSite,
+            input.site.properties.sku,
+            input.site.properties.computeMode
+        ).map(limit => {
+            return <ScenarioResult> {
+                status: 'enabled',
+                data: limit
+            };
+        });
     }
 
 }
