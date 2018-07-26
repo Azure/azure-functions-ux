@@ -3610,4 +3610,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB account</value>
   </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>enter username</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>enter password</value>
+  </data>
 </root>

@@ -234,15 +234,17 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private get _externalRepoInfo(): CodeRepository {
+        const sourceSettings = this.wizardValues.sourceSettings;
+        const privateRepo = sourceSettings.privateRepo;
         return {
             type: 'Git',
-            id: this.wizardValues.sourceSettings.repoUrl,
-            defaultBranch: 'master',
+            id: sourceSettings.repoUrl,
+            defaultBranch: sourceSettings.branch,
             authorizationInfo: {
                 scheme: 'UsernamePassword',
                 parameters: {
-                    username: '',
-                    password: ''
+                    username: privateRepo ? sourceSettings.username : '',
+                    password: privateRepo ? sourceSettings.password : ''
                 }
             }
         };
