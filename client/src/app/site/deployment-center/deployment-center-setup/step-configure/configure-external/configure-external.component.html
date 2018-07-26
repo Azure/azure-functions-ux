@@ -1,5 +1,4 @@
-<div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings"
-  novalidate>
+<div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
 
@@ -7,16 +6,14 @@
     <div class="setting-wrapper">
       <div class="setting-label">{{'repository' | translate}}</div>
       <div class="setting-control-container">
-        <textbox [control]="this.wizard?.sourceSettings?.controls?.repoUrl"
-          [placeholder]="'enter repo'"></textbox>
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [placeholder]="'enter repo'"></textbox>
       </div>
     </div>
 
     <div class="setting-wrapper">
       <div class="setting-label">{{'branch' | translate}}</div>
       <div class="setting-control-container">
-        <textbox [control]="this.wizard?.sourceSettings?.controls?.branch"
-          [placeholder]="'enter branch'"></textbox>
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.branch" [placeholder]="'enter branch'"></textbox>
       </div>
     </div>
 
@@ -24,38 +21,30 @@
       'kudu'">
       <div class="setting-label">{{'repoType' | translate}}</div>
       <div class="setting-control-container">
-        <radio-selector [defaultValue]="repoMode" [options]="RepoTypeOptions"
-          (value)="repoTypeChanged($event)"></radio-selector>
+        <radio-selector [defaultValue]="repoMode" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>
       </div>
     </div>
-    <div *ngIf="wizard?.wizardValues?.buildProvider === 'vsts'">
+    <ng-container *ngIf="wizard?.wizardValues?.buildProvider === 'vsts'">
       <div class="setting-wrapper">
-        <div class="setting-label">Private Repository</div>
+        <div class="setting-label">{{'privateRepo' | translate}}</div>
         <div class="setting-control-container">
-          <radio-selector [defaultValue]="privateRepo"
-            [options]="AccessTypeOptions"
-            (value)="accessTypeChanged($event)"></radio-selector>
+          <radio-selector [defaultValue]="privateRepo" [options]="AccessTypeOptions" (value)="accessTypeChanged($event)"></radio-selector>
         </div>
       </div>
 
-      <div *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
+      <ng-container *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
 
         <div class="setting-wrapper">
-          <div class="setting-label">Username</div>
+          <div class="setting-label">{{'username' | translate }}</div>
           <div class="setting-control-container">
-            <textbox [control]="this.wizard?.sourceSettings?.controls?.username"
-              placeholder="enter username"></textbox>
-          </div>
-
-          <div class="setting-wrapper">
-            <div class="setting-label">Password</div>
-            <div class="setting-control-container">
-              <textbox
-                [control]="this.wizard?.sourceSettings?.controls?.password"
-                placeholder="enter password" type="password"></textbox>
-            </div>
-
+            <textbox [control]="this.wizard?.sourceSettings?.controls?.username" [placeholder]="'enterUsername' | translate"></textbox>
           </div>
         </div>
-      </div>
-    </div>
+        <div class="setting-wrapper">
+          <div class="setting-label">{{'password' | translate }}</div>
+          <div class="setting-control-container">
+            <textbox [control]="this.wizard?.sourceSettings?.controls?.password" [placeholder]="'enterPassword' | translate" type="password"></textbox>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>

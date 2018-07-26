@@ -53,6 +53,7 @@ export class ConfigureExternalComponent {
         wizardValues.sourceSettings.privateRepo = this.privateRepo;
         this.wizard.wizardValues = wizardValues;
     }
+
     updateFormValidation() {
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
