@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
-        "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json"
+        "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json",
+        "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
+    
     },
     "dependencies": {
         "applicationinsights": "^1.0.1",
