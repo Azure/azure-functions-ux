@@ -415,7 +415,7 @@ export class DeploymentCenterConstants {
     public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
     public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
-    public static readonly vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
+    public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
     public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
