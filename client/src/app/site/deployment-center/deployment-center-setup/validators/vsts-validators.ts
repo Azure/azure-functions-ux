@@ -38,12 +38,12 @@ export class VstsValidators {
             const vstsAccountValue: string = _accountControl.value;
             const vstsProjectValue: string = projectControl.value;
             if (vstsAccountValue && vstsProjectValue) {
-                return _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/projects?includeCapabilities=true`)
+                const callHeaders = _wizard.getVstsDirectHeaders();
+                return _cacheService.get(DeploymentCenterConstants.vstsProjectsApi.format(vstsAccountValue), true, callHeaders)
                     .concatMap(r => {
                         const projectList: [{ id: string, name: string }] = r.json().value;
                         const currentProject = projectList.find(x => x.name.toLowerCase() === vstsProjectValue.toLowerCase());
                         if (currentProject) {
-                            const callHeaders = _wizard.getVstsDirectHeaders();
                             callHeaders.append('accept', 'application/json;api-version=3.2-preview.2');
                             // need to ping the release rp in vso in order to subscribe to user to the RP, otherwise the rp call will fail
                             return _cacheService.get(`https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions`, true, callHeaders)
