@@ -20,7 +20,7 @@ export namespace Preconditions {
         | 'RuntimeAvailable'
         | 'NoClientCertificate';
 
-    export type PreconditionMap = {[key in HttpPreconditions]: HttpPrecondition };
+    export type PreconditionMap = { [key in HttpPreconditions]: HttpPrecondition };
 
     export interface PreconditionInput {
         resourceId: string;
@@ -86,7 +86,12 @@ export namespace Preconditions {
                                     ase.properties.internalLoadBalancingMode !== 'None') {
                                     return this.cacheService.get(context.urlTemplates.runtimeSiteUrl)
                                         .map(() => true)
-                                        .catch(() => Observable.of(false));
+                                        .catch(res => {
+                                            if (res.status === 0) {
+                                                return Observable.of(false);
+                                            }
+                                            return Observable.of(true);
+                                        });
                                 } else {
                                     return Observable.of(true);
                                 }

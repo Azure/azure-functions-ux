@@ -38,15 +38,15 @@ export class VstsValidators {
             const vstsAccountValue: string = _accountControl.value;
             const vstsProjectValue: string = projectControl.value;
             if (vstsAccountValue && vstsProjectValue) {
-                return _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/projects?includeCapabilities=true`)
+                const callHeaders = _wizard.getVstsDirectHeaders();
+                return _cacheService.get(DeploymentCenterConstants.vstsProjectsApi.format(vstsAccountValue), true, callHeaders)
                     .concatMap(r => {
                         const projectList: [{ id: string, name: string }] = r.json().value;
                         const currentProject = projectList.find(x => x.name.toLowerCase() === vstsProjectValue.toLowerCase());
                         if (currentProject) {
-                            const callHeaders = _wizard.getVstsDirectHeaders();
                             callHeaders.append('accept', 'application/json;api-version=3.2-preview.2');
                             // need to ping the release rp in vso in order to subscribe to user to the RP, otherwise the rp call will fail
-                            return _cacheService.get(`https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions/environmenttemplates`, true, callHeaders)
+                            return _cacheService.get(`https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions`, true, callHeaders)
                                 .switchMap(() => {
                                     return Observable.forkJoin(
                                         _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`, true, callHeaders),
@@ -58,8 +58,8 @@ export class VstsValidators {
                     })
                     .map(results => {
                         if (results && results.length === 2) {
-                            const buildPermissions = results[0].json().value[0];
-                            const releasePermissions = results[1].json().value[0];
+                            const buildPermissions = results[0] ? results[0].json().value[0] : true;
+                            const releasePermissions = results[1] ? results[1].json().value[0] : true;
                             if (!buildPermissions || !releasePermissions) {
                                 return {
                                     invalidPermissions: _translateService.instant(PortalResources.vstsReleaseBuildPermissions)
@@ -67,6 +67,10 @@ export class VstsValidators {
                             }
                         }
                         return null;
+                    })
+                    .catch(() => {
+                        // if there is an error fetching permissions, better to just assume they have them to avoid blocking
+                        return Observable.of(null);
                     });
             } else {
                 // Account and Project is empty so no validation
