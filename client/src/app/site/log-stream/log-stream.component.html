@@ -1,10 +1,10 @@
 <div class="browse-container">
-    <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>&nbsp;&nbsp;
+    <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>
     <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
-    <i class = "fa fa-trash-o fa-2x" aria-hidden="true" (click)="clearLogText()" title="Clear Logs"></i>
+    <i class = "fa fa-trash-o fa-2x" aria-hidden="true" (click)="clearLogText()" title="{{ 'logStreaming_clear' | translate }}"></i>
     <div id = "log-container">
         <div #logBody class = "log-body" [scrollTop]="logBody.scrollHeight">
-            <div class = "log-message log-connector" *ngIf = "!clearLogs">Connecting...</div>
+            <div class = "log-message log-connector" *ngIf = "!clearLogs">{{ 'feature_logStreamingConnecting' | translate }}</div>
             <div class = "log-message">{{logsText}}</div>
         </div>
       </div>      

@@ -457,19 +457,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService
             ),
 
-            // new DisableableBladeFeature(
-            //     this._translateService.instant(PortalResources.feature_logStreamingName),
-            //     this._translateService.instant(PortalResources.feature_logStreamingName),
-            //     this._translateService.instant(PortalResources.feature_logStreamingInfo),
-            //     'image/log-stream.svg',
-            //     {
-            //         detailBlade: 'LogStreamBlade',
-            //         detailBladeInputs: { resourceUri: site.id }
-            //     },
-            //     this._portalService,
-            //     this._hasSiteWritePermissionStream,
-            //     this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })
-            // ),
             new TabFeature(
                 this._translateService.instant(PortalResources.feature_logStreamingName),
                 this._translateService.instant(PortalResources.feature_logStreamingName),
