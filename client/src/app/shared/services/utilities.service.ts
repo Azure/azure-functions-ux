@@ -36,10 +36,8 @@ export class UtilitiesService {
         }
 
         // This method should work on most modern browsers
-        nav.clipboard.writeText(text).then(function () {
+        nav.clipboard.writeText(text).then(() => {
             console.log('Async: Copying to clipboard was successful!');
-        }, function (err) {
-            console.error('Async: Could not copy text: ', err);
         });
     }
 }
