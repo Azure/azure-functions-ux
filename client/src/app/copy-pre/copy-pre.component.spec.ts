@@ -74,15 +74,11 @@ describe('CopyPreComponent', () => {
         });
     });
 
-    describe('copy to clipboard', () => {
+    describe('copy to clipboard in newer browsers', () => {
         it('should copy content to clipboard in utility service', fakeAsync((done) => {
-            spyOn(document, 'execCommand').and.callThrough();
-            spyOn(copyPreComponent['_utilities'], 'copyContentToClipboard').and.callThrough();
-            const elem = testFixture.debugElement.query(By.css('pre'));
-            elem.nativeElement.click();
+            spyOn(navigator['clipboard'], 'writeText').and.callThrough();
             copyPreComponent.copyToClipboard();
-            expect(document.execCommand).toHaveBeenCalledWith('copy');
-            expect(copyPreComponent['_utilities'].copyContentToClipboard).toHaveBeenCalledWith('content');
+            expect(navigator['clipboard']['writeText']).toHaveBeenCalledWith('content');
         }));
     });
 
