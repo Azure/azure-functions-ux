@@ -1612,6 +1612,15 @@
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
   </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Application logs</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web Server logs</value>
+  </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnostic logs</value>
   </data>
