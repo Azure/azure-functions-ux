@@ -33,6 +33,7 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/component
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 import { Observable } from 'rxjs/Observable';
 import { ConsoleComponent } from '../console/console.component';
+import { LogStreamComponent } from '../log-stream/log-stream.component';
 
 @Component({
     selector: 'site-dashboard',
@@ -324,6 +325,13 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.title = this._translateService.instant(PortalResources.feature_consoleName);
                 info.iconUrl = 'image/console.svg';
                 info.componentFactory = ConsoleComponent;
+                info.closeable = true;
+                break;
+
+            case SiteTabIds.logStream:
+                info.title = this._translateService.instant(PortalResources.feature_logStreamingName);
+                info.iconUrl = 'image/log-stream.svg';
+                info.componentFactory = LogStreamComponent;
                 info.closeable = true;
                 break;
 

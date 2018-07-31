@@ -21,6 +21,7 @@ export type BusyStateName =
     | 'site-continuous-deployment'
     | 'logic-apps'
     | 'console'
+    | 'log-stream'
     | 'scale-up'
     | 'deployment-slots-config'
     | 'standalone-config';

@@ -1,0 +1,58 @@
+import { LogStreamComponent } from './log-stream.component';
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { Injector } from '@angular/core';
+import { BroadcastService } from '../../shared/services/broadcast.service';
+import { TelemetryService } from '../../shared/services/telemetry.service';
+import { MockTelemetryService } from '../../test/mocks/telemetry.service.mock';
+import { MockSiteService, MockCacheService } from '../console/shared/services/mock.services';
+import { MockLogService } from '../../test/mocks/log.service.mock';
+import { LogService } from '../../shared/services/log.service';
+import { CacheService } from '../../shared/services/cache.service';
+import { SiteService } from '../../shared/services/site.service';
+import { MockDirective } from 'ng-mocks';
+import { RadioSelectorComponent } from '../../radio-selector/radio-selector.component';
+
+describe('LogStreamComponent', () => {
+    let component: LogStreamComponent;
+    let fixture: ComponentFixture<LogStreamComponent>;
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          TranslateModule.forRoot(), CommonModule
+        ],
+        providers: [
+          BroadcastService, Injector,
+          {provide: TelemetryService, useClass: MockTelemetryService},
+          { provide: SiteService, useClass: MockSiteService },
+          { provide: CacheService, useClass: MockCacheService },
+          { provide: LogService, useClass: MockLogService },
+        ],
+        declarations: [LogStreamComponent, MockDirective(RadioSelectorComponent)]
+      }).compileComponents().then(() => {
+          fixture = TestBed.createComponent(LogStreamComponent);
+          component = fixture.componentInstance;
+          fixture.detectChanges();
+        });
+    }));
+    /** Test cases for Log-stream will be here. */
+    describe('init', () => {
+      it('should create', async(() => {
+        expect(component).toBeTruthy();
+      }));
+
+      it('logs should be empty by default', async(() => {
+        expect(component.logsText).toEqual('');
+      }));
+
+      it('application logs selected by default', async(() => {
+        expect(component.toggleLog).toBeTruthy();
+      }));
+
+      it('clear logs is turned off by default', async(() => {
+        expect(component.clearLogs).toBeFalsy();
+      }));
+
+    });
+});
