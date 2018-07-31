@@ -22,8 +22,8 @@ div.browse-container{
 
 div.log-body{
     font-family: 'Courier New', 'Lucida Console', 'Times New', monospace;
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: $console-background-color;
+    color: $console-text-color;
     white-space: normal;
     margin-left:auto;
     margin-right: auto;
@@ -38,6 +38,6 @@ div.log-message{
     white-space: pre-wrap;
 }
 div.log-connector {
-    color: #898787;
+    color: $log-console-connector;
     font-weight: bolder;
 }
