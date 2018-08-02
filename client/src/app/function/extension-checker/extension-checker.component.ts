@@ -1,3 +1,5 @@
+import { PortalService } from 'app/shared/services/portal.service';
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { LogCategories, KeyCodes } from './../../shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +20,6 @@ import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
 import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 import { errorIds } from '../../shared/models/error-ids';
-import { PortalResources } from '../../shared/models/portal-resources';
 
 @Component({
     selector: 'extension-checker',
@@ -45,6 +46,11 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public _functionCard: CreateCard;
     public installing = false;
     public installJobs: ExtensionInstallStatus[] = [];
+    public installFailed = false;
+    public detailsUrl: string;
+    public installFailedUrl: string;
+    public installFailedInstallId: string;
+    public installFailedSessionId: string;
 
     private functionCardStream: Subject<CreateCard>;
     private _busyManager: BusyStateScopeManager;
@@ -52,10 +58,11 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     constructor(private _logService: LogService,
         private _functionAppService: FunctionAppService,
         broadcastService: BroadcastService,
-        translateService: TranslateService,
+        private _translateService: TranslateService,
+        private _portalService: PortalService,
         aiService: AiService) {
 
-        super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
+        super('extension-checker', _functionAppService, broadcastService, aiService, _translateService);
 
         this._busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
         this.functionCardStream = new Subject();
@@ -80,22 +87,27 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     return Observable.of(null);
                 }
             })
+            .switchMap(extensions => {
+                return this._setInstallationVariables(extensions);
+            })
             .do(null, e => {
                 this._busyManager.clearBusy();
                 this.showComponentError({
-                    message: translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
+                    message: _translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
                     errorId: errorIds.unableToCreateFunction,
                     resourceId: this.context.site.id
                 });
                 this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
             })
-            .subscribe(extensions => {
+            .subscribe(r => {
                 this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-                this._setInstallationVariables(extensions);
                 if (this.allInstalled) {
                     this.continueToFunctionNewDetail();
                 } else {
                     this.showExtensionInstallDetail = true;
+                    if (this.installing) {
+                        this._pollInstallationStatus(0);
+                    }
                 }
                 this._busyManager.clearBusy();
             });
@@ -110,6 +122,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
     installNeededExtensions() {
         this.installing = true;
+        this.installFailed = false;
         if (this.neededExtensions.length > 0) {
             const extensionCalls = this.neededExtensions.map(extension => {
                 return this._functionAppService.installExtension(this.context, extension);
@@ -152,20 +165,33 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     }
 
     private _setInstallationVariables(neededExtensions: RuntimeExtension[]) {
-        if (neededExtensions && neededExtensions.length > 0) {
-            this.neededExtensions = neededExtensions;
-            this.allInstalled = false;
-        } else {
-            this.neededExtensions = [];
-            this.allInstalled = true;
+        this.neededExtensions = !!neededExtensions ? neededExtensions : [];
+        this.allInstalled = this.neededExtensions.length === 0;
+
+        if (this.allInstalled) {
+            return Observable.of(null);
         }
+        return this._functionAppService.getExtensionJobsStatus(this.context)
+            .map(r => {
+                if (!r.isSuccessful || r.result.jobs.length === 0) {
+                    return;
+                }
+
+                this.installing = true;
+                this.neededExtensions.forEach(neededExtension => {
+                    const ext = !!r.result.jobs.find(inProgressExtension => {
+                        return neededExtension.id === inProgressExtension.properties.id
+                        && neededExtension.version === inProgressExtension.properties.version;
+                    });
+                    this.installing = this.installing && ext;
+                });
+            });
     }
 
     private _pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
             if (timeOut > 600) {
                 this._getNeededExtensions(this.runtimeExtensions).subscribe((extensions) => {
-                    this.installing = false;
                     this._setInstallationVariables(extensions);
                     if (!this.allInstalled) {
                         this.showTimeoutError(this.context);
@@ -229,6 +255,15 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
         if (event.keyCode === KeyCodes.escape) {
             this.close();
         }
+    }
+
+    showInstallFailed(context: FunctionAppContext, id: string) {
+        this.installFailed = true;
+        this.detailsUrl = context.urlTemplates.getRuntimeHostExentensionsJobUrl(id);
+        const sessionId = this._portalService.sessionId;
+        this.installFailedUrl = this._translateService.instant(PortalResources.failedToInstallExtensionUrl, { url: this.detailsUrl });
+        this.installFailedInstallId = this._translateService.instant(PortalResources.failedToInstallExtensionInstallId, {installId: id});
+        this.installFailedSessionId = this._translateService.instant(PortalResources.failedToInstallExtensionSessionId, {sessionId: sessionId});
     }
 
     close() {

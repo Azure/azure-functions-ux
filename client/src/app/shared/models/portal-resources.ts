@@ -1157,4 +1157,10 @@
     public static type_directory = 'type_directory';
     public static databaseAccount = 'databaseAccount';
     public static azureCosmosDB_account = 'azureCosmosDB_account';
+    public static privateRepo = 'privateRepo';
+    public static enterUsername = 'enterUsername';
+    public static enterPassword = 'enterPassword';
+    public static failedToInstallExtensionUrl = 'failedToInstallExtensionUrl';
+    public static failedToInstallExtensionInstallId = 'failedToInstallExtensionInstallId';
+    public static failedToInstallExtensionSessionId = 'failedToInstallExtensionSessionId';
 }
