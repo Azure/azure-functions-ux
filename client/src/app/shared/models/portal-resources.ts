@@ -499,6 +499,9 @@
     public static feature_msiInfo = 'feature_msiInfo';
     public static feature_pushNotificationsName = 'feature_pushNotificationsName';
     public static feature_pushNotificationsInfo = 'feature_pushNotificationsInfo';
+    public static feature_logStreamingConnecting = 'feature_logStreamingConnecting';
+    public static feature_applicationLogsName = 'feature_applicationLogsName';
+    public static feature_webServerLogsName = 'feature_webServerLogsName';
     public static feature_diagnosticLogsName = 'feature_diagnosticLogsName';
     public static feature_diagnosticLogsInfo = 'feature_diagnosticLogsInfo';
     public static feature_logStreamingName = 'feature_logStreamingName';
