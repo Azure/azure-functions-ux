@@ -3622,4 +3622,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="enterPassword" xml:space="preserve">
     <value>enter password</value>
   </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Single Container</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>This is the description for Single Container.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>This is the description for Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>This is the description for Kubernetes.</value>
+  </data>
 </root>

@@ -1157,4 +1157,13 @@
     public static type_directory = 'type_directory';
     public static databaseAccount = 'databaseAccount';
     public static azureCosmosDB_account = 'azureCosmosDB_account';
+    public static privateRepo = 'privateRepo';
+    public static enterUsername = 'enterUsername';
+    public static enterPassword = 'enterPassword';
+    public static singleContainerTitle = 'singleContainerTitle';
+    public static singleContainerDescription = 'singleContainerDescription';
+    public static dockerComposeContainerTitle = 'dockerComposeContainerTitle';
+    public static dockerComposeContainerDescription = 'dockerComposeContainerDescription';
+    public static kubernetesContainerTitle = 'kubernetesContainerTitle';
+    public static kubernetesContainerDescription = 'kubernetesContainerDescription';
 }
