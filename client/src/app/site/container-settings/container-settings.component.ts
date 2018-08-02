@@ -1,8 +1,9 @@
 import { Component, OnDestroy, Input, Injector } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ContainerSettingsInput, ContainerSettingsData } from './container-settings';
+import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureInfo } from './container-settings';
 import { Observable } from 'rxjs/Observable';
+import { ContainerSettingsManager } from './container-settings-manager';
 
 @Component({
     selector: 'container-settings',
@@ -17,8 +18,13 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     @Input() isOpenedFromMenu: boolean;
 
-    constructor(injector: Injector) {
+    containerConfigureInfo: ContainerConfigureInfo;
+
+    constructor(
+        public containerSettingsManager: ContainerSettingsManager,
+        injector: Injector) {
         super('ContainerSettingsComponent', injector);
+
         this.isParentComponent = true;
         this.featureName = 'ContainerSettingsComponent';
     }
@@ -29,8 +35,22 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     protected setup(inputEvents: Observable<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>>) {
         return inputEvents
-          .distinctUntilChanged()
-          .do(r => {
-          });
-      }
+            .distinctUntilChanged()
+            .do(r => {
+                this.containerSettingsManager.resetContainers();
+                this.containerSettingsManager.initialize(r.data);
+                this.containerConfigureInfo = {
+                    containerSettingsData: r.data.data,
+                    selectContainerId: this.containerSettingsManager.selectedContainer.id
+                };
+            });
+    }
+
+    public selectContainer(container: Container) {
+        this.containerSettingsManager.selectedContainer = container;
+    }
+
+    public onContainerTabKeyPress(event: KeyboardEvent) {
+        alert(event.key);
+    }
 }
