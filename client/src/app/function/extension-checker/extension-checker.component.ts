@@ -55,12 +55,12 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     private functionCardStream: Subject<CreateCard>;
     private _busyManager: BusyStateScopeManager;
 
-    constructor(private _logService: LogService,
-        private _functionAppService: FunctionAppService,
+    constructor(aiService: AiService,
         broadcastService: BroadcastService,
-        private _translateService: TranslateService,
+        private _functionAppService: FunctionAppService,
+        private _logService: LogService,
         private _portalService: PortalService,
-        aiService: AiService) {
+        private _translateService: TranslateService) {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, _translateService);
 
@@ -93,7 +93,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
             .do(null, e => {
                 this._busyManager.clearBusy();
                 this.showComponentError({
-                    message: _translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
+                    message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
                     errorId: errorIds.unableToCreateFunction,
                     resourceId: this.context.site.id
                 });
@@ -260,10 +260,9 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     showInstallFailed(context: FunctionAppContext, id: string) {
         this.installFailed = true;
         this.detailsUrl = context.urlTemplates.getRuntimeHostExentensionsJobUrl(id);
-        const sessionId = this._portalService.sessionId;
         this.installFailedUrl = this._translateService.instant(PortalResources.failedToInstallExtensionUrl, { url: this.detailsUrl });
         this.installFailedInstallId = this._translateService.instant(PortalResources.failedToInstallExtensionInstallId, {installId: id});
-        this.installFailedSessionId = this._translateService.instant(PortalResources.failedToInstallExtensionSessionId, {sessionId: sessionId});
+        this.installFailedSessionId = this._translateService.instant(PortalResources.failedToInstallExtensionSessionId, {sessionId: this._portalService.sessionId});
     }
 
     close() {
