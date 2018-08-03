@@ -3640,4 +3640,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="failedToInstallExtensionSessionId" xml:space="preserve">
     <value>Session id: {{sessionId}}</value>
   </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
+  </data>
 </root>
