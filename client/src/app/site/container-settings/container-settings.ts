@@ -63,3 +63,37 @@ export class KubernetesContainer extends Container {
     description = this.ts.instant(PortalResources.kubernetesContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.kubernetesContainerDetailedDescription);
 }
+
+export abstract class Container {
+    abstract iconUrl: string;
+    abstract title: string;
+    abstract id: ContainerType;
+    abstract description: string;
+
+    protected ts: TranslateService;
+
+    constructor(protected injector: Injector) {
+        this.ts = injector.get(TranslateService);
+    }
+}
+
+export class SingleContainer extends Container {
+    iconUrl = 'image/singlecontainer.svg';
+    title = this.ts.instant(PortalResources.singleContainerTitle);
+    id = ContainerType.Single;
+    description = this.ts.instant(PortalResources.singleContainerDescription);
+}
+
+export class DockerComposeContainer extends Container {
+    iconUrl = 'image/dockercompose.svg';
+    title = this.ts.instant(PortalResources.dockerComposeContainerTitle);
+    id = ContainerType.DockerCompose;
+    description = this.ts.instant(PortalResources.dockerComposeContainerDescription);
+}
+
+export class KubernetesContainer extends Container {
+    iconUrl = 'image/kubernetes.svg';
+    title = this.ts.instant(PortalResources.kubernetesContainerTitle);
+    id = ContainerType.Kubernetes;
+    description = this.ts.instant(PortalResources.kubernetesContainerDescription);
+}
