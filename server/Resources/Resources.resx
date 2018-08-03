@@ -3631,6 +3631,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="enterPassword" xml:space="preserve">
     <value>enter password</value>
   </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>We were not able to install the runtime extension. To learn more please view </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Install id: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Session id: {{sessionId}}</value>
+  </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
     <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
   </data>

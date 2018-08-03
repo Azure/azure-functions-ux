@@ -1163,5 +1163,8 @@
     public static privateRepo = 'privateRepo';
     public static enterUsername = 'enterUsername';
     public static enterPassword = 'enterPassword';
+    public static failedToInstallExtensionUrl = 'failedToInstallExtensionUrl';
+    public static failedToInstallExtensionInstallId = 'failedToInstallExtensionInstallId';
+    public static failedToInstallExtensionSessionId = 'failedToInstallExtensionSessionId';
     public static pricing_premiumContainerSharedDisk = 'pricing_premiumContainerSharedDisk';
 }
