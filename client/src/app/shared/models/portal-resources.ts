@@ -1167,4 +1167,7 @@
     public static failedToInstallExtensionInstallId = 'failedToInstallExtensionInstallId';
     public static failedToInstallExtensionSessionId = 'failedToInstallExtensionSessionId';
     public static pricing_premiumContainerSharedDisk = 'pricing_premiumContainerSharedDisk';
+    public static functionAppName = 'functionAppName';
+    public static languageAria = 'languageAria';
+    public static submitting = 'submitting';
 }
