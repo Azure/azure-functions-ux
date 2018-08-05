@@ -3643,4 +3643,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
     <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
   </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Function app name</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Function programming Language</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Submitting</value>
+  </data>
 </root>
