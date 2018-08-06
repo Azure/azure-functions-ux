@@ -356,8 +356,8 @@
     public static swap = 'swap';
     public static completeSwap = 'completeSwap';
     public static cancelSwap = 'cancelSwap';
-    public static downloadProfile = 'downloadProfile';
-    public static resetPubCredentials = 'resetPubCredentials';
+    public static getPublishProfile = 'getPublishProfile';
+    public static resetPublishProfile = 'resetPublishProfile';
     public static _delete = '_delete';
     public static status = 'status';
     public static availability = 'availability';
