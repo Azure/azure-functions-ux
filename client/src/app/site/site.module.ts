@@ -21,6 +21,7 @@ import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 import { SpecPickerModule } from './spec-picker/spec-picker.module';
 import { ProdFunctionInitialUploadComponent } from '../prod-function-initial-upload/prod-function-initial-upload.component';
 import { ConsoleModule } from './console/console.module';
+import { LogStreamComponent } from './log-stream/log-stream.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
@@ -31,7 +32,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SiteConfigComponent,
-        LogicAppsComponent
+        LogicAppsComponent,
+        LogStreamComponent
     ],
     imports: [
         TranslateModule.forChild(),
@@ -56,7 +58,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         HostEditorComponent,
         SiteTabComponent,
         LogicAppsComponent,
-        ProdFunctionInitialUploadComponent
+        ProdFunctionInitialUploadComponent,
+        LogStreamComponent
     ],
     providers: []
 })

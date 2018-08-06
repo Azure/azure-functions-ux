@@ -1612,6 +1612,15 @@
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
   </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Application logs</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web Server logs</value>
+  </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnostic logs</value>
   </data>
@@ -3648,5 +3657,25 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
     <value>This is the detailed description for Kubernetes.</value>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>We were not able to install the runtime extension. To learn more please view </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Install id: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Session id: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Function app name</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Function programming Language</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Submitting</value>
   </data>
 </root>

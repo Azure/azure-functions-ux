@@ -14,32 +14,32 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
         functionAppService: FunctionAppService,
         broadcastService: BroadcastService,
         private _aiService: AiService,
-        private _translateService: TranslateService,
+        public translateService: TranslateService,
         setBusy?: Function) {
         super(componentName, functionAppService, broadcastService, setBusy);
     }
 
     showTimeoutError(context: FunctionAppContext) {
         this.showComponentError({
-            message: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
+            message: this.translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
             errorId: errorIds.timeoutInstallingFunctionRuntimeExtension,
             resourceId: context.site.id
         });
 
         this._aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
-            content: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension)
+            content: this.translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension)
         });
     }
 
     showInstallFailed(context: FunctionAppContext, id) {
         this.showComponentError({
-            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
+            message: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
             errorId: errorIds.timeoutInstallingFunctionRuntimeExtension,
             resourceId: context.site.id
         });
 
         this._aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
-            content: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension)
+            content: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension)
         });
     }
 }

@@ -37,6 +37,7 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
 import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
+import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -979,6 +980,13 @@ export class FunctionAppService {
         );
     }
 
+    getExtensionJobsStatus(context: FunctionAppContext): Result<ExtensionJobsStatus> {
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
+            this._cacheService.get(context.urlTemplates.runtimeHostExtensionsJobsUrl, true, this.headers(t))
+                .map(r => r.json() as ExtensionJobsStatus)
+        );
+    }
+
     getSystemKey(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.systemKeysUrl, false, this.headers(t))
@@ -1064,7 +1072,6 @@ export class FunctionAppService {
     setTryFunctionsToken(token: string) {
         this._tryFunctionsBasicAuthToken = token;
     }
-
 
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {

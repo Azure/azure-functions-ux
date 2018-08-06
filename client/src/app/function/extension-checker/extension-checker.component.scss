@@ -42,3 +42,16 @@ h2 {
 h4 {
     margin-bottom: 10px;
 }
+
+.install-show-error {
+    margin-top: 20px;
+    background-color: $error-color-faded;
+    border-color: $border-color;
+    padding: 15px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 4px;
+    font-size: 12px;
+    word-break: break-word;
+}
