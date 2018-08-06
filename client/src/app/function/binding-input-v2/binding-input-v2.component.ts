@@ -1,5 +1,5 @@
 import { DropDownComponent } from './../../drop-down/drop-down.component';
-import { KeyCodes } from './../../shared/models/constants';
+import { KeyCodes, PickerNames } from './../../shared/models/constants';
 import { FunctionAppContext } from './../../shared/function-app-context';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
@@ -93,32 +93,32 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
         let bladeInput = null;
         switch (input.resource) {
             case ResourceType.Storage:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'Storage' : 'StorageAccountPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.storage : PickerNames.storageBlade;
                 break;
             case ResourceType.EventHub:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'EventHub';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.appSetting : PickerNames.eventHub;
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'ServiceBus';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.appSetting : PickerNames.serviceBus;
                 break;
             case ResourceType.AppSetting:
-                this.pickerName = 'AppSetting';
+                this.pickerName = PickerNames.appSetting;
                 break;
             case ResourceType.DocumentDB:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'CosmosDB';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.appSetting : PickerNames.cosmosDB;
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'NotificationHubPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.appSetting : PickerNames.notificationHubBlade;
                 break;
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
-                bladeInput.bladeName = 'CreateDataConnectionBlade';
+                bladeInput.bladeName = PickerNames.createDataBlade;
                 break;
             case ResourceType.Sql:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'Sql' : 'AppSetting';
+                this.pickerName = this.useCustomFunctionInputPicker ? PickerNames.sql : PickerNames.appSetting;
                 break;
             default:
-                this.pickerName = 'AppSetting';
+                this.pickerName = PickerNames.appSetting;
         }
 
         if (!this._userService.inIFrame) {
@@ -128,10 +128,10 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' &&
-            this.pickerName !== 'ServiceBus' &&
-            this.pickerName !== 'AppSetting' &&
-            this.pickerName !== 'CosmosDB') {
+        if (this.pickerName !== PickerNames.eventHub &&
+            this.pickerName !== PickerNames.serviceBus &&
+            this.pickerName !== PickerNames.appSetting &&
+            this.pickerName !== PickerNames.cosmosDB) {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
