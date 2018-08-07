@@ -1,4 +1,4 @@
-const appInsights = require('applicationinsights');
+import * as appInsights from 'applicationinsights';
 export class LogHelper {
     public static error(id: string, data: any) {
         if (!id || !data) {
@@ -6,8 +6,8 @@ export class LogHelper {
         }
 
         const errorId = `/errors/server/${id}`;
-
-        LogHelper.trackEvent(errorId, data);
+        const errorMessage = (data && data.message) || "No Data";
+        LogHelper.trackEvent(errorId, {error: errorMessage});
     }
 
     public static warn(id: string, data: any) {
@@ -31,10 +31,15 @@ export class LogHelper {
     }
 
     private static trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
-        if(!appInsights.trackEvent){
+        const client = appInsights.defaultClient;
+        if(!process.env.aiInstrumentationKey){
             console.log(properties);
             return;
         }
-        return appInsights.trackEvent(name, properties, measurements);
+        return client.trackEvent({
+            name, 
+            properties, 
+            measurements
+        });
     }
 }
