@@ -1,40 +1,40 @@
-﻿<event-hub *ngIf="pickerName === 'EventHub'"
+﻿<event-hub *ngIf="pickerName === PickerNames.eventHub"
            [viewInfo]="viewInfo"
            (close)="closePicker($event)"
            (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
-<service-bus *ngIf="pickerName === 'ServiceBus'"
+<service-bus *ngIf="pickerName === PickerNames.serviceBus"
              [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
-<app-setting *ngIf="pickerName === 'AppSetting' && input.id !== 'PrincipalId'"
+<app-setting *ngIf="pickerName === PickerNames.appSetting && input.id !== 'PrincipalId'"
              [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
-<storage *ngIf="pickerName === 'Storage'"
+<storage *ngIf="pickerName === PickerNames.storage"
   [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </storage>
 
-<sql *ngIf="pickerName === 'Sql'"
+<sql *ngIf="pickerName === PickerNames.sql"
   [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </sql>
 
-<notification-hub *ngIf="pickerName === 'NotificationHub'"
+<notification-hub *ngIf="pickerName === PickerNames.notificationHub"
              [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </notification-hub>
 
-<cosmos-db *ngIf="pickerName === 'CosmosDB'"
+<cosmos-db *ngIf="pickerName === PickerNames.cosmosDB"
              [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">

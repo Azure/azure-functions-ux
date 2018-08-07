@@ -464,3 +464,16 @@ export class ConsoleConstants {
     public static readonly windowsClear = 'cls';
     public static readonly linuxClear = 'clear';
 }
+
+export class PickerNames {
+    public static readonly appSetting = 'AppSetting';
+    public static readonly cosmosDB = 'CosmosDB';
+    public static readonly createDataBlade = 'CreateDataConnectionBlade';
+    public static readonly eventHub = 'EventHub';
+    public static readonly notificationHub = 'NotificationHub';
+    public static readonly notificationHubBlade = 'NotificationHubPickerBlade';
+    public static readonly serviceBus = 'ServiceBus';
+    public static readonly sql = 'Sql';
+    public static readonly storage = 'Storage';
+    public static readonly storageBlade = 'StorageAccountPickerBlade';
+}
