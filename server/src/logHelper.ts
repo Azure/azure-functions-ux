@@ -6,8 +6,14 @@ export class LogHelper {
         }
 
         const errorId = `/errors/server/${id}`;
-
-        LogHelper.trackEvent(errorId, data);
+        let errorMessage = "No Data";
+        if(data && data.message){
+            errorMessage = data.message
+        } else if(data){
+            errorMessage = JSON.stringify(data);
+        }
+        
+        LogHelper.trackEvent(errorId, {error: errorMessage});
     }
 
     public static warn(id: string, data: any) {
