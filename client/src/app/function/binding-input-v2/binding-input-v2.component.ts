@@ -40,6 +40,7 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
     public appSettingValue: string;
     public showAppSettingValue = false;
     public showTryView: boolean;
+    public PickerNames = PickerNames;
 
     private _input: BindingInputBase<any>;
     private useCustomFunctionInputPicker: boolean;
