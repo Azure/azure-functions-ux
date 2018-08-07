@@ -1481,7 +1481,7 @@
     <value>Always On</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous WebJobs running on the web app.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on requires a basic or higher App Service plan</value>
