@@ -36,7 +36,6 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 
-
 @Component({
     selector: 'function-runtime',
     templateUrl: './function-runtime.component.html',
@@ -266,9 +265,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     this.extensionVersion = Constants.latest;
                 }
 
-                this.badRuntimeVersion = !this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
-                    return this.extensionVersion.toLowerCase() === v;
-                });
+                this.badRuntimeVersion = !this._validRuntimeVersion();
 
                 this.setNeedUpdateExtensionVersion();
 
@@ -479,6 +476,18 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
             } else {
                 return this._configService.FunctionsVersionInfo.runtimeDefault;
             }
+        }
+    }
+
+    private _validRuntimeVersion(): boolean {
+        if (this.extensionVersion === this.exactExtensionVersion) {
+            return true;
+        } else if (this.extensionVersion === this.exactExtensionVersion.replace(/.0$/, '-alpha')) {
+            return true;
+        } else {
+            return !!this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
+                return this.extensionVersion.toLowerCase() === v;
+            });
         }
     }
 }

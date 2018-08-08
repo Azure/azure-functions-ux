@@ -1177,11 +1177,11 @@
   <data name="cancelSwap" xml:space="preserve">
     <value>Cancel Swap</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>Download publish profile</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>Get publish profile</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>Reset publish credentials</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>Reset publish profile</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Delete</value>
@@ -1481,7 +1481,7 @@
     <value>Always On</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous WebJobs running on the web app.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on requires a basic or higher App Service plan</value>
@@ -1611,6 +1611,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Application logs</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web Server logs</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnostic logs</value>
@@ -3609,5 +3618,38 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB account</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>enter username</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>enter password</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>We were not able to install the runtime extension. To learn more please view </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Install id: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Session id: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Function app name</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Function programming Language</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Submitting</value>
   </data>
 </root>

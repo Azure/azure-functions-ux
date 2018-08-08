@@ -26,3 +26,27 @@
         }
     }
 }
+
+#top-bar{
+    .command-bar-wrapper{
+        command{
+            a {
+                color: $default-text-color;
+            }
+        }
+    }
+}
+
+
+#app-root[theme=dark]{
+    #top-bar{
+        .command-bar-wrapper{
+            command{
+                a {
+                    color: $default-text-color-dark;
+                }
+            }
+        }
+    }
+    
+}

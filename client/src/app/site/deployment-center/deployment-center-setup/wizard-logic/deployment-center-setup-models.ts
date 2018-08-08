@@ -41,6 +41,9 @@ export class SourceSettings {
     public isManualIntegration: boolean;
     public deploymentRollbackEnabled: boolean;
     public isMercurial: boolean;
+    public privateRepo: boolean;
+    public username: string;
+    public password: string;
 }
 export class DeploymentCenterSetupModel {
     public sourceProvider: sourceControlProvider;

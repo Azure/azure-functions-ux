@@ -40,7 +40,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
     {
         iconUrl: 'image/storage.svg',
         title: this._ts.instant(PortalResources.storage),
-        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('250 GB')
+        description: this._ts.instant(PortalResources.pricing_premiumContainerSharedDisk).format('250 GB')
     }];
 
     cssClass = 'spec premium-spec';

@@ -356,8 +356,8 @@
     public static swap = 'swap';
     public static completeSwap = 'completeSwap';
     public static cancelSwap = 'cancelSwap';
-    public static downloadProfile = 'downloadProfile';
-    public static resetPubCredentials = 'resetPubCredentials';
+    public static getPublishProfile = 'getPublishProfile';
+    public static resetPublishProfile = 'resetPublishProfile';
     public static _delete = '_delete';
     public static status = 'status';
     public static availability = 'availability';
@@ -499,6 +499,9 @@
     public static feature_msiInfo = 'feature_msiInfo';
     public static feature_pushNotificationsName = 'feature_pushNotificationsName';
     public static feature_pushNotificationsInfo = 'feature_pushNotificationsInfo';
+    public static feature_logStreamingConnecting = 'feature_logStreamingConnecting';
+    public static feature_applicationLogsName = 'feature_applicationLogsName';
+    public static feature_webServerLogsName = 'feature_webServerLogsName';
     public static feature_diagnosticLogsName = 'feature_diagnosticLogsName';
     public static feature_diagnosticLogsInfo = 'feature_diagnosticLogsInfo';
     public static feature_logStreamingName = 'feature_logStreamingName';
@@ -1157,4 +1160,14 @@
     public static type_directory = 'type_directory';
     public static databaseAccount = 'databaseAccount';
     public static azureCosmosDB_account = 'azureCosmosDB_account';
+    public static privateRepo = 'privateRepo';
+    public static enterUsername = 'enterUsername';
+    public static enterPassword = 'enterPassword';
+    public static failedToInstallExtensionUrl = 'failedToInstallExtensionUrl';
+    public static failedToInstallExtensionInstallId = 'failedToInstallExtensionInstallId';
+    public static failedToInstallExtensionSessionId = 'failedToInstallExtensionSessionId';
+    public static pricing_premiumContainerSharedDisk = 'pricing_premiumContainerSharedDisk';
+    public static functionAppName = 'functionAppName';
+    public static languageAria = 'languageAria';
+    public static submitting = 'submitting';
 }

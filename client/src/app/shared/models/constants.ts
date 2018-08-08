@@ -74,6 +74,7 @@ export class SiteTabIds {
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
     public static readonly console = 'console';
+    public static readonly logStream = 'log-stream';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
@@ -416,7 +417,7 @@ export class DeploymentCenterConstants {
     public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
     public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
-    public static readonly vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
+    public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
     public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
@@ -462,4 +463,17 @@ export class ConsoleConstants {
     public static readonly changeDirectory = 'cd';
     public static readonly windowsClear = 'cls';
     public static readonly linuxClear = 'clear';
+}
+
+export class PickerNames {
+    public static readonly appSetting = 'AppSetting';
+    public static readonly cosmosDB = 'CosmosDB';
+    public static readonly createDataBlade = 'CreateDataConnectionBlade';
+    public static readonly eventHub = 'EventHub';
+    public static readonly notificationHub = 'NotificationHub';
+    public static readonly notificationHubBlade = 'NotificationHubPickerBlade';
+    public static readonly serviceBus = 'ServiceBus';
+    public static readonly sql = 'Sql';
+    public static readonly storage = 'Storage';
+    public static readonly storageBlade = 'StorageAccountPickerBlade';
 }

@@ -1,43 +1,51 @@
 <busy-state name='sidebar'></busy-state>
 <ng-container *ngIf="showExtensionInstallDetail">
-    <div class="headerBox" [style.background-color]="_functionCard.barcolor" >{{_functionCard.name}}
-        <img [src]="_functionCard.icon" [style.background-color]="_functionCard.color" />
+  <div class="headerBox" [style.background-color]="_functionCard.barcolor" >{{_functionCard.name}}
+    <img [src]="_functionCard.icon" [style.background-color]="_functionCard.color" />
+  </div>
+    
+  <div class="content" (keydown)="onKeyPress($event)">
+    
+    <ng-container *ngIf="!installing && !allInstalled">
+      <h2>{{ 'extension_install_warning' | translate }}</h2> 
+      <h4>{{ 'extension_template_warning' | translate }}</h4>
+      <div *ngFor="let nugetPackage of neededExtensions">
+        <i class="fa fa-warning"></i> {{nugetPackage.id}}
       </div>
-      
-      <div class="content" (keydown)="onKeyPress($event)">
-        
-        <ng-container *ngIf="!installing && !allInstalled">
-          <h2>{{ 'extension_install_warning' | translate }}</h2> 
-          <h4>{{ 'extension_template_warning' | translate }}</h4>
-          <div *ngFor="let nugetPackage of neededExtensions">
-            <i class="fa fa-warning"></i> {{nugetPackage.id}}
-          </div>
-        </ng-container>
-      
-        <div *ngIf="installing">
-            <h2>{{ 'extension_install_warning' | translate }}</h2> 
-            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
-        </div>
+    </ng-container>
+  
+    <div *ngIf="installing">
+        <h2>{{ 'extension_install_warning' | translate }}</h2> 
+        <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+    </div>
 
-        <div *ngIf="!installing && allInstalled">
-          <h2>{{ 'extension_install_success' | translate }}</h2>
-        </div>
-      
-        <button *ngIf="!allInstalled"
-                class="custom-button"
-                [disabled]="installing"
-                (click)="installNeededExtensions()">{{ 'extension_install_button' | translate }}
-        </button>
-        <button *ngIf="!allInstalled"
-                class="custom-button-invert"
-                (click)="close()">{{ 'close' | translate}}
-        </button>
-        <button *ngIf="allInstalled"
-          class="custom-button"
-          (click)="continueToFunctionNewDetail()">{{ 'continue' | translate }}
-        </button>
-      </div>
-  </ng-container>
+    <div *ngIf="!installing && allInstalled">
+      <h2>{{ 'extension_install_success' | translate }}</h2>
+    </div>
+  
+    <button *ngIf="!allInstalled"
+            class="custom-button"
+            [disabled]="installing"
+            (click)="installNeededExtensions()">{{ 'extension_install_button' | translate }}
+    </button>
+    <button *ngIf="!allInstalled"
+            class="custom-button-invert"
+            (click)="close()">{{ 'close' | translate}}
+    </button>
+    <div *ngIf="!installing && !allInstalled && installFailed"
+        class="install-show-error">
+          {{installFailedUrl}} 
+          <a [href]="detailsUrl" target="_blank">{{detailsUrl}}</a>
+          <br><br>{{installFailedInstallId}} 
+          <br><br>{{installFailedSessionId}}
+
+    </div>
+    <button *ngIf="allInstalled"
+      class="custom-button"
+      (click)="continueToFunctionNewDetail()">{{ 'continue' | translate }}
+    </button>
+  </div>
+</ng-container>
 
 <function-new-detail *ngIf="openFunctionNewDetail"
   [functionCard]="_functionCard"
