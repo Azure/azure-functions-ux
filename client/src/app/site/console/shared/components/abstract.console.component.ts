@@ -82,9 +82,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      * Default directory can be different in different environment. For example in Azure Stack it is C:\ and in Azure it is D:\  We should determine it properly.
      * Override following method to update default directory properly
      */
-    protected  updateDefaultDirectory() {
-
-    }
+    protected abstract  updateDefaultDirectory(): void
 
     /**
      * Mouse Press outside the console,

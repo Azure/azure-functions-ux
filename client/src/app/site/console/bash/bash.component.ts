@@ -21,6 +21,9 @@ export class BashComponent  extends AbstractConsoleComponent {
       this.consoleType = ConsoleTypes.BASH;
     }
 
+  protected updateDefaultDirectory() {
+  }
+
   /**
    * Get the tab-key command for bash console
    */
