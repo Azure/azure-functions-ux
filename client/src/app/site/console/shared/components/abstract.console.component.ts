@@ -58,9 +58,12 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this._resourceIdSubscription = this._consoleService.getResourceId().subscribe(resourceId => {
             this.resourceId = resourceId; });
         this._siteSubscription = this._consoleService.getSite().subscribe(site => {
-            this.site = site; });
+            this.site = site;
+            this.updateDefaultDirectory();
+        });
         this._publishingCredSubscription = this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
             this.publishingCredentials = publishingCredentials;
+            this.updateDefaultDirectory();
         });
         this.initialized = true;
         this.focusConsole();
@@ -73,6 +76,14 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         if (this.lastAPICall && !this.lastAPICall.closed) {
             this.lastAPICall.unsubscribe();
         }
+    }
+
+    /**
+     * Default directory can be different in different environment. For example in Azure Stack it is C:\ and in Azure it is D:\  We should determine it properly.
+     * Override following method to update default directory properly
+     */
+    protected  updateDefaultDirectory() {
+
     }
 
     /**
