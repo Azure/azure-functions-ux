@@ -1170,4 +1170,6 @@
     public static functionAppName = 'functionAppName';
     public static languageAria = 'languageAria';
     public static submitting = 'submitting';
+    public static communityTemplatesTitle = 'communityTemplatesTitle';
+    public static communityTemplatesDescription = 'communityTemplatesDescription';
 }
