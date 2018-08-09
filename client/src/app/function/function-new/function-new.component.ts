@@ -93,9 +93,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
     public functionsNode: FunctionsNode;
     public communityTemplatesCard: CreateCard = {
-        name: 'Community Templates',
+        name: this._translateService.instant(PortalResources.communityTemplatesTitle),
         value: 'CommunityTemplatesCard',
-        description: 'We have more templates',
+        description: this._translateService.instant(PortalResources.communityTemplatesDescription),
         enabledInTryMode: false,
         languages: [],
         supportedLanguages: [],

@@ -3652,4 +3652,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="submitting" xml:space="preserve">
     <value>Submitting</value>
   </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Community Templates</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
+  </data>
 </root>
