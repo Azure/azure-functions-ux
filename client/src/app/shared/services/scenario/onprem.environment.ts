@@ -73,6 +73,13 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.addLogicApps] = {
+            id: ScenarioIds.addLogicApps,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
             id: ScenarioIds.enableAlwaysOn,
             runCheckAsync: (input: ScenarioCheckInput) => {
