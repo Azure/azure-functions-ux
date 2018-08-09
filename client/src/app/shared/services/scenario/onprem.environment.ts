@@ -4,6 +4,7 @@ import { Environment } from 'app/shared/services/scenario/scenario.models';
 import { QuotaService } from '../quota.service';
 import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
 import { QuotaNames, QuotaScope } from 'app/shared/models/arm/quotaSettings';
+import { ComputeMode} from 'app/shared/models/arm/site';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -55,6 +56,20 @@ export class OnPremEnvironment extends Environment {
             id: ScenarioIds.functionBeta,
             runCheck: () => {
                 return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.addSiteQuotas] = {
+            id: ScenarioIds.addSiteQuotas,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._showSiteQuotas(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.addSiteFileStorage] = {
+            id: ScenarioIds.addSiteFileStorage,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._showSiteFileStorage(input);
             }
         };
 
@@ -156,6 +171,37 @@ export class OnPremEnvironment extends Environment {
             }
         };
     }
+
+    private _showSiteQuotas(input: ScenarioCheckInput) {
+        const site = input && input.site;
+
+        if (!site) {
+            throw Error('No site input specified');
+        }
+
+        const showQuotas = input.site.properties.computeMode === ComputeMode.Shared;
+
+        return <ScenarioResult>{
+            status: showQuotas ? 'enabled' : 'disabled',
+            data: null
+        };
+    }
+
+    private _showSiteFileStorage(input: ScenarioCheckInput) {
+        const site = input && input.site;
+
+        if (!site) {
+            throw Error('No site input specified');
+        }
+
+        const showFileStorage = input.site.properties.computeMode !== ComputeMode.Shared;
+
+        return <ScenarioResult>{
+            status: showFileStorage ? 'enabled' : 'disabled',
+            data: null
+        };
+    }
+
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'OnPrem';
