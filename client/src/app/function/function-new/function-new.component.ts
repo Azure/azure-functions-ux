@@ -92,6 +92,21 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     };
 
     public functionsNode: FunctionsNode;
+    public communityTemplatesCard: CreateCard = {
+        name: 'Community Templates',
+        value: 'CommunityTemplatesCard',
+        description: 'We have more templates',
+        enabledInTryMode: false,
+        languages: [],
+        supportedLanguages: [],
+        allLanguages: [],
+        categories: [],
+        ids: ['https://www.serverlesslibrary.net/'],
+        icon: this.createCardStyles['other'].icon,
+        color: this.createCardStyles['other'].color,
+        barcolor: this.createCardStyles['other'].barcolor,
+        focusable: false
+    };
     private category = '';
     private language = '';
     private search = '';
@@ -370,6 +385,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         } else {
             this.cards = this.createCards.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
         }
+        this._appendCommunityTemplatesCard();
 
         // determine which categories are present for the selected cards
 
@@ -441,6 +457,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 .filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
         }
 
+        this._appendCommunityTemplatesCard();
         this._initializeTabableCard();
     }
 
@@ -449,6 +466,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             || card.languages.find(language => { return language.toLowerCase().indexOf(this.search.toLowerCase()) > -1; })
             || card.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
 
+        this._appendCommunityTemplatesCard();
         this._initializeTabableCard();
     }
 
@@ -495,9 +513,13 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
     onCardSelected(functionCard: CreateCard, cardDisabled: boolean) {
         if (!cardDisabled) {
-            this.createFunctionCard = functionCard;
-            this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
-            this.sidePanelOpened = true;
+            if (functionCard.value !== this.communityTemplatesCard.value) {
+                this.createFunctionCard = functionCard;
+                this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
+                this.sidePanelOpened = true;
+            } else {
+                window.open(this.communityTemplatesCard.ids[0], '_blank');
+            }
         }
     }
 
@@ -537,6 +559,12 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             this._scrollIntoView(cards[this._focusedCardIndex]);
             event.preventDefault();
 
+        }
+    }
+
+    private _appendCommunityTemplatesCard() {
+        if (this.cards.length === 0 || this.cards[this.cards.length - 1].value !== this.communityTemplatesCard.value) {
+            this.cards.push(this.communityTemplatesCard);
         }
     }
 
