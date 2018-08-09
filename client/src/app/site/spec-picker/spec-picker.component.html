@@ -27,7 +27,8 @@
     <section>
       <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage"
         [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
-        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"></info-box>
+        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
+        [infoLink]="specManager.selectedSpecGroup.bannerMessage.infoLink"></info-box>
     </section>
 
     <section *ngIf="isEmpty" class="empty-group">
