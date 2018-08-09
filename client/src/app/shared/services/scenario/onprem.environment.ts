@@ -209,7 +209,6 @@ export class OnPremEnvironment extends Environment {
         };
     }
 
-
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'OnPrem';
     }
