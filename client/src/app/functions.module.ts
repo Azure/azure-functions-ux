@@ -51,6 +51,7 @@ import { MonitorDetailsComponent } from './function-monitor/monitor-details/moni
 import { SidebarModule } from 'ng-sidebar';
 import { MonitorConfigureComponent } from './function-monitor/monitor-configure/monitor-configure.component';
 import { CosmosDBComponent } from './pickers/cosmos-db/cosmos-db.component';
+import { LogContentComponent } from './log-streaming/log-content.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -99,6 +100,9 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         PopoverModule,
         SidebarModule
     ],
+    entryComponents: [
+        LogContentComponent
+    ],
     declarations: [
         FunctionsListComponent,
         FunctionEditComponent,
@@ -106,6 +110,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         EmbeddedFunctionEditorComponent,
         EmbeddedFunctionTestTabComponent,
         EmbeddedFunctionLogsTabComponent,
+        LogContentComponent,
         LogStreamingComponent,
         FileExplorerComponent,
         FunctionIntegrateComponent,

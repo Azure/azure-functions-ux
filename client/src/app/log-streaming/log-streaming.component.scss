@@ -51,3 +51,26 @@ h3{
     height: 1%;
     pointer-events: none;
 }
+
+pre {
+    white-space: unset;
+    color: $console-text-color;
+    background: $console-background-color;
+}
+
+.log-content {
+    white-space: pre-wrap;
+    font-family: 'Lucida Console', 'Courier New', 'Consolas', monospace;
+}
+
+.info-content {
+    color: $log-info;
+}
+
+.error-content {
+    color: $log-error;
+}
+
+.warning-content {
+    color: $log-warning;
+}

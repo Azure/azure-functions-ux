@@ -114,6 +114,10 @@ export class Regex {
     public static readonly singleForwardSlash: RegExp = /\//g;
     public static readonly doubleBackslash: RegExp = /\\\\/g;
     public static readonly newLine: RegExp = /(\n)+/g;
+    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info\])/i;
+    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error\])/i;
+    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning\])/i;
+    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/i;
 }
 
 export class Links {
@@ -457,7 +461,6 @@ export class ConsoleConstants {
     public static readonly successExitcode = 0;
     public static readonly whitespace = ' ';
     public static readonly newLine = '\n';
-
     // commands
     public static readonly exit = 'exit';
     public static readonly changeDirectory = 'cd';
@@ -465,6 +468,12 @@ export class ConsoleConstants {
     public static readonly linuxClear = 'clear';
 }
 
+export enum LogConsoleTypes {
+    Normal= 1,
+    Info= 2,
+    Error= 3,
+    Warning= 4
+};
 export class PickerNames {
     public static readonly appSetting = 'AppSetting';
     public static readonly cosmosDB = 'CosmosDB';
