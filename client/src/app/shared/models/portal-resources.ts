@@ -1177,4 +1177,6 @@
     public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
     public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
     public static disconnectConfirm = 'disconnectConfirm';
+    public static communityTemplatesTitle = 'communityTemplatesTitle';
+    public static communityTemplatesDescription = 'communityTemplatesDescription';
 }
