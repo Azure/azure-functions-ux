@@ -3652,4 +3652,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="submitting" xml:space="preserve">
     <value>Submitting</value>
   </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>Setting up deployment</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>Successfully set up up deployment</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>Failed to set up deployment</value>
+  </data>
 </root>

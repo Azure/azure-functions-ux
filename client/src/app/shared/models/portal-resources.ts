@@ -1170,4 +1170,7 @@
     public static functionAppName = 'functionAppName';
     public static languageAria = 'languageAria';
     public static submitting = 'submitting';
+    public static settingupDeployment = 'settingupDeployment';
+    public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
+    public static settingupDeploymentFail = 'settingupDeploymentFail';
 }
