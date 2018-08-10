@@ -1170,6 +1170,13 @@
     public static functionAppName = 'functionAppName';
     public static languageAria = 'languageAria';
     public static submitting = 'submitting';
+    public static settingupDeployment = 'settingupDeployment';
+    public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
+    public static settingupDeploymentFail = 'settingupDeploymentFail';
+    public static disconnectingDeployment = 'disconnectingDeployment';
+    public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
+    public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
+    public static disconnectConfirm = 'disconnectConfirm';
     public static communityTemplatesTitle = 'communityTemplatesTitle';
     public static communityTemplatesDescription = 'communityTemplatesDescription';
 }
