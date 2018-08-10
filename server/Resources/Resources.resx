@@ -3661,4 +3661,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Failed to set up deployment</value>
   </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>Disconnecting your deployment</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>Successfully disconencted your deployment</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>Failed to disconnect your deployment</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>Are you sure you want to disconnect your deployment?</value>
+  </data>  
 </root>

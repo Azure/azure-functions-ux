@@ -64,7 +64,7 @@ export class StepCompleteComponent {
                 },
                 err => {
                     this.clearBusy();
-                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.settingupDeploymentFail));
+                    this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.settingupDeploymentFail));
                     this._logService.error(LogCategories.cicd, '/save-cicd', err);
                 }
             );

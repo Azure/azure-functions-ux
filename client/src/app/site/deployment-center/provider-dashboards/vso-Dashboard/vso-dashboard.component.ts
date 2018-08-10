@@ -110,17 +110,26 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     disconnect() {
-        //TODO: ADD NOTIFIATION ON SUCCESS OR ERROR
-        this._busyManager.setBusy();
-        this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } })
-            .subscribe(r => {
-                this._busyManager.clearBusy();
-                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-            },
-                err => {
-                    this._logService.error(LogCategories.cicd, '/disconnect-vso-dashboard', err);
-                });
-
+        const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
+        if (confirmResult) {
+            let notificationId = null;
+            this._busyManager.setBusy();
+            this._portalService
+                .startNotification(this._translateService.instant(PortalResources.settingupDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
+                .do(notification => {
+                    notificationId = notification.id;
+                })
+                .concatMap(() => this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } }))
+                .subscribe(r => {
+                    this._busyManager.clearBusy();
+                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.disconnectingDeploymentSuccess));
+                    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                },
+                    err => {
+                        this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.disconnectingDeploymentFail));
+                        this._logService.error(LogCategories.cicd, '/disconnect-vso-dashboard', err);
+                    });
+        }
     }
 
     edit() {

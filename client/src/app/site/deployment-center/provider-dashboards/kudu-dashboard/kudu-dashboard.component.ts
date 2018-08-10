@@ -65,7 +65,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     public hideCreds = false;
     constructor(
-        _portalService: PortalService,
+        private _portalService: PortalService,
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _authZService: AuthzService,
@@ -272,21 +272,36 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     disconnect() {
-        this._busyManager.setBusy();
 
-        const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
-            properties: {
-                scmType: 'None'
-            }
-        });
+        const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
 
-        const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
-
-        forkJoin(webConfig, sourceControlsConfig)
-            .subscribe(r => {
-                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-                this._busyManager.clearBusy();
+        if (confirmResult) {
+            let notificationId = null;
+            this._busyManager.setBusy();
+            const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
+                properties: {
+                    scmType: 'None'
+                }
             });
+
+            const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+
+            this._portalService
+                .startNotification(this._translateService.instant(PortalResources.settingupDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
+                .do(notification => {
+                    notificationId = notification.id;
+                })
+                .concatMap(() => forkJoin(webConfig, sourceControlsConfig))
+                .subscribe(r => {
+                    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.settingupDeploymentSuccess));
+                    this._busyManager.clearBusy();
+                },
+                    err => {
+                        this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.disconnectingDeploymentFail));
+                        this._logService.error(LogCategories.cicd, '/disconnect-kudu-dashboard', err);
+                    });
+        }
     }
     refresh() {
         this._busyManager.setBusy();
