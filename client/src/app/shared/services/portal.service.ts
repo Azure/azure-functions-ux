@@ -282,7 +282,7 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
     }
 
-    startNotification(title: string, description: string) {
+    startNotification(title: string, description: string): Subject<NotificationStartedInfo> {
         if (PortalService.inIFrame()) {
             const payload: NotificationInfo = {
                 state: 'start',

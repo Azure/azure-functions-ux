@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TimerEvent, OpenBladeInfo, DataMessage, PinPartInfo, LogEntryLevel } from '../../shared/models/portal';
+import { TimerEvent, OpenBladeInfo, DataMessage, PinPartInfo, LogEntryLevel, NotificationStartedInfo } from '../../shared/models/portal';
 import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { Subscription } from '../../shared/models/subscription';
 export class MockPortalService {
 
     public operationStream = new Subject<DataMessage<any>>();
-
+    
     constructor() {
     }
 
@@ -58,8 +58,10 @@ export class MockPortalService {
     pinPart(pinPartInfo: PinPartInfo) {
     }
 
-    startNotification(title: string, description: string) {
-        return Observable.of('notid');
+    startNotification(title: string, description: string): Observable<NotificationStartedInfo> {
+        return Observable.of({
+            id: 'notid'
+        });
     }
 
     stopNotification(id: string, success: boolean, description: string) {
