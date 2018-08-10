@@ -59,6 +59,7 @@ export class MockPortalService {
     }
 
     startNotification(title: string, description: string) {
+        return Observable.of('notid');
     }
 
     stopNotification(id: string, success: boolean, description: string) {

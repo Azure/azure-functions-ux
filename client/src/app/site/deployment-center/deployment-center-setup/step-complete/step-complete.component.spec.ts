@@ -13,6 +13,8 @@ import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { WizardForm } from '../wizard-logic/deployment-center-setup-models';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { PortalService } from '../../../../shared/services/portal.service';
+import { MockPortalService } from '../../../../test/mocks/portal.service.mock';
 
 describe('StepCompleteComponent', () => {
     let buildStepTest: StepCompleteComponent;
@@ -26,7 +28,8 @@ describe('StepCompleteComponent', () => {
             providers: [
                 { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
                 { provide: LogService, useClass: MockLogService },
-                { provide: BroadcastService, useValue: new BroadcastService(null) }
+                { provide: BroadcastService, useValue: new BroadcastService(null) },
+                { provide: PortalService, useClass: MockPortalService }
             ],
             imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule]
         })
