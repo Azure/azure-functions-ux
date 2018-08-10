@@ -1481,7 +1481,7 @@
     <value>Always On</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous WebJobs running on the web app.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on requires a basic or higher App Service plan</value>
@@ -3098,7 +3098,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows containers are billed at a 50% discount while in preview.</value>
+    <value>Windows containers are limited to scale out of 2 instances and free of charge until 13 September 2018.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
@@ -3673,4 +3673,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="disconnectConfirm" xml:space="preserve">
     <value>Are you sure you want to disconnect your deployment?</value>
   </data>  
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Community Templates</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
+  </data>
 </root>
