@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input } from '@angular/core';
+import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input, EventEmitter } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
@@ -19,7 +19,10 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     public initialized = false;
     protected enterPressed = false;
     protected site: ArmObj<Site>;
+    protected siteInitialized = new EventEmitter();
     protected publishingCredentials: ArmObj<PublishingCredentials>;
+    protected publishingCredentialsInitialized = new EventEmitter();
+
     /*** Variables for Tab-key ***/
     protected listOfDir: string[] = [];
     protected dirIndex = -1;
@@ -59,11 +62,11 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
             this.resourceId = resourceId; });
         this._siteSubscription = this._consoleService.getSite().subscribe(site => {
             this.site = site;
-            this.updateDefaultDirectory();
+            this.siteInitialized.emit(null);
         });
         this._publishingCredSubscription = this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
             this.publishingCredentials = publishingCredentials;
-            this.updateDefaultDirectory();
+            this.publishingCredentialsInitialized.emit(null);
         });
         this.initialized = true;
         this.focusConsole();
@@ -77,12 +80,6 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
             this.lastAPICall.unsubscribe();
         }
     }
-
-    /**
-     * Default directory can be different in different environment. For example in Azure Stack it is C:\ and in Azure it is D:\  We should determine it properly.
-     * Override following method to update default directory properly
-     */
-    protected abstract  updateDefaultDirectory(): void
 
     /**
      * Mouse Press outside the console,

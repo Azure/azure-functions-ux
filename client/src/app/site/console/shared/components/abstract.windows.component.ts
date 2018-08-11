@@ -2,6 +2,8 @@ import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 import { Regex, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
+import { Observable } from 'rxjs/Observable';
+
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
@@ -13,6 +15,10 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         ) {
           super(componentFactoryResolver, consoleService);
           this.dir = this._defaultDirectory;
+          Observable.zip(this.siteInitialized, this.publishingCredentialsInitialized)
+          .subscribe(r => {
+              this.updateDefaultDirectory();
+          });
         }
 
     protected updateDefaultDirectory() {
