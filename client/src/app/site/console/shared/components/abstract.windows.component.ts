@@ -4,7 +4,6 @@ import { ConsoleService } from '../services/console.service';
 import { Regex, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 
-
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
     private readonly _windowsNewLine = '\r\n';
