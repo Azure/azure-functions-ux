@@ -1,3 +1,4 @@
+import { PortalResources } from './../shared/models/portal-resources';
 import { FunctionAppContext } from './../shared/function-app-context';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
@@ -60,12 +61,16 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                         this.sideNav.authZService.hasReadOnlyLock(this._context.site.id),
                         this._functionAppService.reachableInternalLoadBalancerApp(this._context),
                         this._functionAppService.getFunctionAppEditMode(this._context).map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false),
-                        (p, l, r, isReadOnly) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly }))
+                        this._functionAppService.pingScmSite(this._context).map(r => r.isSuccessful ? r.result : false),
+                        (p, l, r, isReadOnly, b) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly, pingedScmSite: b }))
                         .switchMap(r => {
-                            if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly) {
+                            if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly && r.pingedScmSite) {
                                 return this._updateTreeForStartedSite(workingTitles.default.title, workingTitles.default.newDashboard);
-                            } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly) {
+                            } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly && r.pingedScmSite) {
                                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
+                            } else if (!r.pingedScmSite) {
+                                this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
+                                return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
                             } else if (!r.hasWritePermission) {
                                 this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.');
                                 return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
