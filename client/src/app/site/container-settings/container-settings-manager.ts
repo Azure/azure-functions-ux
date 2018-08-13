@@ -1,9 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
 import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData } from "./container-settings";
+import { Subject } from 'rxjs/subject';
 
 @Injectable()
 export class ContainerSettingsManager {
-    selectedContainer: Container;
+    $selectedContainer: Subject<Container> = new Subject<Container>();
     containers: Container[] = [];
 
     constructor(private _injector: Injector) {
@@ -18,6 +19,6 @@ export class ContainerSettingsManager {
     }
 
     initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.selectedContainer = this.containers[0];
+        this.$selectedContainer.next(this.containers[0]);
     }
 }

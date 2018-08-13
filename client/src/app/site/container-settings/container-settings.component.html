@@ -3,21 +3,21 @@
         <div *ngFor="let container of containerSettingsManager.containers"
             (click)="selectContainer(container)"
             class="clickable container"
-            [class.selected-container]="container === containerSettingsManager.selectedContainer"
-            [tabindex]="container === containerSettingsManager.selectedContainer ? 0 : -1"
+            [class.selected-container]="container === selectedContainer"
+            [tabindex]="container === selectedContainer ? 0 : -1"
             (keydown)="onContainerTabKeyPress($event)"
             role="tab"
             [id]="'container-tab-' + container.id"
             [attr.aria-controls]="'container-tab-' + container.id"
-            [attr.aria-selected]="container === containerSettingsManager.selectedContainer"
+            [attr.aria-selected]="container === selectedContainer"
             [attr.aria-label]="container.title">
-    
+
             <div [load-image]="container.iconUrl" class="icon-medium"></div>
             <h3>{{container.title}}</h3>
             <h4>{{container.description}}</h4>
         </div>
     </nav>
 
-    <container-configure [containerConfigureInput] = "containerConfigureInput">
+    <container-configure [containerConfigureInfoInput] = "containerConfigureInfo">
     </container-configure>
 </div>
