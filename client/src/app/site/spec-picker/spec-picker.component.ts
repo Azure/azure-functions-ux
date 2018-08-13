@@ -18,6 +18,7 @@ import { Dom } from '../../shared/Utilities/dom';
 export interface StatusMessage {
   message: string;
   level: 'error' | 'success' | 'warning' | 'info';
+  infoLink?: string;
 }
 
 @Component({
