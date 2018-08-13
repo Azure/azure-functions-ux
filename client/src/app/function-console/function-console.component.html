@@ -1,0 +1,37 @@
+<div class= "console-container">
+    <div class="console-toolbar">
+        <span class="console-empty-space"></span>
+        <span class="link action" (click)="clearConsole()"
+            (keydown)="keyDown($event, 'clearConsole')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
+            <i class="fa fa-book"></i>
+            {{ 'logStreaming_clear' | translate }}
+        </span>
+        <span (click)="copyLogs($event)" class="link action"
+        (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
+                <span class="link">
+                    <i class="fa fa-clone"></i>
+                    {{ 'copypre_copy' | translate }}
+                </span>
+            </pop-over>
+        </span>
+        <span *ngIf="!isExpanded" class="link action" (click)="expand()"
+            (keydown)="keyDown($event, 'expand')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
+            <i class="fa fa-expand"></i>
+            {{ 'logStreaming_expand' | translate }}
+        </span>
+        <span *ngIf="isExpanded" class="link action" (click)="compress()"
+            (keydown)="keyDown($event, 'compress')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
+            <i class="fa fa-compress"></i>
+            {{ 'logStreaming_compress' | translate }}
+        </span>
+    </div>
+    <pre id= "console-body" class="console-body" tabindex="0"
+         (keydown)="handleKeyPress($event)"
+         (click)="focusConsole()">
+         <span class= "console-prompt" id= "prompt">
+                <span class= "console-prompt-label">{{ leftSideText }}</span><span class= "console-prompt-body"><span class= "console-command">{{ command.left }}</span><span class= "console-cursor" [class.linux-cursor]= "isLinux" *ngIf= "isFocused">{{ command.mid }}</span>{{ command.right }}</span>
+         </span>
+         <ng-container #prompt></ng-container>
+    </pre>
+</div>

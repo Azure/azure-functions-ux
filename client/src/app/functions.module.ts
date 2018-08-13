@@ -52,6 +52,7 @@ import { SidebarModule } from 'ng-sidebar';
 import { MonitorConfigureComponent } from './function-monitor/monitor-configure/monitor-configure.component';
 import { CosmosDBComponent } from './pickers/cosmos-db/cosmos-db.component';
 import { LogContentComponent } from './log-streaming/log-content.component';
+import { FunctionConsoleModule } from './function-console/function-console.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -98,7 +99,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         routing,
         FileUploadModule,
         PopoverModule,
-        SidebarModule
+        SidebarModule,
+        FunctionConsoleModule
     ],
     entryComponents: [
         LogContentComponent

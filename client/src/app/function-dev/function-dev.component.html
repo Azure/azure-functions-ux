@@ -267,6 +267,20 @@
       </h4>
     </div>
 
+    <div class="tab-heading" (click)="clickBottomTab('console')">
+      <h4 [class.tab-label-disabled]="bottomTab !== 'console'"
+        [class.tab-label-selected]="bottomTab === 'console'"
+        tabindex="0"
+        (keydown)="keyDown($event, 'clickBottomTab', 'console')">{{ 'feature_consoleName' | translate }}</h4>
+
+      <h4 tabindex="0"
+        class="tab-label"
+        (keydown)="keyDown($event, 'clickBottomTab', 'console')">
+          <i *ngIf="bottomTab !== 'console'" class="fa fa-chevron-up"></i>
+          <i *ngIf="bottomTab === 'console'" class="fa fa-chevron-down"></i>
+      </h4>
+    </div>
+
     <log-streaming [hidden]="bottomTab !== 'logs'"
       [viewInfo]="viewInfo"
       (closeClicked)="clickBottomTab('logs')"
@@ -279,6 +293,11 @@
       [monacoEditor]="codeEditor"
       (expandClicked)="expandLogsClicked($event)"
       (diagnosticDblClicked)="clickRightTab('files')"></errors-warnings>
+
+    <console [hidden]="bottomTab !== 'console'"
+      [viewInfo]="viewInfo"
+      (closeClicked)="clickBottomTab('console')"
+      (expandClicked)="expandLogsClicked($event)"> </console>
 
   </footer>
 </div>
