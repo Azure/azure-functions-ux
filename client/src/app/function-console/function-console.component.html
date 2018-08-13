@@ -2,12 +2,12 @@
     <div class="console-toolbar">
         <span class="console-empty-space"></span>
         <span class="link action" (click)="clearConsole()"
-            (keydown)="keyDown($event, 'clearConsole')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
+            tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
             <i class="fa fa-book"></i>
             {{ 'logStreaming_clear' | translate }}
         </span>
         <span (click)="copyLogs($event)" class="link action"
-        (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
+            role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
             <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
                 <span class="link">
                     <i class="fa fa-clone"></i>
@@ -16,12 +16,12 @@
             </pop-over>
         </span>
         <span *ngIf="!isExpanded" class="link action" (click)="expand()"
-            (keydown)="keyDown($event, 'expand')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
+            tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
             <i class="fa fa-expand"></i>
             {{ 'logStreaming_expand' | translate }}
         </span>
         <span *ngIf="isExpanded" class="link action" (click)="compress()"
-            (keydown)="keyDown($event, 'compress')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
+           tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
             <i class="fa fa-compress"></i>
             {{ 'logStreaming_compress' | translate }}
         </span>
