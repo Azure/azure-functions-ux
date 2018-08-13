@@ -193,7 +193,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     /**
      * Copy last response to the clipboard
      */
-    copyLogs() {
+    copyLogs(event) {
         if (this._msgComponents.length > 0) {
             this._utilities.copyContentToClipboard(this._msgComponents[this._msgComponents.length - 1].instance.message);
         }
