@@ -72,7 +72,8 @@ export class DevSpecGroup extends PriceSpecGroup {
             } else if (input.specPickerInput.data.isXenon) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_windowsContainers),
-                    level: 'info'
+                    level: 'info',
+                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013'
                 };
             }
         }
@@ -119,7 +120,8 @@ export class ProdSpecGroup extends PriceSpecGroup {
             } else if (input.specPickerInput.data.isXenon) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_windowsContainers),
-                    level: 'info'
+                    level: 'info',
+                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013'
                 };
             }
         }

@@ -356,8 +356,8 @@
     public static swap = 'swap';
     public static completeSwap = 'completeSwap';
     public static cancelSwap = 'cancelSwap';
-    public static downloadProfile = 'downloadProfile';
-    public static resetPubCredentials = 'resetPubCredentials';
+    public static getPublishProfile = 'getPublishProfile';
+    public static resetPublishProfile = 'resetPublishProfile';
     public static _delete = '_delete';
     public static status = 'status';
     public static availability = 'availability';
@@ -1179,4 +1179,13 @@
     public static functionAppName = 'functionAppName';
     public static languageAria = 'languageAria';
     public static submitting = 'submitting';
+    public static settingupDeployment = 'settingupDeployment';
+    public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
+    public static settingupDeploymentFail = 'settingupDeploymentFail';
+    public static disconnectingDeployment = 'disconnectingDeployment';
+    public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
+    public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
+    public static disconnectConfirm = 'disconnectConfirm';
+    public static communityTemplatesTitle = 'communityTemplatesTitle';
+    public static communityTemplatesDescription = 'communityTemplatesDescription';
 }
