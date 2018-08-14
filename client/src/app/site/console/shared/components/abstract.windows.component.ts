@@ -2,7 +2,6 @@ import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
 import { Regex, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
-import { Observable } from 'rxjs/Observable';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
@@ -14,28 +13,34 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         ) {
           super(componentFactoryResolver, consoleService);
           this.dir = this._defaultDirectory;
-          Observable.zip(this.siteInitialized, this.publishingCredentialsInitialized)
-          .subscribe(r => {
-              this.updateDefaultDirectory();
-          });
         }
 
-    protected updateDefaultDirectory() {
-        if (!this.site || !this.publishingCredentials) {
-            return;
-        }
-        const uri = this.getKuduUri();
-        const header = this.getHeader();
-        const body = {
-            'command': 'cd',
-            'dir': 'site\\wwwroot'
-        };
-        const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
-        res.subscribe(data => {
-            const output = data.json();
-            this._defaultDirectory = output.Output.trim();
-            this.dir = this._defaultDirectory;
+    protected initializeConsole() {
+        this.siteSubscription = this.consoleService.getSite().subscribe(site => {
+            this.site = site;
+            this.updateDefaultDirectory();
         });
+        this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
+            this.publishingCredentials = publishingCredentials;
+            this.updateDefaultDirectory();
+        });
+    }
+
+    protected updateDefaultDirectory() {
+        if (this.site && this.publishingCredentials) {
+            const uri = this.getKuduUri();
+            const header = this.getHeader();
+            const body = {
+                'command': 'cd',
+                'dir': 'site\\wwwroot'
+            };
+            const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
+            res.subscribe(data => {
+                const output = data.json();
+                this._defaultDirectory = output.Output.trim();
+                this.dir = this._defaultDirectory;
+            });
+        }
     }
 
     /**
