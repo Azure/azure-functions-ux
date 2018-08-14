@@ -455,7 +455,9 @@ export class WorkerRuntimeLanguages {
 
 export class ConsoleConstants {
     public static readonly newLines = '\n\n';
+    public static readonly windowsNewLine = '\r\n';
     public static readonly singleBackslash = '\\';
+    public static readonly singleForwardSlash = '/';
     public static readonly currentDirectory = '.';
     public static readonly previousDirectory = '..';
     public static readonly successExitcode = 0;

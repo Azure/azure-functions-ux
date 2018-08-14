@@ -1,0 +1,88 @@
+@import '../../sass/common/variables';
+
+h3{
+    display: inline;
+}
+
+.console-container {
+    height: calc(100% - 40px);
+    position: relative;
+}
+
+.console-body {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    word-break: normal;
+    word-wrap: normal;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-top: 18px;
+    white-space: unset;
+    font-size: small;
+    background: $console-background-color;
+    color: $console-text-color;
+    font-family: 'Lucida Console', 'Courier New', 'Consolas', monospace
+}
+
+.console-toolbar {
+    padding-left: 15px;
+    padding-right: 25px;
+    margin-top: -13px;
+    padding-bottom: 6px;
+    float: right;
+}
+
+.console-toolbar:hover {
+    cursor: pointer;
+}
+
+.console-empty-space {
+    flex-grow: 1;
+    height: 1%;
+    pointer-events: none;
+}
+
+.action {
+    margin-left: 10px;
+    margin-bottom: 12px;
+}
+
+.console-error{
+    color: $console-error-color;
+    white-space: pre-wrap;
+}
+
+.console-message{
+    white-space: pre-wrap;
+}
+
+span.console-prompt-body{
+    white-space: pre-wrap;
+}
+
+span.console-cursor{
+    white-space: pre-wrap;
+    border-bottom: 5px solid $console-text-color;
+    animation: blink 1s steps(3, start) infinite;
+    -webkit-animation: blink 1s steps(3, start) infinite;
+}
+
+span.linux-cursor {
+    border: none;
+    color: $bash-cursor-text-color;
+    background-color: $bash-cursor-background-color;
+}
+
+@-webkit-keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
+
+@keyframes blink{
+    to{
+        visibility: hidden;
+    }
+}
