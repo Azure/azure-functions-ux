@@ -1,15 +1,15 @@
-import { ContainerConfigureComponent } from "./container-configure.component";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { TranslateModule } from "@ngx-translate/core";
-import { ContainerSettingsManager } from "../container-settings-manager";
+import { ContainerConfigureComponent } from './container-configure.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContainerSettingsManager } from '../container-settings-manager';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { ContainerSettingsInput, ContainerSettingsData, Container, DockerComposeContainer } from "../container-settings";
-import { Injector } from "@angular/core";
-import { BroadcastService } from "../../../shared/services/broadcast.service";
-import { LogService } from "../../../shared/services/log.service";
-import { MockLogService } from "../../../test/mocks/log.service.mock";
-import { TelemetryService } from "../../../shared/services/telemetry.service";
-import { MockTelemetryService } from "../../../test/mocks/telemetry.service.mock";
+import { ContainerSettingsInput, ContainerSettingsData, Container, DockerComposeContainer } from '../container-settings';
+import { Injector } from '@angular/core';
+import { BroadcastService } from '../../../shared/services/broadcast.service';
+import { LogService } from '../../../shared/services/log.service';
+import { MockLogService } from '../../../test/mocks/log.service.mock';
+import { TelemetryService } from '../../../shared/services/telemetry.service';
+import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
 
 describe('ContainerConfigureComponent', () => {
     let component: ContainerConfigureComponent;

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData } from "./container-settings";
-import { Subject } from 'rxjs/subject';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ContainerSettingsManager {
