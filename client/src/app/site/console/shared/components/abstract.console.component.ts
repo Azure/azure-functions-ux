@@ -73,7 +73,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * 
+     * Intialize console specific variables like dir
      */
     protected abstract initializeConsole();
 
