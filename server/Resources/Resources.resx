@@ -1052,7 +1052,7 @@
     <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtime version: {{exactExtensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>You are currently pinned to runtime version: {{exactExtensionVersion}}. You may update to unpin and use the latest: ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
