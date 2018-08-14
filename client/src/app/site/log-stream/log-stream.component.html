@@ -18,7 +18,7 @@
             <i class="fa fa-book"></i>
             {{ 'logStreaming_clear' | translate }}
         </span>
-        <span (click)="copyLogs($event)" class="link action"
+        <span (click)="copyLogs()" class="link action"
              role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
             <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
                 <span class="link">
