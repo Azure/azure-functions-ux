@@ -20,6 +20,8 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     protected enterPressed = false;
     protected site: ArmObj<Site>;
     protected publishingCredentials: ArmObj<PublishingCredentials>;
+    protected siteSubscription: Subscription;
+    protected publishingCredSubscription: Subscription;
 
     /*** Variables for Tab-key ***/
     protected listOfDir: string[] = [];
@@ -37,8 +39,6 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     private _msgComponents: ComponentRef<any>[] = [];
     private _currentPrompt: ComponentRef<any> = null;
     private _resourceIdSubscription: Subscription;
-    protected siteSubscription: Subscription;
-    protected publishingCredSubscription: Subscription;
 
     @Input()
     public appName: string;
@@ -67,6 +67,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this._resourceIdSubscription.unsubscribe();
         this.siteSubscription.unsubscribe();
         this.publishingCredSubscription.unsubscribe();
+
         if (this.lastAPICall && !this.lastAPICall.closed) {
             this.lastAPICall.unsubscribe();
         }
