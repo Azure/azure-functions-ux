@@ -96,9 +96,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
-        if (this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled') {
-            this.functionRuntimeSelectorDisabled = true;
-        }
+        this.functionRuntimeSelectorDisabled = this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled';
 
         this.functionStatusOptions = [
             {

@@ -4,8 +4,9 @@ import { ConsoleService } from '../services/console.service';
 import { Regex, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
-    private readonly _defaultDirectory = 'D:\\home\\site\\wwwroot';
+    private _defaultDirectory = 'D:\\home\\site\\wwwroot';
     private readonly _windowsNewLine = '\r\n';
+
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
         public consoleService: ConsoleService
@@ -13,6 +14,34 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
           super(componentFactoryResolver, consoleService);
           this.dir = this._defaultDirectory;
         }
+
+    protected initializeConsole() {
+        this.siteSubscription = this.consoleService.getSite().subscribe(site => {
+            this.site = site;
+            this.updateDefaultDirectory();
+        });
+        this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
+            this.publishingCredentials = publishingCredentials;
+            this.updateDefaultDirectory();
+        });
+    }
+
+    protected updateDefaultDirectory() {
+        if (this.site && this.publishingCredentials) {
+            const uri = this.getKuduUri();
+            const header = this.getHeader();
+            const body = {
+                'command': 'cd',
+                'dir': 'site\\wwwroot'
+            };
+            const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
+            res.subscribe(data => {
+                const output = data.json();
+                this._defaultDirectory = output.Output.trim();
+                this.dir = this._defaultDirectory;
+            });
+        }
+    }
 
     /**
      * Get Kudu API URL

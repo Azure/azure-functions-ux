@@ -21,6 +21,15 @@ export class BashComponent  extends AbstractConsoleComponent {
       this.consoleType = ConsoleTypes.BASH;
     }
 
+  protected initializeConsole() {
+    this.siteSubscription = this.consoleService.getSite().subscribe(site => {
+      this.site = site;
+    });
+    this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
+      this.publishingCredentials = publishingCredentials;
+    });
+  }
+
   /**
    * Get the tab-key command for bash console
    */

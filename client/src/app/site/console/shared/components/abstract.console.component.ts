@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input } from '@angular/core';
+import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input} from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
@@ -20,6 +20,9 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     protected enterPressed = false;
     protected site: ArmObj<Site>;
     protected publishingCredentials: ArmObj<PublishingCredentials>;
+    protected siteSubscription: Subscription;
+    protected publishingCredSubscription: Subscription;
+
     /*** Variables for Tab-key ***/
     protected listOfDir: string[] = [];
     protected dirIndex = -1;
@@ -36,8 +39,6 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     private _msgComponents: ComponentRef<any>[] = [];
     private _currentPrompt: ComponentRef<any> = null;
     private _resourceIdSubscription: Subscription;
-    private _siteSubscription: Subscription;
-    private _publishingCredSubscription: Subscription;
 
     @Input()
     public appName: string;
@@ -57,23 +58,25 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this._resourceIdSubscription = this._consoleService.getResourceId().subscribe(resourceId => {
             this.resourceId = resourceId; });
-        this._siteSubscription = this._consoleService.getSite().subscribe(site => {
-            this.site = site; });
-        this._publishingCredSubscription = this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
-            this.publishingCredentials = publishingCredentials;
-        });
+        this.initializeConsole();
         this.initialized = true;
         this.focusConsole();
     }
 
     ngOnDestroy() {
         this._resourceIdSubscription.unsubscribe();
-        this._siteSubscription.unsubscribe();
-        this._publishingCredSubscription.unsubscribe();
+        this.siteSubscription.unsubscribe();
+        this.publishingCredSubscription.unsubscribe();
+
         if (this.lastAPICall && !this.lastAPICall.closed) {
             this.lastAPICall.unsubscribe();
         }
     }
+
+    /**
+     * Intialize console specific variables like dir
+     */
+    protected abstract initializeConsole();
 
     /**
      * Mouse Press outside the console,
