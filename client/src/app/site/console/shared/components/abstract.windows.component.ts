@@ -17,6 +17,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     protected initializeConsole() {
         this.siteSubscription = this.consoleService.getSite().subscribe(site => {
             this.site = site;
+            this.removeMsgComponents();
             this.updateDefaultDirectory();
         });
         this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
@@ -38,6 +39,9 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                 const output = data.json();
                 this._defaultDirectory = output.Output.trim();
                 this.dir = this._defaultDirectory;
+                if (this.currentPrompt) {
+                    this.currentPrompt.instance.dir = this.getConsoleLeft();
+                }
             });
         }
     }

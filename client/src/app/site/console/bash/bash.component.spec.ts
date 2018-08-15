@@ -88,7 +88,7 @@ describe('BashComponent', () => {
   });
 
   describe('key-events', () => {
-    it('Ctrl + C', fakeAsync(() => {
+    it('Ctrl + C', async(() => {
       component.commandInParts.leftCmd = 'python';
       component.handleCopy(null);
       expect(component.commandInParts.leftCmd).toEqual('');

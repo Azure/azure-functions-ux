@@ -1,6 +1,6 @@
 <div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
   <div class = "console">
-    <div #consoleBody class="console-inner" [scrollTop]="consoleBody.scrollHeight">
+    <div id= "console-body" class="console-inner">
       <textarea #consoleText class = "console-typer" (copy)="handleCopy($event)" 
       (onfocus)="focusConsoleOnTabPress()" (paste)="handlePaste($event)" (keydown)="keyEvent($event)" ng-blur="unFocusConsole()"></textarea>
       <div class = "console-message-header" aria-live="polite" >
