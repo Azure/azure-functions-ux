@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { BashComponent } from './bash.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from './../shared/services/console.service';
@@ -88,9 +88,10 @@ describe('BashComponent', () => {
   });
 
   describe('key-events', () => {
-    it('Ctrl + C', async(() => {
+    it('Ctrl + C', fakeAsync(() => {
       component.commandInParts.leftCmd = 'python';
       component.handleCopy(null);
+      tick();
       expect(component.commandInParts.leftCmd).toEqual('');
     }));
 
