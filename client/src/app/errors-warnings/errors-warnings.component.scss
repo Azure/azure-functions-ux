@@ -45,6 +45,7 @@ table {
   border-style: solid;
   thead {
     display: block;
+    background: $errors-warnings-table-header-background-color;
   }
   tbody {
     font-family: "Segoe UI";
@@ -55,13 +56,31 @@ table {
   }
 }
 tr {
-  min-height: 25px;
+  min-height: 30px;
   width: 100%;
-  display: block;
+  vertical-align: middle;
+  border-bottom: 0.5px solid $errors-warnings-table-border-color;
 }
-tr:hover {
+
+tbody tr:hover {
   background: $errors-warnings-table-row-hover-color;
+  border-bottom: 0.5px solid $errors-warnings-table-border-hover-color;
 }
+
+table th + th {
+  border-left: 0.5px solid $errors-warnings-table-border-color;
+}
+
+table td + td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-left: 0.5px solid $errors-warnings-table-border-color;
+}
+
+tbody tr:hover td + td {
+  border-left: 0.5px solid $errors-warnings-table-border-hover-color;
+}
+
 td, th {
   padding: 0px 10px;
 }
@@ -69,6 +88,9 @@ td, th {
 :host-context(#app-root[theme=dark]) {
     table {
         background: $errors-warnings-table-background-color-dark;
+    }
+    thead {
+      background: $errors-warnings-table-header-background-color-dark;
     }
     tr:hover {
         background-color: $errors-warnings-table-row-hover-color-dark;
