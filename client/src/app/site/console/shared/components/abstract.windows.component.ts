@@ -57,6 +57,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     protected tabKeyEvent() {
         this.unFocusConsoleManually();
         if (this.listOfDir.length === 0) {
+            this.dirIndex = 0;
             const uri = this.getKuduUri();
             const header = this.getHeader();
             const body = {
@@ -71,11 +72,11 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.substring(0, this.ptrPosition);
                         const allFiles = output.Output.split(this._windowsNewLine);
-                        this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(ConsoleConstants.whitespace) + 1));
+                        this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
+                        this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
-                            this.dirIndex = 0;
                             this.command = this.command.substring(0, this.ptrPosition);
-                            this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[0];
+                            this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
                             this.ptrPosition = this.command.length;
                             this.divideCommandForPtr();
                         }
@@ -89,7 +90,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             return;
         }
         this.command = this.command.substring(0, this.ptrPosition);
-        this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[ (this.dirIndex++) % this.listOfDir.length];
+        this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[ (this.dirIndex++) % this.listOfDir.length];
         this.ptrPosition = this.command.length;
         this.divideCommandForPtr();
         this.focusConsole();

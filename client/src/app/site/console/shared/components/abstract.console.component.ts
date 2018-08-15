@@ -27,6 +27,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     protected listOfDir: string[] = [];
     protected dirIndex = -1;
     protected lastAPICall: Subscription = undefined;
+    protected tabKeyPointer: number;
     /*** Variables for Command + Dir @Input ***/
     protected command = '';
     protected ptrPosition = 0;
