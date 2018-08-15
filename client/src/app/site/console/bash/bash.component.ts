@@ -24,6 +24,7 @@ export class BashComponent  extends AbstractConsoleComponent {
   protected initializeConsole() {
     this.siteSubscription = this.consoleService.getSite().subscribe(site => {
       this.site = site;
+      this.removeMsgComponents();
     });
     this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
       this.publishingCredentials = publishingCredentials;

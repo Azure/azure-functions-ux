@@ -1,9 +1,9 @@
-<div id = "console-container" (clickOutside)="unFocusConsole()" (click) = "focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)" >
-  <div class = "console">
-    <div id= "console-body" class="console-inner">
-      <textarea #consoleText class = "console-typer" (copy)="handleCopy($event)" 
+<div id="console-container" (clickOutside)="unFocusConsole()" (click)="focusConsole()" tabindex = "{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)" >
+  <div class="console">
+    <div id="console-body" class="console-inner">
+      <textarea #consoleText class="console-typer" (copy)="handleCopy($event)" 
       (onfocus)="focusConsoleOnTabPress()" (paste)="handlePaste($event)" (keydown)="keyEvent($event)" ng-blur="unFocusConsole()"></textarea>
-      <div class = "console-message-header" aria-live="polite" >
+      <div class="console-message-header" aria-live="polite" >
         <span>
          _    _____   _ ___ ___ 
         /_\  |_  / | | | _ \ __| 
@@ -16,8 +16,8 @@
         {{ 'feature_consoleMsg' | translate}}
       </div>
       <br />
-      <div class = "console-prompt-box" id = "prompt" >
-        <span class = "console-prompt-label">{{appName}}:~$&nbsp;</span><span class = "console-prompt" aria-live="polite"><span class="console-command">{{commandInParts.leftCmd}}</span><span class = "console-cursor bash-cursor" *ngIf = "isFocused" >{{commandInParts.middleCmd}}</span>{{commandInParts.rightCmd}}</span>
+      <div class="console-prompt-box" id="prompt" >
+        <span class="console-prompt-label">{{appName}}:~$&nbsp;</span><span class="console-prompt" aria-live="polite"><span class="console-command">{{commandInParts.leftCmd}}</span><span class="console-cursor bash-cursor" *ngIf="isFocused" >{{commandInParts.middleCmd}}</span>{{commandInParts.rightCmd}}</span>
       </div>
       <ng-container #prompt></ng-container>
     </div>
