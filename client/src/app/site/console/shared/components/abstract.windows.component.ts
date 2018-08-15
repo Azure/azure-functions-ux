@@ -1,11 +1,10 @@
 import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
-import { Regex, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
-    private readonly _windowsNewLine = '\r\n';
 
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
@@ -18,6 +17,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     protected initializeConsole() {
         this.siteSubscription = this.consoleService.getSite().subscribe(site => {
             this.site = site;
+            this.removeMsgComponents();
             this.updateDefaultDirectory();
         });
         this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
@@ -39,6 +39,9 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                 const output = data.json();
                 this._defaultDirectory = output.Output.trim();
                 this.dir = this._defaultDirectory;
+                if (this.currentPrompt) {
+                    this.currentPrompt.instance.dir = this.getConsoleLeft();
+                }
             });
         }
     }
@@ -57,10 +60,11 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     protected tabKeyEvent() {
         this.unFocusConsoleManually();
         if (this.listOfDir.length === 0) {
+            this.dirIndex = 0;
             const uri = this.getKuduUri();
             const header = this.getHeader();
             const body = {
-                'command': (this.getCommandPrefix() + this.getTabKeyCommand()),
+                'command': `${this.getCommandPrefix()}${this.getTabKeyCommand()}`,
                 'dir': this.dir + ConsoleConstants.singleBackslash
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
@@ -70,12 +74,12 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                     if (output.ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.substring(0, this.ptrPosition);
-                        const allFiles = output.Output.split(this._windowsNewLine);
-                        this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(ConsoleConstants.whitespace) + 1));
+                        const allFiles = output.Output.split(ConsoleConstants.windowsNewLine);
+                        this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
+                        this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
-                            this.dirIndex = 0;
                             this.command = this.command.substring(0, this.ptrPosition);
-                            this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[0];
+                            this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
                             this.ptrPosition = this.command.length;
                             this.divideCommandForPtr();
                         }
@@ -89,7 +93,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             return;
         }
         this.command = this.command.substring(0, this.ptrPosition);
-        this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[ (this.dirIndex++) % this.listOfDir.length];
+        this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[ (this.dirIndex++) % this.listOfDir.length];
         this.ptrPosition = this.command.length;
         this.divideCommandForPtr();
         this.focusConsole();
@@ -104,19 +108,20 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         const header = this.getHeader();
         const cmd = this.command;
         const body = {
-            'command': this.getCommandPrefix() + cmd,
+            'command': `${this.getCommandPrefix()}${cmd} & echo. & cd`,
             'dir': (this.dir + ConsoleConstants.singleBackslash)
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         this.lastAPICall = res.subscribe(
             data => {
                 const output = data.json();
-                if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
+                if (output.Error !== '') {
                     this.addErrorComponent(output.Error + ConsoleConstants.newLine);
                 } else {
-                    this.addMessageComponent(output.Output + ConsoleConstants.newLine);
-                    if (output.ExitCode === ConsoleConstants.successExitcode && output.Output === '') {
-                        this.performAction(cmd);
+                    if (output.ExitCode === ConsoleConstants.successExitcode && this.performAction(cmd, output.Output)) {
+                        if (output.Output !== '') {
+                            this.addMessageComponent(output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0] + ConsoleConstants.newLine);
+                        }
                     }
                 }
                 this.addPromptComponent();
@@ -133,8 +138,8 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     /**
      * perform action on key pressed.
      */
-    protected performAction(cmd?: string): boolean {
-        if (this.command.toLowerCase() === ConsoleConstants.windowsClear) {
+    protected performAction(cmd?: string, output?: string): boolean {
+        if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
             this.removeMsgComponents();
             return false;
         }
@@ -144,9 +149,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             return false;
         }
         if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-            cmd = cmd.substring(2).trim().replace(Regex.singleForwardSlash, ConsoleConstants.singleBackslash).replace(Regex.doubleBackslash, ConsoleConstants.singleBackslash);
-            this._changeCurrentDirectory(cmd);
-            return false;
+            return this._changeCurrentDirectory(cmd.substr(2).trim(), output);
         }
         return true;
     }
@@ -156,26 +159,13 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     /**
      * Change current directory; run cd command
      */
-    private _changeCurrentDirectory(cmd: string) {
-        const currentDirs = this.dir.split(ConsoleConstants.singleBackslash);
-        if (cmd === ConsoleConstants.singleBackslash) {
-            this.dir = currentDirs[0];
-        } else {
-            const dirsInPath = cmd.split(ConsoleConstants.singleBackslash);
-            for (let i = 0; i < dirsInPath.length; ++i) {
-                if (dirsInPath[i] === ConsoleConstants.currentDirectory) {
-                    // remain in current directory
-                } else if (dirsInPath[i] === '' || dirsInPath[i] === ConsoleConstants.previousDirectory) {
-                    if (currentDirs.length === 1) {
-                        break;
-                    }
-                    currentDirs.pop();
-                } else {
-                    currentDirs.push(dirsInPath[i]);
-                }
-            }
-            this.dir = currentDirs.join(ConsoleConstants.singleBackslash);
+    private _changeCurrentDirectory(cmd: string, output: string) {
+        output = output.trim();
+        if (cmd.length === 0) {
+            return true;
         }
+        this.dir = output.trim();
+        return false;
     }
 
 }

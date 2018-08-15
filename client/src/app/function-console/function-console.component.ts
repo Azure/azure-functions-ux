@@ -31,6 +31,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     public dir: string;
     public isFocused: boolean;
     public leftSideText = '';
+    private _tabKeyPointer: number;
     private _resourceId: string;
     private _functionName: string;
     private _site: ArmObj<Site>;
@@ -204,6 +205,9 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _setLeftSideText() {
         this.leftSideText = (this.isLinux ? (this.appName + '@' + this._functionName + ':~$ ') : (this.dir + '> '));
+        if (this._currentPrompt) {
+            this._currentPrompt.instance.dir = this.leftSideText;
+        }
     }
 
     /**
@@ -496,6 +500,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _tabKeyEvent() {
         if (this._listOfDir.length === 0) {
+            this._dirIndex = 0;
             const res = this._getKuduApiResponse(HttpMethods.POST,
                 {
                     'command': this._createCommand(this._getTabKeyCommand()),
@@ -511,11 +516,11 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                         const allFiles = this.isLinux ? (
                                 output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine)
                             ) : output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.windowsNewLine);
-                        this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(ConsoleConstants.whitespace) + 1));
+                        this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
+                        this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
-                            this._dirIndex = this._listOfDir.length > 1 ? 1 : 0;
                             this.command.complete = this.command.complete.substring(0, this._ptrPosition);
-                            this.command.complete = this.command.complete.substring(0, this.command.complete.lastIndexOf(ConsoleConstants.whitespace) + 1) + this._listOfDir[0].trim();
+                            this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1) + this._listOfDir[(this._dirIndex++) % this._listOfDir.length].trim();
                             this._ptrPosition = this.command.complete.length;
                             this._divideCommand();
                         }
@@ -528,7 +533,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             return;
         }
         this.command.complete = this.command.complete.substring(0, this._ptrPosition);
-        this.command.complete = this.command.complete.substring(0, this.command.complete.lastIndexOf(ConsoleConstants.whitespace) + 1) + this._listOfDir[ (this._dirIndex++) % this._listOfDir.length].trim();
+        this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1) + this._listOfDir[ (this._dirIndex++) % this._listOfDir.length].trim();
         this._ptrPosition = this.command.complete.length;
         this._divideCommand();
     }
