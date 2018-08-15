@@ -1,10 +1,12 @@
-import { Component, OnDestroy, Input, Injector, ViewChild } from '@angular/core';
+import { Component, OnDestroy, Input, Injector, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureInfo } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
+import { KeyCodes } from '../../shared/models/constants';
+import { Dom } from '../../shared/Utilities/dom';
 
 @Component({
     selector: 'container-settings',
@@ -13,12 +15,11 @@ import { ContainerConfigureComponent } from './container-configure/container-con
 })
 export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>> implements OnDestroy {
     @ViewChild(ContainerConfigureComponent) containerConfigureComponent: ContainerConfigureComponent;
+    @ViewChild('containerSettingsTabs') containerSettingsTabs: ElementRef;
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>) {
         this.setInput(viewInfo);
     }
-
-    @Input() isOpenedFromMenu: boolean;
 
     containerConfigureInfo: ContainerConfigureInfo;
     selectedContainer: Container;
@@ -57,6 +58,46 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public onContainerTabKeyPress(event: KeyboardEvent) {
+        const containers = this.containerSettingsManager.containers;
+        if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
+            let curIndex = containers.findIndex(g => g === this.selectedContainer);
+            const tabElements = this._getTabElements();
+            this._updateFocusOnGroupTab(false, tabElements, curIndex);
 
+            if (event.keyCode === KeyCodes.arrowRight) {
+                curIndex = this._getTargetIndex(containers, curIndex + 1);
+            } else {
+                curIndex = this._getTargetIndex(containers, curIndex - 1);
+            }
+
+            this.selectContainer(containers[curIndex]);
+            this._updateFocusOnGroupTab(true, tabElements, curIndex);
+
+            event.preventDefault();
+        }
+    }
+
+    private _getTargetIndex(containers: Container[], targetIndex: number) {
+        if (targetIndex < 0) {
+            targetIndex = containers.length - 1;
+        } else if (targetIndex >= containers.length) {
+            targetIndex = 0;
+        }
+
+        return targetIndex;
+    }
+
+    private _getTabElements() {
+        return this.containerSettingsTabs.nativeElement.children;
+    }
+
+    private _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
+        const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
+
+        if (set) {
+            Dom.setFocus(tab);
+        } else {
+            Dom.clearFocus(tab);
+        }
     }
 }

@@ -1,8 +1,8 @@
-import { Component, Input, Injector } from "@angular/core";
-import { FeatureComponent } from "../../../shared/components/feature-component";
-import { ContainerConfigureInfo, Container } from "../container-settings";
-import { Observable } from "rxjs/Observable";
-import { ContainerSettingsManager } from "../container-settings-manager";
+import { Component, Input, Injector } from '@angular/core';
+import { FeatureComponent } from '../../../shared/components/feature-component';
+import { ContainerConfigureInfo, Container } from '../container-settings';
+import { Observable } from 'rxjs/Observable';
+import { ContainerSettingsManager } from '../container-settings-manager';
 
 @Component({
     selector: 'container-configure',
@@ -31,7 +31,7 @@ export class ContainerConfigureComponent extends FeatureComponent<ContainerConfi
     protected setup(containerConfigureInfoInputEvent: Observable<ContainerConfigureInfo>) {
         return containerConfigureInfoInputEvent
             .do(containerConfigureInfo => {
-            })
+            });
     }
 }
 
