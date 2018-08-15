@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" 
-    xmlns="" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -3630,6 +3630,33 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="enterPassword" xml:space="preserve">
     <value>enter password</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Single Container</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>This is the description for Single Container.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Single Container.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>This is the description for Docker Compose.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>This is the description for Kubernetes.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Kubernetes.</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>We were not able to install the runtime extension. To learn more please view </value>

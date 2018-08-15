@@ -1163,6 +1163,15 @@
     public static privateRepo = 'privateRepo';
     public static enterUsername = 'enterUsername';
     public static enterPassword = 'enterPassword';
+    public static singleContainerTitle = 'singleContainerTitle';
+    public static singleContainerDescription = 'singleContainerDescription';
+    public static singleContainerDetailedDescription = 'singleContainerDetailedDescription';
+    public static dockerComposeContainerTitle = 'dockerComposeContainerTitle';
+    public static dockerComposeContainerDescription = 'dockerComposeContainerDescription';
+    public static dockerComposeContainerDetailedDescription = 'dockerComposeContainerDetailedDescription';
+    public static kubernetesContainerTitle = 'kubernetesContainerTitle';
+    public static kubernetesContainerDescription = 'kubernetesContainerDescription';
+    public static kubernetesContainerDetailedDescription = 'kubernetesContainerDetailedDescription';
     public static failedToInstallExtensionUrl = 'failedToInstallExtensionUrl';
     public static failedToInstallExtensionInstallId = 'failedToInstallExtensionInstallId';
     public static failedToInstallExtensionSessionId = 'failedToInstallExtensionSessionId';
