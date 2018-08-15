@@ -60,9 +60,9 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public onContainerTabKeyPress(event: KeyboardEvent) {
         const containers = this.containerSettingsManager.containers;
         if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = containers.findIndex(g => g === this.selectedContainer);
+            let curIndex = containers.findIndex(container => container === this.selectedContainer);
             const tabElements = this._getTabElements();
-            this._updateFocusOnGroupTab(false, tabElements, curIndex);
+            this._updateContainerFocusTab(false, tabElements, curIndex);
 
             if (event.keyCode === KeyCodes.arrowRight) {
                 curIndex = this._getTargetIndex(containers, curIndex + 1);
@@ -71,7 +71,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
             }
 
             this.selectContainer(containers[curIndex]);
-            this._updateFocusOnGroupTab(true, tabElements, curIndex);
+            this._updateContainerFocusTab(true, tabElements, curIndex);
 
             event.preventDefault();
         }
@@ -91,7 +91,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         return this.containerSettingsTabs.nativeElement.children;
     }
 
-    private _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
+    private _updateContainerFocusTab(set: boolean, elements: HTMLCollection, index: number) {
         const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
 
         if (set) {
