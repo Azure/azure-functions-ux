@@ -135,7 +135,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
      * perform action on key pressed.
      */
     protected performAction(cmd?: string): boolean {
-        if (this.command.toLowerCase() === ConsoleConstants.windowsClear) {
+        if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
             this.removeMsgComponents();
             return false;
         }
