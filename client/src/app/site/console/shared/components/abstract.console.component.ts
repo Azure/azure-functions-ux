@@ -338,6 +338,24 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Change the command on tab-key event
+     */
+    protected setCommandOnTabKeyEvent() {
+        this.dirIndex = (this.dirIndex + 1) % this.listOfDir.length;
+        this.command = this.command.substring(0, this.tabKeyPointer + 1);
+        this.command += this.listOfDir[this.dirIndex].trim();
+    }
+
+    /**
+     * Replace a part of the command with the file-name in the current directory
+     */
+    protected replaceWithFileName() {
+        this.setCommandOnTabKeyEvent();
+        this.ptrPosition = this.command.length;
+        this.divideCommandForPtr();
+    }
+
+    /**
      * Scroll to the latest test in the console
      */
     private _updateConsoleScroll() {

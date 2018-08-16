@@ -534,12 +534,19 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     }
 
     /**
-     * Replace a part of the command with the file-name in the current directory
+     * Change the command on tab key event
      */
-    private _replaceWithFileName() {
+    private _setCommandOnTabEventEvent() {
         this._dirIndex = (this._dirIndex + 1) % this._listOfDir.length;
         this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1);
         this.command.complete += this._listOfDir[this._dirIndex].trim();
+    }
+
+    /**
+     * Replace a part of the command with the file-name in the current directory
+     */
+    private _replaceWithFileName() {
+        this._setCommandOnTabEventEvent();
         this._ptrPosition = this.command.complete.length;
         this._divideCommand();
     }

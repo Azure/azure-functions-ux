@@ -71,7 +71,7 @@ export class BashComponent  extends AbstractConsoleComponent {
                 this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                 if (this.listOfDir.length > 0) {
                     this.command = cmd;
-                    this._replaceWithFileName();
+                    this.replaceWithFileName();
                 }
               }
             },
@@ -80,20 +80,9 @@ export class BashComponent  extends AbstractConsoleComponent {
             }
         );
       } else {
-        this._replaceWithFileName();
+        this.replaceWithFileName();
       }
       this.focusConsole();
-  }
-
-  /**
-   * Replace a part of the command with the file-name in the current directory
-   */
-  private _replaceWithFileName() {
-      this.dirIndex = (this.dirIndex + 1) % this.listOfDir.length;
-      this.command = this.command.substring(0, this.tabKeyPointer + 1);
-      this.command += this.listOfDir[this.dirIndex].trim();
-      this.ptrPosition = this.command.length;
-      this.divideCommandForPtr();
   }
 
   /**
