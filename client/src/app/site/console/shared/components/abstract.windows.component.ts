@@ -60,7 +60,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     protected tabKeyEvent() {
         this.unFocusConsoleManually();
         if (this.listOfDir.length === 0) {
-            this.dirIndex = 0;
+            this.dirIndex = -1;
             const uri = this.getKuduUri();
             const header = this.getHeader();
             const body = {
@@ -78,25 +78,30 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                         this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
-                            this.command = this.command.substring(0, this.ptrPosition);
-                            this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
-                            this.ptrPosition = this.command.length;
-                            this.divideCommandForPtr();
+                            this.command = cmd;
+                            this._replaceWithFileName();
                         }
                     }
-                    this.focusConsole();
                 },
                 err => {
                     console.log('Tab Key Error' + err.text);
                 }
             );
-            return;
+        } else {
+            this._replaceWithFileName();
         }
-        this.command = this.command.substring(0, this.ptrPosition);
-        this.command = this.command.substring(0, this.tabKeyPointer + 1) + this.listOfDir[ (this.dirIndex++) % this.listOfDir.length];
+        this.focusConsole();
+    }
+
+    /**
+    * Replace a part of the command with the file-name in the current directory
+    */
+    private _replaceWithFileName() {
+        this.dirIndex = (this.dirIndex + 1) % this.listOfDir.length;
+        this.command = this.command.substring(0, this.tabKeyPointer + 1);
+        this.command += this.listOfDir[this.dirIndex].trim();
         this.ptrPosition = this.command.length;
         this.divideCommandForPtr();
-        this.focusConsole();
     }
 
     /**
