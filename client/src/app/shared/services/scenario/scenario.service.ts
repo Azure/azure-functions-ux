@@ -18,6 +18,7 @@ import { Injectable, Injector } from '@angular/core';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
 import { XenonSiteEnvironment } from 'app/shared/services/scenario/xenon-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
+import { FunctionAppEnvironment } from './function-app.environment';
 
 export interface IScenarioService {
     checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -37,7 +38,8 @@ export class ScenarioService {
         new XenonSiteEnvironment(this._injector),
         new AzureTryEnvironment(),
         new EmbeddedFunctionsEnvironment(this._portalService),
-        new DynamicLinuxEnvironment()
+        new DynamicLinuxEnvironment(),
+        new FunctionAppEnvironment()
     ];
 
     constructor(
