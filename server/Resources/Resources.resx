@@ -3706,4 +3706,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
   </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Unable to reach scm site. Please check your Function Storage account connection.</value>
+  </data>
 </root>

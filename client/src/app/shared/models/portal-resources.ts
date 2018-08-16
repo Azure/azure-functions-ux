@@ -1188,4 +1188,5 @@
     public static disconnectConfirm = 'disconnectConfirm';
     public static communityTemplatesTitle = 'communityTemplatesTitle';
     public static communityTemplatesDescription = 'communityTemplatesDescription';
+    public static scmPingFailedErrorMessage = 'scmPingFailedErrorMessage';
 }
