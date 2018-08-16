@@ -8,5 +8,6 @@ export interface ProviderCard {
     description: string;
     authorizedStatus: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none';
     authenticatedId?: string;
+    scenarioId?: string;
     manual?: boolean;
 }

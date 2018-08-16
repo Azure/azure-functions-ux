@@ -34,6 +34,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public subscriptionName = '';
     public deploymentSlotsAvailable = true;
     public canCreateNewSite = true;
+    public disableVSTS = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -51,6 +52,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 const [site, sub] = result;
                 this.siteArm = site.result;
                 this.subscriptionName = sub.json().displayName;
+                this.disableVSTS = scenarioService.checkScenario(ScenarioIds.vstsDeployment, {site: this.siteArm }).status === 'disabled';
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
                 const siteDesc = new ArmSiteDescriptor(this._resourceId);

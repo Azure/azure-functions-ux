@@ -175,8 +175,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._portalService,
             this._hasSiteWritePermissionStream
         );
-        const showDeploymentCenter = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-        if (showDeploymentCenter) {
+        const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
+        const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, {site}).data !== 'disabled';
+        if (deploymentCenterEnabled || showDeploymentCenterFlag) {
             deploymentFeature = new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
