@@ -81,7 +81,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             runCheck: () => {
                 return {status: 'disabled' };
             }
-        }
+        };
+
         this.scenarioChecks[ScenarioIds.enableExportToPowerApps] = {
             id: ScenarioIds.enableExportToPowerApps,
             runCheck: () => {
