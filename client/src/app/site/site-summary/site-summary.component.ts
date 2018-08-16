@@ -141,12 +141,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
                     this._functionAppService.pingScmSite(context),
-                    (p, s, l, slots, b) => ({
+                    (p, s, l, slots, ping) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         slotsList: slots.isSuccessful ? slots.result : [],
-                        pingedScmSite: b.isSuccessful ? b.result : false
+                        pingedScmSite: ping.isSuccessful ? ping.result : false
                     }));
             })
             .mergeMap(r => {

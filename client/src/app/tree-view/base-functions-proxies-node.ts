@@ -62,7 +62,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                         this._functionAppService.reachableInternalLoadBalancerApp(this._context),
                         this._functionAppService.getFunctionAppEditMode(this._context).map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false),
                         this._functionAppService.pingScmSite(this._context).map(r => r.isSuccessful ? r.result : false),
-                        (p, l, r, isReadOnly, b) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly, pingedScmSite: b }))
+                        (p, l, r, isReadOnly, ping) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly, pingedScmSite: ping }))
                         .switchMap(r => {
                             if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly && r.pingedScmSite) {
                                 return this._updateTreeForStartedSite(workingTitles.default.title, workingTitles.default.newDashboard);
@@ -70,7 +70,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
                             } else if (!r.pingedScmSite) {
                                 this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
-                                return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
+                                return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
                             } else if (!r.hasWritePermission) {
                                 this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.');
                                 return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
