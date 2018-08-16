@@ -8,7 +8,7 @@ import { ResourceId } from '../../../shared/models/arm/arm-obj';
 
 export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
 
-    protected readonly _disabledLink = 'https://go.microsoft.com/fwlink/?linkid=856301';
+    protected readonly _disabledLink = 'https://go.microsoft.com/fwlink/?linkid=2009376';
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',
