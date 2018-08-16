@@ -500,7 +500,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _tabKeyEvent() {
         if (this._listOfDir.length === 0) {
-            this._dirIndex = 0;
+            this._dirIndex = -1;
             const res = this._getKuduApiResponse(HttpMethods.POST,
                 {
                     'command': this._createCommand(this._getTabKeyCommand()),
@@ -519,10 +519,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                         this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
-                            this.command.complete = this.command.complete.substring(0, this._ptrPosition);
-                            this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1) + this._listOfDir[(this._dirIndex++) % this._listOfDir.length].trim();
-                            this._ptrPosition = this.command.complete.length;
-                            this._divideCommand();
+                            this.command.complete = cmd;
+                            this._replaceWithFileName();
                         }
                     }
                 },
@@ -530,10 +528,25 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                     console.log('Tab Key Error' + err.text);
                 }
             );
-            return;
+        } else {
+            this._replaceWithFileName();
         }
-        this.command.complete = this.command.complete.substring(0, this._ptrPosition);
-        this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1) + this._listOfDir[ (this._dirIndex++) % this._listOfDir.length].trim();
+    }
+
+    /**
+     * Change the command on tab key event
+     */
+    private _setCommandOnTabEventEvent() {
+        this._dirIndex = (this._dirIndex + 1) % this._listOfDir.length;
+        this.command.complete = this.command.complete.substring(0, this._tabKeyPointer + 1);
+        this.command.complete += this._listOfDir[this._dirIndex].trim();
+    }
+
+    /**
+     * Replace a part of the command with the file-name in the current directory
+     */
+    private _replaceWithFileName() {
+        this._setCommandOnTabEventEvent();
         this._ptrPosition = this.command.complete.length;
         this._divideCommand();
     }
