@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -162,7 +162,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
                         errorId: errorIds.preconditionsErrors.failedToPingScmSite,
                         resourceId: this.context.site.id,
-                        href: 'http://aka.ms/func-storage',
+                        href: Links.funcStorageLearnMore,
                         hrefText: this.ts.instant(PortalResources.scmPingFailedLearnMore)
                     });
                 }
