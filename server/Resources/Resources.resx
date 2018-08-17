@@ -3707,7 +3707,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
-    <value>Unable to reach scm site. Please check your Function Storage account connection.</value>
+    <value>Azure Functions Runtime is unreachable.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>Click here for details on storage configuration.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
     <value>Click here to learn more about toubleshooting extension installation</value>
