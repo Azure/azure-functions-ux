@@ -464,11 +464,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         if (!oldPrompt) {
           return;
         }
-        if (typeof oldPrompt.remove === 'function') {
-            oldPrompt.remove();
-        } else {
-            oldPrompt.parentNode.removeChild(oldPrompt);
-        }
+        oldPrompt.parentNode.removeChild(oldPrompt);
     }
 
     /**
