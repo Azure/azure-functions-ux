@@ -3,4 +3,6 @@ export interface ErrorEvent {
     message: string;
     errorId: string;
     resourceId: string;
+    href?: string;
+    hrefText?: string;
 }
