@@ -128,6 +128,7 @@ export class Links {
     public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
     public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
     public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
+    public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
 }
 

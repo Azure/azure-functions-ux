@@ -1,6 +1,6 @@
 import { PortalService } from 'app/shared/services/portal.service';
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { LogCategories, KeyCodes } from './../../shared/models/constants';
+import { LogCategories, KeyCodes, Links } from './../../shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -51,6 +51,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public installFailedUrl: string;
     public installFailedInstallId: string;
     public installFailedSessionId: string;
+    public documentationLink = Links.extensionInstallHelpLink;
 
     private functionCardStream: Subject<CreateCard>;
     private _busyManager: BusyStateScopeManager;
