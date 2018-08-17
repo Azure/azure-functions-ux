@@ -311,7 +311,11 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         if (!oldPrompt) {
           return;
         }
-        oldPrompt.remove();
+        if (typeof oldPrompt.remove === 'function') {
+            oldPrompt.remove();
+        } else {
+            oldPrompt.parentNode.removeChild(oldPrompt);
+        }
     }
 
     /**
