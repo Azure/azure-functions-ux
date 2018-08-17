@@ -1190,5 +1190,6 @@
     public static communityTemplatesDescription = 'communityTemplatesDescription';
     public static scmPingFailedErrorMessage = 'scmPingFailedErrorMessage';
     public static extensionInstallDocLink = 'extensionInstallDocLink';
+    public static pricing_ACU = 'pricing_ACU';
     public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
 }

@@ -3715,4 +3715,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="extensionInstallDocLink" xml:space="preserve">
     <value>Click here to learn more about toubleshooting extension installation</value>
   </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} total ACU</value>
+  </data>
 </root>
