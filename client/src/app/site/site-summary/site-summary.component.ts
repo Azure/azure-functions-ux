@@ -161,7 +161,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this.showComponentError({
                         message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
                         errorId: errorIds.preconditionsErrors.failedToPingScmSite,
-                        resourceId: this.context.site.id
+                        resourceId: this.context.site.id,
+                        href: 'http://aka.ms/func-storage',
+                        hrefText: this.ts.instant(PortalResources.scmPingFailedLearnMore)
                     });
                 }
 

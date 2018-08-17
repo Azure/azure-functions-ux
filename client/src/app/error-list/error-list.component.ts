@@ -26,7 +26,9 @@ export class ErrorListComponent {
                     dateTime: new Date().toISOString(),
                     date: new Date(),
                     errorIds: [error.errorId],
-                    dismissable: true
+                    dismissable: true,
+                    href: error.href,
+                    hrefText: error.hrefText
                 };
                 const existingError = this.errorList.find(e => e.message === errorItem.message);
                 if (existingError && !existingError.errorIds.find(e => e === error.errorId)) {
