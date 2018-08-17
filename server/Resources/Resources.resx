@@ -3712,4 +3712,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="scmPingFailedLearnMore" xml:space="preserve">
     <value>Click here for details on storage configuration.</value>
   </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} total ACU</value>
+  </data>
 </root>

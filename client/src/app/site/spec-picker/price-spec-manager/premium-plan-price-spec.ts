@@ -80,6 +80,7 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
     legacySkuName = 'small_premium';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('100'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
@@ -100,6 +101,7 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
     legacySkuName = 'medium_premium';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('200'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
@@ -120,6 +122,7 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
     legacySkuName = 'large_premium';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('400'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
