@@ -114,6 +114,10 @@ export class Regex {
     public static readonly singleForwardSlash: RegExp = /\//g;
     public static readonly doubleBackslash: RegExp = /\\\\/g;
     public static readonly newLine: RegExp = /(\n)+/g;
+    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info\])/i;
+    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error\])/i;
+    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning\])/i;
+    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/i;
 }
 
 export class Links {
@@ -124,6 +128,8 @@ export class Links {
     public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
     public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
     public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
+    public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
+    public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
 }
 
 export class Kinds {
@@ -245,6 +251,8 @@ export class ScenarioIds {
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
     public static readonly addHTTPSwitch = 'addHTTPSwitch';
+    public static readonly vstsDeployment = 'vstsDeployment';
+    public static readonly deploymentCenter = 'deploymentCenter';
 }
 
 export class ServerFarmSku {
@@ -451,16 +459,36 @@ export class WorkerRuntimeLanguages {
 
 export class ConsoleConstants {
     public static readonly newLines = '\n\n';
+    public static readonly windowsNewLine = '\r\n';
     public static readonly singleBackslash = '\\';
+    public static readonly singleForwardSlash = '/';
     public static readonly currentDirectory = '.';
     public static readonly previousDirectory = '..';
     public static readonly successExitcode = 0;
     public static readonly whitespace = ' ';
     public static readonly newLine = '\n';
-
     // commands
     public static readonly exit = 'exit';
     public static readonly changeDirectory = 'cd';
     public static readonly windowsClear = 'cls';
     public static readonly linuxClear = 'clear';
+}
+
+export enum LogConsoleTypes {
+    Normal= 1,
+    Info= 2,
+    Error= 3,
+    Warning= 4
+};
+export class PickerNames {
+    public static readonly appSetting = 'AppSetting';
+    public static readonly cosmosDB = 'CosmosDB';
+    public static readonly createDataBlade = 'CreateDataConnectionBlade';
+    public static readonly eventHub = 'EventHub';
+    public static readonly notificationHub = 'NotificationHub';
+    public static readonly notificationHubBlade = 'NotificationHubPickerBlade';
+    public static readonly serviceBus = 'ServiceBus';
+    public static readonly sql = 'Sql';
+    public static readonly storage = 'Storage';
+    public static readonly storageBlade = 'StorageAccountPickerBlade';
 }

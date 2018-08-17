@@ -32,14 +32,18 @@
             class="custom-button-invert"
             (click)="close()">{{ 'close' | translate}}
     </button>
+
     <div *ngIf="!installing && !allInstalled && installFailed"
         class="install-show-error">
           {{installFailedUrl}} 
           <a [href]="detailsUrl" target="_blank">{{detailsUrl}}</a>
           <br><br>{{installFailedInstallId}} 
           <br><br>{{installFailedSessionId}}
-
     </div>
+    <a *ngIf="!allInstalled" [href]="documentationLink" target="_blank">
+      <div class="install-show-info">{{ 'extensionInstallDocLink' | translate }}</div>
+    </a>
+
     <button *ngIf="allInstalled"
       class="custom-button"
       (click)="continueToFunctionNewDetail()">{{ 'continue' | translate }}

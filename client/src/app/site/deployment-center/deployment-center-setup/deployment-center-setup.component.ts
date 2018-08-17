@@ -88,7 +88,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             sourceControlProvider !== 'bitbucket' &&
             sourceControlProvider !== 'ftp' &&
             sourceControlProvider !== 'webdeploy' &&
-            sourceControlProvider !== 'zip'
+            sourceControlProvider !== 'zip' &&
+            !this.wizard.disableVSTS
         );
     }
 

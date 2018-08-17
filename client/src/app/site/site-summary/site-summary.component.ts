@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -27,6 +27,7 @@ import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { errorIds } from '../../shared/models/error-ids';
 
 @Component({
     selector: 'site-summary',
@@ -116,7 +117,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                 this.state = context.site.properties.state;
                 this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
 
-
                 this.availabilityState = null;
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
@@ -140,11 +140,13 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
                     this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
-                    (p, s, l, slots) => ({
+                    this._functionAppService.pingScmSite(context),
+                    (p, s, l, slots, ping) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
-                        slotsList: slots.isSuccessful ? slots.result : []
+                        slotsList: slots.isSuccessful ? slots.result : [],
+                        pingedScmSite: ping.isSuccessful ? ping.result : false
                     }));
             })
             .mergeMap(r => {
@@ -153,6 +155,16 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission && r.slotsList.length > 0;
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
+                }
+
+                if (!r.pingedScmSite) {
+                    this.showComponentError({
+                        message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
+                        errorId: errorIds.preconditionsErrors.failedToPingScmSite,
+                        resourceId: this.context.site.id,
+                        href: Links.funcStorageLearnMore,
+                        hrefText: this.ts.instant(PortalResources.scmPingFailedLearnMore)
+                    });
                 }
 
                 return !this.hideAvailability
@@ -210,7 +222,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this._armService.post(`${this.context.site.id}/publishxml`, null)
             .subscribe(response => {
-
 
                 const publishXml = response.text();
 

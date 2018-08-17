@@ -21,6 +21,16 @@ export class BashComponent  extends AbstractConsoleComponent {
       this.consoleType = ConsoleTypes.BASH;
     }
 
+  protected initializeConsole() {
+    this.siteSubscription = this.consoleService.getSite().subscribe(site => {
+      this.site = site;
+      this.removeMsgComponents();
+    });
+    this.publishingCredSubscription = this.consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
+      this.publishingCredentials = publishingCredentials;
+    });
+  }
+
   /**
    * Get the tab-key command for bash console
    */
@@ -42,6 +52,7 @@ export class BashComponent  extends AbstractConsoleComponent {
   protected tabKeyEvent() {
       this.unFocusConsoleManually();
       if (this.listOfDir.length === 0) {
+        this.dirIndex = -1;
         const uri = this.getKuduUri();
         const header = this.getHeader();
         const body = {
@@ -56,27 +67,21 @@ export class BashComponent  extends AbstractConsoleComponent {
                 // fetch the list of files/folders in the current directory
                 const cmd = this.command.substring(0, this.ptrPosition);
                 const allFiles = output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine);
-                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(cmd.lastIndexOf(ConsoleConstants.whitespace) + 1));
+                this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
+                this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                 if (this.listOfDir.length > 0) {
-                    this.dirIndex = 0;
-                    this.command = this.command.substring(0, this.ptrPosition);
-                    this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[0];
-                    this.ptrPosition = this.command.length;
-                    this.divideCommandForPtr();
+                    this.command = cmd;
+                    this.replaceWithFileName();
                 }
               }
-              this.focusConsole();
             },
             err => {
                 console.log('Tab Key Error' + err.text);
             }
         );
-      return;
+      } else {
+        this.replaceWithFileName();
       }
-      this.command = this.command.substring(0, this.ptrPosition);
-      this.command = this.command.substring(0, this.command.lastIndexOf(ConsoleConstants.whitespace) + 1) + this.listOfDir[(this.dirIndex++) % this.listOfDir.length];
-      this.ptrPosition = this.command.length;
-      this.divideCommandForPtr();
       this.focusConsole();
   }
 

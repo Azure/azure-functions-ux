@@ -8,6 +8,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { PortalService } from '../../../../shared/services/portal.service';
 
 interface SummaryItem {
     label: string;
@@ -33,6 +34,7 @@ export class StepCompleteComponent {
         public wizard: DeploymentCenterStateManager,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
+        private _portalService: PortalService,
         private _logService: LogService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
@@ -46,16 +48,26 @@ export class StepCompleteComponent {
 
     Save() {
         this._busyManager.setBusy();
-        this.wizard.deploy().first().subscribe(
-            r => {
-                this.clearBusy();
-                this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
-            },
-            err => {
-                this.clearBusy();
-                this._logService.error(LogCategories.cicd, '/save-cicd', err);
-            }
-        );
+        let notificationId = null;
+        this._portalService
+            .startNotification(this._translateService.instant(PortalResources.settingupDeployment), this._translateService.instant(PortalResources.settingupDeployment))
+            .do(notification => {
+                notificationId = notification.id;
+            })
+            .concatMap(() => this.wizard.deploy())
+            .first()
+            .subscribe(
+                r => {
+                    this.clearBusy();
+                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.settingupDeploymentSuccess));
+                    this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
+                },
+                err => {
+                    this.clearBusy();
+                    this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.settingupDeploymentFail));
+                    this._logService.error(LogCategories.cicd, '/save-cicd', err);
+                }
+            );
     }
 
     clearBusy() {

@@ -7,6 +7,7 @@ export namespace errorIds {
         export const runtimeIsNotAvailable = '/errors/preconditions/runtimeIsNotAvailable';
         export const runtimeHttpNotAvailable = '/errors/preconditions/runtimeHttpNotAvailable';
         export const noFunctionAppContext = '/errors/preconditions/noFunctionAppContext';
+        export const failedToPingScmSite = 'errors/preconditions/failedToPingScmSite';
     }
 
     export namespace armErrors {

@@ -9,7 +9,7 @@ import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo'
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
@@ -75,7 +75,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._memberIdSubscription
             .takeUntil(this._ngUnsubscribe$)
             .do(() => this.accountListLoading = true)
-            .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
+            .switchMap(() => this._cacheService.get(DeploymentCenterConstants.vstsProfileUri))
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {

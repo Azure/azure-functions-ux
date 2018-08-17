@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { CmdComponent } from './cmd.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from './../shared/services/console.service';
@@ -93,6 +93,7 @@ describe('CmdConsoleComponent', () => {
     it('Ctrl + C', fakeAsync(() => {
       component.commandInParts.leftCmd = 'python';
       component.handleCopy(null);
+      tick();
       expect(component.commandInParts.leftCmd).toEqual('');
     }));
 

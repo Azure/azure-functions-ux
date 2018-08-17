@@ -175,8 +175,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._portalService,
             this._hasSiteWritePermissionStream
         );
-        const showDeploymentCenter = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-        if (showDeploymentCenter) {
+        const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
+        const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, {site}).data !== 'disabled';
+        if (deploymentCenterEnabled || showDeploymentCenterFlag) {
             deploymentFeature = new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
@@ -224,7 +225,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
             developmentToolFeatures.push(new TabFeature(
                 this._translateService.instant(PortalResources.feature_consoleName),
-                this._translateService.instant(PortalResources.feature_consoleMsg),
+                this._translateService.instant(PortalResources.feature_consoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_bashConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_sshConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.debug),
                 this._translateService.instant(PortalResources.feature_consoleInfo),
                 'image/console.svg',
                 SiteTabIds.console,
@@ -459,7 +468,11 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
             new TabFeature(
                 this._translateService.instant(PortalResources.feature_logStreamingName),
-                this._translateService.instant(PortalResources.feature_logStreamingName),
+                this._translateService.instant(PortalResources.feature_logStreamingName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_applicationLogsName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_webServerLogsName),
                 this._translateService.instant(PortalResources.feature_logStreamingInfo),
                 'image/log-stream.svg',
                 SiteTabIds.logStream,

@@ -109,8 +109,11 @@ $custom-sq-picker-header-bg-color: rgb(217, 217, 217);
 
 $errors-warnings-table-background-color: whitesmoke;
 $errors-warnings-table-background-color-dark: #323232;
+$errors-warnings-table-header-background-color: #C6C6C6;
+$errors-warnings-table-header-background-color-dark: darken($errors-warnings-table-background-color-dark, 10%);
 
 $errors-warnings-table-border-color: lightgray;
+$errors-warnings-table-border-hover-color: #C6C6C6;
 $errors-warnings-table-row-hover-color: lightgray;
 $errors-warnings-table-row-hover-color-dark: darken($errors-warnings-table-background-color-dark, 5%);
 
@@ -136,9 +139,12 @@ $summary-header-color:  rgb(0, 88, 173);
 $console-text-color: white;
 $console-background-color: black;
 $powershell-background-color: #002456;
-$console-error-color: red;
+$console-error-color: #FF6161;
 $console-default-msg-color: rgb(197, 195, 195);
 $bash-cursor-text-color: black;
 $bash-cursor-background-color: white;
 
+$log-info: #00BFFF;
+$log-warning: orange;
+$log-error: #FF6161;
 $log-console-connector: #898787;

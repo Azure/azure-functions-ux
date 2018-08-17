@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input } from '@angular/core';
+import { OnInit, OnDestroy, ComponentFactoryResolver, ComponentFactory, ComponentRef, ViewChild, ViewContainerRef, ElementRef, Input} from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
@@ -20,24 +20,26 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     protected enterPressed = false;
     protected site: ArmObj<Site>;
     protected publishingCredentials: ArmObj<PublishingCredentials>;
+    protected siteSubscription: Subscription;
+    protected publishingCredSubscription: Subscription;
+
     /*** Variables for Tab-key ***/
     protected listOfDir: string[] = [];
     protected dirIndex = -1;
     protected lastAPICall: Subscription = undefined;
+    protected tabKeyPointer: number;
     /*** Variables for Command + Dir @Input ***/
     protected command = '';
     protected ptrPosition = 0;
     protected commandHistory: string[] = [''];
     protected commandHistoryIndex = 1;
+    protected currentPrompt: ComponentRef<any> = null;
     private _lastKeyPressed = -1;
     private _promptComponent: ComponentFactory<any>;
     private _messageComponent: ComponentFactory<any>;
     private _errorComponent: ComponentFactory<any>;
     private _msgComponents: ComponentRef<any>[] = [];
-    private _currentPrompt: ComponentRef<any> = null;
     private _resourceIdSubscription: Subscription;
-    private _siteSubscription: Subscription;
-    private _publishingCredSubscription: Subscription;
 
     @Input()
     public appName: string;
@@ -57,23 +59,25 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this._resourceIdSubscription = this._consoleService.getResourceId().subscribe(resourceId => {
             this.resourceId = resourceId; });
-        this._siteSubscription = this._consoleService.getSite().subscribe(site => {
-            this.site = site; });
-        this._publishingCredSubscription = this._consoleService.getPublishingCredentials().subscribe(publishingCredentials => {
-            this.publishingCredentials = publishingCredentials;
-        });
+        this.initializeConsole();
         this.initialized = true;
         this.focusConsole();
     }
 
     ngOnDestroy() {
         this._resourceIdSubscription.unsubscribe();
-        this._siteSubscription.unsubscribe();
-        this._publishingCredSubscription.unsubscribe();
+        this.siteSubscription.unsubscribe();
+        this.publishingCredSubscription.unsubscribe();
+
         if (this.lastAPICall && !this.lastAPICall.closed) {
             this.lastAPICall.unsubscribe();
         }
     }
+
+    /**
+     * Intialize console specific variables like dir
+     */
+    protected abstract initializeConsole();
 
     /**
      * Mouse Press outside the console,
@@ -276,6 +280,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         msgComponent.instance.loading = (message ? false : true);
         msgComponent.instance.message = (message ? message : (this.getConsoleLeft() + this.command));
         this._msgComponents.push(msgComponent);
+        this._updateConsoleScroll();
     }
 
     /**
@@ -287,9 +292,9 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         if (!this._promptComponent) {
             this._promptComponent = this._componentFactoryResolver.resolveComponentFactory(PromptComponent);
         }
-        this._currentPrompt = this._prompt.createComponent(this._promptComponent);
-        this._currentPrompt.instance.dir = this.getConsoleLeft();
-        this._currentPrompt.instance.consoleType = this.consoleType;
+        this.currentPrompt = this._prompt.createComponent(this._promptComponent);
+        this.currentPrompt.instance.dir = this.getConsoleLeft();
+        this.currentPrompt.instance.consoleType = this.consoleType;
         // hide the loader on the last 2 msg-components
         if (this._msgComponents.length > 0) {   // check required if 'clear' command is entered.
             this._msgComponents[this._msgComponents.length - 1].instance.loading = false;
@@ -297,6 +302,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         if (this._msgComponents.length > 1) {
             this._msgComponents[this._msgComponents.length - 2].instance.loading = false;
         }
+        this._updateConsoleScroll();
     }
 
     /**
@@ -310,6 +316,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         const errorComponent = this._prompt.createComponent(this._errorComponent);
         this._msgComponents.push(errorComponent);
         errorComponent.instance.message = error;
+        this._updateConsoleScroll();
     }
 
     /**
@@ -328,6 +335,36 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
         this.commandInParts.leftCmd = this.command.substring(0, this.ptrPosition);
         this.commandInParts.middleCmd = this.command.substring(this.ptrPosition, this.ptrPosition + 1);
         this.commandInParts.rightCmd = this.command.substring(this.ptrPosition + 1, this.command.length);
+    }
+
+    /**
+     * Change the command on tab-key event
+     */
+    protected setCommandOnTabKeyEvent() {
+        this.dirIndex = (this.dirIndex + 1) % this.listOfDir.length;
+        this.command = this.command.substring(0, this.tabKeyPointer + 1);
+        this.command += this.listOfDir[this.dirIndex].trim();
+    }
+
+    /**
+     * Replace a part of the command with the file-name in the current directory
+     */
+    protected replaceWithFileName() {
+        this.setCommandOnTabKeyEvent();
+        this.ptrPosition = this.command.length;
+        this.divideCommandForPtr();
+    }
+
+    /**
+     * Scroll to the latest test in the console
+     */
+    private _updateConsoleScroll() {
+        window.setTimeout(() => {
+            const el = document.getElementById('console-body');
+            if (el) {
+                el.scrollTop = el.scrollHeight;
+            }
+        });
     }
 
     private _isKeyEventValid(key: number) {
@@ -480,10 +517,10 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      * i.e. pass in the updated command the inFocus value to the PromptComponent.
      */
     private _renderPromptVariables() {
-        if (this._currentPrompt) {
-            this._currentPrompt.instance.command = this.command;
-            this._currentPrompt.instance.commandInParts = this.commandInParts;
-            this._currentPrompt.instance.isFocused = this.isFocused;
+        if (this.currentPrompt) {
+            this.currentPrompt.instance.command = this.command;
+            this.currentPrompt.instance.commandInParts = this.commandInParts;
+            this.currentPrompt.instance.isFocused = this.isFocused;
         }
     }
 }
