@@ -3709,4 +3709,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Unable to reach scm site. Please check your Function Storage account connection.</value>
   </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} total ACU</value>
+  </data>
 </root>
