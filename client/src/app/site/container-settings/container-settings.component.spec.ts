@@ -50,11 +50,11 @@ describe('ContainerSettingsComponent', () => {
         spyOn(mockContainerSettingsManager, 'initialize').and.callThrough();
     });
 
-    fit('should create', () => {
+    it('should create', () => {
         expect(component).toBeDefined();
     });
 
-    fit('should initialize in Ibiza', () => {
+    it('should initialize in Ibiza', () => {
 
         const input = {
             resourceId: 'resourceId',
