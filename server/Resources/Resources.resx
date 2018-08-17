@@ -3709,4 +3709,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Unable to reach scm site. Please check your Function Storage account connection.</value>
   </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>Click here to learn more about toubleshooting extension installation</value>
+  </data>
 </root>
