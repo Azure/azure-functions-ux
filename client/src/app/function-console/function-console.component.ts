@@ -308,10 +308,9 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _removePrompt() {
         const oldPrompt = document.getElementById('prompt');
-        if (!oldPrompt) {
-          return;
+        if (oldPrompt) {
+            oldPrompt.parentNode.removeChild(oldPrompt);
         }
-        oldPrompt.parentNode.removeChild(oldPrompt);
     }
 
     /**
