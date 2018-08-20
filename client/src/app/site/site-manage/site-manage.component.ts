@@ -155,7 +155,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     private _initCol1Groups(site: ArmObj<Site>) {
-        let deploymentFeature: FeatureItem = new DisableableBladeFeature(
+        const codeDeployFeatures = [];
+        const deploymentOptionsFeature: FeatureItem = new DisableableBladeFeature(
             this._translateService.instant(PortalResources.feature_deploymentSourceName),
             this._translateService.instant(PortalResources.continuousDeployment) +
             ' ' +
@@ -175,11 +176,12 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._portalService,
             this._hasSiteWritePermissionStream
         );
+        codeDeployFeatures.push(deploymentOptionsFeature);
         const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-        const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, {site}).data !== 'disabled';
+        const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site }).data !== 'disabled';
         if (deploymentCenterEnabled || showDeploymentCenterFlag) {
-            deploymentFeature = new TabFeature(
-                this._translateService.instant(PortalResources.feature_deploymentSourceName),
+            const deploymentCenterFeature = new TabFeature(
+                this._translateService.instant(PortalResources.deploymentCenterTitle),
                 this._translateService.instant(PortalResources.continuousDeployment) +
                 ' ' +
                 this._translateService.instant(PortalResources.source) +
@@ -191,9 +193,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 SiteTabIds.continuousDeployment,
                 this._broadcastService
             );
+            codeDeployFeatures.push(deploymentCenterFeature);
         }
-        const codeDeployFeatures = [
-            deploymentFeature,
+        codeDeployFeatures.push(
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
@@ -207,7 +209,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 },
                 this._portalService
             )
-        ];
+        );
 
         const developmentToolFeatures = [];
         if (this._scenarioService.checkScenario(ScenarioIds.addLogicApps, { site: site }).status !== 'disabled') {
@@ -419,39 +421,39 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._scenarioService.checkScenario(ScenarioIds.enableAuth, { site: site })
             )];
 
-            if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
-                networkFeatures.push(new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_msiName),
-                    this._translateService.instant(PortalResources.feature_msiName) +
-                    this._translateService.instant(PortalResources.authentication) +
-                    'MSI',
-                    this._translateService.instant(PortalResources.feature_msiInfo),
-                    'image/toolbox.svg',
-                    {
-                        detailBlade: 'MSIBlade',
-                        detailBladeInputs: { resourceUri: site.id }
-                    },
-                    this._portalService,
-                    null,
-                    this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
-                ));
-            }
+        if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
+            networkFeatures.push(new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_msiName),
+                this._translateService.instant(PortalResources.feature_msiName) +
+                this._translateService.instant(PortalResources.authentication) +
+                'MSI',
+                this._translateService.instant(PortalResources.feature_msiInfo),
+                'image/toolbox.svg',
+                {
+                    detailBlade: 'MSIBlade',
+                    detailBladeInputs: { resourceUri: site.id }
+                },
+                this._portalService,
+                null,
+                this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+            ));
+        }
 
-            if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {
-                networkFeatures.push(new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                    this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
-                    'image/push.svg',
-                    {
-                        detailBlade: 'PushRegistrationBlade',
-                        detailBladeInputs: { resourceUri: this._descriptor.resourceId }
-                    },
-                    this._portalService,
-                    this._hasSiteWritePermissionStream,
-                    this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site })
-                ));
-            }
+        if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {
+            networkFeatures.push(new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
+                'image/push.svg',
+                {
+                    detailBlade: 'PushRegistrationBlade',
+                    detailBladeInputs: { resourceUri: this._descriptor.resourceId }
+                },
+                this._portalService,
+                this._hasSiteWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site })
+            ));
+        }
 
         const monitoringFeatures = [
             new BladeFeature(
@@ -578,154 +580,154 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })
             )];
 
-            if (this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled') {
-                appServicePlanFeatures.push(new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'image/quotas.svg',
-                    {
-                        detailBlade: 'QuotasBlade',
-                        detailBladeInputs: {
-                            resourceUri: site.id
-                        }
-                    },
-                    this._portalService,
-                    this._hasPlanReadPermissionStream
-                ));
-            }
+        if (this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled') {
+            appServicePlanFeatures.push(new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasInfo),
+                'image/quotas.svg',
+                {
+                    detailBlade: 'QuotasBlade',
+                    detailBladeInputs: {
+                        resourceUri: site.id
+                    }
+                },
+                this._portalService,
+                this._hasPlanReadPermissionStream
+            ));
+        }
 
-            if (this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled') {
-                appServicePlanFeatures.push(new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'image/quotas.svg',
-                    {
-                        detailBlade: 'FileSystemStorage',
-                        detailBladeInputs: {
-                            resourceUri: site.properties.serverFarmId
-                        }
-                    },
-                    this._portalService,
-                    this._hasPlanReadPermissionStream
-                ));
-            }
+        if (this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled') {
+            appServicePlanFeatures.push(new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasInfo),
+                'image/quotas.svg',
+                {
+                    detailBlade: 'FileSystemStorage',
+                    detailBladeInputs: {
+                        resourceUri: site.properties.serverFarmId
+                    }
+                },
+                this._portalService,
+                this._hasPlanReadPermissionStream
+            ));
+        }
 
         const resourceManagementFeatures = [];
-            if (this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled') {
-                resourceManagementFeatures.push(new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
-                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
-                    this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
-                    'image/tools.svg',
-                    {
-                        detailBlade: 'SCIFrameBlade',
-                        detailBladeInputs: {
-                            id: site.id
-                        }
-                    },
-                    this._portalService,
-                    null,
-                    this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
-                ));
-            }
-
-            resourceManagementFeatures.push(new BladeFeature(
-                this._translateService.instant(PortalResources.feature_activityLogName),
-                this._translateService.instant(PortalResources.feature_activityLogName) +
-                ' ' +
-                this._translateService.instant(PortalResources.feature_activityLogName) +
-                ' ' +
-                this._translateService.instant(PortalResources.events),
-                this._translateService.instant(PortalResources.feature_activityLogInfo),
-                'image/activity-log.svg',
+        if (this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled') {
+            resourceManagementFeatures.push(new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
+                this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
+                'image/tools.svg',
                 {
-                    detailBlade: 'EventsBrowseBlade',
+                    detailBlade: 'SCIFrameBlade',
                     detailBladeInputs: {
-                        queryInputs: {
-                            id: site.id
-                        }
-                    },
-                    extension: 'Microsoft_Azure_Monitoring'
+                        id: site.id
+                    }
                 },
-                this._portalService
+                this._portalService,
+                null,
+                this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
             ));
+        }
 
-            resourceManagementFeatures.push(new BladeFeature(
-                this._translateService.instant(PortalResources.feature_accessControlName),
-                this._translateService.instant(PortalResources.feature_accessControlName) + ' rbac',
-                this._translateService.instant(PortalResources.feature_accessControlInfo),
-                'image/access-control.svg',
-                {
-                    detailBlade: 'UserAssignmentsV2Blade',
-                    detailBladeInputs: {
-                        scope: site.id
-                    },
-                    extension: 'Microsoft_Azure_AD'
+        resourceManagementFeatures.push(new BladeFeature(
+            this._translateService.instant(PortalResources.feature_activityLogName),
+            this._translateService.instant(PortalResources.feature_activityLogName) +
+            ' ' +
+            this._translateService.instant(PortalResources.feature_activityLogName) +
+            ' ' +
+            this._translateService.instant(PortalResources.events),
+            this._translateService.instant(PortalResources.feature_activityLogInfo),
+            'image/activity-log.svg',
+            {
+                detailBlade: 'EventsBrowseBlade',
+                detailBladeInputs: {
+                    queryInputs: {
+                        id: site.id
+                    }
                 },
-                this._portalService
-            ));
+                extension: 'Microsoft_Azure_Monitoring'
+            },
+            this._portalService
+        ));
 
-            resourceManagementFeatures.push(new BladeFeature(
-                this._translateService.instant(PortalResources.feature_tagsName),
-                this._translateService.instant(PortalResources.feature_tagsName),
-                this._translateService.instant(PortalResources.feature_tagsInfo),
-                'image/tags.svg',
-                {
-                    detailBlade: 'ResourceTagsListBlade',
-                    detailBladeInputs: {
-                        resourceId: site.id
-                    },
-                    extension: 'HubsExtension'
+        resourceManagementFeatures.push(new BladeFeature(
+            this._translateService.instant(PortalResources.feature_accessControlName),
+            this._translateService.instant(PortalResources.feature_accessControlName) + ' rbac',
+            this._translateService.instant(PortalResources.feature_accessControlInfo),
+            'image/access-control.svg',
+            {
+                detailBlade: 'UserAssignmentsV2Blade',
+                detailBladeInputs: {
+                    scope: site.id
                 },
-                this._portalService
-            ));
+                extension: 'Microsoft_Azure_AD'
+            },
+            this._portalService
+        ));
 
-            resourceManagementFeatures.push(new BladeFeature(
-                this._translateService.instant(PortalResources.feature_locksName),
-                this._translateService.instant(PortalResources.feature_locksName),
-                this._translateService.instant(PortalResources.feature_locksInfo),
-                'image/locks.svg',
-                {
-                    detailBlade: 'LocksBlade',
-                    detailBladeInputs: {
-                        resourceId: site.id
-                    },
-                    extension: 'HubsExtension'
+        resourceManagementFeatures.push(new BladeFeature(
+            this._translateService.instant(PortalResources.feature_tagsName),
+            this._translateService.instant(PortalResources.feature_tagsName),
+            this._translateService.instant(PortalResources.feature_tagsInfo),
+            'image/tags.svg',
+            {
+                detailBlade: 'ResourceTagsListBlade',
+                detailBladeInputs: {
+                    resourceId: site.id
                 },
-                this._portalService
-            ));
+                extension: 'HubsExtension'
+            },
+            this._portalService
+        ));
 
-            // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: [ehamai] - Need to implent
-
-            resourceManagementFeatures.push(new BladeFeature(
-                this._translateService.instant(PortalResources.feature_automationScriptName),
-                this._translateService.instant(PortalResources.feature_automationScriptName) +
-                ' ' +
-                this._translateService.instant(PortalResources.template) +
-                ' arm',
-                this._translateService.instant(PortalResources.feature_automationScriptInfo),
-                'image/automation-script.svg',
-                {
-                    detailBlade: 'TemplateViewerBlade',
-                    detailBladeInputs: {
-                        options: {
-                            resourceGroup: `/subscriptions/${this._descriptor.subscription}/resourcegroups/${this._descriptor
-                                .resourceGroup}`,
-                            telemetryId: 'Microsoft.Web/sites'
-                        },
-                        stepOutput: null
-                    },
-                    extension: 'HubsExtension'
+        resourceManagementFeatures.push(new BladeFeature(
+            this._translateService.instant(PortalResources.feature_locksName),
+            this._translateService.instant(PortalResources.feature_locksName),
+            this._translateService.instant(PortalResources.feature_locksInfo),
+            'image/locks.svg',
+            {
+                detailBlade: 'LocksBlade',
+                detailBladeInputs: {
+                    resourceId: site.id
                 },
-                this._portalService
-            ));
+                extension: 'HubsExtension'
+            },
+            this._portalService
+        ));
 
-            // new NotImplementedFeature(  // TODO: [ehamai] - Need to implement
-            //     'New support request',
-            //     'support request',
-            //     'Info'),
+        // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: [ehamai] - Need to implent
+
+        resourceManagementFeatures.push(new BladeFeature(
+            this._translateService.instant(PortalResources.feature_automationScriptName),
+            this._translateService.instant(PortalResources.feature_automationScriptName) +
+            ' ' +
+            this._translateService.instant(PortalResources.template) +
+            ' arm',
+            this._translateService.instant(PortalResources.feature_automationScriptInfo),
+            'image/automation-script.svg',
+            {
+                detailBlade: 'TemplateViewerBlade',
+                detailBladeInputs: {
+                    options: {
+                        resourceGroup: `/subscriptions/${this._descriptor.subscription}/resourcegroups/${this._descriptor
+                            .resourceGroup}`,
+                        telemetryId: 'Microsoft.Web/sites'
+                    },
+                    stepOutput: null
+                },
+                extension: 'HubsExtension'
+            },
+            this._portalService
+        ));
+
+        // new NotImplementedFeature(  // TODO: [ehamai] - Need to implement
+        //     'New support request',
+        //     'support request',
+        //     'Info'),
 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
