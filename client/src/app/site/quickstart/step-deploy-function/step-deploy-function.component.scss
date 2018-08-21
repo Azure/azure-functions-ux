@@ -1,0 +1,36 @@
+@import '../../../../sass/common/variables';
+:host {
+    width: 100%;
+    height: 100%;
+}
+
+.summary-wrapper {
+    padding: 25px;
+}
+
+.summary-group {
+    padding: 10px;
+    .heading {
+        font-size: 11px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $primary-color;
+    }
+    .summary-label {
+        float: left;
+        width: 20%;
+    }
+    .summary-value {
+        float: left;
+        width: 80%;
+    }
+}
+
+:host-context(#app-root[theme=dark]) {
+    .summary-group {
+        .heading {
+            color: $primary-color-dark;
+        }
+    }
+}

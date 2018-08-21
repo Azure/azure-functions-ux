@@ -23,6 +23,7 @@ import { ProdFunctionInitialUploadComponent } from '../prod-function-initial-upl
 import { ConsoleModule } from './console/console.module';
 import { LogStreamComponent } from './log-stream/log-stream.component';
 import { LogContentComponent } from './log-stream/log-content.component';
+import { QuickstartModule } from './quickstart/quickstart.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
@@ -45,7 +46,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         ConsoleModule,
         DeploymentCenterModule,
         SpecPickerModule,
-        routing
+        routing,
+        QuickstartModule
     ],
     declarations: [
         SiteDashboardComponent,

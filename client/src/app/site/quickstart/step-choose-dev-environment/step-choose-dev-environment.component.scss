@@ -1,0 +1,130 @@
+@import '../../../../sass/common/variables';
+:host {
+    width: 100%;
+    height: 100%;
+}
+
+h2{
+    display: inline;
+}
+
+h1{
+    text-align: center;
+    opacity: 0.9;
+}
+.sourceContainer{
+     margin-top: 30px;
+}
+.selectionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+   
+}
+
+.cardDisabled {
+    height: 200px;
+    margin: 35px;
+    position: relative;
+    min-width: 350px;
+    max-width: 350px;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    &:hover {
+        cursor: not-allowed;
+    }
+}
+
+.cardContainer {
+    height: 150px;
+    margin: 35px;
+    position: relative;
+    min-width: 200px;
+    max-width: 200px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+    }
+    &:focus {
+        cursor: pointer;
+        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+    }
+}
+
+.selected {
+    border: $border-selected;
+    background-color: $card-color-selected;
+    transition: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
+    &:focus {
+        cursor: pointer;
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    }
+}
+
+:host-context(#app-root[theme=dark]){
+    .cardContainer {
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
+        }
+        &:focus {
+            cursor: pointer;
+            box-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
+        }
+    }
+    .selected {
+        background-color: $card-color-selected-dark;
+    }
+}
+
+.sourceDescription {
+    padding: 15px;
+    text-align: left;
+}
+
+.headerBox{
+    width: 100%;
+    border-bottom: $border;
+    height: 41px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 37px;
+    img {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        margin-right: 15px;
+        color: white;
+        padding: 5px;
+    }
+}
+
+.cardFooter{
+   align-content: flex-end;
+   display: block;
+   position: absolute;
+   max-width: 100%;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   bottom: 0;
+   right: 0;
+   padding-right: 10px;
+   padding-bottom: 5px;
+}
+
+.sidebar-container {
+    height: 100%; 
+    width: 100%;
+}

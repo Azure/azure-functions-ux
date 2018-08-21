@@ -34,6 +34,7 @@ import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment
 import { Observable } from 'rxjs/Observable';
 import { ConsoleComponent } from '../console/console.component';
 import { LogStreamComponent } from '../log-stream/log-stream.component';
+import { QuickstartComponent } from '../quickstart/quickstart.component';
 
 @Component({
     selector: 'site-dashboard',
@@ -350,7 +351,12 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         resourceId: this.site.properties.serverFarmId
                     }
                 };
+                break;
 
+            case SiteTabIds.quickstart:
+                info.title = this._translateService.instant(PortalResources.quickstart);
+                info.iconUrl = 'image/bolt.svg';
+                info.componentFactory = QuickstartComponent;
                 break;
         }
 

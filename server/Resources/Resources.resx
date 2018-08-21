@@ -3718,4 +3718,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
   </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions for .NET - getting started</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions for JavaScript - getting started</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions for Python - getting started</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions for Java - getting started</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Follow our Quickstart guidance to author and publish a function</value>
+  </data>
+  <data name="quickstartStep1" xml:space="preserve">
+    <value>Choose a development environment</value>
+  </data>
+  <data name="quickstartStep2" xml:space="preserve">
+    <value>Create a function</value>
+  </data>
+  <data name="quickstartStep3" xml:space="preserve">
+    <value>Choose a deployment method</value>
+  </data>
+  <data name="quickstartStep4" xml:space="preserve">
+    <value>Deploy your function</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
 </root>

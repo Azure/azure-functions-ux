@@ -1,0 +1,10 @@
+<app-card-info-control [image]="'image/bolt.svg'" [header]="quickstartTitle" description="{{'quickstartDescription' | translate}}"
+    learnMoreLink="https://go.microsoft.com/fwlink/?linkid=874656"></app-card-info-control>
+<div class="wizard-container">
+    <wizard navBarLayout="large-filled-symbols" #wizard StepNumber>
+        <step-choose-dev-environment wizardStep title="{{'quickstartStep1' | translate}}"></step-choose-dev-environment>
+        <step-create-function wizardStep title="{{'quickstartStep2' | translate}}"></step-create-function>
+        <step-choose-deployment-method wizardStep *ngIf="showDeploymentSteps" title="{{'quickstartStep3' | translate}}"></step-choose-deployment-method>
+        <step-deploy-function wizardStep *ngIf="showDeploymentSteps" title="{{'quickstartStep4' | translate}}"></step-deploy-function>
+    </wizard>
+</div>

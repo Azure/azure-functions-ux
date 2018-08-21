@@ -1189,7 +1189,17 @@
     public static communityTemplatesTitle = 'communityTemplatesTitle';
     public static communityTemplatesDescription = 'communityTemplatesDescription';
     public static scmPingFailedErrorMessage = 'scmPingFailedErrorMessage';
+    public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
     public static extensionInstallDocLink = 'extensionInstallDocLink';
     public static pricing_ACU = 'pricing_ACU';
-    public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
+    public static quickstartDotnetTitle = 'quickstartDotnetTitle';
+    public static quickstartNodeTitle = 'quickstartNodeTitle';
+    public static quickstartPythonTitle = 'quickstartPythonTitle';
+    public static quickstartJavaTitle = 'quickstartJavaTitle';
+    public static quickstartDescription = 'quickstartDescription';
+    public static quickstartStep1 = 'quickstartStep1';
+    public static quickstartStep2 = 'quickstartStep2';
+    public static quickstartStep3 = 'quickstartStep3';
+    public static quickstartStep4 = 'quickstartStep4';
+    public static quickstart = 'quickstart';
 }
