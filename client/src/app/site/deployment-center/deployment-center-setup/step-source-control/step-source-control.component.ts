@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { ArmService } from 'app/shared/services/arm.service';
-import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
-import { AiService } from 'app/shared/services/ai.service';
-import { Constants, LogCategories } from 'app/shared/models/constants';
+import { Constants, LogCategories, ScenarioIds } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +10,7 @@ import { ProviderCard } from '../../Models/provider-card';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 
 @Component({
     selector: 'app-step-source-control',
@@ -28,7 +26,7 @@ export class StepSourceControlComponent {
         dropbox: 5
     };
 
-    public readonly providerCards: ProviderCard[] = [
+    public readonly _allProviders: ProviderCard[] = [
         {
             id: 'vsts',
             name: 'VSTS',
@@ -36,7 +34,8 @@ export class StepSourceControlComponent {
             color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.vstsSource
         },
         {
             id: 'github',
@@ -45,7 +44,8 @@ export class StepSourceControlComponent {
             color: '#68217A',
             description: this._translateService.instant(PortalResources.githubDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.githubSource
         },
         {
             id: 'bitbucket',
@@ -54,7 +54,8 @@ export class StepSourceControlComponent {
             color: '#205081',
             description: this._translateService.instant(PortalResources.bitbucketDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.bitbucketSource
         },
         {
             id: 'localgit',
@@ -63,7 +64,8 @@ export class StepSourceControlComponent {
             color: '#ba141a',
             description: this._translateService.instant(PortalResources.localGitDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.localGitSource
         },
         {
             id: 'onedrive',
@@ -72,7 +74,8 @@ export class StepSourceControlComponent {
             color: '#0A4BB3',
             description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.ondriveSource
         },
         {
             id: 'dropbox',
@@ -81,7 +84,8 @@ export class StepSourceControlComponent {
             color: '#007EE5',
             description: this._translateService.instant(PortalResources.dropboxDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.dropboxSource
         },
         {
             id: 'external',
@@ -90,7 +94,8 @@ export class StepSourceControlComponent {
             color: '#7FBA00',
             description: this._translateService.instant(PortalResources.externalDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.externalSource
         },
         {
             id: 'ftp',
@@ -100,9 +105,12 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.ftpDesc),
             authorizedStatus: 'none',
             manual: true,
-            enabled: true
+            enabled: true,
+            scenarioId: ScenarioIds.ftpSource
         }
     ];
+
+    providerCards: ProviderCard[] = [];
 
     githubUserSubject$ = new Subject<boolean>();
     onedriveUserSubject$ = new Subject<boolean>();
@@ -119,9 +127,7 @@ export class StepSourceControlComponent {
         private _logService: LogService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
-        _portalService: PortalService,
-        _armService: ArmService,
-        _aiService: AiService
+        scenarioService: ScenarioService
     ) {
         this.githubUserSubject$
             .takeUntil(this._ngUnsubscribe$)
@@ -254,6 +260,17 @@ export class StepSourceControlComponent {
                     this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
                 }
             );
+
+        this._wizardService.siteArmObj$.subscribe(SiteObj => {
+            if (SiteObj) {
+                this._allProviders.forEach(provider => {
+                    provider.enabled = scenarioService.checkScenario(provider.scenarioId, { site: SiteObj }).status !== 'disabled';
+                    if(provider.enabled){
+                        this.providerCards.push(provider);
+                    }
+                });
+            }
+        });
     }
 
     public selectProvider(card: ProviderCard) {

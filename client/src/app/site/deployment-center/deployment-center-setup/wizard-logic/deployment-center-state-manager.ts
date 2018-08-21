@@ -35,7 +35,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public subscriptionName = '';
     public deploymentSlotsAvailable = true;
     public canCreateNewSite = true;
-    public disableVSTS = false;
+    public hideBuild = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -60,13 +60,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 return forkJoin(
                     scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
                     authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]),
-                    scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, {site: this.siteArm }));
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm }),
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsKuduSource, { site: this.siteArm }));
             })
             .subscribe(r => {
-                const [s, p, v] = r;
-                this.deploymentSlotsAvailable = s.status === 'enabled';
-                this.canCreateNewSite = p;
-                this.disableVSTS = v.status === 'disabled' && !v.data;
+                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck, vstsKuduScenarioCheck] = r;
+                this.deploymentSlotsAvailable = slotsEnabled.status === 'enabled';
+                this.canCreateNewSite = siteCreationPermission;
+                this.hideBuild = vstsScenarioCheck.status === 'disabled' || vstsKuduScenarioCheck.status === 'disabled';
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {

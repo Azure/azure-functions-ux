@@ -118,6 +118,33 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.ondriveSource] = {
+            id: ScenarioIds.ondriveSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.dropboxSource] = {
+            id: ScenarioIds.dropboxSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.externalSource] = {
+            id: ScenarioIds.externalSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.githubSource] = {
+            id: ScenarioIds.githubSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+        this.scenarioChecks[ScenarioIds.bitbucketSource] = {
+            id: ScenarioIds.bitbucketSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+        this.scenarioChecks[ScenarioIds.vstsSource] = {
+            id: ScenarioIds.vstsSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

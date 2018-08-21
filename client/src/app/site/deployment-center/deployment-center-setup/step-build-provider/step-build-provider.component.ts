@@ -54,6 +54,16 @@ export class StepBuildProviderComponent {
                     provider.errorMessage = scenarioCheck.data;
                 }
             });
+
+        wizard.siteArmObj$
+            .map(siteObj => {
+                return scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj })
+            })
+            .subscribe(result => {
+                if (result.status === 'disabled') {
+                    wizard.wizardValues = { ...wizard.wizardValues, buildProvider: 'vsts' };
+                }
+            });
     }
 
     chooseBuildProvider(card: ProviderCard) {

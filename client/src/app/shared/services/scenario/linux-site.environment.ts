@@ -74,6 +74,26 @@ export class LinuxSiteEnvironment extends Environment {
             id: ScenarioIds.enableTinfoil,
             runCheck: () => disabledResult
         };
+
+        this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+            id: ScenarioIds.ondriveSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.ondriveSource] = {
+            id: ScenarioIds.ondriveSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.dropboxSource] = {
+            id: ScenarioIds.dropboxSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
+
+        this.scenarioChecks[ScenarioIds.externalSource] = {
+            id: ScenarioIds.externalSource,
+            runCheck: () => ({ status: 'disabled' })
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
