@@ -315,11 +315,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     repoLinkClick() {
-        if (!this.repo) {
-            return;
+        if (this.repo) {
+            const win = window.open(this.repo, '_blank');
+            win.focus();
         }
-        const win = window.open(this.repo, '_blank');
-        win.focus();
     }
 
     get sourceLocation() {
