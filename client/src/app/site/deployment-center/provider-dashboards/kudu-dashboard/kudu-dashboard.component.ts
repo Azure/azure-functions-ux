@@ -314,6 +314,13 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         this.sidePanelOpened = true;
     }
 
+    repoLinkClick() {
+        if (this.repo) {
+            const win = window.open(this.repo, '_blank');
+            win.focus();
+        }
+    }
+
     get sourceLocation() {
         const scmType = this.deploymentObject && this.deploymentObject.siteConfig.properties.scmType;
         switch (scmType) {
