@@ -215,6 +215,10 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      * @param key key pressed by the user
      */
     private _isKeyEventValid(key: number) {
+        if (key === KeyCodes.unknown) {
+            // block all unknown key inputs
+            return false;
+        }
         if (this._enterPressed && key !== KeyCodes.ctrl && key !== KeyCodes.c) {
             // command already in progress
             return false;
