@@ -35,7 +35,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/vsts.svg',
             color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'github',
@@ -43,7 +44,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
             description: this._translateService.instant(PortalResources.githubDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'bitbucket',
@@ -51,7 +53,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
             description: this._translateService.instant(PortalResources.bitbucketDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'localgit',
@@ -59,7 +62,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
             description: this._translateService.instant(PortalResources.localGitDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'onedrive',
@@ -67,7 +71,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
             description: this._translateService.instant(PortalResources.onedriveDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'dropbox',
@@ -75,7 +80,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
             description: this._translateService.instant(PortalResources.dropboxDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'external',
@@ -83,7 +89,8 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
             description: this._translateService.instant(PortalResources.externalDesc),
-            authorizedStatus: 'none'
+            authorizedStatus: 'none',
+            enabled: true
         },
         {
             id: 'ftp',
@@ -92,30 +99,9 @@ export class StepSourceControlComponent {
             color: '#FCD116',
             description: this._translateService.instant(PortalResources.ftpDesc),
             authorizedStatus: 'none',
-            manual: true
+            manual: true,
+            enabled: true
         }
-        // These are options in works, not wanting to delete though
-        // {
-        //     id: 'webdeploy',
-        //     name: 'Web Deploy',
-        //     icon: 'image/deployment-center/WebDeploy.svg',
-        //     color: '#B8D432',
-        //     barColor: '#dbe998',
-        //     description: 'use ms deploy',
-        //     authorizedStatus: 'none',
-        //     manual: true
-        // },
-        // ,
-        // {
-        //     id: 'zip',
-        //     name: 'Run From Zip',
-        //     icon: 'image/deployment-center/FTP.svg',
-        //     color: '#FCD116',
-        //     barColor: '#fde88a',
-        //     description: 'Use the run from zip method of deployment.',
-        //     authorizedStatus: 'none',
-        //     manual: true
-        // }
     ];
 
     githubUserSubject$ = new Subject<boolean>();

@@ -5,22 +5,21 @@ import { Environment } from 'app/shared/services/scenario/scenario.models';
 import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
-import { PortalService } from '../portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../../shared/models/portal-resources';
+import { AuthzService } from '../authz.service';
 
 export class AzureEnvironment extends Environment {
     name = 'Azure';
     private _applicationInsightsService: ApplicationInsightsService;
-    private _portalService: PortalService;
     private _translateService: TranslateService;
+    private _authZService: AuthzService;
 
     constructor(injector: Injector) {
         super();
         this._applicationInsightsService = injector.get(ApplicationInsightsService);
-        this._portalService = injector.get(PortalService);
         this._translateService = injector.get(TranslateService);
-
+        this._authZService = injector.get(AuthzService);
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
@@ -100,6 +99,14 @@ export class AzureEnvironment extends Environment {
         this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
             id: ScenarioIds.appInsightsConfigurable,
             runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
+        };
+
+        this.scenarioChecks[ScenarioIds.vstsDeployment] = {
+            id: ScenarioIds.vstsDeployment,
+            runCheck: () => {
+                return { status: 'enabled' };
+            },
+            runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input)
         };
     }
 
@@ -214,5 +221,13 @@ export class AzureEnvironment extends Environment {
                 data: null
             });
         }
+    }
+
+    private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
+        return this._authZService.hasPermission(input.site.id, [AuthzService.writeScope]).map(value => {
+            return <ScenarioResult>{
+                status: 'disabled'
+            };
+        });
     }
 }
