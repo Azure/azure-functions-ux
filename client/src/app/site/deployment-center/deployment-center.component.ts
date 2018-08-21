@@ -12,7 +12,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
-import { AuthzService } from '../../shared/services/authz.service';
 import { Component, Input } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
@@ -50,7 +49,6 @@ export class DeploymentCenterComponent implements OnDestroy {
     public showWebDeployDashboard = false;
     sidePanelOpened = false;
     constructor(
-        private _authZService: AuthzService,
         private _cacheService: CacheService,
         private _siteService: SiteService,
         private _logService: LogService,
@@ -67,20 +65,15 @@ export class DeploymentCenterComponent implements OnDestroy {
                 return Observable.zip(
                     this._siteService.getSiteConfig(this.resourceId),
                     this._siteService.getAppSettings(this.resourceId),
-                    this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId),
-                    (sc, as, wp, rl) => ({
+                    (sc, as ) => ({
                         siteConfig: sc.result,
-                        appSettings: as.result,
-                        writePermission: wp,
-                        readOnlyLock: rl
+                        appSettings: as.result
                     })
                 );
             })
             .subscribe(
                 r => {
                     this._siteConfigObject = r.siteConfig;
-                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                     if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
                         this.dashboardProviderType = 'zip';
                     }

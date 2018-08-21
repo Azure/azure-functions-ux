@@ -1,7 +1,6 @@
 import { ArmService } from '../../../../shared/services/arm.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { TableItem, TblComponent } from '../../../../controls/tbl/tbl.component';
-import { AuthzService } from '../../../../shared/services/authz.service';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -51,9 +50,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     public viewInfoStream$: Subject<string>;
     _viewInfoSubscription$: RxSubscription;
-    _writePermission = true;
-    _readOnlyLock = false;
-    public hasWritePermissions = true;
     public deploymentObject: DeploymentData;
 
     public rightPaneItem: ArmObj<Deployment>;
@@ -68,7 +64,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _authZService: AuthzService,
         private _broadcastService: BroadcastService,
         private _logService: LogService,
         private _translateService: TranslateService
@@ -85,26 +80,20 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/deployments`, true),
                     this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, this._forceLoad),
-                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(resourceId),
                     (
                         site,
                         siteConfig,
                         pubCreds,
                         sourceControl,
                         deployments,
-                        publishingUser,
-                        writePerm: boolean,
-                        readLock: boolean
+                        publishingUser
                     ) => ({
                         site: site.json(),
                         siteConfig: siteConfig.json(),
                         pubCreds: pubCreds.json(),
                         sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
-                        publishingUser: publishingUser.json(),
-                        writePermission: writePerm,
-                        readOnlyLock: readLock
+                        publishingUser: publishingUser.json()
                     })
                 );
             })
@@ -121,10 +110,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         publishingUser: r.publishingUser
                     };
                     this._populateTable();
-
-                    this._writePermission = r.writePermission;
-                    this._readOnlyLock = r.readOnlyLock;
-                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 },
                 err => {
                     this._busyManager.clearBusy();

@@ -1,6 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { AuthzService } from '../../../../shared/services/authz.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
@@ -34,7 +33,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     public activeDeployment: ActivityDetailsLog;
 
     public viewInfoStream$: Subject<string>;
-    public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
     private _ngUnsubscribe$ = new Subject();
     private _busyManager: BusyStateScopeManager;
@@ -42,7 +40,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _authZService: AuthzService,
         private _logService: LogService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService
@@ -56,14 +53,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     this._cacheService.getArm(resourceId),
                     this._cacheService.postArm(`${resourceId}/config/metadata/list`),
                     this._cacheService.getArm(`${resourceId}/deployments`),
-                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(resourceId),
-                    (site, metadata, deployments, writePerm: boolean, readLock: boolean) => ({
+                    (site, metadata, deployments) => ({
                         site: site.json(),
                         metadata: metadata.json(),
-                        deployments: deployments.json(),
-                        writePermission: writePerm,
-                        readOnlyLock: readLock
+                        deployments: deployments.json()
                     })
                 );
             })
@@ -83,7 +76,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 setTimeout(() => {
                     this.appTable.groupItems('date', 'desc');
                 }, 0);
-                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
 
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
