@@ -30,6 +30,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _vstsApiToken: string;
     private _pricingTier: string;
     public siteArm: ArmObj<Site>;
+    public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
     public selectedVstsRepoId = '';
     public subscriptionName = '';
     public deploymentSlotsAvailable = true;
@@ -51,19 +52,21 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .switchMap(result => {
                 const [site, sub] = result;
                 this.siteArm = site.result;
+                this.siteArmObj$.next(this.siteArm);
                 this.subscriptionName = sub.json().displayName;
-                this.disableVSTS = scenarioService.checkScenario(ScenarioIds.vstsDeployment, {site: this.siteArm }).status === 'disabled';
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
                 const siteDesc = new ArmSiteDescriptor(this._resourceId);
                 return forkJoin(
                     scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
-                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]));
+                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]),
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, {site: this.siteArm }));
             })
             .subscribe(r => {
-                const [s, p] = r;
+                const [s, p, v] = r;
                 this.deploymentSlotsAvailable = s.status === 'enabled';
                 this.canCreateNewSite = p;
+                this.disableVSTS = v.status === 'disabled' && !v.data;
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {

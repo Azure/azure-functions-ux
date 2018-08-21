@@ -6,7 +6,7 @@
     </div>
     <div class="sourceDescription">
       {{card.description}}
-      <div class="errorMessage">
+      <div class="errorMessage" *ngIf="!card.enabled">
         {{card.errorMessage}}
       </div>
     </div>

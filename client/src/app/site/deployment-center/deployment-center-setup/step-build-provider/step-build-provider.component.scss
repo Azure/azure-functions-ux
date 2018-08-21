@@ -1,5 +1,5 @@
 @import "../step-source-control/step-source-control.component.scss";
-
+@import '../../../../../sass/common/variables';
 
 .cardContainer {
     height: 200px;
@@ -11,10 +11,11 @@
     height: 200px;
     min-width: 300px;
     max-width: 300px;
+    background-color: lighten($disabled-color,30%);
 }
 
 .errorMessage {
-    color: red;
+    color: $error-color;
     display: block;
     overflow:hidden;
     max-height: 50px;

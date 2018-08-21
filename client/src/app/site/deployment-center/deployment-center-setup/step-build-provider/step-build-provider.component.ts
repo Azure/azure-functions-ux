@@ -8,6 +8,7 @@ import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
@@ -32,19 +33,27 @@ export class StepBuildProviderComponent {
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none',
             enabled: false,
-            scenarioId: ScenarioIds.vstsDeployment,
-            errorMessage: 'errorMessage errorMessage errorMessage '
+            scenarioId: ScenarioIds.vstsDeploymentPermission
         }
     ];
 
     constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService, scenarioService: ScenarioService) {
-        from(this.providerCards).switchMap((provider: ProviderCard) => {
-            return forkJoin(of(provider), scenarioService.checkScenarioAsync(provider.scenarioId, { site: wizard.siteArm }));
-        })
-        .subscribe(([provider, scenarioCheck]) => {
-            provider.enabled = scenarioCheck.status === 'disabled';
-            provider.errorMessage = scenarioCheck.data;
-        });
+        wizard.siteArmObj$
+            .concatMap(siteObj => {
+                return from(this.providerCards).switchMap((provider: ProviderCard) => {
+                    if (provider.scenarioId) {
+                        return forkJoin(of(provider), scenarioService.checkScenarioAsync(provider.scenarioId, { site: siteObj }));
+                    } else {
+                        return Observable.of([null, null]);
+                    }
+                });
+            })
+            .subscribe(([provider, scenarioCheck]) => {
+                if (provider) {
+                    provider.enabled = scenarioCheck.status !== 'disabled';
+                    provider.errorMessage = scenarioCheck.data;
+                }
+            });
     }
 
     chooseBuildProvider(card: ProviderCard) {

@@ -2,7 +2,7 @@ import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
-import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
+import { ARMApplicationInsightsDescriptior, ArmResourceDescriptor } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
 import { ApplicationInsightsService } from '../application-insights.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -101,11 +101,8 @@ export class AzureEnvironment extends Environment {
             runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
         };
 
-        this.scenarioChecks[ScenarioIds.vstsDeployment] = {
-            id: ScenarioIds.vstsDeployment,
-            runCheck: () => {
-                return { status: 'enabled' };
-            },
+        this.scenarioChecks[ScenarioIds.vstsDeploymentPermission] = {
+            id: ScenarioIds.vstsDeploymentHide,
             runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input)
         };
     }
@@ -224,9 +221,11 @@ export class AzureEnvironment extends Environment {
     }
 
     private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
-        return this._authZService.hasPermission(input.site.id, [AuthzService.writeScope]).map(value => {
+        const resourceDesc = new ArmResourceDescriptor(input.site.id);
+        return this._authZService.hasPermission(`/subscriptions/${resourceDesc.subscription}`, [AuthzService.adWrite]).map(value => {
             return <ScenarioResult>{
-                status: 'disabled'
+                status: value ? 'enabled' : 'disabled',
+                data: this._translateService.instant(PortalResources.vsts_permissions_error)
             };
         });
     }

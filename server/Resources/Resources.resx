@@ -3718,4 +3718,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
   </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
+  </data>
 </root>
