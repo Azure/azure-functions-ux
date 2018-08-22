@@ -104,8 +104,8 @@ export class BashComponent  extends AbstractConsoleComponent {
             if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
               this.addErrorComponent(output.Error + ConsoleConstants.newLine);
             } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                this._updateDirectoryAfterCommand(output.Output);
-                this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].trim() + ConsoleConstants.newLine.repeat(2));
+                this._updateDirectoryAfterCommand(output.Output.trim());
+                this.addMessageComponent(output.Output.split(this.getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
             }
             this.addPromptComponent();
             this.enterPressed = false;
@@ -118,13 +118,17 @@ export class BashComponent  extends AbstractConsoleComponent {
       );
   }
 
+  protected getMessageDelimeter(): string {
+      return (ConsoleConstants.newLines + this.dir);
+  }
+
   /**
    * Check and update the directory
    * @param cmd string which represents the response from the API
    */
   private _updateDirectoryAfterCommand(cmd: string) {
       const result = cmd.split(ConsoleConstants.newLine.repeat(2));
-      this.dir = result[result.length - 1].trim();
+      this.dir = result[result.length - 1];
   }
 
   /**

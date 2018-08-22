@@ -581,14 +581,9 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                 const output = data.json();
                 if (output.Error !== '') {
                     this._addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else {
-                    if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                        this._updateDirectoryAfterCommand(output.Output);
-                        const msg = this.isLinux ? (
-                            output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].trim() + ConsoleConstants.newLine)
-                        : (output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].trim() + ConsoleConstants.newLine);
-                        this._addMessageComponent(msg);
-                    }
+                } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
+                    this._updateDirectoryAfterCommand(output.Output.trim());
+                    this._addMessageComponent(output.Output.split(this._getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
                 }
                 this._addPromptComponent();
                 this._enterPressed = false;
@@ -602,16 +597,26 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     }
 
     /**
+     * Get the delimeter according to the app type
+     */
+    private _getMessageDelimeter(): string {
+        if (this.isLinux) {
+            return (ConsoleConstants.newLines + this.dir);
+        }
+        return (ConsoleConstants.windowsNewLine + this.dir);
+    }
+
+    /**
      * Check and update the directory
      * @param cmd string which represents the response from the API
      */
     private _updateDirectoryAfterCommand(cmd: string) {
         if (this.isLinux) {
             const result = cmd.split(ConsoleConstants.newLine.repeat(2));
-            this.dir = result[result.length - 1].trim();
+            this.dir = result[result.length - 1];
         }else {
             const result = cmd.split(ConsoleConstants.windowsNewLine);
-            this.dir = result[result.length - 2].trim();
+            this.dir = result[result.length - 1];
         }
         this._setLeftSideText();
     }

@@ -111,11 +111,9 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                 const output = data.json();
                 if (output.Error !== '') {
                     this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else {
-                    if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                        this._updateDirectoryAfterCommand(output.Output);
-                        this.addMessageComponent(output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].trim() + ConsoleConstants.newLine);
-                    }
+                } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
+                    this._updateDirectoryAfterCommand(output.Output.trim());
+                    this.addMessageComponent(output.Output.split(this.getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
                 }
                 this.addPromptComponent();
                 this.enterPressed = false;
@@ -128,13 +126,17 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         );
     }
 
+    protected getMessageDelimeter(): string {
+        return (ConsoleConstants.windowsNewLine + this.dir);
+    }
+
     /**
      * Check and update the directory
      * @param cmd string which represents the response from the API
      */
     private _updateDirectoryAfterCommand(cmd: string) {
         const result = cmd.split(ConsoleConstants.windowsNewLine);
-        this.dir = result[result.length - 2].trim();
+        this.dir = result[result.length - 1];
     }
 
     /**
