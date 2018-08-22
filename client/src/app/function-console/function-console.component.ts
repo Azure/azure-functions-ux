@@ -585,8 +585,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                     if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
                         this._updateDirectoryAfterCommand(output.Output);
                         const msg = this.isLinux ? (
-                            output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2)
-                        ) : (output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0] + ConsoleConstants.newLine);
+                            output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].trim() + ConsoleConstants.newLine)
+                        : (output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].trim() + ConsoleConstants.newLine);
                         this._addMessageComponent(msg);
                     }
                 }
@@ -619,7 +619,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     /**
      * perform action on key pressed.
      */
-    private _performAction(cmd?: string, output?: string): boolean {
+    private _performAction(cmd?: string): boolean {
         if (this.command.complete.toLowerCase() === ConsoleConstants.windowsClear || this.command.complete.toLowerCase() === ConsoleConstants.linuxClear) {
             this._removeMsgComponents();
             return false;
@@ -629,23 +629,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             this._setConsoleDetails(this.isLinux);
             return false;
         }
-        if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-            return this._changeCurrentDirectory(cmd.substr(2).trim(), output);
-        }
         return true;
-    }
-
-    /**
-     * Change current directory; run cd command
-     */
-    private _changeCurrentDirectory(cmd: string, output?: string): boolean {
-        output = output.trim();
-        if (cmd.length === 0) {
-            return true;
-        }
-        this.dir = output.trim();
-        this._setLeftSideText();
-        return false;
     }
 
     /**
