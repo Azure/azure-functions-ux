@@ -11,50 +11,50 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 })
 export class StepChooseDevEnvironmentComponent {
 
-    public readonly vsCard: DevEnvironmentCard = 
+    public readonly vsCard: DevEnvironmentCard =
     {
         id: 'vs',
         name: 'Visual Studio',
         icon: 'image/deployment-center/vsts.svg',
         color: '#2B79DA',
         description: this._translateService.instant(PortalResources.vstsDesc)
-    }
+    };
 
-    public readonly vsCodeCard: DevEnvironmentCard = 
+    public readonly vsCodeCard: DevEnvironmentCard =
     {
         id: 'vscode',
         name: 'Visual Studio Code',
         icon: 'image/deployment-center/vsts.svg',
         color: '#2B79DA',
         description: this._translateService.instant(PortalResources.vstsDesc)
-    }
-    
-    public readonly coreToolsCard: DevEnvironmentCard = 
+    };
+
+    public readonly coreToolsCard: DevEnvironmentCard =
     {
         id: 'coretools',
         name: 'Core Tools',
         icon: 'image/deployment-center/vsts.svg',
         color: '#2B79DA',
         description: this._translateService.instant(PortalResources.bitbucketDesc)
-    }
+    };
 
-    public readonly mavenCard: DevEnvironmentCard = 
+    public readonly mavenCard: DevEnvironmentCard =
     {
         id: 'maven',
         name: 'Maven',
         icon: 'image/deployment-center/vsts.svg',
         color: '#2B79DA',
         description: this._translateService.instant(PortalResources.localGitDesc)
-    }
+    };
 
-    public readonly portalCard: DevEnvironmentCard = 
+    public readonly portalCard: DevEnvironmentCard =
     {
         id: 'portal',
         name: 'Portal',
         icon: 'image/deployment-center/vsts.svg',
         color: '#2B79DA',
         description: this._translateService.instant(PortalResources.localGitDesc)
-    }
+    };
 
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;
 
@@ -78,14 +78,13 @@ export class StepChooseDevEnvironmentComponent {
             this._wizardService.wizardForm.controls &&
             this._wizardService.wizardForm.controls['isLinux'] &&
             this._wizardService.wizardForm.controls['isLinux'].value;
-        
+
         switch (workerRuntime) {
             case 'dotnet':
                 if (isLinux) {
                     return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
-                } else {
-                    return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
                 }
+                return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
             case 'node':
             case 'nodejs':
                 return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
@@ -94,9 +93,8 @@ export class StepChooseDevEnvironmentComponent {
             case 'java':
                 if (isLinux) {
                     return [];
-                } else {
-                    return [this.vsCodeCard, this.mavenCard];
                 }
+                return [this.vsCodeCard, this.mavenCard];
             default:
                 return [];
         }
@@ -108,6 +106,4 @@ export class StepChooseDevEnvironmentComponent {
         currentFormValues.devEnvironment = card.id;
         this._wizardService.wizardValues = currentFormValues;
     }
-
-    
 }

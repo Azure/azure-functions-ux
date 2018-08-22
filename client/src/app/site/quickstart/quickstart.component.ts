@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { FunctionInfo } from 'app/shared/models/function-info';
 
 @Component({
     selector: 'quickstart',
@@ -22,6 +23,8 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 export class QuickstartComponent extends FunctionAppContextComponent {
 
     public quickstartTitle: string;
+    public workerRuntime: string;
+    public functionsInfo: FunctionInfo[];
     private _busyManager: BusyStateScopeManager;
 
     constructor(
@@ -39,7 +42,9 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             workerRuntime: [null],
             portalTemplate: [null],
             isLinux: [null],
-            isLinuxConsumption: [null]
+            isLinuxConsumption: [null],
+            context: [null],
+            functionsInfo: [null]
         });
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
@@ -50,10 +55,10 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._busyManager.setBusy();
-                this.setLinuxProperties();
                 return Observable.zip(
                     this._functionAppService.getRuntimeGeneration(this.context),
-                    this._siteService.getAppSettings(viewInfo.context.site.id));
+                    this._siteService.getAppSettings(viewInfo.context.site.id),
+                    this._functionAppService.getFunctions(this.context));
             })
             .do(null, e => {
                 // what is the way we should do this?
@@ -62,10 +67,8 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                 if (r[1].isSuccessful) {
                     const appSettingsArm = r[1].result;
                     if (appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-                        const currentFormValues = this._wizardService.wizardValues;
-                        currentFormValues.workerRuntime = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
-                        this._wizardService.wizardValues = currentFormValues;
-                        this.setQuickstartTitle(currentFormValues.workerRuntime);
+                        this.workerRuntime = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
+                        this.setQuickstartTitle();
                     } else {
                         console.log('no worker runtime');
                     }
@@ -76,12 +79,15 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                         resourceId: this.context.site.id
                     });
                 }
+
+                this.functionsInfo = r[2].isSuccessful ? r[2].result : null;
+                this.setInitalWizardProperties();
                 this._busyManager.clearBusy();
             });
     }
 
-    setQuickstartTitle(workerRuntime: string) {
-        switch (workerRuntime) {
+    setQuickstartTitle() {
+        switch (this.workerRuntime) {
             case 'dotnet':
                 this.quickstartTitle = this._translateService.instant(PortalResources.quickstartDotnetTitle);
                 break;
@@ -98,10 +104,13 @@ export class QuickstartComponent extends FunctionAppContextComponent {
         }
     }
 
-    setLinuxProperties() {
+    setInitalWizardProperties() {
         const currentFormValues = this._wizardService.wizardValues;
+        currentFormValues.workerRuntime = this.workerRuntime;
         currentFormValues.isLinux = ArmUtil.isLinuxApp(this.context.site);
         currentFormValues.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+        currentFormValues.context = this.context;
+        currentFormValues.functionsInfo = this.functionsInfo;
         this._wizardService.wizardValues = currentFormValues;
     }
 
