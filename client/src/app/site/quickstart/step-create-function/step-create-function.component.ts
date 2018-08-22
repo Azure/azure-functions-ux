@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
+import { PortalTemplateCard } from 'app/site/quickstart/Models/portal-function-card';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 @Component({
     selector: 'step-create-function',
@@ -8,8 +11,29 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 })
 export class StepCreateFunctionComponent {
 
+    public readonly portalTemplateCards: PortalTemplateCard[] = [
+        {
+            id: 'HttpTrigger',
+            name: 'Webhook + API',
+            icon: 'image/deployment-center/vsts.svg',
+            color: '#2B79DA',
+            description: this._translateService.instant(PortalResources.vstsDesc)
+        },
+        {
+            id: 'TimerTrigger',
+            name: 'Timer',
+            icon: 'image/deployment-center/vsts.svg',
+            color: '#2B79DA',
+            description: this._translateService.instant(PortalResources.vstsDesc)
+        }
+    ];
+
+    public selectedPortalTemplateCard: PortalTemplateCard = null;
+
     constructor(
         public _wizardService: QuickstartStateManager,
+        private _translateService: TranslateService,
+        // private _functionAppService: FunctionAppService
     ) {
     }
 
@@ -21,6 +45,13 @@ export class StepCreateFunctionComponent {
         this._wizardService.wizardForm.controls['devEnvironment'] &&
         this._wizardService.wizardForm.controls['devEnvironment'].value;
         return devEnvironment === 'portal';
+    }
+
+    public selectPortalTemplate(card: PortalTemplateCard) {
+        this.selectedPortalTemplateCard = card;
+        const currentFormValues = this._wizardService.wizardValues;
+        currentFormValues.portalTemplate = card.id;
+        this._wizardService.wizardValues = currentFormValues;
     }
 
     create() {

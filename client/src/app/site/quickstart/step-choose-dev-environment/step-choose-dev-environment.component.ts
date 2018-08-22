@@ -11,43 +11,95 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 })
 export class StepChooseDevEnvironmentComponent {
 
-    public readonly devEnvironmentCards: DevEnvironmentCard[] = [
-        {
-            id: 'vs',
-            name: 'Visual Studio',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc)
-        },
-        {
-            id: 'vscode',
-            name: 'Visual Stuido Code',
-            icon: 'image/deployment-center/github.svg',
-            color: '#68217A',
-            description: this._translateService.instant(PortalResources.githubDesc)
-        },
-        {
-            id: 'external',
-            name: 'External',
-            icon: 'image/deployment-center/Bitbucket.svg',
-            color: '#205081',
-            description: this._translateService.instant(PortalResources.bitbucketDesc)
-        },
-        {
-            id: 'portal',
-            name: 'Portal',
-            icon: 'image/deployment-center/LocalGit.svg',
-            color: '#ba141a',
-            description: this._translateService.instant(PortalResources.localGitDesc)
-        }
+    public readonly vsCard: DevEnvironmentCard = 
+    {
+        id: 'vs',
+        name: 'Visual Studio',
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#2B79DA',
+        description: this._translateService.instant(PortalResources.vstsDesc)
+    }
 
-    ];
+    public readonly vsCodeCard: DevEnvironmentCard = 
+    {
+        id: 'vscode',
+        name: 'Visual Studio Code',
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#2B79DA',
+        description: this._translateService.instant(PortalResources.vstsDesc)
+    }
+    
+    public readonly coreToolsCard: DevEnvironmentCard = 
+    {
+        id: 'coretools',
+        name: 'Core Tools',
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#2B79DA',
+        description: this._translateService.instant(PortalResources.bitbucketDesc)
+    }
+
+    public readonly mavenCard: DevEnvironmentCard = 
+    {
+        id: 'maven',
+        name: 'Maven',
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#2B79DA',
+        description: this._translateService.instant(PortalResources.localGitDesc)
+    }
+
+    public readonly portalCard: DevEnvironmentCard = 
+    {
+        id: 'portal',
+        name: 'Portal',
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#2B79DA',
+        description: this._translateService.instant(PortalResources.localGitDesc)
+    }
+
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;
 
     constructor(
         private _wizardService: QuickstartStateManager,
-        private _translateService: TranslateService,
+        private _translateService: TranslateService
     ) {
+    }
+
+    get devEnvironmentCards() {
+        const workerRuntime =
+            this._wizardService &&
+            this._wizardService.wizardForm &&
+            this._wizardService.wizardForm.controls &&
+            this._wizardService.wizardForm.controls['workerRuntime'] &&
+            this._wizardService.wizardForm.controls['workerRuntime'].value;
+
+        const isLinux =
+            this._wizardService &&
+            this._wizardService.wizardForm &&
+            this._wizardService.wizardForm.controls &&
+            this._wizardService.wizardForm.controls['isLinux'] &&
+            this._wizardService.wizardForm.controls['isLinux'].value;
+        
+        switch (workerRuntime) {
+            case 'dotnet':
+                if (isLinux) {
+                    return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+                } else {
+                    return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
+                }
+            case 'node':
+            case 'nodejs':
+                return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+            case 'python':
+                return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+            case 'java':
+                if (isLinux) {
+                    return [];
+                } else {
+                    return [this.vsCodeCard, this.mavenCard];
+                }
+            default:
+                return [];
+        }
     }
 
     public selectDevEnvironment(card: DevEnvironmentCard) {

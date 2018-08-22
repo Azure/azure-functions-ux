@@ -1200,6 +1200,5 @@
     public static quickstartStep1 = 'quickstartStep1';
     public static quickstartStep2 = 'quickstartStep2';
     public static quickstartStep3 = 'quickstartStep3';
-    public static quickstartStep4 = 'quickstartStep4';
     public static quickstart = 'quickstart';
 }

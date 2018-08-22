@@ -3737,13 +3737,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Choose a development environment</value>
   </data>
   <data name="quickstartStep2" xml:space="preserve">
-    <value>Create a function</value>
-  </data>
-  <data name="quickstartStep3" xml:space="preserve">
     <value>Choose a deployment method</value>
   </data>
-  <data name="quickstartStep4" xml:space="preserve">
-    <value>Deploy your function</value>
+  <data name="quickstartStep3" xml:space="preserve">
+    <value>Create a function</value>
   </data>
   <data name="quickstart" xml:space="preserve">
     <value>Quickstart</value>
