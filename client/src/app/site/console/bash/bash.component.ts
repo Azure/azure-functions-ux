@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
-import { Regex, ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
 
 @Component({
   selector: 'app-bash',
@@ -103,8 +103,9 @@ export class BashComponent  extends AbstractConsoleComponent {
             const output = data.json();
             if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
               this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-            } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '' && this.performAction(cmd, output.Output)) {
-                this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2));
+            } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
+                this._updateDirectoryAfterCommand(output.Output);
+                this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].trim() + ConsoleConstants.newLine.repeat(2));
             }
             this.addPromptComponent();
             this.enterPressed = false;
@@ -118,9 +119,18 @@ export class BashComponent  extends AbstractConsoleComponent {
   }
 
   /**
+   * Check and update the directory
+   * @param cmd string which represents the response from the API
+   */
+  private _updateDirectoryAfterCommand(cmd: string) {
+      const result = cmd.split(ConsoleConstants.newLine.repeat(2));
+      this.dir = result[result.length - 1].trim();
+  }
+
+  /**
    * perform action on key pressed.
    */
-  protected performAction(cmd?: string, output?: string): boolean {
+  protected performAction(cmd?: string): boolean {
       if (this.command.toLowerCase() === ConsoleConstants.linuxClear) { // bash uses clear to empty the console
         this.removeMsgComponents();
         return false;
@@ -128,11 +138,6 @@ export class BashComponent  extends AbstractConsoleComponent {
       if (this.command.toLowerCase() === ConsoleConstants.exit) {
         this.removeMsgComponents();
         this.dir = this._defaultDirectory;
-        return false;
-      }
-      if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-        output = output.replace(Regex.newLine, '');
-        this.dir = output;
         return false;
       }
       return true;

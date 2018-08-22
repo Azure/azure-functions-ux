@@ -112,10 +112,9 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                 if (output.Error !== '') {
                     this.addErrorComponent(output.Error + ConsoleConstants.newLine);
                 } else {
-                    if (output.ExitCode === ConsoleConstants.successExitcode && this.performAction(cmd, output.Output)) {
-                        if (output.Output !== '') {
-                            this.addMessageComponent(output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0] + ConsoleConstants.newLine);
-                        }
+                    if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
+                        this._updateDirectoryAfterCommand(output.Output);
+                        this.addMessageComponent(output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].trim() + ConsoleConstants.newLine);
                     }
                 }
                 this.addPromptComponent();
@@ -130,9 +129,18 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     }
 
     /**
+     * Check and update the directory
+     * @param cmd string which represents the response from the API
+     */
+    private _updateDirectoryAfterCommand(cmd: string) {
+        const result = cmd.split(ConsoleConstants.windowsNewLine);
+        this.dir = result[result.length - 2].trim();
+    }
+
+    /**
      * perform action on key pressed.
      */
-    protected performAction(cmd?: string, output?: string): boolean {
+    protected performAction(cmd?: string): boolean {
         if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
             this.removeMsgComponents();
             return false;
@@ -142,24 +150,8 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             this.dir = this._defaultDirectory;
             return false;
         }
-        if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-            return this._changeCurrentDirectory(cmd.substr(2).trim(), output);
-        }
         return true;
     }
 
     protected abstract getCommandPrefix(): string;
-
-    /**
-     * Change current directory; run cd command
-     */
-    private _changeCurrentDirectory(cmd: string, output: string) {
-        output = output.trim();
-        if (cmd.length === 0) {
-            return true;
-        }
-        this.dir = output.trim();
-        return false;
-    }
-
 }
