@@ -174,7 +174,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private setupSubscriptions() {
-    this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
+    this.fetchVSTSProfile()
       .map(r => r.json())
       .do(() => this.accountListLoading = true)
       .switchMap(r => this.fetchAccounts(r.id))
@@ -232,6 +232,17 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         err => {
           this._logService.error(LogCategories.cicd, '/fetch-vso-available-locations', err);
         });
+  }
+
+  private fetchVSTSProfile() {
+    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
+      .catch(() => {
+        return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri)
+          .switchMap(() => {
+            return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri);
+          });
+      });
+
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
