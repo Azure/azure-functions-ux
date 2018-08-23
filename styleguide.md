@@ -2,7 +2,7 @@
 
 *Inspired by the [AirBNB Style Guide](https://github.com/airbnb/javascript/blob/master/README.md)*
 
-A style guide helps maintain consistency and readability throughout the codebase, it also allows a much more calmer code review process and quicker onboarding for new contributors.
+A style guide helps maintain consistency and readability throughout the codebase, it also allows a much more calmer code review process and quicker onboarding for new contributors. This is  a living document, as our codebase grows and evolves we should keep in mind to update this document as well.
 
 ## Table of Contents
 
@@ -32,6 +32,8 @@ A style guide helps maintain consistency and readability throughout the codebase
   1. [RX/Js](#rxjs)
   1. [Resource Strings](#resource-strings)
   1. [Services](#services)
+  1. [Html](#html)
+  1. [CSS](#css)
 
 
 ## Types
@@ -3032,5 +3034,17 @@ TODO: Add resource string sections
 ## Services
 
 TODO: Add services sections
+
+**[⬆ back to top](#table-of-contents)**
+
+## Html
+
+TODO: Add html sections
+
+**[⬆ back to top](#table-of-contents)**
+
+## CSS
+
+TODO: Add css sections
 
 **[⬆ back to top](#table-of-contents)**
