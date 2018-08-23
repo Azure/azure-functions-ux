@@ -1,4 +1,4 @@
-import { Injector, Input, Component } from '@angular/core';
+import { Injector, Input, Component, ViewChild } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { SiteData, TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Subject } from 'rxjs/Subject';
@@ -37,7 +37,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
     public currentOption: number;
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
-
+    @ViewChild('ssh') private _sshComponent;
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
       }
@@ -60,6 +60,10 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
             });
           this.currentOption = ConsoleTypes.CMD;
         }
+
+      reconnectSSH() {
+          this._sshComponent.reconnect();
+      }
 
       protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
           // ARM API request to get the site details and the publishing credentials
@@ -107,24 +111,24 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
       }
 
       private _siteDetailAvailable(site: ArmObj<Site>, publishingCredentials: ArmObj<PublishingCredentials>): boolean {
-        if (!site || !site.properties.hostNameSslStates.find (h => h.hostType === 1) || !publishingCredentials ||
-        publishingCredentials.properties.publishingPassword === '' || publishingCredentials.properties.publishingUserName === '') {
-          return false;
-        }
-        return true;
+          if (!site || !site.properties.hostNameSslStates.find (h => h.hostType === 1) || !publishingCredentials ||
+          publishingCredentials.properties.publishingPassword === '' || publishingCredentials.properties.publishingUserName === '') {
+            return false;
+          }
+          return true;
       }
 
       private _setWindowsDashboard() {
           this.windows = true;
           this.options = [
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_cmdConsoleName),
-              value: ConsoleTypes.CMD
-            },
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_powerShellConsoleName),
-              value: ConsoleTypes.PS
-            }
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_cmdConsoleName),
+                  value: ConsoleTypes.CMD
+              },
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_powerShellConsoleName),
+                  value: ConsoleTypes.PS
+              }
           ];
           this.currentOption = ConsoleTypes.CMD;
         }
@@ -132,22 +136,22 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
       private _setLinuxDashboard() {
           this.windows = false;
           this.options = [
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_bashConsoleName),
-              value: ConsoleTypes.BASH
-            },
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_sshConsoleName),
-              value: ConsoleTypes.SSH
-            }
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_bashConsoleName),
+                  value: ConsoleTypes.BASH
+              },
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_sshConsoleName),
+                  value: ConsoleTypes.SSH
+              }
           ];
           this.currentOption = ConsoleTypes.BASH;
       }
 
       private _onOptionChange() {
           if (this.currentOption === ConsoleTypes.CMD || this.currentOption === ConsoleTypes.BASH) {
-            this.toggleConsole = true;
-            return;
+              this.toggleConsole = true;
+              return;
           }
           this.toggleConsole = false;
       }

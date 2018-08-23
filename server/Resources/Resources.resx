@@ -1348,6 +1348,9 @@
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH provides a Web SSH console experience for your Linux app code</value>
   </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
   </data>

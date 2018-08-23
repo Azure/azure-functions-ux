@@ -4,5 +4,13 @@
   <app-cmd *ngIf="windows && toggleConsole" @fade></app-cmd>
   <app-powershell *ngIf="windows && !toggleConsole" @fade></app-powershell>
   <app-bash *ngIf="!windows && toggleConsole" [appName]= "appName" @fade></app-bash>
-  <app-ssh *ngIf="!windows && !toggleConsole"></app-ssh>
+  <app-ssh #ssh *ngIf="!windows && !toggleConsole"></app-ssh>
+  <div class="log-toolbar">
+    <span class="log-empty-space"></span>
+    <span class="link action" *ngIf="!windows && !toggleConsole" (click)="reconnectSSH()"
+         tabindex="0" role="button" attr.aria-label="{{ 'ssh_reconnect' | translate }}">
+        <i class="fa fa-plug"></i>
+        {{ 'ssh_reconnect' | translate }}
+    </span>
+  </div>
 </div>
