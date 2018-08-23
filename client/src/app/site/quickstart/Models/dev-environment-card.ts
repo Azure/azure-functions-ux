@@ -1,4 +1,4 @@
-import { devEnvironmentOptions } from '../wizard-logic/quickstart-models';
+import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 
 export interface DevEnvironmentCard {
     id: devEnvironmentOptions;
@@ -6,4 +6,4 @@ export interface DevEnvironmentCard {
     icon: string;
     color: string;
     description: string;
-}
+};
