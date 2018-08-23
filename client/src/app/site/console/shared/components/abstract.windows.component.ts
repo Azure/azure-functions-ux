@@ -113,7 +113,8 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                     this.addErrorComponent(output.Error + ConsoleConstants.newLine);
                 } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
                     this._updateDirectoryAfterCommand(output.Output.trim());
-                    this.addMessageComponent(output.Output.split(this.getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
+                    const msg = output.Output.split(this.getMessageDelimeter())[0];
+                    this.addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
                 }
                 this.addPromptComponent();
                 this.enterPressed = false;
@@ -127,7 +128,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     }
 
     protected getMessageDelimeter(): string {
-        return (ConsoleConstants.windowsNewLine + this.dir);
+        return ConsoleConstants.windowsNewLine + this.dir;
     }
 
     /**

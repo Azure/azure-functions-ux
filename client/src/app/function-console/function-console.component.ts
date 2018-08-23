@@ -583,7 +583,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                     this._addErrorComponent(output.Error + ConsoleConstants.newLine);
                 } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
                     this._updateDirectoryAfterCommand(output.Output.trim());
-                    this._addMessageComponent(output.Output.split(this._getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
+                    const msg = output.Output.split(this._getMessageDelimeter())[0];
+                    this._addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
                 }
                 this._addPromptComponent();
                 this._enterPressed = false;
@@ -601,9 +602,9 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _getMessageDelimeter(): string {
         if (this.isLinux) {
-            return (ConsoleConstants.newLines + this.dir);
+            return ConsoleConstants.linuxNewLine + this.dir;
         }
-        return (ConsoleConstants.windowsNewLine + this.dir);
+        return ConsoleConstants.windowsNewLine + this.dir;
     }
 
     /**

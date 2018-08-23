@@ -56,7 +56,7 @@ export class BashComponent  extends AbstractConsoleComponent {
         const uri = this.getKuduUri();
         const header = this.getHeader();
         const body = {
-          'command': (`bash -c \' ${this.getTabKeyCommand()} && echo \'\' && pwd\'`),
+          'command': (`bash -c \' ${this.getTabKeyCommand()} \'`),
           'dir': this.dir
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
@@ -66,7 +66,7 @@ export class BashComponent  extends AbstractConsoleComponent {
               if (output.ExitCode === ConsoleConstants.successExitcode) {
                 // fetch the list of files/folders in the current directory
                 const cmd = this.command.substring(0, this.ptrPosition);
-                const allFiles = output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine);
+                const allFiles = output.Output.split(ConsoleConstants.newLine);
                 this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                 this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                 if (this.listOfDir.length > 0) {
@@ -102,10 +102,11 @@ export class BashComponent  extends AbstractConsoleComponent {
         data => {
             const output = data.json();
             if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
-              this.addErrorComponent(output.Error + ConsoleConstants.newLine);
+                this.addErrorComponent(output.Error + ConsoleConstants.newLine);
             } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
                 this._updateDirectoryAfterCommand(output.Output.trim());
-                this.addMessageComponent(output.Output.split(this.getMessageDelimeter())[0].trim() + ConsoleConstants.newLines);
+                const msg = output.Output.split(this.getMessageDelimeter())[0];
+                this.addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
             }
             this.addPromptComponent();
             this.enterPressed = false;
@@ -119,7 +120,7 @@ export class BashComponent  extends AbstractConsoleComponent {
   }
 
   protected getMessageDelimeter(): string {
-      return (ConsoleConstants.newLines + this.dir);
+      return ConsoleConstants.linuxNewLine + this.dir;
   }
 
   /**
@@ -127,7 +128,7 @@ export class BashComponent  extends AbstractConsoleComponent {
    * @param cmd string which represents the response from the API
    */
   private _updateDirectoryAfterCommand(cmd: string) {
-      const result = cmd.split(ConsoleConstants.newLine.repeat(2));
+      const result = cmd.split(ConsoleConstants.linuxNewLine);
       this.dir = result[result.length - 1];
   }
 
