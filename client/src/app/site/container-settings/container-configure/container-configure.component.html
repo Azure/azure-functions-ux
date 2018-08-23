@@ -1,4 +1,12 @@
-<div>
-    Container Selected <!-- Currenly a place holder page. The next iteration of changes will udpate this page drastically. -->
-    {{selectedContainer.detailedDescription}}
+<div class="container-configure">
+    <section class="container-configure-header">
+        <div [load-image]="selectedContainer.iconUrl" class="icon-large"></div>
+        <h4>{{selectedContainer.detailedDescription}}</h4>
+    </section>
+
+    <container-host [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-host>
+
+    <container-image-source [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source>
 </div>

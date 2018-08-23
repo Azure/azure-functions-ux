@@ -78,5 +78,31 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
     }
 }
 
+#container-footer{
+    position: relative;
+    height: 100%;
+
+    button, .message-icon, .message-text{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .icon-medium{
+        height: 18px;
+        width: 18px;
+        vertical-align: middle;
+    }
+
+    .message-icon{
+        left: 160px;
+    }
+
+    .message-text{
+        left: 185px;
+        font-size: 14px;
+    }
+}
+
 
  

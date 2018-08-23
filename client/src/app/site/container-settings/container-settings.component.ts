@@ -21,8 +21,10 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         this.setInput(viewInfo);
     }
 
-    containerConfigureInfo: ContainerConfigureInfo;
-    selectedContainer: Container;
+    public containerConfigureInfo: ContainerConfigureInfo;
+    public selectedContainer: Container;
+    public applyButtonDisabled = false;
+    public isUpdating = false;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
@@ -75,6 +77,9 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
             event.preventDefault();
         }
+    }
+
+    public clickApply() {
     }
 
     private _getTargetIndex(containers: Container[], targetIndex: number) {

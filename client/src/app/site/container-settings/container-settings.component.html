@@ -20,4 +20,28 @@
 
     <container-configure [containerConfigureInfoInput] = "containerConfigureInfo">
     </container-configure>
+
+    <footer>
+        <div id="container-footer">
+            <button class="custom-button"
+                [disabled]="!applyButtonEnabled"
+                (click)="clickApply()"
+                [attr.aria-label]="'containerSettingsApplyLabel' | translate">
+
+                <span *ngIf="!isUpdating">{{'apply' | translate}}</span>
+                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
+            </button>
+            
+            <span class="message-icon icon-medium"
+                *ngIf="statusMessage?.message"
+                [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
+
+            <span class="message-text"
+                [class.message-error]="statusMessage?.level === 'error'"
+                [class.message-success]="statusMessage?.level === 'success'">
+
+                {{statusMessage?.message}}
+            </span>  
+        </div>
+    </footer>
 </div>
