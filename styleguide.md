@@ -27,24 +27,11 @@ A style guide helps maintain consistency and readability throughout the codebase
   1. [Whitespace](#whitespace)
   1. [Commas](#commas)
   1. [Semicolons](#semicolons)
-  1. [Type Casting & Coercion](#type-casting--coercion)
   1. [Naming Conventions](#naming-conventions)
   1. [Accessors](#accessors)
-  1. [Events](#events)
-  1. [jQuery](#jquery)
-  1. [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
-  1. [ECMAScript 6+ (ES 2015+) Styles](#ecmascript-6-es-2015-styles)
-  1. [Standard Library](#standard-library)
-  1. [Testing](#testing)
-  1. [Performance](#performance)
-  1. [Resources](#resources)
-  1. [In the Wild](#in-the-wild)
-  1. [Translation](#translation)
-  1. [The JavaScript Style Guide Guide](#the-javascript-style-guide-guide)
-  1. [Chat With Us About JavaScript](#chat-with-us-about-javascript)
-  1. [Contributors](#contributors)
-  1. [License](#license)
-  1. [Amendments](#amendments)
+  1. [RX/Js](#rxjs)
+  1. [Resource Strings](#resource-strings)
+  1. [Services](#services)
 
 
 ## Types
@@ -1289,73 +1276,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     const increasedByOne = numbers.map(num => num + 1);
     ```
 
-  <a name="generators--nope"></a><a name="11.2"></a>
-  - [11.2](#generators--nope) Don’t use generators for now.
-
-    > Why? They don’t transpile well to ES5.
-
-  <a name="generators--spacing"></a>
-  - [11.3](#generators--spacing) If you must use generators, or if you disregard [our advice](#generators--nope), make sure their function signature is spaced properly.
-
-    > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
-
-    ```typescript
-    // bad
-    function * foo() {
-      // ...
-    }
-
-    // bad
-    const bar = function * () {
-      // ...
-    };
-
-    // bad
-    const baz = function *() {
-      // ...
-    };
-
-    // bad
-    const quux = function*() {
-      // ...
-    };
-
-    // bad
-    function*foo() {
-      // ...
-    }
-
-    // bad
-    function *foo() {
-      // ...
-    }
-
-    // very bad
-    function
-    *
-    foo() {
-      // ...
-    }
-
-    // very bad
-    const wat = function
-    *
-    () {
-      // ...
-    };
-
-    // good
-    function* foo() {
-      // ...
-    }
-
-    // good
-    const foo = function* () {
-      // ...
-    };
-    ```
-
-**[⬆ back to top](#table-of-contents)**
+  **[⬆ back to top](#table-of-contents)**
 
 ## Properties
 
@@ -1537,7 +1458,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     ```
 
   <a name="variables--unary-increment-decrement"></a><a name="13.6"></a>
-  - [13.6](#variables--unary-increment-decrement) Avoid using unary increments and decrements (`++`, `--`). eslint [`no-plusplus`](https://eslint.org/docs/rules/no-plusplus)
+  - [13.6](#variables--unary-increment-decrement) Avoid using unary increments and decrements (`++`, `--`).
 
     > Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like `num += 1` instead of `num++` or `num ++`. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.
 
@@ -1571,7 +1492,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     ```
 
 <a name="variables--linebreak"></a>
-  - [13.7](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment. If your assignment violates [`max-len`](https://eslint.org/docs/rules/max-len.html), surround the value in parens. eslint [`operator-linebreak`](https://eslint.org/docs/rules/operator-linebreak.html).
+  - [13.7](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment.
 
     > Why? Linebreaks surrounding `=` can obfuscate the value of an assignment.
 
@@ -3093,5 +3014,23 @@ A style guide helps maintain consistency and readability throughout the codebase
       }
     }
     ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## rxjs
+
+TODO: Add RX/JS sections
+
+**[⬆ back to top](#table-of-contents)**
+
+## Resource Strings
+
+TODO: Add resource string sections
+
+**[⬆ back to top](#table-of-contents)**
+
+## Services
+
+TODO: Add services sections
 
 **[⬆ back to top](#table-of-contents)**
