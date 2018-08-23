@@ -14,46 +14,46 @@ export class StepChooseDevEnvironmentComponent {
     public readonly vsCard: DevEnvironmentCard =
     {
         id: 'vs',
-        name: 'Visual Studio',
+        name: this._translateService.instant(PortalResources.vsCardTitle),
         icon: 'image/deployment-center/vsts.svg',
-        color: '#2B79DA',
-        description: this._translateService.instant(PortalResources.vstsDesc)
+        color: '#5C2D91',
+        description: this._translateService.instant(PortalResources.vsCardDescription)
     };
 
     public readonly vsCodeCard: DevEnvironmentCard =
     {
         id: 'vscode',
-        name: 'Visual Studio Code',
+        name: this._translateService.instant(PortalResources.vscodeCardTitle),
         icon: 'image/deployment-center/vsts.svg',
-        color: '#2B79DA',
-        description: this._translateService.instant(PortalResources.vstsDesc)
+        color: '#007ACC',
+        description: this._translateService.instant(PortalResources.vscodeCardDescription)
     };
 
     public readonly coreToolsCard: DevEnvironmentCard =
     {
         id: 'coretools',
-        name: 'Core Tools',
+        name: this._translateService.instant(PortalResources.coretoolsCardTitle),
         icon: 'image/deployment-center/vsts.svg',
-        color: '#2B79DA',
-        description: this._translateService.instant(PortalResources.bitbucketDesc)
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.coretoolsCardDescription)
     };
 
     public readonly mavenCard: DevEnvironmentCard =
     {
         id: 'maven',
-        name: 'Maven',
+        name: this._translateService.instant(PortalResources.mavenCardTitle),
         icon: 'image/deployment-center/vsts.svg',
-        color: '#2B79DA',
-        description: this._translateService.instant(PortalResources.localGitDesc)
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.mavenCardDescription)
     };
 
     public readonly portalCard: DevEnvironmentCard =
     {
         id: 'portal',
-        name: 'Portal',
+        name: this._translateService.instant(PortalResources.portalCardTitle),
         icon: 'image/deployment-center/vsts.svg',
-        color: '#2B79DA',
-        description: this._translateService.instant(PortalResources.localGitDesc)
+        color: '#0078D4',
+        description: this._translateService.instant(PortalResources.portalCardDescription)
     };
 
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;

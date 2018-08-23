@@ -1201,4 +1201,14 @@
     public static quickstartStep2 = 'quickstartStep2';
     public static quickstartStep3 = 'quickstartStep3';
     public static quickstart = 'quickstart';
+    public static vsCardTitle = 'vsCardTitle';
+    public static vscodeCardTitle = 'vscodeCardTitle';
+    public static coretoolsCardTitle = 'coretoolsCardTitle';
+    public static mavenCardTitle = 'mavenCardTitle';
+    public static portalCardTitle = 'portalCardTitle';
+    public static vsCardDescription = 'vsCardDescription';
+    public static vscodeCardDescription = 'vscodeCardDescription';
+    public static coretoolsCardDescription = 'coretoolsCardDescription';
+    public static mavenCardDescription = 'mavenCardDescription';
+    public static portalCardDescription = 'portalCardDescription';
 }

@@ -3745,4 +3745,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="quickstart" xml:space="preserve">
     <value>Quickstart</value>
   </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Any editor + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Any editor + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>In-portal</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Use Visual Studio to author, build, and run .NET functions</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Use Visual Studio Code to author your functions</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Write functions using your favoirte editor and the Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Write Java functions using your favoirte editor and Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Author functions quickly in the portal</value>
+  </data>
 </root>
