@@ -33,7 +33,7 @@
         *ngFor="let history of traceHistory"
         [ngClass]="{rowSelected: history.rowId === selectedRowId}"
         (click)="showHistoryMessage(history)">
-        <td><div class="message-text">{{history.timestampFriendly}}</div></td>
+        <td>{{history.timestampFriendly}}</td>
         <td><div class="message-text">{{history.message}}</div></td>
         <td>{{history.logLevel}}</td>
       </tr>
