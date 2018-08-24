@@ -175,8 +175,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.projectList = uniqBy(
             this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
-                    displayLabel: repo.project.name,
-                    value: repo.project.name
+                    displayLabel: `${repo.project.name} (${repo.project.id})`,
+                    value: repo.project.id
                 };
             }),
             'value'
@@ -189,7 +189,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     projectChanged(projectName: DropDownElement<string>) {
         this.repositoryList = uniqBy(
-            this._vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
+            this._vstsRepositories.filter(r => r.project.id === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl
