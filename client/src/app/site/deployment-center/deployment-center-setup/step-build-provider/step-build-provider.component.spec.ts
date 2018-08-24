@@ -4,6 +4,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
 import { Injectable } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { CacheService } from '../../../../shared/services/cache.service';
+import { of } from 'rxjs/observable/of';
 
 describe('StepBuildProviderComponent', () => {
     let buildStepTest: StepBuildProviderComponent;
@@ -18,7 +22,9 @@ describe('StepBuildProviderComponent', () => {
             .overrideComponent(StepBuildProviderComponent, {
                 set: {
                     providers: [
-                        { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager }
+                        { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
+                        { provide: ScenarioService, useClass: MockScenarioService },
+                        { provide: CacheService, useClass: MockCacheService }
                     ]
                 }
             }).compileComponents();
@@ -40,6 +46,8 @@ describe('StepBuildProviderComponent', () => {
         }));
         it('should change to vsts', fakeAsync(() => {
             const vstsCard = testFixture.debugElement.query(By.css('#vsts')).nativeElement;
+            // const wizard = TestBed.get(DeploymentCenterStateManager);
+            // wizard.siteArmObj$.next({});
             vstsCard.click();
             tick();
             expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('vsts');
@@ -47,9 +55,36 @@ describe('StepBuildProviderComponent', () => {
     });
 });
 
+class MockCacheService {
+
+}
+class MockScenarioService {
+    checkScenario(id: string) {
+        return {
+            status: 'enabled',
+            environmentName: 'any',
+            id: id
+        };
+    }
+    checkScenarioAsync(id: string) {
+        const result = {
+            status: 'enabled',
+            environmentName: 'any',
+            id: id
+        };
+
+        return of(result);
+    }
+}
+
 @Injectable()
 class MockDeploymentCenterStateManager {
     public wizardValues = {
         buildProvider: 'kudu'
     };
+
+    public siteArmObj$ = new ReplaySubject<any>();
+    constructor() {
+        this.siteArmObj$.next({});
+    }
 }
