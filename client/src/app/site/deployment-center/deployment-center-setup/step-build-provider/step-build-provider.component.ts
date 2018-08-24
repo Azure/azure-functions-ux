@@ -8,7 +8,7 @@ import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/observable';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
@@ -57,7 +57,7 @@ export class StepBuildProviderComponent {
 
         wizard.siteArmObj$
             .map(siteObj => {
-                return scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj })
+                return scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj });
             })
             .subscribe(result => {
                 if (result.status === 'disabled') {
