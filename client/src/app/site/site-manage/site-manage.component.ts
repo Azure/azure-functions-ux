@@ -739,15 +739,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     private _getConsoleName(site: ArmObj<Site>): string {
-        let name = this._translateService.instant(PortalResources.feature_consoleName);
+        const console = this._translateService.instant(PortalResources.feature_consoleName);
+        const cmdConsoleName = this._translateService.instant(PortalResources.feature_cmdConsoleName);
+        const powershellConsoleName = this._translateService.instant(PortalResources.feature_powerShellConsoleName);
+        const bashConsoleName = this._translateService.instant(PortalResources.feature_bashConsoleName);
+        const sshConsoleName = this._translateService.instant(PortalResources.feature_sshConsoleName);
         if (ArmUtil.isLinuxApp(site)) {
-            name += ' (' + this._translateService.instant(PortalResources.feature_bashConsoleName)
-            + ' / ' + this._translateService.instant(PortalResources.feature_sshConsoleName) + ')';
-        } else {
-            name += ' (' + this._translateService.instant(PortalResources.feature_cmdConsoleName)
-            + ' / ' + this._translateService.instant(PortalResources.feature_powerShellConsoleName) + ')';
+            return `${console} (${bashConsoleName} / ${sshConsoleName})`;
         }
-        return name;
+        return `${console} (${cmdConsoleName} / ${powershellConsoleName})`;
     }
 }
 

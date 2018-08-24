@@ -38,7 +38,9 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
     public sshUrl = '';
+
     @ViewChild('ssh') private _sshComponent;
+
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
       }
@@ -66,7 +68,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
           this._sshComponent.reconnect();
       }
 
-      maximizeSSH() {
+      openNewSSHWindow() {
           window.open(this._sshComponent.getKuduUri(), '_blank');
       }
 

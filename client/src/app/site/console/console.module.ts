@@ -12,7 +12,7 @@ import { PowershellComponent } from './powershell/powershell.component';
 import { BashComponent } from './bash/bash.component';
 import { SSHComponent } from './ssh/ssh.component';
 import { ConsoleComponent } from './console.component';
-import { SafePipe } from './shared/directives/safe.pipe';
+import { SanitizeURL } from './shared/directives/sanitizeURL.pipe';
 
 @NgModule({
     entryComponents: [
@@ -29,7 +29,7 @@ import { SafePipe } from './shared/directives/safe.pipe';
       TranslateModule.forChild(), CommonModule, SharedModule
     ],
     declarations: [
-      SafePipe,
+      SanitizeURL,
       ConsoleComponent,
       CmdComponent,
       PowershellComponent,
