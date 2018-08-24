@@ -14,5 +14,5 @@ export class WizardForm {
 
 export type devEnvironmentOptions = 'vs' | 'vscode' | 'coretools' | 'maven' | 'portal';
 export type portalTemplateOptions = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
-export type deploymentOptions = 'directPublish' | 'deploymentCenter';
+export type deploymentOptions = 'vsDirectPublish' | 'vscodeDirectPublish' | 'coretoolsDirectPublish' | 'mavenDirectPublish' | 'deploymentCenter';
 // export type workerRuntimeOptions = 'dotnet' | 'node' | 'nodejs' | 'python' | 'java';

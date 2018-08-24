@@ -3775,4 +3775,31 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="portalCardDescription" xml:space="preserve">
     <value>Author functions quickly in the portal</value>
   </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Use Deployment Center</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Configure your app so that you can check your code into source control and run it through a continuous deployment pipeline</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Direct publish</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>A function that will be run whenever it receives an HTTP request</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>A function that will be run on a specified schedule</value>
+  </data>
 </root>

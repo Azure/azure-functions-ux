@@ -23,17 +23,17 @@ export class StepCreateFunctionComponent {
     public readonly portalTemplateCards: PortalTemplateCard[] = [
         {
             id: 'HttpTrigger',
-            name: 'Webhook + API',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc)
+            name: this._translateService.instant(PortalResources.intro_webHook),
+            icon: 'image/http.svg',
+            color: '#731DDA',
+            description: this._translateService.instant(PortalResources.httpCardDescription)
         },
         {
             id: 'TimerTrigger',
-            name: 'Timer',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc)
+            name: this._translateService.instant(PortalResources.intro_timer),
+            icon: 'image/timer.svg',
+            color: '#3C86FF',
+            description: this._translateService.instant(PortalResources.timerCardDescription)
         }
     ];
 

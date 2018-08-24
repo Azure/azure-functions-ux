@@ -11,8 +11,7 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 })
 export class StepChooseDevEnvironmentComponent {
 
-    public readonly vsCard: DevEnvironmentCard =
-    {
+    public readonly vsCard: DevEnvironmentCard = {
         id: 'vs',
         name: this._translateService.instant(PortalResources.vsCardTitle),
         icon: 'image/deployment-center/vsts.svg',
@@ -20,8 +19,7 @@ export class StepChooseDevEnvironmentComponent {
         description: this._translateService.instant(PortalResources.vsCardDescription)
     };
 
-    public readonly vsCodeCard: DevEnvironmentCard =
-    {
+    public readonly vsCodeCard: DevEnvironmentCard = {
         id: 'vscode',
         name: this._translateService.instant(PortalResources.vscodeCardTitle),
         icon: 'image/deployment-center/vsts.svg',
@@ -29,8 +27,7 @@ export class StepChooseDevEnvironmentComponent {
         description: this._translateService.instant(PortalResources.vscodeCardDescription)
     };
 
-    public readonly coreToolsCard: DevEnvironmentCard =
-    {
+    public readonly coreToolsCard: DevEnvironmentCard = {
         id: 'coretools',
         name: this._translateService.instant(PortalResources.coretoolsCardTitle),
         icon: 'image/deployment-center/vsts.svg',
@@ -38,8 +35,7 @@ export class StepChooseDevEnvironmentComponent {
         description: this._translateService.instant(PortalResources.coretoolsCardDescription)
     };
 
-    public readonly mavenCard: DevEnvironmentCard =
-    {
+    public readonly mavenCard: DevEnvironmentCard = {
         id: 'maven',
         name: this._translateService.instant(PortalResources.mavenCardTitle),
         icon: 'image/deployment-center/vsts.svg',
@@ -47,8 +43,7 @@ export class StepChooseDevEnvironmentComponent {
         description: this._translateService.instant(PortalResources.mavenCardDescription)
     };
 
-    public readonly portalCard: DevEnvironmentCard =
-    {
+    public readonly portalCard: DevEnvironmentCard = {
         id: 'portal',
         name: this._translateService.instant(PortalResources.portalCardTitle),
         icon: 'image/deployment-center/vsts.svg',

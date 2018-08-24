@@ -1211,4 +1211,13 @@
     public static coretoolsCardDescription = 'coretoolsCardDescription';
     public static mavenCardDescription = 'mavenCardDescription';
     public static portalCardDescription = 'portalCardDescription';
+    public static deploymentCenterCardTitle = 'deploymentCenterCardTitle';
+    public static deploymentCenterCardDescription = 'deploymentCenterCardDescription';
+    public static directPublishCardTitle = 'directPublishCardTitle';
+    public static vsDirectPublishCardDescription = 'vsDirectPublishCardDescription';
+    public static vscodeDirectPublishCardDescription = 'vscodeDirectPublishCardDescription';
+    public static coretoolsDirectPublishCardDescription = 'coretoolsDirectPublishCardDescription';
+    public static mavenDirectPublishCardDescription = 'mavenDirectPublishCardDescription';
+    public static httpCardDescription = 'httpCardDescription';
+    public static timerCardDescription = 'timerCardDescription';
 }

@@ -11,22 +11,45 @@ import { PortalResources } from 'app/shared/models/portal-resources';
 })
 export class StepChooseDeploymentMethodComponent {
 
-    public readonly deploymentCards: DeploymentCard[] = [
-        {
-            id: 'directPublish',
-            name: 'Direct Publish',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc)
-        },
-        {
-            id: 'deploymentCenter',
-            name: 'Deployment Center',
-            icon: 'image/deployment-center/vsts.svg',
-            color: '#2B79DA',
-            description: this._translateService.instant(PortalResources.vstsDesc)
-        }
-    ];
+    public readonly deploymentCenterCard: DeploymentCard = {
+        id: 'deploymentCenter',
+        name: this._translateService.instant(PortalResources.deploymentCenterCardTitle),
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#0078D4',
+        description: this._translateService.instant(PortalResources.deploymentCenterCardDescription)
+    };
+
+    public readonly vsDirectPublishCard: DeploymentCard = {
+        id: 'vsDirectPublish',
+        name: this._translateService.instant(PortalResources.directPublishCardTitle),
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.vsDirectPublishCardDescription)
+    };
+
+    public readonly vscodeDirectPublishCard: DeploymentCard = {
+        id: 'vsDirectPublish',
+        name: this._translateService.instant(PortalResources.directPublishCardTitle),
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.vscodeDirectPublishCardDescription)
+    };
+
+    public readonly coretoolsDirectPublishCard: DeploymentCard = {
+        id: 'vsDirectPublish',
+        name: this._translateService.instant(PortalResources.directPublishCardTitle),
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.coretoolsDirectPublishCardDescription)
+    };
+
+    public readonly mavenDirectPublishCard: DeploymentCard = {
+        id: 'vsDirectPublish',
+        name: this._translateService.instant(PortalResources.directPublishCardTitle),
+        icon: 'image/deployment-center/vsts.svg',
+        color: '#000000',
+        description: this._translateService.instant(PortalResources.mavenDirectPublishCardDescription)
+    };
 
     public selectedDeploymentCard: DeploymentCard = null;
 
@@ -41,5 +64,26 @@ export class StepChooseDeploymentMethodComponent {
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.deployment = card.id;
         this._wizardService.wizardValues = currentFormValues;
+    }
+
+    get deploymentCards(): DeploymentCard[] {
+        const devEnvironment = this._wizardService &&
+            this._wizardService.wizardForm &&
+            this._wizardService.wizardForm.controls &&
+            this._wizardService.wizardForm.controls['devEnvironment'] &&
+            this._wizardService.wizardForm.controls['devEnvironment'].value;
+
+        switch (devEnvironment) {
+            case 'vs':
+                return [this.vsDirectPublishCard, this.deploymentCenterCard];
+            case 'vscode':
+                return [this.vscodeDirectPublishCard, this.deploymentCenterCard];
+            case 'coretools':
+                return [this.coretoolsDirectPublishCard, this.deploymentCenterCard];
+            case 'maven':
+                return [this.mavenDirectPublishCard, this.deploymentCenterCard];
+            default:
+                return [];
+        }
     }
 }
