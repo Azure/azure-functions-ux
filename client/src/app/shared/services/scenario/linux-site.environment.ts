@@ -12,87 +12,87 @@ export class LinuxSiteEnvironment extends Environment {
 
         const disabledResult: ScenarioResult = {
             status: 'disabled',
-            data: translateService.instant(PortalResources.featureNotSupportedForLinuxApps)
+            data: translateService.instant(PortalResources.featureNotSupportedForLinuxApps),
         };
 
         this.scenarioChecks[ScenarioIds.enableAuth] = {
             id: ScenarioIds.enableAuth,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableMsi] = {
             id: ScenarioIds.enableMsi,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableBackups] = {
             id: ScenarioIds.enableBackups,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableNetworking] = {
             id: ScenarioIds.enableNetworking,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enablePushNotifications] = {
             id: ScenarioIds.enablePushNotifications,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.addConsole] = {
             id: ScenarioIds.addConsole,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.addSsh] = {
             id: ScenarioIds.addSsh,
-            runCheck: () => { return { status: 'enabled' }; }
+            runCheck: () => { return { status: 'enabled' }; },
         };
 
         this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {
             id: ScenarioIds.enableAppServiceEditor,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableExtensions] = {
             id: ScenarioIds.enableExtensions,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableLogStream] = {
             id: ScenarioIds.enableLogStream,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableProcessExplorer] = {
             id: ScenarioIds.enableProcessExplorer,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.enableTinfoil] = {
             id: ScenarioIds.enableTinfoil,
-            runCheck: () => disabledResult
+            runCheck: () => disabledResult,
         };
 
         this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
             id: ScenarioIds.ondriveSource,
-            runCheck: () => ({ status: 'disabled' })
+            runCheck: () => ({ status: 'disabled' }),
         };
 
         this.scenarioChecks[ScenarioIds.ondriveSource] = {
             id: ScenarioIds.ondriveSource,
-            runCheck: () => ({ status: 'disabled' })
+            runCheck: () => ({ status: 'disabled' }),
         };
 
         this.scenarioChecks[ScenarioIds.dropboxSource] = {
             id: ScenarioIds.dropboxSource,
-            runCheck: () => ({ status: 'disabled' })
+            runCheck: () => ({ status: 'disabled' }),
         };
 
         this.scenarioChecks[ScenarioIds.externalSource] = {
             id: ScenarioIds.externalSource,
-            runCheck: () => ({ status: 'disabled' })
+            runCheck: () => ({ status: 'disabled' }),
         };
     }
 

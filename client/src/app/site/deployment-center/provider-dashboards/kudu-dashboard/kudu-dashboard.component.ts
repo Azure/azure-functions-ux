@@ -23,7 +23,7 @@ enum DeployStatus {
     Building,
     Deploying,
     Failed,
-    Success
+    Success,
 }
 
 class KuduTableItem implements TableItem {
@@ -41,7 +41,7 @@ class KuduTableItem implements TableItem {
 @Component({
     selector: 'app-kudu-dashboard',
     templateUrl: './kudu-dashboard.component.html',
-    styleUrls: ['./kudu-dashboard.component.scss']
+    styleUrls: ['./kudu-dashboard.component.scss'],
 })
 export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
@@ -66,7 +66,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         private _armService: ArmService,
         private _broadcastService: BroadcastService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
@@ -86,15 +86,15 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         pubCreds,
                         sourceControl,
                         deployments,
-                        publishingUser
+                        publishingUser,
                     ) => ({
                         site: site.json(),
                         siteConfig: siteConfig.json(),
                         pubCreds: pubCreds.json(),
                         sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
-                        publishingUser: publishingUser.json()
-                    })
+                        publishingUser: publishingUser.json(),
+                    }),
                 );
             })
             .subscribe(
@@ -107,7 +107,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         sourceControls: r.sourceControl,
                         publishingCredentials: r.pubCreds,
                         deployments: r.deployments,
-                        publishingUser: r.publishingUser
+                        publishingUser: r.publishingUser,
                     };
                     this._populateTable();
                 },
@@ -116,7 +116,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     this._forceLoad = false;
                     this.deploymentObject = null;
                     this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
-                }
+                },
             );
 
         // refresh automatically every 5 seconds
@@ -166,7 +166,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 status: this._getStatusString(item.status, item.progress),
                 active: item.active,
                 author: author,
-                deploymentObj: value
+                deploymentObj: value,
             };
             tableItems.push(row);
         });
@@ -252,7 +252,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             },
             err => {
                 this._busyManager.clearBusy();
-            }
+            },
         );
     }
 
@@ -265,8 +265,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             this._busyManager.setBusy();
             const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
                 properties: {
-                    scmType: 'None'
-                }
+                    scmType: 'None',
+                },
             });
 
             const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);

@@ -67,8 +67,8 @@ export class DeploymentCenterComponent implements OnDestroy {
                     this._siteService.getAppSettings(this.resourceId),
                     (sc, as ) => ({
                         siteConfig: sc.result,
-                        appSettings: as.result
-                    })
+                        appSettings: as.result,
+                    }),
                 );
             })
             .subscribe(

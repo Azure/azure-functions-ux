@@ -14,11 +14,10 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
 
-
 @Component({
     selector: 'app-configure-vsts-source',
     templateUrl: './configure-vsts-source.component.html',
-    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
+    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureVstsSourceComponent implements OnDestroy {
 
@@ -84,7 +83,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     projectCalls.push(
                         this._cacheService
                             .get(`https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.wizard.getVstsDirectHeaders())
-                            .map(res => res.json().value)
+                            .map(res => res.json().value),
                     );
                 });
                 return forkJoin(projectCalls);
@@ -100,7 +99,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                                 remoteUrl: repo.remoteUrl,
                                 account: repo.remoteUrl.split('.')[0].replace('https://', ''),
                                 project: repo.project,
-                                id: repo.id
+                                id: repo.id,
                             });
                         });
                     });
@@ -108,15 +107,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                         this._vstsRepositories.map(repo => {
                             return {
                                 displayLabel: repo.account,
-                                value: repo.account
+                                value: repo.account,
                             };
                         }),
-                        'value'
+                        'value',
                     );
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
-                }
+                },
             );
 
         this._branchSubscription
@@ -130,7 +129,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     return this._cacheService.get(
                         `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
                         true,
-                        this.wizard.getVstsDirectHeaders()
+                        this.wizard.getVstsDirectHeaders(),
                     );
                 } else {
                     return Observable.of(null);
@@ -144,7 +143,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                         this.branchList = branchList.map(x => {
                             const item: DropDownElement<string> = {
                                 displayLabel: x.name.replace('refs/heads/', ''),
-                                value: x.name.replace('refs/heads/', '')
+                                value: x.name.replace('refs/heads/', ''),
                             };
                             return item;
                         });
@@ -155,7 +154,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 err => {
                     this.branchList = [];
                     this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
-                }
+                },
             );
     }
 
@@ -176,10 +175,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
                     displayLabel: `${repo.project.name} (${repo.project.id})`,
-                    value: repo.project.id
+                    value: repo.project.id,
                 };
             }),
-            'value'
+            'value',
         );
         this.selectedProject = '';
         this.selectedRepo = '';
@@ -192,10 +191,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             this._vstsRepositories.filter(r => r.project.id === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,
-                    value: repo.remoteUrl
+                    value: repo.remoteUrl,
                 };
             }),
-            'value'
+            'value',
         );
         this.selectedRepo = '';
         this.branchList = [];

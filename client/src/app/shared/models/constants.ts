@@ -174,7 +174,7 @@ export class Order {
         'AppInsightsScheduledAnalytics-',
         'AppInsightsScheduledDigest-',
         'ExternalFileTrigger-',
-        'ExternalTable-'
+        'ExternalTable-',
     ];
 }
 
@@ -415,7 +415,7 @@ export class HttpConstants {
         502: 'Bad Gateway',
         503: 'Service Unavailable',
         504: 'Gateway Timeout',
-        505: 'HTTP Version Not Supported'
+        505: 'HTTP Version Not Supported',
     };
 
     public static readonly genericStatusCodeMap = {
@@ -423,7 +423,7 @@ export class HttpConstants {
         200: 'Success',
         300: 'Redirection',
         400: 'Client Error',
-        500: 'Server Error'
+        500: 'Server Error',
     };
 }
 
@@ -488,7 +488,7 @@ export enum LogConsoleTypes {
     Normal= 1,
     Info= 2,
     Error= 3,
-    Warning= 4
+    Warning= 4,
 };
 export class PickerNames {
     public static readonly appSetting = 'AppSetting';

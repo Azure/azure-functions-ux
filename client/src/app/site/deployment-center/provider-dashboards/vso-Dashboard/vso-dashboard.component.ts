@@ -24,7 +24,7 @@ class VSODeploymentObject extends DeploymentData {
 @Component({
     selector: 'app-vso-dashboard',
     templateUrl: './vso-dashboard.component.html',
-    styleUrls: ['./vso-dashboard.component.scss']
+    styleUrls: ['./vso-dashboard.component.scss'],
 })
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
@@ -42,7 +42,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         private _armService: ArmService,
         private _logService: LogService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService
+        private _broadcastService: BroadcastService,
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this.viewInfoStream$ = new Subject<string>();
@@ -57,7 +57,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                         site: site.json(),
                         metadata: metadata.json(),
                         deployments: deployments.json()
-                    })
+                    }),
                 );
             })
             .switchMap(r => {
@@ -65,7 +65,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     site: r.site,
                     siteMetadata: r.metadata,
                     deployments: r.deployments,
-                    VSOData: null
+                    VSOData: null,
                 };
                 this._tableItems = [];
                 this.deploymentObject.deployments.value.forEach(element => {
@@ -85,7 +85,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
 
                 return this._cacheService.get(
-                    `https://${endpointUri.host}/DefaultCollection/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`
+                    `https://${endpointUri.host}/DefaultCollection/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`,
                 );
             })
             .subscribe(
@@ -97,7 +97,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     this._busyManager.clearBusy();
                     this.deploymentObject = null;
                     this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
-                }
+                },
             );
     }
 
@@ -203,7 +203,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         messageJSON: KuduLogMessage,
         date: Date,
         logType: VSTSLogMessageType,
-        targetApp?: string
+        targetApp?: string,
     ): ActivityDetailsLog {
         const t = moment(date);
         return {
@@ -216,7 +216,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
             time: t.format('h:mm:ss A'),
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
-            urlInfo: this._getUrlInfoFromJSONMessage(messageJSON)
+            urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
         };
     }
 
@@ -279,13 +279,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                         messageJSON.collectionUrl,
                         messageJSON.teamProject,
                         messageJSON.repoName,
-                        messageJSON.commitId
+                        messageJSON.commitId,
                     );
                 case 'tfsversioncontrol':
                     return '{0}{1}/_versionControl/changeset/{2}'.format(
                         messageJSON.collectionUrl,
                         messageJSON.teamProject,
-                        messageJSON.commitId
+                        messageJSON.commitId,
                     );
                 default:
                     return '';
@@ -311,7 +311,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             return '{0}{1}/_apps/hub/ms.vss-releaseManagement-web.hub-explorer?releaseId={2}&_a=release-summary'.format(
                 messageJSON.collectionUrl,
                 messageJSON.teamProject,
-                messageJSON.releaseId
+                messageJSON.releaseId,
             );
         }
         return '';
@@ -325,7 +325,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 urlInfo.push({
                     urlIcon: 'image/deployment-center/CD-Commit.svg',
                     urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
-                    url: commitUrl
+                    url: commitUrl,
                 });
             }
         }
@@ -335,7 +335,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 urlInfo.push({
                     urlIcon: 'image/deployment-center/CD-Build.svg',
                     urlText: `Build ${messageJSON.buildNumber}`,
-                    url: buildUrl
+                    url: buildUrl,
                 });
             }
         }
@@ -345,50 +345,50 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 urlInfo.push({
                     urlIcon: 'image/deployment-center/CD-Release.svg',
                     urlText: `Release: ${messageJSON.releaseId}`,
-                    url: releaseUrl
+                    url: releaseUrl,
                 });
             }
         }
         if (messageJSON.VSTSRM_BuildDefinitionWebAccessUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('buildDefinition'),
-                url: messageJSON.VSTSRM_BuildDefinitionWebAccessUrl
+                url: messageJSON.VSTSRM_BuildDefinitionWebAccessUrl,
             });
         }
         if (messageJSON.VSTSRM_ConfiguredCDEndPoint) {
             urlInfo.push({
                 urlText: this._translateService.instant('releaseDefinition'),
-                url: messageJSON.VSTSRM_ConfiguredCDEndPoint
+                url: messageJSON.VSTSRM_ConfiguredCDEndPoint,
             });
         }
         if (messageJSON.VSTSRM_BuildWebAccessUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('buildTriggered'),
-                url: messageJSON.VSTSRM_BuildWebAccessUrl
+                url: messageJSON.VSTSRM_BuildWebAccessUrl,
             });
         }
         if (messageJSON.AppUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('webApp'),
-                url: messageJSON.AppUrl
+                url: messageJSON.AppUrl,
             });
         }
         if (messageJSON.SlotUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('slot'),
-                url: messageJSON.SlotUrl
+                url: messageJSON.SlotUrl,
             });
         }
         if (messageJSON.VSTSRM_AccountUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('vsoAccount'),
-                url: messageJSON.VSTSRM_AccountUrl
+                url: messageJSON.VSTSRM_AccountUrl,
             });
         }
         if (messageJSON.VSTSRM_RepoUrl) {
             urlInfo.push({
                 urlText: this._translateService.instant('viewInstructions'),
-                url: messageJSON.VSTSRM_RepoUrl
+                url: messageJSON.VSTSRM_RepoUrl,
             });
         }
         return urlInfo;
@@ -411,7 +411,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             time: t.format('h:mm:ss A'),
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
-            urlInfo: this._getUrlInfoFromStringMessage(messageString)
+            urlInfo: this._getUrlInfoFromStringMessage(messageString),
         };
     }
 
@@ -422,9 +422,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 urlIcon: 'build.svg',
                 urlText: `${this._translateService.instant('buildUrl')} ${messageString.substring(
                     messageString.search('=') + 1,
-                    messageString.search('&')
+                    messageString.search('&'),
                 )}`,
-                url: messageString.substr(messageString.search('https'))
+                url: messageString.substr(messageString.search('https')),
             });
         }
         if (messageString.search('releaseId') !== -1) {
@@ -432,9 +432,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 urlIcon: 'release.svg',
                 urlText: `${this._translateService.instant('releaseUrl')} ${messageString.substring(
                     messageString.search('=') + 1,
-                    messageString.search('&')
+                    messageString.search('&'),
                 )}`,
-                url: messageString.substr(messageString.search('https'))
+                url: messageString.substr(messageString.search('https')),
             });
         }
         return urlInfo;
@@ -531,10 +531,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             {
                 detailBlade: 'AppsOverviewBlade',
                 detailBladeInputs: {
-                    id: `${this.deploymentObject.site.id}/slots/${slotName}`
-                }
+                    id: `${this.deploymentObject.site.id}/slots/${slotName}`,
+                },
             },
-            'deployment-center'
+            'deployment-center',
         );
     }
 

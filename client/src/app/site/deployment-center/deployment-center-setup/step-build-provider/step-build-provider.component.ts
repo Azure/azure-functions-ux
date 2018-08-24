@@ -11,7 +11,7 @@ import { of } from 'rxjs/observable/of';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
-    styleUrls: ['./step-build-provider.component.scss', '../deployment-center-setup.component.scss']
+    styleUrls: ['./step-build-provider.component.scss', '../deployment-center-setup.component.scss'],
 })
 export class StepBuildProviderComponent {
     public readonly providerCards: ProviderCard[] = [
@@ -22,7 +22,7 @@ export class StepBuildProviderComponent {
             color: '#000000',
             description: this._translateService.instant(PortalResources.kuduDesc),
             authorizedStatus: 'none',
-            enabled: true
+            enabled: true,
         },
         {
             id: 'vsts',
@@ -32,8 +32,8 @@ export class StepBuildProviderComponent {
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none',
             enabled: false,
-            scenarioId: ScenarioIds.vstsDeploymentPermission
-        }
+            scenarioId: ScenarioIds.vstsDeploymentPermission,
+        },
     ];
 
     constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService, scenarioService: ScenarioService) {

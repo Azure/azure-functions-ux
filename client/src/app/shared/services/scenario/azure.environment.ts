@@ -86,7 +86,7 @@ export class AzureEnvironment extends Environment {
                 const scenarioResult = this._enableIfStandardOrHigher(input);
                 scenarioResult.data = this._translateService.instant(PortalResources.autoSwapUpsell);
                 return scenarioResult;
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.showSideNavMenu] = {

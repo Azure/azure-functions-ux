@@ -14,7 +14,7 @@ import { ScenarioService } from '../../../../shared/services/scenario/scenario.s
 @Component({
     selector: 'app-step-source-control',
     templateUrl: './step-source-control.component.html',
-    styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss']
+    styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss'],
 })
 export class StepSourceControlComponent {
 
@@ -27,7 +27,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.vstsDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.vstsSource
+            scenarioId: ScenarioIds.vstsSource,
         },
         {
             id: 'github',
@@ -37,7 +37,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.githubDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.githubSource
+            scenarioId: ScenarioIds.githubSource,
         },
         {
             id: 'bitbucket',
@@ -47,7 +47,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.bitbucketDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.bitbucketSource
+            scenarioId: ScenarioIds.bitbucketSource,
         },
         {
             id: 'localgit',
@@ -57,7 +57,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.localGitDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.localGitSource
+            scenarioId: ScenarioIds.localGitSource,
         },
         {
             id: 'onedrive',
@@ -67,7 +67,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.ondriveSource
+            scenarioId: ScenarioIds.ondriveSource,
         },
         {
             id: 'dropbox',
@@ -77,7 +77,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.dropboxDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.dropboxSource
+            scenarioId: ScenarioIds.dropboxSource,
         },
         {
             id: 'external',
@@ -87,7 +87,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.externalDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.externalSource
+            scenarioId: ScenarioIds.externalSource,
         },
         {
             id: 'ftp',
@@ -98,8 +98,8 @@ export class StepSourceControlComponent {
             authorizedStatus: 'none',
             manual: true,
             enabled: true,
-            scenarioId: ScenarioIds.ftpSource
-        }
+            scenarioId: ScenarioIds.ftpSource,
+        },
     ];
 
     private _githubAuthed = false;
@@ -124,7 +124,7 @@ export class StepSourceControlComponent {
         private _logService: LogService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
-        scenarioService: ScenarioService
+        scenarioService: ScenarioService,
     ) {
         this.githubUserSubject$
             .takeUntil(this._ngUnsubscribe$)
@@ -136,8 +136,8 @@ export class StepSourceControlComponent {
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
                     url: 'https://api.github.com/user',
-                    authToken: this._wizardService.getToken()
-                })
+                    authToken: this._wizardService.getToken(),
+                }),
             )
             .subscribe(
                 r => {
@@ -145,7 +145,7 @@ export class StepSourceControlComponent {
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-github-user', err);
-                }
+                },
             );
 
         this.bitbucketUserSubject$
@@ -158,8 +158,8 @@ export class StepSourceControlComponent {
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
                     url: 'https://api.bitbucket.org/2.0/user',
-                    authToken: this._wizardService.getToken()
-                })
+                    authToken: this._wizardService.getToken(),
+                }),
             )
             .subscribe(
                 r => {
@@ -167,7 +167,7 @@ export class StepSourceControlComponent {
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-user', err);
-                }
+                },
             );
 
         this.onedriveUserSubject$
@@ -181,8 +181,8 @@ export class StepSourceControlComponent {
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
                     url: 'https://api.onedrive.com/v1.0/drive',
-                    authToken: this._wizardService.getToken()
-                })
+                    authToken: this._wizardService.getToken(),
+                }),
             )
             .subscribe(
                 r => {
@@ -190,7 +190,7 @@ export class StepSourceControlComponent {
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-user', err);
-                }
+                },
             );
 
         this.dropboxUserSubject$
@@ -203,8 +203,8 @@ export class StepSourceControlComponent {
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
                     url: 'https://api.dropboxapi.com/2/users/get_current_account',
-                    authToken: this._wizardService.getToken()
-                })
+                    authToken: this._wizardService.getToken(),
+                }),
             )
             .subscribe(
                 r => {
@@ -212,13 +212,13 @@ export class StepSourceControlComponent {
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
-                }
+                },
             );
 
         this._wizardService.resourceIdStream$
             .takeUntil(this._ngUnsubscribe$)
             .switchMap(r => this._cacheService.post(Constants.serviceHost + 'api/SourceControlAuthenticationState', true, null, {
-                authToken: this._wizardService.getToken()
+                authToken: this._wizardService.getToken(),
             }))
             .subscribe(
                 dep => {
@@ -231,7 +231,7 @@ export class StepSourceControlComponent {
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
-                }
+                },
             );
 
         this._wizardService.siteArmObj$.subscribe(SiteObj => {
@@ -317,7 +317,7 @@ export class StepSourceControlComponent {
                     this._cacheService
                         .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
                             redirUrl: win.document.URL,
-                            authToken: this._wizardService.getToken()
+                            authToken: this._wizardService.getToken(),
                         })
                         .subscribe(() => {
                             this.updateProvider(provider);
