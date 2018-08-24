@@ -43,10 +43,7 @@ export class SSHComponent implements OnInit, OnDestroy {
    * Check when the iframe is loaded
    */
   iframeLoaded() {
-      if (this._isLoaded) {
-          this._busyManager.clearBusy();
-          return;
-      }
+      this._busyManager.clearBusy();
       this._isLoaded = true;
   }
 
