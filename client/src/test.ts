@@ -9,6 +9,8 @@ import 'zone.js/dist/fake-async-test';
 import './polyfills/window';
 import './polyfills/string';
 import './polyfills/object';
+// tslint:disable-next-line:import-blacklist
+import 'rxjs/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';

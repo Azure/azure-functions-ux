@@ -8,7 +8,6 @@ import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/observable';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
@@ -44,7 +43,7 @@ export class StepBuildProviderComponent {
                     if (provider.scenarioId) {
                         return forkJoin(of(provider), scenarioService.checkScenarioAsync(provider.scenarioId, { site: siteObj }));
                     } else {
-                        return Observable.of([null, null]);
+                        return of([null, null]);
                     }
                 });
             })
