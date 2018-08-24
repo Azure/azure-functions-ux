@@ -738,7 +738,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         ];
     }
 
-    private _getConsoleName(site: ArmObj<Site>): string{
+    private _getConsoleName(site: ArmObj<Site>): string {
         let name = this._translateService.instant(PortalResources.feature_consoleName);
         if (ArmUtil.isLinuxApp(site)) {
             name += ' (' + this._translateService.instant(PortalResources.feature_bashConsoleName)
