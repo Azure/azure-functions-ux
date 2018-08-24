@@ -24,6 +24,7 @@
       false,
       140
     ],
+    "trailing-comma": true,
     "member-access": false,
     "member-ordering": [
       true,
