@@ -121,12 +121,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'localgit') {
             return this._cacheService.patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion, {
                 properties: {
-                    scmType: 'LocalGit'
-                }
+                    scmType: 'LocalGit',
+                },
             }).map(r => r.json());
         } else {
             return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
-                properties: payload
+                properties: payload,
             }).map(r => r.json());
         }
 
@@ -158,7 +158,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             ciConfiguration: this._ciConfig,
             id: null,
             source: this._deploymentSource,
-            targets: this._deploymentTargets
+            targets: this._deploymentTargets,
         };
         const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
             true, this.getVstsPassthroughHeaders(), deploymentObject);
@@ -177,8 +177,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private get _ciConfig(): CiConfiguration {
         return {
             project: {
-                name: this.wizardValues.buildSettings.vstsProject
-            }
+                name: this.wizardValues.buildSettings.vstsProject,
+            },
         };
     }
 
@@ -187,9 +187,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: DeploymentSourceType.CodeRepository,
             buildConfiguration: {
                 type: this._applicationType,
-                workingDirectory: this.wizardValues.buildSettings.workingDirectory
+                workingDirectory: this.wizardValues.buildSettings.workingDirectory,
             },
-            repository: this._repoInfo
+            repository: this._repoInfo,
         };
     }
 
@@ -212,12 +212,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'PersonalAccessToken',
                 parameters: {
-                    AccessToken: `#{GithubToken}#`
-                }
+                    AccessToken: `#{GithubToken}#`,
+                },
             },
             defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
             type: 'GitHub',
-            id: repoId
+            id: repoId,
         };
     }
 
@@ -226,7 +226,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: 'LocalGit',
             id: null,
             defaultBranch: 'refs/heads/master',
-            authorizationInfo: null
+            authorizationInfo: null,
         };
     }
 
@@ -235,7 +235,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: 'TfsGit',
             id: this.selectedVstsRepoId,
             defaultBranch: 'refs/heads/master',
-            authorizationInfo: null
+            authorizationInfo: null,
         };
     }
 
@@ -250,9 +250,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 scheme: 'UsernamePassword',
                 parameters: {
                     username: privateRepo ? sourceSettings.username : '',
-                    password: privateRepo ? sourceSettings.password : ''
-                }
-            }
+                    password: privateRepo ? sourceSettings.password : '',
+                },
+            },
         };
     }
 
@@ -282,15 +282,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._vstsApiToken}`
-                }
+                    Authorization: `Bearer ${this._vstsApiToken}`,
+                },
             },
             createOptions: null,
-            slotSwapConfiguration: null
+            slotSwapConfiguration: null,
         };
         if (this.wizardValues.deploymentSlotSetting.deploymentSlotEnabled) {
             targetObject.slotSwapConfiguration = {
-                slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot
+                slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot,
             };
         }
         return targetObject;
@@ -316,15 +316,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._vstsApiToken}`
-                }
+                    Authorization: `Bearer ${this._vstsApiToken}`,
+                },
             },
             createOptions: this.wizardValues.testEnvironment.newApp ? {
                 appServicePlanName: appServicePlanDescriptor.name,
                 appServicePricingTier: this._pricingTier,
-                baseAppServiceName: siteDescriptor.site
+                baseAppServiceName: siteDescriptor.site,
             } : null,
-            slotSwapConfiguration: null
+            slotSwapConfiguration: null,
         };
         return targetObject;
     }
@@ -353,7 +353,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
-
 
     public getVstsDirectHeaders(): Headers {
         const headers = new Headers();
@@ -388,4 +387,3 @@ export class DeploymentCenterStateManager implements OnDestroy {
         });
     }
 }
-

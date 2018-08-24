@@ -17,16 +17,16 @@ describe('StepBuildProviderComponent', () => {
         TestBed.configureTestingModule({
             declarations: [StepBuildProviderComponent],
             providers: [DeploymentCenterStateManager],
-            imports: [TranslateModule.forRoot()]
+            imports: [TranslateModule.forRoot()],
         })
             .overrideComponent(StepBuildProviderComponent, {
                 set: {
                     providers: [
                         { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
                         { provide: ScenarioService, useClass: MockScenarioService },
-                        { provide: CacheService, useClass: MockCacheService }
-                    ]
-                }
+                        { provide: CacheService, useClass: MockCacheService },
+                    ],
+                },
             }).compileComponents();
     }));
 
@@ -46,8 +46,6 @@ describe('StepBuildProviderComponent', () => {
         }));
         it('should change to vsts', fakeAsync(() => {
             const vstsCard = testFixture.debugElement.query(By.css('#vsts')).nativeElement;
-            // const wizard = TestBed.get(DeploymentCenterStateManager);
-            // wizard.siteArmObj$.next({});
             vstsCard.click();
             tick();
             expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('vsts');
@@ -63,14 +61,14 @@ class MockScenarioService {
         return {
             status: 'enabled',
             environmentName: 'any',
-            id: id
+            id: id,
         };
     }
     checkScenarioAsync(id: string) {
         const result = {
             status: 'enabled',
             environmentName: 'any',
-            id: id
+            id: id,
         };
 
         return of(result);
@@ -80,7 +78,7 @@ class MockScenarioService {
 @Injectable()
 class MockDeploymentCenterStateManager {
     public wizardValues = {
-        buildProvider: 'kudu'
+        buildProvider: 'kudu',
     };
 
     public siteArmObj$ = new ReplaySubject<any>();

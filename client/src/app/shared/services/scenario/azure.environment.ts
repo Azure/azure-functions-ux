@@ -24,28 +24,28 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
                 return { status: 'enabled' };
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.addSiteQuotas] = {
             id: ScenarioIds.addSiteQuotas,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteQuotas(input);
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.addSiteFileStorage] = {
             id: ScenarioIds.addSiteFileStorage,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteFileStorage(input);
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.getSiteSlotLimits] = {
             id: ScenarioIds.getSiteSlotLimits,
             runCheckAsync: (input: ScenarioCheckInput) => {
                 return Observable.of(this._getSlotLimit(input));
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.enablePlatform64] = {
@@ -54,7 +54,7 @@ export class AzureEnvironment extends Environment {
                 const scenarioResult = this._enableIfBasicOrHigher(input);
                 scenarioResult.data = this._translateService.instant(PortalResources.alwaysOnUpsell);
                 return scenarioResult;
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
@@ -63,21 +63,21 @@ export class AzureEnvironment extends Environment {
                 const scenarioResult = this._enableIfBasicOrHigher(input);
                 scenarioResult.data = this._translateService.instant(PortalResources.alwaysOnUpsell);
                 return scenarioResult;
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
             id: ScenarioIds.webSocketsEnabled,
             runCheck: (input: ScenarioCheckInput) => {
                 return { status: 'enabled' };
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.enableSlots] = {
             id: ScenarioIds.enableSlots,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._enableIfStandardOrHigher(input);
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
@@ -93,17 +93,17 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.showSideNavMenu,
             runCheck: () => {
                 return { status: 'enabled' };
-            }
+            },
         };
 
         this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
             id: ScenarioIds.appInsightsConfigurable,
-            runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
+            runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input),
         };
 
         this.scenarioChecks[ScenarioIds.vstsDeploymentPermission] = {
             id: ScenarioIds.vstsDeploymentHide,
-            runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input)
+            runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input),
         };
     }
 
@@ -119,7 +119,7 @@ export class AzureEnvironment extends Environment {
 
         return <ScenarioResult>{
             status: disabled ? 'disabled' : 'enabled',
-            data: null
+            data: null,
         };
     }
 
@@ -132,7 +132,7 @@ export class AzureEnvironment extends Environment {
 
         return <ScenarioResult>{
             status: disabled ? 'disabled' : 'enabled',
-            data: null
+            data: null,
         };
     }
 
@@ -148,7 +148,7 @@ export class AzureEnvironment extends Environment {
 
         return <ScenarioResult>{
             status: showQuotas ? 'enabled' : 'disabled',
-            data: null
+            data: null,
         };
     }
 
@@ -164,7 +164,7 @@ export class AzureEnvironment extends Environment {
 
         return <ScenarioResult>{
             status: showFileStorage ? 'enabled' : 'disabled',
-            data: null
+            data: null,
         };
     }
 
@@ -198,7 +198,7 @@ export class AzureEnvironment extends Environment {
 
         return <ScenarioResult>{
             status: 'enabled',
-            data: limit
+            data: limit,
         };
     }
 
@@ -209,13 +209,13 @@ export class AzureEnvironment extends Environment {
                 .switchMap(applicationInsightsResourceId => {
                     return Observable.of<ScenarioResult>({
                         status: 'enabled',
-                        data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
+                        data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null,
                     });
                 });
         } else {
             return Observable.of<ScenarioResult>({
                 status: 'disabled',
-                data: null
+                data: null,
             });
         }
     }
@@ -225,7 +225,7 @@ export class AzureEnvironment extends Environment {
         return this._authZService.hasPermission(`/subscriptions/${resourceDesc.subscription}`, [AuthzService.adWrite]).map(value => {
             return <ScenarioResult>{
                 status: value ? 'enabled' : 'disabled',
-                data: this._translateService.instant(PortalResources.vsts_permissions_error)
+                data: this._translateService.instant(PortalResources.vsts_permissions_error),
             };
         });
     }
