@@ -1,16 +1,17 @@
-import { Availability } from './../../site/site-notifications/notifications';
-import { ArmService } from './arm.service';
-import { ConnectionStrings } from './../models/arm/connection-strings';
-import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
-import { SiteConfig } from './../models/arm/site-config';
-import { ArmArrayResult } from './../models/arm/arm-obj';
+import { Availability } from 'app/site/site-notifications/notifications';
+import { ArmService } from 'app/shared/services/arm.service';
+import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
+import { ConnectionStrings } from 'app/shared/models/arm/connection-strings';
+import { AvailableStack, AvailableStacksOsType } from 'app/shared/models/arm/stacks';
+import { SiteConfig } from 'app/shared/models/arm/site-config';
+import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Injectable, Injector } from '@angular/core';
 import { ConditionalHttpClient } from 'app/shared/conditional-http-client';
 import { UserService } from 'app/shared/services/user.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Observable } from 'rxjs/Observable';
-import { HttpResult } from './../models/http-result';
+import { HttpResult } from 'app/shared/models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
@@ -49,7 +50,7 @@ export class SiteService {
         return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
     }
 
-    getAppSettings(resourceId: string, force?: boolean): Result<ArmObj<{ [key: string]: string }>> {
+    getAppSettings(resourceId: string, force?: boolean): Result<ArmObj<ApplicationSettings>> {
 
         const getAppSettings = this._cacheService.postArm(`${resourceId}/config/appSettings/list`, force)
             .map(r => r.json());
@@ -118,5 +119,41 @@ export class SiteService {
     getPublishingProfile(resourceId: string): Result<string> {
         const getPublishingProfile = this._cacheService.postArm(`${resourceId}/publishxml`, true).map(r => r.text());
         return this._client.execute({ resourceId: resourceId }, t => getPublishingProfile);
+    }
+
+    addOrUpdateAppSettings(resourceId: string, newOrUpdatedSettings: ApplicationSettings): Result<ArmObj<ApplicationSettings>> {
+        const addOrUpdateAppSettings = this._cacheService.postArm(`${resourceId}/config/appSettings/list`, true)
+            .mergeMap(r => {
+                if (newOrUpdatedSettings) {
+                    const keys = Object.keys(newOrUpdatedSettings);
+                    if (keys.length !== 0) {
+                        const appSettingsArm = (r.json() as ArmObj<ApplicationSettings>);
+                        keys.forEach(key => appSettingsArm.properties[key] = newOrUpdatedSettings[key]);
+                        return this._cacheService.putArm(appSettingsArm.id, null, appSettingsArm);
+                    }
+                }
+                return Observable.of(r);
+            }).map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => addOrUpdateAppSettings);
+    }
+
+    createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig): Result<ArmObj<Site>> {
+        if (!!config) {
+            config.experiments = null;
+            config.routingRules = null;
+        }
+
+        const payload = JSON.stringify({
+            location: loc,
+            properties: {
+                serverFarmId: serverfarmId,
+                siteConfig: config || null
+            }
+        });
+        const newSlotId = `${resourceId}/slots/${slotName}`;
+        const createSlot = this._cacheService.putArm(newSlotId, null, payload).map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => createSlot);
     }
 }
