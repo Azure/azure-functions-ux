@@ -16,7 +16,6 @@ export class SSHComponent implements OnInit, OnDestroy {
 
   public sshUrl = '';
   protected site: ArmObj<Site>;
-  private _isLoaded = false;
   private _siteSubscription: Subscription;
   private _busyManager: BusyStateScopeManager;
 
@@ -31,7 +30,7 @@ export class SSHComponent implements OnInit, OnDestroy {
   ngOnInit() {
       this._siteSubscription = this._consoleService.getSite().subscribe(site => {
           this.site = site;
-          this.sshUrl = this._getKuduUri();
+          this.sshUrl = this.getKuduUri();
       });
   }
 
@@ -44,25 +43,23 @@ export class SSHComponent implements OnInit, OnDestroy {
    */
   iframeLoaded() {
       this._busyManager.clearBusy();
-      this._isLoaded = true;
   }
 
   /**
    * Reconnect the SSH on Button click
    */
   reconnect() {
-      this._isLoaded = false;
       this.sshUrl = '';
       this._busyManager.setBusy();
       setTimeout(() => {
-          this.sshUrl = this._getKuduUri();
+          this.sshUrl = this.getKuduUri();
       }, 1000);
   }
 
   /**
    * Get Kudu API URL
    */
-  private _getKuduUri(): string {
+  public getKuduUri(): string {
       const scmHostName = this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
       return `https://${scmHostName}/webssh/host`;
   }

@@ -12,5 +12,10 @@
         <i class="fa fa-plug"></i>
         {{ 'ssh_reconnect' | translate }}
     </span>
+    <span class="link action" *ngIf="!windows && !toggleConsole" (click)="maximizeSSH()"
+        tabindex="0" role="button" attr.aria-label="{{ 'ssh_newWindow' | translate }}">
+        <i class="fa fa-external-link"></i>
+        {{ 'ssh_newWindow' | translate }}
+    </span>
   </div>
 </div>

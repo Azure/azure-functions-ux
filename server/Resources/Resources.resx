@@ -1351,6 +1351,9 @@
   <data name="ssh_reconnect" xml:space="preserve">
     <value>Reconnect</value>
   </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>Open in New Window</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
   </data>

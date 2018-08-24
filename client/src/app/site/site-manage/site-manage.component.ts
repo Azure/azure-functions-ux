@@ -24,6 +24,7 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Url } from 'app/shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { ArmUtil } from '../../shared/Utilities/arm-utils';
 
 @Component({
     selector: 'site-manage',
@@ -224,8 +225,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
             this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
             developmentToolFeatures.push(new TabFeature(
-                this._translateService.instant(PortalResources.feature_consoleName),
+                this._getConsoleName(site),
                 this._translateService.instant(PortalResources.feature_consoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_cmdConsoleName) +
                 ' ' +
                 this._translateService.instant(PortalResources.feature_bashConsoleName) +
                 ' ' +
@@ -239,10 +242,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 SiteTabIds.console,
                 this._broadcastService
             ));
-        }
-
-        if (this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
-            developmentToolFeatures.push(new OpenSshFeature(site, this._hasSiteWritePermissionStream, this._translateService));
         }
 
         developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
@@ -737,6 +736,18 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures.filter(f => !!f)),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)
         ];
+    }
+
+    private _getConsoleName(site: ArmObj<Site>): string{
+        let name = this._translateService.instant(PortalResources.feature_consoleName);
+        if (ArmUtil.isLinuxApp(site)) {
+            name += ' (' + this._translateService.instant(PortalResources.feature_bashConsoleName)
+            + ' / ' + this._translateService.instant(PortalResources.feature_sshConsoleName) + ')';
+        } else {
+            name += ' (' + this._translateService.instant(PortalResources.feature_cmdConsoleName)
+            + ' / ' + this._translateService.instant(PortalResources.feature_powerShellConsoleName) + ')';
+        }
+        return name;
     }
 }
 

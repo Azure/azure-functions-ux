@@ -412,6 +412,7 @@
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
     public static ssh_reconnect = 'ssh_reconnect';
+    public static ssh_newWindow = 'ssh_newWindow';
     public static feature_extensionsName = 'feature_extensionsName';
     public static feature_extensionsInfo = 'feature_extensionsInfo';
     public static emptyAppSettings = 'emptyAppSettings';
