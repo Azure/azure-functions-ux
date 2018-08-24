@@ -1,4 +1,4 @@
-# Azure Functions UX Style Guide() {
+# Azure Functions UX Coding Style Guide() {
 
 *Inspired by the [AirBNB Style Guide](https://github.com/airbnb/javascript/blob/master/README.md)*
 
@@ -41,7 +41,7 @@ A style guide helps maintain consistency and readability throughout the codebase
   - [1.1](#types--usage) **Usage**:
     - Always favor type inference over explicit type declaration except for function return types
     - Always define the return type of functions. This can help catch errors as functions evolve.
-    - Types should be used whenever necessart (no implicit any).
+    - Types should be used whenever necessary (no implicit any).
     - Arrays should be defined as type[] instead of Array\<type\>.
     - Use the `any` type sparringly. It is always better to define an interface.
 
@@ -135,19 +135,8 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Objects
 
-  <a name="objects--no-new"></a><a name="3.1"></a>
-  - [3.1](#objects--no-new) Use the literal syntax for object creation.
-
-    ```typescript
-    // bad
-    const item = new Customer();
-
-    // good
-    const item: Customer = {};
-    ```
-
-  <a name="object--concise"></a><a name="3.2"></a>
-  - [3.2](#object--concise) Use property value shorthand.
+  <a name="object--concise"></a><a name="3.1"></a>
+  - [3.1](#object--concise) Use property value shorthand.
 
     > Why? It is shorter to write and descriptive.
 
@@ -165,8 +154,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     };
     ```
 
-  <a name="objects--grouped-shorthand"></a><a name="3.3"></a>
-  - [3.3](#objects--grouped-shorthand) Group your shorthand properties at the beginning of your object declaration.
+  <a name="objects--grouped-shorthand"></a><a name="3.2"></a>
+  - [3.2](#objects--grouped-shorthand) Group your shorthand properties at the beginning of your object declaration.
 
     > Why? It’s easier to tell which properties are using the shorthand.
 
@@ -195,8 +184,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     };
     ```
 
-  <a name="objects--rest-spread"></a><a name="3.4"></a>
-  - [3.4](#objects--rest-spread) Prefer the object spread operator over [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted.
+  <a name="objects--rest-spread"></a><a name="3.3"></a>
+  - [3.3](#objects--rest-spread) Prefer the object spread operator over [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted.
 
     ```typescript
     // very bad
@@ -273,32 +262,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const nodes: Node[] = [...foo];
     ```
 
-  <a name="arrays--from-array-like"></a><a name="4.5"></a>
-  - [4.5](#arrays--from-array-like) Use [`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from) for converting an array-like object to an array.
-
-    ```typescript
-    const arrLike = { 0: 'foo', 1: 'bar', 2: 'baz', length: 3 };
-
-    // bad
-    const arr = Array.prototype.slice.call(arrLike);
-
-    // good
-    const arr: Item[] = Array.from(arrLike);
-    ```
-
-  <a name="arrays--mapping"></a><a name="4.6"></a>
-  - [4.6](#arrays--mapping) Use [`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from) instead of spread `...` for mapping over iterables, because it avoids creating an intermediate array.
-
-    ```typescript
-    // bad
-    const baz: Item[] = [...foo].map(bar);
-
-    // good
-    const baz: Item[] = Array.from(foo, bar);
-    ```
-
-  <a name="arrays--callback-return"></a><a name="4.7"></a>
-  - [4.7](#arrays--callback-return) Use return statements in array method callbacks. It’s ok to omit the return if the function body consists of a single statement returning an expression without side effects.
+  <a name="arrays--callback-return"></a><a name="4.5"></a>
+  - [4.5](#arrays--callback-return) Use return statements in array method callbacks. It’s ok to omit the return if the function body consists of a single statement returning an expression without side effects.  * ADD CLARITY
 
     ```typescript
     // good
@@ -344,8 +309,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     });
     ```
 
-  <a name="arrays--bracket-newline"></a><a name="4.8"></a>
-  - [4.8](#arrays--bracket-newline) Use line breaks after open and before close array brackets if an array has multiple lines
+  <a name="arrays--bracket-newline"></a><a name="4.6"></a>
+  - [4.6](#arrays--bracket-newline) Use line breaks after open and before close array brackets if an array has multiple lines
 
     ```typescript
     // bad
@@ -400,13 +365,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
 
     // good
-    function getFullName(user) {
+    function getFullName(user: User) {
       const { firstName, lastName } = user;
-      return `${firstName} ${lastName}`;
-    }
-
-    // best
-    function getFullName({ firstName, lastName }) {
       return `${firstName} ${lastName}`;
     }
     ```
@@ -442,7 +402,7 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     // good
     function processInput(input) {
-      // then a miracle occurs
+      // some code that returns following object
       return { left, right, top, bottom };
     }
 
@@ -505,11 +465,6 @@ A style guide helps maintain consistency and readability throughout the codebase
       return ['How are you, ', name, '?'].join();
     }
 
-    // bad
-    function sayHi(name) {
-      return `How are you, ${ name }?`;
-    }
-
     // good
     function sayHi(name) {
       return `How are you, ${name}?`;
@@ -537,23 +492,11 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Functions
 
-  <a name="functions--iife"></a><a name="7.1"></a>
-  - [7.1](#functions--iife) Wrap immediately invoked function expressions in parentheses.
+  <a name="functions--in-blocks"></a><a name="7.1"></a>
+  - [7.1](#functions--in-blocks) Never declare a function in a non-function block (`if`, `while`, etc). Assign the function to a variable instead. Browsers will allow you to do it, but they all interpret it differently, which is bad news bears. Use arrow functions.
 
-    > Why? An immediately invoked function expression is a single unit - wrapping both it, and its invocation parens, in parens, cleanly expresses this. Note that in a world with modules everywhere, you almost never need an IIFE.
-
-    ```typescript
-    // immediately-invoked function expression (IIFE)
-    (function () {
-      console.log('Welcome to the Internet. Please follow me.');
-    }());
-    ```
-
-  <a name="functions--in-blocks"></a><a name="7.2"></a>
-  - [7.2](#functions--in-blocks) Never declare a function in a non-function block (`if`, `while`, etc). Assign the function to a variable instead. Browsers will allow you to do it, but they all interpret it differently, which is bad news bears.
-
-  <a name="functions--arguments-shadow"></a><a name="7.3"></a>
-  - [7.3](#functions--arguments-shadow) Never name a parameter `arguments`. This will take precedence over the `arguments` object that is given to every function scope.
+  <a name="functions--arguments-shadow"></a><a name="7.2"></a>
+  - [7.2](#functions--arguments-shadow) Never name a parameter `arguments`. This will take precedence over the `arguments` object that is given to every function scope.
 
     ```typescript
     // bad
@@ -567,8 +510,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="default--parameters"></a><a name="7.4"></a>
-  - [7.4](#default--parameters) Use default parameter syntax rather than mutating function arguments.
+  <a name="default--parameters"></a><a name="7.3"></a>
+  - [7.3](#default--parameters) Use default parameter syntax rather than mutating function arguments.
 
     ```typescript
     // really bad
@@ -594,8 +537,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="functions--default-side-effects"></a><a name="7.5"></a>
-  - [7.5](#functions--default-side-effects) Avoid side effects with default parameters.
+  <a name="functions--default-side-effects"></a><a name="7.4"></a>
+  - [7.4](#functions--default-side-effects) Avoid side effects with default parameters.
 
     > Why? They are confusing to reason about.
 
@@ -611,8 +554,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     count();  // 3
     ```
 
-  <a name="functions--defaults-last"></a><a name="7.6"></a>
-  - [7.6](#functions--defaults-last) Always put default parameters last.
+  <a name="functions--defaults-last"></a><a name="7.5"></a>
+  - [7.5](#functions--defaults-last) Always put default parameters last.
 
     ```typescript
     // bad
@@ -626,8 +569,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="functions--constructor"></a><a name="7.7"></a>
-  - [7.7](#functions--constructor) Never use the Function constructor to create a new function.
+  <a name="functions--constructor"></a><a name="7.6"></a>
+  - [7.6](#functions--constructor) Never use the Function constructor to create a new function.
 
     > Why? Creating a function in this way evaluates a string similarly to `eval()`, which opens vulnerabilities.
 
@@ -639,24 +582,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     var subtract = Function('a', 'b', 'return a - b');
     ```
 
-  <a name="functions--signature-spacing"></a><a name="7.8"></a>
-  - [7.8](#functions--signature-spacing) Spacing in a function signature.
-
-    > Why? Consistency is good, and you shouldn’t have to add or remove a space when adding or removing a name.
-
-    ```typescript
-    // bad
-    const f = function(){};
-    const g = function (){};
-    const h = function() {};
-
-    // good
-    const x = function () {};
-    const y = function a() {};
-    ```
-
-  <a name="functions--mutate-params"></a><a name="7.9"></a>
-  - [7.9](#functions--mutate-params) Never mutate parameters.
+  <a name="functions--mutate-params"></a><a name="7.7"></a>
+  - [7.7](#functions--mutate-params) Never mutate parameters.
 
     > Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
 
@@ -773,7 +700,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     });
 
     // good
-    [1, 2, 3].map((x) => {
+    [1, 2, 3].map(x => {
       const y = x + 1;
       return x * y;
     });
@@ -787,8 +714,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     ```typescript
     // bad
     [1, 2, 3].map(number => {
-      const nextNumber = number + 1;
-      `A string containing the ${nextNumber}.`;
+      return `A string containing the ${number}.`;
     });
 
     // good
@@ -824,30 +750,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     });
     ```
 
-  <a name="arrows--paren-wrap"></a><a name="8.3"></a>
-  - [8.3](#arrows--paren-wrap) In case the expression spans over multiple lines, wrap it in parentheses for better readability.
-
-    > Why? It shows clearly where the function starts and ends.
-
-    ```typescript
-    // bad
-    ['get', 'post', 'put'].map(httpMethod => Object.prototype.hasOwnProperty.call(
-        httpMagicObjectWithAVeryLongName,
-        httpMethod,
-      )
-    );
-
-    // good
-    ['get', 'post', 'put'].map(httpMethod => (
-      Object.prototype.hasOwnProperty.call(
-        httpMagicObjectWithAVeryLongName,
-        httpMethod,
-      )
-    ));
-    ```
-
-  <a name="arrows--one-arg-parens"></a><a name="8.4"></a>
-  - [8.4](#arrows--one-arg-parens) If your function takes a single argument and doesn’t use braces, omit the parentheses. Otherwise, always include parentheses around arguments for clarity and consistency. Note: it is also acceptable to always use parentheses, in which case use the [“always” option](https://eslint.org/docs/rules/arrow-parens#always) for eslint.
+  <a name="arrows--one-arg-parens"></a><a name="8.3"></a>
+  - [8.3](#arrows--one-arg-parens) If your function takes a single argument omit the parentheses.
 
     > Why? Less visual clutter.
 
@@ -857,27 +761,10 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     // good
     [1, 2, 3].map(x => x * x);
-
-    // good
-    [1, 2, 3].map(number => (
-      `A long string with the ${number}. It’s so long that we don’t want it to take up space on the .map line!`
-    ));
-
-    // bad
-    [1, 2, 3].map(x => {
-      const y = x + 1;
-      return x * y;
-    });
-
-    // good
-    [1, 2, 3].map((x) => {
-      const y = x + 1;
-      return x * y;
-    });
     ```
 
-  <a name="arrows--confusing"></a><a name="8.5"></a>
-  - [8.5](#arrows--confusing) Avoid confusing arrow function syntax (`=>`) with comparison operators (`<=`, `>=`).
+  <a name="arrows--confusing"></a><a name="8.4"></a>
+  - [8.4](#arrows--confusing) Avoid confusing arrow function syntax (`=>`) with comparison operators (`<=`, `>=`).
 
     ```typescript
     // bad
@@ -896,8 +783,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     };
     ```
 
-  <a name="whitespace--implicit-arrow-linebreak"></a>
-  - [8.6](#whitespace--implicit-arrow-linebreak) Enforce the location of arrow function bodies with implicit returns.
+  <a name="whitespace--implicit-arrow-linebreak"></a><a name="8.5"></a>
+  - [8.5](#whitespace--implicit-arrow-linebreak) Enforce the location of arrow function bodies with implicit returns.
 
     ```typescript
     // bad
@@ -909,47 +796,17 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     // good
     (foo) => bar;
-    (foo) => (bar);
-    (foo) => (
-       bar
-    )
+    (foo) => ({
+      bar: 'hello'
+    })
     ```
 
 **[⬆ back to top](#table-of-contents)**
 
 ## Classes & Constructors
 
-  <a name="constructors--use-class"></a><a name="9.1"></a>
-  - [9.1](#constructors--use-class) Always use `class`. Avoid manipulating `prototype` directly.
-
-    > Why? `class` syntax is more concise and easier to reason about.
-
-    ```typescript
-    // bad
-    function Queue(contents = []) {
-      this.queue = [...contents];
-    }
-    Queue.prototype.pop = function () {
-      const value = this.queue[0];
-      this.queue.splice(0, 1);
-      return value;
-    };
-
-    // good
-    class Queue {
-      constructor(contents = []) {
-        this.queue = [...contents];
-      }
-      pop() {
-        const value = this.queue[0];
-        this.queue.splice(0, 1);
-        return value;
-      }
-    }
-    ```
-
-  <a name="constructors--extends"></a><a name="9.2"></a>
-  - [9.2](#constructors--extends) Use `extends` for inheritance.
+  <a name="constructors--extends"></a><a name="9.1"></a>
+  - [9.1](#constructors--extends) Use `extends` for inheritance.
 
     > Why? It is a built-in way to inherit prototype functionality without breaking `instanceof`.
 
@@ -972,8 +829,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="constructors--chaining"></a><a name="9.3"></a>
-  - [9.3](#constructors--chaining) Methods can return `this` to help with method chaining.
+  <a name="constructors--chaining"></a><a name="9.2"></a>
+  - [9.2](#constructors--chaining) Methods can return `this` to help with method chaining.
 
     ```typescript
     // bad
@@ -1005,12 +862,13 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     const luke = new Jedi();
 
-    luke.jump()
+    luke
+      .jump()
       .setHeight(20);
     ```
 
-  <a name="constructors--tostring"></a><a name="9.4"></a>
-  - [9.4](#constructors--tostring) It’s okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
+  <a name="constructors--tostring"></a><a name="9.3"></a>
+  - [9.3](#constructors--tostring) It’s okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
 
     ```typescript
     class Jedi {
@@ -1028,8 +886,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="constructors--no-useless"></a><a name="9.5"></a>
-  - [9.5](#constructors--no-useless) Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary.
+  <a name="constructors--no-useless"></a><a name="9.4"></a>
+  - [9.4](#constructors--no-useless) Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary.
 
     ```typescript
     // bad
@@ -1057,29 +915,6 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="classes--no-duplicate-members"></a>
-  - [9.6](#classes--no-duplicate-members) Avoid duplicate class members.
-
-    > Why? Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.
-
-    ```typescript
-    // bad
-    class Foo {
-      bar() { return 1; }
-      bar() { return 2; }
-    }
-
-    // good
-    class Foo {
-      bar() { return 1; }
-    }
-
-    // good
-    class Foo {
-      bar() { return 2; }
-    }
-    ```
-
 **[⬆ back to top](#table-of-contents)**
 
 ## Modules
@@ -1104,7 +939,7 @@ A style guide helps maintain consistency and readability throughout the codebase
     ```
 
   <a name="modules--no-wildcard"></a><a name="10.2"></a>
-  - [10.2](#modules--no-wildcard) Do not use wildcard imports.
+  - [10.2](#modules--no-wildcard) Try to avoid wildcard imports.
 
     > Why? This makes sure you have a single default export.
 
@@ -1283,7 +1118,7 @@ A style guide helps maintain consistency and readability throughout the codebase
 ## Properties
 
   <a name="properties--dot"></a><a name="12.1"></a>
-  - [12.1](#properties--dot) Use dot notation when accessing properties.
+  - [12.1](#properties--dot) Use dot notation when accessing properties, when possible.
 
     ```typescript
     const luke = {
@@ -1312,16 +1147,6 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
 
     const isJedi = getProp('jedi');
-    ```
-  <a name="es2016-properties--exponentiation-operator"></a>
-  - [12.3](#es2016-properties--exponentiation-operator) Use exponentiation operator `**` when calculating exponentiations.
-
-    ```typescript
-    // bad
-    const binary = Math.pow(2, 10);
-
-    // good
-    const binary = 2 ** 10;
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1362,34 +1187,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const dragonball = 'z';
     ```
 
-  <a name="variables--const-let-group"></a><a name="13.3"></a>
-  - [13.3](#variables--const-let-group) Group all your `const`s and then group all your `let`s.
-
-    > Why? This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
-
-    ```typescript
-    // bad
-    let i, len, dragonball,
-        items = getItems(),
-        goSportsTeam = true;
-
-    // bad
-    let i;
-    const items = getItems();
-    let dragonball;
-    const goSportsTeam = true;
-    let len;
-
-    // good
-    const goSportsTeam = true;
-    const items = getItems();
-    let dragonball;
-    let i;
-    let length;
-    ```
-
-  <a name="variables--define-where-used"></a><a name="13.4"></a>
-  - [13.4](#variables--define-where-used) Assign variables where you need them, but place them in a reasonable place.
+  <a name="variables--define-where-used"></a><a name="13.3"></a>
+  - [13.3](#variables--define-where-used) Assign variables where you need them, but place them in a reasonable place.
 
     > Why? `let` and `const` are block scoped and not function scoped.
 
@@ -1426,8 +1225,8 @@ A style guide helps maintain consistency and readability throughout the codebase
       return name;
     }
     ```
-  <a name="variables--no-chain-assignment"></a><a name="13.5"></a>
-  - [13.5](#variables--no-chain-assignment) Don’t chain variable assignments.
+  <a name="variables--no-chain-assignment"></a><a name="13.4"></a>
+  - [13.4](#variables--no-chain-assignment) Don’t chain variable assignments.
 
     > Why? Chaining variable assignments creates implicit global variables.
 
@@ -1459,42 +1258,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     // the same applies for `const`
     ```
 
-  <a name="variables--unary-increment-decrement"></a><a name="13.6"></a>
-  - [13.6](#variables--unary-increment-decrement) Avoid using unary increments and decrements (`++`, `--`).
-
-    > Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like `num += 1` instead of `num++` or `num ++`. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.
-
-    ```typescript
-    // bad
-
-    const array = [1, 2, 3];
-    let num = 1;
-    num++;
-    --num;
-
-    let sum = 0;
-    let truthyCount = 0;
-    for (let i = 0; i < array.length; i++) {
-      let value = array[i];
-      sum += value;
-      if (value) {
-        truthyCount++;
-      }
-    }
-
-    // good
-
-    const array = [1, 2, 3];
-    let num = 1;
-    num += 1;
-    num -= 1;
-
-    const sum = array.reduce((a, b) => a + b, 0);
-    const truthyCount = array.filter(Boolean).length;
-    ```
-
-<a name="variables--linebreak"></a>
-  - [13.7](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment.
+  <a name="variables--linebreak"></a><a name="13.5"></a>
+  - [13.5](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment.
 
     > Why? Linebreaks surrounding `=` can obfuscate the value of an assignment.
 
@@ -1516,8 +1281,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const foo = 'superLongLongLongLongLongLongLongLongString';
     ```
 
-<a name="variables--no-unused-vars"></a>
-  - [13.8](#variables--no-unused-vars) Disallow unused variables.
+<a name="variables--no-unused-vars"></a><a name="13.6"></a>
+  - [13.6](#variables--no-unused-vars) Disallow unused variables.
 
     > Why? Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such variables take up space in the code and can lead to confusion by readers.
 
