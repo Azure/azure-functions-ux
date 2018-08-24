@@ -56,7 +56,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     (site, metadata, deployments) => ({
                         site: site.json(),
                         metadata: metadata.json(),
-                        deployments: deployments.json()
+                        deployments: deployments.json(),
                     }),
                 );
             })
