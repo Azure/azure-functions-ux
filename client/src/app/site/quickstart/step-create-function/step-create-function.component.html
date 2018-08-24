@@ -1,15 +1,15 @@
 <div class="topContainer">
-    <div class="selectionContainer" *ngIf="createPortalFunction" flex-list>
-      <div *ngFor="let card of portalTemplateCards" class="cardContainer" [class.selected]="selectedPortalTemplateCard && selectedPortalTemplateCard.name === card.name"
-        (click)="selectPortalTemplate(card)">
-        <div class="headerBox">
-          <img [src]="card.icon" [style.background-color]="card.color"/> {{card.name}}
-        </div>
-        <div class="cardDescription">
-          {{card.description}}
-        </div>
+  <div class="selectionContainer" *ngIf="createPortalFunction" flex-list>
+    <div *ngFor="let card of portalTemplateCards" class="cardContainer" [class.selected]="selectedPortalTemplateCard && selectedPortalTemplateCard.name === card.name"
+      (click)="selectPortalTemplate(card)">
+      <div class="headerBox">
+        <img [src]="card.icon" [style.background-color]="card.color"/> {{card.name}}
+      </div>
+      <div class="cardDescription">
+        {{card.description}}
       </div>
     </div>
+  </div>
 </div>
 <div class="footer">
     <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>

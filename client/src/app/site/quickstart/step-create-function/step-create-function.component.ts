@@ -1,3 +1,4 @@
+import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component } from '@angular/core';
@@ -50,37 +51,27 @@ export class StepCreateFunctionComponent {
     }
 
     get createPortalFunction(): boolean {
-        const devEnvironment = this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['devEnvironment'] &&
-            this._wizardService.wizardForm.controls['devEnvironment'].value;
-        return devEnvironment === 'portal';
+        return this.devEnvironment === 'portal';
     }
 
     get context(): FunctionAppContext {
-        return this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['context'] &&
-            this._wizardService.wizardForm.controls['context'].value;
+        return this._wizardService.context.value;
     }
 
     get functionsInfo(): FunctionInfo[] {
-        return this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['functionsInfo'] &&
-            this._wizardService.wizardForm.controls['functionsInfo'].value;
+        return this._wizardService.functionsInfo.value;
+    }
+
+    get workerRuntime(): string {
+        return this._wizardService.workerRuntime.value;
+    }
+
+    get devEnvironment(): devEnvironmentOptions {
+        return this._wizardService.devEnvironment.value;
     }
 
     get language(): string {
-        const workerRuntime = this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['workerRuntime'] &&
-            this._wizardService.wizardForm.controls['workerRuntime'].value;
-        return WorkerRuntimeLanguages[workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[workerRuntime];
+        return WorkerRuntimeLanguages[this.workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[this.workerRuntime];
     }
 
     public selectPortalTemplate(card: PortalTemplateCard) {

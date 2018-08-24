@@ -60,19 +60,8 @@ export class StepChooseDevEnvironmentComponent {
     }
 
     get devEnvironmentCards() {
-        const workerRuntime =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['workerRuntime'] &&
-            this._wizardService.wizardForm.controls['workerRuntime'].value;
-
-        const isLinux =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['isLinux'] &&
-            this._wizardService.wizardForm.controls['isLinux'].value;
+        const workerRuntime = this._wizardService.workerRuntime.value;
+        const isLinux = this._wizardService.isLinux.value;
 
         switch (workerRuntime) {
             case 'dotnet':

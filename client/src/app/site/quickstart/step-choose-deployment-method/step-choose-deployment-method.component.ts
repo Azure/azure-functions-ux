@@ -67,11 +67,7 @@ export class StepChooseDeploymentMethodComponent {
     }
 
     get deploymentCards(): DeploymentCard[] {
-        const devEnvironment = this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls &&
-            this._wizardService.wizardForm.controls['devEnvironment'] &&
-            this._wizardService.wizardForm.controls['devEnvironment'].value;
+        const devEnvironment = this._wizardService.devEnvironment.value;
 
         switch (devEnvironment) {
             case 'vs':

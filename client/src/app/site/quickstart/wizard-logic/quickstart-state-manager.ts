@@ -27,6 +27,38 @@ export class QuickstartStateManager implements OnDestroy {
         formGroup.reset();
     }
 
+    public get devEnvironment(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.devEnvironment as FormGroup)) || null;
+    }
+
+    public get workerRuntime(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.workerRuntime as FormGroup)) || null;
+    }
+
+    public get portalTemplate(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.portalTemplate as FormGroup)) || null;
+    }
+
+    public get deployment(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.deployment as FormGroup)) || null;
+    }
+
+    public get isLinux(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.isLinux as FormGroup)) || null;
+    }
+
+    public get isLinuxConsumption(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.isLinuxConsumption as FormGroup)) || null;
+    }
+
+    public get context(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.context as FormGroup)) || null;
+    }
+
+    public get functionsInfo(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.functionsInfo as FormGroup)) || null;
+    }
+
     markSectionAsTouched(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(field => {
             const control = formGroup.get(field);
@@ -39,4 +71,3 @@ export class QuickstartStateManager implements OnDestroy {
         });
     }
 }
-
