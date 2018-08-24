@@ -42,6 +42,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
     public stopped = false;
+    public canReconnectStream = true;
     private _tokenSubscription: Subscription;
     private _token: string;
     private _logStreamIndex = 0;
@@ -94,6 +95,21 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
         if (this._tokenSubscription) {
             this._tokenSubscription.unsubscribe();
         }
+    }
+
+    reconnect() {
+        this.canReconnectStream = false;
+        if (this.canReconnect()) {
+            this._startStreamingRequest();
+            this.canReconnectStream = true;
+        }
+    }
+
+    canReconnect(): boolean {
+        if (this._xhReq) {
+            return this._xhReq.readyState === XMLHttpRequest.DONE;
+        }
+        return true;
     }
 
     /**
@@ -214,9 +230,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
                         }
                     });
                 }
-                if (this._xhReq.readyState === XMLHttpRequest.DONE) {
-                    this._startStreamingRequest();
-                } else {
+                if (this._xhReq.readyState !== XMLHttpRequest.DONE) {
                     this._timeouts.push(window.setTimeout(callBack, this.timerInterval));
                 }
             };

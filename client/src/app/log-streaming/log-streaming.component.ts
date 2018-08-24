@@ -24,6 +24,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     public stopped: boolean;
     public timerInterval = 1000;
     public isExpanded = false;
+    public canReconnectStream = true;
     private _xhReq: XMLHttpRequest;
     private _timeouts: number[];
     private _oldLength = 0;
@@ -163,6 +164,22 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         }
     }
 
+    reconnect() {
+        this.canReconnectStream = false;
+        if (this.canReconnect()) {
+            this.canReconnectStream = true;
+            this._oldLength = 0;
+            this._initLogs(this.isHttpLogs);
+        }
+    }
+
+    canReconnect(): boolean {
+        if (this._xhReq) {
+            return this._xhReq.readyState === XMLHttpRequest.DONE;
+        }
+        return true;
+    }
+
     private _initLogs(createEmpty: boolean = true, log?: string) {
         // Dynamic linux apps don't have a streaming log endpoint
         // so we have to poll the logs instead
@@ -279,9 +296,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                 } else if (diff === 0) {
                     this.timerInterval = defaultInterval;
                 }
-                if (this._xhReq.readyState === XMLHttpRequest.DONE) {
-                    this._initLogs(true, this.log);
-                } else {
+                if (this._xhReq.readyState !== XMLHttpRequest.DONE) {
                     this._timeouts.push(window.setTimeout(callBack, this.timerInterval));
                 }
             };

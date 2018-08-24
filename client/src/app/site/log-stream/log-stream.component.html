@@ -3,6 +3,24 @@
     <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
     <div class="log-toolbar">
         <span class="log-empty-space"></span>
+        <span (click)="reconnect()" class="link action"
+             role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
+            <pop-over position="bottom" message="{{ (canReconnectStream ? 'logStreaming_reconnectSuccess' : 'logStreaming_reconnectFail') | translate }}" hideAfter="500">
+                <span class="link">
+                    <i class="fa fa-plug"></i>
+                    {{ 'logStreaming_reconnect' | translate }}
+                </span>
+            </pop-over>
+        </span>
+        <span (click)="copyLogs()" class="link action"
+             role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
+            <pop-over position="bottom" message="{{ 'logStreaming_copied' | translate }}" hideAfter="500">
+                <span class="link">
+                    <i class="fa fa-clone"></i>
+                    {{ 'logStreaming_copyLogs' | translate }}
+                </span>
+            </pop-over>
+        </span>
         <span class="link action" *ngIf="stopped" (click)="startLogs()"
              tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
             <i class="fa fa-play"></i>
@@ -17,15 +35,6 @@
              tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
             <i class="fa fa-book"></i>
             {{ 'logStreaming_clear' | translate }}
-        </span>
-        <span (click)="copyLogs()" class="link action"
-             role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
-            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
-                <span class="link">
-                    <i class="fa fa-clone"></i>
-                    {{ 'logStreaming_copyLogs' | translate }}
-                </span>
-            </pop-over>
         </span>
     </div>
     <div id = "log-container">
