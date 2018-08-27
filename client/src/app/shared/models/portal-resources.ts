@@ -1192,4 +1192,8 @@
     public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
     public static extensionInstallDocLink = 'extensionInstallDocLink';
     public static pricing_ACU = 'pricing_ACU';
+    public static syncRequestSubmitted = 'syncRequestSubmitted';
+    public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
+    public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
+    public static vsts_permissions_error = 'vsts_permissions_error';
 }
