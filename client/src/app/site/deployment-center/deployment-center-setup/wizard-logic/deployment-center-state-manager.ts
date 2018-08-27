@@ -31,6 +31,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _pricingTier: string;
     public siteArm: ArmObj<Site>;
     public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
+    public updateSourceProviderConfig$ = new Subject();
     public selectedVstsRepoId = '';
     public subscriptionName = '';
     public deploymentSlotsAvailable = true;

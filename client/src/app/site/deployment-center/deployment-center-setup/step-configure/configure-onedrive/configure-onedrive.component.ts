@@ -14,7 +14,7 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 @Component({
     selector: 'app-configure-onedrive',
     templateUrl: './configure-onedrive.component.html',
-    styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
+    styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureOnedriveComponent implements OnDestroy {
     private _resourceId: string;
@@ -29,7 +29,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         private _cacheService: CacheService,
         _armService: ArmService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
     ) {
         this.wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
         this.wizard.resourceIdStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -40,8 +40,8 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             .switchMap(() =>
                 this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
                     url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
-                    authToken: this.wizard.getToken()
-                })
+                    authToken: this.wizard.getToken(),
+                }),
             )
             .subscribe(
                 r => {
@@ -53,7 +53,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
 
                     options.push({
                         displayLabel: siteName,
-                        value: `${DeploymentCenterConstants.onedriveApiUri}:/${siteName}`
+                        value: `${DeploymentCenterConstants.onedriveApiUri}:/${siteName}`,
                     });
 
                     rawFolders.value.forEach(item => {
@@ -61,7 +61,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                         } else {
                             options.push({
                                 displayLabel: item.name,
-                                value: `${DeploymentCenterConstants.onedriveApiUri}:/${item.name}`
+                                value: `${DeploymentCenterConstants.onedriveApiUri}:/${item.name}`,
                             });
                         }
                     });
@@ -74,10 +74,16 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                 err => {
                     this.foldersLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);
-                }
+                },
             );
         this.updateFormValidation();
         this.fillOnedriveFolders();
+        // if auth changes then this will force refresh the config data
+        this.wizard.updateSourceProviderConfig$
+            .takeUntil(this._ngUnsubscribe$)
+            .subscribe(r => {
+                this.fillOnedriveFolders();
+            });
     }
     updateFormValidation() {
         const required = new RequiredValidator(this._translateService, false);
