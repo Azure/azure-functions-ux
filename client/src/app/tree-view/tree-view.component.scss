@@ -49,6 +49,15 @@
     }
 }
 
+.svg-monochromatic{
+    fill: $default-text-color;
+}
+
+.nav-link{
+    font-weight: 600;
+    font-size: 13px;
+}
+
 .tree-node-menu{
     font-size: 20px;
     position: absolute;
