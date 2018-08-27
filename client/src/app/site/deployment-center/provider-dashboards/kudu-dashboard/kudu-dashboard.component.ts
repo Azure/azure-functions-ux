@@ -7,7 +7,6 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-mini-ts';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -46,20 +45,19 @@ class KuduTableItem implements TableItem {
 export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
     @ViewChild(TblComponent) appTable: TblComponent;
-    private _tableItems: KuduTableItem[];
 
     public viewInfoStream$: Subject<string>;
-    _viewInfoSubscription$: RxSubscription;
-    public deploymentObject: DeploymentData;
 
+    public deploymentObject: DeploymentData;
+    public redeployEnabled = true;
+    public hideCreds = false;
     public rightPaneItem: ArmObj<Deployment>;
+    public sidePanelOpened = false;
     private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
-    public sidePanelOpened = false;
     private _ngUnsubscribe$ = new Subject();
     private _oldTableHash = 0;
-
-    public hideCreds = false;
+    private _tableItems: KuduTableItem[];
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
@@ -71,7 +69,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
         this.viewInfoStream$ = new Subject<string>();
-        this._viewInfoSubscription$ = this.viewInfoStream$
+        this.viewInfoStream$
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
@@ -109,6 +108,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         deployments: r.deployments,
                         publishingUser: r.publishingUser,
                     };
+                    this.redeployEnabled = this._redeployEnabled();
                     this._populateTable();
                 },
                 err => {
@@ -125,6 +125,13 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
     }
 
+    private  _redeployEnabled() {
+        const scmProvider = this.deploymentObject.siteConfig.properties.scmType;
+        if (scmProvider === 'Dropbox' || scmProvider === 'OneDrive') {
+            return this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
+        }
+        return true;
+    }
     // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
     private _hashcode(s: string): number {
         let h = 0;
