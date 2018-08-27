@@ -134,7 +134,7 @@ export class StepSourceControlComponent {
             })
             .delay(3000)
             .switchMap(() =>
-                _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
+                this._cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
                     url: 'https://api.github.com/user',
                     authToken: this._wizardService.getToken(),
                 }),
@@ -156,7 +156,7 @@ export class StepSourceControlComponent {
             })
             .delay(3000)
             .switchMap(() =>
-                _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
+                this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
                     url: 'https://api.bitbucket.org/2.0/user',
                     authToken: this._wizardService.getToken(),
                 }),
@@ -179,7 +179,7 @@ export class StepSourceControlComponent {
 
             .delay(3000)
             .switchMap(() =>
-                _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
+                this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
                     url: 'https://api.onedrive.com/v1.0/drive',
                     authToken: this._wizardService.getToken(),
                 }),
@@ -201,7 +201,7 @@ export class StepSourceControlComponent {
             })
             .delay(3000)
             .switchMap(() =>
-                _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
+                this._cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
                     url: 'https://api.dropboxapi.com/2/users/get_current_account',
                     authToken: this._wizardService.getToken(),
                 }),

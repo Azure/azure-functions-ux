@@ -72,10 +72,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     { value: 'Flask', displayLabel: 'Flask' },
   ];
 
-  aspNetCoreVersionList: DropDownElement<string>[] = [
-
-  ];
-
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
       displayLabel: 'ASP.NET',
@@ -270,6 +266,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   createOrExistingChanged(event) {
     this.setUpformValidators();
   }
+
   accountChanged(accountName: DropDownElement<string>) {
     this.projectList = this.vsoAccountToProjectMap[accountName.value];
     this.selectedProject = '';

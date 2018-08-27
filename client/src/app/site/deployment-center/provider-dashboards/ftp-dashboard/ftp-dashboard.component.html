@@ -4,6 +4,6 @@
   <copy-pre [content]="ftpsEndpoint" [label]="'ftpsEndpoint' | translate"></copy-pre>
 </div>
 <div class="credentials">
-  <app-deployment-credentials [resourceId]="resourceId" [addPadding]="false"></app-deployment-credentials>
+  <app-deployment-credentials [resourceId]="resourceId" [standalone]="false"></app-deployment-credentials>
 </div>
 <a id="hidden-publish-profile-link-ftp" [hidden]="true" [href]="publishProfileLink" [download]="siteName + '.PublishSettings'"></a>
