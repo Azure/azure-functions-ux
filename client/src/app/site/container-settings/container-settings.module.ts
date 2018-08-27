@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { ContainerSettingsManager } from './container-settings-manager';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
+import { ContainerHostComponent } from './container-host/container-host.component';
+import { ContainerImageSourceComponent } from './container-image-source/container-image-source.component';
 
 @NgModule({
     imports: [
@@ -15,7 +17,9 @@ import { ContainerConfigureComponent } from './container-configure/container-con
     ],
     declarations: [
         ContainerSettingsComponent,
-        ContainerConfigureComponent
+        ContainerConfigureComponent,
+        ContainerHostComponent,
+        ContainerImageSourceComponent,
     ],
     providers: [
         ContainerSettingsManager

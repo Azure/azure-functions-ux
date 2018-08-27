@@ -1,7 +1,5 @@
 import { ContainerSettingsComponent } from './container-settings.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Container, ContainerSettingsInput, ContainerSettingsData, SingleContainer, DockerComposeContainer, KubernetesContainer } from './container-settings';
-import { Subject } from 'rxjs/Subject';
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { LogService } from '../../shared/services/log.service';
@@ -13,6 +11,9 @@ import { Injector } from '@angular/core';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
 import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../../controls/load-image/load-image.directive';
+import { MockContainerSettingsManager } from './mocks/container-settings-manager.mock';
+import { ContainerHostComponent } from './container-host/container-host.component';
+import { ContainerImageSourceComponent } from './container-image-source/container-image-source.component';
 
 describe('ContainerSettingsComponent', () => {
     let component: ContainerSettingsComponent;
@@ -25,7 +26,9 @@ describe('ContainerSettingsComponent', () => {
                 declarations: [
                     ContainerSettingsComponent,
                     ContainerConfigureComponent,
-                    MockDirective(LoadImageDirective)
+                    ContainerHostComponent,
+                    ContainerImageSourceComponent,
+                    MockDirective(LoadImageDirective),
                 ],
                 imports: [
                     TranslateModule.forRoot()
@@ -73,20 +76,3 @@ describe('ContainerSettingsComponent', () => {
         expect(component.selectedContainer).not.toBeNull();
     });
 });
-
-class MockContainerSettingsManager {
-    $selectedContainer: Subject<Container> = new Subject<Container>();
-    containers: Container[] = [];
-
-    resetContainers() {
-        this.containers = [
-            new SingleContainer(TestBed.get(Injector)),
-            new DockerComposeContainer(TestBed.get(Injector)),
-            new KubernetesContainer(TestBed.get(Injector))
-        ];
-    }
-
-    initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.$selectedContainer.next(this.containers[0]);
-    }
-}

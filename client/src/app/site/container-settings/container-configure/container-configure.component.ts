@@ -1,37 +1,26 @@
-import { Component, Input, Injector } from '@angular/core';
-import { FeatureComponent } from '../../../shared/components/feature-component';
+import { Component, Input } from '@angular/core';
 import { ContainerConfigureInfo, Container } from '../container-settings';
-import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from '../container-settings-manager';
 
 @Component({
     selector: 'container-configure',
     templateUrl: './container-configure.component.html',
-    styleUrls: ['./container-configure.component.scss']
+    styleUrls: ['./../container-settings.component.scss', './container-configure.component.scss']
 })
-export class ContainerConfigureComponent extends FeatureComponent<ContainerConfigureInfo> {
+export class ContainerConfigureComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureInfo) {
-        this.setInput(containerConfigureInfo);
+        this.containerConfigureInfo = containerConfigureInfo;
     }
 
     public selectedContainer: Container;
+    public containerConfigureInfo: ContainerConfigureInfo;
 
-    constructor(
-        private _containerSettingsManager: ContainerSettingsManager,
-        injector: Injector) {
-        super('container-configure', injector, 'dashboard');
-        this.featureName = 'ContainerSettingsComponent';
+    constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
         this._containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });
-    }
-
-    protected setup(containerConfigureInfoInputEvent: Observable<ContainerConfigureInfo>) {
-        return containerConfigureInfoInputEvent
-            .do(containerConfigureInfo => {
-            });
     }
 }
 

@@ -2,14 +2,17 @@ import { ContainerConfigureComponent } from './container-configure.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContainerSettingsManager } from '../container-settings-manager';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { ContainerSettingsInput, ContainerSettingsData, Container, DockerComposeContainer } from '../container-settings';
 import { Injector } from '@angular/core';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
 import { LogService } from '../../../shared/services/log.service';
 import { MockLogService } from '../../../test/mocks/log.service.mock';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
+import { MockContainerSettingsManager } from '../mocks/container-settings-manager.mock';
+import { ContainerHostComponent } from '../container-host/container-host.component';
+import { ContainerImageSourceComponent } from '../container-image-source/container-image-source.component';
+import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
+import { MockDirective } from 'ng-mocks';
 
 describe('ContainerConfigureComponent', () => {
     let component: ContainerConfigureComponent;
@@ -20,7 +23,10 @@ describe('ContainerConfigureComponent', () => {
         TestBed
             .configureTestingModule({
                 declarations: [
-                    ContainerConfigureComponent
+                    ContainerConfigureComponent,
+                    ContainerHostComponent,
+                    ContainerImageSourceComponent,
+                    MockDirective(LoadImageDirective)
                 ],
                 imports: [
                     TranslateModule.forRoot()
@@ -48,11 +54,3 @@ describe('ContainerConfigureComponent', () => {
         expect(component).toBeDefined();
     });
 });
-
-class MockContainerSettingsManager {
-    $selectedContainer: ReplaySubject<Container> = new ReplaySubject<Container>();
-
-    initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.$selectedContainer.next(new DockerComposeContainer(TestBed.get(Injector)));
-    }
-}

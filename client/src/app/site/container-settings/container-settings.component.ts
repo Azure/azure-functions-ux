@@ -32,7 +32,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         super('ContainerSettingsComponent', injector);
 
         this.isParentComponent = true;
-        this.featureName = 'ContainerSettingsComponent';
+        this.featureName = 'ContainerSettings';
 
         this.containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
