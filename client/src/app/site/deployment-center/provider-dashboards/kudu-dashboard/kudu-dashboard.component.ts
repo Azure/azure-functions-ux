@@ -125,7 +125,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
     }
 
-    private  _redeployEnabled() {
+    private _redeployEnabled() {
         const scmProvider = this.deploymentObject.siteConfig.properties.scmType;
         if (scmProvider === 'Dropbox' || scmProvider === 'OneDrive') {
             return this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
@@ -253,14 +253,23 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     syncScm() {
         this._busyManager.setBusy();
-        this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
-            r => {
-                this.viewInfoStream$.next(this.resourceId);
-            },
-            err => {
-                this._busyManager.clearBusy();
-            },
-        );
+        const title = this._translateService.instant(PortalResources.syncRequestSubmitted);
+        const description = this._translateService.instant(PortalResources.syncRequestSubmittedDesc).format(this.deploymentObject.site.name);
+        const failMessage = this._translateService.instant(PortalResources.syncRequestSubmittedDescFail).format(this.deploymentObject.site.name);
+        this._portalService.startNotification(title, description).concatMap(notificationId => {
+            return this._cacheService.postArm(`${this.resourceId}/sync`, true)
+                .switchMap(r => {
+                    this.viewInfoStream$.next(this.resourceId);
+                    this._portalService.stopNotification(notificationId.id, true, description);
+                    return Observable.of(true);
+                })
+                .catch(() => {
+                    this._busyManager.clearBusy();
+                    this._portalService.stopNotification(notificationId.id, false, failMessage);
+                    return Observable.of(false);
+                });
+        })
+        .subscribe();
     }
 
     disconnect() {
