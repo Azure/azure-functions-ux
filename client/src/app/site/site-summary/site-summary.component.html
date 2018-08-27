@@ -1,4 +1,4 @@
-<command-bar id="top-bar">
+<command-bar>
   <command [displayText]="context?.site.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
     [iconUrl]="context?.site.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
     (click)="toggleState()"
