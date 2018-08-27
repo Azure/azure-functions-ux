@@ -302,6 +302,7 @@ export class StepSourceControlComponent {
         } else if (provider === 'bitbucket') {
             this.bitbucketUserSubject$.next(true);
         }
+        this._wizardService.updateSourceProviderConfig$.next();
     }
     public authorize() {
         const provider = this.selectedProvider.id;
