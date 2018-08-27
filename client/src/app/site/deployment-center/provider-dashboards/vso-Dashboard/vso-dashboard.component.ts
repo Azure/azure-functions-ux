@@ -107,7 +107,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             let notificationId = null;
             this._busyManager.setBusy();
             this._portalService
-                .startNotification(this._translateService.instant(PortalResources.settingupDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
+                .startNotification(this._translateService.instant(PortalResources.disconnectingDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
                 .do(notification => {
                     notificationId = notification.id;
                 })

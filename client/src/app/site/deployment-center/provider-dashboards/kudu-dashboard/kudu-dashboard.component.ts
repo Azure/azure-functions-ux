@@ -279,14 +279,14 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
 
             this._portalService
-                .startNotification(this._translateService.instant(PortalResources.settingupDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
+                .startNotification(this._translateService.instant(PortalResources.disconnectingDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
                 .do(notification => {
                     notificationId = notification.id;
                 })
                 .concatMap(() => forkJoin(webConfig, sourceControlsConfig))
                 .subscribe(r => {
                     this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.settingupDeploymentSuccess));
+                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.disconnectingDeploymentSuccess));
                     this._busyManager.clearBusy();
                 },
                     err => {
