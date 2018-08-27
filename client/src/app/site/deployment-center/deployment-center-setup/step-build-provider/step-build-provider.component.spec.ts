@@ -44,6 +44,7 @@ describe('StepBuildProviderComponent', () => {
         it('should start with kudu', fakeAsync(() => {
             expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('kudu');
         }));
+
         it('should change to vsts', fakeAsync(() => {
             const vstsCard = testFixture.debugElement.query(By.css('#vsts')).nativeElement;
             vstsCard.click();

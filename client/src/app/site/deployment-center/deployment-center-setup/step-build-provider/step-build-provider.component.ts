@@ -36,7 +36,13 @@ export class StepBuildProviderComponent {
         },
     ];
 
-    constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService, scenarioService: ScenarioService) {
+    constructor(
+        public wizard: DeploymentCenterStateManager,
+        private _translateService: TranslateService,
+        scenarioService: ScenarioService) {
+
+        // runs scenario checker for each provider to determine if it should be enabled or not
+        // if not enabled then it pulls error message from scenario checker
         wizard.siteArmObj$
             .concatMap(siteObj => {
                 return from(this.providerCards).switchMap((provider: ProviderCard) => {
@@ -50,10 +56,11 @@ export class StepBuildProviderComponent {
             .subscribe(([provider, scenarioCheck]) => {
                 if (provider) {
                     provider.enabled = scenarioCheck.status !== 'disabled';
-                    provider.errorMessage = scenarioCheck.data;
+                    provider.errorMessage = scenarioCheck.data && scenarioCheck.data.errorMessage;
                 }
             });
 
+        // this says if kudu should be hidden then default to vsts instead
         wizard.siteArmObj$
             .map(siteObj => {
                 return scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj });

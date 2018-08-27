@@ -118,8 +118,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             },
         };
 
-        this.scenarioChecks[ScenarioIds.ondriveSource] = {
-            id: ScenarioIds.ondriveSource,
+        this.scenarioChecks[ScenarioIds.onedriveSource] = {
+            id: ScenarioIds.onedriveSource,
             runCheck: () => ({ status: 'disabled' }),
         };
 

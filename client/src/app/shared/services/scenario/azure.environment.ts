@@ -222,10 +222,12 @@ export class AzureEnvironment extends Environment {
 
     private _vstsPermissionsCheck(input: ScenarioCheckInput): Observable<ScenarioResult> {
         const resourceDesc = new ArmResourceDescriptor(input.site.id);
-        return this._authZService.hasPermission(`/subscriptions/${resourceDesc.subscription}`, [AuthzService.adWrite]).map(value => {
+        return this._authZService.hasPermission(`/subscriptions/${resourceDesc.subscription}`, [AuthzService.activeDirectoryWriteScope]).map(value => {
             return <ScenarioResult>{
                 status: value ? 'enabled' : 'disabled',
-                data: this._translateService.instant(PortalResources.vsts_permissions_error),
+                data: {
+                    errorMessage: this._translateService.instant(PortalResources.vsts_permissions_error),
+                },
             };
         });
     }

@@ -1,7 +1,7 @@
 export interface VSORepo {
     remoteUrl: string;
     name: string;
-    project: { name: string, id: string };
+    project: VsoProject;
     id: string;
     account: string;
 }

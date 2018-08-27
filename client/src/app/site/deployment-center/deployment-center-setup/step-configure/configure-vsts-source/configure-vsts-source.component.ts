@@ -186,9 +186,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.selectedBranch = '';
     }
 
-    projectChanged(projectName: DropDownElement<string>) {
+    projectChanged(selectedProject: DropDownElement<string>) {
         this.repositoryList = uniqBy(
-            this._vstsRepositories.filter(r => r.project.id === projectName.value).map(repo => {
+            this._vstsRepositories.filter(r => r.project.id === selectedProject.value).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl,

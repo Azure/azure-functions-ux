@@ -65,7 +65,7 @@ export class DeploymentCenterComponent implements OnDestroy {
                 return Observable.zip(
                     this._siteService.getSiteConfig(this.resourceId),
                     this._siteService.getAppSettings(this.resourceId),
-                    (sc, as ) => ({
+                    (sc, as) => ({
                         siteConfig: sc.result,
                         appSettings: as.result,
                     }),

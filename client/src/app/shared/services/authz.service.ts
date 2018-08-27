@@ -19,7 +19,7 @@ export class AuthzService implements IAuthzService {
     public static writeScope = './write';
     public static deleteScope = './delete';
     public static actionScope = './action';
-    public static adWrite = 'Microsoft.Authorization/*/Write';
+    public static activeDirectoryWriteScope = 'Microsoft.Authorization/*/Write';
     public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
     public static authSuffix = '/providers/Microsoft.Authorization/locks';
 

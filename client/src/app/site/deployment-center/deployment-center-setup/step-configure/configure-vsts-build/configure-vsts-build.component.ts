@@ -239,6 +239,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private fetchVSTSProfile() {
+    // if the first get fails, it's likely because the user doesn't have an account in vsts yet
+    // the fix for this is to do an empty post call on the same url and then get it
     return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
       .catch(() => {
         return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri)

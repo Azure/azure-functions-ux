@@ -67,7 +67,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant(PortalResources.onedriveDesc),
             authorizedStatus: 'none',
             enabled: true,
-            scenarioId: ScenarioIds.ondriveSource,
+            scenarioId: ScenarioIds.onedriveSource,
         },
         {
             id: 'dropbox',
