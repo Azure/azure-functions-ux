@@ -28,8 +28,10 @@
       <div class="essentials-col" *ngIf="branch">
         <div>
           <label id="siteStatusLabel">{{'repository' | translate}}</label>
-          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{repo}}
+          <div>
+            <a (click)="repoLinkClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+              {{repo}}
+            </a>
           </div>
         </div>
 

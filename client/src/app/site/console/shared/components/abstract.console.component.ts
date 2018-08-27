@@ -368,6 +368,10 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     }
 
     private _isKeyEventValid(key: number) {
+        if (key === KeyCodes.unknown) {
+            // block all unknown key inputs
+            return false;
+        }
         if (this.enterPressed && key !== KeyCodes.ctrl && key !== KeyCodes.c) {
             // command already in progress
             return false;
@@ -461,10 +465,9 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
      */
     private _removePrompt() {
         const oldPrompt = document.getElementById('prompt');
-        if (!oldPrompt) {
-          return;
+        if (oldPrompt) {
+            oldPrompt.parentNode.removeChild(oldPrompt);
         }
-        oldPrompt.remove();
     }
 
     /**

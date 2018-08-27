@@ -342,6 +342,7 @@ export class KeyCodes {
     public static readonly select = 93;
     public static readonly c = 67;
     public static readonly v = 86;
+    public static readonly unknown = 229;
 }
 
 export class ExtensionInstallStatusConstants {
