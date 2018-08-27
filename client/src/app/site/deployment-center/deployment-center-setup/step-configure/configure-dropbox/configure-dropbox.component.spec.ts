@@ -14,6 +14,7 @@ import { DeploymentCenterConstants } from '../../../../../shared/models/constant
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { MockLogService } from '../../../../../test/mocks/log.service.mock';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
+import { Subject } from 'rxjs/Subject';
 
 describe('ConfigureDropboxComponent', () => {
 
@@ -28,9 +29,9 @@ describe('ConfigureDropboxComponent', () => {
                 { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
                 { provide: CacheService, useClass: MockCacheService },
                 { provide: LogService, useClass: MockLogService },
-                FormBuilder
+                FormBuilder,
             ],
-            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule]
+            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule],
         })
             .compileComponents();
     }));
@@ -46,7 +47,6 @@ describe('ConfigureDropboxComponent', () => {
         it('Folder list should be empty when started', () => {
             expect(component.folderList.length).toBe(0);
         });
-
 
     });
 
@@ -90,11 +90,11 @@ describe('ConfigureDropboxComponent', () => {
     });
 });
 
-
 @Injectable()
 class MockDeploymentCenterStateManager {
     public resourceIdStream$ = new ReplaySubject<string>();
     public wizardForm: FormGroup;
+    public updateSourceProviderConfig$ = new Subject();
     constructor(_fb: FormBuilder) {
         this.wizardForm = _fb.group({
             sourceProvider: [null],
@@ -104,7 +104,7 @@ class MockDeploymentCenterStateManager {
                 branch: [null],
                 isManualIntegration: [false],
                 deploymentRollbackEnabled: [false],
-                isMercurial: [false]
+                isMercurial: [false],
             }),
             buildSettings: _fb.group({
                 createNewVsoAccount: [false],
@@ -117,21 +117,21 @@ class MockDeploymentCenterStateManager {
                     framework: [null],
                     version: [null],
                     flaskProjectName: ['flaskProjectName'],
-                    djangoSettingsModule: ['DjangoProjectName.settings']
+                    djangoSettingsModule: ['DjangoProjectName.settings'],
                 }),
-                nodejsTaskRunner: [null]
+                nodejsTaskRunner: [null],
             }),
             deploymentSlotSetting: _fb.group({
                 newDeploymentSlot: [false],
                 deploymentSlotEnabled: [false],
-                deploymentSlot: ['slot']
+                deploymentSlot: ['slot'],
             }),
             testEnvironment: _fb.group({
                 enabled: [false],
                 newApp: [true],
                 appServicePlanId: ['aspid'],
-                webAppId: [null]
-            })
+                webAppId: [null],
+            }),
         });
     };
 
@@ -148,15 +148,13 @@ class MockDeploymentCenterStateManager {
     }
 }
 
-
-
 @Injectable()
 class MockCacheService {
     public siteObject = {
         location: 'loc',
         properties: {
-            sku: 'sku'
-        }
+            sku: 'sku',
+        },
     };
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean): Observable<Response> {
         return Observable.of(null);
@@ -169,23 +167,23 @@ class MockCacheService {
                     entries: [
                         {
                             name: 'testName1',
-                            '.tag': 'folder'
+                            '.tag': 'folder',
                         },
                         {
                             name: 'testName2',
-                            '.tag': 'folder'
+                            '.tag': 'folder',
                         },
                         {
                             name: 'testName3',
-                            '.tag': 'file'
+                            '.tag': 'file',
                         },
                         {
                             name: 'testName4',
-                            '.tag': 'folder'
-                        }
-                    ]
+                            '.tag': 'folder',
+                        },
+                    ],
                 };
-            }
+            },
         });
     }
 
@@ -193,7 +191,7 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return this.siteObject;
-            }
+            },
         });
     }
 
@@ -205,7 +203,7 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return content;
-            }
+            },
         });
     }
 }

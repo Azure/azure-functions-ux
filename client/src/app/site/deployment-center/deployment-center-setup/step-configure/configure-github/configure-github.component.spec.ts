@@ -14,6 +14,7 @@ import { WizardForm } from '../../wizard-logic/deployment-center-setup-models';
 import { Url } from '../../../../../shared/Utilities/url';
 import { MockLogService } from '../../../../../test/mocks/log.service.mock';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
+import { Subject } from 'rxjs/Subject';
 
 describe('ConfigureGithubComponent', () => {
 
@@ -27,9 +28,9 @@ describe('ConfigureGithubComponent', () => {
                 { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
                 { provide: CacheService, useClass: MockCacheService },
                 { provide: LogService, useClass: MockLogService },
-                FormBuilder
+                FormBuilder,
             ],
-            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule]
+            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule],
         })
             .compileComponents();
 
@@ -145,7 +146,6 @@ describe('ConfigureGithubComponent', () => {
             expect(component.BranchList.length).toBeGreaterThan(0);
         });
 
-
         it('Selecting a branch changes form value', () => {
             const deploymentStateManager: MockDeploymentCenterStateManager = TestBed.get(DeploymentCenterStateManager);
             NgSelectTestHelpers.selectOption(testFixture, 'configure-github-org-select', KeyCode.ArrowDown, 0);
@@ -163,7 +163,7 @@ describe('ConfigureGithubComponent', () => {
     describe('Helper Functions', () => {
         it('_getLastPage should return last page', () => {
             const links = {
-                last: 'https://api.github.com/resource?page=6'
+                last: 'https://api.github.com/resource?page=6',
             };
             const lastPage = component['_getLastPage'](links);
             expect(lastPage).toBe(6);
@@ -193,6 +193,7 @@ describe('ConfigureGithubComponent', () => {
 @Injectable()
 class MockDeploymentCenterStateManager {
     public wizardForm: FormGroup;
+    public updateSourceProviderConfig$ = new Subject();
     constructor(_fb: FormBuilder) {
         this.wizardForm = _fb.group({
             sourceProvider: [null],
@@ -202,7 +203,7 @@ class MockDeploymentCenterStateManager {
                 branch: [null],
                 isManualIntegration: [false],
                 deploymentRollbackEnabled: [false],
-                isMercurial: [false]
+                isMercurial: [false],
             }),
             buildSettings: _fb.group({
                 createNewVsoAccount: [false],
@@ -215,21 +216,21 @@ class MockDeploymentCenterStateManager {
                     framework: [null],
                     version: [null],
                     flaskProjectName: ['flaskProjectName'],
-                    djangoSettingsModule: ['DjangoProjectName.settings']
+                    djangoSettingsModule: ['DjangoProjectName.settings'],
                 }),
-                nodejsTaskRunner: [null]
+                nodejsTaskRunner: [null],
             }),
             deploymentSlotSetting: _fb.group({
                 newDeploymentSlot: [false],
                 deploymentSlotEnabled: [false],
-                deploymentSlot: ['slot']
+                deploymentSlot: ['slot'],
             }),
             testEnvironment: _fb.group({
                 enabled: [false],
                 newApp: [true],
                 appServicePlanId: ['aspid'],
-                webAppId: [null]
-            })
+                webAppId: [null],
+            }),
         });
     };
 
@@ -245,8 +246,6 @@ class MockDeploymentCenterStateManager {
     }
 }
 
-
-
 @Injectable()
 class MockCacheService {
     public maxPagesRepo = 1;
@@ -259,32 +258,32 @@ class MockCacheService {
                     return [
                         {
                             login: 'Org1',
-                            url: 'testOrgUrl1'
+                            url: 'testOrgUrl1',
                         },
                         {
                             login: 'Org2',
-                            url: 'testOrgUrl2'
+                            url: 'testOrgUrl2',
                         },
                         {
                             login: 'Org3',
-                            url: 'testOrgUrl3'
+                            url: 'testOrgUrl3',
                         },
                         {
                             login: 'Org4',
-                            url: 'testOrgUrl4'
-                        }
+                            url: 'testOrgUrl4',
+                        },
                     ];
-                }
+                },
             });
         } else if (content.url.endsWith('/user')) {
             return Observable.of({
                 json: () => {
                     return {
                         login: 'testUser1',
-                        repos_url: 'github.com/users/'
+                        repos_url: 'github.com/users/',
 
                     };
-                }
+                },
             });
         } else if (content.url.includes('/repos?')) {
             return this._getReposByPage(content.url);
@@ -294,7 +293,6 @@ class MockCacheService {
 
         return Observable.of(null);
     }
-
 
     private _getReposByPage(uri: string) {
         const page = +Url.getParameterByName(uri, 'page');
@@ -310,34 +308,34 @@ class MockCacheService {
                         permissions: {
                             admin: true,
                             push: true,
-                            pull: true
+                            pull: true,
                         },
                         name: `adminenabled`,
                         html_url: 'htmlurl',
-                        fullname: `adminenabled`
+                        fullname: `adminenabled`,
                     },
                     {
                         permissions: {
                             admin: true,
                             push: true,
-                            pull: true
+                            pull: true,
                         },
                         name: `adminenabled`,
                         html_url: 'htmlurl',
-                        fullname: `adminenabled`
+                        fullname: `adminenabled`,
                     },
                     {
                         permissions: {
                             admin: false,
                             push: true,
-                            pull: true
+                            pull: true,
                         },
                         name: `admindisabled`,
                         html_url: 'htmlurl',
-                        fullname: `admindisabled`
-                    }
+                        fullname: `admindisabled`,
+                    },
                 ];
-            }
+            },
         });
     }
 
@@ -352,16 +350,16 @@ class MockCacheService {
             json: () => {
                 return [
                     {
-                        name: 'branch'
+                        name: 'branch',
                     },
                     {
-                        name: 'branch'
+                        name: 'branch',
                     },
                     {
-                        name: 'branch'
-                    }
+                        name: 'branch',
+                    },
                 ];
-            }
+            },
         });
     }
 }
