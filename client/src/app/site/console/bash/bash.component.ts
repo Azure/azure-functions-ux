@@ -56,7 +56,7 @@ export class BashComponent  extends AbstractConsoleComponent {
         const uri = this.getKuduUri();
         const header = this.getHeader();
         const body = {
-          'command': (`bash -c \' ${this.getTabKeyCommand()} \'`),
+          'command': (`bash -c ' ${this.getTabKeyCommand()} '`),
           'dir': this.dir
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
@@ -94,19 +94,21 @@ export class BashComponent  extends AbstractConsoleComponent {
       const header = this.getHeader();
       const cmd = this.command;
       const body = {
-        'command': (`bash -c \' ${cmd} && echo \'\' && pwd\'`),
+        'command': (`bash -c ' ${cmd} && echo '' && pwd'`),
         'dir': this.dir
       };
       const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       this.lastAPICall = res.subscribe(
         data => {
-            const output = data.json();
-            if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
-                this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-            } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                this._updateDirectoryAfterCommand(output.Output.trim());
-                const msg = output.Output.split(this.getMessageDelimeter())[0];
-                this.addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
+            const output = data.json().Output;
+            const exitCode = data.json().ExitCode;
+            const error = data.json().Error.trim();
+            if (error !== '') {
+                this.addErrorComponent(`${error}${ConsoleConstants.linuxNewLine}`);
+            } else if (exitCode === ConsoleConstants.successExitcode && output !== '') {
+                this._updateDirectoryAfterCommand(output.trim());
+                const msg = output.split(this.getMessageDelimeter())[0].trim();
+                this.addMessageComponent(`${msg}${ConsoleConstants.linuxNewLine}`);
             }
             this.addPromptComponent();
             this.enterPressed = false;
@@ -135,7 +137,7 @@ export class BashComponent  extends AbstractConsoleComponent {
   /**
    * perform action on key pressed.
    */
-  protected performAction(cmd?: string): boolean {
+  protected performAction(): boolean {
       if (this.command.toLowerCase() === ConsoleConstants.linuxClear) { // bash uses clear to empty the console
         this.removeMsgComponents();
         return false;

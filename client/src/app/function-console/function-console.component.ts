@@ -493,7 +493,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _createCommand(cmd: string) {
         if (this.isLinux) {
-            return `bash -c \' ${cmd} && echo \'\' && pwd\'`;
+            return `bash -c ' ${cmd} && echo '' && pwd'`;
         }
         return `${cmd} & echo. & cd`;
     }
@@ -512,13 +512,14 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             );
             res.subscribe(
                 data => {
-                    const output = data.json();
-                    if (output.ExitCode === ConsoleConstants.successExitcode) {
+                    const output = data.json().Output;
+                    const exitCode = data.json().ExitCode;
+                    if (exitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.complete.substring(0, this._ptrPosition);
                         const allFiles = this.isLinux ? (
-                                output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine)
-                            ) : output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.windowsNewLine);
+                                output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
+                            ) : output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
                         this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
@@ -578,13 +579,15 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         );
         this._lastAPICall = res.subscribe(
             data => {
-                const output = data.json();
-                if (output.Error !== '') {
-                    this._addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                    this._updateDirectoryAfterCommand(output.Output.trim());
-                    const msg = output.Output.split(this._getMessageDelimeter())[0];
-                    this._addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
+                const output = data.json().Output;
+                const exitCode = data.json().ExitCode;
+                const error = data.json().Error.trim();
+                if (error !== '') {
+                    this._addErrorComponent(`${error}${this._getNewLine()}`);
+                } else if (exitCode === ConsoleConstants.successExitcode && output !== '') {
+                    this._updateDirectoryAfterCommand(output.trim());
+                    const msg = output.split(this._getMessageDelimeter())[0].trim();
+                    this._addMessageComponent(`${msg}${this._getNewLine()}`);
                 }
                 this._addPromptComponent();
                 this._enterPressed = false;
@@ -598,13 +601,23 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     }
 
     /**
+     * Get new line character according to the console type
+     */
+    private _getNewLine(): string {
+        if (this.isLinux) {
+            return ConsoleConstants.linuxNewLine;
+        }
+        return ConsoleConstants.windowsNewLine.repeat(2);
+    }
+
+    /**
      * Get the delimeter according to the app type
      */
     private _getMessageDelimeter(): string {
         if (this.isLinux) {
-            return ConsoleConstants.linuxNewLine + this.dir;
+            return `${ConsoleConstants.linuxNewLine}${this.dir}`;
         }
-        return ConsoleConstants.windowsNewLine + this.dir;
+        return `${ConsoleConstants.windowsNewLine}${this.dir}`;
     }
 
     /**
@@ -625,7 +638,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     /**
      * perform action on key pressed.
      */
-    private _performAction(cmd?: string): boolean {
+    private _performAction(): boolean {
         if (this.command.complete.toLowerCase() === ConsoleConstants.windowsClear || this.command.complete.toLowerCase() === ConsoleConstants.linuxClear) {
             this._removeMsgComponents();
             return false;
@@ -689,7 +702,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             return;
         }
         if (this.isLinux) {
-            this.dir = '/home/site/wwwroot/' + this._functionName;
+            this.dir = `/home/site/wwwroot/${this._functionName}`;
             return;
         }
         const res = this._getKuduApiResponse(HttpMethods.POST,

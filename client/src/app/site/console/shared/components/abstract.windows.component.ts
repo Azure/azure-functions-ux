@@ -103,18 +103,20 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         const cmd = this.command;
         const body = {
             'command': `${this.getCommandPrefix()}${cmd} & echo. & cd`,
-            'dir': (this.dir + ConsoleConstants.singleBackslash)
+            'dir': this.dir
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         this.lastAPICall = res.subscribe(
             data => {
-                const output = data.json();
-                if (output.Error !== '') {
-                    this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '') {
-                    this._updateDirectoryAfterCommand(output.Output.trim());
-                    const msg = output.Output.split(this.getMessageDelimeter())[0];
-                    this.addMessageComponent(msg.trim() + ConsoleConstants.newLine.repeat(2));
+                const output = data.json().Output;
+                const exitCode = data.json().ExitCode;
+                const error = data.json().Error.trim();
+                if (error !== '') {
+                    this.addErrorComponent(`${error}${ConsoleConstants.windowsNewLine.repeat(2)}`);
+                } else if (exitCode === ConsoleConstants.successExitcode && output !== '') {
+                    this._updateDirectoryAfterCommand(output.trim());
+                    const msg = output.split(this.getMessageDelimeter())[0].trim();
+                    this.addMessageComponent(`${msg}${ConsoleConstants.windowsNewLine.repeat(2)}`);
                 }
                 this.addPromptComponent();
                 this.enterPressed = false;
@@ -143,7 +145,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     /**
      * perform action on key pressed.
      */
-    protected performAction(cmd?: string): boolean {
+    protected performAction(): boolean {
         if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
             this.removeMsgComponents();
             return false;
