@@ -112,7 +112,7 @@
 
           <p>{{item.message}}</p>
           <div style="display:inline-block;margin-left:10px;" *ngFor="let url of item.urlInfo">
-            <img class="statusImage" *ngIf="url.urlIcon" [src]="url.urlIcon" />
+            <span *ngIf="url.urlIcon" [load-image]="url.urlIcon" class="statusImage"></span>
             <a (click)="onUrlClick(url.url)" tabindex="0">{{url.urlText}}</a>
           </div>
         </div>
