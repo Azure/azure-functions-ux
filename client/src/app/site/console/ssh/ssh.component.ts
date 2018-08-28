@@ -53,7 +53,7 @@ export class SSHComponent implements OnInit, OnDestroy {
       this._busyManager.setBusy();
       setTimeout(() => {
           this.sshUrl = this.getKuduUri();
-      }, 1000);
+      }, 50);
   }
 
   /**

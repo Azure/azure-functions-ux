@@ -740,31 +740,14 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
     private _getConsoleName(site: ArmObj<Site>): string {
         const console = this._translateService.instant(PortalResources.feature_consoleName);
-        const cmdConsoleName = this._translateService.instant(PortalResources.feature_cmdConsoleName);
-        const powershellConsoleName = this._translateService.instant(PortalResources.feature_powerShellConsoleName);
-        const bashConsoleName = this._translateService.instant(PortalResources.feature_bashConsoleName);
-        const sshConsoleName = this._translateService.instant(PortalResources.feature_sshConsoleName);
         if (ArmUtil.isLinuxApp(site)) {
+            const bashConsoleName = this._translateService.instant(PortalResources.feature_bashConsoleName);
+            const sshConsoleName = this._translateService.instant(PortalResources.feature_sshConsoleName);
             return `${console} (${bashConsoleName} / ${sshConsoleName})`;
         }
+        const cmdConsoleName = this._translateService.instant(PortalResources.feature_cmdConsoleName);
+        const powershellConsoleName = this._translateService.instant(PortalResources.feature_powerShellConsoleName);
         return `${console} (${cmdConsoleName} / ${powershellConsoleName})`;
-    }
-}
-
-export class OpenSshFeature extends DisableableFeature {
-    constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
-        super(
-            _translateService.instant(PortalResources.feature_sshName),
-            _translateService.instant(PortalResources.feature_sshName) + _translateService.instant(PortalResources.feature_consoleName),
-            _translateService.instant(PortalResources.feature_sshInfo),
-            'image/console.svg',
-            disableInfoStream
-        );
-    }
-
-    click() {
-        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
-        window.open(`https://${scmHostName}/webssh/host`);
     }
 }
 
