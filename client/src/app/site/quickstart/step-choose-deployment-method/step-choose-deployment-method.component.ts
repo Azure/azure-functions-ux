@@ -1,3 +1,4 @@
+import { QuickstartService } from './../../../shared/services/quickstart.service';
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { DeploymentCard } from 'app/site/quickstart/Models/deployment-card';
@@ -22,31 +23,31 @@ export class StepChooseDeploymentMethodComponent {
     public readonly vsDirectPublishCard: DeploymentCard = {
         id: 'vsDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/publish.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.vsDirectPublishCardDescription)
     };
 
     public readonly vscodeDirectPublishCard: DeploymentCard = {
-        id: 'vsDirectPublish',
+        id: 'vscodeDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/publish.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.vscodeDirectPublishCardDescription)
     };
 
     public readonly coretoolsDirectPublishCard: DeploymentCard = {
-        id: 'vsDirectPublish',
+        id: 'coretoolsDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/publish.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.coretoolsDirectPublishCardDescription)
     };
 
     public readonly mavenDirectPublishCard: DeploymentCard = {
-        id: 'vsDirectPublish',
+        id: 'mavenDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/publish.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.mavenDirectPublishCardDescription)
     };
@@ -54,8 +55,9 @@ export class StepChooseDeploymentMethodComponent {
     public selectedDeploymentCard: DeploymentCard = null;
 
     constructor(
-        public _wizardService: QuickstartStateManager,
-        public _translateService: TranslateService
+        private _wizardService: QuickstartStateManager,
+        private _translateService: TranslateService,
+        private _quickstartService: QuickstartService
     ) {
     }
 
@@ -64,6 +66,63 @@ export class StepChooseDeploymentMethodComponent {
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.deployment = card.id;
         this._wizardService.wizardValues = currentFormValues;
+    }
+
+    get deployment(): string {
+        return this._wizardService.deployment.value;
+    }
+
+    get devEnvironment(): string {
+        return this._wizardService.devEnvironment.value;
+    }
+
+    get markdownFileName(): string {
+        switch (this.deployment) {
+            case 'deploymentCenter':
+                switch (this.devEnvironment) {
+                    case 'vs':
+                        return 'vsDeploymentCenter';
+
+                    case 'vscode':
+                        return 'vscodeDeploymentCenter';
+
+                    case 'coretools':
+                        return 'coretoolsDeploymentCenter';
+
+                    case 'maven':
+                        return 'mavenDeploymentCenter';
+
+                    default:
+                        return null;
+                }
+
+            case 'vsDirectPublish':
+                return 'vsDirectPublish';
+
+            case 'vscodeDirectPublish':
+                return 'vscodeDirectPublish';
+
+            case 'coretoolsDirectPublish':
+                return 'coretoolsDirectPublish';
+
+            case 'mavenDirectPublish':
+                return 'mavenDirectPublish';
+
+            default:
+                return null;
+        }
+    }
+
+    public getInstructions() {
+        if (!!this.markdownFileName) {
+            this._quickstartService.getQuickstartFile(this.markdownFileName)
+                .subscribe(file => {
+                    console.log(file);
+                    const currentFormValues = this._wizardService.wizardValues;
+                    currentFormValues.instructions = file;
+                    this._wizardService.wizardValues = currentFormValues;
+                });
+        }
     }
 
     get deploymentCards(): DeploymentCard[] {

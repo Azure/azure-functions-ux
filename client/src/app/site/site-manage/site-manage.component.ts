@@ -321,7 +321,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._translateService.instant(PortalResources.quickstart),
                 this._translateService.instant(PortalResources.quickstart),
                 this._translateService.instant(PortalResources.quickstartDescription),
-                'image/bolt.svg',
+                'image/quickstart.svg',
                 SiteTabIds.quickstart,
                 this._broadcastService
             ),

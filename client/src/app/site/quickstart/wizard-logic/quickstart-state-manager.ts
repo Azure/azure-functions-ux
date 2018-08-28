@@ -43,20 +43,20 @@ export class QuickstartStateManager implements OnDestroy {
         return (this.wizardForm && (this.wizardForm.controls.deployment as FormGroup)) || null;
     }
 
-    public get isLinux(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.isLinux as FormGroup)) || null;
-    }
-
-    public get isLinuxConsumption(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.isLinuxConsumption as FormGroup)) || null;
+    public get instructions(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.instructions as FormGroup)) || null;
     }
 
     public get context(): FormGroup {
         return (this.wizardForm && (this.wizardForm.controls.context as FormGroup)) || null;
     }
 
-    public get functionsInfo(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.functionsInfo as FormGroup)) || null;
+    public get isLinux(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.isLinux as FormGroup)) || null;
+    }
+
+    public get isLinuxConsumption(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.isLinuxConsumption as FormGroup)) || null;
     }
 
     markSectionAsTouched(formGroup: FormGroup) {

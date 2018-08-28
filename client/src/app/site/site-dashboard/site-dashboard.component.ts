@@ -355,7 +355,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
 
             case SiteTabIds.quickstart:
                 info.title = this._translateService.instant(PortalResources.quickstart);
-                info.iconUrl = 'image/bolt.svg';
+                info.iconUrl = 'image/quickstart.svg';
                 info.componentFactory = QuickstartComponent;
                 break;
         }

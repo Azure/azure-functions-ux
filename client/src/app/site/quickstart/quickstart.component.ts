@@ -1,3 +1,4 @@
+import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { SiteService } from './../../shared/services/site.service';
 import { SiteTabIds, Constants } from 'app/shared/models/constants';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
@@ -12,7 +13,6 @@ import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
-import { FunctionInfo } from 'app/shared/models/function-info';
 
 @Component({
     selector: 'quickstart',
@@ -24,7 +24,8 @@ export class QuickstartComponent extends FunctionAppContextComponent {
 
     public quickstartTitle: string;
     public workerRuntime: string;
-    public functionsInfo: FunctionInfo[];
+    public isLinux: boolean;
+    public isLinuxConsumption: boolean;
     private _busyManager: BusyStateScopeManager;
 
     constructor(
@@ -38,13 +39,17 @@ export class QuickstartComponent extends FunctionAppContextComponent {
         super('quickstart', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._wizardService.wizardForm = this._fb.group({
+            // wizard values
             devEnvironment: [null],
             workerRuntime: [null],
             portalTemplate: [null],
-            isLinux: [null],
-            isLinuxConsumption: [null],
+            deployment: [null],
+            instructions: [null],
+
+            // app values
             context: [null],
-            functionsInfo: [null]
+            isLinux: [null],
+            isLinuxConsumption: [null]
         });
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
@@ -57,8 +62,7 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                 this._busyManager.setBusy();
                 return Observable.zip(
                     this._functionAppService.getRuntimeGeneration(this.context),
-                    this._siteService.getAppSettings(viewInfo.context.site.id),
-                    this._functionAppService.getFunctions(this.context));
+                    this._siteService.getAppSettings(viewInfo.context.site.id));
             })
             .do(null, e => {
                 // what is the way we should do this?
@@ -80,8 +84,10 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                     });
                 }
 
-                this.functionsInfo = r[2].isSuccessful ? r[2].result : null;
-                this.setInitalWizardProperties();
+                this.isLinux = ArmUtil.isLinuxApp(this.context.site);
+                this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+
+                this.setInitalProperties();
                 this._busyManager.clearBusy();
             });
     }
@@ -104,32 +110,23 @@ export class QuickstartComponent extends FunctionAppContextComponent {
         }
     }
 
-    setInitalWizardProperties() {
+    setInitalProperties() {
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.workerRuntime = this.workerRuntime;
-        currentFormValues.isLinux = ArmUtil.isLinuxApp(this.context.site);
-        currentFormValues.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
         currentFormValues.context = this.context;
-        currentFormValues.functionsInfo = this.functionsInfo;
+        currentFormValues.isLinux = this.isLinux;
+        currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
         this._wizardService.wizardValues = currentFormValues;
     }
 
     get showDeploymentStep(): boolean {
-        if (this._wizardService && this._wizardService.wizardForm && this._wizardService.wizardForm.controls) {
-            const devEnvironment = this._wizardService.wizardForm.controls['devEnvironment'] &&
-                this._wizardService.wizardForm.controls['devEnvironment'].value;
+        return this.devEnvironment === 'vs' ||
+            this.devEnvironment === 'maven' ||
+            this.devEnvironment === 'vscode' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption) ||
+            this.devEnvironment === 'coretools' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption);
+    }
 
-            const isLinux = this._wizardService.wizardForm.controls['isLinux'] &&
-                this._wizardService.wizardForm.controls['isLinux'].value;
-
-            const isLinuxConsumption = this._wizardService.wizardForm.controls['isLinuxConsumption'] &&
-                this._wizardService.wizardForm.controls['isLinuxConsumption'].value;
-
-            return devEnvironment === 'vs' ||
-                devEnvironment === 'maven' ||
-                devEnvironment === 'vscode' && (!isLinux || isLinux && !isLinuxConsumption) ||
-                devEnvironment === 'coretools' && (!isLinux || isLinux && !isLinuxConsumption);
-            }
-        return false;
+    get devEnvironment(): devEnvironmentOptions {
+        return this._wizardService.devEnvironment.value;
     }
 }

@@ -1,15 +1,14 @@
-import { FunctionAppContext } from 'app/shared/function-app-context';
-import { FunctionInfo } from 'app/shared/models/function-info';
+import { FunctionAppContext } from './../../../shared/function-app-context';
 
 export class WizardForm {
     public devEnvironment: devEnvironmentOptions;
     public workerRuntime: string;
     public portalTemplate: portalTemplateOptions;
     public deployment: deploymentOptions;
+    public instructions: string;
+    public context: FunctionAppContext;
     public isLinux: boolean;
     public isLinuxConsumption: boolean;
-    public context: FunctionAppContext;
-    public functionsInfo: FunctionInfo[];
 }
 
 export type devEnvironmentOptions = 'vs' | 'vscode' | 'coretools' | 'maven' | 'portal';

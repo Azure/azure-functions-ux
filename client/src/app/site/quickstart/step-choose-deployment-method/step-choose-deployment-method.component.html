@@ -13,5 +13,5 @@
 </div>
 <div class="footer">
     <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
-    <button type="button" class="custom-button form-button" *ngIf="selectedDeploymentCard" nextStep>{{'continue' | translate}}</button>
+    <button type="button" class="custom-button form-button" *ngIf="selectedDeploymentCard" nextStep (click)="getInstructions()">{{'continue' | translate}}</button>
 </div>

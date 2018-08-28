@@ -14,23 +14,23 @@ export class StepChooseDevEnvironmentComponent {
     public readonly vsCard: DevEnvironmentCard = {
         id: 'vs',
         name: this._translateService.instant(PortalResources.vsCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
-        color: '#5C2D91',
+        icon: 'image/visual_studio.svg',
+        color: '#865FC5',
         description: this._translateService.instant(PortalResources.vsCardDescription)
     };
 
     public readonly vsCodeCard: DevEnvironmentCard = {
         id: 'vscode',
         name: this._translateService.instant(PortalResources.vscodeCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
-        color: '#007ACC',
+        icon: 'image/vs_code.svg',
+        color: '#0067b8',
         description: this._translateService.instant(PortalResources.vscodeCardDescription)
     };
 
     public readonly coreToolsCard: DevEnvironmentCard = {
         id: 'coretools',
         name: this._translateService.instant(PortalResources.coretoolsCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/terminal.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.coretoolsCardDescription)
     };
@@ -38,7 +38,7 @@ export class StepChooseDevEnvironmentComponent {
     public readonly mavenCard: DevEnvironmentCard = {
         id: 'maven',
         name: this._translateService.instant(PortalResources.mavenCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/terminal.svg',
         color: '#000000',
         description: this._translateService.instant(PortalResources.mavenCardDescription)
     };
@@ -46,7 +46,7 @@ export class StepChooseDevEnvironmentComponent {
     public readonly portalCard: DevEnvironmentCard = {
         id: 'portal',
         name: this._translateService.instant(PortalResources.portalCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
+        icon: 'image/azure_mgmt_portal.svg',
         color: '#0078D4',
         description: this._translateService.instant(PortalResources.portalCardDescription)
     };
