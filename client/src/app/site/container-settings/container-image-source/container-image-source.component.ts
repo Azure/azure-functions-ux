@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureInfo, Container } from '../container-settings';
+import { ContainerConfigureInfo, Container, ImageSourceType } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
+import { SelectOption } from '../../../shared/models/select-option';
 
 @Component({
     selector: 'container-image-source',
@@ -15,11 +16,20 @@ export class ContainerImageSourceComponent {
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureInfo;
+    public selectedImageSource: SelectOption<ImageSourceType>;
 
-    constructor(private _containerSettingsManager: ContainerSettingsManager) {
-
-        this._containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
+    constructor(public containerSettingsManager: ContainerSettingsManager) {
+        this.containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });
+
+        this.containerSettingsManager.$selectedImageSource.subscribe((selectedImageSource: SelectOption<ImageSourceType>) => {
+            this.selectedImageSource = selectedImageSource;
+        })
+    }
+
+    public updateContainerImageSource(imageSource: ImageSourceType) {
+        const selectedOption = this.containerSettingsManager.containerImageSourceOptions.find(item => item.value === imageSource);
+        this.containerSettingsManager.$selectedImageSource.next(selectedOption);
     }
 }

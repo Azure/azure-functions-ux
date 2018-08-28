@@ -47,7 +47,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         return inputEvents
             .distinctUntilChanged()
             .do(r => {
-                this.containerSettingsManager.resetContainers();
+                this.containerSettingsManager.resetSettings(r.data);
                 this.containerSettingsManager.initialize(r.data);
                 this.containerConfigureInfo = {
                     containerSettingsData: r.data.data

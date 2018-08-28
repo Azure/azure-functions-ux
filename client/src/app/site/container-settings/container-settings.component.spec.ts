@@ -71,7 +71,7 @@ describe('ContainerSettingsComponent', () => {
         };
 
         component.viewInfoInput = input;
-        expect(mockContainerSettingsManager.resetContainers).toHaveBeenCalled();
+        expect(mockContainerSettingsManager.resetSettings).toHaveBeenCalled(input.data);
         expect(mockContainerSettingsManager.initialize).toHaveBeenCalledWith(input.data);
         expect(component.selectedContainer).not.toBeNull();
     });

@@ -3641,7 +3641,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Single Container.</value>
   </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
+    <value>Docker Compose (Preview)</value>
   </data>
   <data name="dockerComposeContainerDescription" xml:space="preserve">
     <value>This is the description for Docker Compose.</value>
@@ -3650,7 +3650,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Docker Compose.</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
+    <value>Kubernetes (Preview)</value>
   </data>
   <data name="kubernetesContainerDescription" xml:space="preserve">
     <value>This is the description for Kubernetes.</value>
@@ -3720,5 +3720,56 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Update container settings</value>
+  </data>
+  <data name="containerQuickStart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Private Registry</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Image source</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Image and optional tag (eg 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>To get started, first create an Azure Container Registry and add an image.</value>
+  </data>
+  <data name="containerRepositoryAcess" xml:space="preserve">
+    <value>Repository Access</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="containerPrivateRegistryServerURL" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="containerPrivateRegistryLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="containerPrivateRegistryPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="containerPrivateRegistryStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Configuration Source</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Configuration</value>
   </data>
 </root>

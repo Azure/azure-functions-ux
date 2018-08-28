@@ -1193,4 +1193,21 @@
     public static extensionInstallDocLink = 'extensionInstallDocLink';
     public static pricing_ACU = 'pricing_ACU';
     public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
+    public static containerQuickStart = 'containerQuickStart';
+    public static containerACR = 'containerACR';
+    public static containerDockerHub = 'containerDockerHub';
+    public static containerPrivateRegistry = 'containerPrivateRegistry';
+    public static containerCustom = 'containerCustom';
+    public static containerImageSource = 'containerImageSource';
+    public static containerImageAndTag = 'containerImageAndTag';
+    public static containerACRMissingErrorMessage = 'containerACRMissingErrorMessage';
+    public static containerRepositoryAcess = 'containerRepositoryAcess';
+    public static containerRepositoryPublic = 'containerRepositoryPublic';
+    public static containerRepositoryPrivate = 'containerRepositoryPrivate';
+    public static containerPrivateRegistryServerURL = 'containerPrivateRegistryServerURL';
+    public static containerPrivateRegistryLogin = 'containerPrivateRegistryLogin';
+    public static containerPrivateRegistryPassword = 'containerPrivateRegistryPassword';
+    public static containerPrivateRegistryStartupFile = 'containerPrivateRegistryStartupFile';
+    public static containerConfigurationSource = 'containerConfigurationSource';
+    public static containerConfiguration = 'containerConfiguration';
 }

@@ -4,6 +4,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 
+export type ImageSourceType =
+    'quickstart' |
+    'azureContainerRegistry' |
+    'dockerHub' |
+    'privateRegistry';
+
+export type DockerHubAccessType =
+    'public' |
+    'private';
+
 export enum ContainerType {
     Single,
     DockerCompose,
@@ -61,4 +71,15 @@ export class KubernetesContainer extends Container {
     id = ContainerType.Kubernetes;
     description = this.ts.instant(PortalResources.kubernetesContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.kubernetesContainerDetailedDescription);
+}
+
+export interface ImageSourceOption {
+    displayText: string;
+    value: ImageSourceType;
+    hide: boolean;
+}
+
+export interface DockerHubRepositoryAccessOption {
+    displayText: string;
+    value: DockerHubAccessType;
 }
