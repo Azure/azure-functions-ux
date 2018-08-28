@@ -272,7 +272,13 @@ export class FunctionAppService {
                         headers);
                 })
                 .map(r => {
-                    const object = r.json();
+                    let object = r.json() as FunctionTemplate[];
+
+                    // Linux Filter - Remove templates with extensions
+                    if (ArmUtil.isLinuxApp(context.site)) {
+                        object = object.filter(template => (!template.metadata.extensions || template.metadata.extensions.length === 0));
+                    }
+
                     this.localize(object);
                     return object;
                 }));
@@ -533,9 +539,16 @@ export class FunctionAppService {
                 return this._cacheService.get(`${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}&cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
             })
             .map(r => {
-                const object = r.json();
+                const object = r.json() as BindingConfig;
+
+                // Linux Filter - remove bindings with extensions
+                if (ArmUtil.isLinuxApp(context.site)) {
+                    const filteredBindings = object.bindings.filter(binding => (!binding.extension));
+                    object.bindings = filteredBindings;
+                }
+
                 this.localize(object);
-                return object as BindingConfig;
+                return object;
             }));
     }
 
