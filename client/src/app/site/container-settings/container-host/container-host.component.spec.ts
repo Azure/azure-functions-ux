@@ -1,6 +1,5 @@
 import { ContainerHostComponent } from './container-host.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockContainerSettingsManager } from '../mocks/container-settings-manager.mock';
 import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,7 +14,7 @@ import { ContainerSettingsManager } from '../container-settings-manager';
 describe('ContainerHostComponent', () => {
     let component: ContainerHostComponent;
     let fixture: ComponentFixture<ContainerHostComponent>;
-    let mockContainerSettingsManager: MockContainerSettingsManager;
+    let containerSettingsManager: ContainerSettingsManager;
 
     beforeEach(() => {
         TestBed
@@ -30,9 +29,9 @@ describe('ContainerHostComponent', () => {
                 providers: [
                     BroadcastService,
                     Injector,
+                    ContainerSettingsManager,
                     { provide: LogService, useClass: MockLogService },
                     { provide: TelemetryService, useClass: MockTelemetryService },
-                    { provide: ContainerSettingsManager, useClass: MockContainerSettingsManager },
                 ],
             })
             .compileComponents();
@@ -41,10 +40,10 @@ describe('ContainerHostComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ContainerHostComponent);
         component = fixture.componentInstance;
-        mockContainerSettingsManager = TestBed.get(ContainerSettingsManager);
+        containerSettingsManager = TestBed.get(ContainerSettingsManager);
 
-        spyOn(mockContainerSettingsManager, 'resetContainers').and.callThrough();
-        spyOn(mockContainerSettingsManager, 'initialize').and.callThrough();
+        spyOn(containerSettingsManager, 'resetSettings').and.callThrough();
+        spyOn(containerSettingsManager, 'initialize').and.callThrough();
     });
 
     it('should create', () => {

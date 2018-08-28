@@ -9,16 +9,20 @@ import { MockTelemetryService } from '../../test/mocks/telemetry.service.mock';
 import { ContainerSettingsManager } from './container-settings-manager';
 import { Injector } from '@angular/core';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from '../../controls/load-image/load-image.directive';
-import { MockContainerSettingsManager } from './mocks/container-settings-manager.mock';
 import { ContainerHostComponent } from './container-host/container-host.component';
 import { ContainerImageSourceComponent } from './container-image-source/container-image-source.component';
+import { ContainerImageSourceQuickstartComponent } from './container-image-source/container-image-source-quickstart/container-image-source-quickstart.component';
+import { ContainerImageSourceACRComponent } from './container-image-source/container-image-source-acr/container-image-source-acr.component';
+import { ContainerImageSourceDockerHubComponent } from './container-image-source/container-image-source-dockerhub/container-image-source-dockerhub.component';
+import { ContainerImageSourcePrivateRegistryComponent } from './container-image-source/container-image-source-privateregistry/container-image-source-privateregistry.component';
+import { RadioSelectorComponent } from '../../radio-selector/radio-selector.component';
 
 describe('ContainerSettingsComponent', () => {
     let component: ContainerSettingsComponent;
     let fixture: ComponentFixture<ContainerSettingsComponent>;
-    let mockContainerSettingsManager: MockContainerSettingsManager;
+    let containerSettingsManager: ContainerSettingsManager;
 
     beforeEach(() => {
         TestBed
@@ -28,7 +32,12 @@ describe('ContainerSettingsComponent', () => {
                     ContainerConfigureComponent,
                     ContainerHostComponent,
                     ContainerImageSourceComponent,
+                    ContainerImageSourceQuickstartComponent,
+                    ContainerImageSourceACRComponent,
+                    ContainerImageSourceDockerHubComponent,
+                    ContainerImageSourcePrivateRegistryComponent,
                     MockDirective(LoadImageDirective),
+                    MockComponent(RadioSelectorComponent),
                 ],
                 imports: [
                     TranslateModule.forRoot()
@@ -36,9 +45,9 @@ describe('ContainerSettingsComponent', () => {
                 providers: [
                     BroadcastService,
                     Injector,
+                    ContainerSettingsManager,
                     { provide: LogService, useClass: MockLogService },
                     { provide: TelemetryService, useClass: MockTelemetryService },
-                    { provide: ContainerSettingsManager, useClass: MockContainerSettingsManager }
                 ]
             })
             .compileComponents();
@@ -47,10 +56,10 @@ describe('ContainerSettingsComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ContainerSettingsComponent);
         component = fixture.componentInstance;
-        mockContainerSettingsManager = TestBed.get(ContainerSettingsManager);
+        containerSettingsManager = TestBed.get(ContainerSettingsManager);
 
-        spyOn(mockContainerSettingsManager, 'resetContainers').and.callThrough();
-        spyOn(mockContainerSettingsManager, 'initialize').and.callThrough();
+        spyOn(containerSettingsManager, 'resetSettings').and.callThrough();
+        spyOn(containerSettingsManager, 'initialize').and.callThrough();
     });
 
     it('should create', () => {
@@ -71,8 +80,8 @@ describe('ContainerSettingsComponent', () => {
         };
 
         component.viewInfoInput = input;
-        expect(mockContainerSettingsManager.resetSettings).toHaveBeenCalled(input.data);
-        expect(mockContainerSettingsManager.initialize).toHaveBeenCalledWith(input.data);
+        expect(containerSettingsManager.resetSettings).toHaveBeenCalledWith(input.data);
+        expect(containerSettingsManager.initialize).toHaveBeenCalledWith(input.data);
         expect(component.selectedContainer).not.toBeNull();
     });
 });
