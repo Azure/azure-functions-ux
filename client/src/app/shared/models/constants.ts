@@ -174,7 +174,7 @@ export class Order {
         'AppInsightsScheduledAnalytics-',
         'AppInsightsScheduledDigest-',
         'ExternalFileTrigger-',
-        'ExternalTable-'
+        'ExternalTable-',
     ];
 }
 
@@ -251,8 +251,18 @@ export class ScenarioIds {
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
     public static readonly addHTTPSwitch = 'addHTTPSwitch';
-    public static readonly vstsDeployment = 'vstsDeployment';
+    public static readonly vstsDeploymentHide = 'vstsDeploymentHide';
+    public static readonly vstsDeploymentPermission = 'vstsDeploymentPermission';
     public static readonly deploymentCenter = 'deploymentCenter';
+    public static readonly vstsKuduSource = 'vstsKuduSource';
+    public static readonly vstsSource = 'vstsSource';
+    public static readonly githubSource = 'githubSource';
+    public static readonly bitbucketSource = 'bitbucketSource';
+    public static readonly localGitSource = 'localGitSource';
+    public static readonly onedriveSource = 'onedriveSource';
+    public static readonly dropboxSource = 'dropboxSource';
+    public static readonly externalSource = 'externalSource';
+    public static readonly ftpSource = 'ftpSource';
 }
 
 export class ServerFarmSku {
@@ -406,7 +416,7 @@ export class HttpConstants {
         502: 'Bad Gateway',
         503: 'Service Unavailable',
         504: 'Gateway Timeout',
-        505: 'HTTP Version Not Supported'
+        505: 'HTTP Version Not Supported',
     };
 
     public static readonly genericStatusCodeMap = {
@@ -414,7 +424,7 @@ export class HttpConstants {
         200: 'Success',
         300: 'Redirection',
         400: 'Client Error',
-        500: 'Server Error'
+        500: 'Server Error',
     };
 }
 
@@ -479,7 +489,7 @@ export enum LogConsoleTypes {
     Normal= 1,
     Info= 2,
     Error= 3,
-    Warning= 4
+    Warning= 4,
 };
 export class PickerNames {
     public static readonly appSetting = 'AppSetting';

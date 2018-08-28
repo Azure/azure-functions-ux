@@ -1210,4 +1210,8 @@
     public static containerPrivateRegistryStartupFile = 'containerPrivateRegistryStartupFile';
     public static containerConfigurationSource = 'containerConfigurationSource';
     public static containerConfiguration = 'containerConfiguration';
+    public static syncRequestSubmitted = 'syncRequestSubmitted';
+    public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
+    public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
+    public static vsts_permissions_error = 'vsts_permissions_error';
 }
