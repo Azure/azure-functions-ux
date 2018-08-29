@@ -127,7 +127,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
-                        `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
+                        `https://${account}.visualstudio.com/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
                         true,
                         this.wizard.getVstsDirectHeaders(),
                     );
