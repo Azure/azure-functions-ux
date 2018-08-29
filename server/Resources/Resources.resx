@@ -3730,4 +3730,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
 </root>
