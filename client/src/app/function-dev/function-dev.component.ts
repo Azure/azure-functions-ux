@@ -98,6 +98,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     public showErrorsAndWarnings: Observable<boolean>;
 
+    public showConsole: boolean;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private _disableTestDataAfterViewInit = false;
@@ -186,7 +188,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
                     .map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false);
                 this.showErrorsAndWarnings = this._functionAppService.getRuntimeGeneration(functionView.context).map(v => v === 'V1');
-
+                this.showConsole = !ArmUtil.isLinuxDynamic(functionView.context.site);
                 return Observable.zip(
                     Observable.of(functionView),
                     this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
