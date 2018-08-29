@@ -512,14 +512,13 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             );
             res.subscribe(
                 data => {
-                    const output = data.json().Output;
-                    const exitCode = data.json().ExitCode;
-                    if (exitCode === ConsoleConstants.successExitcode) {
+                    const { Output, ExitCode } = data.json();
+                    if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.complete.substring(0, this._ptrPosition);
                         const allFiles = this.isLinux ? (
-                                output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
-                            ) : output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
+                                Output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
+                            ) : Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
                         this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
@@ -579,19 +578,16 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         );
         this._lastAPICall = res.subscribe(
             data => {
-                const output = data.json().Output;
-                const exitCode = data.json().ExitCode;
-                const error = data.json().Error.trim();
-                if (error !== '') {
-                    this._addErrorComponent(`${error}${this._getNewLine()}`);
-                } else if (exitCode === ConsoleConstants.successExitcode && output !== '') {
-                    this._updateDirectoryAfterCommand(output.trim());
-                    const msg = output.split(this._getMessageDelimeter())[0].trim();
+                const { Output, ExitCode, Error } = data.json();
+                if (Error !== '') {
+                    this._addErrorComponent(`${Error.trim()}${this._getNewLine()}`);
+                } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
+                    this._updateDirectoryAfterCommand(Output.trim());
+                    const msg = Output.split(this._getMessageDelimeter())[0].trim();
                     this._addMessageComponent(`${msg}${this._getNewLine()}`);
                 }
                 this._addPromptComponent();
                 this._enterPressed = false;
-                return output;
             },
             err => {
                 this._addErrorComponent(err.text);

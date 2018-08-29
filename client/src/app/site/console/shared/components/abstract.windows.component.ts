@@ -70,11 +70,11 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(
                 data => {
-                    const output = data.json();
-                    if (output.ExitCode === ConsoleConstants.successExitcode) {
+                    const { Output, ExitCode } = data.json();
+                    if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.substring(0, this.ptrPosition);
-                        const allFiles = output.Output.split(ConsoleConstants.windowsNewLine);
+                        const allFiles = Output.Output.split(ConsoleConstants.windowsNewLine);
                         this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
@@ -108,19 +108,16 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         this.lastAPICall = res.subscribe(
             data => {
-                const output = data.json().Output;
-                const exitCode = data.json().ExitCode;
-                const error = data.json().Error.trim();
-                if (error !== '') {
-                    this.addErrorComponent(`${error}${ConsoleConstants.windowsNewLine.repeat(2)}`);
-                } else if (exitCode === ConsoleConstants.successExitcode && output !== '') {
-                    this._updateDirectoryAfterCommand(output.trim());
-                    const msg = output.split(this.getMessageDelimeter())[0].trim();
+                const { Output, ExitCode, Error } = data.json();
+                if (Error !== '') {
+                    this.addErrorComponent(`${Error.trim()}${ConsoleConstants.windowsNewLine.repeat(2)}`);
+                } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
+                    this._updateDirectoryAfterCommand(Output.trim());
+                    const msg = Output.split(this.getMessageDelimeter())[0].trim();
                     this.addMessageComponent(`${msg}${ConsoleConstants.windowsNewLine.repeat(2)}`);
                 }
                 this.addPromptComponent();
                 this.enterPressed = false;
-                return output;
             },
             err => {
                 this.addErrorComponent(err.text);
