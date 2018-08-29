@@ -105,6 +105,19 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.vstsDeploymentHide,
             runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input),
         };
+
+        this.scenarioChecks[ScenarioIds.canScaleForSlots] = {
+            id: ScenarioIds.canScaleForSlots,
+            runCheck: (input: ScenarioCheckInput) => {
+                const enabled = input
+                    && input.site
+                    && (input.site.properties.sku === ServerFarmSku.free
+                        || input.site.properties.sku === ServerFarmSku.shared
+                        || input.site.properties.sku === ServerFarmSku.basic
+                        || input.site.properties.sku === ServerFarmSku.standard);
+                return { status: enabled ? 'enabled' : 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -190,6 +203,7 @@ export class AzureEnvironment extends Environment {
             case ServerFarmSku.premium:
             case ServerFarmSku.premiumV2:
             case ServerFarmSku.isolated:
+            case ServerFarmSku.premiumContainer:
                 limit = 20;
                 break;
             default:

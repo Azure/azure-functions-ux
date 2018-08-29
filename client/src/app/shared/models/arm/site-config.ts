@@ -1,8 +1,8 @@
 import { VirtualApplication } from './virtual-application';
 import { HandlerMapping } from './handler-mapping';
 import { RoutingRule } from './routing-rule';
-import { ConnectionStrings } from './connection-strings';
-import { ApplicationSettings } from './application-settings';
+import { ConnectionStringInfo } from './connection-strings';
+import { ApplicationSettingInfo } from './application-settings';
 import { ProviderType } from '../../../site/deployment-center/Models/deployment-enums';
 
 export interface SiteConfig {
@@ -31,12 +31,13 @@ export interface SiteConfig {
     appCommandLine: string;
     virtualApplications: VirtualApplication[];
     autoSwapSlotName: string;
+    routingRules?: RoutingRule[];
     experiments: {
         rampUpRules: RoutingRule[];
     };
     siteAuthEnabled: boolean;
-    appSettings?: ApplicationSettings;
-    connectionStrings?: ConnectionStrings;
+    appSettings?: ApplicationSettingInfo[];
+    connectionStrings?: ConnectionStringInfo[];
     ftpsState?: string;
     http20Enabled: boolean;
 }

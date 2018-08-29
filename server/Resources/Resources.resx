@@ -496,6 +496,9 @@
   <data name="create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Your trial has expired</value>
   </data>
@@ -1170,6 +1173,9 @@
   </data>
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
+  </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Start Swap</value>
   </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Complete Swap</value>
@@ -2173,6 +2179,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clone settings from:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Do not clone settings</value>
+  </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Create a new deployment slot</value>
   </data>
@@ -2821,6 +2833,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Perform swap with preview</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Start the swap</value>
   </data>
@@ -2831,7 +2846,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot {{srcSlot}} and slot {{destSlot}}</value>
+    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>swap</value>
@@ -3741,5 +3756,68 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Failed to retrieve source configuration</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>You do not have create access</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>You do not have swap permission</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>You do not have write permission</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>The slot has a read-only lock</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Source and Destination cannot be the same slot</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>A swap operation can only be performed if the app has multiple slots</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Swap Slots</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Loading failed</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Preview Changes</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Please make a valid selection above to load preview</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Failed to load preview</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Source Changes</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Target Changes</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Swap action</value>
   </data>
 </root>

@@ -1,194 +1,301 @@
-<div
-    [is-dirty]="!!dirtyMessage || (swapForm && swapForm.dirty && phase !== 'complete')"
-    [is-dirty-message]="dirtyMessage">
+<div class="wrapper"
+    [is-dirty]="swapping || (swapForm && swapForm.dirty)"
+    [is-dirty-message]="swapping ? operationInProgressWarning : (swapForm && swapForm.dirty) ? unsavedChangesWarning : null">
 
-    <button
-        role="button"
-        class="custom-button close-button"
-        [attr.aria-label]="'close panel' | translate"
-        [disabled]="!!swapping"
-        (click)="closePanel()">
-        <span
-            load-image="image/discard.svg"
-            class="icon-medium">
-        </span>
-    </button>
-
-    <h1>Swap slots</h1>
-    <div class="slot-drop-downs-container">
-        <div class="slot-drop-down-container">
-            <div class="slot-drop-down">
-                <div class="drop-down-label">
-                    <div class="bullet src"></div>
-                    {{ Resources.source | translate }}
-                    <div *ngIf="swapForm?.controls['src']?.value === siteResourceId" class="pill">{{ Resources.production | translate }}</div>
-                    <div *ngIf="checkingSrc" class="spinner"></div>
-                </div>
-                <drop-down
-                    [control]="swapForm ? swapForm.controls['src'] : null"
-                    [options]="srcDropDownOptions || []"
-                    [setDefault]="false">
-                </drop-down>
-                <div *ngIf="srcNoSwapAccess">
-                    No swap access on the selected slot.
-                </div>
-            </div>
+    <div class="header">
+        <div class="header-icon-container">
+            <span class="header-icon" load-image="image/swap.svg"></span>
         </div>
-
-        <div class="slot-drop-down-container dest">
-            <div class="slot-drop-down">
-                <div class="drop-down-label">
-                    <div class="bullet dest"></div>
-                    {{ Resources.target | translate }}
-                    <div *ngIf="swapForm?.controls['dest']?.value === siteResourceId" class="pill">{{ Resources.production | translate }}</div>
-                    <div *ngIf="checkingDest" class="spinner"></div>
-                </div>
-                <drop-down
-                    [control]="swapForm ? swapForm.controls['dest'] : null"
-                    [options]="destDropDownOptions || []"
-                    [setDefault]="false">
-                </drop-down>
-                <div *ngIf="destNoSwapAccess">
-                    No swap access on the selected slot.
-                </div>
-            </div>
-        </div>
+        {{ 'swapSlotsHeading' | translate }}
     </div>
 
-    <div *ngIf="slotsNotUnique">
-        Slots must be different
-    </div>
+    <div class="body" [formGroup]="swapForm" novalidate>
+        <div class="body-liner">
 
-    <div>
-        <label>
-            <input [formControl]="swapForm ? swapForm.controls['multiPhase'] : null" type="checkbox">
-            {{ Resources.swapWithPreviewLabel | translate }}
-        </label>
-        <div *ngIf="siteAuthConflicts">
-            Cannnot perform multiphase swap because the following slots have authentication enabled:
-            <div *ngFor="let slot of siteAuthConflicts">
-                {{ slot }}
+            <div class="controls-container">
+                <info-box *ngIf="loadingFailure"
+                    typeClass="error"
+                    [infoText]="loadingFailure">
+                </info-box>
+
+                <info-box *ngIf="swapPermissionsMessage"
+                    typeClass="warn"
+                    [infoText]="swapPermissionsMessage">
+                </info-box>
+
+                <info-box *ngIf="writePermissionsMessage"
+                    typeClass="warn"
+                    [infoText]="writePermissionsMessage">
+                </info-box>
+
+                <info-box *ngIf="readOnlyLockMessage"
+                    typeClass="warn"
+                    [infoText]="readOnlyLockMessage">
+                </info-box>
             </div>
-        </div>
-    </div>
 
-    <div
-        *ngIf="swapForm?.controls['multiPhase']?.value"
-        class="phase-container">
-
-        <div class="phase-markers">
-            <div
-                class="left-marker"
-                [class.phase-current]="phase==='phaseOne'"
-                [class.phase-complete]="phase==='phaseTwo' || phase==='complete'">
-                1
-            </div>
-            <div
-                class="phase-connector"
-                [class.contract-left]="phase==='phaseOne'"
-                [class.contract-right]="phase==='phaseTwo'">    
-            </div>
-            <div
-                class="right-marker"
-                [class.phase-current]="phase==='phaseTwo'"
-                [class.phase-complete]="phase==='complete'">
-                2
-            </div>
-        </div>
-
-        <div class="phase-labels">
-            <div class="left-label">
-                {{ Resources.swapPhaseOneLabel | translate }}
-            </div>
-            <div class="right-label">
-                {{ Resources.swapPhaseTwoLabel | translate }}
-            </div>
-        </div>
-
-        <info-box
-            *ngIf="phase==='phaseTwo' && !swapping"
-            typeClass="info"
-            [infoText]="'Before you complete the swap, review the first slot’s app behavior with the second slot’s configuration.' | translate"
-            [infoLink]="previewLink">
-        </info-box>
-    </div>
-
-    <div *ngIf="phase!=='complete' && !swapping && (loadingDiffs || slotsDiffs)">
-        <h1>Preview changes</h1>
-        <div class="preview-changes-container">
-            <div class="preview-toggle-container">
-                <div
-                    class="preview-toggle-button src"
-                    [class.selected]="diffsPreviewSlot==='source'"
-                    [attr.role]="diffsPreviewSlot==='target' ? 'button' : null"
-                    [tabindex]="diffsPreviewSlot==='target' ? 0 : -1"
-                    (click)="diffsPreviewSlot='source'"
-                    [activate-with-keys]>
-
-                    <div class="bullet src"></div>
-                    Source Changes
-
+            <div class="controls-container">
+                <div class="control-container src">
+                    <div class="control-label">
+                        <div class="bullet src"></div>
+                        {{ 'source' | translate }}
+                        <div *ngIf="swapForm?.controls['srcId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
+                    </div>
+                    <div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="srcDropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="srcId"
+                            (change)="onSlotIdChange()">
+                        </ng-select>
+                        <div *ngIf="swapForm?.controls['srcId']" class="validation-container">
+                            <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
+                                class="error-message">
+                                    {{ swapForm.errors['slotsNotUnique'] }}
+                            </div>
+                            <ng-container *ngIf="!swapForm.controls['srcId'].pending
+                                    && swapForm.controls['srcId'].invalid && swapForm.controls['srcId'].errors">
+                                    <div *ngIf="swapForm.controls['srcId'].errors['noSwapPermission']" class="error-message">
+                                        {{ swapForm.controls['srcId'].errors['noSwapPermission'] }}
+                                    </div>
+                                    <div *ngIf="swapForm.controls['srcId'].errors['noWritePermission']" class="error-message">
+                                        {{ swapForm.controls['srcId'].errors['noWritePermission'] }}
+                                    </div>
+                                    <div *ngIf="swapForm.controls['srcId'].errors['readOnlyLock']" class="error-message">
+                                        {{ swapForm.controls['srcId'].errors['readOnlyLock'] }}
+                                    </div>
+                            </ng-container>
+                            <div [style.display]="swapForm.controls['srcId'].pending ? 'inherit': 'none'">
+                                <span load-image="image/spinner.svg" class="icon-small"></span>
+                                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div
-                    class="preview-toggle-button dest"
-                    [class.selected]="diffsPreviewSlot==='target'"
-                    [attr.role]="diffsPreviewSlot==='source' ? 'button' : null"
-                    [tabindex]="diffsPreviewSlot==='source' ? 0 : -1"
-                    (click)="diffsPreviewSlot='target'"
-                    [activate-with-keys]>
 
-                    <div class="bullet dest"></div>
-                    Target Changes
+                <div class="swap-icon-container">
+                    <span
+                        class="icon-small"
+                        load-image="image/swap.svg">
+                    </span>
+                </div>
 
+                <div class="control-container dest">
+                    <div class="control-label">
+                        <div class="bullet dest"></div>
+                        {{ 'target' | translate }}
+                        <div *ngIf="swapForm?.controls['destId']?.value === siteResourceId" class="pill">{{ 'production' | translate }}</div>
+                    </div>
+                    <div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="destDropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="destId"
+                            (change)="onSlotIdChange()">
+                        </ng-select>
+                        <div *ngIf="swapForm?.controls['destId']" class="validation-container">
+                            <div *ngIf="!swapForm.pending && swapForm.invalid && swapForm.errors && swapForm.errors['slotsNotUnique']"
+                                class="error-message">
+                                    {{ swapForm.errors['slotsNotUnique'] }}
+                            </div>
+                            <ng-container *ngIf="!swapForm.controls['destId'].pending
+                                    && swapForm.controls['destId'].invalid && swapForm.controls['destId'].errors">
+                                    <div *ngIf="swapForm.controls['destId'].errors['noSwapPermission']" class="error-message">
+                                        {{ swapForm.controls['destId'].errors['noSwapPermission'] }}
+                                    </div>
+                                    <div *ngIf="swapForm.controls['destId'].errors['noWritePermission']" class="error-message">
+                                        {{ swapForm.controls['destId'].errors['noWritePermission'] }}
+                                    </div>
+                                    <div *ngIf="swapForm.controls['destId'].errors['readOnlyLock']" class="error-message">
+                                        {{ swapForm.controls['destId'].errors['readOnlyLock'] }}
+                                    </div>
+                            </ng-container>
+                            <div [style.display]="swapForm.controls['destId'].pending ? 'inherit': 'none'">
+                                <span load-image="image/spinner.svg" class="icon-small"></span>
+                                <p class="centered-validating-text">{{ 'validating' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <tbl tblClass="tbl fixed stretch">
-                <tr class="header-row">
-                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_settingHeader | translate }}</th>
-                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_typeHeader | translate }}</th>
-                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_oldValueHeader | translate }}</th>
-                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_newValueHeader | translate }}</th>
-                </tr>
 
-                <tr *ngIf="loadingDiffs">
-                    <td colspan="4" class="spinner-row">
-                        <div class="spinner"></div>
-                    </td>
-                </tr>
+            <div class="controls-container">
+                <info-box *ngIf="noStickySettings"
+                    typeClass="info"
+                    [infoText]="'swapMultiPhaseNoStickySettings' | translate">
+                </info-box>
 
-                <tr *ngFor="let diff of (loadingDiffs ? [] : slotsDiffs)">
-                    <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
-                    <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
-                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
-                </tr>
-            </tbl>
+                <div class="centered">
+                    <label>
+                        <input
+                            [formControl]="swapForm ? swapForm.controls['multiPhase'] : null"
+                            type="checkbox">
+                        {{ 'swapWithPreviewLabel' | translate }}
+                    </label>
+                    <span class="glyphicon glyphicon-info-sign help-toggle-icon"
+                        (click)="toggleSwapWithPreviewHelp()"
+                        (keydown)="onSwapWithPreviewHelpKeyPress($event)"
+                        tabindex="0">
+                    </span>
+                    <div invalidmessage="form-group" errorkey="authMultiPhaseConflict"></div>
+                </div>
+
+                <div *ngIf="showSwapWithPreviewHelp"
+                    class="help-text-container"
+                    (click)="toggleSwapWithPreviewHelp()"
+                    tabindex="0">
+                    {{ 'swapWithPreviewInfoText' | translate }}
+                </div>
+            </div>
+
+            <div *ngIf="swapForm?.controls['multiPhase']?.value" class="phase-container">
+                <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
+                <info-box *ngIf="showPreviewLink"
+                    typeClass="info"
+                    [infoText]="'swapMultiPhasePreviewMessage' | translate"
+                    [infoLink]="previewLink">
+                </info-box>
+            </div>
+
+            <div *ngIf="showPreviewChanges">
+                <h1 class="preview-changes-header">{{ 'swapPreviewChangesHeading' | translate }}</h1>
+
+                <ng-container *ngIf="swapForm?.pending">
+                    {{ 'loading' | translate }}
+                </ng-container>
+
+                <ng-container *ngIf="!swapForm?.pending">
+
+                    <ng-container *ngIf="!swapForm?.valid">
+                        {{ 'swapPreviewMakeSelection' | translate }}
+                    </ng-container>
+
+                    <ng-container *ngIf="swapForm?.valid && loadingDiffs">
+                        {{ 'loading' | translate }}
+                    </ng-container>
+
+                    <ng-container *ngIf="swapForm?.valid && !loadingDiffs">
+
+                        <ng-container *ngIf="!slotsDiffs">
+                            {{ 'swapChangesLoadingFailed' | translate }}
+                        </ng-container>
+
+                        <ng-container *ngIf="slotsDiffs">
+
+                            <div class="preview-changes-container">
+                                <div class="preview-toggle-container">
+                                    <div
+                                        class="preview-toggle-button src"
+                                        [class.selected]="diffsPreviewSlot==='source'"
+                                        [attr.role]="diffsPreviewSlot==='target' ? 'button' : null"
+                                        [tabindex]="diffsPreviewSlot==='target' ? 0 : -1"
+                                        (click)="diffsPreviewSlot='source'"
+                                        [activate-with-keys]>
+
+                                        <div class="bullet src"></div>
+                                        {{ 'swapSourceChangesHeading' | translate }}
+
+                                    </div>
+                                    <div
+                                        class="preview-toggle-button dest"
+                                        [class.selected]="diffsPreviewSlot==='target'"
+                                        [attr.role]="diffsPreviewSlot==='source' ? 'button' : null"
+                                        [tabindex]="diffsPreviewSlot==='source' ? 0 : -1"
+                                        (click)="diffsPreviewSlot='target'"
+                                        [activate-with-keys]>
+
+                                        <div class="bullet dest"></div>
+                                        {{ 'swapTargetChangesHeading' | translate }}
+
+                                    </div>
+                                </div>
+                            
+                                <tbl tblClass="tbl fixed stretch">
+                                    <tr class="header-row">
+                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_settingHeader' | translate }}</th>
+                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_typeHeader' | translate }}</th>
+                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_oldValueHeader' | translate }}</th>
+                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_newValueHeader' | translate }}</th>
+                                    </tr>
+
+                                    <tr *ngFor="let diff of slotsDiffs">
+                                        <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
+                                        <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
+                                        <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
+                                        <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
+                                    </tr>
+                                </tbl>
+                            </div>
+
+                        </ng-container>
+
+                    </ng-container>
+
+                </ng-container>
+            </div>
+
+            <div *ngIf="showPhase2Controls" class="controls-container">
+                <div class="control-container">
+                    <div class="control-label">
+                        {{ 'swapActionLabel' | translate }}
+                    </div>
+                    <div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="phase2DropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="revertSwap">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div *ngIf="swapping" class="submit-spinner">
-        <div class="spinner large"></div>
-        <div>Swap Or Cancel In Progress</div>
-    </div>
+    <div class="footer">
 
-    <div *ngIf="phase==='complete'">
-        <div></div>
-        {{ successMessage }}
-    </div>
+        <div *ngIf="progressMessage"
+            class="progress-container">
+            <info-box
+                [typeClass]="progressMessageClass"
+                [infoText]="progressMessage">
+            </info-box>
+        </div>
 
-    <div *ngIf="phase!=='complete' && !swapping" class="buttons-container">
-        <button
-            class="custom-button"
-            (click)="swap()"
-            [disabled]="!isValid">
-            {{ (phase==='phaseTwo' ? Resources.completeSwap : Resources.swap) | translate }}
-        </button>
+        <div class="buttons-container">
+            <button *ngIf="!showPhase2Controls"
+                class="custom-button"
+                (click)="executePhase1()"
+                [disabled]="executeButtonDisabed || !swapForm || swapForm.pending || !swapForm.valid">
+                {{ (swapForm && swapForm.controls['multiPhase'].value ? 'startSwap' : 'swap') | translate }}
+            </button>
 
-        <button *ngIf="phase==='phaseTwo'"
-            class="custom-button"
-            (click)="cancelMultiPhaseSwap()">
-            {{ Resources.cancelSwap | translate }}
-        </button>
+            <button *ngIf="showPhase2Controls"
+                class="custom-button"
+                (click)="executePhase2()"
+                [disabled]="executeButtonDisabed || !swapForm || swapForm.pending || !swapForm.valid">
+                {{ (swapForm && swapForm.controls['revertSwap'].value ? 'cancelSwap' : 'completeSwap') | translate }}
+            </button>
+
+            <button
+                class="custom-button"
+                (click)="closePanel()">
+                {{ 'cancel' | translate }}
+            </button>
+        </div>
+
     </div>
 
 </div>
