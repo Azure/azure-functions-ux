@@ -8,6 +8,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
     entryComponents: [QuickstartComponent],
@@ -19,7 +20,12 @@ import { WizardModule } from 'app/controls/form-wizard/wizard.module';
         StepChooseDeploymentMethodComponent,
         QuickstartComponent
     ],
-    imports: [TranslateModule.forChild(), SharedModule, WizardModule],
+    imports: [
+        TranslateModule.forChild(),
+        SharedModule,
+        WizardModule,
+        MarkdownModule.forChild(),
+    ],
     exports: [QuickstartComponent]
 })
 export class QuickstartModule {

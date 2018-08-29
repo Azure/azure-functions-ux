@@ -114,15 +114,13 @@ export class StepChooseDeploymentMethodComponent {
     }
 
     public getInstructions() {
-        if (!!this.markdownFileName) {
-            this._quickstartService.getQuickstartFile(this.markdownFileName)
-                .subscribe(file => {
-                    console.log(file);
-                    const currentFormValues = this._wizardService.wizardValues;
-                    currentFormValues.instructions = file;
-                    this._wizardService.wizardValues = currentFormValues;
-                });
-        }
+        this._quickstartService.getQuickstartFile(this.markdownFileName)
+            .subscribe(file => {
+                console.log(file);
+                const currentFormValues = this._wizardService.wizardValues;
+                currentFormValues.instructions = file;
+                this._wizardService.wizardValues = currentFormValues;
+            });
     }
 
     get deploymentCards(): DeploymentCard[] {
