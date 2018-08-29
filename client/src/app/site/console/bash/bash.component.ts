@@ -66,7 +66,7 @@ export class BashComponent  extends AbstractConsoleComponent {
               if (ExitCode === ConsoleConstants.successExitcode) {
                 // fetch the list of files/folders in the current directory
                 const cmd = this.command.substring(0, this.ptrPosition);
-                const allFiles = Output.Output.split(ConsoleConstants.newLine);
+                const allFiles = Output.split(ConsoleConstants.newLine);
                 this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                 this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                 if (this.listOfDir.length > 0) {

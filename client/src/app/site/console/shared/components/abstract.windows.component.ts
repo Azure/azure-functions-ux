@@ -74,7 +74,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
                     if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.substring(0, this.ptrPosition);
-                        const allFiles = Output.Output.split(ConsoleConstants.windowsNewLine);
+                        const allFiles = Output.split(ConsoleConstants.windowsNewLine);
                         this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
