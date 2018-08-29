@@ -99,7 +99,6 @@ export class NotificationIds {
     public static newRuntimeVersion = 'newRuntimeVersion';
     public static slotsHostId = 'slotsBlobStorage';
     public static runtimeV2 = 'runtimeV2';
-    public static updateExtensions = 'updateExtensions';
 }
 
 export class Validations {

@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links, NotificationIds } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -28,7 +28,6 @@ import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
-import { TopBarNotification } from 'app/top-bar/top-bar-models';
 
 @Component({
     selector: 'site-summary',
@@ -61,15 +60,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
-    private _oldExtensionList = [
-        'EventHubConfiguration',
-        'CosmosDBConfiguration',
-        'EventGridExtensionConfig',
-        'MicrosoftGraphExtensionConfig',
-        'SendGridConfiguration',
-        'AuthTokenExtensionConfig',
-        'ServiceBusExtensionConfig',
-    ];
 
     constructor(
         private _cacheService: CacheService,
@@ -151,16 +141,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
                     this._functionAppService.pingScmSite(context),
-                    this._functionAppService.getFunctionHostStatus(context),
-                    this._functionAppService.getExtensionJson(context),
-                    (p, s, l, slots, ping, host, extensions) => ({
+                    (p, s, l, slots, ping) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         slotsList: slots.isSuccessful ? slots.result : [],
-                        pingedScmSite: ping.isSuccessful ? ping.result : false,
-                        runtime: host.isSuccessful ? host.result.version : '',
-                        extensionList: extensions.isSuccessful ? extensions.result.map(r => r.name) : [],
+                        pingedScmSite: ping.isSuccessful ? ping.result : false
                     }));
             })
             .mergeMap(r => {
@@ -179,20 +165,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         href: Links.funcStorageLearnMore,
                         hrefText: this.ts.instant(PortalResources.scmPingFailedLearnMore)
                     });
-                }
-
-                if (!!r.runtime && r.runtime.includes('.')) {
-                    const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
-                    if (hasOldExtensions) {
-                        const notifications: TopBarNotification[] = [{
-                            id: NotificationIds.updateExtensions,
-                            message: this.ts.instant(PortalResources.topBar_updateExtensions),
-                            iconClass: 'fa fa-exclamation-triangle warning',
-                            learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=2013353',
-                            clickCallback: null,
-                        }];
-                        this._globalStateService.setTopBarNotifications(notifications);
-                    }
                 }
 
                 return !this.hideAvailability
