@@ -8,7 +8,7 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -37,6 +37,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public deploymentSlotsAvailable = true;
     public canCreateNewSite = true;
     public hideBuild = false;
+    public hideVstsBuildConfigure = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -111,6 +112,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
             default:
                 return this._deployKudu();
         }
+    }
+
+    public fetchVSTSProfile() {
+        // if the first get fails, it's likely because the user doesn't have an account in vsts yet
+        // the fix for this is to do an empty post call on the same url and then get it
+        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders())
+            .catch(() => {
+                return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders())
+                    .switchMap(() => {
+                        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders());
+                    });
+            });
+
     }
 
     private _deployKudu() {

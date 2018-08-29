@@ -1196,4 +1196,7 @@
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
+    public static no_vsts_repos = 'no_vsts_repos';
+    public static no_vsts_repos_kudu = 'no_vsts_repos_kudu';
+    public static create_one = 'create_one';
 }

@@ -174,9 +174,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private setupSubscriptions() {
-    this.fetchVSTSProfile()
+    this.accountListLoading = true;
+    this.wizard.fetchVSTSProfile()
       .map(r => r.json())
-      .do(() => this.accountListLoading = true)
       .switchMap(r => this.fetchAccounts(r.id))
       .do(() => this.accountListLoading = false)
       .switchMap(r => {
@@ -215,6 +215,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
         },
         err => {
+          this.accountListLoading = false;
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
         },
       );
@@ -232,19 +233,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         err => {
           this._logService.error(LogCategories.cicd, '/fetch-vso-available-locations', err);
         });
-  }
-
-  private fetchVSTSProfile() {
-    // if the first get fails, it's likely because the user doesn't have an account in vsts yet
-    // the fix for this is to do an empty post call on the same url and then get it
-    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
-      .catch(() => {
-        return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri)
-          .switchMap(() => {
-            return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri);
-          });
-      });
-
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
