@@ -176,12 +176,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     openVSTSAccountCreate() {
-        window.open('https://visualstudio.microsoft.com/team-services/');
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014384');
     }
 
     openVSTSRepoCreate() {
-        // TODO: GET FWLINK FROM BYRON
-        window.open('https://docs.microsoft.com/vsts/repos/git/create-new-repo?view=vsts');
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014379');
     }
 
     private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
