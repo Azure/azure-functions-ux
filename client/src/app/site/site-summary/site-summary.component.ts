@@ -61,7 +61,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
-    private _oldExtensionList = [
+    private readonly _oldExtensionList = [
         'EventHubConfiguration',
         'CosmosDBConfiguration',
         'EventGridExtensionConfig',
@@ -188,7 +188,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                             id: NotificationIds.updateExtensions,
                             message: this.ts.instant(PortalResources.topBar_updateExtensions),
                             iconClass: 'fa fa-exclamation-triangle warning',
-                            learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=2013353',
+                            learnMoreLink: Links.extensionInstallHelpLink,
                             clickCallback: null,
                         }];
                         this._globalStateService.setTopBarNotifications(notifications);

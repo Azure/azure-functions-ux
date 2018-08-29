@@ -131,6 +131,7 @@ export class Links {
     public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
     public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
+    public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
 }
 
 export class Kinds {
