@@ -36,8 +36,8 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(data => {
-                const output = data.json();
-                this._defaultDirectory = output.Output.trim();
+                const {Output} = data.json();
+                this._defaultDirectory = Output.trim();
                 this.dir = this._defaultDirectory;
                 if (this.currentPrompt) {
                     this.currentPrompt.instance.dir = this.getConsoleLeft();

@@ -516,9 +516,9 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                     if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.complete.substring(0, this._ptrPosition);
-                        const allFiles = this.isLinux ? (
-                                Output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
-                            ) : Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
+                        const allFiles = this.isLinux
+                            ? Output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
+                            : Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
                         this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
@@ -622,7 +622,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _updateDirectoryAfterCommand(cmd: string) {
         if (this.isLinux) {
-            const result = cmd.split(ConsoleConstants.newLine.repeat(2));
+            const result = cmd.split(ConsoleConstants.linuxNewLine);
             this.dir = result[result.length - 1];
         }else {
             const result = cmd.split(ConsoleConstants.windowsNewLine);
@@ -708,8 +708,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             }
         );
         res.subscribe(data => {
-            const output = data.json();
-            this.dir = output.Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
+            const {Output} = data.json();
+            this.dir = Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
             this._setLeftSideText();
         });
     }
