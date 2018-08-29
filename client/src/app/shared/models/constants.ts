@@ -54,6 +54,8 @@ export class Constants {
     public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
     public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
     public static WebhookFunctionName = 'MSGraphWebhook';
+
+    public static scmHostType = 1;
 }
 
 export class TabCommunicationVerbs {

@@ -9,7 +9,7 @@ import { Site } from '../shared/models/arm/site';
 import { PublishingCredentials } from '../shared/models/publishing-credentials';
 import { CacheService } from '../shared/services/cache.service';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
-import { KeyCodes, ConsoleConstants, HttpMethods } from '../shared/models/constants';
+import { KeyCodes, ConsoleConstants, HttpMethods, Constants } from '../shared/models/constants';
 import { ConsoleService } from '../site/console/shared/services/console.service';
 import { Headers } from '@angular/http';
 import { PromptComponent } from './extra-components/prompt.component';
@@ -638,7 +638,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      * Get API Url according to the app type
      */
     private _getKuduUri() {
-        const scmHostName = this._site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === Constants.scmHostType).name;
         if (this.isLinux) {
             return `https://${scmHostName}/command`;
         }
