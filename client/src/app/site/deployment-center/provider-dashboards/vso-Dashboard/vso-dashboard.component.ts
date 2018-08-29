@@ -85,7 +85,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
 
                 return this._cacheService.get(
-                    `https://${endpointUri.host}/DefaultCollection/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`,
+                    `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`,
                 );
             })
             .subscribe(
