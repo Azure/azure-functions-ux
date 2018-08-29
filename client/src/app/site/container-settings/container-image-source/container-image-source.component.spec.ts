@@ -15,6 +15,8 @@ import { ContainerImageSourceACRComponent } from './container-image-source-acr/c
 import { ContainerImageSourceDockerHubComponent } from './container-image-source-dockerhub/container-image-source-dockerhub.component';
 import { ContainerImageSourcePrivateRegistryComponent } from './container-image-source-privateregistry/container-image-source-privateregistry.component';
 import { RadioSelectorComponent } from '../../../radio-selector/radio-selector.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgModel } from '@angular/forms';
 
 describe('ContainerIamgeSourceComponent', () => {
     let component: ContainerImageSourceComponent;
@@ -31,7 +33,9 @@ describe('ContainerIamgeSourceComponent', () => {
                     ContainerImageSourceDockerHubComponent,
                     ContainerImageSourcePrivateRegistryComponent,
                     MockDirective(LoadImageDirective),
+                    MockDirective(NgModel),
                     MockComponent(RadioSelectorComponent),
+                    MockComponent(NgSelectComponent),
                 ],
                 imports: [
                     TranslateModule.forRoot()

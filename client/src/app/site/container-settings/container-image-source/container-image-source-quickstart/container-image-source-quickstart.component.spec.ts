@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from './../../../../controls/load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from './../../../../shared/services/broadcast.service';
@@ -10,6 +10,9 @@ import { TelemetryService } from './../../../../shared/services/telemetry.servic
 import { MockTelemetryService } from './../../../../test/mocks/telemetry.service.mock';
 import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourceQuickstartComponent } from './container-image-source-quickstart.component';
+import { NgModel } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { ContainerSamplesService } from '../../../../shared/services/container-samples.service';
 
 describe('ContainerImageSourceQuickstartComponent', () => {
     let component: ContainerImageSourceQuickstartComponent;
@@ -22,6 +25,8 @@ describe('ContainerImageSourceQuickstartComponent', () => {
                 declarations: [
                     ContainerImageSourceQuickstartComponent,
                     MockDirective(LoadImageDirective),
+                    MockDirective(NgModel),
+                    MockComponent(NgSelectComponent),
                 ],
                 imports: [
                     TranslateModule.forRoot()
@@ -30,6 +35,7 @@ describe('ContainerImageSourceQuickstartComponent', () => {
                     BroadcastService,
                     Injector,
                     ContainerSettingsManager,
+                    ContainerSamplesService,
                     { provide: LogService, useClass: MockLogService },
                     { provide: TelemetryService, useClass: MockTelemetryService },
                 ],

@@ -1214,4 +1214,13 @@
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
+    public static quickstartSample1 = 'quickstartSample1';
+    public static quickstartSample2 = 'quickstartSample2';
+    public static singleContainerSample1Description = 'singleContainerSample1Description';
+    public static singleContainerSample2Description = 'singleContainerSample2Description';
+    public static dockerComposeSample1Description = 'dockerComposeSample1Description';
+    public static dockerComposeSample2Description = 'dockerComposeSample2Description';
+    public static kubernetesSample1Description = 'kubernetesSample1Description';
+    public static quickstartSelectSample = 'quickstartSelectSample';
+    public static quickStartSampleDescription = 'quickStartSampleDescription';
 }

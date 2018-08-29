@@ -14,11 +14,14 @@ export type DockerHubAccessType =
     'public' |
     'private';
 
-export enum ContainerType {
-    Single,
-    DockerCompose,
-    Kubernetes
-}
+export type ContainerType =
+    'single' |
+    'dockerCompose' |
+    'kubernetes';
+
+export type ContainerOS =
+    'linux' |
+    'windows';
 
 export interface ContainerSettingsInput<T> {
     id: ResourceId;
@@ -33,6 +36,10 @@ export interface ContainerSettingsData {
 
 export interface ContainerConfigureInfo {
     containerSettingsData: ContainerSettingsData;
+}
+
+export interface ContainerImageSourceInfo extends ContainerConfigureInfo {
+    container: Container;
 }
 
 export abstract class Container {
@@ -52,7 +59,7 @@ export abstract class Container {
 export class SingleContainer extends Container {
     iconUrl = 'image/singlecontainer.svg';
     title = this.ts.instant(PortalResources.singleContainerTitle);
-    id = ContainerType.Single;
+    id: ContainerType = 'single';
     description = this.ts.instant(PortalResources.singleContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.singleContainerDetailedDescription);
 }
@@ -60,7 +67,7 @@ export class SingleContainer extends Container {
 export class DockerComposeContainer extends Container {
     iconUrl = 'image/dockercompose.svg';
     title = this.ts.instant(PortalResources.dockerComposeContainerTitle);
-    id = ContainerType.DockerCompose;
+    id: ContainerType = 'dockerCompose';
     description = this.ts.instant(PortalResources.dockerComposeContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.dockerComposeContainerDetailedDescription);
 }
@@ -68,7 +75,7 @@ export class DockerComposeContainer extends Container {
 export class KubernetesContainer extends Container {
     iconUrl = 'image/kubernetes.svg';
     title = this.ts.instant(PortalResources.kubernetesContainerTitle);
-    id = ContainerType.Kubernetes;
+    id: ContainerType = 'kubernetes';
     description = this.ts.instant(PortalResources.kubernetesContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.kubernetesContainerDetailedDescription);
 }
@@ -82,4 +89,13 @@ export interface ImageSourceOption {
 export interface DockerHubRepositoryAccessOption {
     displayText: string;
     value: DockerHubAccessType;
+}
+
+export interface ContainerSample {
+    name: string;
+    title: string;
+    configBase64Encoded: string;
+    description: string;
+    containerType: ContainerType;
+    containerOS: ContainerOS;
 }

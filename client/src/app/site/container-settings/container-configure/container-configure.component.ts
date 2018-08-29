@@ -18,7 +18,7 @@ export class ContainerConfigureComponent {
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
-        this._containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
+        this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });
     }

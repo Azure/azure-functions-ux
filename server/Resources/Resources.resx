@@ -3784,4 +3784,31 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
+  <data name="quickstartSample1" xml:space="preserve">
+    <value>Sample #1</value>
+  </data>
+  <data name="quickstartSample2" xml:space="preserve">
+    <value>Sample #2</value>
+  </data>
+  <data name="singleContainerSample1Description" xml:space="preserve">
+    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
+  </data>
+  <data name="singleContainerSample2Description" xml:space="preserve">
+    <value>Static html web page served from Nginx.</value>
+  </data>
+  <data name="dockerComposeSample1Description" xml:space="preserve">
+    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample2Description" xml:space="preserve">
+    <value>WordPress on Multi-container sample app, Docker Compose config.</value>
+  </data>
+  <data name="kubernetesSample1Description" xml:space="preserve">
+    <value>WordPress on Multi-container sample app, Kubernetes config.</value>
+  </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Select sample</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>

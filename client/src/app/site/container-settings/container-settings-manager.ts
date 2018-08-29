@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData, ImageSourceType, DockerHubAccessType } from './container-settings';
+import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData, ImageSourceType, DockerHubAccessType, ContainerSample } from './container-settings';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
@@ -7,9 +7,10 @@ import { SelectOption } from '../../shared/models/select-option';
 
 @Injectable()
 export class ContainerSettingsManager {
-    $selectedContainer: Subject<Container> = new Subject<Container>();
-    $selectedImageSource: Subject<SelectOption<ImageSourceType>> = new Subject<SelectOption<ImageSourceType>>();
-    $selectedDockerAccessType: Subject<DockerHubAccessType> = new Subject<DockerHubAccessType>();
+    selectedContainer$: Subject<Container> = new Subject<Container>();
+    selectedImageSource$: Subject<SelectOption<ImageSourceType>> = new Subject<SelectOption<ImageSourceType>>();
+    selectedDockerAccessType$: Subject<DockerHubAccessType> = new Subject<DockerHubAccessType>();
+    selectedQuickstartSample$: Subject<ContainerSample> = new Subject<ContainerSample>();
 
     containers: Container[] = [];
     containerImageSourceOptions: SelectOption<ImageSourceType>[] = [];
@@ -27,9 +28,9 @@ export class ContainerSettingsManager {
     }
 
     initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.$selectedContainer.next(this.containers[0]);
-        this.$selectedImageSource.next(this.containerImageSourceOptions[0]);
-        this.$selectedDockerAccessType.next(this.dockerHubAccessOptions[0].value);
+        this.selectedContainer$.next(this.containers[0]);
+        this.selectedImageSource$.next(this.containerImageSourceOptions[0]);
+        this.selectedDockerAccessType$.next(this.dockerHubAccessOptions[0].value);
     }
 
     private _resetContainers(inputs: ContainerSettingsInput<ContainerSettingsData>) {
@@ -59,10 +60,10 @@ export class ContainerSettingsManager {
     private _resetDockerHubAccessOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
         this.dockerHubAccessOptions = [{
             displayLabel: this._ts.instant(PortalResources.containerRepositoryPublic),
-            value: 'public'
+            value: 'public',
         }, {
             displayLabel: this._ts.instant(PortalResources.containerRepositoryPrivate),
-            value: 'private'
+            value: 'private',
         }]
     }
 }

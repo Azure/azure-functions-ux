@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureInfo, Container } from '../../container-settings';
+import { ContainerImageSourceInfo, Container } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 
 @Component({
@@ -12,16 +12,16 @@ import { ContainerSettingsManager } from '../../container-settings-manager';
 })
 export class ContainerImageSourcePrivateRegistryComponent {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureInfo) {
-        this.containerConfigureInfo = containerConfigureInfo;
+    @Input() set containerImageSourceInfoInput(containerImageSourceInfo: ContainerImageSourceInfo) {
+        this.containerImageSourceInfo = containerImageSourceInfo;
     }
 
     public selectedContainer: Container;
-    public containerConfigureInfo: ContainerConfigureInfo;
+    public containerImageSourceInfo: ContainerImageSourceInfo;
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
-        this._containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
+        this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });
     }

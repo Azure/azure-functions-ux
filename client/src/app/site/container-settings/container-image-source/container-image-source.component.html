@@ -2,29 +2,30 @@
     <label>{{ 'containerImageSource' | translate }}</label>
     <div>
       <radio-selector
-        [options]="containerSettingsManager.containerImageSourceOptions"
-        [highlightDirty]="true"
-        (value)="updateContainerImageSource($event)">
+        [defaultValue] = "selectedImageSource.value"
+        [options] = "containerSettingsManager.containerImageSourceOptions"
+        [highlightDirty] = "true"
+        (value) = "updateContainerImageSource($event)">
       </radio-selector>
     </div>
 </div>
 
 <container-image-source-quickstart
     *ngIf = "selectedImageSource.value === 'quickstart'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
+    [containerImageSourceInfoInput] = "containerImageSourceInfo">
 </container-image-source-quickstart>
 
 <container-image-source-acr
     *ngIf = "selectedImageSource.value === 'azureContainerRegistry'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
+    [containerImageSourceInfoInput] = "containerImageSourceInfo">
 </container-image-source-acr>
 
 <container-image-source-dockerhub
     *ngIf = "selectedImageSource.value === 'dockerHub'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
+    [containerImageSourceInfoInput] = "containerImageSourceInfo">
 </container-image-source-dockerhub>
 
 <container-image-source-privateregistry
     *ngIf = "selectedImageSource.value === 'privateRegistry'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
+    [containerImageSourceInfoInput] = "containerImageSourceInfo">
 </container-image-source-privateregistry>

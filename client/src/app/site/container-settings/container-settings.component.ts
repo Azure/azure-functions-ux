@@ -34,7 +34,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         this.isParentComponent = true;
         this.featureName = 'ContainerSettings';
 
-        this.containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
+        this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });
     }
@@ -56,7 +56,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public selectContainer(container: Container) {
-        this.containerSettingsManager.$selectedContainer.next(container);
+        this.containerSettingsManager.selectedContainer$.next(container);
     }
 
     public onContainerTabKeyPress(event: KeyboardEvent) {
