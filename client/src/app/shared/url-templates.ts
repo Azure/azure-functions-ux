@@ -207,4 +207,8 @@ export class UrlTemplates {
     get extensionJsonUrl() {
         return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
     }
+
+    get updateHostStateUrl() {
+        return `${this.mainSiteUrl}/admin/host/state`;
+    }
 }

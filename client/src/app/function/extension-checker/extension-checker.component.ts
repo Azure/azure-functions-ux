@@ -24,7 +24,7 @@ import { errorIds } from '../../shared/models/error-ids';
 @Component({
     selector: 'extension-checker',
     templateUrl: './extension-checker.component.html',
-    styleUrls: ['./extension-checker.component.scss']
+    styleUrls: ['./extension-checker.component.scss'],
 })
 export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
@@ -52,6 +52,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public installFailedInstallId: string;
     public installFailedSessionId: string;
     public documentationLink = Links.extensionInstallHelpLink;
+    public correctAppState: boolean;
 
     private functionCardStream: Subject<CreateCard>;
     private _busyManager: BusyStateScopeManager;
@@ -96,7 +97,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                 this.showComponentError({
                     message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
                     errorId: errorIds.unableToCreateFunction,
-                    resourceId: this.context.site.id
+                    resourceId: this.context.site.id,
                 });
                 this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
             })
@@ -121,10 +122,31 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
         }, 100);
     }
 
-    installNeededExtensions() {
+    takeAppOffline() {
+        if (this.neededExtensions.length > 0) {
         this.installing = true;
         this.installFailed = false;
-        if (this.neededExtensions.length > 0) {
+
+            // Put host into offline state
+            this._functionAppService.updateHostState(this.context, 'offline')
+            .subscribe(r => {
+                if (r.isSuccessful) {
+                    // Ensure host is offline
+                    this.correctAppState = false;
+                    this._pollHostStatus(0, 'Offline');
+                } else {
+                    this.showComponentError({
+                        message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: r.error }),
+                        errorId: errorIds.failedToUpdateHostToOffline,
+                        resourceId: this.context.site.id,
+                    });
+                }
+            });
+        }
+    }
+
+    installNeededExtensions() {
+        // Install Extensions
             const extensionCalls = this.neededExtensions.map(extension => {
                 return this._functionAppService.installExtension(this.context, extension);
             });
@@ -135,7 +157,6 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                 this._pollInstallationStatus(0);
             });
         }
-    }
 
     continueToFunctionNewDetail() {
         this.openFunctionNewDetail = true;
@@ -189,6 +210,33 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
             });
     }
 
+    private _pollHostStatus(timeOut: number, desiredState: 'Offline' | 'Running') {
+        setTimeout(() => {
+            if (timeOut > 600) {
+                this.showTimeoutError(this.context);
+                return;
+            }
+
+            if (!this.correctAppState) {
+                this._functionAppService.getFunctionHostStatus(this.context)
+                .subscribe(r => {
+                    if (r.isSuccessful && r.result.state) {
+                        this.correctAppState = r.result.state === desiredState;
+                    }
+                    return this._pollHostStatus(timeOut + 1, desiredState);
+                });
+            } else if (desiredState === 'Offline') {
+                this.installNeededExtensions();
+            } else if (desiredState === 'Running') {
+                this._getNeededExtensions(this.runtimeExtensions)
+                .subscribe((extensions) => {
+                    this.installing = false;
+                    this._setInstallationVariables(extensions);
+                });
+            }
+        }, 1000);
+    }
+
     private _pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
             if (timeOut > 600) {
@@ -210,7 +258,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                             .map(r => {
                                 return {
                                     installStatusResult: r,
-                                    job: job
+                                    job: job,
                                 };
                             });
                     });
@@ -244,9 +292,20 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     this._pollInstallationStatus(timeOut + 1);
                 });
             } else {
-                this._getNeededExtensions(this.runtimeExtensions).subscribe((extensions) => {
-                    this.installing = false;
-                    this._setInstallationVariables(extensions);
+                // Put host into running state
+                this._functionAppService.updateHostState(this.context, 'running')
+                .subscribe(r => {
+                    if (r.isSuccessful) {
+                        // Ensure host is running
+                        this.correctAppState = false;
+                        this._pollHostStatus(0, 'Running');
+                    } else {
+                        this.showComponentError({
+                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: r.error }),
+                            errorId: errorIds.failedToUpdateHostToRunning,
+                            resourceId: this.context.site.id,
+                        });
+                    }
                 });
             }
         }, 1000);
@@ -261,7 +320,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     showInstallFailed(context: FunctionAppContext, id: string) {
         this.installFailed = true;
         this.detailsUrl = context.urlTemplates.getRuntimeHostExentensionsJobUrl(id);
-        this.installFailedUrl = this._translateService.instant(PortalResources.failedToInstallExtensionUrl, { url: this.detailsUrl });
+        this.installFailedUrl = this._translateService.instant(PortalResources.failedToInstallExtensionUrl);
         this.installFailedInstallId = this._translateService.instant(PortalResources.failedToInstallExtensionInstallId, {installId: id});
         this.installFailedSessionId = this._translateService.instant(PortalResources.failedToInstallExtensionSessionId, {sessionId: this._portalService.sessionId});
     }
