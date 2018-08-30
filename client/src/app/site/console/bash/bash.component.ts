@@ -7,14 +7,13 @@ import { ConsoleConstants, HttpMethods, Constants } from '../../../shared/models
   selector: 'app-bash',
   templateUrl: './bash.component.html',
   styleUrls: ['./../console.component.scss'],
-  providers: []
 })
 export class BashComponent  extends AbstractConsoleComponent {
 
   private _defaultDirectory = '/home';
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
-    public consoleService: ConsoleService
+    public consoleService: ConsoleService,
     ) {
       super(componentFactoryResolver, consoleService);
       this.dir = this._defaultDirectory;
@@ -57,7 +56,7 @@ export class BashComponent  extends AbstractConsoleComponent {
         const header = this.getHeader();
         const body = {
           'command': (`bash -c ' ${this.getTabKeyCommand()} '`),
-          'dir': this.dir
+          'dir': this.dir,
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         res.subscribe(
@@ -95,7 +94,7 @@ export class BashComponent  extends AbstractConsoleComponent {
       const cmd = this.command;
       const body = {
         'command': (`bash -c ' ${cmd} && echo '' && pwd'`),
-        'dir': this.dir
+        'dir': this.dir,
       };
       const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       this.lastAPICall = res.subscribe(
