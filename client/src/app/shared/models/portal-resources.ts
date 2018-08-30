@@ -78,6 +78,9 @@
     public static logStreaming_paused = 'logStreaming_paused';
     public static logStreaming_start = 'logStreaming_start';
     public static logStreaming_tooManyLogs = 'logStreaming_tooManyLogs';
+    public static logStreaming_reconnect = 'logStreaming_reconnect';
+    public static logStreaming_reconnectSuccess = 'logStreaming_reconnectSuccess';
+    public static logStreaming_connectionExists = 'logStreaming_connectionExists';
     public static _name = '_name';
     public static open = 'open';
     public static or = 'or';
@@ -413,6 +416,8 @@
     public static feature_sshConsoleName = 'feature_sshConsoleName';
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
+    public static ssh_reconnect = 'ssh_reconnect';
+    public static ssh_newWindow = 'ssh_newWindow';
     public static feature_extensionsName = 'feature_extensionsName';
     public static feature_extensionsInfo = 'feature_extensionsInfo';
     public static emptyAppSettings = 'emptyAppSettings';
@@ -1228,6 +1233,11 @@
     public static kubernetesSample1Description = 'kubernetesSample1Description';
     public static quickstartSelectSample = 'quickstartSelectSample';
     public static quickStartSampleDescription = 'quickStartSampleDescription';
+    public static no_vsts_repos = 'no_vsts_repos';
+    public static no_vsts_accounts = 'no_vsts_accounts';
+    public static no_vsts_accounts_kudu = 'no_vsts_accounts_kudu';
+    public static create_one = 'create_one';
+    public static topBar_updateExtensions = 'topBar_updateExtensions';
     public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
     public static noCreateAccess = 'noCreateAccess';
     public static noSwapPermission = 'noSwapPermission';

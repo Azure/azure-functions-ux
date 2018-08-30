@@ -6,7 +6,7 @@ import { SelectOption } from '../../shared/models/select-option';
 import { SiteService } from '../../shared/services/site.service';
 import { LogService } from '../../shared/services/log.service';
 import { CacheService } from '../../shared/services/cache.service';
-import { SiteTabIds, LogCategories, LogConsoleTypes, Regex, ConsoleConstants } from '../../shared/models/constants';
+import { SiteTabIds, LogCategories, LogConsoleTypes, Regex, ConsoleConstants, HostTypes } from '../../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
@@ -21,7 +21,7 @@ import { UtilitiesService } from '../../shared/services/utilities.service';
 
 enum LogTypes {
     Application = 1,
-    WebServer = 2
+    WebServer = 2,
 };
 
 @Component({
@@ -42,6 +42,8 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
     public stopped = false;
+    public popOverTimeout = 500;
+    private _isConnectionSuccessful = true;
     private _tokenSubscription: Subscription;
     private _token: string;
     private _logStreamIndex = 0;
@@ -67,7 +69,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
         private _userService: UserService,
         private _functionAppService: FunctionAppService,
         private _componentFactoryResolver: ComponentFactoryResolver,
-        injector: Injector
+        injector: Injector,
     ) {
         super('site-log-stream', injector, SiteTabIds.logStream);
         this.featureName = 'log-stream';
@@ -94,6 +96,28 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
         if (this._tokenSubscription) {
             this._tokenSubscription.unsubscribe();
         }
+    }
+
+    reconnect() {
+        this._isConnectionSuccessful = false;
+        if (this.canReconnect()) {
+            this._startStreamingRequest();
+            this._isConnectionSuccessful = true;
+        }
+    }
+
+    canReconnect(): boolean {
+        if (this._xhReq) {
+            return this._xhReq.readyState === XMLHttpRequest.DONE;
+        }
+        return true;
+    }
+
+    getPopoverText(): string {
+        if (this._isConnectionSuccessful) {
+            return PortalResources.logStreaming_reconnectSuccess;
+        }
+        return PortalResources.logStreaming_connectionExists;
     }
 
     /**
@@ -145,8 +169,8 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
                 this._cacheService.postArm(`${this.resourceId}/config/publishingcredentials/list`),
                 (site, publishingCredentials) => ({
                     site: site.result,
-                    publishingCredentials: publishingCredentials.json()
-                })
+                    publishingCredentials: publishingCredentials.json(),
+                }),
             );
         })
         .do(
@@ -159,7 +183,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
             err => {
                 this._logService.error(LogCategories.cicd, '/load-log-stream', err);
                 this.clearBusyEarly();
-            }
+            },
         );
     }
 
@@ -167,7 +191,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
      * Get api url for the current type of logs.
      */
     private _getLogUrl(): string {
-        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
         return `https://${scmHostName}/api/logstream/` + (this.toggleLog ? '' : this._logStreamType);
     }
 
@@ -214,9 +238,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
                         }
                     });
                 }
-                if (this._xhReq.readyState === XMLHttpRequest.DONE) {
-                    this._startStreamingRequest();
-                } else {
+                if (this._xhReq.readyState !== XMLHttpRequest.DONE) {
                     this._timeouts.push(window.setTimeout(callBack, this.timerInterval));
                 }
             };
@@ -295,12 +317,12 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
         this.options = [
             {
                 displayLabel: this._translateService.instant(PortalResources.feature_applicationLogsName),
-                value: LogTypes.Application
+                value: LogTypes.Application,
             },
             {
                 displayLabel: this._translateService.instant(PortalResources.feature_webServerLogsName),
-                value: LogTypes.WebServer
-            }
+                value: LogTypes.WebServer,
+            },
         ];
     }
 

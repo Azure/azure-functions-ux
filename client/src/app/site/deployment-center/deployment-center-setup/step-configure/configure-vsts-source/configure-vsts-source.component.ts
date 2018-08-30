@@ -9,7 +9,7 @@ import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo'
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
+import { LogCategories } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
@@ -40,6 +40,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedBranch = '';
     public accountListLoading = false;
     public branchesLoading = false;
+    public hasRepos = true;
+    public hasAccounts = true;
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
@@ -74,10 +76,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._memberIdSubscription
             .takeUntil(this._ngUnsubscribe$)
             .do(() => this.accountListLoading = true)
-            .switchMap(() => this._cacheService.get(DeploymentCenterConstants.vstsProfileUri))
+            .concatMap(() => this.wizard.fetchVSTSProfile())
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
+                if (r.length === 0) {
+                    this.hasAccounts = false;
+                } else {
+                    this.hasAccounts = true;
+                }
                 const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
@@ -91,6 +98,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .do(() => this.accountListLoading = false)
             .subscribe(
                 r => {
+                    if (r.length === 0) {
+                        this.hasRepos = false;
+                    } else {
+                        this.hasRepos = true;
+                    }
                     this._vstsRepositories = [];
                     r.forEach(repoList => {
                         repoList.forEach(repo => {
@@ -114,6 +126,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     );
                 },
                 err => {
+                    this.hasAccounts = false;
                     this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
                 },
             );
@@ -158,11 +171,23 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             );
     }
 
+    get isKudu() {
+        return this.wizard.wizardForm.controls.buildProvider.value === 'kudu';
+    }
+
+    openVSTSAccountCreate() {
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014384');
+    }
+
+    openVSTSRepoCreate() {
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014379');
+    }
+
     private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
-            if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
+            if (this.isKudu) {
                 return Observable.of(accounts.filter(x => x.isAccountOwner));
             } else {
                 return Observable.of(accounts);

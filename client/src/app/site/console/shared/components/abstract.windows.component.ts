@@ -1,14 +1,14 @@
 import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
-import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods, HostTypes } from '../../../../shared/models/constants';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
 
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
-        public consoleService: ConsoleService
+        public consoleService: ConsoleService,
         ) {
           super(componentFactoryResolver, consoleService);
           this.dir = this._defaultDirectory;
@@ -32,12 +32,12 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             const header = this.getHeader();
             const body = {
                 'command': 'cd',
-                'dir': 'site\\wwwroot'
+                'dir': 'site\\wwwroot',
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(data => {
-                const output = data.json();
-                this._defaultDirectory = output.Output.trim();
+                const {Output} = data.json();
+                this._defaultDirectory = Output.trim();
                 this.dir = this._defaultDirectory;
                 if (this.currentPrompt) {
                     this.currentPrompt.instance.dir = this.getConsoleLeft();
@@ -50,7 +50,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
      * Get Kudu API URL
      */
     protected getKuduUri(): string {
-        const scmHostName = this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
+        const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
         return `https://${scmHostName}/api/command`;
     }
 
@@ -65,16 +65,16 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             const header = this.getHeader();
             const body = {
                 'command': `${this.getCommandPrefix()}${this.getTabKeyCommand()}`,
-                'dir': this.dir + ConsoleConstants.singleBackslash
+                'dir': this.dir + ConsoleConstants.singleBackslash,
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(
                 data => {
-                    const output = data.json();
-                    if (output.ExitCode === ConsoleConstants.successExitcode) {
+                    const { Output, ExitCode } = data.json();
+                    if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.substring(0, this.ptrPosition);
-                        const allFiles = output.Output.split(ConsoleConstants.windowsNewLine);
+                        const allFiles = Output.split(ConsoleConstants.windowsNewLine);
                         this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                         if (this.listOfDir.length > 0) {
@@ -103,24 +103,21 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         const cmd = this.command;
         const body = {
             'command': `${this.getCommandPrefix()}${cmd} & echo. & cd`,
-            'dir': (this.dir + ConsoleConstants.singleBackslash)
+            'dir': this.dir,
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         this.lastAPICall = res.subscribe(
             data => {
-                const output = data.json();
-                if (output.Error !== '') {
-                    this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else {
-                    if (output.ExitCode === ConsoleConstants.successExitcode && this.performAction(cmd, output.Output)) {
-                        if (output.Output !== '') {
-                            this.addMessageComponent(output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0] + ConsoleConstants.newLine);
-                        }
-                    }
+                const { Output, ExitCode, Error } = data.json();
+                if (Error !== '') {
+                    this.addErrorComponent(`${Error.trim()}${ConsoleConstants.windowsNewLine.repeat(2)}`);
+                } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
+                    this._updateDirectoryAfterCommand(Output.trim());
+                    const msg = Output.split(this.getMessageDelimeter())[0].trim();
+                    this.addMessageComponent(`${msg}${ConsoleConstants.windowsNewLine.repeat(2)}`);
                 }
                 this.addPromptComponent();
                 this.enterPressed = false;
-                return output;
             },
             err => {
                 this.addErrorComponent(err.text);
@@ -129,10 +126,23 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         );
     }
 
+    protected getMessageDelimeter(): string {
+        return ConsoleConstants.windowsNewLine + this.dir;
+    }
+
+    /**
+     * Check and update the directory
+     * @param cmd string which represents the response from the API
+     */
+    private _updateDirectoryAfterCommand(cmd: string) {
+        const result = cmd.split(ConsoleConstants.windowsNewLine);
+        this.dir = result[result.length - 1];
+    }
+
     /**
      * perform action on key pressed.
      */
-    protected performAction(cmd?: string, output?: string): boolean {
+    protected performAction(): boolean {
         if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
             this.removeMsgComponents();
             return false;
@@ -142,24 +152,8 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             this.dir = this._defaultDirectory;
             return false;
         }
-        if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-            return this._changeCurrentDirectory(cmd.substr(2).trim(), output);
-        }
         return true;
     }
 
     protected abstract getCommandPrefix(): string;
-
-    /**
-     * Change current directory; run cd command
-     */
-    private _changeCurrentDirectory(cmd: string, output: string) {
-        output = output.trim();
-        if (cmd.length === 0) {
-            return true;
-        }
-        this.dir = output.trim();
-        return false;
-    }
-
 }

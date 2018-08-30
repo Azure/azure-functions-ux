@@ -203,4 +203,12 @@ export class UrlTemplates {
     get restartHostUrl() {
         return `${this.mainSiteUrl}/admin/host/restart`;
     }
+
+    get extensionJsonUrl() {
+        return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
+    }
+
+    get updateHostStateUrl() {
+        return `${this.mainSiteUrl}/admin/host/state`;
+    }
 }

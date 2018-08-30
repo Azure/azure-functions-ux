@@ -38,6 +38,7 @@ import { ExtensionInstallStatus } from '../models/extension-install-status';
 import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
+import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -998,6 +999,19 @@ export class FunctionAppService {
             this._cacheService.get(context.urlTemplates.runtimeHostExtensionsJobsUrl, true, this.headers(t))
                 .map(r => r.json() as ExtensionJobsStatus)
         );
+    }
+
+    getExtensionJson(context: FunctionAppContext): Result<ExtensionInfo[]> {
+        return this.azure.execute({ resourceId: context.site.id }, t =>
+            this._cacheService.get(context.urlTemplates.extensionJsonUrl, true, this.headers(t))
+                .map(r => r.json() as ExtensionsJson)
+                .map(r => r.extensions),
+        );
+    }
+
+    updateHostState(context: FunctionAppContext, stateValue: 'offline' | 'running'): Result<any> {
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
+            this._cacheService.put(context.urlTemplates.updateHostStateUrl, this.jsonHeaders(t), `'${stateValue}'`));
     }
 
     getSystemKey(context: FunctionAppContext): Result<FunctionKeys> {
