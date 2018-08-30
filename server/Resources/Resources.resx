@@ -342,6 +342,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Reconnected</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Already connected</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Name</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
