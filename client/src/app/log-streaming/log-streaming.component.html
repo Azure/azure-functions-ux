@@ -3,7 +3,7 @@
         <span class="log-empty-space"></span>
         <span (click)="reconnect()" class="link action"
              role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
-            <pop-over message="{{ (canReconnectStream ? 'logStreaming_reconnectSuccess' : 'logStreaming_reconnectFail') | translate }}" hideAfter="500">
+            <pop-over message="{{ getPopoverText() | translate }}" hideAfter="{{popOverTimeout}}">
                 <span class="link">
                     <i class="fa fa-plug"></i>
                     {{ 'logStreaming_reconnect' | translate }}
@@ -12,7 +12,7 @@
         </span>
         <span (click)="copyLogs($event)" class="link action"
             (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
-            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="500">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="{{popOverTimeout}}">
                 <span class="link">
                     <i class="fa fa-clone"></i>
                     {{ 'logStreaming_copyLogs' | translate }}

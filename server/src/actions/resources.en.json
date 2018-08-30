@@ -66,7 +66,7 @@
         "logStreaming_tooManyLogs": "Too many logs. Refresh rate: {{seconds}} seconds.",
         "logStreaming_reconnect": "Reconnect",
         "logStreaming_reconnectSuccess": "Reconnected",
-        "logStreaming_reconnectFail": "Already connected",
+        "logStreaming_connectionExists": "Already connected",
         "_name": "Name",
         "open": "Open",
         "or": "or",

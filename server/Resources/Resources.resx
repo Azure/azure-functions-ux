@@ -348,7 +348,7 @@
   <data name="logStreaming_reconnectSuccess" xml:space="preserve">
     <value>Reconnected</value>
   </data>
-  <data name="logStreaming_reconnectFail" xml:space="preserve">
+  <data name="logStreaming_connectionExists" xml:space="preserve">
     <value>Already connected</value>
   </data>
   <data name="_name" xml:space="preserve">

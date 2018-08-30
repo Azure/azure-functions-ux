@@ -80,7 +80,7 @@
     public static logStreaming_tooManyLogs = 'logStreaming_tooManyLogs';
     public static logStreaming_reconnect = 'logStreaming_reconnect';
     public static logStreaming_reconnectSuccess = 'logStreaming_reconnectSuccess';
-    public static logStreaming_reconnectFail = 'logStreaming_reconnectFail';
+    public static logStreaming_connectionExists = 'logStreaming_connectionExists';
     public static _name = '_name';
     public static open = 'open';
     public static or = 'or';

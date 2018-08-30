@@ -42,7 +42,8 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
     public stopped = false;
-    public isConnectionSuccessful = true;
+    public popOverTimeout = 500;
+    private _isConnectionSuccessful = true;
     private _tokenSubscription: Subscription;
     private _token: string;
     private _logStreamIndex = 0;
@@ -98,10 +99,10 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     }
 
     reconnect() {
-        this.isConnectionSuccessful = false;
+        this._isConnectionSuccessful = false;
         if (this.canReconnect()) {
             this._startStreamingRequest();
-            this.isConnectionSuccessful = true;
+            this._isConnectionSuccessful = true;
         }
     }
 
@@ -110,6 +111,13 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
             return this._xhReq.readyState === XMLHttpRequest.DONE;
         }
         return true;
+    }
+
+    getPopoverText(): string {
+        if (this._isConnectionSuccessful) {
+            return PortalResources.logStreaming_reconnectSuccess;
+        }
+        return PortalResources.logStreaming_connectionExists;
     }
 
     /**

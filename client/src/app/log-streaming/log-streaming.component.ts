@@ -13,6 +13,7 @@ import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { LogContentComponent } from './log-content.component';
 import { Regex, LogConsoleTypes } from '../shared/models/constants';
+import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
     selector: 'log-streaming',
@@ -24,7 +25,8 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     public stopped: boolean;
     public timerInterval = 1000;
     public isExpanded = false;
-    public canReconnectStream = true;
+    public popOverTimeout = 500;
+    private _isConnectionSuccessful = true;
     private _xhReq: XMLHttpRequest;
     private _timeouts: number[];
     private _oldLength = 0;
@@ -165,9 +167,9 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     }
 
     reconnect() {
-        this.canReconnectStream = false;
+        this._isConnectionSuccessful = false;
         if (this.canReconnect()) {
-            this.canReconnectStream = true;
+            this._isConnectionSuccessful = true;
             this._oldLength = 0;
             this._initLogs(this.isHttpLogs);
         }
@@ -178,6 +180,13 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
             return this._xhReq.readyState === XMLHttpRequest.DONE;
         }
         return true;
+    }
+
+    getPopoverText(): string {
+        if (this._isConnectionSuccessful) {
+            return PortalResources.logStreaming_reconnectSuccess;
+        }
+        return PortalResources.logStreaming_connectionExists;
     }
 
     private _initLogs(createEmpty: boolean = true, log?: string) {
