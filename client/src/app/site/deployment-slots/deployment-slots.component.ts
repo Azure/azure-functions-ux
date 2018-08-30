@@ -487,7 +487,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.swapControlsOpen = false;
 
         if (!params) {
-            this._updateDisabledState();
+            if (this.configApplied) {
+                this.refresh(true);
+            } else {
+                this._updateDisabledState();
+            }
         } else if (params.operationType === 'slotsswap') {
             this._slotsSwap(params);
         } else if (params.operationType === 'resetSlotConfig') {
