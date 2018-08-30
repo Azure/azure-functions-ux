@@ -99,7 +99,7 @@ export class StepCreatePortalFunctionComponent implements OnInit {
                                 if (res.isSuccessful) {
                                     this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                                         operation: 'newFunction',
-                                        data: res.result
+                                        data: res.result,
                                     });
                                 }
                             });

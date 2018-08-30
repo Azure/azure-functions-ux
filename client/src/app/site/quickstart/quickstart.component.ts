@@ -19,7 +19,7 @@ import { errorIds } from 'app/shared/models/error-ids';
     selector: 'quickstart',
     templateUrl: './quickstart.component.html',
     styleUrls: ['./quickstart.component.scss'],
-    providers: [QuickstartStateManager]
+    providers: [QuickstartStateManager],
 })
 export class QuickstartComponent extends FunctionAppContextComponent {
 

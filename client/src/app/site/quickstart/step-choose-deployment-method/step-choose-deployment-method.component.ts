@@ -8,7 +8,7 @@ import { PortalResources } from 'app/shared/models/portal-resources';
 @Component({
     selector: 'step-choose-deployment-method',
     templateUrl: './step-choose-deployment-method.component.html',
-    styleUrls: ['./step-choose-deployment-method.component.scss', '../quickstart.component.scss']
+    styleUrls: ['./step-choose-deployment-method.component.scss', '../quickstart.component.scss'],
 })
 export class StepChooseDeploymentMethodComponent {
 

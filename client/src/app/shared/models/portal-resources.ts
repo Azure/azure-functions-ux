@@ -1202,9 +1202,9 @@
     public static quickstartPythonTitle = 'quickstartPythonTitle';
     public static quickstartJavaTitle = 'quickstartJavaTitle';
     public static quickstartDescription = 'quickstartDescription';
-    public static quickstartStep1 = 'quickstartStep1';
-    public static quickstartStep2 = 'quickstartStep2';
-    public static quickstartStep3 = 'quickstartStep3';
+    public static chooseDevEnvironment = 'chooseDevEnvironment';
+    public static chooseDeploymentMethod = 'chooseDeploymentMethod';
+    public static createFunction = 'createFunction';
     public static quickstart = 'quickstart';
     public static vsCardTitle = 'vsCardTitle';
     public static vscodeCardTitle = 'vscodeCardTitle';

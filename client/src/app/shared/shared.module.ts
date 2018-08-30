@@ -230,7 +230,7 @@ export class SharedModule {
                 { provide: ErrorHandler, useClass: GlobalErrorHandler },
                 ApplicationInsightsService,
                 QuotaService,
-                QuickstartService
+                QuickstartService,
             ]
         };
     }

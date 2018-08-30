@@ -1,6 +1,6 @@
 <div class="topContainer">
     <div class="selectionContainer" flex-list>
-      <div *ngFor="let card of deploymentCards" class="cardContainer" [class.selected]="selectedDeploymentCard && selectedDeploymentCard.name === card.name"
+      <div *ngFor="let card of deploymentCards" class="cardContainer" [class.selected]="selectedDeploymentCard?.name === card.name"
         (click)="selectDeployment(card)">
         <div class="headerBox">
           <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
