@@ -17,7 +17,7 @@ export class StepChooseDeploymentMethodComponent {
         name: this._translateService.instant(PortalResources.deploymentCenterCardTitle),
         icon: 'image/deployment_center_color.svg',
         color: '#54B4D9',
-        description: this._translateService.instant(PortalResources.deploymentCenterCardDescription)
+        description: this._translateService.instant(PortalResources.deploymentCenterCardDescription),
     };
 
     public readonly vsDirectPublishCard: DeploymentCard = {
@@ -25,7 +25,7 @@ export class StepChooseDeploymentMethodComponent {
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
         color: '#BA141A',
-        description: this._translateService.instant(PortalResources.vsDirectPublishCardDescription)
+        description: this._translateService.instant(PortalResources.vsDirectPublishCardDescription),
     };
 
     public readonly vscodeDirectPublishCard: DeploymentCard = {
@@ -33,7 +33,7 @@ export class StepChooseDeploymentMethodComponent {
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
         color: '#BA141A',
-        description: this._translateService.instant(PortalResources.vscodeDirectPublishCardDescription)
+        description: this._translateService.instant(PortalResources.vscodeDirectPublishCardDescription),
     };
 
     public readonly coretoolsDirectPublishCard: DeploymentCard = {
@@ -41,7 +41,7 @@ export class StepChooseDeploymentMethodComponent {
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
         color: '#BA141A',
-        description: this._translateService.instant(PortalResources.coretoolsDirectPublishCardDescription)
+        description: this._translateService.instant(PortalResources.coretoolsDirectPublishCardDescription),
     };
 
     public readonly mavenDirectPublishCard: DeploymentCard = {
@@ -49,7 +49,7 @@ export class StepChooseDeploymentMethodComponent {
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
         color: '#BA141A',
-        description: this._translateService.instant(PortalResources.mavenDirectPublishCardDescription)
+        description: this._translateService.instant(PortalResources.mavenDirectPublishCardDescription),
     };
 
     public selectedDeploymentCard: DeploymentCard = null;
@@ -57,8 +57,7 @@ export class StepChooseDeploymentMethodComponent {
     constructor(
         private _wizardService: QuickstartStateManager,
         private _translateService: TranslateService,
-        private _quickstartService: QuickstartService
-    ) {
+        private _quickstartService: QuickstartService) {
     }
 
     public selectDeployment(card: DeploymentCard) {
@@ -116,7 +115,6 @@ export class StepChooseDeploymentMethodComponent {
     public getInstructions() {
         this._quickstartService.getQuickstartFile(this.markdownFileName)
             .subscribe(file => {
-                console.log(file);
                 const currentFormValues = this._wizardService.wizardValues;
                 currentFormValues.instructions = file;
                 this._wizardService.wizardValues = currentFormValues;

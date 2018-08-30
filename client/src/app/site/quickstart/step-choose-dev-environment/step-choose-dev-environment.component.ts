@@ -7,7 +7,7 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 @Component({
     selector: 'step-choose-dev-environment',
     templateUrl: './step-choose-dev-environment.component.html',
-    styleUrls: ['./step-choose-dev-environment.component.scss', '../quickstart.component.scss']
+    styleUrls: ['./step-choose-dev-environment.component.scss', '../quickstart.component.scss'],
 })
 export class StepChooseDevEnvironmentComponent {
 
@@ -16,7 +16,7 @@ export class StepChooseDevEnvironmentComponent {
         name: this._translateService.instant(PortalResources.vsCardTitle),
         icon: 'image/visual_studio.svg',
         color: '#865FC5',
-        description: this._translateService.instant(PortalResources.vsCardDescription)
+        description: this._translateService.instant(PortalResources.vsCardDescription),
     };
 
     public readonly vsCodeCard: DevEnvironmentCard = {
@@ -24,7 +24,7 @@ export class StepChooseDevEnvironmentComponent {
         name: this._translateService.instant(PortalResources.vscodeCardTitle),
         icon: 'image/vs_code.svg',
         color: '#0067B8',
-        description: this._translateService.instant(PortalResources.vscodeCardDescription)
+        description: this._translateService.instant(PortalResources.vscodeCardDescription),
     };
 
     public readonly coreToolsCard: DevEnvironmentCard = {
@@ -32,7 +32,7 @@ export class StepChooseDevEnvironmentComponent {
         name: this._translateService.instant(PortalResources.coretoolsCardTitle),
         icon: 'image/terminal.svg',
         color: '#54B4D9',
-        description: this._translateService.instant(PortalResources.coretoolsCardDescription)
+        description: this._translateService.instant(PortalResources.coretoolsCardDescription),
     };
 
     public readonly mavenCard: DevEnvironmentCard = {
@@ -40,7 +40,7 @@ export class StepChooseDevEnvironmentComponent {
         name: this._translateService.instant(PortalResources.mavenCardTitle),
         icon: 'image/terminal.svg',
         color: '#54B4D9',
-        description: this._translateService.instant(PortalResources.mavenCardDescription)
+        description: this._translateService.instant(PortalResources.mavenCardDescription),
     };
 
     public readonly portalCard: DevEnvironmentCard = {
@@ -48,15 +48,14 @@ export class StepChooseDevEnvironmentComponent {
         name: this._translateService.instant(PortalResources.portalCardTitle),
         icon: 'image/azure_mgmt_portal.svg',
         color: '#54B4D9',
-        description: this._translateService.instant(PortalResources.portalCardDescription)
+        description: this._translateService.instant(PortalResources.portalCardDescription),
     };
 
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;
 
     constructor(
         private _wizardService: QuickstartStateManager,
-        private _translateService: TranslateService
-    ) {
+        private _translateService: TranslateService) {
     }
 
     get devEnvironmentCards() {

@@ -5,13 +5,12 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 @Component({
     selector: 'step-create-function',
     templateUrl: './step-create-function.component.html',
-    styleUrls: ['./step-create-function.component.scss', '../quickstart.component.scss']
+    styleUrls: ['./step-create-function.component.scss', '../quickstart.component.scss'],
 })
 export class StepCreateFunctionComponent  {
 
     constructor(
-        private _wizardService: QuickstartStateManager
-    ) {
+        private _wizardService: QuickstartStateManager) {
     }
 
     get showPortalFunctions(): boolean {

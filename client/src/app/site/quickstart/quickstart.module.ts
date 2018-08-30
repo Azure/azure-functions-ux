@@ -18,7 +18,7 @@ import { MarkdownModule } from 'ngx-markdown';
         StepCreatePortalFunctionComponent,
         StepCreateFunctionInstructionsComponent,
         StepChooseDeploymentMethodComponent,
-        QuickstartComponent
+        QuickstartComponent,
     ],
     imports: [
         TranslateModule.forChild(),
@@ -26,7 +26,7 @@ import { MarkdownModule } from 'ngx-markdown';
         WizardModule,
         MarkdownModule.forChild(),
     ],
-    exports: [QuickstartComponent]
+    exports: [QuickstartComponent],
 })
 export class QuickstartModule {
     static forRoot(): ModuleWithProviders {

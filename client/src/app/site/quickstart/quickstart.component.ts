@@ -60,7 +60,7 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             // app values
             context: [null],
             isLinux: [null],
-            isLinuxConsumption: [null]
+            isLinuxConsumption: [null],
         });
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
@@ -97,7 +97,7 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                     this.showComponentError({
                         errorId: errorIds.quickstartLoadError,
                         message: `${r[0].error}\n${r[1].error}`,
-                        resourceId: this.context.site.id
+                        resourceId: this.context.site.id,
                     });
                 }
                 this.loading = false;

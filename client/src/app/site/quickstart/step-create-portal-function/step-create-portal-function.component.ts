@@ -18,7 +18,7 @@ import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstar
 @Component({
     selector: 'step-create-portal-function',
     templateUrl: './step-create-portal-function.component.html',
-    styleUrls: ['./step-create-portal-function.component.scss', '../quickstart.component.scss']
+    styleUrls: ['./step-create-portal-function.component.scss', '../quickstart.component.scss'],
 })
 export class StepCreatePortalFunctionComponent implements OnInit {
 
@@ -28,15 +28,15 @@ export class StepCreatePortalFunctionComponent implements OnInit {
             name: this._translateService.instant(PortalResources.intro_webHook),
             icon: 'image/http.svg',
             color: '#731DDA',
-            description: this._translateService.instant(PortalResources.httpCardDescription)
+            description: this._translateService.instant(PortalResources.httpCardDescription),
         },
         {
             id: 'TimerTrigger',
             name: this._translateService.instant(PortalResources.intro_timer),
             icon: 'image/timer.svg',
             color: '#3C86FF',
-            description: this._translateService.instant(PortalResources.timerCardDescription)
-        }
+            description: this._translateService.instant(PortalResources.timerCardDescription),
+        },
     ];
 
     public selectedPortalTemplateCard: PortalTemplateCard = null;
@@ -50,8 +50,7 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _functionAppService: FunctionAppService,
-        private _broadcastService: BroadcastService
-    ) {
+        private _broadcastService: BroadcastService) {
     }
 
     ngOnInit() {

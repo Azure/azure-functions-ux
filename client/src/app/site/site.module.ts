@@ -47,7 +47,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         DeploymentCenterModule,
         SpecPickerModule,
         routing,
-        QuickstartModule
+        QuickstartModule,
     ],
     declarations: [
         SiteDashboardComponent,
