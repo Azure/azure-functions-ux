@@ -64,7 +64,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             this.wizard.wizardForm &&
             this.wizard.wizardForm.controls['buildProvider'] &&
             this.wizard.wizardForm.controls['buildProvider'].value;
-        return buildProvider === 'vsts';
+        return buildProvider === 'vsts' && !this.wizard.isLinuxApp;
     }
 
     get showDeployStep() {
