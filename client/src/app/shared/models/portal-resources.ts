@@ -1201,6 +1201,7 @@ export class PortalResources {
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
+    public static topBar_updateExtensions = 'topBar_updateExtensions';
     public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
     public static noCreateAccess = 'noCreateAccess';
     public static noSwapPermission = 'noSwapPermission';
