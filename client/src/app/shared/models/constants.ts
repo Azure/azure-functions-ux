@@ -130,6 +130,7 @@ export class Links {
     public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
     public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
+    public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
 }
 
 export class Kinds {
@@ -263,6 +264,7 @@ export class ScenarioIds {
     public static readonly dropboxSource = 'dropboxSource';
     public static readonly externalSource = 'externalSource';
     public static readonly ftpSource = 'ftpSource';
+    public static readonly canScaleForSlots = 'canScaleForSlots';
 }
 
 export class ServerFarmSku {
@@ -272,6 +274,7 @@ export class ServerFarmSku {
     public static readonly standard = 'Standard';
     public static readonly premium = 'Premium';
     public static readonly premiumV2 = 'PremiumV2';
+    public static readonly premiumContainer = 'PremiumContainer';
     public static readonly isolated = 'Isolated';
     public static readonly dynamic = 'Dynamic';
 }
@@ -437,7 +440,7 @@ export class DeploymentCenterConstants {
     public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
     public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
-    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
+    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
@@ -486,11 +489,12 @@ export class ConsoleConstants {
 }
 
 export enum LogConsoleTypes {
-    Normal= 1,
-    Info= 2,
-    Error= 3,
-    Warning= 4,
+    Normal = 1,
+    Info = 2,
+    Error = 3,
+    Warning = 4,
 };
+
 export class PickerNames {
     public static readonly appSetting = 'AppSetting';
     public static readonly cosmosDB = 'CosmosDB';

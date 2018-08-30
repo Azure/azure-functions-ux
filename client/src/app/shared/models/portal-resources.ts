@@ -1,5 +1,5 @@
 // This file is auto generated
-    export class PortalResources {
+export class PortalResources {
     public static azureFunctions = 'azureFunctions';
     public static azureFunctionsRuntime = 'azureFunctionsRuntime';
     public static cancel = 'cancel';
@@ -129,6 +129,7 @@
     public static config = 'config';
     public static cors = 'cors';
     public static create = 'create';
+    public static add = 'add';
     public static dashboard_yourTrialExpiered = 'dashboard_yourTrialExpiered';
     public static disabled = 'disabled';
     public static enabled = 'enabled';
@@ -354,6 +355,7 @@
     public static start = 'start';
     public static restart = 'restart';
     public static swap = 'swap';
+    public static startSwap = 'startSwap';
     public static completeSwap = 'completeSwap';
     public static cancelSwap = 'cancelSwap';
     public static getPublishProfile = 'getPublishProfile';
@@ -685,6 +687,8 @@
     public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
     public static slotNew = 'slotNew';
     public static slotNew_nameLabel = 'slotNew_nameLabel';
+    public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
+    public static slotNew_dontCloneConfig = 'slotNew_dontCloneConfig';
     public static slotNew_heading = 'slotNew_heading';
     public static slotNew_desc = 'slotNew_desc';
     public static slotNew_startCreateNotifyTitle = 'slotNew_startCreateNotifyTitle';
@@ -898,6 +902,7 @@
     public static deployedSuccessfullyTo = 'deployedSuccessfullyTo';
     public static deployedFailedTo = 'deployedFailedTo';
     public static swapWithPreviewLabel = 'swapWithPreviewLabel';
+    public static swapWithPreviewInfoText = 'swapWithPreviewInfoText';
     public static swapPhaseOneLabel = 'swapPhaseOneLabel';
     public static swapPhaseTwoLabel = 'swapPhaseTwoLabel';
     public static swapOperationInProgressWarning = 'swapOperationInProgressWarning';
@@ -1214,6 +1219,7 @@
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
+<<<<<<< HEAD
     public static quickstartSample1 = 'quickstartSample1';
     public static quickstartSample2 = 'quickstartSample2';
     public static singleContainerSample1Description = 'singleContainerSample1Description';
@@ -1223,4 +1229,27 @@
     public static kubernetesSample1Description = 'kubernetesSample1Description';
     public static quickstartSelectSample = 'quickstartSelectSample';
     public static quickStartSampleDescription = 'quickStartSampleDescription';
+=======
+    public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
+    public static noCreateAccess = 'noCreateAccess';
+    public static noSwapPermission = 'noSwapPermission';
+    public static noWritePermission = 'noWritePermission';
+    public static slotReadOnlyLock = 'slotReadOnlyLock';
+    public static swapSrcDestNotUnique = 'swapSrcDestNotUnique';
+    public static swapMultiPhaseAuthConflict = 'swapMultiPhaseAuthConflict';
+    public static swapMultiPhaseNoStickySettings = 'swapMultiPhaseNoStickySettings';
+    public static swapMultiPhasePreviewMessage = 'swapMultiPhasePreviewMessage';
+    public static noWritePermissionOnSlots = 'noWritePermissionOnSlots';
+    public static noSwapPermissionOnSlots = 'noSwapPermissionOnSlots';
+    public static readOnlyLockOnSlots = 'readOnlyLockOnSlots';
+    public static swapRequresMultipleSlots = 'swapRequresMultipleSlots';
+    public static swapSlotsHeading = 'swapSlotsHeading';
+    public static swapLoadingFailed = 'swapLoadingFailed';
+    public static swapPreviewChangesHeading = 'swapPreviewChangesHeading';
+    public static swapPreviewMakeSelection = 'swapPreviewMakeSelection';
+    public static swapChangesLoadingFailed = 'swapChangesLoadingFailed';
+    public static swapSourceChangesHeading = 'swapSourceChangesHeading';
+    public static swapTargetChangesHeading = 'swapTargetChangesHeading';
+    public static swapActionLabel = 'swapActionLabel';
+>>>>>>> dev
 }
