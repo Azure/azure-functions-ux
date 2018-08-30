@@ -10,7 +10,7 @@ export class StepConfigureComponent {
     private _sourceProvider: string;
     private _buildProvider: string;
 
-    constructor(private wizard: DeploymentCenterStateManager) { }
+    constructor(public wizard: DeploymentCenterStateManager) { }
 
     get sourceProvider() {
         const values = this.wizard.wizardValues;
