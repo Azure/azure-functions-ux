@@ -1,0 +1,82 @@
+@import '../../../sass/common/variables';
+
+$footer-height: 55px;
+$spec-card-max-width: 350px;
+$center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
+
+#container-picker {
+    padding-bottom: 60px;
+
+    nav {
+        display: flex;
+    }
+
+    .tiers-header {
+        margin: 20px 0px 0px 15px;
+    }
+
+    section {
+        &.centered {
+            max-width: $center-column-max-width;
+            margin: 0px auto;
+        }
+
+        &.empty-group {
+            text-align: center;
+            margin-top: 100px;
+            
+            .icon-large {
+                height: 75px;
+                width: 75px;
+            }
+
+            article {
+                max-width: 600px;
+                margin: 15px auto;
+            }
+        }
+    }
+
+    .container {
+        background-color: $border-color;
+        width: calc(100% / 3);
+        text-align: center;
+        height: 83px;
+        padding-top: 7px;
+
+        h3 {
+            margin-top: 2px;
+            font-weight: bold;
+        }
+
+        h4 {
+            font-size: 12px;
+        }
+
+        &.selected-container {
+            background-color: $body-bg-color;
+        }
+    }
+
+    .expand-icon{
+        display: inline-block;
+        height: 13px;
+        width: 13px;
+        vertical-align: middle;
+        margin: 0px 5px 4px 5px;
+    }
+
+    footer{
+        position: fixed;
+        z-index: 100;
+        bottom: 0px;
+        height: $footer-height;
+        width: 100%;
+        border-top: $border;
+        padding: 0px 5px;
+        background-color: $body-bg-color;
+    }
+}
+
+
+ 

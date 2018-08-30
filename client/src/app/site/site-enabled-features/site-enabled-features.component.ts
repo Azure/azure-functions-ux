@@ -200,7 +200,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                     feature: feature,
                     iconUrl: 'image/appInsights.svg',
                     bladeInfo: {
-                        detailBlade: 'AspNetOverview',
+                        detailBlade: 'AspNetOverviewV3',
                         detailBladeInputs: {
                             id: args[0]
                         },
@@ -226,13 +226,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                     title: this._translateService.instant(PortalResources.featureEnabled_deploymentSource).format(args),
                     feature: feature,
                     iconUrl: 'image/deployment-source.svg',
-                    bladeInfo: {
-                        detailBlade: 'ContinuousDeploymentListBlade',
-                        detailBladeInputs: {
-                            id: this._site.id,
-                            ResourceId: this._site.id
-                        }
-                    }
+                    featureId: SiteTabIds.continuousDeployment
                 };
 
             case Feature.Authentication:

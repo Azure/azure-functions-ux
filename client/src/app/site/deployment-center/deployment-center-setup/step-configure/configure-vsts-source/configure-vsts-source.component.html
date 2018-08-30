@@ -1,4 +1,4 @@
-<div class="settings-group-wrapper">
+<div class="settings-group-wrapper" *ngIf="hasRepos && hasAccounts">
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
 
@@ -42,5 +42,22 @@
         <div invalidmessage="branch"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="!hasAccounts">
+  <div class="error-state">
+    <div><span load-image="image/deployment-center/vsts.nobackground.svg" class="big-image grayscale"></span></div>
+    <h1 class="grayscale" *ngIf="!isKudu">{{'no_vsts_accounts' | translate}}</h1>
+    <h1 class="grayscale" *ngIf="isKudu">{{'no_vsts_accounts_kudu' | translate}}</h1>
+    <button class="custom-button button-spacing" (click)="openVSTSAccountCreate()">{{'create_one' | translate}}</button>
+  </div>
+</div>
+
+<div *ngIf="!hasRepos && hasAccounts">
+  <div class="error-state">
+    <div><span load-image="image/deployment-center/vsts.nobackground.svg" class="big-image grayscale"></span></div>
+    <h1 class="grayscale" *ngIf="!isKudu">{{'no_vsts_repos' | translate}}</h1>
+    <button class="custom-button button-spacing" (click)="openVSTSRepoCreate()">{{'create_one' | translate}}</button>
   </div>
 </div>

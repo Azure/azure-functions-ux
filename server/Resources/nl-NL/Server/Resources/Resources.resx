@@ -154,7 +154,7 @@
     <value>Fout met functie: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Functie (${{name}}), fout: {{error}}</value>
+    <value>Functie ({{name}}), fout: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Functie-URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Fysiek pad invoeren</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Toepassing</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Site-instelling</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Verborgen waarde. Klik om de waarde weer te geven.</value>
@@ -1055,7 +1049,7 @@
     <value>instellingen voor functie-apps</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
+    <value>Runtimeversie: {{exactExtensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime-versie: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configureer de implementatiereferenties op Azure-accountniveau. Als u de referenties op app-niveau (ook wel bekend als de publicatiereferenties) wilt wijzigen, gaat u naar het tabblad Overzicht en kiest u Publicatiereferenties opnieuw instellen. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Verken het bestandssysteem van uw app via een interactieve webconsole.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>U beheert uw web-appomgeving door algemene opdrachten uit te voeren ('mkdir', 'cd' om naar een andere directory te gaan, enz.). Dit is een sandbox-omgeving, dus opdrachten waarvoor verhoogde toegangsrechten nodig zijn werken niet.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Er is een standaard of hoger App Service-plan vereist voor AlwaysOn</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Het App Service-abonnement dat is gekoppeld aan deze app, biedt geen ondersteuning voor deze functie. Neem contact op met uw beheerder om deze functie in te schakelen voor uw huidige abonnement of voer een upgrade uit naar een abonnement waarbij dit al is ingeschakeld.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Beheerde pipeline-versie</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>Gebruik Verificatie/autorisatie om uw toepassing te beschermen en met individuele gebruikersgegevens te werken.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Beheerde service-identiteit (preview)</value>
+    <value>Managed Service Identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uw toepassing kan met een beheerde Azure Active Directory-id als zichzelf met andere Azure-services communiceren.</value>
@@ -2396,16 +2417,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Groeperen op abonnement</value>
   </data>
   <data name="southcentralus" xml:space="preserve">
-    <value>Zuid-centraal VS</value>
+    <value>US - zuid-centraal</value>
   </data>
   <data name="northeurope" xml:space="preserve">
-    <value>Noord-Europa</value>
+    <value>Europa - noord</value>
   </data>
   <data name="westeurope" xml:space="preserve">
-    <value>West-Europa</value>
+    <value>Europa - west</value>
   </data>
   <data name="southeastasia" xml:space="preserve">
-    <value>Zuidoost-Azië</value>
+    <value>Azië - zuidoost</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
     <value>Korea - centraal</value>
@@ -2414,10 +2435,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Korea - zuid</value>
   </data>
   <data name="westus" xml:space="preserve">
-    <value>VS - west</value>
+    <value>US - west</value>
   </data>
   <data name="eastus" xml:space="preserve">
-    <value>VS - Oost</value>
+    <value>US - oost</value>
   </data>
   <data name="japanwest" xml:space="preserve">
     <value>Japan - west</value>
@@ -2426,16 +2447,16 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Japan - oost</value>
   </data>
   <data name="eastasia" xml:space="preserve">
-    <value>Oost-Azië</value>
+    <value>Azië - oost</value>
   </data>
   <data name="eastus2" xml:space="preserve">
-    <value>Verenigde Staten - oost 2</value>
+    <value>US - oost 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
-    <value>Noord-centraal VS</value>
+    <value>US - noord-centraal</value>
   </data>
   <data name="centralus" xml:space="preserve">
-    <value>VS - Midden</value>
+    <value>US - centraal</value>
   </data>
   <data name="brazilsouth" xml:space="preserve">
     <value>Brazilië - zuid</value>
@@ -2447,13 +2468,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Australië - zuidoost</value>
   </data>
   <data name="westindia" xml:space="preserve">
-    <value>West-India</value>
+    <value>India - west</value>
   </data>
   <data name="centralindia" xml:space="preserve">
-    <value>Centraal-India</value>
+    <value>India - centraal</value>
   </data>
   <data name="southindia" xml:space="preserve">
-    <value>Zuid-India</value>
+    <value>India - zuid</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
     <value>Canada Centraal</value>
@@ -2462,7 +2483,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Canada Oost</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
-    <value>West-centraal VS</value>
+    <value>US - west-centraal</value>
   </data>
   <data name="ukwest" xml:space="preserve">
     <value>VK West</value>
@@ -2471,7 +2492,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>VK Zuid</value>
   </data>
   <data name="westus2" xml:space="preserve">
-    <value>VS - west 2</value>
+    <value>US - west 2</value>
   </data>
   <data name="allResourceGroups" xml:space="preserve">
     <value>Alle resourcegroepen</value>
@@ -2537,7 +2558,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Check-inbericht</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>U gebruikt een voorlopige versie van Azure Functions. Bedankt dat u het uitprobeert.</value>
+    <value>U gebruikt een voorlopige versie van Azure Functions. Klik op Meer informatie om op te hoogte te blijven van de meest recente wijzigingen via onze pagina met aankondigingen.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Klik om te verbergen</value>
@@ -2718,7 +2739,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Autoriseren</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autoriseren</value>
+    <value>Account wijzigen</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Vorige</value>
@@ -2925,7 +2946,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Configureren</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Implementeren</value>
+    <value>Implementeren voor fasering</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Samenvatting</value>
@@ -3015,7 +3036,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voor de meeste productieworkloads</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Afgeschermd</value>
+    <value>Isolated</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Geavanceerde netwerken en schaalbaarheid</value>
@@ -3062,9 +3083,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Elke instantie van uw App Service-abonnement bevat de volgende hardwareconfiguratie:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux-web-apps in een App Service Environment worden tijdens de preview-fase gefactureerd met 50% korting.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>De eerste Basic-kern (B1) voor Linux is de eerste dertig dagen gratis.</value>
   </data>
@@ -3072,7 +3090,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Windows-containers worden tijdens de preview-fase gefactureerd met 50% korting.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Er zijn geen geïsoleerde categorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie. Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
+    <value>Er zijn geen Isolated-prijscategorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie.  Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>De prijscategorieën voor ontwikkelen/testen zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
@@ -3089,8 +3107,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/maand (schatting)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/uur (schatting)</value>
+    <value>{0} {1}/maand (geschat)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Kies een andere prijscategorie om meer resources aan uw abonnement toe te voegen</value>
@@ -3252,10 +3273,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Logboekniveau</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS build-server</value>
+    <value>VSTS doorlopende levering</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>VSTS gebruiken als de build-server. U kunt profiteren van geavanceerde opties voor een volledige release management-werkstroom.</value>
+    <value>Met Visual Studio Team Services kunt u eenvoudig een robuuste implementatiepijplijn voor uw toepassing instellen. De pijplijn bouwt, voert belastingtests uit en implementeert naar de faseringssleuf en vervolgens naar productie.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu maken server</value>
@@ -3300,7 +3321,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Django-instellingenmodule</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask-project</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Nieuw</value>
@@ -3339,10 +3360,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Nee</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Belastingtest</value>
+    <value>Belastingstest</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Belastingtest inschakelen</value>
+    <value>Belastingstest inschakelen</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>App-naam</value>
@@ -3354,7 +3375,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Implementatiecenter (preview-versie)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Met de App Service-implementatiecenter kunt u niet alleen de locatie van uw code kiezen, maar ook opties voor build en implementatie naar de cloud.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Niet gemachtigd</value>
@@ -3422,9 +3443,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="FTPDisable" xml:space="preserve">
     <value>Uitschakelen</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Verwijderen</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Weergeven</value>
   </data>
@@ -3441,19 +3459,19 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gebruik een FTP-verbinding voor toegang tot en het kopiëren van app-bestanden.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service biedt u toegang tot uw app-inhoud via FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Gebruikersreferenties</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTP, Lokale Git en WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-referenties</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Referenties voor toepassingen worden automatisch gegenereerd en bieden alleen toegang tot deze specifieke app of implementatiesleuf. Deze referenties kunnen worden gebruikt met FTP, Lokale Git en WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Gebruikersnaam</value>
@@ -3477,7 +3495,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Mislukt</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Voltooid</value>
+    <value>Geslaagd</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Referenties opslaan</value>
@@ -3486,6 +3504,108 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Referenties opnieuw instellen</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP-versie</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nieuw account</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nieuwe implementatiesleuf</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Naam van implementatiesleuf</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>De URL van uw Lokale Git-opslagplaats wordt gegenereerd na voltooiing.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>De runtime-versie is geladen vanuit de toepassingsinstellingen: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Niet-ondersteunde runtime-versie</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Uw aangepaste runtime-versie wordt niet ondersteund. Daarom wordt de runtime {{exactExtensionVersion}} gebruikt. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Verbinding verbreken</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Synchroniseren</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Referenties implementatie</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Verbindingsreeksen mogen alleen met een functie-app worden gebruikt als u Entity Framework gebruikt. Gebruik App-instellingen voor andere scenario's. Klik voor meer informatie.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Runtime-versie: laden...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de modus alleen-lezen omdat u lokale cache gebruikt. Als u lokale cache gebruikt, worden wijzigingen die worden aangebracht in het lokale bestandssysteem niet doorgevoerd in de site-inhoud. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Meer informatie&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Site-instelling</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Naam van de app-instelling</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Naam van de verbindingsreeks</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Documentnaam</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extensie</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Scriptprocessor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumenten</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtueel pad</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Fysiek pad</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Toepassing</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Databaseaccount</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB-account</value>
   </data>
 </root>

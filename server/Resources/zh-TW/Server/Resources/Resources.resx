@@ -154,7 +154,7 @@
     <value>函式錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>函式 (${{name}}) 錯誤: {{error}}</value>
+    <value>函式 ({{name}}) 錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>函數 URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>輸入實體路徑</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>應用程式</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>位置設定</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>隱藏的值。按一下即可顯示。</value>
@@ -1055,7 +1049,7 @@
     <value>函數應用程式設定</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
+    <value>執行階段版本: {{exactExtensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>執行階段版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>設定 Azure 帳戶層級部署認證。若要變更您的應用程式層級認證 (亦即「發行認證」)，請選擇 [概觀] 索引標籤中的 [重設發行認證]。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;深入了解&lt;/a&gt;。</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>主控台</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>從互動式 Web 主控台探索您的應用程式檔案系統。</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>藉由執行常用命令 ('mkdir'、可變更目錄的 'cd' 等) 來管理您的 Web 應用程式環境。這是沙箱環境，因此任何需要較高權限的命令皆無法在此運作。</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on 需要基本或更高的 App Service 方案</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>與此應用程式相關的 App Service 方案並不支援此功能。請連絡您的系統管理員以為目前的方案啟用此功能，或是升級至已啟用該功能的方案。</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Managed 管線版本</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>使用驗證/授權保護您的應用程式及使用個別使用者的資料。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>受管理的服務身分識別 （預覽）</value>
+    <value>受控服務識別</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>因為您的應用程式使用受管理的 Azure Active Directory 身分識別，所以可與其他 Azure 服務通訊。</value>
@@ -2408,10 +2429,10 @@
     <value>東南亞</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>韓國中部</value>
+    <value>南韓中部</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>韓國南部</value>
+    <value>南韓南部</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>美國西部</value>
@@ -2537,7 +2558,7 @@
     <value>簽入訊息</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>您使用的是 Azure Functions 發行前版本。感謝您的試用!</value>
+    <value>您目前使用 Azure Functions 的發行前版本。按一下 [深入了解] 以透過我們的宣告頁面持續掌握最新變更。</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>按一下可隱藏</value>
@@ -2717,7 +2738,7 @@
     <value>授權</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>授權</value>
+    <value>變更帳戶</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>上一步</value>
@@ -2876,7 +2897,7 @@
     <value>無法停止 {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>已重新啟動 {0}」</value>
+    <value>已重新啟動 {0}</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>無法重新啟動 {0}</value>
@@ -2924,7 +2945,7 @@
     <value>設定</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>部署</value>
+    <value>部署到預備環境</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>摘要</value>
@@ -3014,7 +3035,7 @@
     <value>大多數生產工作負載</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>外掛式</value>
+    <value>隔離式方案</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>進階網路與縮放</value>
@@ -3061,9 +3082,6 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service 方案的每個執行個體都將包含下列硬體組態:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>在預覽期間，App Service 隔離式方案中的 Linux Web 應用程式會以 50% 的折扣計費。</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux 的第一個基本 (B1) 核心前 30 天免費!</value>
   </data>
@@ -3071,7 +3089,7 @@
     <value>預覽期間，Windows 容器會以 50% 的折扣計費。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>您的設定不適用於 App Service 環境 (ASE) 中隔離環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離網路並提升調整的能力。</value>
+    <value>您的設定不適用於 App Service 環境 (ASE) 中隔離式環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離式網路並提升調整的能力。</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>開發/測試定價並不適用於您的設定，而僅適用於未託管於 App Service 環境中的方案。</value>
@@ -3088,8 +3106,11 @@
   <data name="free" xml:space="preserve">
     <value>免費</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/月 (預估)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>每小時 {0} {1} (預估)</value>
+    <value>{0} {1}/月 (預估)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>請選擇其他定價層，為您的定價層新增更多資源</value>
@@ -3170,7 +3191,7 @@
     <value>進一步控制您應用程式使用的資源。</value>
   </data>
   <data name="pricing_isolatedNetwork" xml:space="preserve">
-    <value>隔離網路</value>
+    <value>隔離式網路</value>
   </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>在您自己的虛擬網路中執行。</value>
@@ -3251,10 +3272,10 @@
     <value>記錄層級</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 組建伺服器</value>
+    <value>VSTS 持續傳遞</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>使用 VSTS 作為組建伺服器。您可以選擇對整個發行管理工作流程使用進階選項。</value>
+    <value>Visual Studio Team Services 為您的應用程式設定了強固的部署管線。管線會建置、執行負載測試，再部署至預備位置，然後再部署至生產環境。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu 組建伺服器</value>
@@ -3299,7 +3320,7 @@
     <value>Django 設定模組</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>Flask 專案名稱</value>
+    <value>Flask 專案</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>新增</value>
@@ -3353,7 +3374,7 @@
     <value>部署中心 (預覽)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service 部署中心可讓您選擇程式碼位置，並提供建置及部署到雲端的選項。</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>未獲授權</value>
@@ -3421,9 +3442,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>停用</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>關閉</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>顯示</value>
   </data>
@@ -3440,19 +3458,19 @@
     <value>請使用 FTP 連線存取及複製應用程式檔案。</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service 可讓您透過 FTP/S 存取應用程式內容。</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>使用者認證</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>應用程式認證由使用者 (也就是您) 定義，可用於您擁有存取權的所有應用程式。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>應用程式認證</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>應用程式認證會自動產生，並提供僅限此特定應用程式或部署位置的存取權。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>使用者名稱</value>
@@ -3486,5 +3504,107 @@
   </data>
   <data name="httpVersion" xml:space="preserve">
     <value>HTTP 版本</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>提供者</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>新增帳戶</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>新的部署位置</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>部署位置名稱</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>完成時，就會產生您的本機 git 存放庫 URL。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>從應用程式設定載入的執行階段版本: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>不支援的執行階段版本</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>不支援您的自訂執行階段版本。因此目前使用 {{exactExtensionVersion}} 執行階段。 </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>中斷連接</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>部署認證</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>連接字串只有在您使用 Entity Framework 時，才能搭配函數應用程式使用。在其他情況下則請使用應用程式設定。若要深入了解，請按一下。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>run-time 版本: 正在載入...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>因為您在使用本機快取，所以您的應用程式目前處於唯讀模式。在使用本機快取時，在本機檔案系統上所做的變更不會保存至網站內容。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;深入了解&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>位置設定</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>應用程式設定名稱</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>連接字串名稱</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>文件名稱</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>延伸模組</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>指令碼處理器</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>引數</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>虛擬路徑</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>實體路徑</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>目錄</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>資料庫帳戶</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB 帳戶</value>
   </data>
 </root>

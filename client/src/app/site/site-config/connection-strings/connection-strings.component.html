@@ -12,10 +12,31 @@
     [infoText]="loadingFailureMessage">
   </info-box>
 
+  <info-box
+    *ngIf="isFunctionApp"
+    [infoText]="('funcConnStringsInfoText' | translate)"
+    [infoLink]="FwLinks.funcConnStringsLearnMore">
+  </info-box>
+
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <table-root tblClass="tbl fixed stretch" [name]="Resources.connectionStrings | translate" [items]="groupArray?.controls" #connectionStringsTable>
+
+      <!-- Header Row -->
+      <tr table-row>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_connectionStringName | translate }}</th>
+
+        <th class="two-thirds-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_value | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_type | translate }}</th>
+
+        <th class="slot-setting-col padded-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_isSlotSetting | translate }}</th>
+
+        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
+
+      </tr>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each connection string returned (if any) -->
@@ -41,10 +62,7 @@
 
         <td class="slot-setting-col padded-col" table-cell [editable]="false">
           <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
-            <label>
-              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-              {{ 'isSlotSetting' | translate }}
-            </label>
+            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
           </click-to-edit>
         </td>
 

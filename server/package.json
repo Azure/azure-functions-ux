@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
-        "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json"
+        "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json",
+        "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
+    
     },
     "dependencies": {
         "applicationinsights": "^1.0.1",
@@ -24,6 +26,7 @@
         "morgan": "^1.8.2",
         "multer": "^1.3.0",
         "pug": "^2.0.0-rc.2",
+        "request": "^2.87.0",
         "uuid": "^3.1.0"
     },
     "devDependencies": {
@@ -41,6 +44,7 @@
         "@types/morgan": "^1.7.32",
         "@types/multer": "^1.3.6",
         "@types/pug": "^2.0.4",
+        "@types/request": "^2.47.1",
         "@types/uuid": "^3.4.0",
         "concurrently": "^3.5.0",
         "del": "^3.0.0",

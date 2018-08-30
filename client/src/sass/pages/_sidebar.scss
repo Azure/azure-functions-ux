@@ -26,26 +26,16 @@
 }
 
 .sidebar-swap-slot, .sidebar-add-slot {
-    //top: 42px !important;
-    top: 20px !important;
     overflow: hidden;
-    background-color: transparent;
+    background-color: $body-bg-color;
 }
 
 .sidebar-swap-slot {
-    //width: 60vw;
-    //min-width: 380px !important;
     width: 500px !important;
 }
 
 .sidebar-add-slot {
-    //width: 30vw;
-    //min-width: 190px !important;
     width: 350px !important;
-}
-
-.sidebar-backdrop-deployment-slots {
-    background: rgba($body-bg-color-dark, 0.07) !important;
 }
 
 .ng-sidebar__backdrop {
@@ -55,7 +45,7 @@
 .sidebar-monitor-details {
     background-color: $body-bg-color;
     border-left: 1px $sidebar-border-color solid;
-    width: 40vw;
+    width: 50vw;
 
     &.ng-sidebar--opened.ng-sidebar--push {
         border-left: $border;
@@ -73,9 +63,6 @@
 
     .sidebar-new-function {
         background-color: $body-bg-color-dark;
-    }
-    .sidebar-backdrop-deployment-slots {
-        background: rgba($body-bg-color, 0.07) !important;
     }
     .sidebar-monitor-details {
         background-color: $body-bg-color-dark;

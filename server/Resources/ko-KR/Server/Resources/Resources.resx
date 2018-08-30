@@ -154,7 +154,7 @@
     <value>함수 오류: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>함수(${{name}}) 오류: {{error}}</value>
+    <value>함수 ({{name}}) 오류: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>함수 URL</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>물리적 경로 입력</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>응용 프로그램</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>슬롯 설정</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>숨겨진 값. 표시하려면 클릭하세요.</value>
@@ -1055,7 +1049,7 @@
     <value>함수 앱 설정</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>런타임 버전: {{extensionVersion}}. 사용 가능한 최신 버전: ({{latestExtensionVersion}}).</value>
+    <value>런타임 버전: {{exactExtensionVersion}}. 최신 버전을 사용할 수 있습니다({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>런타임 버전: {{exactExtensionVersion}}({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Azure 계정 수준 배포 자격 증명을 구성합니다. '게시 자격 증명'이라고도 하는 앱 수준 자격 증명을 변경하려면 '개요' 탭에서 '게시 자격 증명 다시 설정'을 선택합니다. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;자세히 알아보세요&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>콘솔</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>대화형 웹 기반 콘솔에서 앱의 파일 시스템을 탐색합니다.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>일반적인 명령('mkdir', 디렉터리를 변경하기 위한 'cd' 등)을 실행하여 웹앱 환경을 관리합니다. 샌드박스 환경이므로 높은 권한이 필요한 명령은 작동되지 않습니다.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>항상 켜려면 기본 이상의 App Service 계획이 필요합니다.</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>이 앱과 연결된 App Service 계획에서 이 기능을 지원하지 않습니다. 관리자에게 문의하여 현재 계획에서 이 기능을 사용하도록 설정하거나 이미 사용하도록 설정한 계획으로 업그레이드하세요.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>관리되는 파이프라인 버전</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>인증/권한 부여를 사용하여 응용 프로그램을 보호하고 사용자 단위 데이터로 작업합니다.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>관리 서비스 ID(미리 보기)</value>
+    <value>관리 서비스 ID</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>응용 프로그램은 관리되는 Azure Active Directory ID를 사용하여 다른 Azure 서비스와 통신할 수 있습니다.</value>
@@ -2537,7 +2558,7 @@
     <value>체크 인 메시지</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Azure Functions의 시험판 버전을 사용하고 있습니다. 사용해 주셔서 감사합니다!</value>
+    <value>현재 Azure Functions의 시험판 버전을 사용하고 있습니다. '자세한 정보'를 클릭하여 알림 페이지의 최신 변경 내용으로 계속 업데이트합니다.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>숨기려면 클릭</value>
@@ -2717,7 +2738,7 @@
     <value>권한 부여</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>권한 부여</value>
+    <value>계정 변경</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>뒤로</value>
@@ -2876,7 +2897,7 @@
     <value>{0}을(를) 중지하지 못함</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0}이(가) 다시 시작됨'</value>
+    <value>{0}이(가) 다시 시작되었음</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>{0}을(를) 다시 시작하지 못함</value>
@@ -2924,7 +2945,7 @@
     <value>구성</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>배포</value>
+    <value>스테이징에 배포</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>요약</value>
@@ -3014,7 +3035,7 @@
     <value>대부분의 프로덕션 작업</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Isolated</value>
+    <value>격리</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>고급 네트워킹 및 규모</value>
@@ -3061,9 +3082,6 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service 계획의 모든 인스턴스에는 다음 하드웨어 구성이 포함됩니다.</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>App Service Environment의 Linux 웹앱은 미리 보기 중에는 50% 할인된 요금으로 청구됩니다.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux의 첫 번째 기본(B1) 코어는 처음 30일간 무료입니다!</value>
   </data>
@@ -3088,8 +3106,11 @@
   <data name="free" xml:space="preserve">
     <value>무료</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/월(예상)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/시간(예상)</value>
+    <value>{0} {1}/월(예상)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>계획에 대한 리소스를 더 추가하려면 다른 가격 책정 계층을 선택합니다.</value>
@@ -3251,10 +3272,10 @@
     <value>로그 수준</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 빌드 서버</value>
+    <value>VSTS 지속적인 업데이트</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>VSTS를 빌드 서버로 사용합니다. 전체 릴리스 관리 워크플로에 대해 고급 옵션을 활용하도록 선택할 수 있습니다.</value>
+    <value>Visual Studio Team Services는 응용 프로그램에 대한 강력한 배포 파이프라인을 설정합니다. 파이프라인은 부하 테스트를 빌드하고, 실행하고, 스테이징 슬롯에 배포한 다음 프로덕션에 배포합니다.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu 빌드 서버</value>
@@ -3299,7 +3320,7 @@
     <value>Django 설정 모듈</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Flask 프로젝트</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>새로 만들기</value>
@@ -3341,7 +3362,7 @@
     <value>부하 테스트</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>부하 테스트 사용</value>
+    <value>부하 테스트를 사용하도록 설정</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>앱 이름</value>
@@ -3353,7 +3374,7 @@
     <value>배포 센터(미리 보기)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service 배포 센터를 사용하면 코드의 위치는 물론 클라우드에 대한 구축 및 배포 옵션을 선택할 수 있습니다.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>권한 없음</value>
@@ -3421,9 +3442,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>사용 안 함</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>해제</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>표시</value>
   </data>
@@ -3440,19 +3458,19 @@
     <value>FTP 연결을 사용하여 앱 파일에 액세스 및 복사합니다.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>App Service를 사용하면 FTP/S를 통해 앱 콘텐츠에 액세스할 수 있습니다.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>사용자 자격 증명</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>사용자 자격 증명은 귀하와 사용자가 정의하며 액세스 권한이 있는 모든 앱과 함께 사용할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>앱 자격 증명</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>응용 프로그램 자격 증명은 자동으로 생성되며 이 특정 앱 또는 배포 슬롯에만 액세스할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>사용자 이름</value>
@@ -3485,6 +3503,108 @@
     <value>자격 증명 다시 설정</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP 버전</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>해제</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>공급자</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>새 계정</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>새 배포 슬롯</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>배포 슬롯 이름</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>완료되면 로컬 git 리포지토리 URL이 생성됩니다.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>응용 프로그램 설정에서 로드된 런타임 버전: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>지원되지 않는 런타임 버전</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>사용자 지정 런타임 버전이 지원되지 않습니다. 따라서 {{exactExtensionVersion}} 런타임을 사용하고 있습니다. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>연결 끊기</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>편집</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>동기화</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>배포 자격 증명</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Entity Framework를 사용 중인 경우 연결 문자열은 함수 앱과만 사용해야 합니다. 다른 시나리오에서는 앱 설정을 사용하세요. 자세한 내용을 보려면 클릭하세요.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>런타임 버전: 로드하는 중...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>로컬 캐시를 사용하고 있으므로 앱이 현재 읽기 전용 모드입니다. 로컬 캐시를 사용할 때 로컬 파일 시스템에서 변경한 내용은 사이트 콘텐츠에까지 지속되지 않습니다. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;자세한 정보&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>값</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>슬롯 설정</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>앱 설정 이름</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>연결 문자열 이름</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>종류</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>문서 이름</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>확장</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>스크립트 프로세서</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>인수</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>가상 경로</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>실제 경로</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>응용 프로그램</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>디렉터리</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>데이터베이스 계정</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB 계정</value>
   </data>
 </root>

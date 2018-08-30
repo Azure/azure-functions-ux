@@ -154,7 +154,7 @@
     <value>Errore della funzione: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Errore {{error}} della funzione (${{name}})</value>
+    <value>Errore {{error}} della funzione ({{name}})</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL della funzione</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Immettere il percorso fisico</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Applicazione</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Impostazione slot</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valore nascosto. Fare clic per visualizzarlo.</value>
@@ -1055,7 +1049,7 @@
     <value>impostazioni dell'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Versione runtime: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
+    <value>Versione runtime: {{exactExtensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Versione runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Consente di configurare le credenziali di distribuzione a livello dell'account Azure. Per modificare le credenziali a livello dell'app, note anche come 'Credenziali di pubblicazione', scegliere 'Reimposta credenziali di pubblicazione' nella scheda 'Panoramica'. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Altre informazioni&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Consente di esplorare il file system dell'app da una console interattiva basata sul Web.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>È possibile gestire l'ambiente dell'app Web tramite comandi comuni, ad esempio 'mkdir', 'cd' per passare a un'altra directory e così via. Si tratta di un ambiente sandbox, quindi i comandi che richiedono privilegi elevati non funzioneranno.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>La modalità Always On richiede un piano di servizio app Basic o superiore</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>Il piano di servizio app associato a questa app non supporta questa funzionalità. Contattare l'amministratore per richiedere l'abilitazione di questa funzionalità per il piano corrente o eseguire l'aggiornamento a un piano in cui è già abilitata.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Versione pipeline gestita</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>Consente di usare la modalità Autenticazione/Autorizzazione per proteggere l'applicazione e di lavorare con i dati per utente.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identità del servizio gestita (anteprima)</value>
+    <value>Identità del servizio gestita</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>L'applicazione può comunicare con altri servizi di Azure come se stessa usando un'identità di Azure Active Directory gestita.</value>
@@ -2537,7 +2558,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Messaggio di archiviazione</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>È in uso una versione non definitiva di Funzioni di Azure. Grazie per aver scelto di provare il servizio.</value>
+    <value>È in uso una versione preliminare di Funzioni di Azure. Fare clic su 'Altre informazioni' per rimanere aggiornati sulle modifiche più recenti tramite la pagina degli annunci.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Fare clic per nascondere</value>
@@ -2717,7 +2738,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Autorizza</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorizza</value>
+    <value>Cambia account</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Indietro</value>
@@ -2876,7 +2897,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non è stato possibile arrestare {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} è stato riavviato'</value>
+    <value>{0} è stato riavviato</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Non è stato possibile riavviare {0}</value>
@@ -2924,7 +2945,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Configura</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Distribuisci</value>
+    <value>Distribuisci nell'ambiente di staging</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Riepilogo</value>
@@ -3061,9 +3082,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Ogni istanza del piano di servizio app includerà la configurazione hardware seguente:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Durante il periodo di anteprima, le app Web Linux in un ambiente del servizio app vengono fatturate con uno sconto del 50%.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Il primo core Basic (B1) per Linux è gratuito per i primi 30 giorni.</value>
   </data>
@@ -3071,7 +3089,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Durante il periodo di anteprima, i contenitori Windows vengono fatturati con uno sconto del 50%.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>I piani tariffari isolati all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
+    <value>I piani tariffari di tipo Isolato all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>I piani tariffari di sviluppo/test non sono disponibili per la configurazione corrente, ma solo per i piani non ospitati all'interno di un ambiente del servizio app.</value>
@@ -3088,8 +3106,11 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/mese (costi stimati)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/ora (costo stimato)</value>
+    <value>{0} {1}/mese (costi stimati)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Per aggiungere più risorse al piano, scegliere un piano tariffario diverso</value>
@@ -3251,10 +3272,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Livello log</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Server di compilazione VSTS</value>
+    <value>Distribuzione continua di VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Consente di usare VSTS come server di compilazione. È possibile scegliere di usare le ozioni avanzate per un flusso di lavoro di gestione del rilascio completo.</value>
+    <value>Visual Studio Team Services configura una pipeline di distribuzione affidabile per l'applicazione. La pipeline compila, esegue i test del carico e distribuisce prima nello slot di staging e quindi in quello di produzione.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Server di compilazione Kudu del servizio app</value>
@@ -3299,7 +3320,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Modulo delle impostazioni di Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Progetto Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Nuovo</value>
@@ -3338,7 +3359,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>No</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Test di carico</value>
+    <value>Carica test</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
     <value>Abilita test del carico</value>
@@ -3353,7 +3374,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Centro distribuzione (anteprima)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Centro distribuzione del servizio app consente di scegliere la posizione del codice e le opzioni per la compilazione e la distribuzione nel cloud.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Non autorizzato</value>
@@ -3421,9 +3442,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="FTPDisable" xml:space="preserve">
     <value>Disabilita</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Mostra</value>
   </data>
@@ -3440,19 +3458,19 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Usare una connessione FTP per l'accesso e la copia dei file dell'app.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Servizio app consente di accedere al contenuto dell'app tramite FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Credenziali utente</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Le credenziali utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenziali dell'app</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Le credenziali dell'applicazione vengono generate automaticamente e consentono l'accesso solo a questa app o slot di distribuzione specifico. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nome utente</value>
@@ -3476,7 +3494,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Operazione non riuscita</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Operazione riuscita</value>
+    <value>Operazione completata</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Salva credenziali</value>
@@ -3485,6 +3503,108 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Reimposta credenziali</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Versione HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nuovo account</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nuovo slot di distribuzione</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Nome slot di distribuzione</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>L'URL del repository Git locale sarà generato al termine dell'operazione.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Versione runtime caricata dalle impostazioni dell'applicazione: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Versione runtime non supportata</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>La versione personalizzata del runtime non è supportata. Verrà usato il runtime {{exactExtensionVersion}}. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Disconnetti</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sincronizza</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Credenziali distribuzione</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Le stringhe di connessione devono essere usate con un'app per le funzioni solo se è in uso Entity Framework. Per altri scenari, usare Impostazioni app. Fare clic per altre informazioni.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Versione runtime: caricamento...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>L'app è attualmente in modalità di sola lettura perché è in uso la cache locale. Quando si usa la cache locale, le modifiche apportate al file system locale non vengono salvate in modo permanente nel contenuto del sito. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Altre informazioni&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Valore</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Impostazione slot</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Nome impostazione app</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Nome stringa di connessione</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Nome documento</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Estensione</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Processore script</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argomenti</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Percorso virtuale</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Percorso fisico</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Applicazione</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Account del database</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Account Azure Cosmos DB</value>
   </data>
 </root>

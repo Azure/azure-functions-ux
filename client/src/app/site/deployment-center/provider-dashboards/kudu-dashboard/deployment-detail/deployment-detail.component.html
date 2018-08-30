@@ -1,5 +1,5 @@
 <command-bar>
-  <command displayText="{{ 'redeploy' | translate }}" iconUrl="image/swap.svg" (click)="redeploy()"></command>
+  <command displayText="{{ 'redeploy' | translate }}" iconUrl="image/swap.svg" (click)="redeploy()" *ngIf="redeployEnabled"></command>
   <span class="close-button" (click)="close()">
       <i class="fa fa-times fa-lg" aria-hidden="true"></i>
   </span>

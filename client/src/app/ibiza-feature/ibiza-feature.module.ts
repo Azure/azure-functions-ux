@@ -58,6 +58,10 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 path: 'environments/:environmentId/functiongroups/:functionAppId/functions/:functionId',
                 loadChildren: 'app/ibiza-feature/embedded-editor-shell/embedded-editor-shell.module#EmbeddedEditorShellModule'
             },
+            {
+                path: 'subscriptions/:subscriptionId/containersettings',
+                loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule'
+            },
         ]
     }
 ]);

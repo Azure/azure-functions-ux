@@ -8,7 +8,7 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -30,10 +30,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _vstsApiToken: string;
     private _pricingTier: string;
     public siteArm: ArmObj<Site>;
+    public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
+    public updateSourceProviderConfig$ = new Subject();
     public selectedVstsRepoId = '';
     public subscriptionName = '';
     public deploymentSlotsAvailable = true;
     public canCreateNewSite = true;
+    public hideBuild = false;
+    public hideVstsBuildConfigure = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -50,18 +54,22 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .switchMap(result => {
                 const [site, sub] = result;
                 this.siteArm = site.result;
+                this.siteArmObj$.next(this.siteArm);
                 this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
                 const siteDesc = new ArmSiteDescriptor(this._resourceId);
                 return forkJoin(
                     scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
-                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]));
+                    authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]),
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm }),
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsKuduSource, { site: this.siteArm }));
             })
             .subscribe(r => {
-                const [s, p] = r;
-                this.deploymentSlotsAvailable = s.status === 'enabled';
-                this.canCreateNewSite = p;
+                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck, vstsKuduScenarioCheck] = r;
+                this.deploymentSlotsAvailable = slotsEnabled.status === 'enabled';
+                this.canCreateNewSite = siteCreationPermission;
+                this.hideBuild = vstsScenarioCheck.status === 'disabled' || vstsKuduScenarioCheck.status === 'disabled';
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -106,6 +114,19 @@ export class DeploymentCenterStateManager implements OnDestroy {
         }
     }
 
+    public fetchVSTSProfile() {
+        // if the first get fails, it's likely because the user doesn't have an account in vsts yet
+        // the fix for this is to do an empty post call on the same url and then get it
+        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders())
+            .catch(() => {
+                return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders())
+                    .switchMap(() => {
+                        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders());
+                    });
+            });
+
+    }
+
     private _deployKudu() {
         const payload = this.wizardValues.sourceSettings;
         if (this.wizardValues.sourceProvider === 'external') {
@@ -115,12 +136,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'localgit') {
             return this._cacheService.patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion, {
                 properties: {
-                    scmType: 'LocalGit'
-                }
+                    scmType: 'LocalGit',
+                },
             }).map(r => r.json());
         } else {
             return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
-                properties: payload
+                properties: payload,
             }).map(r => r.json());
         }
 
@@ -152,7 +173,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             ciConfiguration: this._ciConfig,
             id: null,
             source: this._deploymentSource,
-            targets: this._deploymentTargets
+            targets: this._deploymentTargets,
         };
         const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
             true, this.getVstsPassthroughHeaders(), deploymentObject);
@@ -171,8 +192,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private get _ciConfig(): CiConfiguration {
         return {
             project: {
-                name: this.wizardValues.buildSettings.vstsProject
-            }
+                name: this.wizardValues.buildSettings.vstsProject,
+            },
         };
     }
 
@@ -181,9 +202,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: DeploymentSourceType.CodeRepository,
             buildConfiguration: {
                 type: this._applicationType,
-                workingDirectory: this.wizardValues.buildSettings.workingDirectory
+                workingDirectory: this.wizardValues.buildSettings.workingDirectory,
             },
-            repository: this._repoInfo
+            repository: this._repoInfo,
         };
     }
 
@@ -206,12 +227,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'PersonalAccessToken',
                 parameters: {
-                    AccessToken: `#{GithubToken}#`
-                }
+                    AccessToken: `#{GithubToken}#`,
+                },
             },
             defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
             type: 'GitHub',
-            id: repoId
+            id: repoId,
         };
     }
 
@@ -220,7 +241,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: 'LocalGit',
             id: null,
             defaultBranch: 'refs/heads/master',
-            authorizationInfo: null
+            authorizationInfo: null,
         };
     }
 
@@ -229,22 +250,24 @@ export class DeploymentCenterStateManager implements OnDestroy {
             type: 'TfsGit',
             id: this.selectedVstsRepoId,
             defaultBranch: 'refs/heads/master',
-            authorizationInfo: null
+            authorizationInfo: null,
         };
     }
 
     private get _externalRepoInfo(): CodeRepository {
+        const sourceSettings = this.wizardValues.sourceSettings;
+        const privateRepo = sourceSettings.privateRepo;
         return {
             type: 'Git',
-            id: this.wizardValues.sourceSettings.repoUrl,
-            defaultBranch: 'master',
+            id: sourceSettings.repoUrl,
+            defaultBranch: sourceSettings.branch,
             authorizationInfo: {
                 scheme: 'UsernamePassword',
                 parameters: {
-                    username: '',
-                    password: ''
-                }
-            }
+                    username: privateRepo ? sourceSettings.username : '',
+                    password: privateRepo ? sourceSettings.password : '',
+                },
+            },
         };
     }
 
@@ -274,15 +297,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._vstsApiToken}`
-                }
+                    Authorization: `Bearer ${this._vstsApiToken}`,
+                },
             },
             createOptions: null,
-            slotSwapConfiguration: null
+            slotSwapConfiguration: null,
         };
         if (this.wizardValues.deploymentSlotSetting.deploymentSlotEnabled) {
             targetObject.slotSwapConfiguration = {
-                slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot
+                slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot,
             };
         }
         return targetObject;
@@ -308,15 +331,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._vstsApiToken}`
-                }
+                    Authorization: `Bearer ${this._vstsApiToken}`,
+                },
             },
             createOptions: this.wizardValues.testEnvironment.newApp ? {
                 appServicePlanName: appServicePlanDescriptor.name,
                 appServicePricingTier: this._pricingTier,
-                baseAppServiceName: siteDescriptor.site
+                baseAppServiceName: siteDescriptor.site,
             } : null,
-            slotSwapConfiguration: null
+            slotSwapConfiguration: null,
         };
         return targetObject;
     }
@@ -345,7 +368,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
-
 
     public getVstsDirectHeaders(): Headers {
         const headers = new Headers();
@@ -380,4 +402,3 @@ export class DeploymentCenterStateManager implements OnDestroy {
         });
     }
 }
-

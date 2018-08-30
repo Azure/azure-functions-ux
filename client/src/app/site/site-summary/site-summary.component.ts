@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links, NotificationIds } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -27,6 +27,8 @@ import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { errorIds } from '../../shared/models/error-ids';
+import { TopBarNotification } from 'app/top-bar/top-bar-models';
 
 @Component({
     selector: 'site-summary',
@@ -59,6 +61,15 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
+    private readonly _oldExtensionList = [
+        'EventHubConfiguration',
+        'CosmosDBConfiguration',
+        'EventGridExtensionConfig',
+        'MicrosoftGraphExtensionConfig',
+        'SendGridConfiguration',
+        'AuthTokenExtensionConfig',
+        'ServiceBusExtensionConfig',
+    ];
 
     constructor(
         private _cacheService: CacheService,
@@ -116,7 +127,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                 this.state = context.site.properties.state;
                 this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
 
-
                 this.availabilityState = null;
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
@@ -140,11 +150,17 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
                     this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
-                    (p, s, l, slots) => ({
+                    this._functionAppService.pingScmSite(context),
+                    this._functionAppService.getFunctionHostStatus(context),
+                    this._functionAppService.getExtensionJson(context),
+                    (p, s, l, slots, ping, host, extensions) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
-                        slotsList: slots.isSuccessful ? slots.result : []
+                        slotsList: slots.isSuccessful ? slots.result : [],
+                        pingedScmSite: ping.isSuccessful ? ping.result : false,
+                        runtime: host.isSuccessful ? host.result.version : '',
+                        extensionList: extensions.isSuccessful ? extensions.result.map(r => r.name) : [],
                     }));
             })
             .mergeMap(r => {
@@ -153,6 +169,30 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission && r.slotsList.length > 0;
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
+                }
+
+                if (!r.pingedScmSite) {
+                    this.showComponentError({
+                        message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
+                        errorId: errorIds.preconditionsErrors.failedToPingScmSite,
+                        resourceId: this.context.site.id,
+                        href: Links.funcStorageLearnMore,
+                        hrefText: this.ts.instant(PortalResources.scmPingFailedLearnMore)
+                    });
+                }
+
+                if (!!r.runtime && r.runtime.includes('2.0.12050')) {
+                    const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
+                    if (hasOldExtensions) {
+                        const notifications: TopBarNotification[] = [{
+                            id: NotificationIds.updateExtensions,
+                            message: this.ts.instant(PortalResources.topBar_updateExtensions),
+                            iconClass: 'fa fa-exclamation-triangle warning',
+                            learnMoreLink: Links.extensionInstallHelpLink,
+                            clickCallback: null,
+                        }];
+                        this._globalStateService.setTopBarNotifications(notifications);
+                    }
                 }
 
                 return !this.hideAvailability
@@ -210,7 +250,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
         this._armService.post(`${this.context.site.id}/publishxml`, null)
             .subscribe(response => {
-
 
                 const publishXml = response.text();
 
@@ -361,7 +400,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
     openPlanBlade() {
         this._portalService.openBladeDeprecated({
-            detailBlade: 'WebHostingPlanBlade',
+            detailBlade: this._scenarioService.checkScenario(ScenarioIds.openOldWebhostingPlanBlade).status === 'enabled'
+                ? 'WebHostingPlanBlade'
+                : 'PlansOverviewBlade',
             detailBladeInputs: { id: this.context.site.properties.serverFarmId }
         },
             'site-summary'

@@ -59,6 +59,11 @@
             i{
                 color: $pa-icon-color;
                 padding-right: 3px;
+#top-bar{
+    .command-bar-wrapper{
+        command{
+            a {
+                color: $default-text-color;
             }
         }
     }
@@ -97,4 +102,16 @@
             }
         }
     }
+
+#app-root[theme=dark]{
+    #top-bar{
+        .command-bar-wrapper{
+            command{
+                a {
+                    color: $default-text-color-dark;
+                }
+            }
+        }
+    }
+    
 }

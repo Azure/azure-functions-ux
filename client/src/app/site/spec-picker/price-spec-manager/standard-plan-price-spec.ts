@@ -73,6 +73,7 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     legacySkuName = 'small_standard';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('100'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
@@ -88,12 +89,13 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     };
 
     runInitialization(input: PriceSpecInput) {
-        if ((input.specPickerInput.data && input.specPickerInput.data.isXenon)
-            || (input.plan && input.plan.properties.isXenon)) {
-            const slotsFeatureIndex = this.featureItems.findIndex(f => f.title === this._ts.instant(PortalResources.pricing_stagingSlots));
-            if (slotsFeatureIndex > -1) {
-                this.featureItems.splice(slotsFeatureIndex, 1);
-            }
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
         }
 
         return super.runInitialization(input);
@@ -105,6 +107,7 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
     legacySkuName = 'medium_standard';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('200'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
@@ -138,6 +141,7 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
     legacySkuName = 'large_standard';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_ACU).format('400'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
         this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];

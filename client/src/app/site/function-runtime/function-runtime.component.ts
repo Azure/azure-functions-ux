@@ -1,5 +1,7 @@
 import { NotificationIds, SiteTabIds, Constants, LogCategories } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
+import { ScenarioIds } from './../../shared/models/constants';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ConfigService } from './../../shared/services/config.service';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
@@ -24,7 +26,6 @@ import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
@@ -33,7 +34,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-
+import { SiteService } from 'app/shared/services/site.service';
 
 @Component({
     selector: 'function-runtime',
@@ -68,11 +69,13 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
     public functionAppEditMode = true;
     public functionAppEditModeOptions: SelectOption<boolean>[];
+    public functionAppEditModeForcedWarning: string;
 
     private _isSlotApp = false;
     public slotsStatusOptions: SelectOption<boolean>[];
     public slotsAppSetting: string;
     public slotsEnabled: boolean;
+    public functionRuntimeSelectorDisabled = false;
     public slotsValueChange: Subject<boolean>;
     private _busyManager: BusyStateScopeManager;
 
@@ -83,14 +86,17 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         private _globalStateService: GlobalStateService,
         private _aiService: AiService,
         private _translateService: TranslateService,
-        private _slotsService: SlotsService,
         private _configService: ConfigService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService,
-        private _languageService: LanguageService) {
+        private _scenarioService: ScenarioService,
+        private _languageService: LanguageService,
+        private _siteService: SiteService) {
         super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
+
+        this.functionRuntimeSelectorDisabled = this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled';
 
         this.functionStatusOptions = [
             {
@@ -192,21 +198,19 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
             .filter(value => value !== this.slotsEnabled)
             .subscribe((value: boolean) => {
                 this._busyManager.setBusy();
-                const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
-                this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true)
-                    .mergeMap(r => {
-                        return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
-                    })
-                    .do(null, e => {
-                        this._busyManager.clearBusy();
-                        this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
-                    })
-                    .retry()
-                    .subscribe(() => {
-                        this._functionAppService.fireSyncTrigger(this.context);
-                        this.slotsEnabled = value;
-                        this._busyManager.clearBusy();
-                        this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+                const newOrUpdatedSettings = {};
+                newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+                this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings)
+                    .subscribe(r => {
+                        if (r.isSuccessful) {
+                            this._functionAppService.fireSyncTrigger(this.context);
+                            this.slotsEnabled = value;
+                            this._busyManager.clearBusy();
+                            this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+                        } else {
+                            this._busyManager.clearBusy();
+                            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', r.error);
+                        }
                     });
             });
 
@@ -259,9 +263,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     this.extensionVersion = Constants.latest;
                 }
 
-                this.badRuntimeVersion = !this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
-                    return this.extensionVersion.toLowerCase() === v;
-                });
+                this.badRuntimeVersion = !this._validRuntimeVersion();
 
                 this.setNeedUpdateExtensionVersion();
 
@@ -269,10 +271,12 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                     ? appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
                     : false;
 
-                if (tuple[2].isSuccessful && EditModeHelper.isReadOnly(tuple[2].result)) {
-                    this.functionAppEditMode = false;
+                if (tuple[2].isSuccessful) {
+                    this.functionAppEditMode = !EditModeHelper.isReadOnly(tuple[2].result);
+                    this.functionAppEditModeForcedWarning = EditModeHelper.getWarningIfForced(tuple[2].result);
                 } else {
                     this.functionAppEditMode = true;
+                    this.functionAppEditModeForcedWarning = null;
                 }
                 this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
@@ -470,6 +474,18 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
             } else {
                 return this._configService.FunctionsVersionInfo.runtimeDefault;
             }
+        }
+    }
+
+    private _validRuntimeVersion(): boolean {
+        if (this.extensionVersion === this.exactExtensionVersion) {
+            return true;
+        } else if (this.extensionVersion === this.exactExtensionVersion.replace(/.0$/, '-alpha')) {
+            return true;
+        } else {
+            return !!this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
+                return this.extensionVersion.toLowerCase() === v;
+            });
         }
     }
 }

@@ -7,6 +7,7 @@ export namespace errorIds {
         export const runtimeIsNotAvailable = '/errors/preconditions/runtimeIsNotAvailable';
         export const runtimeHttpNotAvailable = '/errors/preconditions/runtimeHttpNotAvailable';
         export const noFunctionAppContext = '/errors/preconditions/noFunctionAppContext';
+        export const failedToPingScmSite = 'errors/preconditions/failedToPingScmSite';
     }
 
     export namespace armErrors {
@@ -76,4 +77,7 @@ export namespace errorIds {
     export const embeddedUpdateStatusError = '/errors/embedded/toggle-status';
     export const applicationInsightsInstrumentationKeyMismatch = 'errors/appInsights/instrumentationKey/mismatch';
     export const applicationInsightsConfigure = 'errors/appInsights/configure';
+    export const failedToSwapSlots = '/errors/unableToSwapSlots';
+    export const failedToUpdateHostToOffline = 'error/failedToUpdateHostToOffline';
+    export const failedToUpdateHostToRunning = 'error/faileToUpdateHostToRunning';
 }

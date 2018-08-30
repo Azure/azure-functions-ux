@@ -14,11 +14,10 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
 
-
 @Component({
     selector: 'app-configure-vsts-source',
     templateUrl: './configure-vsts-source.component.html',
-    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
+    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureVstsSourceComponent implements OnDestroy {
 
@@ -41,6 +40,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedBranch = '';
     public accountListLoading = false;
     public branchesLoading = false;
+    public hasRepos = true;
+    public hasAccounts = true;
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
@@ -75,16 +76,21 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._memberIdSubscription
             .takeUntil(this._ngUnsubscribe$)
             .do(() => this.accountListLoading = true)
-            .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
+            .concatMap(() => this.wizard.fetchVSTSProfile())
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
+                if (r.length === 0) {
+                    this.hasAccounts = false;
+                } else {
+                    this.hasAccounts = true;
+                }
                 const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
                         this._cacheService
                             .get(`https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.wizard.getVstsDirectHeaders())
-                            .map(res => res.json().value)
+                            .map(res => res.json().value),
                     );
                 });
                 return forkJoin(projectCalls);
@@ -92,6 +98,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .do(() => this.accountListLoading = false)
             .subscribe(
                 r => {
+                    if (r.length === 0) {
+                        this.hasRepos = false;
+                    } else {
+                        this.hasRepos = true;
+                    }
                     this._vstsRepositories = [];
                     r.forEach(repoList => {
                         repoList.forEach(repo => {
@@ -100,7 +111,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                                 remoteUrl: repo.remoteUrl,
                                 account: repo.remoteUrl.split('.')[0].replace('https://', ''),
                                 project: repo.project,
-                                id: repo.id
+                                id: repo.id,
                             });
                         });
                     });
@@ -108,15 +119,16 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                         this._vstsRepositories.map(repo => {
                             return {
                                 displayLabel: repo.account,
-                                value: repo.account
+                                value: repo.account,
                             };
                         }),
-                        'value'
+                        'value',
                     );
                 },
                 err => {
+                    this.hasAccounts = false;
                     this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
-                }
+                },
             );
 
         this._branchSubscription
@@ -128,9 +140,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
-                        `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
+                        `https://${account}.visualstudio.com/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
                         true,
-                        this.wizard.getVstsDirectHeaders()
+                        this.wizard.getVstsDirectHeaders(),
                     );
                 } else {
                     return Observable.of(null);
@@ -144,7 +156,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                         this.branchList = branchList.map(x => {
                             const item: DropDownElement<string> = {
                                 displayLabel: x.name.replace('refs/heads/', ''),
-                                value: x.name.replace('refs/heads/', '')
+                                value: x.name.replace('refs/heads/', ''),
                             };
                             return item;
                         });
@@ -155,15 +167,27 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 err => {
                     this.branchList = [];
                     this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
-                }
+                },
             );
+    }
+
+    get isKudu() {
+        return this.wizard.wizardForm.controls.buildProvider.value === 'kudu';
+    }
+
+    openVSTSAccountCreate() {
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014384');
+    }
+
+    openVSTSRepoCreate() {
+        window.open('https://go.microsoft.com/fwlink/?linkid=2014379');
     }
 
     private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
-            if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
+            if (this.isKudu) {
                 return Observable.of(accounts.filter(x => x.isAccountOwner));
             } else {
                 return Observable.of(accounts);
@@ -175,11 +199,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.projectList = uniqBy(
             this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
-                    displayLabel: repo.project.name,
-                    value: repo.project.name
+                    displayLabel: `${repo.project.name} (${repo.project.id})`,
+                    value: repo.project.id,
                 };
             }),
-            'value'
+            'value',
         );
         this.selectedProject = '';
         this.selectedRepo = '';
@@ -187,15 +211,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.selectedBranch = '';
     }
 
-    projectChanged(projectName: DropDownElement<string>) {
+    projectChanged(selectedProject: DropDownElement<string>) {
         this.repositoryList = uniqBy(
-            this._vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
+            this._vstsRepositories.filter(r => r.project.id === selectedProject.value).map(repo => {
                 return {
                     displayLabel: repo.name,
-                    value: repo.remoteUrl
+                    value: repo.remoteUrl,
                 };
             }),
-            'value'
+            'value',
         );
         this.selectedRepo = '';
         this.branchList = [];

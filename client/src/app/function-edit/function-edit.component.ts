@@ -196,14 +196,8 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
                             id: NotificationIds.runtimeV2,
                             message: this._translateService.instant(PortalResources.topBar_runtimeV2),
                             iconClass: 'fa fa-exclamation-triangle warning',
-                            learnMoreLink: '',
-                            clickCallback: () => {
-                                this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                                    operation: 'navigate',
-                                    resourceId: this.context.site.id,
-                                    data: SiteTabIds.functionRuntime
-                                });
-                            }
+                            learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=2004544',
+                            clickCallback: null
                         });
                     } else {
                         isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this._configService.FunctionsVersionInfo, extensionVersion);

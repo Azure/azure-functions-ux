@@ -1,0 +1,37 @@
+<div class="browse-container">
+    <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>
+    <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
+    <div class="log-toolbar">
+        <span class="log-empty-space"></span>
+        <span class="link action" *ngIf="stopped" (click)="startLogs()"
+             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
+            <i class="fa fa-play"></i>
+            {{ 'logStreaming_start' | translate }}
+        </span>
+        <span class="link action" *ngIf="!stopped" (click)="stopLogs()"
+             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_pause' | translate }}">
+            <i class="fa fa-pause"></i>
+            {{ 'logStreaming_pause' | translate }}
+        </span>
+        <span class="link action" (click)="clearLogText()"
+             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
+            <i class="fa fa-book"></i>
+            {{ 'logStreaming_clear' | translate }}
+        </span>
+        <span (click)="copyLogs()" class="link action"
+             role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
+                <span class="link">
+                    <i class="fa fa-clone"></i>
+                    {{ 'logStreaming_copyLogs' | translate }}
+                </span>
+            </pop-over>
+        </span>
+    </div>
+    <div id = "log-container">
+        <div id= "log-body" class= "log-body">
+            <div class = "log-message log-connector" *ngIf = "!clearLogs">{{ 'feature_logStreamingConnecting' | translate }}</div>
+            <ng-container #logs></ng-container>
+        </div>
+      </div>      
+</div>

@@ -24,6 +24,7 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Url } from 'app/shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { ArmUtil } from '../../shared/Utilities/arm-utils';
 
 @Component({
     selector: 'site-manage',
@@ -175,8 +176,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._portalService,
             this._hasSiteWritePermissionStream
         );
-        const showDeploymentCenter = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-        if (showDeploymentCenter) {
+        const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
+        const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, {site}).data !== 'disabled';
+        if (deploymentCenterEnabled || showDeploymentCenterFlag) {
             deploymentFeature = new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
@@ -191,9 +193,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._broadcastService
             );
         }
-        let codeDeployFeatures = [
+        const codeDeployFeatures = [
             deploymentFeature,
-
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
@@ -209,64 +210,62 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             )
         ];
 
-        const developmentToolFeatures = [
-            this._scenarioService.checkScenario(ScenarioIds.addLogicApps, { site: site }).status !== 'disabled'
-                ? new TabFeature(
-                    this._translateService.instant(PortalResources.tab_logicApps),
-                    this._translateService.instant(PortalResources.tab_logicApps),
-                    this._translateService.instant(PortalResources.feature_logicAppsInfo),
-                    'image/logicapp.svg',
-                    SiteTabIds.logicApps,
-                    this._broadcastService
-                ) : null,
+        const developmentToolFeatures = [];
+        if (this._scenarioService.checkScenario(ScenarioIds.addLogicApps, { site: site }).status !== 'disabled') {
+            developmentToolFeatures.push(new TabFeature(
+                this._translateService.instant(PortalResources.tab_logicApps),
+                this._translateService.instant(PortalResources.tab_logicApps),
+                this._translateService.instant(PortalResources.feature_logicAppsInfo),
+                'image/logicapp.svg',
+                SiteTabIds.logicApps,
+                this._broadcastService
+            ));
+        }
 
-            this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_consoleName),
-                    this._translateService.instant(PortalResources.feature_consoleName) +
-                    ' ' +
-                    this._translateService.instant(PortalResources.debug),
-                    this._translateService.instant(PortalResources.feature_consoleInfo),
-                    'image/console.svg',
-                    {
-                        detailBlade: 'ConsoleBlade',
-                        detailBladeInputs: {
-                            resourceUri: site.id
-                        }
-                    },
-                    this._portalService,
-                    this._hasSiteWritePermissionStream
-                )
-                : null,
+        if (this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
+            this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled') {
+            developmentToolFeatures.push(new TabFeature(
+                this._getConsoleName(site),
+                this._translateService.instant(PortalResources.feature_consoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_cmdConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_bashConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_sshConsoleName) +
+                ' ' +
+                this._translateService.instant(PortalResources.debug),
+                this._translateService.instant(PortalResources.feature_consoleInfo),
+                'image/console.svg',
+                SiteTabIds.console,
+                this._broadcastService
+            ));
+        }
 
-            this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
-                ? new OpenSshFeature(site, this._hasSiteWritePermissionStream, this._translateService)
-                : null,
+        developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
+        developmentToolFeatures.push(new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._scenarioService));
 
-            new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService),
+        if (this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled') {
+            developmentToolFeatures.push(new OpenResourceExplorer(site, this._translateService));
+        }
 
-            new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._scenarioService),
-
-            this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled'
-                ? new OpenResourceExplorer(site, this._translateService)
-                : null,
-
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_extensionsName),
-                this._translateService.instant(PortalResources.feature_extensionsName),
-                this._translateService.instant(PortalResources.feature_extensionsInfo),
-                'image/extensions.svg',
-                {
-                    detailBlade: 'SiteExtensionsListBlade',
-                    detailBladeInputs: {
-                        WebsiteId: this._descriptor.getWebsiteId()
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableExtensions, { site: site })
-            )
-        ];
+        developmentToolFeatures.push(new DisableableBladeFeature(
+            this._translateService.instant(PortalResources.feature_extensionsName),
+            this._translateService.instant(PortalResources.feature_extensionsName),
+            this._translateService.instant(PortalResources.feature_extensionsInfo),
+            'image/extensions.svg',
+            {
+                detailBlade: 'SiteExtensionsListBlade',
+                detailBladeInputs: {
+                    WebsiteId: this._descriptor.getWebsiteId()
+                }
+            },
+            this._portalService,
+            this._hasSiteWritePermissionStream,
+            this._scenarioService.checkScenario(ScenarioIds.enableExtensions, { site: site })
+        ));
 
         const generalFeatures: FeatureItem[] = [
             new TabFeature(
@@ -417,10 +416,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService,
                 this._hasSiteWritePermissionStream,
                 this._scenarioService.checkScenario(ScenarioIds.enableAuth, { site: site })
-            ),
+            )];
 
-            this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
+            if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
+                networkFeatures.push(new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_msiName),
                     this._translateService.instant(PortalResources.feature_msiName) +
                     this._translateService.instant(PortalResources.authentication) +
@@ -434,11 +433,11 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this._portalService,
                     null,
                     this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
-                )
-                : null,
+                ));
+            }
 
-            this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
+            if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {
+                networkFeatures.push(new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_pushNotificationsName),
                     this._translateService.instant(PortalResources.feature_pushNotificationsName),
                     this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
@@ -450,9 +449,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this._portalService,
                     this._hasSiteWritePermissionStream,
                     this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site })
-                )
-                : null
-        ];
+                ));
+            }
 
         const monitoringFeatures = [
             new BladeFeature(
@@ -467,18 +465,17 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService
             ),
 
-            new DisableableBladeFeature(
+            new TabFeature(
                 this._translateService.instant(PortalResources.feature_logStreamingName),
-                this._translateService.instant(PortalResources.feature_logStreamingName),
+                this._translateService.instant(PortalResources.feature_logStreamingName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_applicationLogsName) +
+                ' ' +
+                this._translateService.instant(PortalResources.feature_webServerLogsName),
                 this._translateService.instant(PortalResources.feature_logStreamingInfo),
                 'image/log-stream.svg',
-                {
-                    detailBlade: 'LogStreamBlade',
-                    detailBladeInputs: { resourceUri: site.id }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })
+                SiteTabIds.logStream,
+                this._broadcastService
             ),
 
             new DisableableBladeFeature(
@@ -577,10 +574,11 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 SiteTabIds.scaleUp,
                 this._broadcastService,
                 this._hasPlanWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })
+            )];
 
-            this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
+            if (this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled') {
+                appServicePlanFeatures.push(new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasInfo),
@@ -593,11 +591,11 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     },
                     this._portalService,
                     this._hasPlanReadPermissionStream
-                )
-                : null,
+                ));
+            }
 
-            this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
+            if (this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled') {
+                appServicePlanFeatures.push(new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasInfo),
@@ -610,13 +608,12 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     },
                     this._portalService,
                     this._hasPlanReadPermissionStream
-                )
-                : null
-        ];
+                ));
+            }
 
-        const resourceManagementFeatures = [
-            this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled'
-                ? new DisableableBladeFeature(
+        const resourceManagementFeatures = [];
+            if (this._scenarioService.checkScenario(ScenarioIds.addDiagnoseAndSolve).status !== 'disabled') {
+                resourceManagementFeatures.push(new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
                     this._translateService.instant(PortalResources.feature_diagnoseAndSolveName),
                     this._translateService.instant(PortalResources.feature_diagnoseAndSolveInfo),
@@ -630,8 +627,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this._portalService,
                     null,
                     this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
-                ) : null,
-            new BladeFeature(
+                ));
+            }
+
+            resourceManagementFeatures.push(new BladeFeature(
                 this._translateService.instant(PortalResources.feature_activityLogName),
                 this._translateService.instant(PortalResources.feature_activityLogName) +
                 ' ' +
@@ -650,9 +649,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'Microsoft_Azure_Monitoring'
                 },
                 this._portalService
-            ),
+            ));
 
-            new BladeFeature(
+            resourceManagementFeatures.push(new BladeFeature(
                 this._translateService.instant(PortalResources.feature_accessControlName),
                 this._translateService.instant(PortalResources.feature_accessControlName) + ' rbac',
                 this._translateService.instant(PortalResources.feature_accessControlInfo),
@@ -665,9 +664,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'Microsoft_Azure_AD'
                 },
                 this._portalService
-            ),
+            ));
 
-            new BladeFeature(
+            resourceManagementFeatures.push(new BladeFeature(
                 this._translateService.instant(PortalResources.feature_tagsName),
                 this._translateService.instant(PortalResources.feature_tagsName),
                 this._translateService.instant(PortalResources.feature_tagsInfo),
@@ -680,9 +679,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'HubsExtension'
                 },
                 this._portalService
-            ),
+            ));
 
-            new BladeFeature(
+            resourceManagementFeatures.push(new BladeFeature(
                 this._translateService.instant(PortalResources.feature_locksName),
                 this._translateService.instant(PortalResources.feature_locksName),
                 this._translateService.instant(PortalResources.feature_locksInfo),
@@ -695,11 +694,11 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'HubsExtension'
                 },
                 this._portalService
-            ),
+            ));
 
             // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: [ehamai] - Need to implent
 
-            new BladeFeature(
+            resourceManagementFeatures.push(new BladeFeature(
                 this._translateService.instant(PortalResources.feature_automationScriptName),
                 this._translateService.instant(PortalResources.feature_automationScriptName) +
                 ' ' +
@@ -720,13 +719,12 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'HubsExtension'
                 },
                 this._portalService
-            )
+            ));
 
             // new NotImplementedFeature(  // TODO: [ehamai] - Need to implement
             //     'New support request',
             //     'support request',
             //     'Info'),
-        ];
 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
@@ -739,22 +737,17 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)
         ];
     }
-}
 
-export class OpenSshFeature extends DisableableFeature {
-    constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
-        super(
-            _translateService.instant(PortalResources.feature_sshName),
-            _translateService.instant(PortalResources.feature_sshName) + _translateService.instant(PortalResources.feature_consoleName),
-            _translateService.instant(PortalResources.feature_sshInfo),
-            'image/console.svg',
-            disableInfoStream
-        );
-    }
-
-    click() {
-        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
-        window.open(`https://${scmHostName}/webssh/host`);
+    private _getConsoleName(site: ArmObj<Site>): string {
+        const console = this._translateService.instant(PortalResources.feature_consoleName);
+        if (ArmUtil.isLinuxApp(site)) {
+            const bashConsoleName = this._translateService.instant(PortalResources.feature_bashConsoleName);
+            const sshConsoleName = this._translateService.instant(PortalResources.feature_sshConsoleName);
+            return `${console} (${bashConsoleName} / ${sshConsoleName})`;
+        }
+        const cmdConsoleName = this._translateService.instant(PortalResources.feature_cmdConsoleName);
+        const powershellConsoleName = this._translateService.instant(PortalResources.feature_powerShellConsoleName);
+        return `${console} (${cmdConsoleName} / ${powershellConsoleName})`;
     }
 }
 

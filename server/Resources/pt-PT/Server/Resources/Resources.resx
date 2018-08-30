@@ -109,7 +109,7 @@
     <value>Funções do Azure</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Tempo de Execução das Funções do Azure</value>
+    <value>Runtime das Funções do Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -154,7 +154,7 @@
     <value>Erro de Função: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Erro da Função (${{name}}): {{error}}</value>
+    <value>Função ({{name}}) Erro: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL de função</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Introduzir o caminho físico</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Aplicação</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Definição de Ranhura</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valor oculto.  Clique para mostrar.</value>
@@ -1055,7 +1049,7 @@
     <value>definições da aplicação de funções</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Versão de runtime: {{extensionVersion}}. Está disponível uma versão mais recente ({{latestExtensionVersion}}).</value>
+    <value>Versão de runtime: {{exactExtensionVersion}}. Está disponível uma versão mais recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Versão de runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configure as credenciais de implementação ao nível da conta do Azure. Para alterar as credenciais ao nível da aplicação (também conhecidas como "Credenciais de Publicação"), escolha "Redefinir credenciais de publicação" no separador "Descrição Geral". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Consola</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore o sistema de ficheiros de aplicações a partir de uma consola interativa baseada na Web.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Faça a gestão do ambiente de aplicações Web através da execução de comandos comuns ("mkdir", "cd" para mudar de diretório, etc.). Este é um ambiente sandbox, pelo que qualquer comando que precise de privilégios elevados não funcionará.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always On requer um plano do Serviço de Aplicações básico ou superior</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>O plano do Serviço de Aplicações associado a esta aplicação não suporta esta funcionalidade. Contacte o administrador para ativar esta funcionalidade no plano atual, ou atualize para um plano que já a tenha ativada.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Versão de Pipeline Gerido</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>Utilize a Autenticação/Autorização para proteger a aplicação e o trabalho com dados por utilizador.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identidade de serviço gerida (Pré-visualização)</value>
+    <value>Identidade de serviço gerida</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>A aplicação pode comunicar com outros serviços do Azure em nome próprio utilizando uma identidade do Azure Active Directory gerida.</value>
@@ -1670,7 +1691,7 @@
     <value>Diagnosticar e resolver problemas</value>
   </data>
   <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
-    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
+    <value>A experiência de diagnóstico e de resolução de problemas personalizada ajudam a identificar e resolver problemas com a sua aplicação</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Ferramentas avançadas (Kudu)</value>
@@ -2063,13 +2084,13 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A aplicação está atualmente no modo só de leitura porque definiu o modo de edição para só de leitura. Para alterar o modo de edição visite </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+    <value>A aplicação está atualmente no modo de leitura/escrita porque definiu o modo de edição para leitura/escrita mesmo tendo o controlo de origem ativado. Quaisquer alterações que efetue podem ser substituídas pela próxima implementação. Para alterar o modo de edição visite </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>De momento, a sua aplicação está em modo só de leitura porque publicou um function.json gerado. As alterações realizadas a function.json não serão respeitadas pelo runtime das Funções. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
+    <value>A aplicação está atualmente em modo de leitura/escrita, dado que definiu o modo de edição para leitura/escrita apesar de ter um function.json gerado. As alterações efetuadas a function.json não serão efetuadas no tempo ed execução das Funções.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copiar</value>
@@ -2408,10 +2429,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Sudeste Asiático</value>
   </data>
   <data name="koreacentral" xml:space="preserve">
-    <value>Coreia Central</value>
+    <value>Coreia do Sul Central</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Sul da Coreia</value>
+    <value>Sul da Coreia do Sul</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>E.U.A. Oeste</value>
@@ -2447,7 +2468,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Sudeste da Austrália</value>
   </data>
   <data name="westindia" xml:space="preserve">
-    <value>Índia Ocidental</value>
+    <value>Oeste da Índia</value>
   </data>
   <data name="centralindia" xml:space="preserve">
     <value>Índia Central</value>
@@ -2537,7 +2558,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Mensagem de Entrada</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Está a utilizar uma versão de pré-lançamento das Funções do Azure. Obrigado por experimentar!</value>
+    <value>Está a utilizar uma versão de pré-lançamento das Funções do Azure. Clique em "saber mais" para ficar a par das alterações mais recentes na nossa página de anúncios.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Clique para ocultar</value>
@@ -2654,7 +2675,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Este modelo necessita as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
+    <value>Depois de instalar dependências de modelo, será possível criar uma função. A instalação de dependências acontece em segundo plano e pode demorar até 2 minutos. Pode fechar este painel e continuar a utilizar o portal durante este período de tempo.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão do runtime. Instale o id {{installationId}}</value>
@@ -2717,7 +2738,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Autorizar</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Autorizar</value>
+    <value>Alterar Conta</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Anterior</value>
@@ -2876,7 +2897,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Falha ao parar {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} foi reiniciado</value>
+    <value>{0} got restarted</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Falha ao reiniciar {0}</value>
@@ -2924,7 +2945,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Configurar</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Implementar</value>
+    <value>Implementar para teste</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Resumo</value>
@@ -3014,7 +3035,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Para a maior parte das cargas de trabalho de produção</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
-    <value>Isolado</value>
+    <value>Plano Isolado</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Escala e rede avançadas</value>
@@ -3061,9 +3082,6 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Todas as instâncias do seu plano do Serviço de Aplicações irão incluir a seguinte configuração de hardware:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>As aplicações Web do Linux num Ambiente do Serviço de Aplicações são faturadas com 50% de desconto durante a pré-visualização.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>O primeiro núcleo Basic (B1) para Linux é gratuito durante os primeiros 30 dias!</value>
   </data>
@@ -3088,8 +3106,11 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1}/Mês (Estimado)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Hora (Estimado)</value>
+    <value>{0} {1}/Mês (Estimado)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Escolha um escalão de preço diferente para adicionar mais recursos ao seu plano</value>
@@ -3239,7 +3260,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Contagem de erros nos últimos 30 dias</value>
   </data>
   <data name="functionMonitor_appInsightsQueryReturnedTitle" xml:space="preserve">
-    <value>Query returned {0} items</value>
+    <value>A consulta devolveu {0} itens.</value>
   </data>
   <data name="functionMonitor_message" xml:space="preserve">
     <value>Mensagem</value>
@@ -3251,10 +3272,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Nível de Registo</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Servidor de compilação VSTS</value>
+    <value>Entrega Contínua do VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Utilize o VSTS como o servidor de compilação. Pode optar por tirar partido de opções avançadas para um fluxo de trabalho de gestão da versão completa.</value>
+    <value>O Visual Studio Team Services configura um pipeline de implementação robusto para a aplicação. O pipeline cria, executa os testes de carga e implementa para o bloco de teste e, em seguida, à produção.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Servidor de compilação Kudu do Serviço de Aplicações</value>
@@ -3299,7 +3320,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Módulo de Definições de Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Projeto Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Novo</value>
@@ -3338,7 +3359,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Não</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Teste de Carga</value>
+    <value>Carregar Teste</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
     <value>Ativar o Teste de Carga</value>
@@ -3353,7 +3374,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Centro de Implementação (Pré-visualização)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>O Centro de Implementação do Serviço de Aplicações permite-lhe escolher a localização do código, bem como as opções para a compilação e implementação na cloud.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Não Autorizado</value>
@@ -3380,7 +3401,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Rastreios de invocação</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results may be delayed for up to 5 minutes.</value>
+    <value>Os resultados podem ser atrasados em até 5 minutos.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Arrastar um ficheiro para aqui ou</value>
@@ -3416,13 +3437,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>FTP + FTPS</value>
   </data>
   <data name="FTPSOnly" xml:space="preserve">
-    <value>FTPS Only</value>
+    <value>Apenas FTPS</value>
   </data>
   <data name="FTPDisable" xml:space="preserve">
     <value>Desactivar</value>
-  </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Dispensar</value>
   </data>
   <data name="show" xml:space="preserve">
     <value>Mostrar</value>
@@ -3431,28 +3449,28 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Ocultar</value>
   </data>
   <data name="nomatchpassword" xml:space="preserve">
-    <value>Your password and confirmation password do not match.</value>
+    <value>A palavra-passe e a palavra-passe de confirmação não coincidem.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
   <data name="ftpDesc" xml:space="preserve">
-    <value>Use an FTP connection to access and copy app files.</value>
+    <value>Utilize uma ligação FTP para aceder e copiar ficheiros de aplicação.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>O Serviço de Aplicações permite-lhe aceder ao conteúdo da aplicação através de FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
-    <value>User Credentials</value>
+    <value>Credenciais de Utilizador</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>As credenciais de utilizador são definidas pelo utilizador e podem ser utilizadas com todas as aplicações às quais tem acesso. Estas credenciais podem ser utilizadas com locais de FTP, Local Git e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
-    <value>App Credentials</value>
+    <value>Credenciais da Aplicação</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>As Credenciais da Aplicação são geradas automaticamente e fornecem apenas o acesso a esta ranhura de aplicação ou implementação específica. Estas credenciais podem ser utilizadas com locais de FTP, Local Git e WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nome de Utilizador</value>
@@ -3464,7 +3482,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Confirmar Palavra-passe</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS Endpoint</value>
+    <value>Ponto final de FTPS</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>Credenciais</value>
@@ -3476,15 +3494,117 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Falha</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Bem Sucedido</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
-    <value>Save Credentials</value>
+    <value>Guardar Credenciais</value>
   </data>
   <data name="resetCredentials" xml:space="preserve">
-    <value>Reset Credentials</value>
+    <value>Repor Credenciais</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>Versão de HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Dispensar</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Fornecedor</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Nova Conta</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Nova Ranhura de Implementação</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Nome da Ranhura de Implementação</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>O url do repositório git local será gerado após a conclusão.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>A Versão do Runtime carregada a partir das Definições da Aplicação: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Versão de Runtime Não Suportada</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>A sua versão do runtime personalizada não é suportada. Por consequência, está a ser utilizado o runtime {{exactExtensionVersion}}.</value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Desligar</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Sincronizar</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Credenciais de Implementação</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação. Clique para saber mais.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Versão de Runtime: a carregar...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>A aplicação está atualmente em modo só de leitura porque está a utilizar a Cache Local. Ao utilizar a Cache Local, as alterações efetuadas no sistema de ficheiros local não são persistidas para o conteúdo do site. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Mais informações&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Definição de Ranhura</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Nome de Definição de Aplicação</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Nome da Cadeia de Ligação</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Nome do Documento</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extensão</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Processador de Script</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Argumentos</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Caminho Virtual</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Caminho Físico</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Aplicação</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Diretório</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Conta de Base de Dados</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Conta do Azure Cosmos DB</value>
   </data>
 </root>

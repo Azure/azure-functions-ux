@@ -5,7 +5,7 @@
 <app-configure-bitbucket *ngIf="sourceProvider === 'bitbucket'"></app-configure-bitbucket>
 <app-configure-external *ngIf="sourceProvider === 'external'"></app-configure-external>
 <app-configure-local-git *ngIf="sourceProvider === 'localgit'"></app-configure-local-git>
-<app-configure-vsts-build *ngIf="buildProvider === 'vsts'"></app-configure-vsts-build>
+<app-configure-vsts-build *ngIf="buildProvider === 'vsts' && !wizard.hideVstsBuildConfigure"></app-configure-vsts-build>
 <div class="footer">
   <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
   <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>

@@ -98,6 +98,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     public showErrorsAndWarnings: Observable<boolean>;
 
+    public showConsole: boolean;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private _disableTestDataAfterViewInit = false;
@@ -186,11 +188,12 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
                     .map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false);
                 this.showErrorsAndWarnings = this._functionAppService.getRuntimeGeneration(functionView.context).map(v => v === 'V1');
-
+                this.showConsole = !ArmUtil.isLinuxDynamic(functionView.context.site);
                 return Observable.zip(
                     Observable.of(functionView),
                     this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
-                    this._functionAppService.getFunctionHostStatus(functionView.context));
+                    this._functionAppService.getFunctionHostStatus(functionView.context),
+                    this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result));
             })
             .do(() => {
                 this.runValid = false;
@@ -214,6 +217,16 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     this.showComponentError({
                         message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
                         errorId: errorIds.functionRuntimeIsUnableToStart,
+                        resourceId: this.context.site.id
+                    });
+                }
+                if (tuple[3].isSuccessful && tuple[3].result.length > 0) {
+                    this.showComponentError({
+                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, {
+                            name: tuple[0].functionInfo.result.name,
+                            error: tuple[3].result.reduce((a, b) => `${a}\n${b}`, '\n')
+                        }),
+                        errorId: errorIds.generalFunctionErrorFromHost,
                         resourceId: this.context.site.id
                     });
                 }
@@ -523,7 +536,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
                 this._portalService.logAction('function-dev', 'save-script', {
                     scriptName: this.scriptFile.name,
-                    mimeType: this.scriptFile.mime
+                    mimeType: this.scriptFile.mime,
+                    appResourceId: this.context.site.id
                 });
             },
                 () => {

@@ -1,14 +1,12 @@
 import { ArmService } from '../../../../shared/services/arm.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { TableItem, TblComponent } from '../../../../controls/tbl/tbl.component';
-import { AuthzService } from '../../../../shared/services/authz.service';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-mini-ts';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -24,7 +22,7 @@ enum DeployStatus {
     Building,
     Deploying,
     Failed,
-    Success
+    Success,
 }
 
 class KuduTableItem implements TableItem {
@@ -42,41 +40,37 @@ class KuduTableItem implements TableItem {
 @Component({
     selector: 'app-kudu-dashboard',
     templateUrl: './kudu-dashboard.component.html',
-    styleUrls: ['./kudu-dashboard.component.scss']
+    styleUrls: ['./kudu-dashboard.component.scss'],
 })
 export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
     @ViewChild(TblComponent) appTable: TblComponent;
-    private _tableItems: KuduTableItem[];
 
     public viewInfoStream$: Subject<string>;
-    _viewInfoSubscription$: RxSubscription;
-    _writePermission = true;
-    _readOnlyLock = false;
-    public hasWritePermissions = true;
-    public deploymentObject: DeploymentData;
 
+    public deploymentObject: DeploymentData;
+    public redeployEnabled = true;
+    public hideCreds = false;
     public rightPaneItem: ArmObj<Deployment>;
+    public sidePanelOpened = false;
     private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
-    public sidePanelOpened = false;
     private _ngUnsubscribe$ = new Subject();
     private _oldTableHash = 0;
-
-    public hideCreds = false;
+    private _tableItems: KuduTableItem[];
     constructor(
-        _portalService: PortalService,
+        private _portalService: PortalService,
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _authZService: AuthzService,
         private _broadcastService: BroadcastService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
         this.viewInfoStream$ = new Subject<string>();
-        this._viewInfoSubscription$ = this.viewInfoStream$
+        this.viewInfoStream$
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
@@ -85,8 +79,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/deployments`, true),
                     this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, this._forceLoad),
-                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(resourceId),
                     (
                         site,
                         siteConfig,
@@ -94,8 +86,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         sourceControl,
                         deployments,
                         publishingUser,
-                        writePerm: boolean,
-                        readLock: boolean
                     ) => ({
                         site: site.json(),
                         siteConfig: siteConfig.json(),
@@ -103,9 +93,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
                         publishingUser: publishingUser.json(),
-                        writePermission: writePerm,
-                        readOnlyLock: readLock
-                    })
+                    }),
                 );
             })
             .subscribe(
@@ -118,20 +106,17 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                         sourceControls: r.sourceControl,
                         publishingCredentials: r.pubCreds,
                         deployments: r.deployments,
-                        publishingUser: r.publishingUser
+                        publishingUser: r.publishingUser,
                     };
+                    this.redeployEnabled = this._redeployEnabled();
                     this._populateTable();
-
-                    this._writePermission = r.writePermission;
-                    this._readOnlyLock = r.readOnlyLock;
-                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 },
                 err => {
                     this._busyManager.clearBusy();
                     this._forceLoad = false;
                     this.deploymentObject = null;
                     this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
-                }
+                },
             );
 
         // refresh automatically every 5 seconds
@@ -140,6 +125,13 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
     }
 
+    private _redeployEnabled() {
+        const scmProvider = this.deploymentObject.siteConfig.properties.scmType;
+        if (scmProvider === 'Dropbox' || scmProvider === 'OneDrive') {
+            return this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
+        }
+        return true;
+    }
     // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
     private _hashcode(s: string): number {
         let h = 0;
@@ -181,7 +173,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 status: this._getStatusString(item.status, item.progress),
                 active: item.active,
                 author: author,
-                deploymentObj: value
+                deploymentObj: value,
             };
             tableItems.push(row);
         });
@@ -250,38 +242,67 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     get gitCloneUri() {
         const publishingUsername = this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
         const scmUri = this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
-        const siteName = this.deploymentObject && this.deploymentObject.site.name;
+        let siteName = this.deploymentObject && this.deploymentObject.site.name;
+
+        // If site is a slot, we only care abou the primary site name, not the slot name
+        if (siteName.includes('/')) {
+            siteName = siteName.split('/')[0];
+        }
         return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
     }
 
     syncScm() {
         this._busyManager.setBusy();
-        this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
-            r => {
-                this.viewInfoStream$.next(this.resourceId);
-            },
-            err => {
-                this._busyManager.clearBusy();
-            }
-        );
+        const title = this._translateService.instant(PortalResources.syncRequestSubmitted);
+        const description = this._translateService.instant(PortalResources.syncRequestSubmittedDesc).format(this.deploymentObject.site.name);
+        const failMessage = this._translateService.instant(PortalResources.syncRequestSubmittedDescFail).format(this.deploymentObject.site.name);
+        this._portalService.startNotification(title, description).concatMap(notificationId => {
+            return this._cacheService.postArm(`${this.resourceId}/sync`, true)
+                .switchMap(r => {
+                    this.viewInfoStream$.next(this.resourceId);
+                    this._portalService.stopNotification(notificationId.id, true, description);
+                    return Observable.of(true);
+                })
+                .catch(() => {
+                    this._busyManager.clearBusy();
+                    this._portalService.stopNotification(notificationId.id, false, failMessage);
+                    return Observable.of(false);
+                });
+        })
+        .subscribe();
     }
 
     disconnect() {
-        this._busyManager.setBusy();
 
-        const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
-            properties: {
-                scmType: 'None'
-            }
-        });
+        const confirmResult = confirm(this._translateService.instant(PortalResources.disconnectConfirm));
 
-        const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
-
-        forkJoin(webConfig, sourceControlsConfig)
-            .subscribe(r => {
-                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-                this._busyManager.clearBusy();
+        if (confirmResult) {
+            let notificationId = null;
+            this._busyManager.setBusy();
+            const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
+                properties: {
+                    scmType: 'None',
+                },
             });
+
+            const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+
+            this._portalService
+                .startNotification(this._translateService.instant(PortalResources.disconnectingDeployment), this._translateService.instant(PortalResources.disconnectingDeployment))
+                .do(notification => {
+                    notificationId = notification.id;
+                })
+                .concatMap(() => forkJoin(webConfig, sourceControlsConfig))
+                .subscribe(r => {
+                    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                    this._portalService.stopNotification(notificationId, true, this._translateService.instant(PortalResources.disconnectingDeploymentSuccess));
+                    this._busyManager.clearBusy();
+                },
+                    err => {
+                        this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.disconnectingDeploymentFail));
+                        this._logService.error(LogCategories.cicd, '/disconnect-kudu-dashboard', err);
+                    });
+        }
     }
     refresh() {
         this._busyManager.setBusy();
@@ -292,6 +313,13 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         this.hideCreds = false;
         this.rightPaneItem = item.deploymentObj;
         this.sidePanelOpened = true;
+    }
+
+    repoLinkClick() {
+        if (this.repo) {
+            const win = window.open(this.repo, '_blank');
+            win.focus();
+        }
     }
 
     get sourceLocation() {

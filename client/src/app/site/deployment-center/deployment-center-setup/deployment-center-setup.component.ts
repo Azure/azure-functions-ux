@@ -24,7 +24,10 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 branch: [null, []],
                 isManualIntegration: [false, []],
                 deploymentRollbackEnabled: [false, []],
-                isMercurial: [false, []]
+                isMercurial: [false, []],
+                privateRepo: [false, []],
+                username: ['', []],
+                password: ['', []]
             }),
             buildSettings: this._fb.group({
                 createNewVsoAccount: [false, []],
@@ -85,7 +88,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             sourceControlProvider !== 'bitbucket' &&
             sourceControlProvider !== 'ftp' &&
             sourceControlProvider !== 'webdeploy' &&
-            sourceControlProvider !== 'zip'
+            sourceControlProvider !== 'zip' &&
+            !this.wizard.hideBuild
         );
     }
 

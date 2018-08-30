@@ -1,5 +1,5 @@
 <java-splash-page *ngIf="showJavaSplashPage" [setShowJavaSplashPage]="setShowJavaSplashPage"></java-splash-page>
-<div id="quickstart-container">
+<div id="quickstart-container" [fnWriteAccess]="context">
 <div id="quickstart-header">
     <img src="image/functions.svg" />
 
@@ -56,7 +56,7 @@
             <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp</label>
             <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript</label>
             <label *ngIf="runtimeVersion === 'V1'"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
-            <label *ngIf="runtimeVersion === 'V1'"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
+            <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
         </div>
     </ng-container>
 

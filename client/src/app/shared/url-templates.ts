@@ -172,8 +172,16 @@ export class UrlTemplates {
         return `${this.mainSiteUrl}/admin/host/extensions`;
     }
 
+    get runtimeHostExtensionsJobsUrl(): string {
+        return `${this.mainSiteUrl}/admin/host/extensions/jobs`;
+    }
+
     getRuntimeHostExtensionsJobStatusUrl(jobId: string): string {
         return `${this.mainSiteUrl}/admin/host/extensions/jobs/${jobId}`;
+    }
+
+    getRuntimeHostExentensionsJobUrl(jobId: string): string {
+        return `${this.scmUrl}/api/vfs/data/Functions/extensions/${jobId}.json`;
     }
 
     get scmSiteUrl(): string {
@@ -194,5 +202,13 @@ export class UrlTemplates {
 
     get restartHostUrl() {
         return `${this.mainSiteUrl}/admin/host/restart`;
+    }
+
+    get extensionJsonUrl() {
+        return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
+    }
+
+    get updateHostStateUrl() {
+        return `${this.mainSiteUrl}/admin/host/state`;
     }
 }

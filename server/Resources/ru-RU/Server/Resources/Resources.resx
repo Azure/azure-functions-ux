@@ -109,7 +109,7 @@
     <value>Функции Azure</value>
   </data>
   <data name="azureFunctionsRuntime" xml:space="preserve">
-    <value>Среда выполнения функций Azure</value>
+    <value>Среда выполнения Функций Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Отмена</value>
@@ -154,7 +154,7 @@
     <value>Ошибка функции: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Ошибка функции (${{name}}): {{error}}</value>
+    <value>Ошибка функции ({{name}}): {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>URL-адрес функции</value>
@@ -405,12 +405,6 @@
   </data>
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Ввести физический путь</value>
-  </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Приложение</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Параметр слота</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Скрытое значение. Щелкните, чтобы показать.</value>
@@ -1055,7 +1049,7 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Версия среды выполнения: {{extensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
+    <value>Версия среды выполнения: {{exactExtensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1315,11 +1309,35 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Вы можете настраивать учетные данные развертывания уровня учетной записи Azure. Чтобы изменить учетные данные уровня приложения (или "учетные данные для публикации"), выберите команду "Сбросить учетные данные публикации" на вкладке "Общие сведения". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Дополнительные сведения&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Консоль</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Просматривайте файловую систему приложения из интерактивной веб-консоли.</value>
+  </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Управляйте средой веб-приложений, запуская стандартные команды (mkdir, cd для изменения каталогов и т. д.). Это среда "песочницы", поэтому команды, требующие повышенных прав, не будут работать.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
@@ -1465,6 +1483,9 @@
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Для AlwaysOn необходим план службы приложений "Базовый" или выше</value>
   </data>
+  <data name="upgradeUpsell" xml:space="preserve">
+    <value>План служб приложений, связанный с приложением, не поддерживает эту функцию. Обратитесь к администратору, чтобы включить эту функцию для текущего плана, или перейдите на план, в котором она уже включена.</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Версия управляемого конвейера</value>
   </data>
@@ -1577,7 +1598,7 @@
     <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Удостоверение управляемой службы (предварительная версия)</value>
+    <value>Управляемое удостоверение службы</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Приложение может взаимодействовать с другими службами Azure, так как использует управляемое удостоверение Azure Active Directory.</value>
@@ -2396,7 +2417,7 @@
     <value>Группировать по подписке</value>
   </data>
   <data name="southcentralus" xml:space="preserve">
-    <value>Юг и центр США</value>
+    <value>Центрально-южная часть США</value>
   </data>
   <data name="northeurope" xml:space="preserve">
     <value>Северная Европа</value>
@@ -2432,7 +2453,7 @@
     <value>Восточная часть США 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
-    <value>Северо-центральный регион США</value>
+    <value>Центрально-северная часть США</value>
   </data>
   <data name="centralus" xml:space="preserve">
     <value>Центральная часть США</value>
@@ -2537,7 +2558,7 @@
     <value>Сообщение о возврате</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>Вы используете предварительную версию функций Azure. Спасибо за участие!</value>
+    <value>Вы используете предварительную версию Функций Azure. Щелкните "Дополнительные сведения", чтобы получать информацию о последних изменениях на нашей странице объявлений.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Щелкните, чтобы скрыть</value>
@@ -2717,7 +2738,7 @@
     <value>Авторизовать</value>
   </data>
   <data name="changeAuthorization" xml:space="preserve">
-    <value>Авторизовать</value>
+    <value>Изменить учетную запись</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Назад</value>
@@ -2876,7 +2897,7 @@
     <value>Не удалось остановить {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>Служба {0} перезапущена"</value>
+    <value>Служба {0} перезапущена</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Не удалось перезапустить {0}</value>
@@ -2924,7 +2945,7 @@
     <value>Настроить</value>
   </data>
   <data name="deploy" xml:space="preserve">
-    <value>Развернуть</value>
+    <value>Развертывание в промежуточной среде</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Сводка</value>
@@ -3061,9 +3082,6 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Каждый экземпляр вашего плана службы приложений будет включать следующую конфигурацию оборудования:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Веб-приложения для Linux в среде службы приложений предоставляются в предварительной версии с 50-процентной скидкой.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
   </data>
@@ -3088,8 +3106,11 @@
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
   </data>
+  <data name="pricing_pricePerMonth" xml:space="preserve">
+    <value>{0} {1} в месяц (приблизительно)</value>
+  </data>
   <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/ч (предварительно)</value>
+    <value>{0} {1} в месяц (приблизительно)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Выберите другую ценовую категорию, чтобы добавить в план больше ресурсов.</value>
@@ -3251,10 +3272,10 @@
     <value>Уровень ведения журнала</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Сервер сборки VSTS</value>
+    <value>Непрерывная поставка VSTS</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Используйте VSTS как сервер сборки. Вы можете использовать дополнительные параметры для реализации полноценного рабочего процесса управления выпуском.</value>
+    <value>Visual Studio Team Services настраивает для вашего приложения надежный конвейер развертывания. Он отвечает за сборку, выполнение нагрузочных тестов, развертывание в промежуточный слот и затем в рабочую среду.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Сервер сборки Kudu службы приложений</value>
@@ -3299,7 +3320,7 @@
     <value>Модуль параметров Django</value>
   </data>
   <data name="flaskProjectName" xml:space="preserve">
-    <value>flaskProjectName</value>
+    <value>Проект Flask</value>
   </data>
   <data name="new" xml:space="preserve">
     <value>Создать</value>
@@ -3338,10 +3359,10 @@
     <value>Нет</value>
   </data>
   <data name="loadTesting" xml:space="preserve">
-    <value>Нагрузочное тестирование</value>
+    <value>Нагрузочный тест</value>
   </data>
   <data name="enableLoadTesting" xml:space="preserve">
-    <value>Включить нагрузочное тестирование</value>
+    <value>Включить нагрузочный тест</value>
   </data>
   <data name="appName" xml:space="preserve">
     <value>Имя приложения</value>
@@ -3353,7 +3374,7 @@
     <value>Центр развертывания (предварительная версия)</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Центр развертывания службы приложений позволяет выбрать расположение кода, а также параметры сборки и развертывания в облаке.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
     <value>Запрещено</value>
@@ -3421,9 +3442,6 @@
   <data name="FTPDisable" xml:space="preserve">
     <value>Отключить</value>
   </data>
-  <data name="dismiss" xml:space="preserve">
-    <value>Отклонить</value>
-  </data>
   <data name="show" xml:space="preserve">
     <value>Показать</value>
   </data>
@@ -3440,19 +3458,19 @@
     <value>Использование FTP-подключения для доступа к файлам приложений и их копирования.</value>
   </data>
   <data name="ftpInfoCardCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Служба приложений позволяет получить доступ к содержимому приложения через FTP/S.</value>
   </data>
   <data name="userCreds" xml:space="preserve">
     <value>Учетные данные пользователя</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Учетные данные задаются вами. Они используются со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Учетные данные приложения</value>
   </data>
   <data name="appCredsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Учетные данные приложения создаются автоматически и дают доступ только к этому приложению или слоту развертывания. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Имя пользователя</value>
@@ -3476,7 +3494,7 @@
     <value>Сбой</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Выполнено</value>
+    <value>Успешно выполнено</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Сохранить учетные данные</value>
@@ -3486,5 +3504,107 @@
   </data>
   <data name="httpVersion" xml:space="preserve">
     <value>Версия HTTP</value>
+  </data>
+  <data name="dismiss" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="provider" xml:space="preserve">
+    <value>Поставщик</value>
+  </data>
+  <data name="newAccount" xml:space="preserve">
+    <value>Создать учетную запись</value>
+  </data>
+  <data name="newDeploymentSlot" xml:space="preserve">
+    <value>Новый слот развертывания</value>
+  </data>
+  <data name="deploymentSlotName" xml:space="preserve">
+    <value>Имя слота развертывания</value>
+  </data>
+  <data name="localGitRepoMessage" xml:space="preserve">
+    <value>По завершении будет создан URL-адрес вашего локального репозитория Git.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_badVersion" xml:space="preserve">
+    <value>Версия среды выполнения, загруженная из параметров приложения: {{extensionVersion}}</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionTitle" xml:space="preserve">
+    <value>Неподдерживаемая версия среды выполнения</value>
+  </data>
+  <data name="appFunctionSettings_warning_badVersionDescription" xml:space="preserve">
+    <value>Версия настраиваемой среды выполнения не поддерживается. В результате используется среда выполнения {{exactExtensionVersion}}. </value>
+  </data>
+  <data name="disconnect" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="sync" xml:space="preserve">
+    <value>Синхронизация</value>
+  </data>
+  <data name="deploymentCredentials" xml:space="preserve">
+    <value>Мандат на развертывание</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Версия среды выполнения: загружается...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. При использовании локального кэша изменения, внесенные в локальную файловую систему, не сохраняются в контенте сайта. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Параметр слота</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>Имя параметра приложения</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Имя строки подключения</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Название документа</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Расширение</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Обработчик сценариев</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Аргументы</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Виртуальный путь</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Физический путь</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Учетная запись базы данных</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Учетная запись Azure Cosmos DB</value>
   </data>
 </root>

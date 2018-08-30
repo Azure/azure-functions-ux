@@ -37,7 +37,6 @@ import { DropDownElement } from '../shared/models/drop-down-element';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
-import { SlotsService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
 import { StartupInfo } from 'app/shared/models/portal';
 
@@ -98,7 +97,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         public portalService: PortalService,
         public languageService: LanguageService,
         public authZService: AuthzService,
-        public slotsService: SlotsService,
         public logService: LogService,
         public router: Router,
         public route: ActivatedRoute,

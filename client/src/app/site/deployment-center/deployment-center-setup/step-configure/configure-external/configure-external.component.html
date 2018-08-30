@@ -17,12 +17,34 @@
       </div>
     </div>
 
-    <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.buildProvider === 'kudu'">
+    <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.buildProvider ===
+      'kudu'">
       <div class="setting-label">{{'repoType' | translate}}</div>
       <div class="setting-control-container">
         <radio-selector [defaultValue]="repoMode" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>
       </div>
     </div>
+    <ng-container *ngIf="wizard?.wizardValues?.buildProvider === 'vsts'">
+      <div class="setting-wrapper">
+        <div class="setting-label">{{'privateRepo' | translate}}</div>
+        <div class="setting-control-container">
+          <radio-selector [defaultValue]="privateRepo" [options]="AccessTypeOptions" (value)="accessTypeChanged($event)"></radio-selector>
+        </div>
+      </div>
 
-  </div>
-</div>
+      <ng-container *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
+
+        <div class="setting-wrapper">
+          <div class="setting-label">{{'username' | translate }}</div>
+          <div class="setting-control-container">
+            <textbox [control]="this.wizard?.sourceSettings?.controls?.username" [placeholder]="'enterUsername' | translate"></textbox>
+          </div>
+        </div>
+        <div class="setting-wrapper">
+          <div class="setting-label">{{'password' | translate }}</div>
+          <div class="setting-control-container">
+            <textbox [control]="this.wizard?.sourceSettings?.controls?.password" [placeholder]="'enterPassword' | translate" type="password"></textbox>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>

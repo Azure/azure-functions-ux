@@ -32,6 +32,9 @@ export class Constants {
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
     public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
+    public static WebsiteRunFromZip = 'WEBSITE_RUN_FROM_ZIP';
+    public static localCacheOptionSettingName = 'WEBSITE_LOCAL_CACHE_OPTION';
+    public static localCacheOptionSettingValue = 'always';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -70,6 +73,8 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'site-config';
     public static readonly continuousDeployment = 'site-continuous-deployment';
     public static readonly logicApps = 'logic-apps';
+    public static readonly console = 'console';
+    public static readonly logStream = 'log-stream';
     public static readonly deploymentSlotsConfig = 'deployment-slots-config';
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
@@ -96,6 +101,7 @@ export class NotificationIds {
     public static newRuntimeVersion = 'newRuntimeVersion';
     public static slotsHostId = 'slotsBlobStorage';
     public static runtimeV2 = 'runtimeV2';
+    public static updateExtensions = 'updateExtensions';
 }
 
 export class Validations {
@@ -108,6 +114,13 @@ export class Regex {
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
     public static queryParam: RegExp = /^[a-zA-Z0-9\-_*]+$/;
     public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
+    public static readonly singleForwardSlash: RegExp = /\//g;
+    public static readonly doubleBackslash: RegExp = /\\\\/g;
+    public static readonly newLine: RegExp = /(\n)+/g;
+    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info\])/i;
+    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error\])/i;
+    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning\])/i;
+    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/i;
 }
 
 export class Links {
@@ -117,6 +130,11 @@ export class Links {
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
     public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
     public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
+    public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
+    public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
+    public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
+    public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
+    public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
 }
 
 export class Kinds {
@@ -161,7 +179,7 @@ export class Order {
         'AppInsightsScheduledAnalytics-',
         'AppInsightsScheduledDigest-',
         'ExternalFileTrigger-',
-        'ExternalTable-'
+        'ExternalTable-',
     ];
 }
 
@@ -197,9 +215,17 @@ export class ScenarioIds {
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
     public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
+    public static readonly platform64BitSupported = 'Platform64BitSupported';
+    public static readonly webSocketsSupported = 'WebSocketsSupported';
+    public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
+    public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
     public static readonly phpSupported = 'phpSupported';
     public static readonly pythonSupported = 'PythonSupported';
     public static readonly javaSupported = 'JavaSupported';
+    public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
+    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
+    public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
+    public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
@@ -208,7 +234,6 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly enableRemoteDebugging = 'EnableRemoteDebugging';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
-    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
     public static readonly enableSlots = 'EnableSlots';
     public static readonly createApp = 'createApp';
@@ -220,6 +245,7 @@ export class ScenarioIds {
     public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
     public static readonly quickStartLink = 'QuickStartLink';
     public static readonly webSocketsEnabled = 'WebSocketsEnabled';
+    public static readonly functionBeta = 'FunctionBeta';
     public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
@@ -230,6 +256,19 @@ export class ScenarioIds {
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
     public static readonly addHTTPSwitch = 'addHTTPSwitch';
+    public static readonly vstsDeploymentHide = 'vstsDeploymentHide';
+    public static readonly vstsDeploymentPermission = 'vstsDeploymentPermission';
+    public static readonly deploymentCenter = 'deploymentCenter';
+    public static readonly vstsKuduSource = 'vstsKuduSource';
+    public static readonly vstsSource = 'vstsSource';
+    public static readonly githubSource = 'githubSource';
+    public static readonly bitbucketSource = 'bitbucketSource';
+    public static readonly localGitSource = 'localGitSource';
+    public static readonly onedriveSource = 'onedriveSource';
+    public static readonly dropboxSource = 'dropboxSource';
+    public static readonly externalSource = 'externalSource';
+    public static readonly ftpSource = 'ftpSource';
+    public static readonly canScaleForSlots = 'canScaleForSlots';
 }
 
 export class ServerFarmSku {
@@ -239,6 +278,7 @@ export class ServerFarmSku {
     public static readonly standard = 'Standard';
     public static readonly premium = 'Premium';
     public static readonly premiumV2 = 'PremiumV2';
+    public static readonly premiumContainer = 'PremiumContainer';
     public static readonly isolated = 'Isolated';
     public static readonly dynamic = 'Dynamic';
 }
@@ -311,6 +351,15 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
     public static readonly f2 = 113;
+    public static readonly backspace = 8;
+    public static readonly ctrl = 17;
+    public static readonly f1 = 112;
+    public static readonly scrollLock = 145;
+    public static readonly leftWindow = 91;
+    public static readonly select = 93;
+    public static readonly c = 67;
+    public static readonly v = 86;
+    public static readonly unknown = 229;
 }
 
 export class ExtensionInstallStatusConstants {
@@ -374,7 +423,7 @@ export class HttpConstants {
         502: 'Bad Gateway',
         503: 'Service Unavailable',
         504: 'Gateway Timeout',
-        505: 'HTTP Version Not Supported'
+        505: 'HTTP Version Not Supported',
     };
 
     public static readonly genericStatusCodeMap = {
@@ -382,7 +431,7 @@ export class HttpConstants {
         200: 'Success',
         300: 'Redirection',
         400: 'Client Error',
-        500: 'Server Error'
+        500: 'Server Error',
     };
 }
 
@@ -394,11 +443,10 @@ export class DeploymentCenterConstants {
     public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
     public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
-    public static readonly vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
-    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
+    public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
+    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
-
 
     // VSTS Validation constants
     // Build definition
@@ -422,6 +470,48 @@ export class ComponentNames {
 export class WorkerRuntimeLanguages {
     public static dotnet = 'C#';
     public static node = 'JavaScript';
+    public static nodejs = 'JavaScript';
     public static python = 'Python';
     public static java = 'Java';
+}
+
+export class ConsoleConstants {
+    public static readonly linuxNewLine = '\n\n';
+    public static readonly windowsNewLine = '\r\n';
+    public static readonly singleBackslash = '\\';
+    public static readonly singleForwardSlash = '/';
+    public static readonly currentDirectory = '.';
+    public static readonly previousDirectory = '..';
+    public static readonly successExitcode = 0;
+    public static readonly whitespace = ' ';
+    public static readonly newLine = '\n';
+    // commands
+    public static readonly exit = 'exit';
+    public static readonly changeDirectory = 'cd';
+    public static readonly windowsClear = 'cls';
+    public static readonly linuxClear = 'clear';
+}
+
+export class HostTypes {
+    public static readonly scm = 1;
+}
+
+export enum LogConsoleTypes {
+    Normal = 1,
+    Info = 2,
+    Error = 3,
+    Warning = 4,
+};
+
+export class PickerNames {
+    public static readonly appSetting = 'AppSetting';
+    public static readonly cosmosDB = 'CosmosDB';
+    public static readonly createDataBlade = 'CreateDataConnectionBlade';
+    public static readonly eventHub = 'EventHub';
+    public static readonly notificationHub = 'NotificationHub';
+    public static readonly notificationHubBlade = 'NotificationHubPickerBlade';
+    public static readonly serviceBus = 'ServiceBus';
+    public static readonly sql = 'Sql';
+    public static readonly storage = 'Storage';
+    public static readonly storageBlade = 'StorageAccountPickerBlade';
 }

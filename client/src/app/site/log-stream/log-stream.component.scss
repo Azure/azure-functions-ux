@@ -1,0 +1,72 @@
+@import '../../../sass/common/variables';
+
+h2{
+    display: inline;
+}
+
+div.browse-container{
+    overflow: auto;
+}
+
+#log-container{
+    position: absolute;
+    padding-top: 2em;
+    height: calc(100% - 90px);
+    width: calc(100% - 50px);
+}
+
+.action {
+    margin-left: 10px;
+}
+
+.log-toolbar {
+    padding-left: 15px;
+    padding-right: 25px;
+    float: right;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 1%;
+    pointer-events: none;
+}
+
+div.log-body{
+    font-family: 'Lucida Console', 'Courier New', 'Consolas', monospace;
+    background-color: $console-background-color;
+    color: $console-text-color;
+    white-space: normal;
+    margin-left:auto;
+    margin-right: auto;
+    overflow: auto;
+    word-break: break-word;
+    word-wrap: break-word;
+    padding: 0.8em;
+    width: 100%;
+    height: 100%;
+}
+
+.log-content {
+    white-space: pre-wrap;
+}
+
+div.log-connector {
+    color: $log-console-connector;
+    font-weight: bolder;
+}
+
+.info-content {
+    color: $log-info;
+}
+
+.error-content {
+    color: $log-error;
+}
+
+.warning-content {
+    color: $log-warning;
+}

@@ -27,7 +27,6 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
 
-
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
 @Component({
@@ -66,7 +65,6 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
 
         this.selectedFunction = 'HttpTrigger';
         this.selectedLanguage = 'CSharp';
-
 
         this.setShowJavaSplashPage.subscribe(show => {
             this.showJavaSplashPage = show;
@@ -111,7 +109,6 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
             this.selectedFunction = selectedFunction;
         }
     }
-
 
     onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
         const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
@@ -174,14 +171,23 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                     if (selectedTemplate) {
                         try {
                             const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                            this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name: functionName });
+                            this._portalService.logAction('intro-create-from-template', 'creating', {
+                                template: selectedTemplate.id,
+                                name: functionName,
+                                appResourceId: this.context.site.id
+                            });
 
                             this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                             this._functionAppService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
                                 .subscribe(res => {
                                     if (res.isSuccessful) {
-                                        this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
+                                        this._portalService.logAction('intro-create-from-template', 'success', {
+                                            template: selectedTemplate.id,
+                                            name: functionName,
+                                            appResourceId: this.context.site.id
+                                        });
+
                                         this.functionsNode.addChild(res.result);
                                     }
                                     this._globalStateService.clearBusyState();

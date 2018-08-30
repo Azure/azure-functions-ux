@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" 
-    xmlns="" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -157,7 +157,7 @@
     <value>Function Error: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>Function ({{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
     <value>Function Url</value>
@@ -409,12 +409,6 @@
   <data name="enterPhysicalPath" xml:space="preserve">
     <value>Enter physical path</value>
   </data>
-  <data name="isApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
-  <data name="isSlotSetting" xml:space="preserve">
-    <value>Slot Setting</value>
-  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
@@ -501,6 +495,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Add</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Your trial has expired</value>
@@ -1058,7 +1055,7 @@
     <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtime version: {{exactExtensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>You are currently pinned to runtime version: {{exactExtensionVersion}}. You may update to unpin and use the latest: ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1177,17 +1174,20 @@
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Start Swap</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Complete Swap</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Cancel Swap</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>Download publish profile</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>Get publish profile</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>Reset publish credentials</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>Reset publish profile</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Delete</value>
@@ -1318,17 +1318,47 @@
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
     <value>Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Learn more&lt;/a&gt;.</value>
   </data>
+  <data name="error_consoleNotAvailable" xml:space="preserve">
+    <value>The console service is not available on your app.</value>
+  </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore your app's file system from an interactive web-based console.</value>
   </data>
+  <data name="feature_consoleMsg" xml:space="preserve">
+    <value>Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges will not work.</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_cmdConsoleName" xml:space="preserve">
+    <value>CMD</value>
+  </data>
+  <data name="feature_powerShellConsoleName" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="feature_bashConsoleName" xml:space="preserve">
+    <value>Bash</value>
+  </data>
+  <data name="feature_sshConsoleName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
   <data name="feature_sshName" xml:space="preserve">
     <value>SSH</value>
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH provides a Web SSH console experience for your Linux app code</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>Open in New Window</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
@@ -1463,7 +1493,7 @@
     <value>Always On</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous WebJobs running on the web app.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Always on requires a basic or higher App Service plan</value>
@@ -1583,7 +1613,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity (Preview)</value>
+    <value>Managed service identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -1593,6 +1623,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Application logs</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web Server logs</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnostic logs</value>
@@ -2146,6 +2185,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clone settings from:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Do not clone settings</value>
+  </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Create a new deployment slot</value>
   </data>
@@ -2543,7 +2588,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Checkin Message</value>
   </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
-    <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
+    <value>You are using a pre-release version of Azure Functions. Click 'learn more' to stay updated on the latest changes through our announcement page.</value>
   </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
@@ -2794,6 +2839,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Perform swap with preview</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Start the swap</value>
   </data>
@@ -2804,7 +2852,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot {{srcSlot}} and slot {{destSlot}}</value>
+    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>swap</value>
@@ -2882,7 +2930,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to stop {0}</value>
   </data>
   <data name="appServiceRestartSuccess" xml:space="preserve">
-    <value>{0} got restarted'</value>
+    <value>{0} got restarted</value>
   </data>
   <data name="appServiceRestartFail" xml:space="preserve">
     <value>Failed to restart {0}</value>
@@ -3067,14 +3115,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Every instance of your App Service plan will include the following hardware configuration:</value>
   </data>
-  <data name="pricing_linuxAseDiscount" xml:space="preserve">
-    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
-  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows containers are billed at a 50% discount while in preview.</value>
+    <value>Windows containers are limited to scale out of 2 instances and free of charge until 13 September 2018.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
@@ -3482,7 +3527,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed</value>
   </data>
   <data name="success" xml:space="preserve">
-    <value>Succcess</value>
+    <value>Success</value>
   </data>
   <data name="saveCredentials" xml:space="preserve">
     <value>Save Credentials</value>
@@ -3537,5 +3582,257 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="Enable" xml:space="preserve">
     <value>Enable</value>
+  </data>
+  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
+    <value>Dv3-Series compute</value>
+  </data>
+  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="funcConnStringsInfoText" xml:space="preserve">
+    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
+    <value>Runtime version: loading...</value>
+  </data>
+  <data name="readOnlyLocalCache" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you are using Local Cache. When using Local Cache, changes made on the local file system are not persisted to the site content. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="appSettingsHeader_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="appSettingsHeader_value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="appSettingsHeader_isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
+  </data>
+  <data name="appSettingsHeader_appSettingName" xml:space="preserve">
+    <value>App Setting Name</value>
+  </data>
+  <data name="appSettingsHeader_connectionStringName" xml:space="preserve">
+    <value>Connection String Name</value>
+  </data>
+  <data name="appSettingsHeader_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="appSettingsHeader_documentName" xml:space="preserve">
+    <value>Document Name</value>
+  </data>
+  <data name="appSettingsHeader_extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="appSettingsHeader_scriptProcessor" xml:space="preserve">
+    <value>Script Processor</value>
+  </data>
+  <data name="appSettingsHeader_arguments" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="appSettingsHeader_virtualPath" xml:space="preserve">
+    <value>Virtual Path</value>
+  </data>
+  <data name="appSettingsHeader_physicalPath" xml:space="preserve">
+    <value>Physical Path</value>
+  </data>
+  <data name="type_application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="type_directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="databaseAccount" xml:space="preserve">
+    <value>Database Account</value>
+  </data>
+  <data name="azureCosmosDB_account" xml:space="preserve">
+    <value>Azure Cosmos DB account</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>enter username</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>enter password</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Single Container</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>This is the description for Single Container.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Single Container.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>This is the description for Docker Compose.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>This is the description for Kubernetes.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>This is the detailed description for Kubernetes.</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>We were not able to install the runtime extension. To learn more please view </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Install id: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Session id: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Function app name</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Function programming Language</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Submitting</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>Setting up deployment</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>Successfully set up deployment</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>Failed to set up deployment</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>Disconnecting your deployment</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>Successfully disconnected your deployment</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>Failed to disconnect your deployment</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>Are you sure you want to disconnect your deployment?</value>
+  </data>  
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Community Templates</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Azure Functions Runtime is unreachable.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>Click here for details on storage configuration.</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>Click here to learn more about toubleshooting extension installation</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} total ACU</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>Synchronization Request Submitted</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>The repository for web app {0} is being updated</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>The repository for web app {0} can not be updated at this time.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>You don not own any VSTS Repositories</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>Create one now</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Failed to retrieve source configuration</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>You do not have create access</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>You do not have swap permission</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>You do not have write permission</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>The slot has a read-only lock</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Source and Destination cannot be the same slot</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>A swap operation can only be performed if the app has multiple slots</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Swap Slots</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Loading failed</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Preview Changes</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Please make a valid selection above to load preview</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Failed to load preview</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Source Changes</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Target Changes</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Swap action</value>
   </data>
 </root>
