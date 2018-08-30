@@ -1,83 +1,94 @@
-<div *ngIf="!fetchingContent && !featureSupported && canUpgrade" class="scale-up-container">
-
-    <div load-image="image/scale-up.svg" class="icon-large"></div>
-    <div class="scale-up-message">
-        {{ Resources.slots_upgrade | translate}}
-    </div>
-    <div class="slots-description">
-        {{ Resources.slots_description | translate }}
-        <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore"> <!-- TODO [andimrc]: use correct fwdlink -->
-            {{ Resources.topBar_learnMore | translate }}
-        </a>
-    </div>
-    <button (click)="scaleUp()" class="custom-button">
-        {{ Resources.upgrade | translate }}
-    </button>
-
-</div>
-
 <ng-sidebar-container
-    *ngIf="keepVisible || featureSupported || loadingFailed"
     class="sidebar-container"
-    backdropClass="sidebar-backdrop-deployment-slots"
+    backdropClass="ng-sidebar__backdrop"
     [animate]="true">
 
     <div ng-sidebar-content>
         <command-bar>
             <command
-                displayText="{{ Resources.slotNew | translate }}"
+                displayText="{{ 'slotNew' | translate }}"
                 iconUrl="image/add.svg"
                 (click)="showAddControls()"
-                [disabled]="!hasWriteAccess || !!slotsQuotaMessage">
+                [disabled]="addSlotCommandDisabled">
             </command>
 
             <command
-                displayText="{{ (siteArm?.properties.targetSwapSlot ? Resources.completeSwap : Resources.swap) | translate }}"
+                displayText="{{ (siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap') | translate }}"
                 iconUrl="image/swap.svg"
                 (click)="showSwapControls()"
-                [disabled]="!hasWriteAccess || !hasSwapAccess || !relativeSlotsArm || !relativeSlotsArm.length">
+                [disabled]="swapSlotsCommandDisabled">
             </command>
 
             <command
-                [displayText]="Resources.save | translate"
+                [displayText]="'save' | translate"
                 iconUrl="image/save.svg"
                 (click)="save()"
-                [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess">
+                [disabled]="saveAndDiscardCommandsDisabled || !mainForm || !mainForm.valid || mainForm.pristine">
             </command>
 
             <command
-                [displayText]="Resources.discard | translate"
+                [displayText]="'discard' | translate"
                 iconUrl="image/discard.svg"
                 (click)="discard()"
-                [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess">
+                [disabled]="saveAndDiscardCommandsDisabled || !mainForm || mainForm.pristine">
             </command>
 
             <command
-                [displayText]="Resources.refresh | translate"
+                [displayText]="'refresh' | translate"
                 iconUrl="image/reset.svg"
                 (click)="refresh(true)"
-                [disabled]="!viewInfo">
+                [disabled]="fetchingContent || !viewInfo">
             </command>
         </command-bar>
 
-        <div class="config-wrapper">
+        <div *ngIf="!fetchingContent && !featureSupported && canScaleUp" class="scale-up-container">
+
+            <div load-image="image/scale-up.svg" class="icon-large"></div>
+            <div class="scale-up-message">
+                {{ 'slots_upgrade' | translate}}
+            </div>
+            <div class="slots-description">
+                {{ 'slots_description' | translate }}
+                <a class="link" target="_blank" [href]="FwdLinks.deploymentSlotsLearnMore">
+                    {{ 'topBar_learnMore' | translate }}
+                </a>
+            </div>
+            <button (click)="scaleUp()" class="custom-button">
+                {{ 'upgrade' | translate }}
+            </button>
+
+        </div>
+
+        <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
+
             <div class="config-container"
-                [is-dirty]="mainForm?.dirty"
+                [is-dirty]="mainForm?.dirty || !!dirtyMessage"
                 [is-dirty-message]="dirtyMessage">
 
                 <!-- TODO [andiamrc]: Provide more granular details for permissions errors -->
-                <!-- TODO [andiamrc]: Add permissions error strings to Resources -->
-                <info-box
-                    *ngIf="!fetchingPermissions && (!hasWriteAccess || !hasSwapAccess)"
-                    typeClass="warning"
-                    [infoText]="(!hasSwapAccess ? 'no swap access\r\n' : '') + 'no write access'">
-                </info-box>
+                <ng-container *ngIf="!fetchingPermissions">
+
+                    <info-box
+                        *ngIf="!hasWriteAccess"
+                        typeClass="warning"
+                        [infoText]="'noWritePermission' | translate"
+                        [dismissable]="true">
+                    </info-box>
+
+                    <info-box
+                        *ngIf="!hasSwapAccess"
+                        typeClass="warning"
+                        [infoText]="'noSwapPermission' | translate"
+                        [dismissable]="true">
+                    </info-box>
+
+                </ng-container>
 
                 <!-- TODO [andiamrc]: Provide more granular details for loading failures -->
                 <info-box
                     *ngIf="loadingFailed"
                     typeClass="error"
-                    [infoText]="Resources.error_unableToLoadSlotsList | translate">
+                    [infoText]="'error_unableToLoadSlotsList' | translate">
                 </info-box>
 
                 <info-box
@@ -85,7 +96,19 @@
                     typeClass="info"
                     [infoText]="slotsQuotaMessage"
                     infoActionIcon='image/scale-up.svg'
-                    [infoActionFn]="canUpgrade ? slotsQuotaScaleUp : null">
+                    [infoActionFn]="canScaleUp ? slotsQuotaScaleUp : null">
+                </info-box>
+
+                <info-box
+                    *ngIf="addStatusMessage"
+                    [typeClass]="addStatusClass"
+                    [infoText]="addStatusMessage">
+                </info-box>
+
+                <info-box
+                    *ngIf="swapStatusMessage"
+                    [typeClass]="swapStatusClass"
+                    [infoText]="swapStatusMessage">
                 </info-box>
 
                 <div class="slots-header-container">
@@ -93,32 +116,32 @@
                         <div load-image="image/slots.svg" class="icon-large"></div>
                     </div>
                     <div class="slots-title-container">
-                        <div class="slots-title">{{ Resources.feature_deploymentSlotsName | translate }}</div>
+                        <div class="slots-title">{{ 'feature_deploymentSlotsName' | translate }}</div>
                         <div class="underline"></div>
                     </div>
                 </div>
 
                 <div class="slots-description-container">
-                    <div class="slots-description">{{ Resources.slots_description | translate }}</div>
+                    <div class="slots-description">{{ 'slots_description' | translate }}</div>
                     <div class="underline"></div>
                 </div>
 
                 <table-root
                     tblClass="tbl fixed stretch"
-                    [name]="Resources.feature_deploymentSlotsName | translate">
+                    [name]="'feature_deploymentSlotsName' | translate">
 
                     <tr class="header-row" table-row>
                         <th class="one-quarter-col padded-col" table-cell>
-                            {{ Resources.slotsList_nameHeader | translate }}
+                            {{ 'slotsList_nameHeader' | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            {{ Resources.slotsList_statusHeader | translate }}
+                            {{ 'slotsList_statusHeader' | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            {{ Resources.slotsList_serverfarmHeader | translate }}
+                            {{ 'slotsList_serverfarmHeader' | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            {{ Resources.slotsList_trafficPercentHeader | translate }}
+                            {{ 'slotsList_trafficPercentHeader' | translate }}
                         </th>
                     </tr>
 
@@ -129,7 +152,7 @@
                             <div
                                 *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
                                 class="pill">
-                                {{ Resources.production | translate }}
+                                {{ 'production' | translate }}
                             </div>
                         </td>
 
@@ -156,13 +179,20 @@
                     <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
 
                         <td class="one-quarter-col padded-col" table-cell>
-                            <a tabindex="0" (click)="openSlotBlade(relativeSlotArm.id)" [activate-with-keys]>
+
+                            <a *ngIf="!navigationDisabled"
+                                tabindex="0"
+                                (click)="openSlotBlade(relativeSlotArm.id)"
+                                [activate-with-keys]>
                                 {{ relativeSlotArm.properties.name }}
                             </a>
+                            <span *ngIf="!!navigationDisabled">
+                                {{ relativeSlotArm.properties.name }}
+                            </span>
                             <div
                                 *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
                                 class="pill">
-                                {{ Resources.production | translate }}
+                                {{ 'production' | translate }}
                             </div>
                         </td>
 
@@ -191,11 +221,11 @@
                     <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
 
                         <td *ngIf="fetchingContent" class="message-row" colspan="4" table-cell>
-                            {{ Resources.loading | translate }}
+                            {{ 'loading' | translate }}
                         </td>
 
                         <td *ngIf="!fetchingContent" class="message-row" colspan="4" table-cell>
-                            {{ (!siteArm ? Resources.error_unableToLoadSlotsList : Resources.slotsList_noSlots) | translate }}
+                            {{ (!siteArm ? 'error_unableToLoadSlotsList' : 'slotsList_noSlots') | translate }}
                         </td>
 
                     </tr>
@@ -215,18 +245,18 @@
         [trapFocus]="false"
         [autoFocus]="true"
         sidebarClass="sidebar-swap-slot"
-        [ariaLabel]="Resources.swap | translate"
+        [ariaLabel]="'swapSlotsHeading' | translate"
         [animate]="true"
         [closeOnClickBackdrop]="false"
         [showBackdrop]="true">
 
-        <div class="flyout-liner">
-            <swap-slots
-                *ngIf="swapControlsOpen"
-                [resourceIdInput]="resourceId"
-                (close)="hideControls($event)">
-            </swap-slots>
-        </div>
+        <swap-slots
+            *ngIf="swapControlsOpen"
+            [resourceIdInput]="resourceId"
+            (parameters)="receiveSwapParams($event)"
+            (configApplied)="onConfigApplied($event)">
+        </swap-slots>
+
     </ng-sidebar>
 
     <ng-sidebar
@@ -238,18 +268,17 @@
         [trapFocus]="false"
         [autoFocus]="true"
         sidebarClass="sidebar-add-slot"
-        [ariaLabel]="Resources.swap | translate"
+        [ariaLabel]="'slotNew' | translate"
         [animate]="true"
         [closeOnClickBackdrop]="false"
         [showBackdrop]="true">
 
-        <div class="flyout-liner">
-            <add-slot
-                *ngIf="addControlsOpen"
-                [resourceId]="resourceId"
-                (close)="hideControls($event)">
-            </add-slot>
-        </div>
+        <add-slot
+            *ngIf="addControlsOpen"
+            [resourceId]="resourceId"
+            (parameters)="receiveAddParams($event)">
+        </add-slot>
+
     </ng-sidebar>
 
 </ng-sidebar-container>

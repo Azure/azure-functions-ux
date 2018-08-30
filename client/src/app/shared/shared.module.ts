@@ -18,7 +18,6 @@ import { BackgroundTasksService } from './services/background-tasks.service';
 import { UtilitiesService } from './services/utilities.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SlotsService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
@@ -213,7 +212,6 @@ export class SharedModule {
                 },
                 CacheService,
                 ScenarioService,
-                SlotsService,
                 AuthzService,
                 LocalStorageService,
                 UtilitiesService,

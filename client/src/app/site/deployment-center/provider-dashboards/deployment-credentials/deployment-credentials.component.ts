@@ -20,6 +20,8 @@ import { SiteService } from '../../../../shared/services/site.service';
 })
 export class DeploymentCredentialsComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
   @Input() resourceId: string;
+  @Input() standalone = true;
+
   activeTab: 'user' | 'app' = 'app';
 
   public appUserName: string;

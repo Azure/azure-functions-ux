@@ -13,6 +13,7 @@ import { DeploymentCenterConstants } from '../../../../../shared/models/constant
 import { WizardForm } from '../../wizard-logic/deployment-center-setup-models';
 import { MockLogService } from '../../../../../test/mocks/log.service.mock';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
+import { Subject } from 'rxjs/Subject';
 
 describe('ConfigureBitbucketComponent', () => {
 
@@ -26,9 +27,9 @@ describe('ConfigureBitbucketComponent', () => {
                 { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
                 { provide: CacheService, useClass: MockCacheService },
                 { provide: LogService, useClass: MockLogService },
-                FormBuilder
+                FormBuilder,
             ],
-            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule]
+            imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NgSelectModule],
         })
             .compileComponents();
 
@@ -84,7 +85,7 @@ describe('ConfigureBitbucketComponent', () => {
             const mockDeploymentCenterStateManager: MockDeploymentCenterStateManager = TestBed.get(DeploymentCenterStateManager);
             component.RepoChanged({
                 displayLabel: '',
-                value: `${DeploymentCenterConstants.bitbucketUrl}/testfullname1`
+                value: `${DeploymentCenterConstants.bitbucketUrl}/testfullname1`,
             });
             testFixture.detectChanges();
             NgSelectTestHelpers.selectOption(testFixture, 'configure-bitbucket-branch-select', KeyCode.ArrowDown, 0);
@@ -100,10 +101,10 @@ describe('ConfigureBitbucketComponent', () => {
     });
 });
 
-
 @Injectable()
 class MockDeploymentCenterStateManager {
     public wizardForm: FormGroup;
+    public updateSourceProviderConfig$ = new Subject();
     constructor(_fb: FormBuilder) {
         this.wizardForm = _fb.group({
             sourceProvider: [null],
@@ -113,7 +114,7 @@ class MockDeploymentCenterStateManager {
                 branch: [null],
                 isManualIntegration: [false],
                 deploymentRollbackEnabled: [false],
-                isMercurial: [false]
+                isMercurial: [false],
             }),
             buildSettings: _fb.group({
                 createNewVsoAccount: [false],
@@ -126,21 +127,21 @@ class MockDeploymentCenterStateManager {
                     framework: [null],
                     version: [null],
                     flaskProjectName: ['flaskProjectName'],
-                    djangoSettingsModule: ['DjangoProjectName.settings']
+                    djangoSettingsModule: ['DjangoProjectName.settings'],
                 }),
-                nodejsTaskRunner: [null]
+                nodejsTaskRunner: [null],
             }),
             deploymentSlotSetting: _fb.group({
                 newDeploymentSlot: [false],
                 deploymentSlotEnabled: [false],
-                deploymentSlot: ['slot']
+                deploymentSlot: ['slot'],
             }),
             testEnvironment: _fb.group({
                 enabled: [false],
                 newApp: [true],
                 appServicePlanId: ['aspid'],
-                webAppId: [null]
-            })
+                webAppId: [null],
+            }),
         });
     };
 
@@ -156,15 +157,13 @@ class MockDeploymentCenterStateManager {
     }
 }
 
-
-
 @Injectable()
 class MockCacheService {
     public siteObject = {
         location: 'loc',
         properties: {
-            sku: 'sku'
-        }
+            sku: 'sku',
+        },
     };
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean): Observable<Response> {
         return Observable.of(null);
@@ -178,23 +177,23 @@ class MockCacheService {
                         values: [
                             {
                                 name: 'testName1',
-                                full_name: 'testfullname1'
+                                full_name: 'testfullname1',
                             },
                             {
                                 name: 'testName2',
-                                full_name: 'testfullname2'
+                                full_name: 'testfullname2',
                             },
                             {
                                 name: 'testName3',
-                                full_name: 'testfullname3'
+                                full_name: 'testfullname3',
                             },
                             {
                                 name: 'testName4',
-                                full_name: 'testfullname4'
-                            }
-                        ]
+                                full_name: 'testfullname4',
+                            },
+                        ],
                     };
-                }
+                },
             });
         } else if (content.url.includes('/refs/branches')) {
             const repo = content.url.split('/')[5];
@@ -203,20 +202,20 @@ class MockCacheService {
                     return {
                         values: [
                             {
-                                name: `testBranch1-${repo}`
+                                name: `testBranch1-${repo}`,
                             },
                             {
-                                name: `testBranch1-${repo}`
+                                name: `testBranch1-${repo}`,
                             },
                             {
-                                name: `testBranch1-${repo}`
+                                name: `testBranch1-${repo}`,
                             },
                             {
-                                name: `testBranch1-${repo}`
-                            }
-                        ]
+                                name: `testBranch1-${repo}`,
+                            },
+                        ],
                     };
-                }
+                },
             });
         }
         return Observable.of(null);
@@ -226,7 +225,7 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return this.siteObject;
-            }
+            },
         });
     }
 
@@ -238,7 +237,7 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return content;
-            }
+            },
         });
     }
 }

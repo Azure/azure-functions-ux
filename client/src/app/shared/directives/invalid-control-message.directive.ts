@@ -1,11 +1,11 @@
 // based on https://hackernoon.com/create-reuseable-validation-directive-in-angualr-2-dcb0b0df2ce8
 import { Directive, Input, OnInit, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs/Rx';
-import { CacheService } from '../services/cache.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from '../models/portal-resources';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { LoadImageDirective } from '../../controls/load-image/load-image.directive';
+import { PortalResources } from '../models/portal-resources';
+import { CacheService } from '../services/cache.service';
 import { LogService } from '../services/log.service';
 
 @Directive({
@@ -14,6 +14,7 @@ import { LogService } from '../services/log.service';
 })
 export class InvalidmessageDirective implements OnInit, OnDestroy {
     @Input() invalidmessage: string;
+    @Input() errorkey: string;
     control: AbstractControl;
     hasView = false;
     controlValue$: Observable<any>;
@@ -92,7 +93,7 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         if (this.control.invalid && (this.control.dirty || this.control.touched || this.hasSubmitted)) {
             this.render.setStyle(this.loadingElement, 'display', 'none');
             this.render.removeStyle(this.errorElement, 'display');
-            const errMessage = this.firstErrorMessage;
+            const errMessage = this.firstOrSpecifiedErrorMessage;
             this.render.removeChild(this.errorElement, this.errorTextElement);
             this.errorTextElement = this.render.createText(errMessage);
             this.render.appendChild(this.errorElement, this.errorTextElement);
@@ -105,9 +106,14 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         }
     }
 
-    get firstErrorMessage(): string {
-        if (this.control && this.control.errors) {
-            if (Object.keys(this.control.errors).length > 0) {
+    get firstOrSpecifiedErrorMessage(): string {
+        if (this.control
+            && this.control.errors
+            && Object.keys(this.control.errors).length > 0) {
+
+            if (!!this.errorkey) {
+                return this.control.errors[this.errorkey] || '';
+            } else {
                 return this.control.errors[Object.keys(this.control.errors)[0]];
             }
         }
