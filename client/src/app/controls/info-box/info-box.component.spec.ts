@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { async } from 'q';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { InfoBoxComponent } from './info-box.component';
+import { InfoBoxComponent, InfoBoxType } from './info-box.component';
 import { MockDirective } from 'ng-mocks';
 import { LoadImageDirective } from '../load-image/load-image.directive';
 import { Component, ViewChild } from '@angular/core';
@@ -20,7 +20,7 @@ class TestInfoboxHostComponent {
     public infoText = 'testtext';
     public infoLink = 'testLink';
     public infoActionFn = null;
-    public type: 'info' | 'warning' | 'error' = 'info';
+    public type: InfoBoxType = 'info';
     public dismissable = false;
     public dismissId = null;
 }
@@ -45,9 +45,9 @@ describe('InfoBox', () => {
         infoboxComponent = hostComponent.ibComponent;
         testFixture.detectChanges();
 
-        spyOn( window, 'open' ).and.callFake( function() {
+        spyOn(window, 'open').and.callFake(function () {
             return true;
-        } );
+        });
     });
 
     describe('init', () => {
@@ -74,6 +74,20 @@ describe('InfoBox', () => {
             testFixture.detectChanges();
             expect(infoboxComponent.iconPath).toBe('image/error.svg');
             expect(infoboxComponent.typeClass).toBe('error');
+        });
+
+        it('should set success values correctly', () => {
+            hostComponent.type = 'success';
+            testFixture.detectChanges();
+            expect(infoboxComponent.iconPath).toBe('image/success.svg');
+            expect(infoboxComponent.typeClass).toBe('success');
+        });
+
+        it('should set spinner values correctly', () => {
+            hostComponent.type = 'spinner';
+            testFixture.detectChanges();
+            expect(infoboxComponent.iconPath).toBe('image/spinner.svg');
+            expect(infoboxComponent.typeClass).toBe('spinner');
         });
     });
 
