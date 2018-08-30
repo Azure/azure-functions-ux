@@ -124,8 +124,8 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
     takeAppOffline() {
         if (this.neededExtensions.length > 0) {
-        this.installing = true;
-        this.installFailed = false;
+            this.installing = true;
+            this.installFailed = false;
 
             // Put host into offline state
             this._functionAppService.updateHostState(this.context, 'offline')
