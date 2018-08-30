@@ -9,7 +9,7 @@ import { Site } from '../shared/models/arm/site';
 import { PublishingCredentials } from '../shared/models/publishing-credentials';
 import { CacheService } from '../shared/services/cache.service';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
-import { KeyCodes, ConsoleConstants, HttpMethods } from '../shared/models/constants';
+import { KeyCodes, ConsoleConstants, HttpMethods, HostTypes } from '../shared/models/constants';
 import { ConsoleService } from '../site/console/shared/services/console.service';
 import { Headers } from '@angular/http';
 import { PromptComponent } from './extra-components/prompt.component';
@@ -20,7 +20,7 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 @Component({
     selector: 'console',
     templateUrl: './function-console.component.html',
-    styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss']
+    styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss'],
 })
 export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnDestroy {
 
@@ -493,7 +493,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      */
     private _createCommand(cmd: string) {
         if (this.isLinux) {
-            return `bash -c \' ${cmd} && echo \'\' && pwd\'`;
+            return `bash -c ' ${cmd} && echo '' && pwd'`;
         }
         return `${cmd} & echo. & cd`;
     }
@@ -507,18 +507,18 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             const res = this._getKuduApiResponse(HttpMethods.POST,
                 {
                     'command': this._createCommand(this._getTabKeyCommand()),
-                    'dir': this.dir
-                }
+                    'dir': this.dir,
+                },
             );
             res.subscribe(
                 data => {
-                    const output = data.json();
-                    if (output.ExitCode === ConsoleConstants.successExitcode) {
+                    const { Output, ExitCode } = data.json();
+                    if (ExitCode === ConsoleConstants.successExitcode) {
                         // fetch the list of files/folders in the current directory
                         const cmd = this.command.complete.substring(0, this._ptrPosition);
-                        const allFiles = this.isLinux ? (
-                                output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine)
-                            ) : output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.windowsNewLine);
+                        const allFiles = this.isLinux
+                            ? Output.split(ConsoleConstants.linuxNewLine + this.dir)[0].split(ConsoleConstants.newLine)
+                            : Output.split(ConsoleConstants.windowsNewLine + this.dir)[0].split(ConsoleConstants.newLine);
                         this._tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                         this._listOfDir = this._consoleService.findMatchingStrings(allFiles, cmd.substring(this._tabKeyPointer + 1));
                         if (this._listOfDir.length > 0) {
@@ -573,27 +573,21 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         const res = this._getKuduApiResponse(HttpMethods.POST,
             {
                 'command': this._createCommand(cmd),
-                'dir': this.dir
-            }
+                'dir': this.dir,
+            },
         );
         this._lastAPICall = res.subscribe(
             data => {
-                const output = data.json();
-                if (output.Error !== '') {
-                    this._addErrorComponent(output.Error + ConsoleConstants.newLine);
-                } else {
-                    if (output.ExitCode === ConsoleConstants.successExitcode && this._performAction(cmd, output.Output)) {
-                        if (output.Output !== '') {
-                            const msg = this.isLinux ? (
-                                output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2)
-                            ) : (output.Output.split(ConsoleConstants.windowsNewLine + this.dir)[0] + ConsoleConstants.newLine);
-                            this._addMessageComponent(msg);
-                        }
-                    }
+                const { Output, ExitCode, Error } = data.json();
+                if (Error !== '') {
+                    this._addErrorComponent(`${Error.trim()}${this._getNewLine()}`);
+                } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
+                    this._updateDirectoryAfterCommand(Output.trim());
+                    const msg = Output.split(this._getMessageDelimeter())[0].trim();
+                    this._addMessageComponent(`${msg}${this._getNewLine()}`);
                 }
                 this._addPromptComponent();
                 this._enterPressed = false;
-                return output;
             },
             err => {
                 this._addErrorComponent(err.text);
@@ -603,9 +597,44 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     }
 
     /**
+     * Get new line character according to the console type
+     */
+    private _getNewLine(): string {
+        if (this.isLinux) {
+            return ConsoleConstants.linuxNewLine;
+        }
+        return ConsoleConstants.windowsNewLine.repeat(2);
+    }
+
+    /**
+     * Get the delimeter according to the app type
+     */
+    private _getMessageDelimeter(): string {
+        if (this.isLinux) {
+            return `${ConsoleConstants.linuxNewLine}${this.dir}`;
+        }
+        return `${ConsoleConstants.windowsNewLine}${this.dir}`;
+    }
+
+    /**
+     * Check and update the directory
+     * @param cmd string which represents the response from the API
+     */
+    private _updateDirectoryAfterCommand(cmd: string) {
+        if (this.isLinux) {
+            const result = cmd.split(ConsoleConstants.linuxNewLine);
+            this.dir = result[result.length - 1];
+        }else {
+            const result = cmd.split(ConsoleConstants.windowsNewLine);
+            this.dir = result[result.length - 1];
+        }
+        this._setLeftSideText();
+    }
+
+    /**
      * perform action on key pressed.
      */
-    private _performAction(cmd?: string, output?: string): boolean {
+    private _performAction(): boolean {
         if (this.command.complete.toLowerCase() === ConsoleConstants.windowsClear || this.command.complete.toLowerCase() === ConsoleConstants.linuxClear) {
             this._removeMsgComponents();
             return false;
@@ -615,30 +644,14 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             this._setConsoleDetails(this.isLinux);
             return false;
         }
-        if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-            return this._changeCurrentDirectory(cmd.substr(2).trim(), output);
-        }
         return true;
-    }
-
-    /**
-     * Change current directory; run cd command
-     */
-    private _changeCurrentDirectory(cmd: string, output?: string): boolean {
-        output = output.trim();
-        if (cmd.length === 0) {
-            return true;
-        }
-        this.dir = output.trim();
-        this._setLeftSideText();
-        return false;
     }
 
     /**
      * Get API Url according to the app type
      */
     private _getKuduUri() {
-        const scmHostName = this._site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
         if (this.isLinux) {
             return `https://${scmHostName}/command`;
         }
@@ -685,18 +698,18 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             return;
         }
         if (this.isLinux) {
-            this.dir = '/home/site/wwwroot/' + this._functionName;
+            this.dir = `/home/site/wwwroot/${this._functionName}`;
             return;
         }
         const res = this._getKuduApiResponse(HttpMethods.POST,
             {
                 'command': 'cd',
-                'dir': 'site\\wwwroot'
-            }
+                'dir': 'site\\wwwroot',
+            },
         );
         res.subscribe(data => {
-            const output = data.json();
-            this.dir = output.Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
+            const {Output} = data.json();
+            this.dir = Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
             this._setLeftSideText();
         });
     }

@@ -1,30 +1,66 @@
 @import '../../../sass/common/variables';
 
-.close-button{
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 7px;
-    margin: 0;
-    text-align: center;
-    font-size: 0;
-    background-color: transparent !important;
-    border-radius: 2px;
-    transition: background-color .2s ease-in-out;
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-    &:hover{
-        background: $error-color !important;
-        transition: background-color .2s ease-in-out;
+    .header{
+        width: 100%;
+        height: 40px;
+        text-align: left;
+        background: $body-bg-color;
+        color: $default-text-color;
+        font-size: 18px;
+        line-height: 40px;
+        border-bottom: 1px solid $border-color;
+
+        .header-icon-container{
+            height: 39px;
+            width: 40px;
+            display: inline-block;
+            float: left;
+            padding-top: 3px;
+            text-align: center;
+
+            .header-icon{
+                display: inline-block;
+                height: 18px;
+                width: 18px;
+            }
+        }
+
+        .header-icon-container /deep/ .svg-monochromatic{
+            fill: $default-text-color;
+        }
     }
 
-    &:disabled{
-        background: $disabled-color !important;
-        transition: none;
+    .body{
+        display: block;
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 0px 15px 15px 15px;
+        width: 100%;
+        height: 100%;
+        background: $body-bg-color;
+
+        .body-liner{
+            display: block;
+            position: relative;
+            margin-right: 15px;
+            overflow: visible;
+        }
     }
 
-    .icon-medium{
-        height: 18px;
-        width: 18px;
+    .footer{
+        display: block;
+        position: relative;
+        flex: 0 0 auto;
+        min-height: 42px;
+        padding: 0px 15px 0px 15px;
+        width: 100%;
+        background: $body-bg-color;
+        border-top: 1px solid $border-color;
     }
 }
 
@@ -41,40 +77,93 @@
     color: $body-bg-color;
 }
 
-.spinner{
-    display: inline-block;
-    border: 2px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 2px solid #3498db;
-    width: 12px;
-    height: 12px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
+.padded-col{
+    padding-left: 10px;
+    padding-right: 2px;
+}
 
-    &.large{
-        border-width: 10px;
-        width: 60px;
-        height: 60px;
+.one-quarter-col{
+    width: 25%;
+}
+
+.controls-container{
+    width: 100%;
+    margin-top: 10px;
+
+    .centered{
+        text-align: center;
     }
- }
 
-/* Safari */
-@-webkit-keyframes spin{
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+    .swap-icon-container{
+        float: left;
+        margin-left: calc(50% - 218px);
+        margin-right: calc(50% - 218px);
+        margin-top: 24px;
+
+        span{
+            transform: rotate(40deg);
+            -webkit-transform: rotate(40deg); /* Safari */
+            -moz-transform: rotate(40deg); /* Firefox */
+            -ms-transform: rotate(40deg); /* IE */
+            -o-transform: rotate(40deg); /* Opera */
+        }
+    }
 }
 
-@keyframes spin{
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.controls-container::after{
+    content: "";
+    display: block;
+    clear: both;
 }
 
-.submit-spinner{
-    text-align: center;
+.control-container{
+    width: 210px;
+
+    &.src, &.dest {
+        float: left;
+    }
+}
+
+.control-label{
+    padding-left: 5px;
+    margin-bottom: 2px;
+}
+
+.buttons-container{
+    width: 100%;
     margin-top: 15px;
+    margin-bottom: 15px;
+    height: 30px;
+
+    .custom-button{
+        float: left;
+        margin-left: 0px;
+        margin-right: 15px;
+        margin-bottom: 0px;
+        padding: 5px 15px 5px 15px
+    }
 }
 
 :host-context(#app-root[theme=dark]){
+    .wrapper{
+        .header{
+            background: $body-bg-color-dark;
+            color: $default-text-color-dark;
+
+            .header-icon-container /deep/ .svg-monochromatic{
+                fill: $default-text-color-dark;
+            }
+        }
+
+        .body{
+            background: $body-bg-color-dark;
+        }
+
+        .footer{
+            background: $body-bg-color-dark;
+        }
+    }
+
     .pill{
         color: $body-bg-color-dark;
     }

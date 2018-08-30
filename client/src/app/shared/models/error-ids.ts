@@ -76,4 +76,7 @@ export namespace errorIds {
     export const embeddedCreateError = '/errors/embedded/create';
     export const applicationInsightsInstrumentationKeyMismatch = 'errors/appInsights/instrumentationKey/mismatch';
     export const applicationInsightsConfigure = 'errors/appInsights/configure';
+    export const failedToSwapSlots = '/errors/unableToSwapSlots';
+    export const failedToUpdateHostToOffline = 'error/failedToUpdateHostToOffline';
+    export const failedToUpdateHostToRunning = 'error/faileToUpdateHostToRunning';
 }

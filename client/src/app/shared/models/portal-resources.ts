@@ -132,6 +132,7 @@
     public static config = 'config';
     public static cors = 'cors';
     public static create = 'create';
+    public static add = 'add';
     public static dashboard_yourTrialExpiered = 'dashboard_yourTrialExpiered';
     public static disabled = 'disabled';
     public static enabled = 'enabled';
@@ -357,6 +358,7 @@
     public static start = 'start';
     public static restart = 'restart';
     public static swap = 'swap';
+    public static startSwap = 'startSwap';
     public static completeSwap = 'completeSwap';
     public static cancelSwap = 'cancelSwap';
     public static getPublishProfile = 'getPublishProfile';
@@ -414,6 +416,8 @@
     public static feature_sshConsoleName = 'feature_sshConsoleName';
     public static feature_sshName = 'feature_sshName';
     public static feature_sshInfo = 'feature_sshInfo';
+    public static ssh_reconnect = 'ssh_reconnect';
+    public static ssh_newWindow = 'ssh_newWindow';
     public static feature_extensionsName = 'feature_extensionsName';
     public static feature_extensionsInfo = 'feature_extensionsInfo';
     public static emptyAppSettings = 'emptyAppSettings';
@@ -688,6 +692,8 @@
     public static slotCreateOperationInProgressWarning = 'slotCreateOperationInProgressWarning';
     public static slotNew = 'slotNew';
     public static slotNew_nameLabel = 'slotNew_nameLabel';
+    public static slotNew_cloneConfigLabel = 'slotNew_cloneConfigLabel';
+    public static slotNew_dontCloneConfig = 'slotNew_dontCloneConfig';
     public static slotNew_heading = 'slotNew_heading';
     public static slotNew_desc = 'slotNew_desc';
     public static slotNew_startCreateNotifyTitle = 'slotNew_startCreateNotifyTitle';
@@ -901,6 +907,7 @@
     public static deployedSuccessfullyTo = 'deployedSuccessfullyTo';
     public static deployedFailedTo = 'deployedFailedTo';
     public static swapWithPreviewLabel = 'swapWithPreviewLabel';
+    public static swapWithPreviewInfoText = 'swapWithPreviewInfoText';
     public static swapPhaseOneLabel = 'swapPhaseOneLabel';
     public static swapPhaseTwoLabel = 'swapPhaseTwoLabel';
     public static swapOperationInProgressWarning = 'swapOperationInProgressWarning';
@@ -1195,4 +1202,34 @@
     public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
     public static extensionInstallDocLink = 'extensionInstallDocLink';
     public static pricing_ACU = 'pricing_ACU';
+    public static syncRequestSubmitted = 'syncRequestSubmitted';
+    public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
+    public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
+    public static vsts_permissions_error = 'vsts_permissions_error';
+    public static no_vsts_repos = 'no_vsts_repos';
+    public static no_vsts_accounts = 'no_vsts_accounts';
+    public static no_vsts_accounts_kudu = 'no_vsts_accounts_kudu';
+    public static create_one = 'create_one';
+    public static topBar_updateExtensions = 'topBar_updateExtensions';
+    public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
+    public static noCreateAccess = 'noCreateAccess';
+    public static noSwapPermission = 'noSwapPermission';
+    public static noWritePermission = 'noWritePermission';
+    public static slotReadOnlyLock = 'slotReadOnlyLock';
+    public static swapSrcDestNotUnique = 'swapSrcDestNotUnique';
+    public static swapMultiPhaseAuthConflict = 'swapMultiPhaseAuthConflict';
+    public static swapMultiPhaseNoStickySettings = 'swapMultiPhaseNoStickySettings';
+    public static swapMultiPhasePreviewMessage = 'swapMultiPhasePreviewMessage';
+    public static noWritePermissionOnSlots = 'noWritePermissionOnSlots';
+    public static noSwapPermissionOnSlots = 'noSwapPermissionOnSlots';
+    public static readOnlyLockOnSlots = 'readOnlyLockOnSlots';
+    public static swapRequresMultipleSlots = 'swapRequresMultipleSlots';
+    public static swapSlotsHeading = 'swapSlotsHeading';
+    public static swapLoadingFailed = 'swapLoadingFailed';
+    public static swapPreviewChangesHeading = 'swapPreviewChangesHeading';
+    public static swapPreviewMakeSelection = 'swapPreviewMakeSelection';
+    public static swapChangesLoadingFailed = 'swapChangesLoadingFailed';
+    public static swapSourceChangesHeading = 'swapSourceChangesHeading';
+    public static swapTargetChangesHeading = 'swapTargetChangesHeading';
+    public static swapActionLabel = 'swapActionLabel';
 }

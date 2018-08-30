@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-configure-bitbucket',
     templateUrl: './configure-bitbucket.component.html',
-    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
+    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureBitbucketComponent implements OnDestroy {
     public RepoList: DropDownElement<string>[] = [];
@@ -31,13 +31,20 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
     ) {
         this.reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.fetchBranches(r);
         });
         this.fetchRepos();
         this.updateFormValidation();
+
+        // if auth changes then this will force refresh the config data
+        this.wizard.updateSourceProviderConfig$
+            .takeUntil(this._ngUnsubscribe$)
+            .subscribe(r => {
+                this.fetchRepos();
+            });
     }
 
     updateFormValidation() {
@@ -54,7 +61,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
                 url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`,
-                authToken: this.wizard.getToken()
+                authToken: this.wizard.getToken(),
             })
             .subscribe(
                 r => {
@@ -65,7 +72,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                         const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
                         newRepoList.push({
                             displayLabel: repo.name,
-                            value: repoUrl
+                            value: repoUrl,
                         });
                         this.repoUrlToNameMap[repoUrl] = repo.full_name;
                     });
@@ -75,7 +82,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                 err => {
                     this.reposLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
-                }
+                },
             );
     }
 
@@ -85,7 +92,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
                 url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches`,
-                authToken: this.wizard.getToken()
+                authToken: this.wizard.getToken(),
             })
             .subscribe(
                 r => {
@@ -95,7 +102,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                     r.json().values.forEach(branch => {
                         newBranchList.push({
                             displayLabel: branch.name,
-                            value: branch.name
+                            value: branch.name,
                         });
                     });
 
@@ -104,7 +111,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                 err => {
                     this.branchesLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-branches', err);
-                }
+                },
             );
     }
 

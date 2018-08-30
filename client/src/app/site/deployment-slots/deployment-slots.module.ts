@@ -6,6 +6,7 @@ import { DeploymentSlotsShellComponent } from 'app/ibiza-feature/deployment-slot
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
+import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -26,13 +27,14 @@ import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
 import { SidebarModule } from 'ng-sidebar';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   entryComponents: [
     DeploymentSlotsComponent
   ],
   imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule
+    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule, WizardModule, NgSelectModule
   ],
   declarations: [
     DeploymentSlotsComponent,
