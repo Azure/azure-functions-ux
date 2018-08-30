@@ -1205,6 +1205,7 @@
     public static no_vsts_accounts = 'no_vsts_accounts';
     public static no_vsts_accounts_kudu = 'no_vsts_accounts_kudu';
     public static create_one = 'create_one';
+    public static topBar_updateExtensions = 'topBar_updateExtensions';
     public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
     public static noCreateAccess = 'noCreateAccess';
     public static noSwapPermission = 'noSwapPermission';
