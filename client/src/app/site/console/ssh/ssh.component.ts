@@ -5,7 +5,7 @@ import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { Subscription } from 'rxjs/Subscription';
 import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
 import { BroadcastService } from '../../../shared/services/broadcast.service';
-import { SiteTabIds, Constants } from '../../../shared/models/constants';
+import { SiteTabIds, HostTypes } from '../../../shared/models/constants';
 
 @Component({
   selector: 'app-ssh',
@@ -60,7 +60,7 @@ export class SSHComponent implements OnInit, OnDestroy {
    * Get Kudu API URL
    */
   public getKuduUri(): string {
-      const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === Constants.scmHostType).name;
+      const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
       return `https://${scmHostName}/webssh/host`;
   }
 }

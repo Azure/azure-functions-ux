@@ -54,8 +54,6 @@ export class Constants {
     public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
     public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
     public static WebhookFunctionName = 'MSGraphWebhook';
-
-    public static scmHostType = 1;
 }
 
 export class TabCommunicationVerbs {
@@ -490,6 +488,10 @@ export class ConsoleConstants {
     public static readonly changeDirectory = 'cd';
     public static readonly windowsClear = 'cls';
     public static readonly linuxClear = 'clear';
+}
+
+export class HostTypes {
+    public static readonly scm = 1;
 }
 
 export enum LogConsoleTypes {

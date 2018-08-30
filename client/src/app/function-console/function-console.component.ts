@@ -9,7 +9,7 @@ import { Site } from '../shared/models/arm/site';
 import { PublishingCredentials } from '../shared/models/publishing-credentials';
 import { CacheService } from '../shared/services/cache.service';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
-import { KeyCodes, ConsoleConstants, HttpMethods, Constants } from '../shared/models/constants';
+import { KeyCodes, ConsoleConstants, HttpMethods, HostTypes } from '../shared/models/constants';
 import { ConsoleService } from '../site/console/shared/services/console.service';
 import { Headers } from '@angular/http';
 import { PromptComponent } from './extra-components/prompt.component';
@@ -20,7 +20,7 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 @Component({
     selector: 'console',
     templateUrl: './function-console.component.html',
-    styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss']
+    styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss'],
 })
 export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnDestroy {
 
@@ -507,8 +507,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             const res = this._getKuduApiResponse(HttpMethods.POST,
                 {
                     'command': this._createCommand(this._getTabKeyCommand()),
-                    'dir': this.dir
-                }
+                    'dir': this.dir,
+                },
             );
             res.subscribe(
                 data => {
@@ -573,8 +573,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         const res = this._getKuduApiResponse(HttpMethods.POST,
             {
                 'command': this._createCommand(cmd),
-                'dir': this.dir
-            }
+                'dir': this.dir,
+            },
         );
         this._lastAPICall = res.subscribe(
             data => {
@@ -651,7 +651,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
      * Get API Url according to the app type
      */
     private _getKuduUri() {
-        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === Constants.scmHostType).name;
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
         if (this.isLinux) {
             return `https://${scmHostName}/command`;
         }
@@ -704,8 +704,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         const res = this._getKuduApiResponse(HttpMethods.POST,
             {
                 'command': 'cd',
-                'dir': 'site\\wwwroot'
-            }
+                'dir': 'site\\wwwroot',
+            },
         );
         res.subscribe(data => {
             const {Output} = data.json();
