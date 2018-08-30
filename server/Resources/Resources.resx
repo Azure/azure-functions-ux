@@ -3757,6 +3757,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
   </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
     <value>Failed to retrieve source configuration</value>
   </data>

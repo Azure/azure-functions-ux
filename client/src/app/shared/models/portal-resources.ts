@@ -1204,6 +1204,7 @@ export class PortalResources {
     public static no_vsts_repos = 'no_vsts_repos';
     public static no_vsts_repos_kudu = 'no_vsts_repos_kudu';
     public static create_one = 'create_one';
+    public static topBar_updateExtensions = 'topBar_updateExtensions';
     public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
     public static noCreateAccess = 'noCreateAccess';
     public static noSwapPermission = 'noSwapPermission';
