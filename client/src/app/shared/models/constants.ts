@@ -474,7 +474,7 @@ export class WorkerRuntimeLanguages {
 }
 
 export class ConsoleConstants {
-    public static readonly newLines = '\n\n';
+    public static readonly linuxNewLine = '\n\n';
     public static readonly windowsNewLine = '\r\n';
     public static readonly singleBackslash = '\\';
     public static readonly singleForwardSlash = '/';

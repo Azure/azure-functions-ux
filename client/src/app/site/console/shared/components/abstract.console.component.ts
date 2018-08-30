@@ -215,6 +215,11 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * Get the delimeter according to the app type
+     */
+    protected abstract getMessageDelimeter(): string;
+
+    /**
      * Get the command to list all the directories for the specific console-type
      */
     protected abstract getTabKeyCommand(): string;

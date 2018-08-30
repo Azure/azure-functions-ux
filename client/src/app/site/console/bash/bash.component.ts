@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver} from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
-import { Regex, ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
 
 @Component({
   selector: 'app-bash',
@@ -56,17 +56,17 @@ export class BashComponent  extends AbstractConsoleComponent {
         const uri = this.getKuduUri();
         const header = this.getHeader();
         const body = {
-          'command': (`bash -c \' ${this.getTabKeyCommand()} && echo \'\' && pwd\'`),
+          'command': (`bash -c ' ${this.getTabKeyCommand()} '`),
           'dir': this.dir
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         res.subscribe(
             data => {
-              const output = data.json();
-              if (output.ExitCode === ConsoleConstants.successExitcode) {
+              const { Output, ExitCode } = data.json();
+              if (ExitCode === ConsoleConstants.successExitcode) {
                 // fetch the list of files/folders in the current directory
                 const cmd = this.command.substring(0, this.ptrPosition);
-                const allFiles = output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0].split(ConsoleConstants.newLine);
+                const allFiles = Output.split(ConsoleConstants.newLine);
                 this.tabKeyPointer = cmd.lastIndexOf(ConsoleConstants.whitespace);
                 this.listOfDir = this.consoleService.findMatchingStrings(allFiles, cmd.substring(this.tabKeyPointer + 1));
                 if (this.listOfDir.length > 0) {
@@ -94,21 +94,22 @@ export class BashComponent  extends AbstractConsoleComponent {
       const header = this.getHeader();
       const cmd = this.command;
       const body = {
-        'command': (`bash -c \' ${cmd} && echo \'\' && pwd\'`),
+        'command': (`bash -c ' ${cmd} && echo '' && pwd'`),
         'dir': this.dir
       };
       const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       this.lastAPICall = res.subscribe(
         data => {
-            const output = data.json();
-            if (output.Output === '' && output.ExitCode !== ConsoleConstants.successExitcode) {
-              this.addErrorComponent(output.Error + ConsoleConstants.newLine);
-            } else if (output.ExitCode === ConsoleConstants.successExitcode && output.Output !== '' && this.performAction(cmd, output.Output)) {
-                this.addMessageComponent(output.Output.split(ConsoleConstants.newLine.repeat(2) + this.dir)[0] + ConsoleConstants.newLine.repeat(2));
+            const { Output, ExitCode, Error } = data.json();
+            if (Error !== '') {
+                this.addErrorComponent(`${Error.trim()}${ConsoleConstants.linuxNewLine}`);
+            } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
+                this._updateDirectoryAfterCommand(Output.trim());
+                const msg = Output.split(this.getMessageDelimeter())[0].trim();
+                this.addMessageComponent(`${msg}${ConsoleConstants.linuxNewLine}`);
             }
             this.addPromptComponent();
             this.enterPressed = false;
-            return output;
         },
         err => {
             this.addErrorComponent(err.text);
@@ -117,10 +118,23 @@ export class BashComponent  extends AbstractConsoleComponent {
       );
   }
 
+  protected getMessageDelimeter(): string {
+      return ConsoleConstants.linuxNewLine + this.dir;
+  }
+
+  /**
+   * Check and update the directory
+   * @param cmd string which represents the response from the API
+   */
+  private _updateDirectoryAfterCommand(cmd: string) {
+      const result = cmd.split(ConsoleConstants.linuxNewLine);
+      this.dir = result[result.length - 1];
+  }
+
   /**
    * perform action on key pressed.
    */
-  protected performAction(cmd?: string, output?: string): boolean {
+  protected performAction(): boolean {
       if (this.command.toLowerCase() === ConsoleConstants.linuxClear) { // bash uses clear to empty the console
         this.removeMsgComponents();
         return false;
@@ -128,11 +142,6 @@ export class BashComponent  extends AbstractConsoleComponent {
       if (this.command.toLowerCase() === ConsoleConstants.exit) {
         this.removeMsgComponents();
         this.dir = this._defaultDirectory;
-        return false;
-      }
-      if (cmd && cmd.toLowerCase().startsWith(ConsoleConstants.changeDirectory)) {
-        output = output.replace(Regex.newLine, '');
-        this.dir = output;
         return false;
       }
       return true;
