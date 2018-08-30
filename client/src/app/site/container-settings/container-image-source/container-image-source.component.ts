@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureInfo, Container, ImageSourceType, ContainerImageSourceInfo } from '../container-settings';
+import { ContainerConfigureData, Container, ImageSourceType } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
 import { SelectOption } from '../../../shared/models/select-option';
 
@@ -10,20 +10,21 @@ import { SelectOption } from '../../../shared/models/select-option';
 })
 export class ContainerImageSourceComponent {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureInfo) {
-        this._containerConfigureInfo = containerConfigureInfo;
+    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+        this.containerConfigureInfo = containerConfigureInfo;
+        this.selectedContainer = containerConfigureInfo.container;
+        this.selectedImageSource = this.selectedImageSource || this.containerSettingsManager.containerImageSourceOptions[0];
     }
 
     public selectedContainer: Container;
-    public containerImageSourceInfo: ContainerImageSourceInfo;
     public selectedImageSource: SelectOption<ImageSourceType>;
 
-    private _containerConfigureInfo: ContainerConfigureInfo;
+    public containerConfigureInfo: ContainerConfigureData;
 
     constructor(public containerSettingsManager: ContainerSettingsManager) {
         this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
-            this.containerImageSourceInfo = { ...this._containerConfigureInfo, container: selectedContainer };
+            this.containerConfigureInfo.container = selectedContainer;
         });
 
         this.containerSettingsManager.selectedImageSource$.subscribe((selectedImageSource: SelectOption<ImageSourceType>) => {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureInfo, Container } from '../container-settings';
+import { Container, ContainerSettingsData, ContainerConfigureData } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
 
 @Component({
@@ -9,17 +9,19 @@ import { ContainerSettingsManager } from '../container-settings-manager';
 })
 export class ContainerConfigureComponent {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureInfo) {
-        this.containerConfigureInfo = containerConfigureInfo;
+    @Input() set containerSettingInfoInput(containerSettingsInfo: ContainerSettingsData) {
+        this.containerSettingsInfo = containerSettingsInfo;
     }
 
     public selectedContainer: Container;
-    public containerConfigureInfo: ContainerConfigureInfo;
+    public containerSettingsInfo: ContainerSettingsData;
+    public containerConfigureInfo: ContainerConfigureData;
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
         this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
+            this.containerConfigureInfo = { ...this.containerSettingsInfo, container: selectedContainer };
         });
     }
 }

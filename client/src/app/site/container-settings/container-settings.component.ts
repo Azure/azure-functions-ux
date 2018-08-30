@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Input, Injector, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureInfo } from './container-settings';
+import { ContainerSettingsInput, ContainerSettingsData, Container } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
@@ -21,7 +21,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         this.setInput(viewInfo);
     }
 
-    public containerConfigureInfo: ContainerConfigureInfo;
+    public containerSettingsInfo;
     public selectedContainer: Container;
     public applyButtonDisabled = false;
     public isUpdating = false;
@@ -49,9 +49,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
             .do(r => {
                 this.containerSettingsManager.resetSettings(r.data);
                 this.containerSettingsManager.initialize(r.data);
-                this.containerConfigureInfo = {
-                    containerSettingsData: r.data.data
-                };
+                this.containerSettingsInfo = r.data.data;
             });
     }
 

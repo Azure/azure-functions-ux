@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContainerImageSourceInfo, Container } from '../../container-settings';
+import { ContainerConfigureData, Container } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 
 @Component({
@@ -12,17 +12,18 @@ import { ContainerSettingsManager } from '../../container-settings-manager';
 })
 export class ContainerImageSourceDockerHubComponent {
 
-    @Input() set containerImageSourceInfoInput(containerImageSourceInfo: ContainerImageSourceInfo) {
-        this.containerImageSourceInfo = containerImageSourceInfo;
+    @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
+        this.containerConfigureInfo = containerConfigureInfoInput;
     }
 
     public selectedContainer: Container;
-    public containerImageSourceInfo: ContainerImageSourceInfo;
+    public containerConfigureInfo: ContainerConfigureData;
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
         this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
+            this.containerConfigureInfo.container = selectedContainer;
         });
     }
 }

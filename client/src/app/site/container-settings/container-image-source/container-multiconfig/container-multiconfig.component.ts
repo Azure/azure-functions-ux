@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureData, Container } from '../container-settings';
-import { ContainerSettingsManager } from '../container-settings-manager';
+import { ContainerConfigureData, Container } from './../../container-settings';
+import { ContainerSettingsManager } from './../../container-settings-manager';
 
 @Component({
-    selector: 'container-host',
-    templateUrl: './container-host.component.html',
-    styleUrls: ['./../container-settings.component.scss', './container-host.component.scss']
+    selector: 'container-multiconfig',
+    templateUrl: './container-multiconfig.component.html',
+    styleUrls: [
+        './../../container-settings.component.scss',
+        './container-multiconfig.component.scss',
+    ],
 })
-export class ContainerHostComponent {
+export class ContainerMultiConfigComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;

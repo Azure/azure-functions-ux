@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Container, ContainerSample, ContainerImageSourceInfo } from '../../container-settings';
+import { Container, ContainerSample, ContainerConfigureData } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { ContainerSamplesService } from '../../../../shared/services/container-samples.service';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
@@ -14,14 +14,14 @@ import { DropDownElement } from '../../../../shared/models/drop-down-element';
 })
 export class ContainerImageSourceQuickstartComponent {
 
-    @Input() set containerImageSourceInfoInput(containerImageSourceInfo: ContainerImageSourceInfo) {
-        this.containerImageSourceInfo = containerImageSourceInfo;
-        this.selectedContainer = containerImageSourceInfo.container;
+    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+        this.containerConfigureInfo = containerConfigureInfo;
+        this.selectedContainer = containerConfigureInfo.container;
         this._refreshSamplesList();
     }
 
     public selectedContainer: Container;
-    public containerImageSourceInfo: ContainerImageSourceInfo;
+    public containerConfigureInfo: ContainerConfigureData;
     public samplesList: DropDownElement<string>[] = [];
     public containerSamples: ContainerSample[] = [];
     public selectedSampleValue = '';
@@ -34,6 +34,7 @@ export class ContainerImageSourceQuickstartComponent {
         private _containerSampleService: ContainerSamplesService) {
         this._containerSettingsManager.selectedContainer$.subscribe((container: Container) => {
             this.selectedContainer = container;
+            this.containerConfigureInfo.container = container;
             this._refreshSamplesList();
         });
 

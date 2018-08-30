@@ -3825,6 +3825,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="quickStartSampleDescription" xml:space="preserve">
     <value>Description</value>
+  </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
     <value>Failed to retrieve source configuration</value>
   </data>

@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureData, Container } from '../container-settings';
-import { ContainerSettingsManager } from '../container-settings-manager';
+import { Container, ContainerConfigureData } from '../../container-settings';
+import { ContainerSettingsManager } from '../../container-settings-manager';
 
 @Component({
-    selector: 'container-host',
-    templateUrl: './container-host.component.html',
-    styleUrls: ['./../container-settings.component.scss', './container-host.component.scss']
+    selector: 'container-continuous-delivery',
+    templateUrl: './container-continuos-delivery.component.html',
+    styleUrls: [
+        './../../container-settings.component.scss',
+        './container-continuos-delivery.component.scss',
+    ],
 })
-export class ContainerHostComponent {
+export class ContainerContinuousDeliveryComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;

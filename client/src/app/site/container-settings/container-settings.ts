@@ -34,11 +34,7 @@ export interface ContainerSettingsData {
     location: string;
 }
 
-export interface ContainerConfigureInfo {
-    containerSettingsData: ContainerSettingsData;
-}
-
-export interface ContainerImageSourceInfo extends ContainerConfigureInfo {
+export interface ContainerConfigureData extends ContainerSettingsData {
     container: Container;
 }
 

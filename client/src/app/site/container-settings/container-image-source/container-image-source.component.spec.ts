@@ -17,6 +17,9 @@ import { ContainerImageSourcePrivateRegistryComponent } from './container-image-
 import { RadioSelectorComponent } from '../../../radio-selector/radio-selector.component';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgModel } from '@angular/forms';
+import { ContainerLogsComponent } from './container-logs/container-logs.component';
+import { ContainerContinuousDeliveryComponent } from './container-continuous-delivery/container-continuos-delivery.component';
+import { ContainerMultiConfigComponent } from './container-multiconfig/container-multiconfig.component';
 
 describe('ContainerIamgeSourceComponent', () => {
     let component: ContainerImageSourceComponent;
@@ -32,6 +35,9 @@ describe('ContainerIamgeSourceComponent', () => {
                     ContainerImageSourceACRComponent,
                     ContainerImageSourceDockerHubComponent,
                     ContainerImageSourcePrivateRegistryComponent,
+                    ContainerLogsComponent,
+                    ContainerContinuousDeliveryComponent,
+                    ContainerMultiConfigComponent,
                     MockDirective(LoadImageDirective),
                     MockDirective(NgModel),
                     MockComponent(RadioSelectorComponent),

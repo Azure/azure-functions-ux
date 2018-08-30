@@ -12,6 +12,9 @@ import { ContainerImageSourceDockerHubComponent } from './container-image-source
 import { ContainerImageSourcePrivateRegistryComponent } from './container-image-source/container-image-source-privateregistry/container-image-source-privateregistry.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContainerSamplesService } from '../../shared/services/container-samples.service';
+import { ContainerLogsComponent } from './container-image-source/container-logs/container-logs.component';
+import { ContainerMultiConfigComponent } from './container-image-source/container-multiconfig/container-multiconfig.component';
+import { ContainerContinuousDeliveryComponent } from './container-image-source/container-continuous-delivery/container-continuos-delivery.component';
 
 @NgModule({
     imports: [
@@ -31,6 +34,9 @@ import { ContainerSamplesService } from '../../shared/services/container-samples
         ContainerImageSourceACRComponent,
         ContainerImageSourceDockerHubComponent,
         ContainerImageSourcePrivateRegistryComponent,
+        ContainerLogsComponent,
+        ContainerMultiConfigComponent,
+        ContainerContinuousDeliveryComponent,
     ],
     providers: [
         ContainerSettingsManager,
