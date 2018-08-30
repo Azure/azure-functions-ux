@@ -3746,13 +3746,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don't own any VSTS Repositories</value>
+    <value>You don not own any VSTS Repositories</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don't have any valid VSTS Accounts</value>
+    <value>You don not have any valid VSTS Accounts</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don't have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
