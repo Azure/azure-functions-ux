@@ -3802,4 +3802,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="timerCardDescription" xml:space="preserve">
     <value>A function that will be run on a specified schedule</value>
   </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Yay! You have created a Function App</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Now it is time to add your code...</value>
+  </data>
 </root>

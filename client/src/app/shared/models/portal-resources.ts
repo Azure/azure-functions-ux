@@ -1220,4 +1220,6 @@
     public static mavenDirectPublishCardDescription = 'mavenDirectPublishCardDescription';
     public static httpCardDescription = 'httpCardDescription';
     public static timerCardDescription = 'timerCardDescription';
+    public static quickstartMessage1 = 'quickstartMessage1';
+    public static quickstartMessage2 = 'quickstartMessage2';
 }

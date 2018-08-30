@@ -1,3 +1,4 @@
+import { workerRuntimeOptions } from './wizard-logic/quickstart-models';
 import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { SiteService } from './../../shared/services/site.service';
 import { SiteTabIds, Constants } from 'app/shared/models/constants';
@@ -9,10 +10,10 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 import { FunctionAppService } from '../../shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { errorIds } from 'app/shared/models/error-ids';
 
 @Component({
     selector: 'quickstart',
@@ -22,21 +23,31 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 })
 export class QuickstartComponent extends FunctionAppContextComponent {
 
-    public quickstartTitle: string;
-    public workerRuntime: string;
+    public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
+    public workerRuntime: workerRuntimeOptions;
     public isLinux: boolean;
     public isLinuxConsumption: boolean;
+    public canUseQuickstart: boolean;
+    public loading = true;
+
     private _busyManager: BusyStateScopeManager;
+    private readonly _validWorkerRuntimes = [
+        'dotnet',
+        'node',
+        'nodejs',
+        'python',
+        'java',
+    ];
 
     constructor(
         private _wizardService: QuickstartStateManager,
         private _fb: FormBuilder,
-        private _functionAppService: FunctionAppService,
         private _siteService: SiteService,
         private _translateService: TranslateService,
-        broadcastService: BroadcastService) {
+        broadcastService: BroadcastService,
+        functionAppService: FunctionAppService) {
 
-        super('quickstart', _functionAppService, broadcastService, () => this._busyManager.setBusy());
+        super('quickstart', functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._wizardService.wizardForm = this._fb.group({
             // wizard values
@@ -60,34 +71,36 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._busyManager.setBusy();
-                return Observable.zip(
-                    this._functionAppService.getRuntimeGeneration(this.context),
-                    this._siteService.getAppSettings(viewInfo.context.site.id));
-            })
-            .do(null, e => {
-                // what is the way we should do this?
+                return this._siteService.getAppSettings(viewInfo.context.site.id);
             })
             .subscribe(r => {
-                if (r[1].isSuccessful) {
-                    const appSettingsArm = r[1].result;
+                if (r.isSuccessful) {
+                    const appSettingsArm = r.result;
                     if (appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-                        this.workerRuntime = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
-                        this.setQuickstartTitle();
+                        const workerRuntimeSetting = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
+
+                        if (this._validWorkerRuntimes.indexOf(workerRuntimeSetting) !== -1) {
+                            this.workerRuntime = workerRuntimeSetting as workerRuntimeOptions;
+                            this.isLinux = ArmUtil.isLinuxApp(this.context.site);
+                            this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+
+                            this.setInitalProperties();
+                            this.setQuickstartTitle();
+                            this.canUseQuickstart = true;
+                        } else {
+                            this.canUseQuickstart = false;
+                        }
                     } else {
-                        console.log('no worker runtime');
+                        this.canUseQuickstart = false;
                     }
                 } else {
                     this.showComponentError({
-                        errorId: 'errorId',
-                        message: 'errorMessage',
+                        errorId: errorIds.quickstartLoadError,
+                        message: `${r[0].error}\n${r[1].error}`,
                         resourceId: this.context.site.id
                     });
                 }
-
-                this.isLinux = ArmUtil.isLinuxApp(this.context.site);
-                this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
-
-                this.setInitalProperties();
+                this.loading = false;
                 this._busyManager.clearBusy();
             });
     }

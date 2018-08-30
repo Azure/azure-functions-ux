@@ -13,6 +13,7 @@ import { FunctionTemplate } from 'app/shared/models/function-template';
 import { WorkerRuntimeLanguages } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Observable } from 'rxjs/Observable';
+import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 
 @Component({
     selector: 'step-create-portal-function',
@@ -67,7 +68,7 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         return this._wizardService.context.value;
     }
 
-    get workerRuntime(): string {
+    get workerRuntime(): workerRuntimeOptions {
         return this._wizardService.workerRuntime.value;
     }
     get language(): string {

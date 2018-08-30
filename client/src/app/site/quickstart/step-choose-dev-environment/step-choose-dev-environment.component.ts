@@ -23,7 +23,7 @@ export class StepChooseDevEnvironmentComponent {
         id: 'vscode',
         name: this._translateService.instant(PortalResources.vscodeCardTitle),
         icon: 'image/vs_code.svg',
-        color: '#0067b8',
+        color: '#0067B8',
         description: this._translateService.instant(PortalResources.vscodeCardDescription)
     };
 
@@ -31,7 +31,7 @@ export class StepChooseDevEnvironmentComponent {
         id: 'coretools',
         name: this._translateService.instant(PortalResources.coretoolsCardTitle),
         icon: 'image/terminal.svg',
-        color: '#000000',
+        color: '#54B4D9',
         description: this._translateService.instant(PortalResources.coretoolsCardDescription)
     };
 
@@ -39,7 +39,7 @@ export class StepChooseDevEnvironmentComponent {
         id: 'maven',
         name: this._translateService.instant(PortalResources.mavenCardTitle),
         icon: 'image/terminal.svg',
-        color: '#000000',
+        color: '#54B4D9',
         description: this._translateService.instant(PortalResources.mavenCardDescription)
     };
 
@@ -47,7 +47,7 @@ export class StepChooseDevEnvironmentComponent {
         id: 'portal',
         name: this._translateService.instant(PortalResources.portalCardTitle),
         icon: 'image/azure_mgmt_portal.svg',
-        color: '#0078D4',
+        color: '#54B4D9',
         description: this._translateService.instant(PortalResources.portalCardDescription)
     };
 

@@ -15,8 +15,8 @@ export class StepChooseDeploymentMethodComponent {
     public readonly deploymentCenterCard: DeploymentCard = {
         id: 'deploymentCenter',
         name: this._translateService.instant(PortalResources.deploymentCenterCardTitle),
-        icon: 'image/deployment-center/vsts.svg',
-        color: '#0078D4',
+        icon: 'image/deployment_center_color.svg',
+        color: '#54B4D9',
         description: this._translateService.instant(PortalResources.deploymentCenterCardDescription)
     };
 
@@ -24,7 +24,7 @@ export class StepChooseDeploymentMethodComponent {
         id: 'vsDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
-        color: '#000000',
+        color: '#BA141A',
         description: this._translateService.instant(PortalResources.vsDirectPublishCardDescription)
     };
 
@@ -32,7 +32,7 @@ export class StepChooseDeploymentMethodComponent {
         id: 'vscodeDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
-        color: '#000000',
+        color: '#BA141A',
         description: this._translateService.instant(PortalResources.vscodeDirectPublishCardDescription)
     };
 
@@ -40,7 +40,7 @@ export class StepChooseDeploymentMethodComponent {
         id: 'coretoolsDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
-        color: '#000000',
+        color: '#BA141A',
         description: this._translateService.instant(PortalResources.coretoolsDirectPublishCardDescription)
     };
 
@@ -48,7 +48,7 @@ export class StepChooseDeploymentMethodComponent {
         id: 'mavenDirectPublish',
         name: this._translateService.instant(PortalResources.directPublishCardTitle),
         icon: 'image/publish.svg',
-        color: '#000000',
+        color: '#BA141A',
         description: this._translateService.instant(PortalResources.mavenDirectPublishCardDescription)
     };
 

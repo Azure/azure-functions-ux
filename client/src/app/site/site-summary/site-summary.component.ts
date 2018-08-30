@@ -28,6 +28,7 @@ import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
+import { SiteDashboardComponent } from 'app/site/site-dashboard/site-dashboard.component';
 
 @Component({
     selector: 'site-summary',
@@ -55,6 +56,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     public hideAvailability: boolean;
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
+    public showQuickstart: boolean;
+    public bodyLoading  = true;
 
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
@@ -77,6 +80,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         userService: UserService,
         private _scenarioService: ScenarioService,
         private _siteService: SiteService,
+        private _siteDashboard: SiteDashboardComponent,
         injector: Injector) {
 
         super('site-summary', injector, SiteTabIds.overview);
@@ -141,12 +145,16 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
                     this._functionAppService.pingScmSite(context),
-                    (p, s, l, slots, ping) => ({
+                    this._functionAppService.getFunctionHostStatus(context),
+                    this._functionAppService.getFunctions(context),
+                    (p, s, l, slots, ping, host, functions) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         slotsList: slots.isSuccessful ? slots.result : [],
-                        pingedScmSite: ping.isSuccessful ? ping.result : false
+                        pingedScmSite: ping.isSuccessful ? ping.result : false,
+                        runtime: host.isSuccessful ? host.result.version : '',
+                        functionInfo: functions.isSuccessful ? functions.result : [],
                     }));
             })
             .mergeMap(r => {
@@ -156,6 +164,13 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
                 }
+
+                if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime.startsWith('2.')) {
+                    this.showQuickstart = true;
+                } else {
+                    this.showQuickstart = false;
+                }
+                this.bodyLoading = false;
 
                 if (!r.pingedScmSite) {
                     this.showComponentError({
@@ -482,6 +497,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         );
     }
 
+    openQuickstartTab() {
+        this._siteDashboard.openFeature(SiteTabIds.quickstart);
+    }
+
     private deleteAppDirectly() {
         const appNode = <AppNode>this._viewInfo.node;
         const appsNode = appNode.parent;
@@ -513,6 +532,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     break;
                 case 'appServicePlan':
                     this.openPlanBlade();
+                    break;
+                case 'functionNew':
+                    this.openQuickstartTab();
                     break;
                 default:
                     break;

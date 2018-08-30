@@ -317,14 +317,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._scenarioService.checkScenario(ScenarioIds.enableBackups, { site: site })
             ),
 
-            new TabFeature(
-                this._translateService.instant(PortalResources.quickstart),
-                this._translateService.instant(PortalResources.quickstart),
-                this._translateService.instant(PortalResources.quickstartDescription),
-                'image/quickstart.svg',
-                SiteTabIds.quickstart,
-                this._broadcastService
-            ),
+            // need to show only in V2
+            // new TabFeature(
+            //     this._translateService.instant(PortalResources.quickstart),
+            //     this._translateService.instant(PortalResources.quickstart),
+            //     this._translateService.instant(PortalResources.quickstartDescription),
+            //     'image/quickstart.svg',
+            //     SiteTabIds.quickstart,
+            //     this._broadcastService
+            // ),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_allSettingsName),
