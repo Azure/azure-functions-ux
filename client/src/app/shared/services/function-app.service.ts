@@ -1005,7 +1005,7 @@ export class FunctionAppService {
         return this.azure.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.extensionJsonUrl, true, this.headers(t))
                 .map(r => r.json() as ExtensionsJson)
-                .map(r => r.extensions as ExtensionInfo[]),
+                .map(r => r.extensions),
         );
     }
 
