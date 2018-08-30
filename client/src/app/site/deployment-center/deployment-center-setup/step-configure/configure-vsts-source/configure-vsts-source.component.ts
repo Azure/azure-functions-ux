@@ -80,7 +80,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
-                if(r.length === 0){
+                if (r.length === 0) {
                     this.hasAccounts = false;
                 } else {
                     this.hasAccounts = true;
@@ -98,7 +98,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .do(() => this.accountListLoading = false)
             .subscribe(
                 r => {
-                    if(r.length === 0){
+                    if (r.length === 0) {
                         this.hasRepos = false;
                     } else {
                         this.hasRepos = true;
