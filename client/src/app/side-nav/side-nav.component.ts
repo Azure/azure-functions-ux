@@ -217,7 +217,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
 
             if (resourceIdMatch && resourceIdMatch.length > 1) {
                 const smallerMatch = resourceIdMatch[1].split('/').filter(part => !!part).slice(0, 4).join('/');
-                const smallerId = `/providers/Microsoft.BlueRidge/${smallerMatch}`;
+                const smallerId = `/providers/Microsoft.Functions/${smallerMatch}`;
                 const functionsNode = new EmbeddedFunctionsNode(this, this.rootNode, smallerId);
                 this.rootNode.children = [functionsNode];
                 this.rootNode.isExpanded = true;
