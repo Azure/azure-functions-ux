@@ -10,7 +10,7 @@ import { SiteTabIds, Constants } from '../../../shared/models/constants';
 @Component({
   selector: 'app-ssh',
   templateUrl: './ssh.component.html',
-  styleUrls: ['./../console.component.scss', './ssh.component.scss']
+  styleUrls: ['./../console.component.scss', './ssh.component.scss'],
 })
 export class SSHComponent implements OnInit, OnDestroy {
 
@@ -21,7 +21,7 @@ export class SSHComponent implements OnInit, OnDestroy {
 
   constructor(
     private _consoleService: ConsoleService,
-    private _broadcastService: BroadcastService
+    private _broadcastService: BroadcastService,
     ) {
       this._busyManager = new BusyStateScopeManager(this._broadcastService, SiteTabIds.console);
       this._busyManager.setBusy();
