@@ -210,9 +210,9 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
             });
     }
 
-    private _pollHostStatus(timeOut: number, desiredState: 'Offline' | 'Running') {
+    private _pollHostStatus(tryNumber: number, desiredState: 'Offline' | 'Running') {
         setTimeout(() => {
-            if (timeOut > 600) {
+            if (tryNumber > 600) {
                 this.showTimeoutError(this.context);
                 return;
             }
@@ -223,7 +223,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     if (r.isSuccessful && r.result.state) {
                         this.correctAppState = r.result.state === desiredState;
                     }
-                    return this._pollHostStatus(timeOut + 1, desiredState);
+                    return this._pollHostStatus(tryNumber + 1, desiredState);
                 });
             } else if (desiredState === 'Offline') {
                 this.installNeededExtensions();
