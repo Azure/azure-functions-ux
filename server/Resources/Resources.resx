@@ -3799,7 +3799,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
-<<<<<<< HEAD
   <data name="quickstartSample1" xml:space="preserve">
     <value>Sample #1</value>
   </data>
@@ -3826,7 +3825,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="quickStartSampleDescription" xml:space="preserve">
     <value>Description</value>
-=======
   <data name="cloneConfigLoadFailure" xml:space="preserve">
     <value>Failed to retrieve source configuration</value>
   </data>
@@ -3889,6 +3887,5 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
->>>>>>> dev
   </data>
 </root>

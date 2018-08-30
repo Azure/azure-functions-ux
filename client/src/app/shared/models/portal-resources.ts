@@ -1219,7 +1219,6 @@ export class PortalResources {
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
-<<<<<<< HEAD
     public static quickstartSample1 = 'quickstartSample1';
     public static quickstartSample2 = 'quickstartSample2';
     public static singleContainerSample1Description = 'singleContainerSample1Description';
@@ -1229,7 +1228,6 @@ export class PortalResources {
     public static kubernetesSample1Description = 'kubernetesSample1Description';
     public static quickstartSelectSample = 'quickstartSelectSample';
     public static quickStartSampleDescription = 'quickStartSampleDescription';
-=======
     public static cloneConfigLoadFailure = 'cloneConfigLoadFailure';
     public static noCreateAccess = 'noCreateAccess';
     public static noSwapPermission = 'noSwapPermission';
@@ -1251,5 +1249,4 @@ export class PortalResources {
     public static swapSourceChangesHeading = 'swapSourceChangesHeading';
     public static swapTargetChangesHeading = 'swapTargetChangesHeading';
     public static swapActionLabel = 'swapActionLabel';
->>>>>>> dev
 }
