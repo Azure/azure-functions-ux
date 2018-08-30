@@ -42,7 +42,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
     public stopped = false;
-    public canReconnectStream = true;
+    public isConnectionSuccessful = true;
     private _tokenSubscription: Subscription;
     private _token: string;
     private _logStreamIndex = 0;
@@ -98,10 +98,10 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
     }
 
     reconnect() {
-        this.canReconnectStream = false;
+        this.isConnectionSuccessful = false;
         if (this.canReconnect()) {
             this._startStreamingRequest();
-            this.canReconnectStream = true;
+            this.isConnectionSuccessful = true;
         }
     }
 
@@ -175,7 +175,7 @@ export class LogStreamComponent extends FeatureComponent<TreeViewInfo<SiteData>>
             err => {
                 this._logService.error(LogCategories.cicd, '/load-log-stream', err);
                 this.clearBusyEarly();
-            }
+            },
         );
     }
 

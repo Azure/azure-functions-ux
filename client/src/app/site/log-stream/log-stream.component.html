@@ -5,7 +5,7 @@
         <span class="log-empty-space"></span>
         <span (click)="reconnect()" class="link action"
              role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
-            <pop-over position="bottom" message="{{ (canReconnectStream ? 'logStreaming_reconnectSuccess' : 'logStreaming_reconnectFail') | translate }}" hideAfter="500">
+            <pop-over position="bottom" message="{{ (isConnectionSuccessful ? 'logStreaming_reconnectSuccess' : 'logStreaming_reconnectFail') | translate }}" hideAfter="500">
                 <span class="link">
                     <i class="fa fa-plug"></i>
                     {{ 'logStreaming_reconnect' | translate }}

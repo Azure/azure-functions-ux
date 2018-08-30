@@ -12,7 +12,7 @@
         </span>
         <span (click)="copyLogs($event)" class="link action"
             (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
-            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="500">
                 <span class="link">
                     <i class="fa fa-clone"></i>
                     {{ 'logStreaming_copyLogs' | translate }}
