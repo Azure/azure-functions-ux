@@ -1,14 +1,14 @@
 import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
-import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods, HostTypes } from '../../../../shared/models/constants';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
     private _defaultDirectory = 'D:\\home\\site\\wwwroot';
 
     constructor(
         componentFactoryResolver: ComponentFactoryResolver,
-        public consoleService: ConsoleService
+        public consoleService: ConsoleService,
         ) {
           super(componentFactoryResolver, consoleService);
           this.dir = this._defaultDirectory;
@@ -32,7 +32,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             const header = this.getHeader();
             const body = {
                 'command': 'cd',
-                'dir': 'site\\wwwroot'
+                'dir': 'site\\wwwroot',
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(data => {
@@ -50,7 +50,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
      * Get Kudu API URL
      */
     protected getKuduUri(): string {
-        const scmHostName = this.site.properties.hostNameSslStates.find (h => h.hostType === 1).name;
+        const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
         return `https://${scmHostName}/api/command`;
     }
 
@@ -65,7 +65,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
             const header = this.getHeader();
             const body = {
                 'command': `${this.getCommandPrefix()}${this.getTabKeyCommand()}`,
-                'dir': this.dir + ConsoleConstants.singleBackslash
+                'dir': this.dir + ConsoleConstants.singleBackslash,
             };
             const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
             res.subscribe(
@@ -103,7 +103,7 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
         const cmd = this.command;
         const body = {
             'command': `${this.getCommandPrefix()}${cmd} & echo. & cd`,
-            'dir': this.dir
+            'dir': this.dir,
         };
         const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
         this.lastAPICall = res.subscribe(

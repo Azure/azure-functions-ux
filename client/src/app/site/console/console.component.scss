@@ -22,6 +22,26 @@ div.console{
     width: 100%;
 }
 
+.action {
+    margin-left: 10px;
+}
+
+.log-toolbar {
+    padding-left: 15px;
+    padding-right: 25px;
+    float: right;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 1%;
+    pointer-events: none;
+}
+
 div.console div.console-inner{
     background-color: $console-background-color; // #215b7e;
     color: $console-text-color;

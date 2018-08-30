@@ -490,6 +490,10 @@ export class ConsoleConstants {
     public static readonly linuxClear = 'clear';
 }
 
+export class HostTypes {
+    public static readonly scm = 1;
+}
+
 export enum LogConsoleTypes {
     Normal = 1,
     Info = 2,

@@ -372,6 +372,8 @@
         "feature_powerShellConsoleName": "CMD",
         "feature_bashConsoleName": "Bash",
         "feature_sshConsoleName": "SSH",
+        "ssh_reconnect": "Reconnect",
+        "ssh_newWindow": "Open in New Window",
         "feature_consoleInfo": "Explore your app's file system from an interactive web-based console.",
         "feature_consoleMsg": "Manage your web app environment by running common commands ('mkdir', 'cd' to change directories, etc.) This is a sandbox environment, so any commands that require elevated privileges will not work.",
         "feature_extensionsName": "Extensions",
