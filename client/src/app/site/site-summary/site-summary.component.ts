@@ -181,7 +181,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     });
                 }
 
-                if (!!r.runtime && r.runtime.includes('.')) {
+                if (!!r.runtime && r.runtime.includes('2.0.12050')) {
                     const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
                     if (hasOldExtensions) {
                         const notifications: TopBarNotification[] = [{
