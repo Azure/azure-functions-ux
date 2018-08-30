@@ -2849,7 +2849,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Perform swap with preview</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+    <value>Swap with preview breaks down a normal swap into two phases. In phase one, any slot-specific application settings and connections strings on the destination will be temporarily copied to the source slot. This allows you to test the slot with its final configuration values. From here, you may choose to either cancel phase one to revert to your normal configuration, or proceed to phase two, which would remove the temporary config changes and complete swapping the source to destination slot.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Start the swap</value>
@@ -3965,10 +3965,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Source and Destination cannot be the same slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+    <value>Swap with preview can only be used with sites that have slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
