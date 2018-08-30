@@ -6,7 +6,21 @@
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/swap.svg"></span>
         </div>
+
         {{ 'swapSlotsHeading' | translate }}
+
+        <div class="header-close-button"
+            role="button"
+            title="'close' | translate"
+            aria-label="'close' | translate"
+            load-image="image/close.svg"
+            tabindex="0"
+            (click)="closePanel()"
+            [activate-with-keys]>
+            <span
+                class="header-close-button-icon">
+            </span>
+        </div>
     </div>
 
     <div class="body" [formGroup]="swapForm" novalidate>
@@ -292,7 +306,7 @@
             <button
                 class="custom-button"
                 (click)="closePanel()">
-                {{ 'cancel' | translate }}
+                {{ 'close' | translate }}
             </button>
         </div>
 

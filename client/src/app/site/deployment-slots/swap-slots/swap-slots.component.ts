@@ -151,7 +151,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
                 displayLabel: this._translateService.instant(PortalResources.cancelSwap),
                 value: true,
                 default: false
-            }
+            },
         ];
 
         this.phases = [
@@ -573,7 +573,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             srcName: srcName,
             destName: destName,
             swapType: swapType,
-            content: content
+            content: content,
         };
     }
 
@@ -584,7 +584,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         const destDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(dest);
         const content = {
             targetSlot: destDescriptor.slot || 'production'
-        }
+        };
 
         return this._cacheService.postArm(path, null, null, content)
             .mergeMap(r => {

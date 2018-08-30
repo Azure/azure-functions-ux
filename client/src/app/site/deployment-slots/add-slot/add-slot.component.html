@@ -5,7 +5,18 @@
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/add.svg"></span>
         </div>
+
         {{ 'slotNew' | translate }}
+
+        <div class="header-close-button"
+            role="button"
+            [attr.title]="'close' | translate"
+            [attr.aria-label]="'close' | translate"
+            tabindex="0"
+            (click)="closePanel()"
+            [activate-with-keys]>
+            <span class="header-close-button-icon" load-image="image/close.svg"></span>
+        </div>
     </div>
 
     <div class="body" [formGroup]="addForm" novalidate>
@@ -78,8 +89,8 @@
             </button>
             <button
                 class="custom-button"
-                (click)="cancel()">
-                {{ 'cancel' | translate }}
+                (click)="closePanel()">
+                {{ 'close' | translate }}
             </button>
         </div>
 
