@@ -33,15 +33,15 @@ export class SiteService {
         this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
 
-    getSite(resourceId: string): Result<ArmObj<Site>> {
-        const getSite = this._cacheService.getArm(resourceId).map(r => r.json());
+    getSite(resourceId: string, force?: boolean): Result<ArmObj<Site>> {
+        const getSite = this._cacheService.getArm(resourceId, force).map(r => r.json());
         return this._client.execute({ resourceId: resourceId }, t => getSite);
     }
 
-    getSlots(resourceId: string): Result<ArmArrayResult<Site>> {
+    getSlots(resourceId: string, force?: boolean): Result<ArmArrayResult<Site>> {
         const siteDescriptor = new ArmSiteDescriptor(resourceId);
         const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
-        const getSlots = this._cacheService.getArm(slotsId).map(r => r.json());
+        const getSlots = this._cacheService.getArm(slotsId, force).map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getSlots);
     }
