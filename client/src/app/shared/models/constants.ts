@@ -131,6 +131,7 @@ export class Links {
     public static funcConnStringsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=875276';
     public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
+    public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
 }
 
 export class Kinds {
@@ -175,7 +176,7 @@ export class Order {
         'AppInsightsScheduledAnalytics-',
         'AppInsightsScheduledDigest-',
         'ExternalFileTrigger-',
-        'ExternalTable-'
+        'ExternalTable-',
     ];
 }
 
@@ -252,8 +253,19 @@ export class ScenarioIds {
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
     public static readonly addHTTPSwitch = 'addHTTPSwitch';
-    public static readonly vstsDeployment = 'vstsDeployment';
+    public static readonly vstsDeploymentHide = 'vstsDeploymentHide';
+    public static readonly vstsDeploymentPermission = 'vstsDeploymentPermission';
     public static readonly deploymentCenter = 'deploymentCenter';
+    public static readonly vstsKuduSource = 'vstsKuduSource';
+    public static readonly vstsSource = 'vstsSource';
+    public static readonly githubSource = 'githubSource';
+    public static readonly bitbucketSource = 'bitbucketSource';
+    public static readonly localGitSource = 'localGitSource';
+    public static readonly onedriveSource = 'onedriveSource';
+    public static readonly dropboxSource = 'dropboxSource';
+    public static readonly externalSource = 'externalSource';
+    public static readonly ftpSource = 'ftpSource';
+    public static readonly canScaleForSlots = 'canScaleForSlots';
 }
 
 export class ServerFarmSku {
@@ -263,6 +275,7 @@ export class ServerFarmSku {
     public static readonly standard = 'Standard';
     public static readonly premium = 'Premium';
     public static readonly premiumV2 = 'PremiumV2';
+    public static readonly premiumContainer = 'PremiumContainer';
     public static readonly isolated = 'Isolated';
     public static readonly dynamic = 'Dynamic';
 }
@@ -343,6 +356,7 @@ export class KeyCodes {
     public static readonly select = 93;
     public static readonly c = 67;
     public static readonly v = 86;
+    public static readonly unknown = 229;
 }
 
 export class ExtensionInstallStatusConstants {
@@ -406,7 +420,7 @@ export class HttpConstants {
         502: 'Bad Gateway',
         503: 'Service Unavailable',
         504: 'Gateway Timeout',
-        505: 'HTTP Version Not Supported'
+        505: 'HTTP Version Not Supported',
     };
 
     public static readonly genericStatusCodeMap = {
@@ -414,7 +428,7 @@ export class HttpConstants {
         200: 'Success',
         300: 'Redirection',
         400: 'Client Error',
-        500: 'Server Error'
+        500: 'Server Error',
     };
 }
 
@@ -427,7 +441,7 @@ export class DeploymentCenterConstants {
     public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
     public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
-    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
+    public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
     public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static readonly vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
@@ -476,11 +490,12 @@ export class ConsoleConstants {
 }
 
 export enum LogConsoleTypes {
-    Normal= 1,
-    Info= 2,
-    Error= 3,
-    Warning= 4
+    Normal = 1,
+    Info = 2,
+    Error = 3,
+    Warning = 4,
 };
+
 export class PickerNames {
     public static readonly appSetting = 'AppSetting';
     public static readonly cosmosDB = 'CosmosDB';

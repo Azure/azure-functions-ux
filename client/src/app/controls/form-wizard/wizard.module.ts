@@ -5,6 +5,7 @@ import { WizardComponent } from './components/wizard.component';
 import { WizardNavigationBarComponent } from './components/wizard-navigation-bar.component';
 import { WizardStepComponent } from './components/wizard-step.component';
 import { WizardCompletionStepComponent } from './components/wizard-completion-step.component';
+import { ProgressBarComponent } from './components/progress-bar.component';
 
 import { NextStepDirective } from './directives/next-step.directive';
 import { PreviousStepDirective } from './directives/previous-step.directive';
@@ -50,6 +51,7 @@ SOFTWARE.
         WizardStepComponent,
         WizardNavigationBarComponent,
         WizardCompletionStepComponent,
+        ProgressBarComponent,
         GoToStepDirective,
         NextStepDirective,
         PreviousStepDirective,
@@ -58,7 +60,8 @@ SOFTWARE.
         EnableBackLinksDirective,
         WizardStepDirective,
         WizardCompletionStepDirective,
-        StepNumberDirective
+        StepNumberDirective,
+
     ],
     imports: [CommonModule],
     exports: [
@@ -66,6 +69,7 @@ SOFTWARE.
         WizardStepComponent,
         WizardNavigationBarComponent,
         WizardCompletionStepComponent,
+        ProgressBarComponent,
         GoToStepDirective,
         NextStepDirective,
         PreviousStepDirective,

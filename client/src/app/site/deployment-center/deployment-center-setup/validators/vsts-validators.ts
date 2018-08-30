@@ -49,8 +49,8 @@ export class VstsValidators {
                             return _cacheService.get(`https://${vstsAccountValue}.vsrm.visualstudio.com/${currentProject.id}/_apis/Release/definitions`, true, callHeaders)
                                 .switchMap(() => {
                                     return Observable.forkJoin(
-                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`, true, callHeaders),
-                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/DefaultCollection/_apis/Permissions/${DeploymentCenterConstants.releaseSecurityNameSpace}/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`, true, callHeaders)
+                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/Permissions/${DeploymentCenterConstants.buildSecurityNameSpace}/${DeploymentCenterConstants.editBuildDefinitionBitMask}?tokens=${currentProject.id}`, true, callHeaders),
+                                        _cacheService.get(`https://${vstsAccountValue}.visualstudio.com/_apis/Permissions/${DeploymentCenterConstants.releaseSecurityNameSpace}/${DeploymentCenterConstants.editReleaseDefinitionPermission}?tokens=${currentProject.id}`, true, callHeaders)
                                     );
                                 });
                         }

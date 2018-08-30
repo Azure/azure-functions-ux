@@ -1,71 +1,88 @@
-<div
-    [is-dirty]="!!dirtyMessage || (addForm && addForm.dirty && !created)"
-    [is-dirty-message]="dirtyMessage">
+<div class="wrapper"
+    [is-dirty]="addForm?.dirty">
 
-    <button
-        role="button"
-        class="custom-button close-button"
-        [attr.aria-label]="'close panel' | translate"
-        [disabled]="!!creating"
-        (click)="closePanel()">
-        <span
-            load-image="image/discard.svg"
-            class="icon-medium">
-        </span>
-    </button>
-
-    <h1>{{ Resources.slotNew | translate }}</h1>
-    
-    <div>
-        <div class="label-above">
-            {{ Resources.slotNew_nameLabel | translate }}
+    <div class="header">
+        <div class="header-icon-container">
+            <span class="header-icon" load-image="image/add.svg"></span>
         </div>
-        <textbox
-            class="name-textbox"
-            [placeholder]="Resources.enterName | translate"
-            [control]="addForm ? addForm.controls['name'] : null">
-        </textbox>
+        {{ 'slotNew' | translate }}
+    </div>
 
-        <div class="label-above">
-            {{ 'Configuration source' | translate }}
-            <div *ngIf="checkingConfigSrc" class="spinner"></div>
-        </div>
+    <div class="body" [formGroup]="addForm" novalidate>
+        <div class="body-liner">
 
-        <div>
-            <label>
-                <input [formControl]="addForm ? addForm.controls['clone'] : null" type="checkbox">
-                {{ 'Clone from existing' | translate }}
-            </label>
-        </div>
+            <div class="controls-container">
+                <info-box *ngIf="slotsQuotaMessage"
+                    typeClass="info"
+                    [infoText]="slotsQuotaMessage">
+                </info-box>
 
-        <drop-down
-            [control]="addForm ? addForm.controls['configSrc'] : null"
-            [options]="configSrcDropDownOptions || []"
-            [setDefault]="false">
-        </drop-down>
+                <info-box *ngIf="!isLoading && !hasCreateAcess"
+                    typeClass="error"
+                    [infoText]="'noCreateAccess' | translate">
+                </info-box>
 
-        <div *ngIf="configSrcReadFailure">
-            {{ configSrcReadFailure | translate }}
+                <info-box *ngIf="loadingFailed"
+                    typeClass="error"
+                    [infoText]="'error_unableToLoadSlotsList' | translate">
+                </info-box>
+            </div>
+
+            <div class="controls-container">
+                <div class="control-container">
+                    <div class="control-label">
+                        {{ 'slotNew_nameLabel' | translate }}
+                    </div>
+                    <div>
+                        <textbox
+                            class="name-textbox"
+                            [placeholder]="'enterName' | translate"
+                            [control]="addForm ? addForm.controls['name'] : null">
+                        </textbox>
+                    </div>
+                    <div invalidmessage="name"></div>
+                </div>
+            </div>
+
+            <div class="controls-container">
+                <div class="control-container">
+                    <div class="control-label">
+                        {{ 'slotNew_cloneConfigLabel' | translate }}
+                    </div>
+                    <div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="cloneSrcIdDropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="cloneSrcId">
+                        </ng-select>
+                        <div invalidmessage="cloneSrcId"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div *ngIf="creating" class="submit-spinner">
-        <div class="spinner large"></div>
-        <div>Create In Progress</div>
-    </div>
+    <div class="footer">
 
-    <div *ngIf="created">
-        <div></div>
-        {{ 'slot created' | translate }}
-    </div>
+        <div class="buttons-container">
+            <button
+                class="custom-button"
+                [disabled]="addForm.invalid || addForm.pristine || !hasCreateAcess || !!slotsQuotaMessage"
+                (click)="submit()">
+                {{ 'add' | translate }}
+            </button>
+            <button
+                class="custom-button"
+                (click)="cancel()">
+                {{ 'cancel' | translate }}
+            </button>
+        </div>
 
-    <div *ngIf="!creating && !created">
-        <button
-            class="custom-button"
-            [disabled]="addForm.invalid || addForm.pristine || !hasCreateAcess || !!slotsQuotaMessage"
-            (click)="createSlot()">
-            {{ Resources.create | translate }}
-        </button>
     </div>
 
 </div>

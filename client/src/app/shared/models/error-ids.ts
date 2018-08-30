@@ -77,4 +77,5 @@ export namespace errorIds {
     export const applicationInsightsInstrumentationKeyMismatch = 'errors/appInsights/instrumentationKey/mismatch';
     export const applicationInsightsConfigure = 'errors/appInsights/configure';
     export const quickstartLoadError = 'errors/quickstart/load';
+    export const failedToSwapSlots = '/errors/unableToSwapSlots';
 }
