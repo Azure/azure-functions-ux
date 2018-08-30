@@ -1009,6 +1009,11 @@ export class FunctionAppService {
         );
     }
 
+    updateHostState(context: FunctionAppContext, stateValue: 'offline' | 'running'): Result<any> {
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
+            this._cacheService.put(context.urlTemplates.updateHostStateUrl, this.jsonHeaders(t), `'${stateValue}'`));
+    }
+
     getSystemKey(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.systemKeysUrl, false, this.headers(t))
