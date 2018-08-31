@@ -56,7 +56,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 this.siteArm = site.result;
                 this.siteArmObj$.next(this.siteArm);
                 this.subscriptionName = sub.json().displayName;
-                this.disableVSTS = scenarioService.checkScenario(ScenarioIds.vstsDeployment, {site: this.siteArm }).status === 'disabled';
                 this._location = this.siteArm.location;
                 this._pricingTier = this.siteArm.properties.sku;
                 const siteDesc = new ArmSiteDescriptor(this._resourceId);

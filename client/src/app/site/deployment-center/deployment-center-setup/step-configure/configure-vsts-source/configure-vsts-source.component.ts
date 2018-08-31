@@ -9,7 +9,7 @@ import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo'
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
+import { LogCategories } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
