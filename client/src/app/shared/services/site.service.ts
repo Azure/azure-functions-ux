@@ -13,6 +13,7 @@ import { Site } from './../models/arm/site';
 import { SiteConfig } from './../models/arm/site-config';
 import { SiteExtension } from './../models/arm/site-extension';
 import { SlotConfigNames } from './../models/arm/slot-config-names';
+import { SlotsDiff } from './../models/arm//slots-diff';
 import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
 import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
@@ -156,6 +157,15 @@ export class SiteService {
         const createSlot = this._cacheService.putArm(newSlotId, null, payload).map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => createSlot);
+    }
+
+    getSlotDiffs(resourceId: string, slotName: string): Result<ArmArrayResult<SlotsDiff>> {
+        const payload = { targetSlot: slotName };
+
+        const slotDiffsId = `${resourceId}/slotsdiffs`;
+        const getSlotDiffs = this._cacheService.postArm(slotDiffsId, null, null, payload).map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getSlotDiffs);
     }
 
     getPublishingCredentials(resourceId: string, force?: boolean): Result<ArmObj<PublishingCredentials>> {
