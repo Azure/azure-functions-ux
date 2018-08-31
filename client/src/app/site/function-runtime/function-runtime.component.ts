@@ -130,7 +130,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 displayLabel: '~1',
                 value: '~1',
             }, {
-                displayLabel: '~2',
+                displayLabel: this._translateService.instant(PortalResources.v2_preview_label),
                 value: '~2',
             }];
 
