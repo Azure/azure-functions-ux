@@ -242,8 +242,10 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     }
 
     private _pollHostStatus(tryNumber: number, desiredState: 'Offline' | 'Running') {
+        const timeOut = 1000; // milliseconds per request
+        const maxTries = 60; // should wait 1 minute maximum
         setTimeout(() => {
-            if (tryNumber > 600) {
+            if (tryNumber > maxTries) {
                 this.showTimeoutError(this.context);
                 return;
             }
@@ -265,12 +267,14 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     this._setInstallationVariables(extensions);
                 });
             }
-        }, 1000);
+        }, timeOut);
     }
 
     private _pollUninstallationStatus(tryNumber: number) {
+        const timeOut = 1000; // milliseconds per request
+        const maxTries = 180; // should wait 3 minutes maximum
         setTimeout(() => {
-            if (tryNumber > 600) {
+            if (tryNumber > maxTries) {
                 this.showTimeoutError(this.context);
                 return;
             }
@@ -293,7 +297,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     }
                 });
             }
-        }, 1000);
+        }, timeOut);
     }
 
     private _pollInstallationStatus(timeOut: number) {
