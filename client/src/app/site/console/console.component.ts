@@ -147,7 +147,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
               {
                   displayLabel: this._translateService.instant(PortalResources.feature_powerShellConsoleName),
                   value: ConsoleTypes.PS,
-              }
+              },
           ];
           this.currentOption = ConsoleTypes.CMD;
         }
@@ -162,7 +162,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
               {
                   displayLabel: this._translateService.instant(PortalResources.feature_sshConsoleName),
                   value: ConsoleTypes.SSH,
-              }
+              },
           ];
           this.currentOption = ConsoleTypes.BASH;
       }

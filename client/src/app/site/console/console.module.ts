@@ -27,7 +27,10 @@ import { SharedFunctionsModule } from '../../shared/shared-functions.module';
       MessageComponent,
     ],
     imports: [
-      TranslateModule.forChild(), CommonModule, SharedModule, SharedFunctionsModule,
+      TranslateModule.forChild(),
+      CommonModule,
+      SharedModule,
+      SharedFunctionsModule,
     ],
     declarations: [
       SanitizeURL,
