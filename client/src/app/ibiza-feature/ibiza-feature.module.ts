@@ -60,7 +60,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             },
             {
                 path: 'subscriptions/:subscriptionId/containersettings',
-                loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule'
+                loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule',
             },
         ]
     }

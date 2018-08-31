@@ -19,7 +19,7 @@ import { SiteTabIds } from '../../../shared/models/constants';
 @Component({
   selector: 'embedded-function-editor',
   templateUrl: './embedded-function-editor.component.html',
-  styleUrls: ['./embedded-function-editor.component.scss']
+  styleUrls: ['./embedded-function-editor.component.scss'],
 })
 export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
 
@@ -74,7 +74,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
         return <HttpResult<string>>{
           isSuccessful: true,
           error: null,
-          result: r.text()
+          result: r.text(),
         };
       })
       .catch(e => {
@@ -83,8 +83,8 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,
-            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name)
-          }
+            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name),
+          },
         });
       });
   }
@@ -170,7 +170,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
       setTimeout(() => {
         this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
           type: 'runTest',
-          value: null
+          value: null,
         });
       });
     }
@@ -204,7 +204,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     setTimeout(() => {
       this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
         type: message,
-        value: null
+        value: null,
       });
     });
 

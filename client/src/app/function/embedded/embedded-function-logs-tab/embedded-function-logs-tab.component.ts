@@ -18,7 +18,7 @@ import { UtilitiesService } from '../../../shared/services/utilities.service';
 @Component({
   selector: 'embedded-function-logs-tab',
   templateUrl: './embedded-function-logs-tab.component.html',
-  styleUrls: ['./embedded-function-logs-tab.component.scss']
+  styleUrls: ['./embedded-function-logs-tab.component.scss'],
 })
 export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent implements OnChanges, OnDestroy {
   @Input() resourceId: string;
@@ -128,7 +128,7 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
           .catch((err) => {
             return Observable.zip(
               Observable.of(null),
-              Observable.of(err.text())
+              Observable.of(err.text()),
           );
         });
       })
@@ -148,14 +148,14 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
                 .catch((err) => {
                   return Observable.zip(
                           Observable.of(null),
-                          Observable.of(err.text())
+                          Observable.of(err.text()),
                   );
                 });
           }
         }
         return Observable.zip(
             Observable.of(null),
-            Observable.of(tuple[1])
+            Observable.of(tuple[1]),
         );
       })
       .subscribe(tuple => {

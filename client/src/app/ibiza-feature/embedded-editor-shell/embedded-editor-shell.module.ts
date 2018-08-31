@@ -109,8 +109,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         JavaSplashPageComponent,
         ExtensionCheckerComponent,
         ErrorsWarningsComponent,
-        MonitorConfigureComponent
+        MonitorConfigureComponent,
     ],
-    providers: []
+    providers: [],
 })
 export class EmbeddedEditorShellModule {}

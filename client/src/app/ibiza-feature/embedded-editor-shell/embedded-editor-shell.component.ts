@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
 @Component({
     selector: 'embedded-editor-shell',
     templateUrl: './embedded-editor-shell.component.html',
-    styleUrls: ['./embedded-editor-shell.component.scss']
+    styleUrls: ['./embedded-editor-shell.component.scss'],
 })
 export class EmbeddedEditorShellComponent implements OnDestroy {
     viewInfo: TreeViewInfo<SiteData>;
@@ -25,7 +25,7 @@ export class EmbeddedEditorShellComponent implements OnDestroy {
                     resourceId: `/providers/Microsoft.Functions/environments/${x['environmentId']}/functionapps/${x['functionAppId']}/functions/${x['functionId']}`,
                     dashboardType: DashboardType.none,
                     node: null,
-                    data: null
+                    data: null,
                 };
         });
     }
