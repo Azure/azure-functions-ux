@@ -1229,4 +1229,5 @@
     public static swapSourceChangesHeading = 'swapSourceChangesHeading';
     public static swapTargetChangesHeading = 'swapTargetChangesHeading';
     public static swapActionLabel = 'swapActionLabel';
+    public static extensionUninstallError = 'extensionUninstallError';
 }

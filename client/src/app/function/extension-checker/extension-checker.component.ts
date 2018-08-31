@@ -46,6 +46,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public _functionCard: CreateCard;
     public installing = false;
     public installJobs: ExtensionInstallStatus[] = [];
+    public uninstallJobs: ExtensionInstallStatus[] = [];
     public installFailed = false;
     public detailsUrl: string;
     public installFailedUrl: string;
@@ -53,6 +54,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public installFailedSessionId: string;
     public documentationLink = Links.extensionInstallHelpLink;
     public correctAppState: boolean;
+    public oldExtensionIds: string[] = [];
 
     private functionCardStream: Subject<CreateCard>;
     private _busyManager: BusyStateScopeManager;
@@ -122,7 +124,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
         }, 100);
     }
 
-    takeAppOffline() {
+    takeHostOffline() {
         if (this.neededExtensions.length > 0) {
             this.installing = true;
             this.installFailed = false;
@@ -145,25 +147,46 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
         }
     }
 
-    installNeededExtensions() {
-        // Install Extensions
-            const extensionCalls = this.neededExtensions.map(extension => {
-                return this._functionAppService.installExtension(this.context, extension);
-            });
-
-            // Check install status
-            Observable.zip(...extensionCalls).subscribe((r) => {
-                this.installJobs = r.filter(i => i.isSuccessful).map(i => i.result);
-                this._pollInstallationStatus(0);
-            });
+    updateExtensions() {
+        if (this.oldExtensionIds.length > 0) {
+            this.removeOldExtensions();
+        } else {
+            this.installNeededExtensions();
         }
+    }
+
+    installNeededExtensions() {
+         // Install Extensions
+         const extensionCalls = this.neededExtensions.map(extension => {
+             return this._functionAppService.installExtension(this.context, extension);
+         });
+
+         // Check install status
+         Observable.zip(...extensionCalls).subscribe((r) => {
+             this.installJobs = r.filter(i => i.isSuccessful).map(i => i.result);
+             this._pollInstallationStatus(0);
+         });
+    }
+
+    removeOldExtensions() {
+        // Uninstall Extensions
+        const extensionCalls = this.oldExtensionIds.map(id => {
+            return this._functionAppService.uninstallExtension(this.context, id);
+        });
+
+        // Check uninstall status
+        return Observable.zip(...extensionCalls).subscribe((r) => {
+            this.uninstallJobs = r.filter(i => i.isSuccessful).map(i => i.result);
+            this._pollUninstallationStatus(0);
+        });
+    }
 
     continueToFunctionNewDetail() {
         this.openFunctionNewDetail = true;
         this.showExtensionInstallDetail = false;
     }
 
-    private _getNeededExtensions(runtimeExtensions: RuntimeExtension[]) {
+    private _getNeededExtensions(runtimeExtensions: RuntimeExtension[]): Observable<RuntimeExtension[]> {
         const neededExtensions: RuntimeExtension[] = [];
         return this._functionAppService.getHostExtensions(this.context)
             .map(r => {
@@ -179,6 +202,14 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     });
                     if (!ext) {
                         neededExtensions.push(runtimeExtension);
+
+                        // Check if an older version of the extension needs to be uninstalled
+                        const old = r.result.extensions.find(installedExtention => {
+                            return installedExtention.id === runtimeExtension.id;
+                        });
+                        if (old) {
+                            this.oldExtensionIds.push(runtimeExtension.id);
+                        }
                     }
                 });
 
@@ -226,12 +257,40 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                     return this._pollHostStatus(tryNumber + 1, desiredState);
                 });
             } else if (desiredState === 'Offline') {
-                this.installNeededExtensions();
+                this.updateExtensions();
             } else if (desiredState === 'Running') {
                 this._getNeededExtensions(this.runtimeExtensions)
                 .subscribe((extensions) => {
                     this.installing = false;
                     this._setInstallationVariables(extensions);
+                });
+            }
+        }, 1000);
+    }
+
+    private _pollUninstallationStatus(tryNumber: number) {
+        setTimeout(() => {
+            if (tryNumber > 600) {
+                this.showTimeoutError(this.context);
+                return;
+            }
+
+            if (this.uninstallJobs.length > 0) {
+                this._functionAppService.getExtensionJobsStatus(this.context)
+                .subscribe(r => {
+                    if (r.isSuccessful) {
+                        if (r.result.jobs.length !== 0) {
+                            return this._pollUninstallationStatus(tryNumber + 1);
+                        } else {
+                            this.installNeededExtensions();
+                        }
+                    } else {
+                        this.showComponentError({
+                            message: this._translateService.instant(PortalResources.extensionUninstallError),
+                            errorId: errorIds.failedToUninstallExtensions,
+                            resourceId: this.context.site.id,
+                        });
+                    }
                 });
             }
         }, 1000);
