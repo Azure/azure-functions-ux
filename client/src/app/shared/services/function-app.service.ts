@@ -989,7 +989,7 @@ export class FunctionAppService {
 
     uninstallExtension(context: FunctionAppContext, extensionId: string): Result<ExtensionInstallStatus> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
-            this._cacheService.delete(context.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(extensionId), this.headers(t))
+            this._cacheService.delete(context.urlTemplates.getRuntimeHostExtensionsIdUrl(extensionId), this.headers(t))
                 .map(r => r.json() as ExtensionInstallStatus),
         );
     }

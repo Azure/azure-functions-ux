@@ -296,6 +296,8 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                         });
                     }
                 });
+            } else {
+                this.installNeededExtensions();
             }
         }, timeOut);
     }
