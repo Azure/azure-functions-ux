@@ -1,5 +1,5 @@
 // This file is auto generated
-    export class PortalResources {
+export class PortalResources {
     public static azureFunctions = 'azureFunctions';
     public static azureFunctionsRuntime = 'azureFunctionsRuntime';
     public static cancel = 'cancel';
@@ -709,6 +709,8 @@
     public static slotsDiff_typeHeader = 'slotsDiff_typeHeader';
     public static slotsDiff_oldValueHeader = 'slotsDiff_oldValueHeader';
     public static slotsDiff_newValueHeader = 'slotsDiff_newValueHeader';
+    public static slotsDiff_currentValueHeader = 'slotsDiff_currentValueHeader';
+    public static slotsDiff_tempValueHeader = 'slotsDiff_tempValueHeader';
     public static slotsList_noSlots = 'slotsList_noSlots';
     public static slotsList_nameHeader = 'slotsList_nameHeader';
     public static slotsList_statusHeader = 'slotsList_statusHeader';
@@ -1283,12 +1285,18 @@
     public static swapRequresMultipleSlots = 'swapRequresMultipleSlots';
     public static swapSlotsHeading = 'swapSlotsHeading';
     public static swapLoadingFailed = 'swapLoadingFailed';
-    public static swapPreviewChangesHeading = 'swapPreviewChangesHeading';
+    public static phaseOneChangesHeading = 'phaseOneChangesHeading';
+    public static phaseTwoChangesHeading = 'phaseTwoChangesHeading';
+    public static swapDiffHeading = 'swapDiffHeading';
+    public static phaseOneChangesInfoText = 'phaseOneChangesInfoText';
+    public static swapChangesInfoText = 'swapChangesInfoText';
     public static swapPreviewMakeSelection = 'swapPreviewMakeSelection';
     public static swapChangesLoadingFailed = 'swapChangesLoadingFailed';
     public static swapSourceChangesHeading = 'swapSourceChangesHeading';
     public static swapTargetChangesHeading = 'swapTargetChangesHeading';
     public static swapActionLabel = 'swapActionLabel';
+    public static swapDiffsNoChange = 'swapDiffsNoChange';
+    public static swapDiffNotSet = 'swapDiffNotSet';
     public static extensionUninstallError = 'extensionUninstallError';
     public static v2_preview_label = 'v2_preview_label';
     public static containerACRRegistry = 'containerACRRegistry';

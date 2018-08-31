@@ -2245,6 +2245,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>New Value</value>
   </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Current Value</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Temp Value</value>
+  </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
   </data>
@@ -3991,8 +3997,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Loading failed</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Preview Changes</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Phase One Changes</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Phase Two Changes</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Config Changes</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>These are the slot-specific application settings and connection strings from the target slot which will be temporarily applied to the source slot in the first phase of the swap.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>This is a summary of the final set of configuration changes on the source and target slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Please make a valid selection above to load preview</value>
@@ -4008,6 +4026,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>No Changes</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Not Set</value>
   </data>
   <data name="extensionUninstallError" xml:space="preserve">
     <value>We were not able to uninstall your outdated extensions</value>

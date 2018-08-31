@@ -7,14 +7,15 @@ import { InfoBoxType } from './../../../controls/info-box/info-box.component';
 import { ProgressBarStep, ProgressBarStepStatus } from './../../../controls/form-wizard/components/progress-bar.component';
 import { ArmSiteDescriptor } from './../../../shared/resourceDescriptors';
 import { FeatureComponent } from './../../../shared/components/feature-component';
-import { LogCategories, SiteTabIds, KeyCodes } from './../../../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../../../shared/models/constants';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { HttpResult } from './../../../shared/models/http-result';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ArmObj, ResourceId, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
+import { ConnectionString } from '../../../shared/models/arm/connection-strings';
 import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
-import { SlotsDiff } from './../../../shared/models/arm/slots-diff';
+import { SlotsDiff, SimpleSlotsDiff } from './../../../shared/models/arm/slots-diff';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { CacheService } from './../../../shared/services/cache.service';
 import { LogService } from './../../../shared/services/log.service';
@@ -40,10 +41,12 @@ export interface SrcDestPair {
     destSlotName: string;
 }
 
+export type StickySettingValue = null | string | ConnectionString;
+
 @Component({
     selector: 'swap-slots',
     templateUrl: './swap-slots.component.html',
-    styleUrls: ['./../common.scss', './swap-slots.component.scss']
+    styleUrls: ['./../common.scss', './swap-slots.component.scss'],
 })
 export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements OnDestroy {
     @Input() set resourceIdInput(resourceId: ResourceId) {
@@ -73,10 +76,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     public srcDropDownOptions: DropDownElement<string>[];
     public destDropDownOptions: DropDownElement<string>[];
     public noStickySettings = false;
-    public showSwapWithPreviewHelp = false;
 
     public loadingDiffs: boolean;
     public slotsDiffs: SlotsDiff[];
+    public stickySettingDiffs: SimpleSlotsDiff[];
     public diffsPreviewSlot: 'source' | 'target' = 'source';
     public showPreviewChanges: boolean;
 
@@ -89,6 +92,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
 
     public progressMessage: string;
     public progressMessageClass: InfoBoxType = 'info';
+
+    private _slotConfigNames: SlotConfigNames = null;
 
     private _slotsList: ArmObj<Site>[];
 
@@ -105,7 +110,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         private _logService: LogService,
         private _siteService: SiteService,
         private _translateService: TranslateService,
-        injector: Injector
+        injector: Injector,
     ) {
         super('SwapSlotsComponent', injector, SiteTabIds.deploymentSlotsConfig);
 
@@ -134,9 +139,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
                 }
                 return Observable.of(null);
             })
-            .subscribe(r => {
+            .subscribe(_ => {
                 this.loadingDiffs = false;
-                this.slotsDiffs = !r ? null : r.value.map(o => o.properties);
             });
 
         this._resetSwapForm();
@@ -145,12 +149,12 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             {
                 displayLabel: this._translateService.instant(PortalResources.completeSwap),
                 value: false,
-                default: true
+                default: true,
             },
             {
                 displayLabel: this._translateService.instant(PortalResources.cancelSwap),
                 value: true,
-                default: false
+                default: false,
             },
         ];
 
@@ -167,6 +171,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
                 const siteDescriptor = new ArmSiteDescriptor(resourceId);
 
                 this._resourceId = resourceId;
+                this._slotConfigNames = null;
                 this._slotsList = null;
                 this.siteResourceId = siteDescriptor.getSiteOnlyResourceId();
                 this.siteName = siteDescriptor.site;
@@ -176,7 +181,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
                 return Observable.zip(
                     this._siteService.getSite(this.siteResourceId),
                     this._siteService.getSlots(this.siteResourceId),
-                    this._siteService.getSlotConfigNames(this.siteResourceId)
+                    this._siteService.getSlotConfigNames(this.siteResourceId),
                 );
             })
             .switchMap(r => {
@@ -220,8 +225,9 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         if (!slotConfigNamesResult.isSuccessful) {
             this._logService.error(LogCategories.swapSlots, '/swap-slots', slotConfigNamesResult.error.result);
         } else {
-            const appSettingNames = slotConfigNamesResult.result.properties.appSettingNames || [];
-            const connectionStringNames = slotConfigNamesResult.result.properties.connectionStringNames || [];
+            this._slotConfigNames = slotConfigNamesResult.result.properties;
+            const appSettingNames = this._slotConfigNames.appSettingNames || [];
+            const connectionStringNames = this._slotConfigNames.connectionStringNames || [];
             this.noStickySettings = appSettingNames.length === 0 && connectionStringNames.length === 0;
         }
 
@@ -240,14 +246,14 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         const options: DropDownElement<string>[] = this._slotsList.map(slot => {
             return {
                 displayLabel: slot.properties.name,
-                value: slot.id
+                value: slot.id,
             };
         });
         this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
         this.destDropDownOptions = JSON.parse(JSON.stringify(options));
     }
 
-    private _loadPhase2(targetSwapSlot: string) {
+    private _loadPhase2(targetSwapSlot: string): Observable<void> {
         const destId = targetSwapSlot.toLowerCase() === 'production' ?
             this.siteResourceId :
             this.siteResourceId + '/slots/' + targetSwapSlot.toLowerCase();
@@ -262,7 +268,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             this._authZService.hasPermission(this._resourceId, [AuthzService.actionScope]),
             this._authZService.hasPermission(destId, [AuthzService.actionScope]),
             this._authZService.hasReadOnlyLock(this._resourceId),
-            this._authZService.hasReadOnlyLock(destId)
+            this._authZService.hasReadOnlyLock(destId),
         ).mergeMap(result => {
             const srcWritePermission = result[0];
             const destWritePermission = result[1];
@@ -362,10 +368,10 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         this.srcDropDownOptions = [];
         this.destDropDownOptions = [];
         this.noStickySettings = false;
-        this.showSwapWithPreviewHelp = false;
 
         this.loadingDiffs = false;
         this.slotsDiffs = null;
+        this.stickySettingDiffs = null;
         this.showPreviewChanges = true;
 
         this.showPhase2Controls = false;
@@ -450,16 +456,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         this.executeButtonDisabed = false;
     }
 
-    toggleSwapWithPreviewHelp() {
-        this.showSwapWithPreviewHelp = !this.showSwapWithPreviewHelp;
-    }
-
-    onSwapWithPreviewHelpKeyPress(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.enter) {
-            this.toggleSwapWithPreviewHelp();
-        }
-    }
-
     onSlotIdChange() {
         const srcId = this.swapForm.controls['srcId'].value;
         const destId = this.swapForm.controls['destId'].value;
@@ -517,7 +513,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
                         this._swappedOrCancelled = true;
                         this.configApplied$.next({
                             srcSlotName: params.srcName,
-                            destSlotName: params.destName
+                            destSlotName: params.destName,
                         });
                         // TODO [andimarc]: refresh the _slotsList entries for the slot(s) involved in the swap?
                         this._setupPhase2();
@@ -577,21 +573,65 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         };
     }
 
-    private _getSlotsDiffs(src: string, dest: string): Observable<ArmArrayResult<SlotsDiff>> {
+    private _getSlotsDiffs(src: string, dest: string): Observable<void> {
         const srcDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(src);
-        const path = srcDescriptor.getTrimmedResourceId() + '/slotsdiffs';
-
         const destDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(dest);
-        const content = {
-            targetSlot: destDescriptor.slot || 'production'
-        };
 
-        return this._cacheService.postArm(path, null, null, content)
-            .mergeMap(r => {
-                return Observable.of(r.json());
-            })
-            .catch(e => {
-                return Observable.of(null);
-            });
+        const srcId = srcDescriptor.getTrimmedResourceId();
+        const destId = destDescriptor.getTrimmedResourceId();
+
+        return Observable.zip(
+            this._siteService.getSlotDiffs(srcId, destDescriptor.slot || 'production'),
+            this._siteService.getAppSettings(srcId),
+            this._siteService.getAppSettings(destId),
+            this._siteService.getConnectionStrings(srcId),
+            this._siteService.getConnectionStrings(destId),
+        ).mergeMap(r => {
+            const success = r.every(res => { return res.isSuccessful; });
+
+            if (success) {
+                const slotDiffs = r[0].result.value;
+                const [srcAppSettings, destAppSettings] = [r[1], r[2]].map(res => res.result.properties);
+                const [srcConnStrings, destConnStrings] = [r[3], r[4]].map(res => res.result.properties);
+
+                this.slotsDiffs = slotDiffs.map(d => d.properties).filter(diff => {
+                    return (diff.diffRule === 'SettingsWillBeModifiedInDestination' || diff.diffRule === 'SettingsWillBeAddedToDestination');
+                });
+
+                if (this._slotConfigNames) {
+                    this.stickySettingDiffs = [];
+
+                    const notSetString = this._translateService.instant('swapDiffNotSet');
+
+                    this._appendStickySettingDiffs('AppSetting', srcAppSettings, destAppSettings, val => (val || notSetString));
+                    this._appendStickySettingDiffs('ConnectionString', srcConnStrings, destConnStrings, val => ((val && val.value) || notSetString));
+                }
+            } else {
+                this.slotsDiffs = null;
+                this.stickySettingDiffs = null;
+            }
+
+            return Observable.of(null);
+        });
+    }
+
+    private _appendStickySettingDiffs<T extends StickySettingValue>(
+        settingType: 'AppSetting' | 'ConnectionString',
+        srcConfig: { [key: string]: T },
+        destConfig: { [key: string]: T },
+        mapper: (val: T) => string,
+    ) {
+        const settingNames = (settingType === 'AppSetting'
+            ? this._slotConfigNames.appSettingNames
+            : this._slotConfigNames.connectionStringNames) || [];
+
+        settingNames.forEach(settingName => {
+            if (srcConfig[settingName] || destConfig[settingName]) {
+                const [valueInCurrentSlot, valueInTargetSlot] = [mapper(srcConfig[settingName]), mapper(destConfig[settingName])];
+                if (valueInCurrentSlot !== valueInTargetSlot) {
+                    this.stickySettingDiffs.push({ settingName, settingType, valueInCurrentSlot, valueInTargetSlot });
+                }
+            }
+        });
     }
 }
