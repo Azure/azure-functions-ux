@@ -1,0 +1,79 @@
+import { Component, OnDestroy } from '@angular/core';
+import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-center-state-manager';
+import { Subject } from 'rxjs/Subject';
+import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
+import { SiteService } from '../../../../../../shared/services/site.service';
+import { AvailableStacksOsType } from '../../../../../../shared/models/arm/stacks';
+
+export const TaskRunner = {
+  None: 'None',
+  Gulp: 'Gulp',
+  Grunt: 'Grunt',
+};
+
+export const WebAppFramework = {
+  AspNetCore: 'AspNetCore',
+  Node: 'Node',
+  PHP: 'PHP',
+  Ruby: 'Ruby',
+};
+
+export class VSTSRepository {
+  name: string;
+  account: string;
+  remoteUrl: string;
+  projectName: string;
+  id: string;
+}
+
+@Component({
+  selector: 'app-linux-frameworks',
+  templateUrl: './linux-frameworks.component.html',
+  styleUrls: ['./linux-frameworks.component.scss', '../../step-configure.component.scss', '../../../deployment-center-setup.component.scss'],
+})
+export class LinuxFramworksComponent implements OnDestroy {
+
+  defaultNodeTaskRunner = 'none';
+  nodeJsTaskRunners: DropDownElement<string>[] = [
+    { value: 'gulp', displayLabel: 'Gulp' },
+    { value: 'grunt', displayLabel: 'Grunt' },
+    { value: 'none', displayLabel: 'None' },
+  ];
+
+  webApplicationFrameworks: DropDownElement<string>[] = [
+    {
+      displayLabel: 'ASP.NET Core',
+      value: WebAppFramework.AspNetCore,
+    },
+    {
+      displayLabel: 'Node.JS',
+      value: WebAppFramework.Node,
+    },
+    {
+      displayLabel: 'PHP',
+      value: WebAppFramework.PHP,
+    },
+    {
+      displayLabel: 'Ruby',
+      value: WebAppFramework.Ruby,
+    },
+  ];
+
+  private _ngUnsubscribe$ = new Subject();
+
+  selectedTaskRunner = this.defaultNodeTaskRunner;
+
+  constructor(
+    public wizard: DeploymentCenterStateManager,
+    siteService: SiteService,
+  ) {
+    siteService.getAvailableStacks(AvailableStacksOsType.Linux)
+      .subscribe(vals => {
+        console.log(vals);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._ngUnsubscribe$.next();
+  }
+}
