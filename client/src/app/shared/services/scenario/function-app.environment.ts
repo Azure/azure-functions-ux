@@ -8,7 +8,7 @@ export class FunctionAppEnvironment extends Environment {
     constructor() {
         super();
         this.scenarioChecks[ScenarioIds.vstsDeploymentHide] = {
-            id: ScenarioIds.vstsDeploymentHide,
+            id: ScenarioIds.showSiteAvailability,
             runCheck: () => {
                 return { status: 'disabled' };
             }
