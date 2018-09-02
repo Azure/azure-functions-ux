@@ -22,6 +22,7 @@
   <tbl [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
     <thead>
       <tr>
+        <th>{{ 'date' | translate }}</th>
         <th>{{ 'functionMonitor_message' | translate }}</th>
         <th>{{ 'functionMonitor_logLevel' | translate }}</th>
       </tr>
@@ -32,6 +33,7 @@
         *ngFor="let history of traceHistory"
         [ngClass]="{rowSelected: history.rowId === selectedRowId}"
         (click)="showHistoryMessage(history)">
+        <td>{{history.timestampFriendly}}</td>
         <td><div class="message-text">{{history.message}}</div></td>
         <td>{{history.logLevel}}</td>
       </tr>

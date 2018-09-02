@@ -12,6 +12,8 @@ import { PowershellComponent } from './powershell/powershell.component';
 import { BashComponent } from './bash/bash.component';
 import { SSHComponent } from './ssh/ssh.component';
 import { ConsoleComponent } from './console.component';
+import { SanitizeURL } from './shared/directives/sanitizeURL.pipe';
+import { SharedFunctionsModule } from '../../shared/shared-functions.module';
 
 @NgModule({
     entryComponents: [
@@ -22,12 +24,16 @@ import { ConsoleComponent } from './console.component';
       SSHComponent,
       PromptComponent,
       ErrorComponent,
-      MessageComponent
+      MessageComponent,
     ],
     imports: [
-      TranslateModule.forChild(), CommonModule, SharedModule
+      TranslateModule.forChild(),
+      CommonModule,
+      SharedModule,
+      SharedFunctionsModule,
     ],
     declarations: [
+      SanitizeURL,
       ConsoleComponent,
       CmdComponent,
       PowershellComponent,
@@ -36,16 +42,16 @@ import { ConsoleComponent } from './console.component';
       PromptComponent,
       ClickOutsideDirective,
       ErrorComponent,
-      MessageComponent
+      MessageComponent,
     ],
     providers: [
-      ConsoleService
+      ConsoleService,
     ],
     exports: [
       CmdComponent,
       PowershellComponent,
       BashComponent,
-      SSHComponent
-    ]
+      SSHComponent,
+    ],
   })
 export class ConsoleModule { }

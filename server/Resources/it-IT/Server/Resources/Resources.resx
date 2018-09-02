@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Sono presenti troppi log. Frequenza di aggiornamento: {{seconds}} secondi.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Riconnetti</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Riconnesso</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Già connesso</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Nome</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Crea</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Aggiungi</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>La versione di valutazione è scaduta</value>
@@ -1049,7 +1061,7 @@
     <value>impostazioni dell'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Versione runtime: {{exactExtensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
+    <value>L'utente ha aggiunto la versione di runtime: {{exactExtensionVersion}}. È possibile procedere all'aggiornamento per rimuovere questa versione e usare quella più recente: ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Versione runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>Scambia</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Avvia scambio</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Completa scambio</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Annulla scambio</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>Scarica profilo di pubblicazione</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>Recupera profilo di pubblicazione</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>Reimposta credenziali di pubblicazione</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>Reimposta profilo di pubblicazione</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Elimina</value>
@@ -1310,7 +1325,7 @@
     <value>Consente di configurare le credenziali di distribuzione a livello dell'account Azure. Per modificare le credenziali a livello dell'app, note anche come 'Credenziali di pubblicazione', scegliere 'Reimposta credenziali di pubblicazione' nella scheda 'Panoramica'. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Altre informazioni&lt;/a&gt;.</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>Il servizio console non è disponibile nell'app.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH offre un'esperienza console SSH Web per il codice dell'app Linux</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Riconnetti</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>Apri in una nuova finestra</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Estensioni</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Consente di inviare notifiche push per dispositivi mobili veloci, scalabili e multipiattaforma tramite Hub di notifica.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Connessione in corso...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Log applicazione</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Log del server Web</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Log di diagnostica</value>
@@ -2160,6 +2190,12 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Nome</value>
+  </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clona le impostazioni da:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Non clonare le impostazioni</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Crea un nuovo slot di distribuzione</value>
@@ -2809,6 +2845,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Esegui scambio con anteprima</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>L'azione di scambio in più fasi applica elementi di configurazione specifici dello slot dal primo al secondo slot, quindi viene sospesa fino a quando l'utente non completa o annulla lo scambio. Se completato, lo scambio indirizza il traffico del primo slot al secondo slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Avviare lo scambio</value>
   </data>
@@ -2819,7 +2858,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>È attualmente in corso un'operazione di scambio. Se si esce dalla pagina, non sarà più possibile controllare lo stato dell'operazione.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>Operazione di {{swapType}} tra lo slot {{srcSlot}} e lo slot {{destSlot}}</value>
+    <value>Operazione di {{swapType}} tra lo slot {{srcSlot}} e lo slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>scambio</value>
@@ -3086,7 +3125,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Il primo core Basic (B1) per Linux è gratuito per i primi 30 giorni.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Durante il periodo di anteprima, i contenitori Windows vengono fatturati con uno sconto del 50%.</value>
+    <value>I contenitori Windows prevedono un limite massimo di 2 istanze e saranno gratuiti fino al 13 settembre 2018.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>I piani tariffari di tipo Isolato all'interno di un ambiente del servizio app non sono disponibili per la configurazione corrente. Un ambiente del servizio app è una funzionalità potente del Servizio app di Azure che offre isolamento di rete e scalabilità migliorata.</value>
@@ -3545,10 +3584,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Credenziali distribuzione</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Risorse di calcolo della serie Dv3</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>Risorse di calcolo della serie Dv3 condivise usate per eseguire le applicazioni distribuite nel piano di servizio app.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Le stringhe di connessione devono essere usate con un'app per le funzioni solo se è in uso Entity Framework. Per altri scenari, usare Impostazioni app. Fare clic per altre informazioni.</value>
@@ -3606,5 +3645,197 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Account Azure Cosmos DB</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Repository privato</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>immettere il nome utente</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>immettere la password</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Contenitore singolo</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>Descrizione per Contenitore singolo.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>Descrizione dettagliata per Contenitore singolo.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>Descrizione per Docker Compose.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>Descrizione dettagliata per Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>Descrizione per Kubernetes.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>Descrizione dettagliata per Kubernetes.</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>Non è stato possibile installare l'estensione di runtime. Per altre informazioni, vedere </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>ID installazione: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>ID sessione: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Archiviazione locale basata su unità SSD per l'hosting di contenitori e spazio di archiviazione su disco facoltativo di {0} GB condiviso da tutte le app distribuite nel piano di servizio app.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Nome dell'app per le funzioni</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Linguaggio di programmazione della funzione</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Invio in corso</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>Configurazione della distribuzione</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>La distribuzione è stata configurata</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>Non è stato possibile configurare la distribuzione</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>Disconnessione della distribuzione</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>La distribuzione è stata disconnessa</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>Non è stato possibile disconnettere la distribuzione</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>Disconnettere la distribuzione?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Modelli della community</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Non si riesce a trovare ciò che si sta cercando? Provare a esplorare la libreria serverless, la raccolta di modelli creati dalla community per trovare l'ispirazione necessaria.</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Il runtime di Funzioni di Azure non è raggiungibile.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>Fare clic qui per i dettagli sulla configurazione dell'archiviazione.</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>Fare clic qui per altre informazioni sull'installazione dell'estensione Risoluzione dei problemi</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} ACU totali</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>La richiesta di sincronizzazione è stata inviata</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>L'aggiornamento del repository per l'app Web {0} è in corso</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>Non è possibile aggiornare il repository per l'app Web {0} in questo momento.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>La distribuzione continua di VSTS richiede le autorizzazioni di scrittura in Azure Active Directory e la creazione di un'entità servizio.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>L'utente non dispone di alcun repository VSTS</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>L'utente non dispone di un account VSTS valido</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>L'utente non dispone di un account VSTS valido. Il server di compilazione Kudu del servizio app richiede che l'utente sia anche proprietario dell'account</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>Crearne uno adesso</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>È necessario aggiornare le estensioni della funzione.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Non è stato possibile recuperare la configurazione dell'origine</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>L'utente non dispone dell'autorizzazione per la creazione</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>L'utente non dispone dell'autorizzazione per lo scambio</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>L'utente non dispone dell'autorizzazione di scrittura</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>Lo slot presenta un blocco di sola lettura</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Origine e destinazione non possono essere nello stesso slot</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Non è possibile eseguire lo scambio in più fasi perché l'autenticazione è abilitata per gli slot seguenti: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>È possibile usare lo scambio in più fasi solo con siti per cui sono abilitate le impostazioni slot</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Prima di completare lo scambio, verificare il comportamento dell'app del primo slot con la configurazione del secondo slot</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>L'utente non dispone dell'autorizzazione di scrittura per gli slot seguenti: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>L'utente non dispone dell'autorizzazione per lo scambio per gli slot seguenti: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>È presente un blocco di sola lettura sugli slot seguenti: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>È possibile eseguire un'operazione di scambio solo se l'app presenta più slot</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Scambia slot</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Caricamento non riuscito</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Anteprima modifiche</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Per caricare l'anteprima, effettuare una selezione valida</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Non è stato possibile caricare l'anteprima</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Modifiche dell'origine</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Modifiche della destinazione</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Azione di scambio</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

@@ -1,0 +1,9 @@
+<ul class="steps-indicator steps-{{ steps ? steps.length : 0 }}">
+    <li *ngFor="let step of steps"
+        [attr.step-symbol]="step.symbol"
+        [ngClass]="step.status">
+        <div>
+            {{ step.title }}
+        </div>
+    </li>
+</ul>

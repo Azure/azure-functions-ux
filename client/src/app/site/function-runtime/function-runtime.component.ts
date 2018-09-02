@@ -1,6 +1,6 @@
 import { NotificationIds, SiteTabIds, Constants, LogCategories } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
-import {  ScenarioIds } from './../../shared/models/constants';
+import { ScenarioIds } from './../../shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ConfigService } from './../../shared/services/config.service';
@@ -26,7 +26,6 @@ import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
@@ -35,6 +34,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
+import { SiteService } from 'app/shared/services/site.service';
 
 @Component({
     selector: 'function-runtime',
@@ -86,12 +86,12 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         private _globalStateService: GlobalStateService,
         private _aiService: AiService,
         private _translateService: TranslateService,
-        private _slotsService: SlotsService,
         private _configService: ConfigService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService,
         private _scenarioService: ScenarioService,
-        private _languageService: LanguageService) {
+        private _languageService: LanguageService,
+        private _siteService: SiteService) {
         super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
@@ -128,10 +128,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.functionRutimeOptions = [
             {
                 displayLabel: '~1',
-                value: '~1'
+                value: '~1',
             }, {
-                displayLabel: 'beta',
-                value: 'beta'
+                displayLabel: this._translateService.instant(PortalResources.v2_preview_label),
+                value: '~2',
             }];
 
         this.proxySettingValueStream = new Subject<boolean>();
@@ -198,21 +198,19 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
             .filter(value => value !== this.slotsEnabled)
             .subscribe((value: boolean) => {
                 this._busyManager.setBusy();
-                const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
-                this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true)
-                    .mergeMap(r => {
-                        return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
-                    })
-                    .do(null, e => {
-                        this._busyManager.clearBusy();
-                        this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
-                    })
-                    .retry()
-                    .subscribe(() => {
-                        this._functionAppService.fireSyncTrigger(this.context);
-                        this.slotsEnabled = value;
-                        this._busyManager.clearBusy();
-                        this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+                const newOrUpdatedSettings = {};
+                newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+                this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings)
+                    .subscribe(r => {
+                        if (r.isSuccessful) {
+                            this._functionAppService.fireSyncTrigger(this.context);
+                            this.slotsEnabled = value;
+                            this._busyManager.clearBusy();
+                            this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+                        } else {
+                            this._busyManager.clearBusy();
+                            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', r.error);
+                        }
                     });
             });
 
@@ -415,7 +413,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
 
-        if (version === 'beta') {
+        if (version === '~2') {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
         } else {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;

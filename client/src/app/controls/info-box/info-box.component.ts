@@ -1,6 +1,8 @@
 import { KeyCodes } from './../../shared/models/constants';
 import { Component, Input } from '@angular/core';
 
+export type InfoBoxType = 'info' | 'warning' | 'error' | 'success' | 'spinner';
+
 @Component({
     selector: 'info-box',
     templateUrl: './info-box.component.html',
@@ -21,7 +23,7 @@ export class InfoBoxComponent {
     @Input() infoActionIcon: string = null;
     @Input() dismissable = false;
 
-    @Input('typeClass') set type(value: 'info' | 'warning' | 'error') {
+    @Input('typeClass') set type(value: InfoBoxType) {
         switch (value) {
             case 'info':
                 this.typeClass = 'info';
@@ -34,6 +36,14 @@ export class InfoBoxComponent {
             case 'error':
                 this.typeClass = 'error';
                 this.iconPath = 'image/error.svg';
+                break;
+            case 'success':
+                this.typeClass = 'success';
+                this.iconPath = 'image/success.svg';
+                break;
+            case 'spinner':
+                this.typeClass = 'spinner';
+                this.iconPath = 'image/spinner.svg';
                 break;
         }
     }
