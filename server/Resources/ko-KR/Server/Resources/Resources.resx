@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>로그가 너무 많습니다. 새로 고침 빈도: {{seconds}}초.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>다시 연결</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>다시 연결됨</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>이미 연결됨</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>이름</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>만들기</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>추가</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>평가판이 만료되었습니다.</value>
@@ -1049,7 +1061,7 @@
     <value>함수 앱 설정</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>런타임 버전: {{exactExtensionVersion}}. 최신 버전을 사용할 수 있습니다({{latestExtensionVersion}}).</value>
+    <value>현재 런타임 버전 {{exactExtensionVersion}}에 고정되어 있습니다. 업데이트하여 고정 해제 후, 최신 버전({{latestExtensionVersion}})을 사용할 수 있습니다.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>런타임 버전: {{exactExtensionVersion}}({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>교환</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Start Swap</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>전환 완료</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>교환 취소</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>게시 프로필 다운로드</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>게시 프로필 가져오기</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>게시 자격 증명 다시 설정</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>게시 프로필 다시 설정</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>삭제</value>
@@ -1310,7 +1325,7 @@
     <value>Azure 계정 수준 배포 자격 증명을 구성합니다. '게시 자격 증명'이라고도 하는 앱 수준 자격 증명을 변경하려면 '개요' 탭에서 '게시 자격 증명 다시 설정'을 선택합니다. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;자세히 알아보세요&lt;/a&gt;.</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>콘솔 서비스를 앱에서 사용할 수 없습니다.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>콘솔</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH는 Linux 앱 코드에 대해 웹 SSH 콘솔 환경을 제공합니다.</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>다시 연결</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>새 창에서 열기</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>확장</value>
@@ -1478,7 +1499,7 @@
     <value>항상</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>웹앱을 항상 로드해야 함을 나타냅니다. 기본적으로 웹앱은 유휴 상태가 되면 언로드됩니다. 웹앱에서 연속 웹 작업이 실행되고 있는 경우 이 옵션을 사용하도록 설정하는 것이 좋습니다.</value>
+    <value>웹앱을 항상 로드해야 함을 나타냅니다. 기본적으로 웹앱은 유휴 상태가 되면 언로드됩니다. 웹앱에서 연속 WebJobs가 실행되고 있는 경우 이 옵션을 사용하도록 설정하는 것이 좋습니다.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>항상 켜려면 기본 이상의 App Service 계획이 필요합니다.</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Notification Hubs를 사용하여 빠르고 확장 가능한 플랫폼 간 모바일 푸시 알림을 보냅니다.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>연결하고 있습니다...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>응용 프로그램 로그</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>웹 서버 로그</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>진단 로그</value>
@@ -1982,7 +2012,7 @@
     <value>API 정의</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
-    <value>Swagger 끝점에 대해 swaggerdocumentationkey 키를 만들거나 업데이트할 수 없습니다. 오류에 대해서 런타임 로그를 확인하거나 나중에 다시 시도하세요.</value>
+    <value>Swagger 엔드포인트에 대해 swaggerdocumentationkey 키를 만들거나 업데이트할 수 없습니다. 오류에 대해서 런타임 로그를 확인하거나 나중에 다시 시도하세요.</value>
   </data>
   <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
     <value>API 정의를 삭제할 수 없습니다. 런타임 로그에서 오류를 확인하거나 나중에 다시 시도하세요.</value>
@@ -2126,7 +2156,7 @@
     <value>찾을 수 없습니다.</value>
   </data>
   <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
-    <value>끝점</value>
+    <value>엔드포인트</value>
   </data>
   <data name="emptyBrowse_title" xml:space="preserve">
     <value>표시할 함수 앱이 없음</value>
@@ -2160,6 +2190,12 @@
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>이름</value>
+  </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clone settings from:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Do not clone settings</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>새 배포 슬롯 만들기</value>
@@ -2273,7 +2309,7 @@
     <value>사용자 지정</value>
   </data>
   <data name="eventHubPicker_IOTEvents" xml:space="preserve">
-    <value>이벤트(기본 제공 끝점)</value>
+    <value>이벤트(기본 제공 엔드포인트)</value>
   </data>
   <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
     <value>작업 모니터링</value>
@@ -2321,7 +2357,7 @@
     <value>저장소 계정 연결 문자열에 대한 이름 입력</value>
   </data>
   <data name="storage_endpoint" xml:space="preserve">
-    <value>저장소 끝점 도메인</value>
+    <value>저장소 엔드포인트 도메인</value>
   </data>
   <data name="storage_endpoint_azure" xml:space="preserve">
     <value>Microsoft Azure</value>
@@ -2330,13 +2366,13 @@
     <value>기타(아래 지정)</value>
   </data>
   <data name="storage_endpoint_empty_text" xml:space="preserve">
-    <value>저장소 끝점 도메인 입력</value>
+    <value>저장소 엔드포인트 도메인 입력</value>
   </data>
   <data name="sql_add" xml:space="preserve">
     <value>SQL 연결 문자열 추가</value>
   </data>
   <data name="sql_endpoint" xml:space="preserve">
-    <value>SQL Server 끝점</value>
+    <value>SQL Server 엔드포인트</value>
   </data>
   <data name="sql_database_name" xml:space="preserve">
     <value>데이터베이스 이름</value>
@@ -2809,6 +2845,9 @@
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>미리 보기가 있는 교환 수행</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>교환 시작</value>
   </data>
@@ -2819,7 +2858,7 @@
     <value>교환 작업이 현재 진행 중입니다. 다른 곳으로 나가면 작업 상태를 더 이상 확인할 수 없습니다.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{srcSlot}} 슬롯과 {{destSlot}} 슬롯 간 {{swapType}}</value>
+    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>교환</value>
@@ -3086,7 +3125,7 @@
     <value>Linux의 첫 번째 기본(B1) 코어는 처음 30일간 무료입니다!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows 컨테이너는 미리 보기 중에는 50% 할인된 요금으로 청구됩니다.</value>
+    <value>Windows 컨테이너가 2개 인스턴스까지로만 확장되며 2018년 9월 13일까지 무료입니다.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>ASE(App Service Environment) 내에서 격리된 가격 책정 계층은 구성에 사용할 수 없습니다. ASE는 네트워크 격리 및 개선된 규모 기능을 제공하는 Azure App Service의 강력한 기능 제공입니다.</value>
@@ -3482,7 +3521,7 @@
     <value>암호 확인</value>
   </data>
   <data name="ftpsEndpoint" xml:space="preserve">
-    <value>FTPS 끝점</value>
+    <value>FTPS 엔드포인트</value>
   </data>
   <data name="credentials" xml:space="preserve">
     <value>자격 증명</value>
@@ -3545,10 +3584,10 @@
     <value>배포 자격 증명</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Dv3-시리즈 계산</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>App Service 계획에서 배포된 응용 프로그램을 실행하는 데 사용되는 Dv3-시리즈 전용 계산 리소스입니다.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Entity Framework를 사용 중인 경우 연결 문자열은 함수 앱과만 사용해야 합니다. 다른 시나리오에서는 앱 설정을 사용하세요. 자세한 내용을 보려면 클릭하세요.</value>
@@ -3606,5 +3645,200 @@
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB 계정</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>개인 리포지토리</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>사용자 이름 입력</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>암호 입력</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>단일 컨테이너</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>단일 컨테이너에 대한 설명입니다.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>단일 컨테이너에 대한 자세한 설명입니다.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>Docker Compose에 대한 설명입니다.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>Docker Compose에 대한 자세한 설명입니다.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>Kubernetes에 대한 설명입니다.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>Kubernetes에 대한 자세한 설명입니다.</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>런타임 확장을 설치할 수 없습니다. 자세한 내용은 다음을 확인하세요.</value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>설치 ID: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>세션 ID: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>컨테이너의 호스팅을 위한 로컬 SSD 기반 저장소 및 App Service 계획에서 배포된 모든 앱이 공유한 선택적 {0}GB 디스크 저장소입니다.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>함수 앱 이름</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>함수 프로그래밍 언어</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>제출하는 중</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>배포를 설정하는 중</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>배포를 설정했음</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>배포를 설정하지 못함</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>배포 연결을 끊는 중</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>배포 연결이 끊어졌음</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>배포 연결을 끊지 못함</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>배포 연결을 끊으시겠습니까?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>커뮤니티 템플릿</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>원하는 항목을 찾을 수 없나요? 커뮤니티 생성 템플릿 갤러리인 Serverless Library를 확인하여 영감을 얻으세요!</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Azure Functions 런타임에 연결할 수 없습니다.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>저장소 구성에 대한 자세한 내용을 보려면 여기를 클릭하세요.</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>확장 설치 문제 해결을 자세히 알아보려면 여기를 클릭하세요.</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} 총 ACU</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>동기화 요청 전송됨</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>{0} 웹앱에 대한 리포지토리를 업데이트하는 중입니다.</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>지금은 {0} 웹앱에 대한 리포지토리를 업데이트할 수 없습니다.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>VSTS 지속적인 업데이트를 사용하려면 Azure Active Directory에 대한 쓰기 권한과 서비스 사용자를 만들 수 있는 권한이 있어야 합니다.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>You don not own any VSTS Repositories</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>지금 새로 만들기</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Failed to retrieve source configuration</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>You do not have create access</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>You do not have swap permission</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>You do not have write permission</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>The slot has a read-only lock</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>소스 및 대상은 동일한 슬롯일 수 없음</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>A swap operation can only be performed if the app has multiple slots</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Swap Slots</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>로드 실패</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>변경 내용 미리 보기</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Please make a valid selection above to load preview</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Failed to load preview</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Source Changes</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Target Changes</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>교환 작업</value>
+  </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>
