@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Слишком много журналов. Частота обновления: {{seconds}} с.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Повторно подключиться</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Соединение восстановлено</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Уже подключено</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Имя</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Создать</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Добавить</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Срок действия пробной версии истек</value>
@@ -1049,7 +1061,7 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Версия среды выполнения: {{exactExtensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
+    <value>Сейчас у вас закреплена версия среды выполнения {{exactExtensionVersion}}. Вы можете открепить ее и использовать последнюю версию: ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>Замена</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Запустить переключение</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Завершить переключение</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Отменить переключение</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>Загрузить профиль публикации</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>Скачать профиль публикации</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>Сбросить учетные данные публикации</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>Сбросить профиль публикации</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Удалить</value>
@@ -1310,7 +1325,7 @@
     <value>Вы можете настраивать учетные данные развертывания уровня учетной записи Azure. Чтобы изменить учетные данные уровня приложения (или "учетные данные для публикации"), выберите команду "Сбросить учетные данные публикации" на вкладке "Общие сведения". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Дополнительные сведения&lt;/a&gt;.</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>Служба консоли недоступна в вашем приложении.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Консоль</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH предоставляет веб-консоль SSH для кода вашего приложения Linux</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Повторно подключиться</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>Открыть в новом окне</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Расширения</value>
@@ -1478,7 +1499,7 @@
     <value>Всегда включено</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Указывает, что веб-приложение должно быть постоянно загружено. По умолчанию веб-приложения выгружаются после определенного времени простоя. Рекомендуется включить этот параметр, если в вашем веб-приложении запущены постоянные веб-задания</value>
+    <value>Указывает, что веб-приложение должно быть постоянно загружено. По умолчанию веб-приложения выгружаются после определенного времени простоя. Рекомендуется включить этот параметр, если в вашем веб-приложении запущены постоянные задания WebJob.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Для AlwaysOn необходим план службы приложений "Базовый" или выше</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Отправляйте быстрые, масштабируемые и межплатформенные мобильные push-уведомления с помощью концентраторов уведомлений.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Подключение...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Журналы приложений</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Журналы веб-сервера</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Журналы диагностики</value>
@@ -2160,6 +2190,12 @@
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Клонировать параметры из:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Не клонировать параметры</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Создание слота развертывания</value>
@@ -2809,6 +2845,9 @@
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Переключение с предварительным просмотром</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>При многоэтапном переключении элементы конфигурации первого слота применяются ко второму. После этого пользователю нужно завершить или отменить переключение. При завершении переключение направляет трафик первого слота во второй.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Запуск переключения</value>
   </data>
@@ -2819,7 +2858,7 @@
     <value>Выполняется операция переключения. Вы больше не сможете просматривать ее состояние, если уйдете с этой страницы.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>Переключение типа {{swapType}} между слотами {{srcSlot}} и {{destSlot}}</value>
+    <value>Переключение типа {{swapType}} между слотами "{{srcSlot}}" и "{{destSlot}}"</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>переключение</value>
@@ -3086,7 +3125,7 @@
     <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Контейнеры для Windows предоставляются в предварительной версии с 50-процентной скидкой.</value>
+    <value>Горизонтальное масштабирование контейнеров Windows ограничено 2 экземплярами и является бесплатным до 13 сентября 2018 г.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
@@ -3545,10 +3584,10 @@
     <value>Мандат на развертывание</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Вычисления серии Dv3</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>Выделенные вычислительные ресурсы серии Dv3 для запуска приложений, развернутых в плане службы приложений.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
@@ -3606,5 +3645,200 @@
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Учетная запись Azure Cosmos DB</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Частный репозиторий</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>введите имя пользователя</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>введите пароль</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Один контейнер</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>Это описание для одного контейнера.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>Это подробное описание для одного контейнера.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>Это описание для Docker Compose.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>Это подробное описание для Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>Это описание для Kubernetes.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>Это подробное описание для Kubernetes.</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>Не удалось установить расширение среды выполнения. Дополнительные сведения: </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Идентификатор установки: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Идентификатор сеанса: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Локальное хранилище на основе SSD для размещения контейнеров и необязательное хранилище дисков размером {0} ГБ, общее для всех приложений, развернутых в рамках плана службы приложений.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Имя приложения-функции</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Язык для функционального программирования</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Отправка</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>Настройка развертывания</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>Развертывание успешно настроено</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>Не удалось настроить развертывание</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>Отключение развертывания</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>Развертывание успешно отключено</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>Не удалось отключить развертывание</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>Действительно отключить развертывание?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Шаблоны сообщества</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Не удалось найти, что искали? Посетите Serverless Library — нашу коллекцию шаблонов, созданных сообществом.</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Среда выполнения Функций Azure недоступна.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>Щелкните, чтобы получить сведения о конфигурации хранилища.</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>Щелкните, чтобы получить дополнительные сведения об устранении неполадок с установкой расширений</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>Общее число ACU: {0}</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>Запрос на синхронизацию отправлен</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>Обновляется репозиторий для веб-приложения {0}</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>Сейчас невозможно обновить репозиторий для веб-приложения {0}.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>Непрерывная поставка VSTS требует, чтобы у вас были разрешения на запись в Azure Active Directory и создание субъекта-службы.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>Вы не являетесь владельцем репозитория VSTS.</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>У вас нет допустимых учетных записей VSTS.</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>У вас нет допустимых учетных записей VSTS. Для сборки Kudu службы приложений также нужно, чтобы вы были владельцем учетной записи.</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>Создать новый</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Требуется обновление расширений функции.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Не удалось получить исходную конфигурацию.</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>У вас нет разрешения на создание.</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>У вас нет разрешения на переключение.</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>У вас нет разрешения на запись.</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>К слоту применена блокировка только для чтения</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Слот не может быть одновременно исходным и целевым</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Невозможно выполнить многоэтапное переключение, так как в следующих слотах включена проверка подлинности: "{{slotNames}}".</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Многоэтапное переключение можно использовать только с сайтами, на которых включены параметры слотов.</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Перед переключением проверьте поведение приложения первого слота с конфигурацией второго слота.</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>У вас нет разрешения на запись в следующих слотах: "{{slotNames}}".</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>У вас нет разрешения на переключение в следующих слотах: "{{slotNames}}".</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>К следующим слотам применена блокировка только для чтения: "{{slotNames}}".</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>Переключение можно выполнить, только если в приложении несколько слотов.</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Переключение слотов</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Ошибка загрузки</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Просмотреть изменения</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Выберите допустимый вариант выше, чтобы загрузить предварительную версию.</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Не удалось загрузить предварительную версию.</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Изменения в источнике</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Изменения в целевом объекте</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Действие переключения</value>
+  </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

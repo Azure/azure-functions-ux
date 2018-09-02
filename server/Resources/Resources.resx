@@ -342,6 +342,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Reconnected</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Already connected</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Name</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -495,6 +504,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Add</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Your trial has expired</value>
@@ -1171,6 +1183,9 @@
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Start Swap</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Complete Swap</value>
   </data>
@@ -1347,6 +1362,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH provides a Web SSH console experience for your Linux app code</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>Open in New Window</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
@@ -2173,6 +2194,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clone settings from:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Do not clone settings</value>
+  </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Create a new deployment slot</value>
   </data>
@@ -2821,6 +2848,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Perform swap with preview</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Start the swap</value>
   </data>
@@ -2831,7 +2861,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot {{srcSlot}} and slot {{destSlot}}</value>
+    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>swap</value>
@@ -3717,5 +3747,101 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>Synchronization Request Submitted</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>The repository for web app {0} is being updated</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>The repository for web app {0} can not be updated at this time.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>You don not own any VSTS Repositories</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>Create one now</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Failed to retrieve source configuration</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>You do not have create access</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>You do not have swap permission</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>You do not have write permission</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>The slot has a read-only lock</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Source and Destination cannot be the same slot</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>A swap operation can only be performed if the app has multiple slots</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Swap Slots</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Loading failed</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Preview Changes</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Please make a valid selection above to load preview</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Failed to load preview</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Source Changes</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Target Changes</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Swap action</value>
+  </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

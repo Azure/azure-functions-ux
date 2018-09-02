@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>日志过多。刷新率: {{seconds}} 秒。</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>重新连接</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>已重新连接</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>已经连接</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>名称</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>创建</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>添加</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>你的试用已过期</value>
@@ -1049,7 +1061,7 @@
     <value>Function App 设置</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>运行时版本: {{exactExtensionVersion}}。已提供较新版本({{latestExtensionVersion}})。</value>
+    <value>当前已固定到运行时版本: {{exactExtensionVersion}}。可更新以取消固定，并使用最新版本: ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>运行时版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>交换</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>启动交换</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>完成交换</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>取消交换</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>下载发布配置文件</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>获取发布配置文件</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>重置发布凭据</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>重置发布配置文件</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>删除</value>
@@ -1310,7 +1325,7 @@
     <value>配置 Azure 帐户级部署凭据。若要更改应用级凭据(也称为“发布凭据”)，请在“概述”选项卡中选择“重置公用凭据”。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;了解详细信息&lt;/a&gt;。</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>不可在你的应用上使用控制台服务。</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>控制台</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH 为 Linux 应用代码提供 Web SSH 控制台体验</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>重新连接</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>在新窗口中打开</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>扩展</value>
@@ -1478,7 +1499,7 @@
     <value>始终可用</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>指示需要一直加载你的 Web 应用。默认情况下，Web 应用在空闲时将被卸载。建议当 Web 应用上有正在运行的连续 Web 作业时启用此选项。</value>
+    <value>指示需要一直加载你的 Web 应用。默认情况下，Web 应用在空闲时将被卸载。建议当 Web 应用上有正在运行的连续 WebJob 时启用此选项。</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>始终开启需要基本或更高级别的应用服务计划</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>使用通知中心发送快速、可缩放且跨平台的移动推送通知。</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>正在连接...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>应用程序日志</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web 服务器日志</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>诊断日志</value>
@@ -1754,7 +1784,7 @@
     <value>事件</value>
   </data>
   <data name="appServicePlan" xml:space="preserve">
-    <value>App Service 计划</value>
+    <value>应用服务计划</value>
   </data>
   <data name="appServicePlanPricingTier" xml:space="preserve">
     <value>应用服务计划/定价层</value>
@@ -2161,6 +2191,12 @@
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>名称</value>
   </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>克隆以下源的设置:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>不克隆设置</value>
+  </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>创建新的部署槽位</value>
   </data>
@@ -2216,7 +2252,7 @@
     <value>状态</value>
   </data>
   <data name="slotsList_serverfarmHeader" xml:space="preserve">
-    <value>App Service 计划</value>
+    <value>应用服务计划</value>
   </data>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>流量 %</value>
@@ -2809,6 +2845,9 @@
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>使用预览版执行交换</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>多阶段交换操作将特定于槽位的配置元素从第一个槽位应用到第二个槽位。然后，该操作暂停，直到用户完成或取消交换为止。如果已完成，交换会将第一个槽位的流量定向到第二个槽位。</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>启动交换</value>
   </data>
@@ -3086,7 +3125,7 @@
     <value>用于 Linux 的第一个 Basic (B1)核心前 30 天免费!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows 容器在预览版期间费用五折。</value>
+    <value>Windows 容器限于扩展 2 个实例，在 2018 年 9 月 13 日前免费。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>应用服务环境(ASE)内的独立定价层不可用于你的配置。ASE 是 Azure 应用服务强大的功能服务，可提供网络隔离和改进的缩放功能。</value>
@@ -3545,10 +3584,10 @@
     <value>部署凭据</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Dv3 系列计算</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>用于运行应用服务计划中部署的应用程序的专用 Dv3 系列计算资源。</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>如果正在使用实体框架，则连接字符串只能用于函数应用。对于其他方案，则使用应用设置。单击以了解详细信息。</value>
@@ -3606,5 +3645,200 @@
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB 帐户</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>专用存储库</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>输入用户名</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>输入密码</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>单个容器</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>这是有关 Single Container 的说明。</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>这是有关 Single Container 的详细说明。</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>这是有关 Docker Compose 的说明。</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>这是有关 Docker Compose 的详细说明。</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>这是有关 Kubernetes 的说明。</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>这是有关 Kubernetes 的详细说明。</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>我们无法安装运行时扩展。要了解详细信息，请查看</value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>安装 ID: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>会话 ID: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>用于托管容器的本地 SSD 存储，以及由应用服务计划中部署的所有应用共享的 {0} GB 磁盘存储。</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>函数应用名称</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>函数编程语言</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>正在提交</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>正在设置部署</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>已成功设置部署</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>未能设置部署</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>正在断开你的部署</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>已成功断开你的部署</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>未能断开你的部署</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>确定要断开部署吗?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>社区模板</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>找不到所需内容? 请查看我们的社区创建的模板库“无服务器库”寻求灵感!</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Azure Functions 运行时不可访问。</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>单击此处获取存储配置的详细信息。</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>单击此处了解扩展安装疑难解答的详细信息</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} 总 ACU</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>同步请求已提交</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>正在更新 Web 应用 {0} 的存储库</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>目前无法更新 Web 应用 {0} 的存储库。</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>要使用 VSTS 持续交付，需具备写入 Azure Active Directory 和创建服务主体的权限。</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>你没有任何 VSTS 存储库</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>你没有任何有效的 VSTS 帐户</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>你没有任何有效的 VSTS 帐户。应用服务 Kudu 生成还要求你是帐户所有者</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>立即创建</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>需要更新函数扩展。</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>未能检索源配置</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>你没有创建访问权限</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>你没有交换权限</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>你没有写入权限</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>槽位具有只读锁定</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>源和目标不能是同一插槽</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>无法执行多阶段交换，因为以下槽位已启用身份验证: {{slotNames}}</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>多阶段交换只能用于启用了槽位设置的站点</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>完成交换之前，请通过第二个槽位的配置检查第一个槽位的应用行为</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>你没有以下槽位的写入权限: {{slotNames}}</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>你没有以下槽位的交换权限: {{slotNames}}</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>以下槽位存在只读锁定: {{slotNames}}</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>如果应用有多个槽位，则只能执行交换操作</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>交换槽位</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>加载失败</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>预览更改</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>请在上面进行有效选择以加载预览</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>未能加载预览</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>源更改</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>目标更改</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>交换操作</value>
+  </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

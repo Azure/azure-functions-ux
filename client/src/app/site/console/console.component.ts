@@ -1,4 +1,4 @@
-import { Injector, Input, Component } from '@angular/core';
+import { Injector, Input, Component, ViewChild } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { SiteData, TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Subject } from 'rxjs/Subject';
@@ -17,14 +17,17 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 import { Site } from '../../shared/models/arm/site';
 import { errorIds } from '../../shared/models/error-ids';
+import { FunctionAppContext } from '../../shared/function-app-context';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
+import { FunctionAppService } from '../../shared/services/function-app.service';
 
 @Component({
   selector: 'app-console',
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.scss'],
   animations: [
-    fade
-  ]
+    fade,
+  ],
 })
 export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
     public toggleConsole = true;
@@ -37,6 +40,11 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
     public currentOption: number;
     public options: SelectOption<number>[];
     public optionsChange: Subject<number>;
+    public sshUrl = '';
+    public appModeVisible = false;
+    public context: FunctionAppContext;
+
+    @ViewChild('ssh') private _sshComponent;
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
@@ -47,7 +55,8 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
         private _logService: LogService,
         private _cacheService: CacheService,
         private _consoleService: ConsoleService,
-        injector: Injector
+        private _functionAppService: FunctionAppService,
+        injector: Injector,
         ) {
           super('site-console', injector, SiteTabIds.console);
           this.featureName = 'console';
@@ -61,21 +70,33 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
           this.currentOption = ConsoleTypes.CMD;
         }
 
+      reconnectSSH() {
+          this._sshComponent.reconnect();
+      }
+
+      openNewSSHWindow() {
+          window.open(this._sshComponent.getKuduUri(), '_blank');
+      }
+
       protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
           // ARM API request to get the site details and the publishing credentials
           return inputEvents
             .distinctUntilChanged()
             .switchMap(view => {
               this.setBusy();
+              this.appModeVisible = false;
               this.resourceId = view.resourceId;
               this._consoleService.sendResourceId(this.resourceId);
+              const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
               return Observable.zip(
                 this._siteService.getSite(this.resourceId),
                 this._cacheService.postArm(`${this.resourceId}/config/publishingcredentials/list`),
-                (site, publishingCredentials) => ({
+                this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId()),
+                (site, publishingCredentials, context) => ({
                   site: site.result,
-                  publishingCredentials: publishingCredentials.json()
-                })
+                  publishingCredentials: publishingCredentials.json(),
+                  context: context,
+                }),
               );
             })
             .do(
@@ -83,6 +104,8 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
                 this._consoleService.sendSite(r.site);
                 this._consoleService.sendPublishingCredentials(r.publishingCredentials);
                 this.appName = r.publishingCredentials.name;
+                this.context = r.context;
+                this.appModeVisible = true;
                 if (ArmUtil.isLinuxApp(r.site)) {
                   // linux-app
                   this._setLinuxDashboard();
@@ -94,7 +117,7 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
                   this.showComponentError({
                     message: this._translateService.instant(PortalResources.error_consoleNotAvailable),
                     errorId: errorIds.unknown,
-                    resourceId: this.resourceId
+                    resourceId: this.resourceId,
                   });
                   this.setBusy();
                   return;
@@ -107,24 +130,24 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
       }
 
       private _siteDetailAvailable(site: ArmObj<Site>, publishingCredentials: ArmObj<PublishingCredentials>): boolean {
-        if (!site || !site.properties.hostNameSslStates.find (h => h.hostType === 1) || !publishingCredentials ||
-        publishingCredentials.properties.publishingPassword === '' || publishingCredentials.properties.publishingUserName === '') {
-          return false;
-        }
-        return true;
+          if (!site || !site.properties.hostNameSslStates.find (h => h.hostType === 1) || !publishingCredentials ||
+          publishingCredentials.properties.publishingPassword === '' || publishingCredentials.properties.publishingUserName === '') {
+            return false;
+          }
+          return true;
       }
 
       private _setWindowsDashboard() {
           this.windows = true;
           this.options = [
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_cmdConsoleName),
-              value: ConsoleTypes.CMD
-            },
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_powerShellConsoleName),
-              value: ConsoleTypes.PS
-            }
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_cmdConsoleName),
+                  value: ConsoleTypes.CMD,
+              },
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_powerShellConsoleName),
+                  value: ConsoleTypes.PS,
+              },
           ];
           this.currentOption = ConsoleTypes.CMD;
         }
@@ -132,22 +155,22 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
       private _setLinuxDashboard() {
           this.windows = false;
           this.options = [
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_bashConsoleName),
-              value: ConsoleTypes.BASH
-            },
-            {
-              displayLabel: this._translateService.instant(PortalResources.feature_sshConsoleName),
-              value: ConsoleTypes.SSH
-            }
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_bashConsoleName),
+                  value: ConsoleTypes.BASH,
+              },
+              {
+                  displayLabel: this._translateService.instant(PortalResources.feature_sshConsoleName),
+                  value: ConsoleTypes.SSH,
+              },
           ];
           this.currentOption = ConsoleTypes.BASH;
       }
 
       private _onOptionChange() {
           if (this.currentOption === ConsoleTypes.CMD || this.currentOption === ConsoleTypes.BASH) {
-            this.toggleConsole = true;
-            return;
+              this.toggleConsole = true;
+              return;
           }
           this.toggleConsole = false;
       }

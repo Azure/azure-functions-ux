@@ -1,19 +1,7 @@
 @import '../../../../sass/common/variables';
 
-.slot-drop-downs-container {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.slot-drop-down-container{
-    float: left;
-    width: 200px;
-    margin-right: calc(50% - 200px);
-}
-
-.drop-down-label{
-    padding-left: 5px;
-    margin-bottom: 2px;
+.body-liner{
+    width: 460px;
 }
 
 .bullet{
@@ -24,245 +12,111 @@
     margin-right: 3px;
 
     &.src{
-        background-color: aqua;
+        background-color: $source-slot-bullet-color;
     }
 
     &.dest{
-        background-color: pink;
+        background-color: $target-slot-bullet-color;
     }
 }
 
-$markersHeight: 22px;
-$markersWidth: $markersHeight;
-$markersShadowWidth: 4px;
-$markersDistance: 90px;
-
-.phase-markers{
-    position: relative;
-    height: ($markersHeight + $markersShadowWidth*2);
-    margin-top: 10px;
-
-    .left-marker, .right-marker, .phase-connector{
-        position: absolute;
-    }
-
-    .left-marker, .right-marker{
-        top: 0px;
-        height: $markersHeight;
-        width: $markersHeight;
-        margin-top: $markersShadowWidth;
-        margin-bottom: $markersShadowWidth;
-        bottom: $markersShadowWidth;
-        border-radius: 50%;
-        text-align: center;
-        background-color: gray;
-
-        &.phase-current{
-            box-shadow: 0px 0px 0px $markersShadowWidth lightblue;
-            background-color: blue;
-        }
-
-        &.phase-complete{
-            background-color: green;
-        }
-    }
-
-    .left-marker{
-        left: $markersShadowWidth;
-
-        &.phase-current{
-            margin-right: $markersShadowWidth;
-        }
-    }
-
-    .right-marker{
-        left: ($markersWidth + $markersShadowWidth*3 + $markersDistance);
-
-        &.phase-current{
-            left: ($markersWidth + $markersShadowWidth*2 + $markersDistance);
-            margin-left: $markersShadowWidth;
-        }
-    }
-
-    .phase-connector{
-        left: ($markersWidth + $markersShadowWidth);
-        top: ($markersHeight + $markersShadowWidth*2 - 2px)/2;
-        height: 2px;
-        width: ($markersDistance + $markersShadowWidth*2);
-        background-color: #cccccc;
-
-        &.contract-left, &.contract-right {
-            width: ($markersDistance + $markersShadowWidth);
-        }
-
-        &.contract-left {
-            left: ($markersWidth + $markersShadowWidth*2);
-        }
-    }
+.progress-container{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;;
 }
-
-.phase-labels{
-    position: relative;
-    height: 22px;
-    margin-bottom: 10px;
-
-    .left-label, .right-label{
-        position: absolute;
-        top: 0px;
-    }
-
-    .left-label{
-        left: 0px;
-    }
-
-    .right-label{
-        left: ($markersWidth + $markersShadowWidth*2 + $markersDistance);
-    }
-}
-
-/*
-.phase-markers{
-    position: relative;
-    height: 30px;
-    margin-top: 10px;
-
-    .left-marker, .right-marker, .phase-connector{
-        position: absolute;
-    }
-
-    .left-marker, .right-marker{
-        top: 0px;
-        height: 22px;
-        width: 22px;
-        margin-top: 4px;
-        margin-bottom: 4px;
-        bottom: 4px;
-        border-radius: 50%;
-        text-align: center;
-        background-color: gray;
-
-        &.phase-current{
-            box-shadow: 0px 0px 0px 4px lightblue;
-            background-color: blue;
-        }
-
-        &.phase-complete{
-            background-color: green;
-        }
-    }
-
-    .left-marker{
-        left: 4px;
-
-        &.phase-current{
-            margin-right: 4px;
-        }
-    }
-
-    .right-marker{
-        left: 124px;
-
-        &.phase-current{
-            left: 120px;
-            margin-left: 4px;
-        }
-    }
-
-    .phase-connector{
-        left: 26px;
-        top: 14px;
-        height: 2px;
-        width: 98px;
-        background-color: #cccccc;
-
-        &.contract-left, &.contract-right {
-            width: 94px;
-        }
-
-        &.contract-left {
-            left: 30px;
-        }
-    }
-}
-*/
-
-.spinner-row{
-    text-align: center;
-    padding: 5px;
-
-    .spinner{
-        border-width: 5px;
-        width: 30px;
-        height: 30px;
-    }
-}
-
 
 td, th{
     min-width: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    span{
-        font-size: 16px;
-
-        &:hover{
-            color: $error-color;
-        }
-
-    }
-
-    span.delete:hover{
-        color: $error-color;
-    }
 }
 
-.padded-col{
-    padding-left: 10px;
-    padding-right: 2px;
+.preview-changes-header{
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
-
-.one-quarter-col{
-    width: 25%;
-}
-
 
 .preview-changes-container{
-    border: 1px solid black;
+    border: 1px solid $border-color;
 
     .preview-toggle-container{
 
         .preview-toggle-button{
             width: 50%;
             float: left;
-            background-color: #d8d8ff;
-            border-bottom: 1px solid black;
             padding: 3px 0 3px 5px;
+            background-color: transparent;
+            color: $default-text-color;
+            font-weight: bold;
 
             &.src{
-                border-right: 1px solid black;
+                border-right: 1px solid $border-color;
             }
 
             &.dest{
-                border-left: 1px solid black;
+                border-left: 1px solid $border-color;
             }
 
             &.selected{
-                background-color: transparent;
-                border: none;
+                background-color: $primary-color;
+                color: $default-text-color-dark;
+                border-bottom: 1px solid $border-color;
                 outline: none;
             }
         }
     }
 }
 
-.buttons-container{
-    margin-top: 15px;
+.help-toggle-icon {
+    font-size: 12px;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
-.custom-button{
-    float: left;
-    margin-left: 0px;
-    margin-right: 15px;
-    padding: 5px 15px 5px 15px
+.help-text-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: $chrome-color;
+    border-color: $border-color;
+    padding: 15px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 4px;
+    font-size: 12px;
+    word-wrap: break-word;
+}
+
+:host-context(#app-root[theme=dark]){
+
+    .bullet{
+        &.src{
+            background-color: $source-slot-bullet-color-dark;
+        }
+    }
+
+    .preview-changes-container{
+
+        .preview-toggle-container{
+
+            .preview-toggle-button{
+                color: $default-text-color-dark;
+
+                &.selected{
+                    background-color: $primary-color-dark;
+                    color: $body-bg-color-dark;
+                }
+            }
+        }
+    }
+
+    .help-text-container {
+        background-color: $chrome-color-dark;
+        border-color: $heading-text-color-dark;
+    }
+
 }

@@ -36,6 +36,13 @@ export class DynamicSiteEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.canScaleForSlots] = {
+            id: ScenarioIds.canScaleForSlots,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
