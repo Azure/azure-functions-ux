@@ -339,15 +339,6 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Túl sok a napló. Frissítési gyakoriság: {{seconds}} másodperc.</value>
   </data>
-  <data name="logStreaming_reconnect" xml:space="preserve">
-    <value>Újracsatlakozás</value>
-  </data>
-  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
-    <value>Újracsatlakoztatva</value>
-  </data>
-  <data name="logStreaming_connectionExists" xml:space="preserve">
-    <value>A kapcsolat már létrejött</value>
-  </data>
   <data name="_name" xml:space="preserve">
     <value>Név</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -501,9 +492,6 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Létrehozás</value>
-  </data>
-  <data name="add" xml:space="preserve">
-    <value>Hozzáadás</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>A próbaidőszak lejárt</value>
@@ -1061,7 +1049,7 @@
     <value>függvényalkalmazás beállításai</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Jelenleg a következő futásidejű verzióhoz van rögzítve: {{exactExtensionVersion}}. Frissítéssel megszüntetheti a rögzítést és használhatja a legújabb verziót: ({{latestExtensionVersion}}).</value>
+    <value>Futtatókörneyzet verziója: {{exactExtensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Futtatókörneyzet verziója: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1180,20 +1168,17 @@
   <data name="swap" xml:space="preserve">
     <value>Felcserélés</value>
   </data>
-  <data name="startSwap" xml:space="preserve">
-    <value>Csere indítása</value>
-  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Felcserélés befejezése</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Felcserélés érvénytelenítése</value>
   </data>
-  <data name="getPublishProfile" xml:space="preserve">
+  <data name="downloadProfile" xml:space="preserve">
     <value>Közzétételi profil letöltése</value>
   </data>
-  <data name="resetPublishProfile" xml:space="preserve">
-    <value>Közzétételi profil alaphelyzetbe állítása</value>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Közzétételi hitelesítő adatok alaphelyzetbe állítása</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Törlés</value>
@@ -1325,7 +1310,7 @@
     <value>Konfigurálhatja a Azure-fiókszintű üzembe helyezés hitelesítő adatait. Az alkalmazásszintű hitelesítő adatok (más néven közzétételi hitelesítő adatok) módosításához válassza az Áttekintés lap Reset publish credentials (Közzétételi hitelesítő adatok alaphelyzetbe állítása) elemét. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>A konzolszolgáltatás nem érhető el az alkalmazásban.</value>
+    <value>The console service is not available on your app.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konzol</value>
@@ -1359,12 +1344,6 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>Az SSH webes SSH-konzolfelületet biztosít a Linux-alkalmazás kódjához</value>
-  </data>
-  <data name="ssh_reconnect" xml:space="preserve">
-    <value>Újracsatlakozás</value>
-  </data>
-  <data name="ssh_newWindow" xml:space="preserve">
-    <value>Megnyitás új ablakban</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Kiterjesztések</value>
@@ -1499,7 +1478,7 @@
     <value>Mindig bekapcsolva</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Ezzel a beállítással adható meg, hogy a webalkalmazásnak mindig betöltve kell lennie. A tétlen állapotot követően a rendszer alapértelmezés szerint eltávolítja a memóriából a webalkalmazásokat. Akkor ajánlott engedélyezni ezt a beállítást, ha a webalkalmazásban folyamatosan futó WebJobs-feladatok is működnek.</value>
+    <value>Ezzel a beállítással adható meg, hogy a webalkalmazásnak mindig betöltve kell lennie. A tétlen állapotot követően a rendszer alapértelmezés szerint eltávolítja a memóriából a webalkalmazásokat. Akkor ajánlott engedélyezni ezt a beállítást, ha a webalkalmazásban folyamatosan futó webes feladatok is működnek.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Az AlwaysOn megoldáshoz alap- vagy magasabb szintű App Service-csomag szükséges</value>
@@ -1629,15 +1608,6 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>A Notification Hubs szolgáltatással gyors, méretezhető és platformfüggetlen mobil leküldéses értesítéseket küldhet.</value>
-  </data>
-  <data name="feature_logStreamingConnecting" xml:space="preserve">
-    <value>Csatlakozás...</value>
-  </data>
-  <data name="feature_applicationLogsName" xml:space="preserve">
-    <value>Alkalmazásnaplók</value>
-  </data>
-  <data name="feature_webServerLogsName" xml:space="preserve">
-    <value>Webkiszolgáló naplói</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnosztikai naplók</value>
@@ -2190,12 +2160,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Név</value>
-  </data>
-  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
-    <value>Beállítások klónozása a következőből:</value>
-  </data>
-  <data name="slotNew_dontCloneConfig" xml:space="preserve">
-    <value>Beállítások klónozásának mellőzése</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Új üzembe helyezési pont létrehozása</value>
@@ -2845,9 +2809,6 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Felcserélés végrehajtása előnézettel</value>
   </data>
-  <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>A többfázisú csereművelet az első tárolóhely tárolóhelyspecifikus konfigurációs elemeit alkalmazza a második tárolóhelyre. Ezután szünetel, amíg a felhasználó be nem fejezi vagy meg nem szakítja a cserét. A befejezése esetén a csere a második tárhelyre irányítja az első tárhely forgalmát.</value>
-  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>A felcserélés indítása</value>
   </data>
@@ -3125,7 +3086,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az első linuxos Basic (B1) mag ingyenes az első 30 napban!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>A Windows-tárolók 2018. szeptember 13-ig két példány kiterjesztésére vannak korlátozva, és ingyenesek.</value>
+    <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Az App Service Environment (ASE) csomagbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
@@ -3584,10 +3545,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Központi telepítés hitelesítő adatai</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3 sorozatú számítási erőforrás</value>
+    <value>Dv3-Series compute</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatására szolgáló dedikált Dv3 sorozatú számítási erőforrások.</value>
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat. További információért kattintson ide.</value>
@@ -3645,197 +3606,5 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB-fiók</value>
-  </data>
-  <data name="privateRepo" xml:space="preserve">
-    <value>Private Repository</value>
-  </data>
-  <data name="privateRepo" xml:space="preserve">
-    <value>Privát tárház</value>
-  </data>
-  <data name="enterUsername" xml:space="preserve">
-    <value>adja meg a felhasználónevet</value>
-  </data>
-  <data name="enterPassword" xml:space="preserve">
-    <value>adja meg a jelszót</value>
-  </data>
-  <data name="singleContainerTitle" xml:space="preserve">
-    <value>Egyetlen tároló</value>
-  </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Ez a Single Container leírása.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Single Container részletes leírása.</value>
-  </data>
-  <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Ez a Docker Compose leírása.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Docker Compose részletes leírása.</value>
-  </data>
-  <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Ez a Kubernetes leírása.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Kubernetes részletes leírása.</value>
-  </data>
-  <data name="failedToInstallExtensionUrl" xml:space="preserve">
-    <value>Nem sikerült telepíteni a futtatókörnyezeti bővítményt. További információért tekintse meg a következőt: </value>
-  </data>
-  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
-    <value>Telepítési azonosító: {{installId}}</value>
-  </data>
-  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
-    <value>Munkamenet-azonosító: {{sessionId}}</value>
-  </data>
-  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Helyi SSD-alapú tárolás tárolók üzemeltetéséhez, és {0} GB nem kötelező lemezterület, mely az App Service-csomagban üzembe helyezett összes alkalmazás között meg van osztva.</value>
-  </data>
-  <data name="functionAppName" xml:space="preserve">
-    <value>Függvényalkalmazás neve</value>
-  </data>
-  <data name="languageAria" xml:space="preserve">
-    <value>Függvény programozási nyelve</value>
-  </data>
-  <data name="submitting" xml:space="preserve">
-    <value>Küldés</value>
-  </data>
-  <data name="settingupDeployment" xml:space="preserve">
-    <value>Üzemelő példány beállítása</value>
-  </data>
-  <data name="settingupDeploymentSuccess" xml:space="preserve">
-    <value>Az üzemelő példány beállítása sikerült</value>
-  </data>
-  <data name="settingupDeploymentFail" xml:space="preserve">
-    <value>Nem sikerült beállítani az üzemelő példányt</value>
-  </data>
-  <data name="disconnectingDeployment" xml:space="preserve">
-    <value>Az üzemelő példány leválasztása</value>
-  </data>
-  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
-    <value>Az üzemelő példány leválasztása sikerült</value>
-  </data>
-  <data name="disconnectingDeploymentFail" xml:space="preserve">
-    <value>Nem sikerült leválasztani az üzemelő példányt</value>
-  </data>
-  <data name="disconnectConfirm" xml:space="preserve">
-    <value>Biztosan leválasztja az üzemelő példányt?</value>
-  </data>
-  <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Közösségi sablonok</value>
-  </data>
-  <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Nem találja, amit keres? Merítsen ihletet a Serverless Libraryből, a közösség által létrehozott sablonokat tartalmazó gyűjteményünkből!</value>
-  </data>
-  <data name="scmPingFailedErrorMessage" xml:space="preserve">
-    <value>Az Azure Functions-futtatókörnyezet nem érhető el.</value>
-  </data>
-  <data name="scmPingFailedLearnMore" xml:space="preserve">
-    <value>A tárolókonfigurációval kapcsolatos részletekért kattintson ide.</value>
-  </data>
-  <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>A bővítmény telepítésének hibaelhárításával kapcsolatos további információért kattintson ide</value>
-  </data>
-  <data name="pricing_ACU" xml:space="preserve">
-    <value>{0} ACU összesen</value>
-  </data>
-  <data name="syncRequestSubmitted" xml:space="preserve">
-    <value>Szinkronizálási kérés elküldve</value>
-  </data>
-  <data name="syncRequestSubmittedDesc" xml:space="preserve">
-    <value>A(z) {0} webalkalmazás adattárának frissítése folyamatban van</value>
-  </data>
-  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
-    <value>A(z) {0} webalkalmazás adattára jelenleg nem frissíthető.</value>
-  </data>
-  <data name="vsts_permissions_error" xml:space="preserve">
-    <value>A VSTS-ben a folyamatos teljesítéshez az Azure Active Directory-be való írásra és szolgáltatásnevek létrehozására vonatkozó engedélyekre van szüksége.</value>
-  </data>
-  <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
-  </data>
-  <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
-  </data>
-  <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
-  </data>
-  <data name="create_one" xml:space="preserve">
-    <value>Hozzon létre egyet most</value>
-  </data>
-  <data name="topBar_updateExtensions" xml:space="preserve">
-    <value>Frissítenie kell a függvénybővítményeket.</value>
-  </data>
-  <data name="cloneConfigLoadFailure" xml:space="preserve">
-    <value>Nem sikerült beolvasni a forráskonfigurációt</value>
-  </data>
-  <data name="noCreateAccess" xml:space="preserve">
-    <value>Nincs létrehozási hozzáférése</value>
-  </data>
-  <data name="noSwapPermission" xml:space="preserve">
-    <value>Nem rendelkezik cserélési engedéllyel</value>
-  </data>
-  <data name="noWritePermission" xml:space="preserve">
-    <value>Nem rendelkezik írási engedéllyel</value>
-  </data>
-  <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>A tárolóhelyen írásvédettségi zár van</value>
-  </data>
-  <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>A forrás és a cél nem lehet ugyanaz a tárolóhely</value>
-  </data>
-  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>A többfázisú csere nem hajtható végre, mert a következő tárolóhelyeken engedélyezve van a hitelesítés: {{slotNames}}</value>
-  </data>
-  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Csak azokon a helyeken használható többfázisú csere, melyeken engedélyezve vannak a tárolóhely-beállítások</value>
-  </data>
-  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>A csere végrehajtása előtt ellenőrizze az első tárhelybeli alkalmazásműködést a második tárhely konfigurációjával</value>
-  </data>
-  <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik írási engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
-  </data>
-  <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik cserélési engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
-  </data>
-  <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Írásvédettségi zár van a következő tárolóhelyeken: {{slotNames}}</value>
-  </data>
-  <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A csereműveletek csak akkor hajthatók végre, ha az alkalmazás több tárolóhellyel rendelkezik</value>
-  </data>
-  <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Tárolóhelyek cseréje</value>
-  </data>
-  <data name="swapLoadingFailed" xml:space="preserve">
-    <value>A betöltés nem sikerült</value>
-  </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Módosítások előnézetének megtekintése</value>
-  </data>
-  <data name="swapPreviewMakeSelection" xml:space="preserve">
-    <value>Az előnézet betöltéséhez érvényes kijelölést adjon meg fentebb</value>
-  </data>
-  <data name="swapChangesLoadingFailed" xml:space="preserve">
-    <value>Nem sikerült betölteni az előnézetet</value>
-  </data>
-  <data name="swapSourceChangesHeading" xml:space="preserve">
-    <value>Forrásmódosítások</value>
-  </data>
-  <data name="swapTargetChangesHeading" xml:space="preserve">
-    <value>Célmódosítások</value>
-  </data>
-  <data name="swapActionLabel" xml:space="preserve">
-    <value>Felcserélési művelet</value>
-  </data>
-  <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
   </data>
 </root>
