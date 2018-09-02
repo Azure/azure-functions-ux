@@ -11,7 +11,7 @@ export class CmdComponent extends AbstractWindowsComponent {
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
-    public consoleService: ConsoleService
+    public consoleService: ConsoleService,
     ) {
       super(componentFactoryResolver, consoleService);
       this.consoleType = ConsoleTypes.CMD;

@@ -12,6 +12,7 @@ div.browse-container{
     padding-top: 2em;
     height: calc(100% - 90px);
     width: calc(100% - 50px);
+    margin-bottom: 5px;
 }
 
 div.console{
@@ -20,6 +21,26 @@ div.console{
     font-size: medium;
     white-space: normal;
     width: 100%;
+}
+
+.action {
+    margin-left: 10px;
+}
+
+.log-toolbar {
+    padding-left: 15px;
+    padding-right: 25px;
+    float: right;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 1%;
+    pointer-events: none;
 }
 
 div.console div.console-inner{

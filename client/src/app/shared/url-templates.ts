@@ -184,6 +184,10 @@ export class UrlTemplates {
         return `${this.scmUrl}/api/vfs/data/Functions/extensions/${jobId}.json`;
     }
 
+    getRuntimeHostExtensionsIdUrl(extensionId: string): string {
+        return `${this.mainSiteUrl}/admin/host/extensions/${extensionId}`;
+    }
+
     get scmSiteUrl(): string {
         return this.scmUrl;
     }
@@ -202,5 +206,13 @@ export class UrlTemplates {
 
     get restartHostUrl() {
         return `${this.mainSiteUrl}/admin/host/restart`;
+    }
+
+    get extensionJsonUrl() {
+        return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
+    }
+
+    get updateHostStateUrl() {
+        return `${this.mainSiteUrl}/admin/host/state`;
     }
 }

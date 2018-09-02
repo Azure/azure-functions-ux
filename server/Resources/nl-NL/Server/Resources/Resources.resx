@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Er zijn te veel logboeken. Vernieuwingsfrequentie: {{seconds}} seconden.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Opnieuw verbinden</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Opnieuw verbonden</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Al verbonden</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Naam</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Maken</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Toevoegen</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>De proefversie is verlopen</value>
@@ -1049,7 +1061,7 @@
     <value>instellingen voor functie-apps</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtimeversie: {{exactExtensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
+    <value>U bent momenteel vastgemaakt aan de runtime-versie {{exactExtensionVersion}}. U kunt een update uitvoeren om dit ongedaan te maken en de nieuwste versie te gebruiken: ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Runtime-versie: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>Wisseling</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Wisselen starten</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Wisseling voltooien</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Wisseling annuleren</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>Publicatieprofiel downloaden</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>Publicatieprofiel ophalen</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>Publicatiereferenties opnieuw instellen</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>Publicatieprofiel opnieuw instellen</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Verwijderen</value>
@@ -1310,7 +1325,7 @@
     <value>Configureer de implementatiereferenties op Azure-accountniveau. Als u de referenties op app-niveau (ook wel bekend als de publicatiereferenties) wilt wijzigen, gaat u naar het tabblad Overzicht en kiest u Publicatiereferenties opnieuw instellen. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>De consoleservice is niet beschikbaar op uw app.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH voorziet in een online SSH-console-ervaring voor de code van uw Linux-apps</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>Opnieuw verbinden</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>In nieuw venster openen</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Uitbreidingen</value>
@@ -1478,7 +1499,7 @@
     <value>Altijd aan</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Dit geeft aan dat uw Web App steeds geladen moet zijn. Standaard worden Web Apps uit het geheugen verwijderd als ze inactief zijn geweest. Aanbevolen wordt deze optie in te schakelen wanneer u doorlopende webtaken uitvoert op de Web Apps.</value>
+    <value>Hiermee wordt aangegeven dat uw web-app steeds moet zijn geladen. Standaard worden web-apps uit het geheugen verwijderd als ze inactief zijn geweest. Het wordt aanbevolen om deze optie in te schakelen wanneer u doorlopende webtaken uitvoert in de web-apps.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Er is een standaard of hoger App Service-plan vereist voor AlwaysOn</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Verzend snelle, schaalbare mobiele pushmeldingen naar meerdere platformen via Notification Hubs.</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>Verbinding maken...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>Toepassingslogboeken</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Webserverlogboeken</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Logboeken met diagnostische gegevens</value>
@@ -2160,6 +2190,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Naam</value>
+  </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Instellingen klonen uit:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Instellingen niet klonen</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Een nieuwe implementatiesite maken</value>
@@ -2810,6 +2846,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Wisseling met preview uitvoeren</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>De wisselactie in meerdere fasen past sleufspecifieke configuratie-elementen uit de eerste sleuf toe op de tweede sleuf. Vervolgens wordt de bewerking onderbroken tot de gebruiker de wisseling voltooit of annuleert. Als de wisseling is voltooid, leidt deze het verkeer van de eerste sleuf door naar de tweede sleuf.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Wisseling starten</value>
   </data>
@@ -2820,7 +2859,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Een wisselbewerking wordt momenteel uitgevoerd. Wanneer u de pagina verlaat, kunt u de status van de bewerking niet meer controleren.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} tussen sleuf {{srcSlot}} en sleuf {{destSlot}}</value>
+    <value>{{swapType}} tussen de sleuf {{srcSlot}} en de sleuf {{destSlot}}</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>wisselen</value>
@@ -3087,7 +3126,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>De eerste Basic-kern (B1) voor Linux is de eerste dertig dagen gratis.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows-containers worden tijdens de preview-fase gefactureerd met 50% korting.</value>
+    <value>Uitschalen voor Windows-containers is beperkt tot twee instanties en is tot 13 september 2018 gratis.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Er zijn geen Isolated-prijscategorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie.  Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
@@ -3546,10 +3585,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Referenties implementatie</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Dv3-reeks voor Compute</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>De toegewezen Compute-resources uit de Dv3-reeks voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Verbindingsreeksen mogen alleen met een functie-app worden gebruikt als u Entity Framework gebruikt. Gebruik App-instellingen voor andere scenario's. Klik voor meer informatie.</value>
@@ -3607,5 +3646,197 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB-account</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Privéopslagplaats</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>gebruikersnaam invoeren</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>wachtwoord invoeren</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>Enkele container</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>Dit is de beschrijving voor Enkele container.</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>Dit is de gedetailleerde beschrijving voor Enkele container.</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>Dit is de beschrijving voor Docker Compose.</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>Dit is de gedetailleerde beschrijving voor Docker Compose.</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>Dit is de beschrijving voor Kubernetes.</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>Dit is de gedetailleerde beschrijving voor Kubernetes.</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>Kan de runtime-extensie niet installeren. Bekijk voor meer informatie </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>Installatie-id: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>Sessie-id: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>Opslag op basis van lokale SSD voor het hosten van containers en {0} GB optionele schijfopslag gedeeld door alle apps die zijn geïmplementeerd in het App Service-plan.</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Naam van de functie-app</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>Programmeertaal van functie</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>Verzenden</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>De implementatie wordt ingesteld</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>De implementatie is ingesteld</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>Kan de implementatie niet instellen</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>De verbinding met uw implementatie wordt verbroken</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>De verbinding met uw implementatie is verbroken</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>Kan de verbinding met uw implementatie niet verbreken</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>Weet u zeker dat u de verbinding met uw implementatie wilt verbreken?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>Community-sjablonen</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>Hebt u niet gevonden wat u zoekt? Doe inspiratie op in de Serverless Library, onze galerie met sjablonen die door de community zijn gemaakt.</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Azure Functions-runtime is niet bereikbaar.</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>Klik hier voor meer informatie over opslagconfiguratie.</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>Klik hier voor meer informatie over het oplossen van problemen met de installatie van extensies</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>{0} Azure Compute-eenheden in totaal</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>Synchronisatieaanvraag is ingediend</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>De opslagplaats voor web-app {0} wordt bijgewerkt.</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>De opslagplaats voor web-app {0} kan op dit moment niet worden bijgewerkt.</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>De doorlopende VSTS-levering vereist dat u een machtiging hebt voor het schrijven naar Azure Active Directory en het maken van een service-principal.</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>U bent geen eigenaar van VSTS-opslagplaatsen</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>U hebt geen geldige VSTS-accounts</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>U hebt geen geldige VSTS-accounts. App Service Kudu Build vereist ook dat u accounteigenaar bent.</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>Nu maken</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>De functie-uitbreidingen moeten worden bijgewerkt.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Kan de bronconfiguratie niet ophalen</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>U hebt geen aanmaakmachtigingen</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>U hebt geen wisselmachtigingen</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>U hebt geen schrijfmachtigingen</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>De sleuf heeft een alleen-lezenvergrendeling</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>Bron en doel mogen niet dezelfde sleuf zijn</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Kan geen wisseling in meerdere fasen uitvoeren omdat voor de volgende sleuven verificatie is ingeschakeld: {{slotNames}}</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Wisseling in meerdere fasen kan alleen worden gebruikt voor sites waarvoor sleufinstellingen zijn ingeschakeld</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Voordat u de wisseling voltooit, evalueert u het app-gedrag van de eerste sleuf aan de hand van de configuratie van de tweede sleuf</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>U hebt geen schrijfmachtiging voor de volgende sleuven: {{slotNames}}</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>U hebt geen wisselmachtiging voor de volgende sleuven: {{slotNames}}</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>Er is een alleen-lezenvergrendeling voor de volgende sleuven: {{slotNames}}</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>Een wisselbewerking kan alleen worden uitgevoerd als de app meerdere sleuven heeft</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Sleuven wisselen</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>Kan niet laden</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>Voorbeeld van wijzigingen</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Maak hierboven een geldige selectie om de preview te laden</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Kan preview niet laden</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Bronwijzigingen</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Doelwijzigingen</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>Wisselactie</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

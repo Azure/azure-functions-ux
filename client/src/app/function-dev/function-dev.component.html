@@ -267,7 +267,7 @@
       </h4>
     </div>
 
-    <div class="tab-heading" (click)="clickBottomTab('console')">
+    <div *ngIf="showConsole" class="tab-heading" (click)="clickBottomTab('console')">
       <h4 [class.tab-label-disabled]="bottomTab !== 'console'"
         [class.tab-label-selected]="bottomTab === 'console'"
         tabindex="0"

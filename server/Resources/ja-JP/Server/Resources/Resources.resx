@@ -339,6 +339,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>ログが多すぎます。リフレッシュ レート: {{seconds}} 秒。</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>再接続</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>再接続済み</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>既に接続されています。</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>名前</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -492,6 +501,9 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>作成</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>追加</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>試用期間が終了しました</value>
@@ -1049,7 +1061,7 @@
     <value>Function App の設定</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>ランタイム バージョン: {{exactExtensionVersion}}。新しいバージョン ({{latestExtensionVersion}}) を利用できます。</value>
+    <value>ユーザーは現在ランタイム バージョン: {{exactExtensionVersion}} にピン留めされています。ピン留めを外して、最新バージョン: ({{latestExtensionVersion}}) を使用するように更新できます。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>ランタイム バージョン: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1168,17 +1180,20 @@
   <data name="swap" xml:space="preserve">
     <value>スワップ</value>
   </data>
+  <data name="startSwap" xml:space="preserve">
+    <value>Start Swap</value>
+  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>スワップの完了</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>スワップの取り消し</value>
   </data>
-  <data name="downloadProfile" xml:space="preserve">
-    <value>発行プロファイルのダウンロード</value>
+  <data name="getPublishProfile" xml:space="preserve">
+    <value>発行プロファイルの取得</value>
   </data>
-  <data name="resetPubCredentials" xml:space="preserve">
-    <value>発行資格情報のリセット</value>
+  <data name="resetPublishProfile" xml:space="preserve">
+    <value>発行プロファイルのリセット</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>削除</value>
@@ -1310,7 +1325,7 @@
     <value>Azure アカウントレベルのデプロイ資格情報を構成します。アプリレベルの資格情報 (つまり、'発行資格情報') を変更するには、[概要] タブで [Reset publish credentials] を選択してください。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;詳細情報&lt;/a&gt;。</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>The console service is not available on your app.</value>
+    <value>このアプリでコンソール サービスは利用できません。</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>コンソール</value>
@@ -1344,6 +1359,12 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH は、Linux アプリのコードに Web SSH コンソールのエクスペリエンスを提供します</value>
+  </data>
+  <data name="ssh_reconnect" xml:space="preserve">
+    <value>再接続</value>
+  </data>
+  <data name="ssh_newWindow" xml:space="preserve">
+    <value>新しいウィンドウで開く</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>拡張機能</value>
@@ -1608,6 +1629,15 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Notification Hubs を使って高速、スケーラブル、かつクロスプラットフォームのモバイル プッシュ通知を送信します。</value>
+  </data>
+  <data name="feature_logStreamingConnecting" xml:space="preserve">
+    <value>接続しています...</value>
+  </data>
+  <data name="feature_applicationLogsName" xml:space="preserve">
+    <value>アプリケーション ログ</value>
+  </data>
+  <data name="feature_webServerLogsName" xml:space="preserve">
+    <value>Web サーバー ログ</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>診断ログ</value>
@@ -2160,6 +2190,12 @@
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>名前</value>
+  </data>
+  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
+    <value>Clone settings from:</value>
+  </data>
+  <data name="slotNew_dontCloneConfig" xml:space="preserve">
+    <value>Do not clone settings</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>新しいデプロイ スロットの作成</value>
@@ -2809,6 +2845,9 @@
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>プレビューでスワップを実行</value>
   </data>
+  <data name="swapWithPreviewInfoText" xml:space="preserve">
+    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>スワップの開始</value>
   </data>
@@ -2819,7 +2858,7 @@
     <value>スワップ操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>スロット {{srcSlot}} とスロット {{destSlot}} 間の {{swapType}} </value>
+    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>スワップ</value>
@@ -3086,7 +3125,7 @@
     <value>Linux の最初の Basic (B1) コアは、最初の 30 日間無料です。</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows コンテナーはプレビュー期間中は 50% 割引で課金されます。</value>
+    <value>Windows コンテナーは 2 つのインスタンスのスケールアウトに制限されており、2018 年 9 月 13 日まで無料です。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
@@ -3545,10 +3584,10 @@
     <value>展開の資格情報</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
+    <value>Dv3 シリーズの計算</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 Dv3 シリーズの計算リソースです。</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Entity Framework を使用している場合、接続文字列は関数アプリでのみご使用ください。他のシナリオではアプリ設定を使用します。詳細についてはクリックしてください。</value>
@@ -3606,5 +3645,197 @@
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Azure Cosmos DB アカウント</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>Private Repository</value>
+  </data>
+  <data name="privateRepo" xml:space="preserve">
+    <value>プライベート リポジトリ</value>
+  </data>
+  <data name="enterUsername" xml:space="preserve">
+    <value>ユーザー名を入力</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>パスワードを入力</value>
+  </data>
+  <data name="singleContainerTitle" xml:space="preserve">
+    <value>単一コンテナー</value>
+  </data>
+  <data name="singleContainerDescription" xml:space="preserve">
+    <value>これは、単一コンテナーの説明です。</value>
+  </data>
+  <data name="singleContainerDetailedDescription" xml:space="preserve">
+    <value>これは、単一コンテナーの詳細な説明です。</value>
+  </data>
+  <data name="dockerComposeContainerTitle" xml:space="preserve">
+    <value>Docker Compose</value>
+  </data>
+  <data name="dockerComposeContainerDescription" xml:space="preserve">
+    <value>これは、Docker Compose の説明です。</value>
+  </data>
+  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
+    <value>これは、Docker Compose の詳細な説明です。</value>
+  </data>
+  <data name="kubernetesContainerTitle" xml:space="preserve">
+    <value>Kubernetes</value>
+  </data>
+  <data name="kubernetesContainerDescription" xml:space="preserve">
+    <value>これは、Kubernetes の説明です。</value>
+  </data>
+  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
+    <value>これは、Kubernetes の詳細な説明です。</value>
+  </data>
+  <data name="failedToInstallExtensionUrl" xml:space="preserve">
+    <value>ランタイム拡張機能をインストールできませんでした。表示して詳細をご確認ください </value>
+  </data>
+  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
+    <value>インストール ID: {{installId}}</value>
+  </data>
+  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
+    <value>セッション ID: {{sessionId}}</value>
+  </data>
+  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
+    <value>コンテナーをホストするためのローカル SSD ベースのストレージと、App Service プランでデプロイされているすべてのアプリで共有されるオプションの {0} GB のディスク ストレージ。</value>
+  </data>
+  <data name="functionAppName" xml:space="preserve">
+    <value>Function App 名</value>
+  </data>
+  <data name="languageAria" xml:space="preserve">
+    <value>関数プログラミング言語</value>
+  </data>
+  <data name="submitting" xml:space="preserve">
+    <value>送信中</value>
+  </data>
+  <data name="settingupDeployment" xml:space="preserve">
+    <value>デプロイのセットアップ中</value>
+  </data>
+  <data name="settingupDeploymentSuccess" xml:space="preserve">
+    <value>デプロイは正常にセットアップされました</value>
+  </data>
+  <data name="settingupDeploymentFail" xml:space="preserve">
+    <value>デプロイをセットアップできませんでした</value>
+  </data>
+  <data name="disconnectingDeployment" xml:space="preserve">
+    <value>デプロイとの接続を切断しています</value>
+  </data>
+  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
+    <value>デプロイが正常に切断されました</value>
+  </data>
+  <data name="disconnectingDeploymentFail" xml:space="preserve">
+    <value>デプロイとの接続を切断できませんでした</value>
+  </data>
+  <data name="disconnectConfirm" xml:space="preserve">
+    <value>デプロイとの接続を切断しますか?</value>
+  </data>
+  <data name="communityTemplatesTitle" xml:space="preserve">
+    <value>コミュニティのテンプレート</value>
+  </data>
+  <data name="communityTemplatesDescription" xml:space="preserve">
+    <value>お探しのものが見つかりませんか? Serverless Library (コミュニティが作成したテンプレートのギャラリー) をご覧になれば、何かひらめくかもしれません!</value>
+  </data>
+  <data name="scmPingFailedErrorMessage" xml:space="preserve">
+    <value>Azure Functions ランタイムに到達できません。</value>
+  </data>
+  <data name="scmPingFailedLearnMore" xml:space="preserve">
+    <value>ストレージ構成の詳細については、ここをクリックしてください。</value>
+  </data>
+  <data name="extensionInstallDocLink" xml:space="preserve">
+    <value>ここをクリックしてトラブルシューティング拡張機能のインストールの詳細を表示します</value>
+  </data>
+  <data name="pricing_ACU" xml:space="preserve">
+    <value>ACU 合計 {0}</value>
+  </data>
+  <data name="syncRequestSubmitted" xml:space="preserve">
+    <value>同期要求を送信しました</value>
+  </data>
+  <data name="syncRequestSubmittedDesc" xml:space="preserve">
+    <value>Web アプリ {0} のリポジトリを更新しています</value>
+  </data>
+  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
+    <value>Web アプリ {0} のリポジトリは、現在は更新できません。</value>
+  </data>
+  <data name="vsts_permissions_error" xml:space="preserve">
+    <value>VSTS 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
+  </data>
+  <data name="no_vsts_repos" xml:space="preserve">
+    <value>You don not own any VSTS Repositories</value>
+  </data>
+  <data name="no_vsts_accounts" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts</value>
+  </data>
+  <data name="no_vsts_accounts_kudu" xml:space="preserve">
+    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+  </data>
+  <data name="create_one" xml:space="preserve">
+    <value>今すぐ作成します</value>
+  </data>
+  <data name="topBar_updateExtensions" xml:space="preserve">
+    <value>Your Function extensions need to be updated.</value>
+  </data>
+  <data name="cloneConfigLoadFailure" xml:space="preserve">
+    <value>Failed to retrieve source configuration</value>
+  </data>
+  <data name="noCreateAccess" xml:space="preserve">
+    <value>You do not have create access</value>
+  </data>
+  <data name="noSwapPermission" xml:space="preserve">
+    <value>You do not have swap permission</value>
+  </data>
+  <data name="noWritePermission" xml:space="preserve">
+    <value>You do not have write permission</value>
+  </data>
+  <data name="slotReadOnlyLock" xml:space="preserve">
+    <value>The slot has a read-only lock</value>
+  </data>
+  <data name="swapSrcDestNotUnique" xml:space="preserve">
+    <value>展開元と展開先に同じスロットを指定できません</value>
+  </data>
+  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
+    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+  </data>
+  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
+    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+  </data>
+  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
+    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+  </data>
+  <data name="noWritePermissionOnSlots" xml:space="preserve">
+    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="noSwapPermissionOnSlots" xml:space="preserve">
+    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="readOnlyLockOnSlots" xml:space="preserve">
+    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+  </data>
+  <data name="swapRequresMultipleSlots" xml:space="preserve">
+    <value>A swap operation can only be performed if the app has multiple slots</value>
+  </data>
+  <data name="swapSlotsHeading" xml:space="preserve">
+    <value>Swap Slots</value>
+  </data>
+  <data name="swapLoadingFailed" xml:space="preserve">
+    <value>読み込みに失敗しました</value>
+  </data>
+  <data name="swapPreviewChangesHeading" xml:space="preserve">
+    <value>変更のプレビュー</value>
+  </data>
+  <data name="swapPreviewMakeSelection" xml:space="preserve">
+    <value>Please make a valid selection above to load preview</value>
+  </data>
+  <data name="swapChangesLoadingFailed" xml:space="preserve">
+    <value>Failed to load preview</value>
+  </data>
+  <data name="swapSourceChangesHeading" xml:space="preserve">
+    <value>Source Changes</value>
+  </data>
+  <data name="swapTargetChangesHeading" xml:space="preserve">
+    <value>Target Changes</value>
+  </data>
+  <data name="swapActionLabel" xml:space="preserve">
+    <value>スワップ アクション</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
   </data>
 </root>

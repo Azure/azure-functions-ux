@@ -28,8 +28,10 @@
       <div class="essentials-col" *ngIf="branch">
         <div>
           <label id="siteStatusLabel">{{'repository' | translate}}</label>
-          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{repo}}
+          <div>
+            <a (click)="repoLinkClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+              {{repo}}
+            </a>
           </div>
         </div>
 
@@ -140,7 +142,7 @@
   </div>
   <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
     [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
-    <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
+    <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" [redeployEnabled]="redeployEnabled" (closePanel)="sidebar.close()"></app-deployment-detail>
     <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
   </ng-sidebar>
 </ng-sidebar-container>

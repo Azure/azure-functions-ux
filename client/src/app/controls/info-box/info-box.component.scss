@@ -3,6 +3,12 @@
 .info-box {
   margin-bottom: 10px;
 
+  background-color: $info-box-color;
+
+  &.clickable:hover {
+    background-color: $info-box-color-hover;
+  }
+
   .info-icon-container {
     display: table-cell;
     vertical-align: middle;
@@ -37,19 +43,13 @@
   }
 }
 
-.info-box.info {
-  background-color: $info-box-color;
-
-  &.clickable:hover {
-    background-color: $info-box-color-hover;
-  }
-}
-
+/* INFO */
 .info-box.info /deep/ .msportalfx-svg-c15,
 .info-box.info /deep/ .msportalfx-svg-c16 {
   fill: $primary-color;
 }
 
+/* WARNING */
 .info-box.warning {
   background-color: $warning-box-color;
 
@@ -62,6 +62,7 @@
   fill: $warning-color;
 }
 
+/* ERROR */
 .info-box.error {
   background-color: $error-box-color;
 
@@ -72,4 +73,34 @@
 
 .info-box.error /deep/ .msportalfx-svg-c22 {
   fill: $error-color;
+}
+
+/* SUCCESS */
+.info-box.success /deep/ .msportalfx-svg-c14 {
+  fill: $success-color;
+}
+
+/* SPINNER */
+.info-box.spinner /deep/ .msportalfx-svg-c03 {
+  fill: $grey-color;
+}
+
+.info-box.spinner /deep/ .msportalfx-svg-c16 {
+  fill: $primary-color;
+}
+
+.info-box.spinner /deep/ .msportalfx-svg-rotate360 {
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin{
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin{
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

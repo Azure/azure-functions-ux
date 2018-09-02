@@ -33,6 +33,7 @@ interface DeploymentLogItem {
 })
 export class DeploymentDetailComponent implements OnChanges {
     @Input() deploymentObject: ArmObj<Deployment>;
+    @Input() redeployEnabled = true;
     @Output() closePanel = new EventEmitter();
     public viewInfoStream$ = new Subject<ArmObj<Deployment>>();
     private _deploymentLogFetcher$ = new Subject<DeploymentDetailTableItem>();
