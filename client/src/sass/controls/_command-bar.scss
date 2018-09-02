@@ -27,6 +27,78 @@
     }
 }
 
+#command-bar-embedded-top{
+    .command-bar-wrapper{
+        background-color: $pa-command-bar;
+        padding-left: 22px;
+        height: 40px;
+
+        .command{
+            font-size: 14px;
+            font-weight: 400;
+            color: $pa-text-color;
+            min-width: 20px;
+            padding-left: 8px;
+            padding-bottom: 8px;
+            font-family: "Segoe UI", "Segoe";
+            
+            &:hover{
+                background-color: $pa-command-hover;
+            }
+
+            &.right-edge{
+                float: right;
+                margin-right: 20px;
+                
+            }
+
+            svg{
+                fill: $pa-icon-color;
+            }
+
+            i{
+                color: $pa-icon-color;
+                padding-right: 3px;
+            }
+        }
+    }
+}
+
+#command-bar-embedded-bottom{
+    .command-bar-wrapper{
+        background-color: $pa-command-bar;
+        padding-left: 22px;
+        height: 40px;
+
+        .right-edge{
+            float: right;
+        }
+
+        .command{
+            font-size: 14px;
+            font-weight: 400;
+            color: $pa-text-color;
+            min-width: 20px;
+            padding-left: 8px;
+            padding-bottom: 8px;
+            font-family: "Segoe UI", "Segoe";
+            
+            &:hover{
+                background-color: $pa-command-hover;
+            }
+
+            svg{
+                fill: $pa-icon-color;
+            }
+
+            i{
+                color: $pa-icon-color;
+                padding-right: 3px;
+            }
+        }
+    }
+}
+
 #top-bar{
     .command-bar-wrapper{
         command{
@@ -37,7 +109,6 @@
     }
 }
 
-
 #app-root[theme=dark]{
     #top-bar{
         .command-bar-wrapper{
@@ -47,6 +118,5 @@
                 }
             }
         }
-    }
-    
+    } 
 }

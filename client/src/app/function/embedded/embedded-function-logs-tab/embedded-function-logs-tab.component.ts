@@ -13,20 +13,15 @@ import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event
 import { Subscription } from 'rxjs/Subscription';
 import { LogCategories } from 'app/shared/models/constants';
 import { VfsObject } from 'app/shared/models/vfs-object';
+import { UtilitiesService } from '../../../shared/services/utilities.service';
 
 @Component({
   selector: 'embedded-function-logs-tab',
   templateUrl: './embedded-function-logs-tab.component.html',
-  styleUrls: ['./embedded-function-logs-tab.component.scss']
+  styleUrls: ['./embedded-function-logs-tab.component.scss'],
 })
 export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent implements OnChanges, OnDestroy {
   @Input() resourceId: string;
-
-  public commands = [{
-    iconUrl: 'image/start.svg',
-    text: `{{ 'logStreaming_pause' | translate }}`,
-    click: () => this._startLogs()
-  }];
 
   public logContent = '';
   public isPolling = false;
@@ -44,7 +39,8 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     private _armService: ArmService,
     private _broadcastService: BroadcastService,
     private _logService: LogService,
-    private _translateService: TranslateService) {
+    private _translateService: TranslateService,
+    private _utilities: UtilitiesService) {
     super();
 
     this._resourceIdStream
@@ -57,10 +53,24 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       });
 
     this._broadcastService.getEvents<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent)
-      .filter(e => e.type === 'runTest')
       .takeUntil(this._ngUnsubscribe)
       .subscribe(r => {
-        this._startLogs();
+        switch (r.type) {
+          case 'copyLogs':
+            this._copyLogs();
+            break;
+          case 'pauseLogs':
+            this._stopLogs();
+            break;
+          case 'startLogs':
+            this._startLogs();
+            break;
+          case 'clearLogs':
+            this._clearLogs();
+            break;
+          default:
+            break;
+        }
       });
   }
 
@@ -100,10 +110,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       return;
     }
 
-    this.commands[0].click = () => this._stopLogs();
-    this.commands[0].iconUrl = 'image/pause.svg';
-    this.commands[0].text = this._translateService.instant(PortalResources.logStreaming_pause);
-
     this.isPolling = true;
 
     Observable.of(null)
@@ -118,11 +124,17 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       .takeUntil(this._ngUnsubscribe)
       .takeUntil(this._stopPolling)
       .switchMap(t => {
-        return this._cacheService.getArm(`${this.resourceId}/logs`, true);
+        return this._cacheService.getArm(`${this.resourceId}/logs`, true)
+          .catch((err) => {
+            return Observable.zip(
+              Observable.of(null),
+              Observable.of(err.text()),
+          );
+        });
       })
-      .switchMap(r => {
-        if (r) {
-          const files: VfsObject[] = r.json();
+      .switchMap(tuple => {
+        if (tuple[0]) {
+          const files: VfsObject[] = tuple[0].json();
           if (files.length > 0) {
 
             files
@@ -132,18 +144,25 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
             const headers = this._armService.getHeaders();
             headers.append('Range', `bytes=-${10000}`);
             const url = this._armService.getArmUrl(this.resourceId);
-            return this._cacheService.get(`${url}/logs/${files.pop().name}`, true, headers);
+            return this._cacheService.get(`${url}/logs/${files.pop().name}`, true, headers)
+                .catch((err) => {
+                  return Observable.zip(
+                          Observable.of(null),
+                          Observable.of(err.text()),
+                  );
+                });
           }
         }
-        return Observable.of(null);
+        return Observable.zip(
+            Observable.of(null),
+            Observable.of(tuple[1]),
+        );
       })
-      .do(null, err => {
-        this.logContent = this._translateService.instant(PortalResources.logStreaming_failedToDownload).format(err.text());
-      })
-      .retry()
-      .subscribe(r => {
-        if (r) {
-          this.logContent = r.text();
+      .subscribe(tuple => {
+        if (tuple[0]) {
+          this.logContent = tuple[0].text();
+        } else if (tuple[1]) {
+          this.logContent = this._translateService.instant(PortalResources.logStreaming_failedToDownload).format(tuple[1]);
         } else {
           this.logContent = this._translateService.instant(PortalResources.logStreaming_noLogs);
         }
@@ -151,14 +170,18 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
   }
 
   private _stopLogs() {
-    this.commands[0].click = () => this._startLogs();
-    this.commands[0].iconUrl = 'image/start.svg';
-    this.commands[0].text = this._translateService.instant(PortalResources.logStreaming_start);
-
     this.logContent += '\n' + this._translateService.instant(PortalResources.logStreaming_paused);
     this._stopPolling.next();
     this.isPolling = false;
   }
 
+  private _copyLogs() {
+    this._utilities.copyContentToClipboard(this.logContent);
+  }
+
+  private _clearLogs() {
+    this._stopLogs();
+    this.logContent = '';
+  }
 
 }

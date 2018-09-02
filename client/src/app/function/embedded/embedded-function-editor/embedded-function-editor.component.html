@@ -1,49 +1,115 @@
 <div id="embedded-function-editor-wrapper"
   [class.right-tabs-expanded]="rightBarExpanded"
-  [class.bottom-tabs-expanded]="bottomBarExpanded">
+  [class.bottom-tabs-expanded]="bottomBarExpanded && !bottomBarMaximized"
+  [class.bottom-tabs-maximized]="bottomBarExpanded && bottomBarMaximized">
 
-  <section class="editor-section">
-    <command-bar>
-        <h2>{{displayName}}</h2>
-        <command displayText="{{ 'save' | translate }}"
-          iconUrl="image/save.svg"
-          (click)="saveEditorContent()"
-          cssClass="list-item clickable command left-edge"></command>
-        <command displayText="{{ '_delete' | translate }}"
-          iconUrl="image/delete.svg"
-          (click)="deleteFunction()"
-          cssClass="list-item clickable command"></command>
+  <section class="top-command-bar-section">
+    <command-bar id="command-bar-embedded-top">
+        <command  displayText="{{ 'save' | translate }}"
+                  iconName="ms-Icon ms-Icon--Save"
+                  (click)="saveEditorContent()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  displayText="{{ 'run' | translate }}"
+                  iconName="ms-Icon ms-Icon--Play"
+                  (click)="run()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  *ngIf="!disabled"
+                  displayText="{{ 'Disable' | translate }}"
+                  iconName="ms-Icon ms-Icon--Blocked"
+                  (click)="toggleDisabled()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  *ngIf="disabled"
+                  displayText="{{ 'Enable' | translate }}"
+                  iconName="ms-Icon ms-Icon--Completed"
+                  (click)="toggleDisabled()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  displayText="{{ '_delete' | translate }}"
+                  iconName="ms-Icon ms-Icon--Delete"
+                  (click)="deleteFunction()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  displayText="{{ 'test' | translate }}"
+                  (click)="setRightBarState()"
+                  cssClass="list-item clickable command right-edge">
+        </command>
     </command-bar>
+  </section>
 
-    <div class="text-editor-container">
+  <section class="text-editor-title">
+        <span class="clickable" (click)="navigateToList()">
+          {{'functions' | translate}}
+        </span>
+        <span>{{functionName}}</span>
+        <span>{{fileName}}</span>
+  </section>
+
+  <section class="text-editor-container" [class.disable-editor]="disabled">
       <text-editor
         [content]="initialEditorContent"
         (onContentChanged)="editorContentChanged($event)"
         [fileName]="fileName"></text-editor>
-    </div>
   </section>
 
-  <aside class="right-tabs-bar" >
-    <right-tabs>
-
-      <tab title="{{ 'test' | translate }}" id="FunctionTestTab">
-          <embedded-function-test-tab
+  <embedded-function-test-tab class="right-tabs-bar"
             *ngIf="rightBarExpanded"
-            [resourceId]="resourceId"></embedded-function-test-tab>
-      </tab>
+            [resourceId]="resourceId"
+            [firstRun]="firstRun">
+  </embedded-function-test-tab>
 
-    </right-tabs>
+  <section class="bottom-command-bar-section">
+        <command-bar id="command-bar-embedded-bottom">
+          <command  displayText="{{ 'logStreaming_logs' | translate }}"
+                    (click)="setBottomBarState()"
+                    cssClass="list-item clickable command">
+          </command>
+          <span *ngIf="bottomBarExpanded" class="right-edge">
+            <command  *ngIf="getLogs"
+                      displayText="{{ 'logStreaming_pause' | translate }}"
+                      iconName="ms-Icon ms-Icon--Pause"
+                      (click)="sendLogMessage('pauseLogs')"
+                      cssClass="list-item clickable command">
+            </command>
+            <command  *ngIf="!getLogs"
+                      displayText="{{ 'logStreaming_start' | translate }}"
+                      iconName="ms-Icon ms-Icon--Play"
+                      (click)="sendLogMessage('startLogs')"
+                      cssClass="list-item clickable command">
+            </command>
+            <command  displayText="{{ 'logStreaming_clear' | translate }}"
+                      iconName="ms-Icon ms-Icon--StatusCircleErrorX"
+                      (click)="sendLogMessage('clearLogs')"
+                      cssClass="list-item clickable command">
+            </command>
+            <command  displayText="{{ 'logStreaming_copyLogs' | translate }}"
+                      iconName="ms-Icon ms-Icon--Copy"
+                      (click)="sendLogMessage('copyLogs')"
+                      cssClass="list-item clickable command">
+            </command>
+            <command  *ngIf="!bottomBarMaximized" 
+                      displayText="{{ 'logStreaming_expand' | translate }}"
+                      iconName="ms-Icon ms-Icon--MiniExpand"
+                      (click)="maximizeBottomBar()"
+                      cssClass="list-item clickable command">
+            </command>
+            <command  *ngIf="bottomBarMaximized" 
+                      displayText="{{ 'logStreaming_compress' | translate }}"
+                      iconName="ms-Icon ms-Icon--MiniContract"
+                      (click)="compressBottomBar()"
+                      cssClass="list-item clickable command">
+            </command>
+          </span>
+        </command-bar>
+    </section>
 
-  </aside>
+  <embedded-function-logs-tab class="bottom-tabs-bar"
+      *ngIf="bottomBarExpanded"
+      title="Logs"
+      id="FunctionsLogTab"
+      [resourceId]="resourceId">
+  </embedded-function-logs-tab>
 
-  <footer class="bottom-tabs-bar">
-    <bottom-tabs (onExpanded)="setBottomBarState($event)">
-        <embedded-function-logs-tab
-          *ngIf="bottomBarExpanded"
-          title="Logs"
-          id="FunctionsLogTab"
-          [resourceId]="resourceId"></embedded-function-logs-tab>
-
-      </bottom-tabs>
-  </footer>
 </div>

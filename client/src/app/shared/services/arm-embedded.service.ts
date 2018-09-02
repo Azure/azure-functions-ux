@@ -16,16 +16,18 @@ export class ArmEmbeddedService extends ArmService {
 
     private _whitelistedAPIMUrls: string[] = [
         'https://blueridge.azure-api.net',
-        'https://tip1.api.cds.microsoft.com'
+        'https://tip1.api.cds.microsoft.com',
+        'https://tip1.admin.blueridge.ms',
+        'https://tip1.runtime.blueridge.ms',
     ];
 
     private _whitelistedRPPrefixUrls: string[] = [
         ArmEmbeddedService.url,
-        NoCorsHttpService.passThroughUrl
+        NoCorsHttpService.passThroughUrl,
     ];
 
     private _whitelistedPathPrefix: string[] = [
-        '/api/'
+        '/api/',
     ];
 
     constructor(http: Http,
@@ -56,14 +58,14 @@ export class ArmEmbeddedService extends ArmService {
                     enabled: false,
                     unauthenticatedClientAction: null,
                     clientId: null,
-                }
+                },
             }));
         } else if (urlNoQuery.endsWith('/appsettings/list')) {
             return Observable.of(this._getFakeResponse({
                 properties: {
                     FUNCTIONS_EXTENSION_VERSION: 'beta',
-                    FUNCTION_APP_EDIT_MODE: 'readwrite'
-                }
+                    FUNCTION_APP_EDIT_MODE: 'readwrite',
+                },
             }));
         } else if (urlNoQuery.endsWith('.svg')) {
             return super.send(method, url, body, etag, headers);
@@ -86,7 +88,7 @@ export class ArmEmbeddedService extends ArmService {
                 .map(r => {
                     // Calls to Function management API's for embedded scenario's are wrapped with a standard API payload.
                     // To keep the code somewhat clean, we intercept the response and unwrap each payload so that it looks as
-                    // similar as possible to Azure scenario's.  Not everything will be a one-to-one mapping between the two scenario's 
+                    // similar as possible to Azure scenario's.  Not everything will be a one-to-one mapping between the two scenario's
                     // but should have similar structure.
                     urlNoQuery = this._getActualUrlNoQuery(urlNoQuery, body);
                     let response: any = null;
@@ -132,7 +134,7 @@ export class ArmEmbeddedService extends ArmService {
         }
 
         this._aiService.trackEvent('/arm-embedded/arm-send-failure', {
-            uri: url
+            uri: url,
         });
 
         throw new Error('[ArmEmbeddedService] URL rule not defined - send: ' + url);
@@ -167,13 +169,13 @@ export class ArmEmbeddedService extends ArmService {
             if (pathParts[pathParts.length - 2].toLowerCase() === 'files') {
                 body.body = {
                     properties: {
-                        content: body.body
-                    }
+                        content: body.body,
+                    },
                 };
                 body.headers['Content-Type'] = 'application/json';
             } else {
                 body.body = {
-                    properties: body.body
+                    properties: body.body,
                 };
 
             }
@@ -194,12 +196,12 @@ export class ArmEmbeddedService extends ArmService {
             if (pathParts[pathParts.length - 2].toLowerCase() === 'files') {
                 body = {
                     properties: {
-                        content: body
-                    }
+                        content: body,
+                    },
                 };
             } else {
                 body = {
-                    properties: body
+                    properties: body,
                 };
             }
         }
@@ -215,7 +217,7 @@ export class ArmEmbeddedService extends ArmService {
             kind: 'functionapp',
             properties: {
 
-            }
+            },
         });
     }
 
@@ -224,15 +226,14 @@ export class ArmEmbeddedService extends ArmService {
             headers: {
                 get: () => {
                     return null;
-                }
+                },
             },
             json: () => {
                 return jsonObj;
             },
             text: () => {
                 return text;
-            }
+            },
         };
     }
 }
-

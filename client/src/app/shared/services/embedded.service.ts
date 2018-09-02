@@ -44,7 +44,7 @@ export class EmbeddedService {
                 const result: HttpResult<FunctionInfo> = {
                     isSuccessful: true,
                     error: null,
-                    result: r
+                    result: r,
                 };
                 return result;
             })
@@ -53,9 +53,9 @@ export class EmbeddedService {
                     isSuccessful: false,
                     error: {
                         errorId: errorIds.embeddedCreateError,
-                        message: e._body
+                        message: e._body,
                     },
-                    result: null
+                    result: null,
                 };
 
                 return Observable.of(result);
@@ -74,7 +74,7 @@ export class EmbeddedService {
                 const result: HttpResult<void> = {
                     isSuccessful: true,
                     error: null,
-                    result: null
+                    result: null,
                 };
                 return result;
             })
@@ -83,9 +83,9 @@ export class EmbeddedService {
                     isSuccessful: false,
                     error: {
                         errorId: errorIds.embeddedDeleteError,
-                        message: 'Failed to delete function'
+                        message: 'Failed to delete function',
                     },
-                    result: null
+                    result: null,
                 };
 
                 return Observable.of(result);
@@ -105,7 +105,7 @@ export class EmbeddedService {
                 const result: HttpResult<ArmArrayResult<Entity>> = {
                     isSuccessful: true,
                     error: null,
-                    result: r.json()
+                    result: r.json(),
                 };
                 return result;
             })
@@ -114,13 +114,60 @@ export class EmbeddedService {
                     isSuccessful: false,
                     error: {
                         errorId: errorIds.embeddedGetEntities,
-                        message: 'Failed to get entitites'
+                        message: 'Failed to get entitites',
                     },
-                    result: null
+                    result: null,
                 };
 
                 return Observable.of(result);
             });
+    }
+
+    runFunction(triggerUrl: string, body: string) {
+        return this._userService
+            .getStartupInfo()
+            .first()
+            .switchMap(info => {
+                const headers = this._getHeaders(info);
+                return this._cacheService.post(triggerUrl, true, headers, body);
+        });
+    }
+
+    toggleFunctionStatus(resourceId: string, disable: boolean): Observable<HttpResult<void>> {
+        let action: string;
+        if (disable) {
+            action = 'disable';
+        } else {
+            action = 'enable';
+        }
+
+        return this._userService
+        .getStartupInfo()
+        .first()
+        .switchMap(info => {
+            const headers = this._getHeaders(info);
+            const url = this._armService.getArmUrl(`${resourceId}/${action}`, this._armService.websiteApiVersion);
+            return this._cacheService.post(url, true, headers);
+        })
+        .map(r => {
+            const result: HttpResult<void> = {
+                isSuccessful: true,
+                error: null,
+                result: null,
+            };
+            return result;
+        })
+        .catch(e => {
+            const result: HttpResult<void> = {
+                isSuccessful: false,
+                error: {
+                    errorId: errorIds.embeddedUpdateStatusError,
+                    message: 'Failed to update function status',
+                },
+                result: null,
+            };
+            return Observable.of(result);
+        });
     }
 
     private _getHeaders(info: StartupInfo<void>) {

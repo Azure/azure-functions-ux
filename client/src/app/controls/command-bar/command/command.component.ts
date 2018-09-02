@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 export class CommandComponent {
     @Input() displayText: string;
     @Input() iconUrl: string;
+    @Input() iconName: string;
     @Input() disabled = false;
     @Input() cssClass = 'list-item clickable command';
     @Output() click = new Subject<any>();

@@ -7,6 +7,7 @@
     (click)="onClick($event)"
     tabindex="0"
     (keydown)="onKeyPress($event)">
-      <span [load-image]="iconUrl" class="icon-small"></span>
+      <span *ngIf="iconUrl" [load-image]="iconUrl" class="icon-small"></span>
+      <i  *ngIf="iconName" [class]="iconName" aria-hidden="true"></i>
       {{displayText}}
   </a>

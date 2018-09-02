@@ -1,4 +1,4 @@
-export type FunctionEditorEventType = 'runTest';
+export type FunctionEditorEventType = 'runTest' | 'copyLogs' | 'pauseLogs' | 'startLogs' | 'clearLogs';
 
 export interface FunctionEditorEvent<T> {
     type: FunctionEditorEventType;

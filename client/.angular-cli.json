@@ -24,7 +24,8 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "sass/main.scss",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/prismjs/themes/prism-tomorrow.css"
+        "../node_modules/prismjs/themes/prism-tomorrow.css",
+        "../node_modules/office-ui-fabric-core/dist/css/fabric.min.css"
       ],
       "scripts": [
         "../node_modules/marked/marked.min.js",

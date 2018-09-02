@@ -121,7 +121,7 @@ export class ArmService {
     // tslint:disable-next-line:member-ordering
     public static getRPUrl(): string {
         if (window.location.host.indexOf('next') !== -1 || window.location.host.indexOf('localhost') !== -1) {
-            return 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+            return 'https://tip1.admin.blueridge.ms';
         }
         return 'https://blueridge-rp-westus.azurewebsites.net';
     }

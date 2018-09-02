@@ -48,7 +48,8 @@
         "@ng-select/ng-select": "^1.5.0",
         "prismjs": "^1.13.0",
         "ngx-uploader": "^4.2.4",
-        "pako": "^1.0.6"
+        "pako": "^1.0.6",
+        "office-ui-fabric-core": "^9.6.0"
     },
     "devDependencies": {
         "@angular/cli": "^1.7.3",

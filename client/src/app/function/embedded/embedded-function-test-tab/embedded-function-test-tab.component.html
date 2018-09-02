@@ -1,21 +1,18 @@
-<section id="test-tab-request-body">
-    <label>{{ 'functionDev_requestBody' | translate }}</label>
+<busy-state name="embedded-function-test-tab"></busy-state>
+<section class="test-tab-right">
+    <section id="test-tab-request-body">
+        <label>{{ 'functionDev_requestBody' | translate }}</label>
 
-    <div class="request-editor-container">
-        <text-editor
-            [content]="initialEditorContent"
-            (onContentChanged)="editorContentChanged($event)"></text-editor>
-    </div>
+        <div class="request-editor-container">
+            <text-editor
+                [content]="initialEditorContent"
+                (onContentChanged)="editorContentChanged($event)"></text-editor>
+        </div>
+    </section>
+
+    <section id="test-tab-output">
+    <label>{{ 'functionDev_Output' | translate }}</label>
+    
+    <pre>{{responseOutputText}}</pre>
+    </section>
 </section>
-
-<section id="test-tab-output">
-  <label>{{ 'functionDev_Output' | translate }}</label>
-  
-  <pre>{{responseOutputText}}</pre>
-</section>
-
-<footer>
-    <button class="custom-button-invert" (click)="runTest()">
-        <i class="fa fa-play"></i><span>{{ 'run' | translate }}</span>
-    </button>
-</footer>
