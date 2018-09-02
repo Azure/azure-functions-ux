@@ -339,15 +339,6 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Protokolů je moc. Obnovovací frekvence v sekundách: {{seconds}}</value>
   </data>
-  <data name="logStreaming_reconnect" xml:space="preserve">
-    <value>Znovu připojit</value>
-  </data>
-  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
-    <value>Znovu připojeno</value>
-  </data>
-  <data name="logStreaming_connectionExists" xml:space="preserve">
-    <value>Připojení již bylo navázáno</value>
-  </data>
   <data name="_name" xml:space="preserve">
     <value>Název</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -501,9 +492,6 @@
   </data>
   <data name="create" xml:space="preserve">
     <value>Vytvořit</value>
-  </data>
-  <data name="add" xml:space="preserve">
-    <value>Přidat</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Vaše zkušební období vypršelo.</value>
@@ -1061,7 +1049,7 @@
     <value>Nastavení aplikace Function App</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>V tuto chvíli jste připnutí k této verzi modulu runtime: {{exactExtensionVersion}}. Pokud se chcete odepnout a použít nejnovější verzi ({{latestExtensionVersion}}), můžete provést aktualizaci.</value>
+    <value>Verze modulu runtime: {{exactExtensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Verze modulu runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
@@ -1180,20 +1168,17 @@
   <data name="swap" xml:space="preserve">
     <value>Přepnout</value>
   </data>
-  <data name="startSwap" xml:space="preserve">
-    <value>Zahájit prohození</value>
-  </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Dokončit prohození</value>
   </data>
   <data name="cancelSwap" xml:space="preserve">
     <value>Zrušit prohození</value>
   </data>
-  <data name="getPublishProfile" xml:space="preserve">
-    <value>Získat profil publikování</value>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Stáhnout profil publikování</value>
   </data>
-  <data name="resetPublishProfile" xml:space="preserve">
-    <value>Obnovit profil publikování</value>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Resetovat přihlašovací údaje pro publikování</value>
   </data>
   <data name="_delete" xml:space="preserve">
     <value>Odstranit</value>
@@ -1325,7 +1310,7 @@
     <value>Nakonfiguruje přihlašovací údaje Azure pro nasazení na úrovni účtu. Pokud chcete změnit svoje přihlašovací údaje na úrovni aplikace (známé taky jako přihlašovací údaje pro publikování), zvolte na kartě Přehled možnost Resetovat přihlašovací údaje pro publikování. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="error_consoleNotAvailable" xml:space="preserve">
-    <value>Služba konzoly není ve vaší aplikaci k dispozici.</value>
+    <value>The console service is not available on your app.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Konzola</value>
@@ -1359,12 +1344,6 @@
   </data>
   <data name="feature_sshInfo" xml:space="preserve">
     <value>SSH poskytuje pro váš kód linuxové aplikace konzolové prostředí Web SSH.</value>
-  </data>
-  <data name="ssh_reconnect" xml:space="preserve">
-    <value>Znovu připojit</value>
-  </data>
-  <data name="ssh_newWindow" xml:space="preserve">
-    <value>Otevřít v novém okně</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Rozšíření</value>
@@ -1499,7 +1478,7 @@
     <value>Stálé připojení</value>
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
-    <value>Označuje, že vaše webová aplikace musí být vždy načtená. Ve výchozím nastavení se webové aplikace po nějaké době nečinnosti uvolní. Tuto možnost se doporučuje povolit, pokud vám ve webové aplikaci nepřetržitě běží webové úlohy.</value>
+    <value>Označuje, že vaše webová aplikace musí být vždycky načtená. Ve výchozím nastavení se webové aplikace po nějaké době nečinnosti uvolní. Tuto možnost se doporučuje povolit, pokud vám ve webové aplikaci nepřetržitě běží webové úlohy.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
     <value>Funkce Always On vyžaduje plán služby App Service Basic nebo vyšší.</value>
@@ -1629,15 +1608,6 @@
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
     <value>Umožňuje posílat rychlá, škálovatelná a multiplatformní mobilní nabízená oznámení pomocí služby Notification Hubs.</value>
-  </data>
-  <data name="feature_logStreamingConnecting" xml:space="preserve">
-    <value>Připojování...</value>
-  </data>
-  <data name="feature_applicationLogsName" xml:space="preserve">
-    <value>Protokoly aplikací</value>
-  </data>
-  <data name="feature_webServerLogsName" xml:space="preserve">
-    <value>Protokoly webového serveru</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Protokoly pro diagnostiku</value>
@@ -2190,12 +2160,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Název</value>
-  </data>
-  <data name="slotNew_cloneConfigLabel" xml:space="preserve">
-    <value>Naklonovat nastavení z:</value>
-  </data>
-  <data name="slotNew_dontCloneConfig" xml:space="preserve">
-    <value>Neklonovat nastavení</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Vytvořit nový slot nasazení</value>
@@ -2845,9 +2809,6 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="swapWithPreviewLabel" xml:space="preserve">
     <value>Provést prohození s náhledem</value>
   </data>
-  <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>Akce prohození s více fázemi zavádí elementy konfigurace specifické pro první slot na druhý slot. Pak se pozastaví, dokud uživatel prohození nedokončí nebo nezruší. Když ho dokončí, prohození přesměruje provoz prvního slotu na druhý slot.</value>
-  </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Začít prohození</value>
   </data>
@@ -3125,7 +3086,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>První jádro Basic (B1) pro Linux je prvních 30 dní zdarma!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Kontejnery Windows jsou při horizontálním navýšení kapacity omezené na 2 instance a do 13. září 2018 jsou bez poplatku.</value>
+    <value>Kontejnery Windows se během verze Preview účtují s 50% slevou.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
@@ -3584,10 +3545,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Pověření nasazení</value>
   </data>
   <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Výpočetní prostředky řady Dv3</value>
+    <value>Dv3-Series compute</value>
   </data>
   <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Vyhrazené výpočetní prostředky řady Dv3, které se používají ke spouštění aplikací v plánu služby App Service</value>
+    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Připojovací řetězce by se spolu s aplikací funkcí měly používat jen v případě, že používáte Entity Framework. Pro ostatní scénáře použijte Nastavení aplikace. Kliknutím získáte další informace.</value>
@@ -3645,197 +3606,5 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="azureCosmosDB_account" xml:space="preserve">
     <value>Účet Azure Cosmos DB</value>
-  </data>
-  <data name="privateRepo" xml:space="preserve">
-    <value>Private Repository</value>
-  </data>
-  <data name="privateRepo" xml:space="preserve">
-    <value>Privátní úložiště</value>
-  </data>
-  <data name="enterUsername" xml:space="preserve">
-    <value>zadejte uživatelské jméno</value>
-  </data>
-  <data name="enterPassword" xml:space="preserve">
-    <value>zadejte heslo</value>
-  </data>
-  <data name="singleContainerTitle" xml:space="preserve">
-    <value>Jeden kontejner</value>
-  </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Single Container.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Single Container.</value>
-  </data>
-  <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Docker Compose.</value>
-  </data>
-  <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Kubernetes.</value>
-  </data>
-  <data name="failedToInstallExtensionUrl" xml:space="preserve">
-    <value>Nepovedlo se nám nainstalovat rozšíření modulu runtime. Pro další informace se prosím podívejte na </value>
-  </data>
-  <data name="failedToInstallExtensionInstallId" xml:space="preserve">
-    <value>ID instalace: {{installId}}</value>
-  </data>
-  <data name="failedToInstallExtensionSessionId" xml:space="preserve">
-    <value>ID relace: {{sessionId}}</value>
-  </data>
-  <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Místní úložiště založené na jednotkách SSD pro hostování kontejnerů a nepovinné diskové úložiště o velikosti {0} GB, které sdílejí všechny aplikace nasazené v plánu služby App Service</value>
-  </data>
-  <data name="functionAppName" xml:space="preserve">
-    <value>Název aplikace funkcí</value>
-  </data>
-  <data name="languageAria" xml:space="preserve">
-    <value>Programovací jazyk funkcí</value>
-  </data>
-  <data name="submitting" xml:space="preserve">
-    <value>Odesílání</value>
-  </data>
-  <data name="settingupDeployment" xml:space="preserve">
-    <value>Nastavuje se nasazení.</value>
-  </data>
-  <data name="settingupDeploymentSuccess" xml:space="preserve">
-    <value>Nasazení se úspěšně nastavilo.</value>
-  </data>
-  <data name="settingupDeploymentFail" xml:space="preserve">
-    <value>Nepovedlo se nastavit nasazení.</value>
-  </data>
-  <data name="disconnectingDeployment" xml:space="preserve">
-    <value>Vaše nasazení se odpojuje.</value>
-  </data>
-  <data name="disconnectingDeploymentSuccess" xml:space="preserve">
-    <value>Vaše nasazení se úspěšně odpojilo.</value>
-  </data>
-  <data name="disconnectingDeploymentFail" xml:space="preserve">
-    <value>Vaše nasazení se nepovedlo odpojit.</value>
-  </data>
-  <data name="disconnectConfirm" xml:space="preserve">
-    <value>Opravdu chcete odpojit své nasazení?</value>
-  </data>
-  <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Šablony komunity</value>
-  </data>
-  <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Nedaří se vám najít, co hledáte? Nechte se inspirovat v Serverless Library, naší galerii šablon vytvořených komunitou!</value>
-  </data>
-  <data name="scmPingFailedErrorMessage" xml:space="preserve">
-    <value>Modul runtime služby Azure Functions není dostupný.</value>
-  </data>
-  <data name="scmPingFailedLearnMore" xml:space="preserve">
-    <value>Podrobnosti o konfiguraci úložiště najdete tady.</value>
-  </data>
-  <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Další informace o tom, jak řešit problémy s instalací rozšíření, najdete tady.</value>
-  </data>
-  <data name="pricing_ACU" xml:space="preserve">
-    <value>ACU celkem: {0}</value>
-  </data>
-  <data name="syncRequestSubmitted" xml:space="preserve">
-    <value>Žádost o synchronizaci se odeslala</value>
-  </data>
-  <data name="syncRequestSubmittedDesc" xml:space="preserve">
-    <value>Úložiště pro webovou aplikaci {0} se právě aktualizuje.</value>
-  </data>
-  <data name="syncRequestSubmittedDescFail" xml:space="preserve">
-    <value>Úložiště pro webovou aplikaci {0} se v tuto chvíli nedá aktualizovat.</value>
-  </data>
-  <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Průběžné doručování VSTS vyžaduje, abyste měli oprávnění zapisovat do Azure Active Directory a vytvořit instanční objekt.</value>
-  </data>
-  <data name="no_vsts_repos" xml:space="preserve">
-    <value>Nevlastníte žádná úložiště VSTS.</value>
-  </data>
-  <data name="no_vsts_accounts" xml:space="preserve">
-    <value>Nemáte žádné platné účty VSTS.</value>
-  </data>
-  <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Nemáte žádné platné účty VSTS. Build App Service Kudu navíc vyžaduje, abyste byli vlastníkem účtu.</value>
-  </data>
-  <data name="create_one" xml:space="preserve">
-    <value>Vytvořit</value>
-  </data>
-  <data name="topBar_updateExtensions" xml:space="preserve">
-    <value>Vaše rozšíření funkcí je nutné aktualizovat.</value>
-  </data>
-  <data name="cloneConfigLoadFailure" xml:space="preserve">
-    <value>Nepovedlo se načíst zdrojovou konfiguraci.</value>
-  </data>
-  <data name="noCreateAccess" xml:space="preserve">
-    <value>Nemáte přístup pro vytváření.</value>
-  </data>
-  <data name="noSwapPermission" xml:space="preserve">
-    <value>Nemáte oprávnění pro prohození.</value>
-  </data>
-  <data name="noWritePermission" xml:space="preserve">
-    <value>Nemáte oprávnění pro zápis.</value>
-  </data>
-  <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>Slot je uzamčený jen pro čtení.</value>
-  </data>
-  <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Zdroj a cíl nemůžou mít stejný slot.</value>
-  </data>
-  <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Prohození s více fázemi se nedá provést, protože následující sloty mají povolené ověřování: {{slotNames}}</value>
-  </data>
-  <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Prohození s více fázemi se dá použít jen pro weby, které mají povolené nastavení slotů.</value>
-  </data>
-  <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Než prohození dokončíte, porovnejte chování aplikace v prvním slotu s konfigurací druhého slotu.</value>
-  </data>
-  <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Pro následující sloty nemáte oprávnění pro zápis: {{slotNames}}</value>
-  </data>
-  <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Pro následující sloty nemáte oprávnění pro prohození: {{slotNames}}</value>
-  </data>
-  <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Následující sloty jsou zamčené jen pro čtení: {{slotNames}}</value>
-  </data>
-  <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Operace prohození se dá provést jen v případě, že aplikace má více než jeden slot.</value>
-  </data>
-  <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Prohodit sloty</value>
-  </data>
-  <data name="swapLoadingFailed" xml:space="preserve">
-    <value>Načítání se nezdařilo</value>
-  </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Náhled změn</value>
-  </data>
-  <data name="swapPreviewMakeSelection" xml:space="preserve">
-    <value>Pokud chcete načíst náhled, proveďte prosím výše platný výběr.</value>
-  </data>
-  <data name="swapChangesLoadingFailed" xml:space="preserve">
-    <value>Nepovedlo se načíst náhled.</value>
-  </data>
-  <data name="swapSourceChangesHeading" xml:space="preserve">
-    <value>Zdrojové změny</value>
-  </data>
-  <data name="swapTargetChangesHeading" xml:space="preserve">
-    <value>Cílové změny</value>
-  </data>
-  <data name="swapActionLabel" xml:space="preserve">
-    <value>Akce prohození</value>
-  </data>
-  <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
   </data>
 </root>
