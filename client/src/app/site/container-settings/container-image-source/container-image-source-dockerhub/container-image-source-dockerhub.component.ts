@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureData, Container } from '../../container-settings';
+import { ContainerConfigureData, Container, DockerHubAccessType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 
 @Component({
@@ -14,16 +14,26 @@ export class ContainerImageSourceDockerHubComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfoInput;
+        this.selectedAccessType = this.selectedAccessType || this.containerSettingsManager.dockerHubAccessOptions[0].value;
     }
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
+    public selectedAccessType: DockerHubAccessType;
 
-    constructor(private _containerSettingsManager: ContainerSettingsManager) {
+    constructor(public containerSettingsManager: ContainerSettingsManager) {
 
-        this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
+        this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
             this.containerConfigureInfo.container = selectedContainer;
         });
+
+        this.containerSettingsManager.selectedDockerHubAccessType$.subscribe((accessType: DockerHubAccessType) => {
+            this.selectedAccessType = accessType;
+        });
+    }
+
+    public updateAccessOptions(accessType: string) {
+        this.containerSettingsManager.selectedDockerHubAccessType$.next(accessType);
     }
 }

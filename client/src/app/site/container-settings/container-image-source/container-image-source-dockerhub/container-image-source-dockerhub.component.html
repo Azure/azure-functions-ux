@@ -1,1 +1,27 @@
-<div>Docker hub Settings</div>
+<div>
+    <div>
+        <label>{{ 'containerRepositoryAccess' | translate }}</label>
+        <div>
+          <radio-selector
+            [defaultValue] = "selectedAccessType"
+            [options] = "containerSettingsManager.dockerHubAccessOptions"
+            [highlightDirty] = "true"
+            (value) = "updateAccessOptions($event)">
+          </radio-selector>
+        </div>
+    </div>
+
+    <div *ngIf = "selectedAccessType === 'private'">
+        <label>{{ 'containerLogin' | translate }}</label>
+        <textbox></textbox>
+    </div>
+    <div *ngIf = "selectedAccessType === 'private'">
+        <label>{{ 'containerPassword' | translate }}</label>
+        <textbox></textbox>
+    </div>
+
+    <div>
+        <label>{{ 'containerImageAndTag' | translate }}</label>
+        <textbox></textbox>
+    </div>
+</div>

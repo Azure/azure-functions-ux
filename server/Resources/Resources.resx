@@ -3775,7 +3775,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
     <value>To get started, first create an Azure Container Registry and add an image.</value>
   </data>
-  <data name="containerRepositoryAcess" xml:space="preserve">
+  <data name="containerRepositoryAccess" xml:space="preserve">
     <value>Repository Access</value>
   </data>
   <data name="containerRepositoryPublic" xml:space="preserve">
@@ -3784,16 +3784,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerRepositoryPrivate" xml:space="preserve">
     <value>Private</value>
   </data>
-  <data name="containerPrivateRegistryServerURL" xml:space="preserve">
+  <data name="containerServerURL" xml:space="preserve">
     <value>Server URL</value>
   </data>
-  <data name="containerPrivateRegistryLogin" xml:space="preserve">
+  <data name="containerLogin" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="containerPrivateRegistryPassword" xml:space="preserve">
+  <data name="containerPassword" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="containerPrivateRegistryStartupFile" xml:space="preserve">
+  <data name="containerStartupFile" xml:space="preserve">
     <value>Startup File</value>
   </data>
   <data name="containerConfigurationSource" xml:space="preserve">

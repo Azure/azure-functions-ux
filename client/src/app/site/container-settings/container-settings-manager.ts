@@ -9,11 +9,11 @@ import { SelectOption } from '../../shared/models/select-option';
 export class ContainerSettingsManager {
     selectedContainer$: Subject<Container> = new Subject<Container>();
     selectedImageSource$: Subject<SelectOption<ImageSourceType>> = new Subject<SelectOption<ImageSourceType>>();
-    selectedDockerAccessType$: Subject<DockerHubAccessType> = new Subject<DockerHubAccessType>();
     selectedQuickstartSample$: Subject<ContainerSample> = new Subject<ContainerSample>();
     selectedAcrRegistry$: Subject<string> = new Subject<string>();
     selectedAcrRepo$: Subject<string> = new Subject<string>();
     selectedAcrTag$: Subject<string> = new Subject<string>();
+    selectedDockerHubAccessType$: Subject<string> = new Subject<string>();
 
     containers: Container[] = [];
     containerImageSourceOptions: SelectOption<ImageSourceType>[] = [];
@@ -33,7 +33,7 @@ export class ContainerSettingsManager {
     initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
         this.selectedContainer$.next(this.containers[0]);
         this.selectedImageSource$.next(this.containerImageSourceOptions[0]);
-        this.selectedDockerAccessType$.next(this.dockerHubAccessOptions[0].value);
+        this.selectedDockerHubAccessType$.next(this.dockerHubAccessOptions[0].value);
     }
 
     private _resetContainers(inputs: ContainerSettingsInput<ContainerSettingsData>) {
