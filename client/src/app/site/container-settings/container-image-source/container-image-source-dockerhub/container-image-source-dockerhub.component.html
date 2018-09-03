@@ -15,13 +15,15 @@
         <label>{{ 'containerLogin' | translate }}</label>
         <textbox></textbox>
     </div>
+
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerPassword' | translate }}</label>
         <textbox></textbox>
     </div>
 
-    <div>
+    <div *ngIf = "selectedContainer.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
         <textbox></textbox>
     </div>
+
 </div>

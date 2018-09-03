@@ -16,6 +16,7 @@ export class ContainerImageSourceACRComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfoInput;
+        this.selectedContainer = containerConfigureInfoInput.container;
         this._reset();
         this._loadRegistries();
     }
@@ -46,6 +47,8 @@ export class ContainerImageSourceACRComponent {
         this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
             this.containerConfigureInfo.container = selectedContainer;
+            this._reset();
+            this._loadRegistries();
         });
 
         this._setupRegistrySubscription();
@@ -130,24 +133,26 @@ export class ContainerImageSourceACRComponent {
     }
 
     private _loadRegistries() {
-        this.loadingRegistries = true;
-        this._acrService
-            .getRegistries(this.containerConfigureInfo.subscriptionId)
-            .subscribe((registryResources) => {
-                if (registryResources.isSuccessful) {
-                    this.registryItems = registryResources.result.value.map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
+        if (this.selectedContainer.id === 'single') {
+            this.loadingRegistries = true;
+            this._acrService
+                .getRegistries(this.containerConfigureInfo.subscriptionId)
+                .subscribe((registryResources) => {
+                    if (registryResources.isSuccessful) {
+                        this.registryItems = registryResources.result.value.map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
 
-                    this.registryDropdownItems = registryResources.result.value.map(registryResource => ({
-                        displayLabel: registryResource.name,
-                        value: registryResource.properties.loginServer,
-                    }));
+                        this.registryDropdownItems = registryResources.result.value.map(registryResource => ({
+                            displayLabel: registryResource.name,
+                            value: registryResource.properties.loginServer,
+                        }));
 
-                    this._containerSettingsManager.selectedAcrRegistry$.next(this.registryItems[0].loginServer);
+                        this._containerSettingsManager.selectedAcrRegistry$.next(this.registryItems[0].loginServer);
 
-                    this.loadingRegistries = false;
-                    this.registriesMissing = !this.registryItems || this.registryItems.length === 0;
-                }
-            });
+                        this.loadingRegistries = false;
+                        this.registriesMissing = !this.registryItems || this.registryItems.length === 0;
+                    }
+                });
+        }
     }
 
     private _loadRepositories() {
