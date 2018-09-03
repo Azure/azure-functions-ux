@@ -7,33 +7,32 @@ A style guide helps maintain consistency and readability throughout the codebase
 ## Table of Contents
 
   1. [Types](#types)
-  1. [References](#references)
-  1. [Objects](#objects)
-  1. [Arrays](#arrays)
-  1. [Destructuring](#destructuring)
-  1. [Strings](#strings)
-  1. [Functions](#functions)
-  1. [Arrow Functions](#arrow-functions)
-  1. [Classes & Constructors](#classes--constructors)
-  1. [Modules](#modules)
-  1. [Iterators and Generators](#iterators-and-generators)
-  1. [Properties](#properties)
-  1. [Variables](#variables)
-  1. [Hoisting](#hoisting)
-  1. [Comparison Operators & Equality](#comparison-operators--equality)
-  1. [Blocks](#blocks)
-  1. [Control Statements](#control-statements)
-  1. [Comments](#comments)
-  1. [Whitespace](#whitespace)
-  1. [Commas](#commas)
-  1. [Semicolons](#semicolons)
-  1. [Naming Conventions](#naming-conventions)
-  1. [Accessors](#accessors)
-  1. [RX/Js](#rxjs)
-  1. [Resource Strings](#resource-strings)
-  1. [Services](#services)
-  1. [Html](#html)
-  1. [CSS](#css)
+  2. [References](#references)
+  3. [Objects](#objects)
+  4. [Arrays](#arrays)
+  5. [Destructuring](#destructuring)
+  6. [Strings](#strings)
+  7. [Functions](#functions)
+  8. [Arrow Functions](#arrow-functions)
+  9. [Classes & Constructors](#classes--constructors)
+  10. [Modules](#modules)
+  11. [Iterators and Generators](#iterators-and-generators)
+  12. [Properties](#properties)
+  13. [Variables](#variables)
+  14. [Comparison Operators & Equality](#comparison-operators--equality)
+  15. [Blocks](#blocks)
+  16. [Control Statements](#control-statements)
+  17. [Comments](#comments)
+  18. [Whitespace](#whitespace)
+  19. [Commas](#commas)
+  10. [Semicolons](#semicolons)
+  21. [Naming Conventions](#naming-conventions)
+  22. [Accessors](#accessors)
+  23. [RX/Js](#rxjs)
+  24. [Resource Strings](#resource-strings)
+  25. [Services](#services)
+  26. [Html](#html)
+  27. [CSS](#css)
 
 
 ## Types
@@ -1323,112 +1322,13 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 **[⬆ back to top](#table-of-contents)**
 
-## Hoisting
-
-  <a name="hoisting--about"></a><a name="14.1"></a>
-  - [14.1](#hoisting--about) `var` declarations get hoisted to the top of their closest enclosing function scope, their assignment does not. `const` and `let` declarations are blessed with a new concept called [Temporal Dead Zones (TDZ)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_Dead_Zone). It’s important to know why [typeof is no longer safe](http://es-discourse.com/t/why-typeof-is-no-longer-safe/15).
-
-    ```typescript
-    // we know this wouldn’t work (assuming there
-    // is no notDefined global variable)
-    function example() {
-      console.log(notDefined); // => throws a ReferenceError
-    }
-
-    // creating a variable declaration after you
-    // reference the variable will work due to
-    // variable hoisting. Note: the assignment
-    // value of `true` is not hoisted.
-    function example() {
-      console.log(declaredButNotAssigned); // => undefined
-      var declaredButNotAssigned = true;
-    }
-
-    // the interpreter is hoisting the variable
-    // declaration to the top of the scope,
-    // which means our example could be rewritten as:
-    function example() {
-      let declaredButNotAssigned;
-      console.log(declaredButNotAssigned); // => undefined
-      declaredButNotAssigned = true;
-    }
-
-    // using const and let
-    function example() {
-      console.log(declaredButNotAssigned); // => throws a ReferenceError
-      console.log(typeof declaredButNotAssigned); // => throws a ReferenceError
-      const declaredButNotAssigned = true;
-    }
-    ```
-
-  <a name="hoisting--anon-expressions"></a><a name="14.2"></a>
-  - [14.2](#hoisting--anon-expressions) Anonymous function expressions hoist their variable name, but not the function assignment.
-
-    ```typescript
-    function example() {
-      console.log(anonymous); // => undefined
-
-      anonymous(); // => TypeError anonymous is not a function
-
-      var anonymous = function () {
-        console.log('anonymous function expression');
-      };
-    }
-    ```
-
-  <a name="hoisting--named-expresions"></a><a name="hoisting--named-expressions"></a><a name="14.3"></a>
-  - [14.3](#hoisting--named-expressions) Named function expressions hoist the variable name, not the function name or the function body.
-
-    ```typescript
-    function example() {
-      console.log(named); // => undefined
-
-      named(); // => TypeError named is not a function
-
-      superPower(); // => ReferenceError superPower is not defined
-
-      var named = function superPower() {
-        console.log('Flying');
-      };
-    }
-
-    // the same is true when the function name
-    // is the same as the variable name.
-    function example() {
-      console.log(named); // => undefined
-
-      named(); // => TypeError named is not a function
-
-      var named = function named() {
-        console.log('named');
-      };
-    }
-    ```
-
-  <a name="hoisting--declarations"></a><a name="14.4"></a>
-  - [14.4](#hoisting--declarations) Function declarations hoist their name and the function body.
-
-    ```typescript
-    function example() {
-      superPower(); // => Flying
-
-      function superPower() {
-        console.log('Flying');
-      }
-    }
-    ```
-
-  - For more information refer to [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/) by [Ben Cherry](http://www.adequatelygood.com/).
-
-**[⬆ back to top](#table-of-contents)**
-
 ## Comparison Operators & Equality
 
-  <a name="comparison--eqeqeq"></a><a name="15.1"></a>
-  - [15.1](#comparison--eqeqeq) Use `===` and `!==` over `==` and `!=`.
+  <a name="comparison--eqeqeq"></a><a name="14.1"></a>
+  - [14.1](#comparison--eqeqeq) Use `===` and `!==` over `==` and `!=`.
 
-  <a name="comparison--if"></a><a name="15.2"></a>
-  - [15.2](#comparison--if) Conditional statements such as the `if` statement evaluate their expression using coercion with the `ToBoolean` abstract method and always follow these simple rules:
+  <a name="comparison--if"></a><a name="14.2"></a>
+  - [14.2](#comparison--if) Conditional statements such as the `if` statement evaluate their expression using coercion with the `ToBoolean` abstract method and always follow these simple rules:
 
     - **Objects** evaluate to **true**
     - **Undefined** evaluates to **false**
@@ -1444,8 +1344,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="comparison--shortcuts"></a><a name="15.3"></a>
-  - [15.3](#comparison--shortcuts) Use shortcuts for booleans, but explicit comparisons for strings and numbers.
+  <a name="comparison--shortcuts"></a><a name="14.3"></a>
+  - [14.3](#comparison--shortcuts) Use shortcuts for booleans, but explicit comparisons for numbers.
 
     ```typescript
     // bad
@@ -1455,16 +1355,6 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     // good
     if (isValid) {
-      // ...
-    }
-
-    // bad
-    if (name) {
-      // ...
-    }
-
-    // good
-    if (name !== '') {
       // ...
     }
 
@@ -1479,59 +1369,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="comparison--moreinfo"></a><a name="15.4"></a>
-  - [15.4](#comparison--moreinfo) For more information see [Truth Equality and JavaScript](https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108) by Angus Croll.
-
-  <a name="comparison--switch-blocks"></a><a name="15.5"></a>
-  - [15.5](#comparison--switch-blocks) Use braces to create blocks in `case` and `default` clauses that contain lexical declarations (e.g. `let`, `const`, `function`, and `class`).
-
-    > Why? Lexical declarations are visible in the entire `switch` block but only get initialized when assigned, which only happens when its `case` is reached. This causes problems when multiple `case` clauses attempt to define the same thing.
-
-    ```typescript
-    // bad
-    switch (foo) {
-      case 1:
-        let x = 1;
-        break;
-      case 2:
-        const y = 2;
-        break;
-      case 3:
-        function f() {
-          // ...
-        }
-        break;
-      default:
-        class C {}
-    }
-
-    // good
-    switch (foo) {
-      case 1: {
-        let x = 1;
-        break;
-      }
-      case 2: {
-        const y = 2;
-        break;
-      }
-      case 3: {
-        function f() {
-          // ...
-        }
-        break;
-      }
-      case 4:
-        bar();
-        break;
-      default: {
-        class C {}
-      }
-    }
-    ```
-
-  <a name="comparison--nested-ternaries"></a><a name="15.6"></a>
-  - [15.6](#comparison--nested-ternaries) Ternaries should not be nested and generally be single line expressions.
+  <a name="comparison--nested-ternaries"></a><a name="14.4"></a>
+  - [14.4](#comparison--nested-ternaries) Ternaries should not be nested and generally be single line expressions.
 
     ```typescript
     // bad
@@ -1551,8 +1390,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const foo = maybe1 > maybe2 ? 'bar' : maybeNull;
     ```
 
-  <a name="comparison--unneeded-ternary"></a><a name="15.7"></a>
-  - [15.7](#comparison--unneeded-ternary) Avoid unneeded ternary statements.
+  <a name="comparison--unneeded-ternary"></a><a name="14.5"></a>
+  - [14.5](#comparison--unneeded-ternary) Avoid unneeded ternary statements.
 
     ```typescript
     // bad
@@ -1566,8 +1405,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const baz = !c;
     ```
 
-  <a name="comparison--no-mixed-operators"></a>
-  - [15.8](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators (`+`, `-`, `*`, & `/`) since their precedence is broadly understood.
+  <a name="comparison--no-mixed-operators"></a><a name="14.6"></a>
+  - [14.6](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators (`+`, `-`, `*`, & `/`) since their precedence is broadly understood.
 
     > Why? This improves readability and clarifies the developer’s intention.
 
@@ -1603,15 +1442,15 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Blocks
 
-  <a name="blocks--braces"></a><a name="16.1"></a>
-  - [16.1](#blocks--braces) Use braces with all multi-line blocks.
+  <a name="blocks--braces"></a><a name="15.1"></a>
+  - [15.1](#blocks--braces) Use braces with all multi-line blocks.
 
     ```typescript
     // bad
     if (test)
       return false;
 
-    // good
+    // bad
     if (test) return false;
 
     // good
@@ -1628,8 +1467,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="blocks--cuddled-elses"></a><a name="16.2"></a>
-  - [16.2](#blocks--cuddled-elses) If you're using multi-line blocks with `if` and `else`, put `else` on the same line as your `if` block’s closing brace.
+  <a name="blocks--cuddled-elses"></a><a name="15.2"></a>
+  - [15.2](#blocks--cuddled-elses) If you're using multi-line blocks with `if` and `else`, put `else` on the same line as your `if` block’s closing brace.
 
     ```typescript
     // bad
@@ -1650,8 +1489,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="blocks--no-else-return"></a><a name="16.3"></a>
-  - [16.3](#blocks--no-else-return) If an `if` block always executes a `return` statement, the subsequent `else` block is unnecessary. A `return` in an `else if` block following an `if` block that contains a `return` can be separated into multiple `if` blocks.
+  <a name="blocks--no-else-return"></a><a name="15.3"></a>
+  - [15.3](#blocks--no-else-return) If an `if` block always executes a `return` statement, the subsequent `else` block is unnecessary. A `return` in an `else if` block following an `if` block that contains a `return` can be separated into multiple `if` blocks.
 
     ```typescript
     // bad
@@ -1719,8 +1558,8 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Control Statements
 
-  <a name="control-statements"></a>
-  - [17.1](#control-statements) In case your control statement (`if`, `while` etc.) gets too long or exceeds the maximum line length, each (grouped) condition could be put into a new line. The logical operator should begin the line.
+  <a name="control-statements"></a><a name="16.1"></a>
+  - [16.1](#control-statements) In case your control statement (`if`, `while` etc.) gets too long or exceeds the maximum line length, each (grouped) condition could be put into a new line. The logical operator should begin the line.
 
     > Why? Requiring operators at the beginning of the line keeps the operators aligned and follows a pattern similar to method chaining. This also improves readability by making it easier to visually follow complex logic.
 
@@ -1737,12 +1576,6 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
 
     // bad
-    if (foo === 123
-      && bar === 'abc') {
-      thing1();
-    }
-
-    // bad
     if (
       foo === 123 &&
       bar === 'abc'
@@ -1751,16 +1584,13 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
 
     // good
-    if (
-      foo === 123
-      && bar === 'abc'
-    ) {
+    if (foo === 123
+      && bar === 'abc') {
       thing1();
     }
 
     // good
-    if (
-      (foo === 123 || bar === 'abc')
+    if ((foo === 123 || bar === 'abc')
       && doesItLookGoodWhenItBecomesThatLong()
       && isThisReallyHappening()
     ) {
@@ -1773,8 +1603,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="control-statement--value-selection"></a>
-  - [17.2](#control-statements--value-selection) Don't use selection operators in place of control statements.
+  <a name="control-statement--value-selection"></a><a name="16.2"></a>
+  - [16.2](#control-statements--value-selection) Don't use selection operators in place of control statements.
 
     ```typescript
     // bad
@@ -1790,11 +1620,11 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Comments
 
-  <a name="comments--multiline"></a><a name="18.1"></a>
-  - [18.1](#comments--multiline) Use `/** ... */` for multi-line comments.
+  <a name="comments--multiline"></a><a name="17.1"></a>
+  - [17.1](#comments--multiline) Use `//` for multi-line comments.
 
     ```typescript
-    // bad
+    // good
     // make() returns a new element
     // based on the passed in tag name
     //
@@ -1806,22 +1636,10 @@ A style guide helps maintain consistency and readability throughout the codebase
 
       return element;
     }
-
-    // good
-    /**
-     * make() returns a new element
-     * based on the passed-in tag name
-     */
-    function make(tag) {
-
-      // ...
-
-      return element;
-    }
     ```
 
-  <a name="comments--singleline"></a><a name="18.2"></a>
-  - [18.2](#comments--singleline) Use `//` for single line comments. Place single line comments on a newline above the subject of the comment. Put an empty line before the comment unless it’s on the first line of a block.
+  <a name="comments--singleline"></a><a name="17.2"></a>
+  - [17.2](#comments--singleline) Use `//` for single line comments. Place single line comments on a newline above the subject of the comment. Put an empty line before the comment unless it’s on the first line of a block.
 
     ```typescript
     // bad
@@ -1859,8 +1677,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="comments--spaces"></a><a name="18.3"></a>
-  - [18.3](#comments--spaces) Start all comments with a space to make it easier to read.
+  <a name="comments--spaces"></a><a name="17.3"></a>
+  - [17.3](#comments--spaces) Start all comments with a space to make it easier to read.
 
     ```typescript
     // bad
@@ -1896,25 +1714,11 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="comments--actionitems"></a><a name="18.4"></a>
-  - [18.4](#comments--actionitems) Prefixing your comments with `FIXME` or `TODO` helps other developers quickly understand if you're pointing out a problem that needs to be revisited, or if you're suggesting a solution to the problem that needs to be implemented. These are different than regular comments because they are actionable. The actions are `FIXME: -- need to figure this out` or `TODO: -- need to implement`.
+  <a name="comments--actionitems"></a><a name="17.4"></a>
+  - [17.4](#comments--actionitems) Prefixing your comments with `TODO (<alias>)` helps other developers quickly understand if you're pointing out a problem that needs to be revisited, or if you're suggesting a solution to the problem that needs to be implemented. These are different than regular comments because they are actionable. The actions are `FIXME: -- need to figure this out` or `TODO: -- need to implement`.
 
-  <a name="comments--fixme"></a><a name="18.5"></a>
-  - [18.5](#comments--fixme) Use `// FIXME:` to annotate problems.
-
-    ```typescript
-    class Calculator extends Abacus {
-      constructor() {
-        super();
-
-        // FIXME: shouldn’t use a global here
-        total = 0;
-      }
-    }
-    ```
-
-  <a name="comments--todo"></a><a name="18.6"></a>
-  - [18.6](#comments--todo) Use `// TODO:` to annotate solutions to problems.
+  <a name="comments--todo"></a><a name="17.5"></a>
+  - [17.5](#comments--todo) Use `// TODO (<alias>):` to annotate solutions to problems.
 
     ```typescript
     class Calculator extends Abacus {
@@ -1931,8 +1735,8 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Whitespace
 
-  <a name="whitespace--spaces"></a><a name="19.1"></a>
-  - [19.1](#whitespace--spaces) Use soft tabs (space character) set to 4 spaces.
+  <a name="whitespace--spaces"></a><a name="18.1"></a>
+  - [18.1](#whitespace--spaces) Use soft tabs (space character) set to 4 spaces.
 
     ```typescript
     // bad
@@ -1947,12 +1751,12 @@ A style guide helps maintain consistency and readability throughout the codebase
 
     // good
     function baz() {
-    ∙∙∙∙llet name;
+    ∙∙∙∙let name;
     }
     ```
 
-  <a name="whitespace--before-blocks"></a><a name="19.2"></a>
-  - [19.2](#whitespace--before-blocks) Place 1 space before the leading brace.
+  <a name="whitespace--before-blocks"></a><a name="18.2"></a>
+  - [18.2](#whitespace--before-blocks) Place 1 space before the leading brace.
 
     ```typescript
     // bad
@@ -1978,8 +1782,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     });
     ```
 
-  <a name="whitespace--around-keywords"></a><a name="19.3"></a>
-  - [19.3](#whitespace--around-keywords) Place 1 space before the opening parenthesis in control statements (`if`, `while` etc.). Place no space between the argument list and the function name in function calls and declarations.
+  <a name="whitespace--around-keywords"></a><a name="18.3"></a>
+  - [18.3](#whitespace--around-keywords) Place 1 space before the opening parenthesis in control statements (`if`, `while` etc.). Place no space between the argument list and the function name in function calls and declarations.
 
     ```typescript
     // bad
@@ -2003,8 +1807,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="whitespace--infix-ops"></a><a name="19.4"></a>
-  - [19.4](#whitespace--infix-ops) Set off operators with spaces.
+  <a name="whitespace--infix-ops"></a><a name="18.4"></a>
+  - [18.4](#whitespace--infix-ops) Set off operators with spaces.
 
     ```typescript
     // bad
@@ -2014,33 +1818,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const x = y + 5;
     ```
 
-  <a name="whitespace--newline-at-end"></a><a name="19.5"></a>
-  - [19.5](#whitespace--newline-at-end) End files with a single newline character.
-
-    ```typescript
-    // bad
-    import { es6 } from './AzureFunctionsStyleGuide';
-      // ...
-    export default es6;
-    ```
-
-    ```typescript
-    // bad
-    import { es6 } from './AzureFunctionsStyleGuide';
-      // ...
-    export default es6;↵
-    ↵
-    ```
-
-    ```typescript
-    // good
-    import { es6 } from './AzureFunctionsStyleGuide';
-      // ...
-    export default es6;↵
-    ```
-
-  <a name="whitespace--chains"></a><a name="19.6"></a>
-  - [19.6](#whitespace--chains) Use indentation when making long method chains (more than 2 method chains). Use a leading dot, which
+  <a name="whitespace--chains"></a><a name="18.5"></a>
+  - [18.5](#whitespace--chains) Use indentation when making long method chains (more than 2 method chains). Use a leading dot, which
     emphasizes that the line is a method call, not a new statement.
 
     ```typescript
@@ -2083,8 +1862,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const leds = stage.selectAll('.led').data(data);
     ```
 
-  <a name="whitespace--after-blocks"></a><a name="19.7"></a>
-  - [19.7](#whitespace--after-blocks) Leave a blank line after blocks and before the next statement.
+  <a name="whitespace--after-blocks"></a><a name="18.6"></a>
+  - [18.6](#whitespace--after-blocks) Leave a blank line after blocks and before the next statement.
 
     ```typescript
     // bad
@@ -2141,49 +1920,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     return arr;
     ```
 
-  <a name="whitespace--padded-blocks"></a><a name="19.8"></a>
-  - [19.8](#whitespace--padded-blocks) Do not pad your blocks with blank lines.
-
-    ```typescript
-    // bad
-    function bar() {
-
-      console.log(foo);
-
-    }
-
-    // bad
-    if (baz) {
-
-      console.log(qux);
-    } else {
-      console.log(foo);
-
-    }
-
-    // bad
-    class Foo {
-
-      constructor(bar) {
-        this.bar = bar;
-      }
-    }
-
-    // good
-    function bar() {
-      console.log(foo);
-    }
-
-    // good
-    if (baz) {
-      console.log(qux);
-    } else {
-      console.log(foo);
-    }
-    ```
-
-  <a name="whitespace--in-parens"></a><a name="19.9"></a>
-  - [19.9](#whitespace--in-parens) Do not add spaces inside parentheses.
+  <a name="whitespace--in-parens"></a><a name="18.7"></a>
+  - [18.7](#whitespace--in-parens) Do not add spaces inside parentheses.
 
     ```typescript
     // bad
@@ -2207,8 +1945,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="whitespace--in-brackets"></a><a name="19.10"></a>
-  - [19.10](#whitespace--in-brackets) Do not add spaces inside brackets.
+  <a name="whitespace--in-brackets"></a><a name="18.8"></a>
+  - [18.8](#whitespace--in-brackets) Do not add spaces inside brackets.
 
     ```typescript
     // bad
@@ -2220,8 +1958,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     console.log(foo[0]);
     ```
 
-  <a name="whitespace--in-braces"></a><a name="19.11"></a>
-  - [19.11](#whitespace--in-braces) Add spaces inside curly braces.
+  <a name="whitespace--in-braces"></a><a name="18.9"></a>
+  - [18.9](#whitespace--in-braces) Add spaces inside curly braces.
 
     ```typescript
     // bad
@@ -2231,8 +1969,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     const foo = { clark: 'kent' };
     ```
 
-  <a name="whitespace--max-len"></a><a name="19.12"></a>
-  - [19.12](#whitespace--max-len) Avoid having lines of code that are longer than 100 characters (including whitespace). Note: per [above](#strings--line-length), long strings are exempt from this rule, and should not be broken up.
+  <a name="whitespace--max-len"></a><a name="18.10"></a>
+  - [18.10](#whitespace--max-len) Avoid having lines of code that are longer than 100 characters (including whitespace). Note: per [above](#strings--line-length), long strings are exempt from this rule, and should not be broken up.
 
     > Why? This ensures readability and maintainability.
 
@@ -2261,8 +1999,8 @@ A style guide helps maintain consistency and readability throughout the codebase
       .fail(() => console.log('You have failed this city.'));
     ```
 
-  <a name="whitespace--block-spacing"></a><a name="19.13"></a>
-  - [19.13](#whitespace--block-spacing) Require consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.
+  <a name="whitespace--block-spacing"></a><a name="18.11"></a>
+  - [18.11](#whitespace--block-spacing) Require consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.
 
     ```typescript
     // bad
@@ -2274,8 +2012,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     if (foo) { bar = 0; }
     ```
 
-  <a name="whitespace--comma-spacing"></a><a name="19.14"></a>
-  - [19.14](#whitespace--comma-spacing) Avoid spaces before commas and require a space after commas.
+  <a name="whitespace--comma-spacing"></a><a name="18.12"></a>
+  - [18.12](#whitespace--comma-spacing) Avoid spaces before commas and require a space after commas.
 
     ```typescript
     // bad
@@ -2287,8 +2025,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     var arr = [1, 2];
     ```
 
- <a name="whitespace--func-call-spacing"></a><a name="19.15"></a>
-  - [19.15](#whitespace--func-call-spacing) Enforce spacing between functions and their invocations.
+ <a name="whitespace--func-call-spacing"></a><a name="18.13"></a>
+  - [18.13](#whitespace--func-call-spacing) Enforce spacing between functions and their invocations.
 
     ```typescript
     // bad
@@ -2301,8 +2039,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     func();
     ```
 
-  <a name="whitespace--key-spacing"></a><a name="19.16"></a>
-  - [19.16](#whitespace--key-spacing) Enforce spacing between keys and values in object literal properties.
+  <a name="whitespace--key-spacing"></a><a name="18.14"></a>
+  - [18.14](#whitespace--key-spacing) Enforce spacing between keys and values in object literal properties.
 
     ```typescript
     // bad
@@ -2313,11 +2051,11 @@ A style guide helps maintain consistency and readability throughout the codebase
     var obj = { "foo": 42 };
     ```
 
-  <a name="whitespace--no-trailing-spaces"></a><a name="19.17"></a>
-  - [19.17](#whitespace--no-trailing-spaces) Avoid trailing spaces at the end of lines.
+  <a name="whitespace--no-trailing-spaces"></a><a name="18.15"></a>
+  - [18.15](#whitespace--no-trailing-spaces) Avoid trailing spaces at the end of lines.
 
-  <a name="whitespace--no-multiple-empty-lines"></a><a name="19.18"></a>
-  - [19.18](#whitespace--no-multiple-empty-lines) Avoid multiple empty lines and only allow one newline at the end of files.
+  <a name="whitespace--no-multiple-empty-lines"></a><a name="18.16"></a>
+  - [18.16](#whitespace--no-multiple-empty-lines) Avoid multiple empty lines and only allow one newline at the end of files.
 
     <!-- markdownlint-disable MD012 -->
     ```typescript
@@ -2340,7 +2078,7 @@ A style guide helps maintain consistency and readability throughout the codebase
 ## Commas
 
   <a name="commas--leading-trailing"></a><a name="19.1"></a>
-  - [20.1](#commas--leading-trailing) Leading commas: **Nope.**
+  - [19.1](#commas--leading-trailing) Leading commas: **Nope.**
 
     ```typescript
     // bad
@@ -2374,8 +2112,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     };
     ```
 
-  <a name="commas--dangling"></a><a name="20.2"></a>
-  - [20.2](#commas--dangling) Additional trailing comma: **Yup.**
+  <a name="commas--dangling"></a><a name="19.2"></a>
+  - [19.2](#commas--dangling) Additional trailing comma: **Yup.**
 
     > Why? This leads to cleaner git diffs. Also, transpilers will remove the additional trailing comma in the transpiled code which means you don’t have to worry about the [trailing comma problem](https://github.com/airbnb/javascript/blob/es5-deprecated/es5/README.md#commas) in legacy browsers.
 
@@ -2474,8 +2212,8 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Semicolons
 
-  <a name="semicolons--required"></a><a name="21.1"></a>
-  - [21.1](#semicolons--required) Required: **Yup.**
+  <a name="semicolons--required"></a><a name="20.1"></a>
+  - [20.1](#semicolons--required) Required: **Yup.**
 
     > Why? When JavaScript encounters a line break without a semicolon, it uses a set of rules called [Automatic Semicolon Insertion](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion) to determine whether or not it should regard that line break as the end of a statement, and (as the name implies) place a semicolon into your code before the line break if it thinks so. ASI contains a few eccentric behaviors, though, and your code will break if JavaScript misinterprets your line break. These rules will become more complicated as new features become a part of JavaScript. Explicitly terminating your statements and configuring your linter to catch missing semicolons will help prevent you from encountering issues.
 
@@ -2524,8 +2262,8 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Naming Conventions
 
-  <a name="naming--descriptive"></a><a name="22.1"></a>
-  - [22.1](#naming--descriptive) Avoid single letter names. Be descriptive with your naming.
+  <a name="naming--descriptive"></a><a name="21.1"></a>
+  - [21.1](#naming--descriptive) Avoid single letter names. Be descriptive with your naming.
 
     ```typescript
     // bad
@@ -2539,8 +2277,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="naming--camelCase"></a><a name="22.2"></a>
-  - [22.2](#naming--camelCase) Use camelCase when naming objects, functions, and instances.
+  <a name="naming--camelCase"></a><a name="21.2"></a>
+  - [21.2](#naming--camelCase) Use camelCase when naming objects, functions, and instances.
 
     ```typescript
     // bad
@@ -2553,8 +2291,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     function thisIsMyFunction() {}
     ```
 
-  <a name="naming--PascalCase"></a><a name="22.3"></a>
-  - [22.3](#naming--PascalCase) Use PascalCase only when naming constructors or classes.
+  <a name="naming--PascalCase"></a><a name="21.3"></a>
+  - [21.3](#naming--PascalCase) Use PascalCase only when naming constructors or classes.
 
     ```typescript
     // bad
@@ -2578,8 +2316,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     });
     ```
 
-  <a name="naming--leading-underscore"></a><a name="22.4"></a>
-  - [22.4](#naming--leading-underscore) Use leading underscore to represent private accessors.
+  <a name="naming--leading-underscore"></a><a name="21.4"></a>
+  - [21.4](#naming--leading-underscore) Use leading underscore to represent private accessors.
 
     > Why? JavaScript does not have the concept of privacy in terms of properties or methods. A leading underscore is a common convention to mean “private”, in fact, these properties are fully public, and as such, are part of your public API contract. This convention would lead developers to realize the property or the method is private.
 
@@ -2588,8 +2326,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     this._firstName = 'Panda';
     ```
 
-  <a name="naming--self-this"></a><a name="22.5"></a>
-  - [22.5](#naming--self-this) Don’t save references to `this`. Use arrow functions or [Function#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
+  <a name="naming--self-this"></a><a name="21.5"></a>
+  - [21.5](#naming--self-this) Don’t save references to `this`. Use arrow functions or [Function#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
 
     ```typescript
     // bad
@@ -2616,8 +2354,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="naming--filename-matches-export"></a><a name="22.6"></a>
-  - [22.6](#naming--filename-matches-export) A base filename should exactly match the name of its default export.
+  <a name="naming--filename-matches-export"></a><a name="21.6"></a>
+  - [21.6](#naming--filename-matches-export) A base filename should exactly match the name of its default export.
 
     ```typescript
     // file 1 contents
@@ -2652,8 +2390,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     // ^ supports both insideDirectory.js and insideDirectory/index.js
     ```
 
-  <a name="naming--camelCase-default-export"></a><a name="22.7"></a>
-  - [22.7](#naming--camelCase-default-export) Use camelCase when you export-default a function. Your filename should be identical to your function’s name.
+  <a name="naming--camelCase-default-export"></a><a name="21.7"></a>
+  - [21.7](#naming--camelCase-default-export) Use camelCase when you export-default a function. Your filename should be identical to your function’s name.
 
     ```typescript
     function makeStyleGuide() {
@@ -2663,8 +2401,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     export default makeStyleGuide;
     ```
 
-  <a name="naming--PascalCase-singleton"></a><a name="22.8"></a>
-  - [22.8](#naming--PascalCase-singleton) Use PascalCase when you export a constructor / class / singleton / function library / bare object.
+  <a name="naming--PascalCase-singleton"></a><a name="21.8"></a>
+  - [21.8](#naming--PascalCase-singleton) Use PascalCase when you export a constructor / class / singleton / function library / bare object.
 
     ```typescript
     const AzureFunctionsStyleGuide = {
@@ -2675,8 +2413,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     export default AzureFunctionsStyleGuide;
     ```
 
-  <a name="naming--uppercase"></a><a name="22.9"></a>
-  - [22.9](#naming--uppercase) You may optionally uppercase a constant only if it (1) is exported, (2) is a `const` (it can not be reassigned), and (3) the programmer can trust it (and its nested properties) to never change.
+  <a name="naming--uppercase"></a><a name="21.9"></a>
+  - [21.9](#naming--uppercase) You may optionally uppercase a constant only if it (1) is exported, (2) is a `const` (it can not be reassigned), and (3) the programmer can trust it (and its nested properties) to never change.
 
     > Why? This is an additional tool to assist in situations where the programmer would be unsure if a variable might ever change. UPPERCASE_VARIABLES are letting the programmer know that they can trust the variable (and its properties) not to change.
     - What about all `const` variables? - This is unnecessary, so uppercasing should not be used for constants within a file. It should be used for exported constants however.
@@ -2717,11 +2455,11 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 ## Accessors
 
-  <a name="accessors--not-required"></a><a name="23.1"></a>
-  - [23.1](#accessors--not-required) Accessor functions for properties are not required.
+  <a name="accessors--not-required"></a><a name="22.1"></a>
+  - [22.1](#accessors--not-required) Accessor functions for properties are not required.
 
-  <a name="accessors--no-getters-setters"></a><a name="23.2"></a>
-  - [23.2](#accessors--no-getters-setters) Do not use JavaScript getters/setters as they cause unexpected side effects and are harder to test, maintain, and reason about. Instead, if you do make accessor functions, use `getVal()` and `setVal('hello')`.
+  <a name="accessors--no-getters-setters"></a><a name="22.2"></a>
+  - [22.2](#accessors--no-getters-setters) Do not use JavaScript getters/setters as they cause unexpected side effects and are harder to test, maintain, and reason about. Instead, if you do make accessor functions, use `getVal()` and `setVal('hello')`.
 
     ```typescript
     // bad
@@ -2747,8 +2485,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="accessors--boolean-prefix"></a><a name="23.3"></a>
-  - [23.3](#accessors--boolean-prefix) If the property/method is a `boolean`, use `isVal()` or `hasVal()`.
+  <a name="accessors--boolean-prefix"></a><a name="22.3"></a>
+  - [22.3](#accessors--boolean-prefix) If the property/method is a `boolean`, use `isVal()` or `hasVal()`.
 
     ```typescript
     // bad
@@ -2762,8 +2500,8 @@ A style guide helps maintain consistency and readability throughout the codebase
     }
     ```
 
-  <a name="accessors--consistent"></a><a name="23.4"></a>
-  - [23.4](#accessors--consistent) It’s okay to create `get()` and `set()` functions, but be consistent.
+  <a name="accessors--consistent"></a><a name="22.4"></a>
+  - [22.4](#accessors--consistent) It’s okay to create `get()` and `set()` functions, but be consistent.
 
     ```typescript
     class Jedi {
@@ -2805,6 +2543,11 @@ TODO: Add services sections
 ## Html
 
 TODO: Add html sections
+
+conditionals using ngIf
+
+using function bindings.. its a no no. This causes perf issue as re-render is required. instead of using a function, the preference is to use a pipe.
+
 
 **[⬆ back to top](#table-of-contents)**
 
