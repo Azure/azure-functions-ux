@@ -184,6 +184,10 @@ export class UrlTemplates {
         return `${this.scmUrl}/api/vfs/data/Functions/extensions/${jobId}.json`;
     }
 
+    getRuntimeHostExtensionsIdUrl(extensionId: string): string {
+        return `${this.mainSiteUrl}/admin/host/extensions/${extensionId}`;
+    }
+
     get scmSiteUrl(): string {
         return this.scmUrl;
     }

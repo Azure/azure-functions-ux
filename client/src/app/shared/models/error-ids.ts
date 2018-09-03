@@ -78,5 +78,6 @@ export namespace errorIds {
     export const applicationInsightsConfigure = 'errors/appInsights/configure';
     export const failedToSwapSlots = '/errors/unableToSwapSlots';
     export const failedToUpdateHostToOffline = 'error/failedToUpdateHostToOffline';
-    export const failedToUpdateHostToRunning = 'error/faileToUpdateHostToRunning';
+    export const failedToUpdateHostToRunning = 'error/failedToUpdateHostToRunning';
+    export const failedToUninstallExtensions = 'error/failedToUninstallExtensions';
 }

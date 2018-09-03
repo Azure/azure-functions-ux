@@ -3919,4 +3919,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
   </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
+  </data>
 </root>
