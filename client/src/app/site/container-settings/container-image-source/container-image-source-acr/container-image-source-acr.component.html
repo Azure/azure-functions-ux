@@ -1,1 +1,53 @@
-<div>ACR Settings</div>
+<div>
+    <info-box *ngIf="registriesMissing"
+        typeClass="error"
+        [infoText]="'containerACRMissingErrorMessage' | translate">
+    </info-box>
+
+    <div *ngIf = "!registriesMissing">
+        <label>{{ 'containerACRRegistry' | translate }}</label>
+        <ng-select
+            id="container-acr-registries"
+            class="custom-select container-acr-select"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select Registry"
+            [loading]="loadingRegistries"
+            [items]="registryDropdownItems"
+            [clearable]="false"
+            [(ngModel)]="selectedRegistry"
+            (change)="registryChanged($event)">
+        </ng-select>
+
+        <label>{{ 'containerACRImage' | translate }}</label>
+        <ng-select
+            id="container-acr-respositories"
+            class="custom-select container-acr-select"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select Respository"
+            [loading]="loadingRepo"
+            [items]="repositoryDropdownItems"
+            [clearable]="false"
+            [(ngModel)]="selectedRepository"
+            (change)="respositoryChanged($event)">
+        </ng-select>
+
+        <label>{{ 'containerACRTag' | translate }}</label>
+        <ng-select
+            id="container-acr-tags"
+            class="custom-select container-acr-select"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select Tag"
+            [loading]="loadingTag"
+            [items]="tagDropdownItems"
+            [clearable]="false"
+            [(ngModel)]="selectedTag"
+            (change)="tagChanged($event)">
+        </ng-select>
+
+        <label>{{ 'containerACRStartupFile' | translate }}</label>
+        <textbox></textbox>
+    </div>
+</div>

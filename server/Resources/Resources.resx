@@ -3925,4 +3925,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
   </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Registry</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
 </root>

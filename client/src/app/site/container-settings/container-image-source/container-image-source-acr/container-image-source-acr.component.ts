@@ -23,6 +23,7 @@ export class ContainerImageSourceACRComponent {
     public loadingRegistries: boolean;
     public loadingRepo: boolean;
     public loadingTag: boolean;
+    public registriesMissing: boolean;
 
     public registryDropdownItems: DropDownElement<string>[];
     public registryItems: ACRRegistry[];
@@ -49,12 +50,26 @@ export class ContainerImageSourceACRComponent {
 
         this._setupRegistrySubscription();
         this._setupRepositorySubscription();
+        this._setupTagSubscription();
+    }
+
+    public registryChanged(element: DropDownElement<string>) {
+        this._containerSettingsManager.selectedAcrRegistry$.next(element.value);
+    }
+
+    public respositoryChanged(element: DropDownElement<string>) {
+        this._containerSettingsManager.selectedAcrRepo$.next(element.value);
+    }
+
+    public tagChanged(element: DropDownElement<string>) {
+        this._containerSettingsManager.selectedAcrTag$.next(element.value);
     }
 
     private _reset() {
         this.loadingRegistries = false;
         this.loadingRepo = false;
         this.loadingTag = false;
+        this.registriesMissing = true;
 
         this.registryDropdownItems = [];
         this.registryItems = [];
@@ -79,7 +94,7 @@ export class ContainerImageSourceACRComponent {
                 if (acrRegistry) {
                     this._acrService
                         .getCredentials(acrRegistry.resourceId)
-                        .do((credential) => {
+                        .subscribe((credential) => {
                             if (credential.isSuccessful) {
                                 this.username = credential.result.username;
                                 this.password = credential.result.passwords[0].value;
@@ -106,11 +121,19 @@ export class ContainerImageSourceACRComponent {
             });
     }
 
+    private _setupTagSubscription() {
+        this._containerSettingsManager.selectedAcrTag$
+            .distinctUntilChanged()
+            .subscribe(tag => {
+                this.selectedTag = tag;
+            });
+    }
+
     private _loadRegistries() {
         this.loadingRegistries = true;
         this._acrService
             .getRegistries(this.containerConfigureInfo.subscriptionId)
-            .do((registryResources) => {
+            .subscribe((registryResources) => {
                 if (registryResources.isSuccessful) {
                     this.registryItems = registryResources.result.value.map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
 
@@ -122,6 +145,7 @@ export class ContainerImageSourceACRComponent {
                     this._containerSettingsManager.selectedAcrRegistry$.next(this.registryItems[0].loginServer);
 
                     this.loadingRegistries = false;
+                    this.registriesMissing = !this.registryItems || this.registryItems.length === 0;
                 }
             });
     }
@@ -134,8 +158,8 @@ export class ContainerImageSourceACRComponent {
                 this.selectedRegistry,
                 this.username,
                 this.password)
-            .do((repositories) => {
-                this.repositoryItems = repositories.repositories;
+            .subscribe((response) => {
+                this.repositoryItems = response.value.repositories;
 
                 this.repositoryDropdownItems = this.repositoryItems.map(item => ({
                     displayLabel: item,
@@ -157,8 +181,8 @@ export class ContainerImageSourceACRComponent {
                 this.selectedRepository,
                 this.username,
                 this.password)
-            .do((tags) => {
-                this.tagItems = tags.tags;
+            .subscribe((response) => {
+                this.tagItems = response.value.tags;
 
                 this.tagDropdownItems = this.tagItems.map(item => ({
                     displayLabel: item,

@@ -1261,4 +1261,8 @@
     public static swapActionLabel = 'swapActionLabel';
     public static extensionUninstallError = 'extensionUninstallError';
     public static v2_preview_label = 'v2_preview_label';
+    public static containerACRRegistry = 'containerACRRegistry';
+    public static containerACRImage = 'containerACRImage';
+    public static containerACRTag = 'containerACRTag';
+    public static containerACRStartupFile = 'containerACRStartupFile';
 }

@@ -44,7 +44,7 @@ async function callAcrAPI(payload: ACRDirectRequestPayload) {
             headers: headers
         });
 
-        return response.data;
+        return response && response.data && response.data;
     } catch (err) {
         LogHelper.error('error-callAcrApi', err);
         return null;

@@ -116,8 +116,8 @@ app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken);
-app.get('/api/getAcrRepositories', getAcrRepositories);
-app.get('/api/getAcrTags', getAcrTags);
+app.post('/api/getAcrRepositories', getAcrRepositories);
+app.post('/api/getAcrTags', getAcrTags);
 setupDeploymentCenter(app);
 setupAzureStorage(app);
 
