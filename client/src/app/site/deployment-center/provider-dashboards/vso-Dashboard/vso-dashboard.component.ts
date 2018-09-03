@@ -36,6 +36,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     public deploymentObject: VSODeploymentObject;
     private _ngUnsubscribe$ = new Subject();
     private _busyManager: BusyStateScopeManager;
+    private readonly _devAzureCom = 'dev.azure.com';
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
@@ -85,7 +86,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
 
                 let buildDefUrl = `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
-                if (endpointUri.host.includes('dev.azure.com')) {
+                if (endpointUri.host.includes(this._devAzureCom)) {
                     const accountName = endpointUri.pathname.split('/')[1];
                     buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
                 }
@@ -463,7 +464,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         const fullUrl = this.deploymentObject.VSOData.url;
         const url = new URL(fullUrl);
         const host = url.host;
-        if (host.includes('dev.azure.com')) {
+        if (host.includes(this._devAzureCom)) {
             const accountName = url.pathname.split('/')[1];
             return accountName;
         }
@@ -478,7 +479,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         const fullUrl = this.deploymentObject.VSOData.url;
         const url = new URL(fullUrl);
         let gotoUrl = url.host;
-        if (gotoUrl.includes('dev.azure.com')) {
+        if (gotoUrl.includes(this._devAzureCom)) {
             const accountName = url.pathname.split('/')[1];
             gotoUrl = `${gotoUrl}/${accountName}`;
         }
