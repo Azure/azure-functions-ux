@@ -8,7 +8,6 @@ import { LogService } from '../../../shared/services/log.service';
 import { MockLogService } from '../../../test/mocks/log.service.mock';
 import { TelemetryService } from '../../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../../test/mocks/telemetry.service.mock';
-import { ContainerHostComponent } from '../container-host/container-host.component';
 import { ContainerImageSourceComponent } from '../container-image-source/container-image-source.component';
 import { LoadImageDirective } from '../../../controls/load-image/load-image.directive';
 import { MockDirective, MockComponent } from 'ng-mocks';
@@ -33,7 +32,6 @@ describe('ContainerConfigureComponent', () => {
             .configureTestingModule({
                 declarations: [
                     ContainerConfigureComponent,
-                    ContainerHostComponent,
                     ContainerImageSourceComponent,
                     ContainerImageSourceQuickstartComponent,
                     ContainerImageSourceACRComponent,

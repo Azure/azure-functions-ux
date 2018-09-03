@@ -11,7 +11,6 @@ import { Injector } from '@angular/core';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
 import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from '../../controls/load-image/load-image.directive';
-import { ContainerHostComponent } from './container-host/container-host.component';
 import { ContainerImageSourceComponent } from './container-image-source/container-image-source.component';
 import { ContainerImageSourceQuickstartComponent } from './container-image-source/container-image-source-quickstart/container-image-source-quickstart.component';
 import { ContainerImageSourceACRComponent } from './container-image-source/container-image-source-acr/container-image-source-acr.component';
@@ -35,7 +34,6 @@ describe('ContainerSettingsComponent', () => {
                 declarations: [
                     ContainerSettingsComponent,
                     ContainerConfigureComponent,
-                    ContainerHostComponent,
                     ContainerImageSourceComponent,
                     ContainerImageSourceQuickstartComponent,
                     ContainerImageSourceACRComponent,

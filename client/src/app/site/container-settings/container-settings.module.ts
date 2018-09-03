@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { ContainerSettingsManager } from './container-settings-manager';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
-import { ContainerHostComponent } from './container-host/container-host.component';
 import { ContainerImageSourceComponent } from './container-image-source/container-image-source.component';
 import { ContainerImageSourceQuickstartComponent } from './container-image-source/container-image-source-quickstart/container-image-source-quickstart.component';
 import { ContainerImageSourceACRComponent } from './container-image-source/container-image-source-acr/container-image-source-acr.component';
@@ -29,7 +28,6 @@ import { ContainerACRService } from '../../shared/services/container-acr.service
     declarations: [
         ContainerSettingsComponent,
         ContainerConfigureComponent,
-        ContainerHostComponent,
         ContainerImageSourceComponent,
         ContainerImageSourceQuickstartComponent,
         ContainerImageSourceACRComponent,

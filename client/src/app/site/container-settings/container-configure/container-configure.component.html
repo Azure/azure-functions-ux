@@ -4,11 +4,6 @@
         <h4>{{selectedContainer.detailedDescription}}</h4>
     </section>
 
-    <container-host
-        *ngIf = "containerConfigureInfo"
-        [containerConfigureInfoInput] = "containerConfigureInfo">
-    </container-host>
-
     <container-image-source
         *ngIf = "containerConfigureInfo"
         [containerConfigureInfoInput] = "containerConfigureInfo">
