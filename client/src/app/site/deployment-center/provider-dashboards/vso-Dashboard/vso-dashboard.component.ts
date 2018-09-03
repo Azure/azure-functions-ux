@@ -84,9 +84,12 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 const projectId = vstsMetaData['VSTSRM_ProjectId'];
                 const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
 
-                return this._cacheService.get(
-                    `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`,
-                );
+                let buildDefUrl = `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+                if (endpointUri.host.includes('dev.azure.com')) {
+                    const accountName = endpointUri.pathname.split('/')[1];
+                    buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+                }
+                return this._cacheService.get(buildDefUrl);
             })
             .subscribe(
                 r => {
@@ -457,16 +460,29 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return this._translateService.instant(PortalResources.loading);
         }
-        const url = new URL(this.deploymentObject.VSOData.url).host;
-        return url;
+        const fullUrl = this.deploymentObject.VSOData.url;
+        const url = new URL(fullUrl);
+        const host = url.host;
+        if (host.includes('dev.azure.com')) {
+            const accountName = url.pathname.split('/')[1];
+            return accountName;
+        }
+        return host.replace('https://', '').split('.')[0];
     }
 
     accountOnClick() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return;
         }
-        const url = new URL(this.deploymentObject.VSOData.url).host;
-        const win = window.open(`https://${url}`, '_blank');
+
+        const fullUrl = this.deploymentObject.VSOData.url;
+        const url = new URL(fullUrl);
+        let gotoUrl = url.host;
+        if (gotoUrl.includes('dev.azure.com')) {
+            const accountName = url.pathname.split('/')[1];
+            gotoUrl = `${gotoUrl}/${accountName}`;
+        }
+        const win = window.open(`https://${gotoUrl}`, '_blank');
         win.focus();
     }
 
