@@ -3840,6 +3840,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="quickStartSampleDescription" xml:space="preserve">
     <value>Description</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>You don not own any VSTS Repositories</value>
   </data>

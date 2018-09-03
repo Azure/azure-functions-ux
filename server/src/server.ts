@@ -20,6 +20,8 @@ import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
+import { getAcrRepositories, getAcrTags } from './actions/acr';
+
 const cookieSession = require('cookie-session');
 if (process.env.aiInstrumentationKey) {
     appInsights
@@ -113,7 +115,9 @@ app.get('/api/config', getConfig);
 app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
-app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
+app.get('/api/runtimetoken/*', getLinuxRuntimeToken);
+app.get('/api/getAcrRepositories', getAcrRepositories);
+app.get('/api/getAcrTags', getAcrTags);
 setupDeploymentCenter(app);
 setupAzureStorage(app);
 

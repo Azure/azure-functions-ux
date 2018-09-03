@@ -325,11 +325,13 @@ export class LogCategories {
     public static readonly serverFarm = 'ServerFarm';
     public static readonly syncTriggers = 'syncTriggers';
     public static readonly functionHostRestart = 'functionHostRestart';
+    public static readonly containerACR = 'containerACR';
 }
 
 export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
     public static armApiVersion = '2014-04-01';
+    public static acrApiversion = '2017-03-01';
 }
 export class SubscriptionQuotaIds {
     public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';

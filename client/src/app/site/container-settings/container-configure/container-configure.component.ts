@@ -11,6 +11,8 @@ export class ContainerConfigureComponent {
 
     @Input() set containerSettingInfoInput(containerSettingsInfo: ContainerSettingsData) {
         this.containerSettingsInfo = containerSettingsInfo;
+        this.containerConfigureInfo.subscriptionId = containerSettingsInfo.subscriptionId;
+        this.containerConfigureInfo.location = containerSettingsInfo.location;
     }
 
     public selectedContainer: Container;

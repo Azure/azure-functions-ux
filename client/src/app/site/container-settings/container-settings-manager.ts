@@ -11,6 +11,9 @@ export class ContainerSettingsManager {
     selectedImageSource$: Subject<SelectOption<ImageSourceType>> = new Subject<SelectOption<ImageSourceType>>();
     selectedDockerAccessType$: Subject<DockerHubAccessType> = new Subject<DockerHubAccessType>();
     selectedQuickstartSample$: Subject<ContainerSample> = new Subject<ContainerSample>();
+    selectedAcrRegistry$: Subject<string> = new Subject<string>();
+    selectedAcrRepo$: Subject<string> = new Subject<string>();
+    selectedAcrTag$: Subject<string> = new Subject<string>();
 
     containers: Container[] = [];
     containerImageSourceOptions: SelectOption<ImageSourceType>[] = [];
@@ -64,6 +67,6 @@ export class ContainerSettingsManager {
         }, {
             displayLabel: this._ts.instant(PortalResources.containerRepositoryPrivate),
             value: 'private',
-        }]
+        }];
     }
 }
