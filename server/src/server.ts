@@ -44,7 +44,7 @@ app
     .use(logger('combined'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
-    .set('view cache', false)
+    .set('view cache', true)
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: true }))
     .use(cookieParser())
