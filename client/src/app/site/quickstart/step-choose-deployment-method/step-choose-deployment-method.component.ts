@@ -78,35 +78,15 @@ export class StepChooseDeploymentMethodComponent {
     get markdownFileName(): string {
         switch (this.deployment) {
             case 'deploymentCenter':
-                switch (this.devEnvironment) {
-                    case 'vs':
-                        return 'vsDeploymentCenter';
-
-                    case 'vscode':
-                        return 'vscodeDeploymentCenter';
-
-                    case 'coretools':
-                        return 'coretoolsDeploymentCenter';
-
-                    case 'maven':
-                        return 'mavenDeploymentCenter';
-
-                    default:
-                        return null;
-                }
-
+                return this._deploymentCenterMarkdownFileName();
             case 'vsDirectPublish':
                 return 'vsDirectPublish';
-
             case 'vscodeDirectPublish':
                 return 'vscodeDirectPublish';
-
             case 'coretoolsDirectPublish':
                 return 'coretoolsDirectPublish';
-
             case 'mavenDirectPublish':
                 return 'mavenDirectPublish';
-
             default:
                 return null;
         }
@@ -122,9 +102,7 @@ export class StepChooseDeploymentMethodComponent {
     }
 
     get deploymentCards(): DeploymentCard[] {
-        const devEnvironment = this._wizardService.devEnvironment.value;
-
-        switch (devEnvironment) {
+        switch (this.devEnvironment) {
             case 'vs':
                 return [this.vsDirectPublishCard, this.deploymentCenterCard];
             case 'vscode':
@@ -135,6 +113,21 @@ export class StepChooseDeploymentMethodComponent {
                 return [this.mavenDirectPublishCard, this.deploymentCenterCard];
             default:
                 return [];
+        }
+    }
+
+    private _deploymentCenterMarkdownFileName(): string {
+        switch (this.devEnvironment) {
+            case 'vs':
+                return 'vsDeploymentCenter';
+            case 'vscode':
+                return 'vscodeDeploymentCenter';
+            case 'coretools':
+                return 'coretoolsDeploymentCenter';
+            case 'maven':
+                return 'mavenDeploymentCenter';
+            default:
+                return null;
         }
     }
 }

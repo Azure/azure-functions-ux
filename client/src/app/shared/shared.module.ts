@@ -73,7 +73,6 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
 import { QuotaService } from './services/quota.service';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
-import { QuickstartService } from './services/quickstart.service';
 import { MarkdownModule } from 'ngx-markdown';
 
 export function ArmServiceFactory(
@@ -229,8 +228,7 @@ export class SharedModule {
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler },
                 ApplicationInsightsService,
-                QuotaService,
-                QuickstartService,
+                QuotaService
             ]
         };
     }

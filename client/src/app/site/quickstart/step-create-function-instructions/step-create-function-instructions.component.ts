@@ -8,7 +8,6 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 })
 export class StepCreateFunctionInstructionsComponent {
 
-    public markdownFile: string;
     constructor(
         private _wizardService: QuickstartStateManager) {
     }

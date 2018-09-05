@@ -41,7 +41,7 @@
     "ng2-cookies": "^1.0.3",
     "ng2-file-upload": "~1.2.1",
     "ng2-popover": "^0.0.14",
-    "ngx-markdown": "^6.2.0",
+    "ngx-markdown": "^1.5.2",
     "ngx-uploader": "^4.2.4",
     "node-sass": "^4.7.2",
     "pako": "^1.0.6",

@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 import { MarkdownModule } from 'ngx-markdown';
+import { QuickstartService } from '../../shared/services/quickstart.service';
 
 @NgModule({
     entryComponents: [QuickstartComponent],
@@ -26,6 +27,7 @@ import { MarkdownModule } from 'ngx-markdown';
         WizardModule,
         MarkdownModule.forChild(),
     ],
+    providers: [QuickstartService],
     exports: [QuickstartComponent],
 })
 export class QuickstartModule {

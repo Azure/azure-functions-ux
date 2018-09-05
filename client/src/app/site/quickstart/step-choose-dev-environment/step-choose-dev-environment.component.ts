@@ -1,3 +1,4 @@
+import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { TranslateService } from '@ngx-translate/core';
@@ -58,26 +59,17 @@ export class StepChooseDevEnvironmentComponent {
         private _translateService: TranslateService) {
     }
 
-    get devEnvironmentCards() {
-        const workerRuntime = this._wizardService.workerRuntime.value;
-        const isLinux = this._wizardService.isLinux.value;
-
-        switch (workerRuntime) {
+    get devEnvironmentCards(): DevEnvironmentCard[] {
+        switch (this.workerRuntime) {
             case 'dotnet':
-                if (isLinux) {
-                    return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
-                }
-                return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
+                return this._dotnetEnvironmentCards();
             case 'node':
             case 'nodejs':
                 return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
             case 'python':
                 return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
             case 'java':
-                if (isLinux) {
-                    return [];
-                }
-                return [this.vsCodeCard, this.mavenCard];
+                return this._javaEnvironmentCards();
             default:
                 return [];
         }
@@ -88,5 +80,27 @@ export class StepChooseDevEnvironmentComponent {
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.devEnvironment = card.id;
         this._wizardService.wizardValues = currentFormValues;
+    }
+
+    get workerRuntime(): workerRuntimeOptions {
+        return this._wizardService.workerRuntime.value;
+    }
+
+    get isLinux(): boolean {
+        return this._wizardService.isLinux.value;
+    }
+
+    private _dotnetEnvironmentCards(): DevEnvironmentCard[] {
+        if (this.isLinux) {
+            return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+        }
+        return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
+    }
+
+    private _javaEnvironmentCards(): DevEnvironmentCard[] {
+        if (this.isLinux) {
+            return [];
+        }
+        return [this.vsCodeCard, this.mavenCard];
     }
 }
