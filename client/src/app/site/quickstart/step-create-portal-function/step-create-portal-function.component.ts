@@ -54,7 +54,6 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         private _functionAppService: FunctionAppService,
         private _broadcastService: BroadcastService) {
 
-        // Need to initialize this app values since they are already set if the component is reconstructed
         this.context = this._wizardService.context.value;
         this.workerRuntime = this._wizardService.workerRuntime.value;
         this.language =  this._getLanguage();

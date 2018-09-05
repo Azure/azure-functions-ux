@@ -6,6 +6,9 @@ import { ConfigService } from './../shared/services/config.service';
 import { Observable } from 'rxjs/Observable';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { NavigableComponent } from '../shared/components/navigable-component';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { SiteTabIds } from 'app/shared/models/constants';
 
 @Component({
     selector: 'create-function-wrapper',
@@ -19,11 +22,12 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
     constructor(
         private _configService: ConfigService,
         private _functionAppService: FunctionAppService,
+        public broadcastService: BroadcastService,
         injector: Injector) {
         super('create-function-wrapper', injector, [
             DashboardType.CreateFunctionAutoDetectDashboard,
             DashboardType.CreateFunctionDashboard,
-            DashboardType.CreateFunctionQuickstartDashboard
+            DashboardType.CreateFunctionQuickstartDashboard,
         ]);
     }
 
@@ -36,17 +40,29 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
                 } else {
                     const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
                     return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
-                        .concatMap(context => this._functionAppService.getFunctions(context))
+                        .switchMap(context => {
+                            return Observable.zip(
+                                this._functionAppService.getFunctions(context),
+                                this._functionAppService.getFunctionHostStatus(context));
+                            })
                         .map(r => {
-                            if (r.isSuccessful) {
-                                if (r.result.length > 0 || this._configService.isStandalone()) {
-                                    return DashboardType[DashboardType.CreateFunctionDashboard];
-                                } else {
-                                    return DashboardType[DashboardType.CreateFunctionQuickstartDashboard];
+                            if (r[0].isSuccessful && r[1].isSuccessful) {
+                                const functionsInfo = r[0].result;
+                                const runtime = r[1].result.version;
+                                if (functionsInfo.length === 0 && !this._configService.isStandalone()) {
+                                    if (runtime.startsWith('2.')) {
+                                        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
+                                        this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
+                                            operation: 'navigate',
+                                            data: 'appNode',
+                                        });
+                                        return null;
+                                    } else {
+                                        return DashboardType[DashboardType.CreateFunctionQuickstartDashboard];
+                                    }
                                 }
-                            } else {
-                                return DashboardType[DashboardType.CreateFunctionDashboard];
                             }
+                            return DashboardType[DashboardType.CreateFunctionDashboard];
                         });
                 }
             })
