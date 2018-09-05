@@ -1,3 +1,4 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
 import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links, NotificationIds } from './../../shared/models/constants';
@@ -28,7 +29,6 @@ import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
-import { SiteDashboardComponent } from 'app/site/site-dashboard/site-dashboard.component';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
 
 @Component({
@@ -90,7 +90,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         userService: UserService,
         private _scenarioService: ScenarioService,
         private _siteService: SiteService,
-        private _siteDashboard: SiteDashboardComponent,
         injector: Injector) {
 
         super('site-summary', injector, SiteTabIds.overview);
@@ -524,7 +523,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     }
 
     openQuickstartTab() {
-        this._siteDashboard.openFeature(SiteTabIds.quickstart);
+        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
     }
 
     private deleteAppDirectly() {

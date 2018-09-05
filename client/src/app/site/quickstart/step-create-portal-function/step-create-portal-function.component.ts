@@ -10,7 +10,7 @@ import { BindingManager } from 'app/shared/models/binding-manager';
 import { GlobalStateService } from 'app/shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionTemplate } from 'app/shared/models/function-template';
-import { WorkerRuntimeLanguages } from 'app/shared/models/constants';
+import { WorkerRuntimeLanguages, SiteTabIds } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Observable } from 'rxjs/Observable';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
@@ -100,6 +100,7 @@ export class StepCreatePortalFunctionComponent implements OnInit {
                         this._functionAppService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
                             .subscribe(res => {
                                 if (res.isSuccessful) {
+                                    this._broadcastService.broadcastEvent(BroadcastEvent.CloseTab, SiteTabIds.quickstart);
                                     this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                                         operation: 'newFunction',
                                         data: res.result,

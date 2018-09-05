@@ -23,7 +23,8 @@ export enum BroadcastEvent {
     BottomTabsEvent,
     RefreshMonitoringView,
     FunctionCodeUpdate,
-    FunctionRunEvent
+    FunctionRunEvent,
+    CloseTab,
 }
 
 export interface DirtyStateEvent {
