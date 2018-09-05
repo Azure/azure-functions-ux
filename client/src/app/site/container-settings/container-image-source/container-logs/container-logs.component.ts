@@ -18,9 +18,10 @@ export class ContainerLogsComponent {
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
+    public log = '';
+    public loading = true;
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
-
         this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
             this.selectedContainer = selectedContainer;
         });

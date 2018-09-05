@@ -4,8 +4,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 
+export interface IContainerSamplesService {
+    getQuickstartSamples(containerOS: ContainerOS, containerType: ContainerType): Observable<ContainerSample[]>;
+}
 @Injectable()
-export class ContainerSamplesService {
+export class ContainerSamplesService implements IContainerSamplesService {
     private _samples: ContainerSample[] = [];
 
     constructor(private _ts: TranslateService) {
