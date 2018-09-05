@@ -30,6 +30,7 @@ export class ContainerSettingsManager {
         this._resetContainers(inputs);
         this._resetImageSourceOptions(inputs);
         this._resetDockerHubAccessOptions(inputs);
+        this._resetContinuousDeploymentOptions(inputs);
     }
 
     initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {

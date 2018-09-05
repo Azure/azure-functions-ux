@@ -1265,4 +1265,6 @@
     public static containerACRImage = 'containerACRImage';
     public static containerACRTag = 'containerACRTag';
     public static containerACRStartupFile = 'containerACRStartupFile';
+    public static containerContinuousDeployment = 'containerContinuousDeployment';
+    public static containerWebhookUrl = 'containerWebhookUrl';
 }
