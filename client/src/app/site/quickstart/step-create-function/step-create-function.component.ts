@@ -11,17 +11,12 @@ export class StepCreateFunctionComponent  {
 
     public devEnvironment: devEnvironmentOptions;
     public showPortalFunctions: boolean;
-    public haveInstructions: boolean;
 
     constructor(private _wizardService: QuickstartStateManager) {
 
         this._wizardService.devEnvironment.statusChanges.subscribe(() => {
             this.devEnvironment = this._wizardService.devEnvironment.value;
             this.showPortalFunctions = this.devEnvironment === 'portal';
-        });
-
-        this._wizardService.instructions.statusChanges.subscribe(() => {
-            this.haveInstructions = !!this._wizardService.instructions.value;
         });
     }
 }
