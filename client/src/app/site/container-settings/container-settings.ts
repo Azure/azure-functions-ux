@@ -23,6 +23,10 @@ export type ContainerOS =
     'linux' |
     'windows';
 
+export type ContinuousDeploymentOption = 
+    'on' |
+    'off';
+
 export interface ContainerSettingsInput<T> {
     id: ResourceId;
     data?: T;

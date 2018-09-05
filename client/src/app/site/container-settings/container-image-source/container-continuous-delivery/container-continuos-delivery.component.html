@@ -1,1 +1,14 @@
-<div>continuous delivery section</div>
+<div>
+    <h2>{{ 'containerContinuousDeployment' | translate }}</h2>
+    <radio-selector
+        [defaultValue] = "selectedDeploymentOption"
+        [options] = "containerSettingsManager.continuousDeploymentOptions"
+        [highlightDirty] = "true"
+        (value) = "updateDeploymentOption($event)">
+    </radio-selector>
+
+    <div>
+        <label>{{ 'containerWebhookUrl' | translate }}</label>
+        <textbox></textbox>
+    </div>
+</div>

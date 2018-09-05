@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData, ImageSourceType, DockerHubAccessType, ContainerSample } from './container-settings';
+import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData, ImageSourceType, DockerHubAccessType, ContainerSample, ContinuousDeploymentOption } from './container-settings';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
@@ -14,10 +14,12 @@ export class ContainerSettingsManager {
     selectedAcrRepo$: Subject<string> = new Subject<string>();
     selectedAcrTag$: Subject<string> = new Subject<string>();
     selectedDockerHubAccessType$: Subject<string> = new Subject<string>();
+    selectedContinuousDeploymentOption$: Subject<string> = new Subject<string>();
 
     containers: Container[] = [];
     containerImageSourceOptions: SelectOption<ImageSourceType>[] = [];
     dockerHubAccessOptions: SelectOption<DockerHubAccessType>[] = [];
+    continuousDeploymentOptions: SelectOption<ContinuousDeploymentOption>[] = [];
 
     constructor(
         private _injector: Injector,
@@ -67,6 +69,16 @@ export class ContainerSettingsManager {
         }, {
             displayLabel: this._ts.instant(PortalResources.containerRepositoryPrivate),
             value: 'private',
+        }];
+    }
+
+    private _resetContinuousDeploymentOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
+        this.continuousDeploymentOptions = [{
+            displayLabel: this._ts.instant(PortalResources.on),
+            value: 'on',
+        }, {
+            displayLabel: this._ts.instant(PortalResources.off),
+            value: 'off',
         }];
     }
 }

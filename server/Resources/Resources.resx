@@ -3937,4 +3937,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerACRStartupFile" xml:space="preserve">
     <value>Startup File</value>
   </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Continuous Deployment</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
 </root>
