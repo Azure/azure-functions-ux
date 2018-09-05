@@ -1267,4 +1267,6 @@
     public static containerACRStartupFile = 'containerACRStartupFile';
     public static containerContinuousDeployment = 'containerContinuousDeployment';
     public static containerWebhookUrl = 'containerWebhookUrl';
+    public static containerMultiConfiguration = 'containerMultiConfiguration';
+    public static containerMultiConfigurationFile = 'containerMultiConfigurationFile';
 }

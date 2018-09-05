@@ -3943,4 +3943,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerWebhookUrl" xml:space="preserve">
     <value>Webhook URL</value>
   </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Configuration File</value>
+  </data>
 </root>

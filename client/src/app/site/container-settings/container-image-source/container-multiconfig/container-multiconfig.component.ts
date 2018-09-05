@@ -18,6 +18,7 @@ export class ContainerMultiConfigComponent {
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
+    public config = '';
 
     constructor(private _containerSettingsManager: ContainerSettingsManager) {
 
