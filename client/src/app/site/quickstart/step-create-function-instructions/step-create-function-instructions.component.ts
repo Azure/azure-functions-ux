@@ -8,11 +8,15 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 })
 export class StepCreateFunctionInstructionsComponent {
 
+    public instructions: string;
+
     constructor(
         private _wizardService: QuickstartStateManager) {
-    }
 
-    get instructions(): string {
-        return this._wizardService.instructions.value;
+        this.instructions = this._wizardService.instructions.value;
+
+        this._wizardService.instructions.statusChanges.subscribe(() => {
+            this.instructions = this._wizardService.instructions.value;
+        });
     }
 }

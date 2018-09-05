@@ -27,36 +27,36 @@ export class QuickstartStateManager implements OnDestroy {
         formGroup.reset();
     }
 
-    public get devEnvironment(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.devEnvironment as FormGroup)) || null;
+    public get devEnvironment(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.devEnvironment as FormControl)) || null;
     }
 
-    public get workerRuntime(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.workerRuntime as FormGroup)) || null;
+    public get workerRuntime(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.workerRuntime as FormControl)) || null;
     }
 
-    public get portalTemplate(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.portalTemplate as FormGroup)) || null;
+    public get portalTemplate(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.portalTemplate as FormControl)) || null;
     }
 
-    public get deployment(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.deployment as FormGroup)) || null;
+    public get deployment(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.deployment as FormControl)) || null;
     }
 
-    public get instructions(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.instructions as FormGroup)) || null;
+    public get instructions(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.instructions as FormControl)) || null;
     }
 
-    public get context(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.context as FormGroup)) || null;
+    public get context(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.context as FormControl)) || null;
     }
 
-    public get isLinux(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.isLinux as FormGroup)) || null;
+    public get isLinux(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.isLinux as FormControl)) || null;
     }
 
-    public get isLinuxConsumption(): FormGroup {
-        return (this.wizardForm && (this.wizardForm.controls.isLinuxConsumption as FormGroup)) || null;
+    public get isLinuxConsumption(): FormControl {
+        return (this.wizardForm && (this.wizardForm.controls.isLinuxConsumption as FormControl)) || null;
     }
 
     markSectionAsTouched(formGroup: FormGroup) {

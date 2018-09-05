@@ -1,3 +1,4 @@
+import { devEnvironmentOptions } from './../wizard-logic/quickstart-models';
 import { QuickstartService } from './../../../shared/services/quickstart.service';
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
@@ -54,54 +55,37 @@ export class StepChooseDeploymentMethodComponent {
 
     public selectedDeploymentCard: DeploymentCard = null;
 
+    public devEnvironment: devEnvironmentOptions;
+    public deploymentCards: DeploymentCard[];
+
     constructor(
         private _wizardService: QuickstartStateManager,
         private _translateService: TranslateService,
         private _quickstartService: QuickstartService) {
+
+        this.devEnvironment = this._wizardService.devEnvironment.value;
+        this.deploymentCards = this._getDeploymentCards();
+
+        this._wizardService.devEnvironment.statusChanges.subscribe(() => {
+            this.devEnvironment = this._wizardService.devEnvironment.value;
+            this.deploymentCards = this._getDeploymentCards();
+        });
     }
 
     public selectDeployment(card: DeploymentCard) {
         this.selectedDeploymentCard = card;
-        const currentFormValues = this._wizardService.wizardValues;
-        currentFormValues.deployment = card.id;
-        this._wizardService.wizardValues = currentFormValues;
-    }
-
-    get deployment(): string {
-        return this._wizardService.deployment.value;
-    }
-
-    get devEnvironment(): string {
-        return this._wizardService.devEnvironment.value;
-    }
-
-    get markdownFileName(): string {
-        switch (this.deployment) {
-            case 'deploymentCenter':
-                return this._deploymentCenterMarkdownFileName();
-            case 'vsDirectPublish':
-                return 'vsDirectPublish';
-            case 'vscodeDirectPublish':
-                return 'vscodeDirectPublish';
-            case 'coretoolsDirectPublish':
-                return 'coretoolsDirectPublish';
-            case 'mavenDirectPublish':
-                return 'mavenDirectPublish';
-            default:
-                return null;
-        }
+        this._wizardService.deployment.setValue(card.id);
     }
 
     public getInstructions() {
-        this._quickstartService.getQuickstartFile(this.markdownFileName)
+        const markdownFileName = this._getMarkdownFileName();
+        this._quickstartService.getQuickstartFile(markdownFileName)
             .subscribe(file => {
-                const currentFormValues = this._wizardService.wizardValues;
-                currentFormValues.instructions = file;
-                this._wizardService.wizardValues = currentFormValues;
+                this._wizardService.instructions.setValue(file);
             });
     }
 
-    get deploymentCards(): DeploymentCard[] {
+    private _getDeploymentCards(): DeploymentCard[] {
         switch (this.devEnvironment) {
             case 'vs':
                 return [this.vsDirectPublishCard, this.deploymentCenterCard];
@@ -116,7 +100,24 @@ export class StepChooseDeploymentMethodComponent {
         }
     }
 
-    private _deploymentCenterMarkdownFileName(): string {
+    private _getMarkdownFileName(): string {
+        switch (this.selectedDeploymentCard.id) {
+            case 'deploymentCenter':
+                return this._getDeploymentCenterMarkdownFileName();
+            case 'vsDirectPublish':
+                return 'vsDirectPublish';
+            case 'vscodeDirectPublish':
+                return 'vscodeDirectPublish';
+            case 'coretoolsDirectPublish':
+                return 'coretoolsDirectPublish';
+            case 'mavenDirectPublish':
+                return 'mavenDirectPublish';
+            default:
+                return null;
+        }
+    }
+
+    private _getDeploymentCenterMarkdownFileName(): string {
         switch (this.devEnvironment) {
             case 'vs':
                 return 'vsDeploymentCenter';

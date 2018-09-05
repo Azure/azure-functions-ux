@@ -1,10 +1,9 @@
-import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { DevEnvironmentCard } from '../Models/dev-environment-card';
 import { PortalResources } from '../../../shared/models/portal-resources';
-
+import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 @Component({
     selector: 'step-choose-dev-environment',
     templateUrl: './step-choose-dev-environment.component.html',
@@ -53,13 +52,35 @@ export class StepChooseDevEnvironmentComponent {
     };
 
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;
+    public workerRuntime: workerRuntimeOptions;
+    public devEnvironmentCards: DevEnvironmentCard[];
+    public isLinux: boolean;
 
     constructor(
         private _wizardService: QuickstartStateManager,
         private _translateService: TranslateService) {
+
+        this.workerRuntime = this._wizardService.workerRuntime.value;
+        this.isLinux = this._wizardService.isLinux.value;
+        this.devEnvironmentCards = this._getDevEnvironmentCards();
+
+        this._wizardService.workerRuntime.statusChanges.subscribe(() => {
+            this.workerRuntime = this._wizardService.workerRuntime.value;
+            this.devEnvironmentCards = this._getDevEnvironmentCards();
+        });
+
+        this._wizardService.isLinux.statusChanges.subscribe(() => {
+            this.isLinux = this._wizardService.isLinux.value;
+            this.devEnvironmentCards = this._getDevEnvironmentCards();
+        });
     }
 
-    get devEnvironmentCards(): DevEnvironmentCard[] {
+    public selectDevEnvironment(card: DevEnvironmentCard) {
+        this.selectedDevEnvironmentCard = card;
+        this._wizardService.devEnvironment.setValue(card.id);
+    }
+
+    private _getDevEnvironmentCards(): DevEnvironmentCard[] {
         switch (this.workerRuntime) {
             case 'dotnet':
                 return this._dotnetEnvironmentCards();
@@ -73,21 +94,6 @@ export class StepChooseDevEnvironmentComponent {
             default:
                 return [];
         }
-    }
-
-    public selectDevEnvironment(card: DevEnvironmentCard) {
-        this.selectedDevEnvironmentCard = card;
-        const currentFormValues = this._wizardService.wizardValues;
-        currentFormValues.devEnvironment = card.id;
-        this._wizardService.wizardValues = currentFormValues;
-    }
-
-    get workerRuntime(): workerRuntimeOptions {
-        return this._wizardService.workerRuntime.value;
-    }
-
-    get isLinux(): boolean {
-        return this._wizardService.isLinux.value;
     }
 
     private _dotnetEnvironmentCards(): DevEnvironmentCard[] {

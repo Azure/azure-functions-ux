@@ -9,19 +9,19 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 })
 export class StepCreateFunctionComponent  {
 
-    constructor(
-        private _wizardService: QuickstartStateManager) {
-    }
+    public devEnvironment: devEnvironmentOptions;
+    public showPortalFunctions: boolean;
+    public haveInstructions: boolean;
 
-    get showPortalFunctions(): boolean {
-        return this.devEnvironment === 'portal';
-    }
+    constructor(private _wizardService: QuickstartStateManager) {
 
-    get devEnvironment(): devEnvironmentOptions {
-        return this._wizardService.devEnvironment.value;
-    }
+        this._wizardService.devEnvironment.statusChanges.subscribe(() => {
+            this.devEnvironment = this._wizardService.devEnvironment.value;
+            this.showPortalFunctions = this.devEnvironment === 'portal';
+        });
 
-    get haveInstructions(): boolean {
-        return !!this._wizardService.instructions.value;
+        this._wizardService.instructions.statusChanges.subscribe(() => {
+            this.haveInstructions = !!this._wizardService.instructions.value;
+        });
     }
 }

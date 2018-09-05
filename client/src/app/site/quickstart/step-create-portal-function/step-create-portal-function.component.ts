@@ -41,7 +41,9 @@ export class StepCreatePortalFunctionComponent implements OnInit {
 
     public selectedPortalTemplateCard: PortalTemplateCard = null;
     public bindingManager: BindingManager = new BindingManager();
-    public markdownFile: string;
+    public context: FunctionAppContext;
+    public workerRuntime: workerRuntimeOptions;
+    public language: string;
     public templates: FunctionTemplate[];
     public functionsInfo: FunctionInfo[];
 
@@ -51,6 +53,20 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _functionAppService: FunctionAppService,
         private _broadcastService: BroadcastService) {
+
+        // Need to initialize this app values since they are already set if the component is reconstructed
+        this.context = this._wizardService.context.value;
+        this.workerRuntime = this._wizardService.workerRuntime.value;
+        this.language =  this._getLanguage();
+
+        this._wizardService.context.statusChanges.subscribe(() => {
+            this.context = this._wizardService.context.value;
+        });
+
+        this._wizardService.workerRuntime.statusChanges.subscribe(() => {
+            this.workerRuntime = this._wizardService.workerRuntime.value;
+            this.language = this._getLanguage();
+        });
     }
 
     ngOnInit() {
@@ -63,22 +79,9 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         });
     }
 
-    get context(): FunctionAppContext {
-        return this._wizardService.context.value;
-    }
-
-    get workerRuntime(): workerRuntimeOptions {
-        return this._wizardService.workerRuntime.value;
-    }
-    get language(): string {
-        return WorkerRuntimeLanguages[this.workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[this.workerRuntime];
-    }
-
     public selectPortalTemplate(card: PortalTemplateCard) {
         this.selectedPortalTemplateCard = card;
-        const currentFormValues = this._wizardService.wizardValues;
-        currentFormValues.portalTemplate = card.id;
-        this._wizardService.wizardValues = currentFormValues;
+        this._wizardService.portalTemplate.setValue(card.id);
     }
 
     create() {
@@ -110,5 +113,9 @@ export class StepCreatePortalFunctionComponent implements OnInit {
                 };
             this._globalStateService.clearBusyState();
         }
+    }
+
+    private _getLanguage(): string {
+        return WorkerRuntimeLanguages[this.workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[this.workerRuntime];
     }
 }
