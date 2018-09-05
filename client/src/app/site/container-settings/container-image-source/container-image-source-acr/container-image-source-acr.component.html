@@ -47,7 +47,9 @@
             (change)="tagChanged($event)">
         </ng-select>
 
-        <label>{{ 'containerACRStartupFile' | translate }}</label>
-        <textbox></textbox>
+        <div  *ngIf = "selectedContainer.id === 'single'">
+            <label>{{ 'containerACRStartupFile' | translate }}</label>
+            <textbox></textbox>
+        </div>
     </div>
 </div>
