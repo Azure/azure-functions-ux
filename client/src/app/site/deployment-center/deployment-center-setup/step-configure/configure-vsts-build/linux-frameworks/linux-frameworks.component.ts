@@ -40,6 +40,12 @@ export class LinuxFramworksComponent implements OnDestroy {
     { value: 'none', displayLabel: 'None' },
   ];
 
+  aspNetCoreVersions: DropDownElement<string>[] = [
+    { value: 'gulp', displayLabel: 'Gulp' },
+    { value: 'grunt', displayLabel: 'Grunt' },
+    { value: 'none', displayLabel: 'None' },
+  ];
+
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
       displayLabel: 'ASP.NET Core',
@@ -58,10 +64,15 @@ export class LinuxFramworksComponent implements OnDestroy {
       value: WebAppFramework.Ruby,
     },
   ];
-
   private _ngUnsubscribe$ = new Subject();
 
   selectedTaskRunner = this.defaultNodeTaskRunner;
+
+  selectedFrameworkVersion = "";
+  nodeFrameworkVersions: DropDownElement<string>[] = [];
+  dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
+  phpFrameworkVersions: DropDownElement<string>[] = [];
+  rubyFrameworkVersions: DropDownElement<string>[] = [];
 
   constructor(
     public wizard: DeploymentCenterStateManager,
@@ -69,8 +80,41 @@ export class LinuxFramworksComponent implements OnDestroy {
   ) {
     siteService.getAvailableStacks(AvailableStacksOsType.Linux)
       .subscribe(vals => {
-        console.log(vals);
+        const stacks = vals.result.value;
+        const rubyStack = stacks.find(x=> x.name.toLowerCase() === 'ruby');
+        const nodeStack = stacks.find(x=> x.name.toLowerCase() === 'node');
+        const phpStack = stacks.find(x=> x.name.toLowerCase() === 'php');
+        const dotNetCoreStack = stacks.find(x=> x.name.toLowerCase() === 'dotnetcore');
+        this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('RUBY|', ''),
+          }
+        });
+
+        this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('PHP|', ''),
+          }
+        });
+
+        this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('NODE|', ''),
+          }
+        });
+
+        this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('DOTNETCORE|', ''),
+          }
+        });
       });
+
+
   }
 
   ngOnDestroy(): void {
