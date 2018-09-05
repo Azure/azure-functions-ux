@@ -1,6 +1,6 @@
 ## Install dependencies
 
-Before you can get started, you should [install Visual Studio Code](). You should also [install Node.JS]() which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference]().
+Before you can get started, you should [install Visual Studio Code](https://go.microsoft.com/fwlink/?linkid=2016593). You should also [install Node.JS](https://go.microsoft.com/fwlink/?linkid=2016195) which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference](https://go.microsoft.com/fwlink/?linkid=2016192).
 
 Run the following command to install the Core Tools package:
 
@@ -8,7 +8,7 @@ Run the following command to install the Core Tools package:
 npm install -g azure-functions-core-tools
 ```
 
-Next, [install the Azure Functions extension](). Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
+Next, [install the Azure Functions extension](https://go.microsoft.com/fwlink/?linkid=2016800). Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
 
 ## Create an Azure Functions project
 

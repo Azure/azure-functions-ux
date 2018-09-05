@@ -1,6 +1,6 @@
 ## Install dependencies
 
-Before you can get started, you should [install .NET Core 2.1](). You should also [install Node.JS]() which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference]().
+Before you can get started, you should [install .NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373). You should also [install Node.JS](https://go.microsoft.com/fwlink/?linkid=2016195) which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference](https://go.microsoft.com/fwlink/?linkid=2016192).
 
 Run the following command to install the Core Tools package:
 
@@ -16,7 +16,7 @@ In the terminal window or from a command prompt, navigate to an empty folder for
 func init
 ```
 
-You will also be prompted to choose a runtime for the project. Select {}
+You will also be prompted to choose a runtime for the project. Select {workerRuntime}
 
 ## Create a function
 

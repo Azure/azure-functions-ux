@@ -1,8 +1,8 @@
 ## Install dependencies
 
-Before you can get started, you should [install Visual Studio 2017]() and ensure that the Azure development workload is also installed.
+Before you can get started, you should [install Visual Studio 2017](https://go.microsoft.com/fwlink/?linkid=2016389) and ensure that the Azure development workload is also installed.
 
-Once Visual Studio is installed, make sure you have the [latest Azure Functions tools]().
+Once Visual Studio is installed, make sure you have the [latest Azure Functions tools](https://go.microsoft.com/fwlink/?linkid=2016394).
 
 ## Create an Azure Functions project
 
