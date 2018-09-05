@@ -14,6 +14,7 @@ export class ContainerImageSourcePrivateRegistryComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfoInput;
+        this.selectedContainer = containerConfigureInfoInput.container;
     }
 
     public selectedContainer: Container;

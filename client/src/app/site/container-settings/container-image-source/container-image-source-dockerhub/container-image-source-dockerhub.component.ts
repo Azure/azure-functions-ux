@@ -14,6 +14,7 @@ export class ContainerImageSourceDockerHubComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfoInput;
+        this.selectedContainer = containerConfigureInfoInput.container;
         this.selectedAccessType = this.selectedAccessType || this.containerSettingsManager.dockerHubAccessOptions[0].value;
     }
 

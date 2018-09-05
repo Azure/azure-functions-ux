@@ -1,1 +1,26 @@
-<div>Private registry Settings</div>
+<div>
+    <div>
+        <label>{{ 'containerServerURL' | translate }}</label>
+        <textbox></textbox>
+    </div>
+
+    <div>
+        <label>{{ 'containerLogin' | translate }}</label>
+        <textbox></textbox>
+    </div>
+
+    <div>
+        <label>{{ 'containerPassword' | translate }}</label>
+        <textbox></textbox>
+    </div>
+
+    <div *ngIf = "selectedContainer.id === 'single'">
+        <label>{{ 'containerImageAndTag' | translate }}</label>
+        <textbox></textbox>
+    </div>
+
+    <div *ngIf = "selectedContainer.id === 'single'">
+        <label>{{ 'containerStartupFile' | translate }}</label>
+        <textbox></textbox>
+    </div>
+</div>

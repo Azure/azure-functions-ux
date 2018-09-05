@@ -21,8 +21,9 @@
         <textbox></textbox>
     </div>
 
-    <div>
+    <div *ngIf = "selectedContainer.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
         <textbox></textbox>
     </div>
+
 </div>
