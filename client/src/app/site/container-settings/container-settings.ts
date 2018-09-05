@@ -23,7 +23,7 @@ export type ContainerOS =
     'linux' |
     'windows';
 
-export type ContinuousDeploymentOption = 
+export type ContinuousDeploymentOption =
     'on' |
     'off';
 

@@ -24,7 +24,10 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public containerSettingsInfo;
     public selectedContainer: Container;
     public applyButtonDisabled = false;
+    public savevButtonDisabled = false;
+    public discardButtonDisabled = false;
     public isUpdating = false;
+    public fromMenu = false;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
@@ -50,6 +53,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                 this.containerSettingsManager.resetSettings(r.data);
                 this.containerSettingsManager.initialize(r.data);
                 this.containerSettingsInfo = r.data.data;
+                this.fromMenu = !!this.containerSettingsInfo.fromMenu;
             });
     }
 
@@ -78,6 +82,12 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickApply() {
+    }
+
+    public clickSave() {
+    }
+
+    public clickDiscard() {
     }
 
     private _getTargetIndex(containers: Container[], targetIndex: number) {

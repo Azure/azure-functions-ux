@@ -36,11 +36,11 @@
 </container-multiconfig>
 
 <container-continuous-delivery
-    *ngIf = "selectedImageSource.value !== 'quickstart'"
+    *ngIf = "selectedImageSource.value !== 'quickstart' && containerConfigureInfo.fromMenu"
     [containerConfigureInfoInput] = "containerConfigureInfo">
 </container-continuous-delivery>
 
 <container-logs
-    *ngIf = "selectedImageSource.value !== 'quickstart'"
+    *ngIf = "selectedImageSource.value !== 'quickstart' && containerConfigureInfo.fromMenu"
     [containerConfigureInfoInput] = "containerConfigureInfo">
 </container-logs>

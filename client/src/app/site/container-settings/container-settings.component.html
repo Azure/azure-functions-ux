@@ -23,15 +23,36 @@
 
     <footer>
         <div id="container-footer">
-            <button class="custom-button"
+            <button *ngIf = "!fromMenu"
+                class="custom-button"
                 [disabled]="!applyButtonEnabled"
                 (click)="clickApply()"
-                [attr.aria-label]="'containerSettingsApplyLabel' | translate">
+                [attr.aria-label]="'apply' | translate">
 
                 <span *ngIf="!isUpdating">{{'apply' | translate}}</span>
                 <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
             </button>
-            
+
+            <button *ngIf = "fromMenu"
+                class="custom-button"
+                [disabled]="!saveButtonEnabled"
+                (click)="clickSave()"
+                [attr.aria-label]="'save' | translate">
+
+                <span *ngIf="!isUpdating">{{'save' | translate}}</span>
+                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
+            </button>
+
+            <button *ngIf = "fromMenu"
+                class="custom-button"
+                [disabled]="!discardButtonEnabled"
+                (click)="clickDiscard()"
+                [attr.aria-label]="'discard' | translate">
+
+                <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
+                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
+            </button>
+
             <span class="message-icon icon-medium"
                 *ngIf="statusMessage?.message"
                 [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
