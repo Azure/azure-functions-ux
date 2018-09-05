@@ -36,6 +36,8 @@ export interface ContainerSettingsInput<T> {
 export interface ContainerSettingsData {
     subscriptionId: string;
     location: string;
+    os: ContainerOS;
+    fromMenu: boolean;
 }
 
 export interface ContainerConfigureData extends ContainerSettingsData {
