@@ -34,6 +34,8 @@ export interface ContainerSettingsInput<T> {
 }
 
 export interface ContainerSettingsData {
+    resourceId: string;
+    isFunctionApp: boolean;
     subscriptionId: string;
     location: string;
     os: ContainerOS;
