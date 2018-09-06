@@ -38,7 +38,7 @@ export class Constants {
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
-    public static eventGridName = 'eventgrid_extension';
+    public static eventGridName = 'eventgridextensionconfig_extension';
 
     public static portalHostName = 'https://portal.azure.com';
     public static webAppsHostName = 'https://web1.appsvcux.ext.azure.com';
