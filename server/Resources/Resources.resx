@@ -3949,4 +3949,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerMultiConfigurationFile" xml:space="preserve">
     <value>Configuration File</value>
   </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose based functions are not currently supported.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes based functions are not currently supported.</value>
+  </data>
 </root>

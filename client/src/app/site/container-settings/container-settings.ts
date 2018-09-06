@@ -52,10 +52,11 @@ export abstract class Container {
     abstract id: ContainerType;
     abstract description: string;
     abstract detailedDescription: string;
+    abstract disableMessage: string;
 
     protected ts: TranslateService;
 
-    constructor(protected injector: Injector) {
+    constructor(injector: Injector) {
         this.ts = injector.get(TranslateService);
     }
 }
@@ -66,6 +67,11 @@ export class SingleContainer extends Container {
     id: ContainerType = 'single';
     description = this.ts.instant(PortalResources.singleContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.singleContainerDetailedDescription);
+    disableMessage = '';
+
+    constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
+        super(injector);
+    }
 }
 
 export class DockerComposeContainer extends Container {
@@ -74,6 +80,17 @@ export class DockerComposeContainer extends Container {
     id: ContainerType = 'dockerCompose';
     description = this.ts.instant(PortalResources.dockerComposeContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.dockerComposeContainerDetailedDescription);
+    disableMessage = '';
+
+    constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
+        super(injector);
+
+        if (containerSettingsData.os === 'windows') {
+            this.disableMessage = this.ts.instant(PortalResources.windowsDockerComposeDisableMessage);
+        } else if (containerSettingsData.isFunctionApp) {
+            this.disableMessage = this.ts.instant(PortalResources.functionsDockerComposeDisableMessage);
+        }
+    }
 }
 
 export class KubernetesContainer extends Container {
@@ -82,6 +99,17 @@ export class KubernetesContainer extends Container {
     id: ContainerType = 'kubernetes';
     description = this.ts.instant(PortalResources.kubernetesContainerDescription);
     detailedDescription = this.ts.instant(PortalResources.kubernetesContainerDetailedDescription);
+    disableMessage = '';
+
+    constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
+        super(injector);
+
+        if (containerSettingsData.os === 'windows') {
+            this.disableMessage = this.ts.instant(PortalResources.windowsKubernetesDisableMessage);
+        } else if (containerSettingsData.isFunctionApp) {
+            this.disableMessage = this.ts.instant(PortalResources.functionsKubernetesDisableMessage);
+        }
+    }
 }
 
 export interface ImageSourceOption {

@@ -41,26 +41,36 @@ export class ContainerSettingsManager {
 
     private _resetContainers(inputs: ContainerSettingsInput<ContainerSettingsData>) {
         this.containers = [
-            new SingleContainer(this._injector),
-            new DockerComposeContainer(this._injector),
-            new KubernetesContainer(this._injector)
+            new SingleContainer(this._injector, inputs.data),
+            new DockerComposeContainer(this._injector, inputs.data),
+            new KubernetesContainer(this._injector, inputs.data),
         ];
     }
 
     private _resetImageSourceOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.containerImageSourceOptions = [{
-            displayLabel: this._ts.instant(PortalResources.containerQuickStart),
-            value: 'quickstart',
-        }, {
+        if (inputs.data.fromMenu) {
+            this.containerImageSourceOptions = [];
+        } else {
+            this.containerImageSourceOptions = [{
+                displayLabel: this._ts.instant(PortalResources.containerQuickStart),
+                value: 'quickstart',
+            }];
+        }
+
+        this.containerImageSourceOptions.push({
             displayLabel: this._ts.instant(PortalResources.containerACR),
             value: 'azureContainerRegistry',
-        }, {
+        });
+
+        this.containerImageSourceOptions.push({
             displayLabel: this._ts.instant(PortalResources.containerDockerHub),
             value: 'dockerHub',
-        }, {
+        });
+
+        this.containerImageSourceOptions.push({
             displayLabel: this._ts.instant(PortalResources.containerPrivateRegistry),
             value: 'privateRegistry',
-        }];
+        });
     }
 
     private _resetDockerHubAccessOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {

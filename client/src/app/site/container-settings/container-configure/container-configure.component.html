@@ -1,4 +1,4 @@
-<div class="container-configure">
+<div *ngIf="selectedContainer.disableMessage === ''" class="container-configure">
     <section class="container-configure-header">
         <div [load-image]="selectedContainer.iconUrl" class="icon-large"></div>
         <h4>{{selectedContainer.detailedDescription}}</h4>
@@ -8,4 +8,10 @@
         *ngIf = "containerConfigureInfo"
         [containerConfigureInfoInput] = "containerConfigureInfo">
     </container-image-source>
+</div>
+
+<div *ngIf="selectedContainer.disableMessage !== ''" class="container-configure">
+    <section class="container-configure-header">
+        <h4>{{selectedContainer.disableMessage}}</h4>
+    </section>
 </div>

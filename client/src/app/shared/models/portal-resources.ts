@@ -1269,4 +1269,8 @@
     public static containerWebhookUrl = 'containerWebhookUrl';
     public static containerMultiConfiguration = 'containerMultiConfiguration';
     public static containerMultiConfigurationFile = 'containerMultiConfigurationFile';
+    public static windowsDockerComposeDisableMessage = 'windowsDockerComposeDisableMessage';
+    public static windowsKubernetesDisableMessage = 'windowsKubernetesDisableMessage';
+    public static functionsDockerComposeDisableMessage = 'functionsDockerComposeDisableMessage';
+    public static functionsKubernetesDisableMessage = 'functionsKubernetesDisableMessage';
 }
