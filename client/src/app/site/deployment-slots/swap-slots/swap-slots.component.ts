@@ -80,7 +80,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     public loadingDiffs: boolean;
     public slotsDiffs: SlotsDiff[];
     public stickySettingDiffs: SimpleSlotsDiff[];
-    public diffsPreviewSlot: 'source' | 'target' = 'source';
     public showPreviewChanges: boolean;
 
     public showPhase2Controls: boolean;
