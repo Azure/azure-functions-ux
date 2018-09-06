@@ -8,10 +8,11 @@ import { StandardSmallPlanPriceSpec, StandardMediumPlanPriceSpec, StandardLargeP
 import { PremiumV2SmallPlanPriceSpec, PremiumV2MediumPlanPriceSpec, PremiumV2LargePlanPriceSpec } from './premiumv2-plan-price-spec';
 import { PremiumSmallPlanPriceSpec, PremiumMediumPlanPriceSpec, PremiumLargePlanPriceSpec } from './premium-plan-price-spec';
 import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargePlanPriceSpec } from './isolated-plan-price-spec';
+import { PremiumContainerSmallPriceSpec, PremiumContainerMediumPriceSpec, PremiumContainerLargePriceSpec } from './premium-container-plan-price-spec';
+import { ElasticPremiumSmallPlanPriceSpec, ElasticPremiumMediumPlanPriceSpec, ElasticPremiumLargePlanPriceSpec } from './elastic-premium-plan-price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
-import { PremiumContainerSmallPriceSpec, PremiumContainerMediumPriceSpec, PremiumContainerLargePriceSpec } from './premium-container-plan-price-spec';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 
 export abstract class PriceSpecGroup {
@@ -88,6 +89,9 @@ export class ProdSpecGroup extends PriceSpecGroup {
         new PremiumContainerSmallPriceSpec(this.injector),
         new PremiumContainerMediumPriceSpec(this.injector),
         new PremiumContainerLargePriceSpec(this.injector),
+        new ElasticPremiumSmallPlanPriceSpec(this.injector),
+        new ElasticPremiumMediumPlanPriceSpec(this.injector),
+        new ElasticPremiumLargePlanPriceSpec(this.injector),
     ];
 
     additionalSpecs = [

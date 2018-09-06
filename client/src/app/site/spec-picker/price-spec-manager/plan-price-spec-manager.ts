@@ -31,6 +31,7 @@ export interface NewPlanSpecPickerData {
     forbiddenSkus: string[];
     isLinux: boolean;
     isXenon: boolean;
+    isElastic?: boolean;
     selectedLegacySkuName: string;  // Looks like "small_standard"
 }
 
