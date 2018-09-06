@@ -178,51 +178,15 @@
                     {{ 'phaseOneChangesInfoText' | translate }}
                 </div>
 
-                <ng-container *ngIf="swapForm?.pending || (swapForm?.valid && loadingDiffs)">
-                    {{ 'loading' | translate }}
-                </ng-container>
-
-                <ng-container *ngIf="!swapForm?.pending && !swapForm?.valid">
-                    {{ 'swapPreviewMakeSelection' | translate }}
-                </ng-container>
-
-                <ng-container *ngIf="!swapForm?.pending && swapForm?.valid && !loadingDiffs">
-
-                    <ng-container *ngIf="!stickySettingDiffs">
-                        {{ 'swapChangesLoadingFailed' | translate }}
-                    </ng-container>
-
-                    <ng-container *ngIf="stickySettingDiffs">
-
-                        <div class="preview-changes-container">
-                            <div class="phase-one-preview-indicator">
-                                <div class="bullet src"></div>
-                                {{ 'swapSourceChangesHeading' | translate }}
-                            </div>
-                            <tbl tblClass="tbl fixed stretch">
-                                <tr class="header-row">
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_settingHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_typeHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_currentValueHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_tempValueHeader' | translate }}</th>
-                                </tr>
-
-                                <tr *ngFor="let diff of stickySettingDiffs">
-                                    <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
-                                    <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-                                    <td class="one-quarter-col padded-col">{{ diff.valueInCurrentSlot }}</td>
-                                    <td class="one-quarter-col padded-col">{{ diff.valueInTargetSlot }}</td>
-                                </tr>
-
-                                <tr *ngIf="stickySettingDiffs.length === 0">
-                                    <td colspan="4" class="message-row">{{ 'swapDiffsNoChange' | translate }}<td>
-                                </tr>
-                            </tbl>
-                        </div>
-
-                    </ng-container>
-
-                </ng-container>
+                <swap-diff-table
+                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+                    [invalid]="!swapForm?.pending && !swapForm?.valid"
+                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+                    [diffs]="stickySettingDiffs"
+                    [showToggle]="false"
+                    oldValueHeading="slotsDiff_currentValueHeader"
+                    newValueHeading="slotsDiff_tempValueHeader">
+                </swap-diff-table>
 
             </div>
 
@@ -237,75 +201,16 @@
                     {{ 'swapChangesInfoText' | translate }}
                 </div>
 
-                <ng-container *ngIf="swapForm?.pending || (swapForm?.valid && loadingDiffs)">
-                    {{ 'loading' | translate }}
-                </ng-container>
+                <swap-diff-table
+                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+                    [invalid]="!swapForm?.pending && !swapForm?.valid"
+                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+                    [diffs]="slotsDiffs"
+                    [showToggle]="true"
+                    oldValueHeading="slotsDiff_oldValueHeader"
+                    newValueHeading="slotsDiff_newValueHeader">
+                </swap-diff-table>
 
-
-                <ng-container *ngIf="!swapForm?.pending && !swapForm?.valid">
-                    {{ 'swapPreviewMakeSelection' | translate }}
-                </ng-container>
-
-                <ng-container *ngIf="!swapForm?.pending && swapForm?.valid && !loadingDiffs">
-
-                    <ng-container *ngIf="!slotsDiffs">
-                        {{ 'swapChangesLoadingFailed' | translate }}
-                    </ng-container>
-
-                    <ng-container *ngIf="slotsDiffs">
-
-                        <div class="preview-changes-container">
-                            <div class="preview-toggle-container">
-                                <div
-                                    class="preview-toggle-button src"
-                                    [class.selected]="diffsPreviewSlot==='source'"
-                                    [attr.role]="diffsPreviewSlot==='target' ? 'button' : null"
-                                    [tabindex]="diffsPreviewSlot==='target' ? 0 : -1"
-                                    (click)="diffsPreviewSlot='source'"
-                                    [activate-with-keys]>
-
-                                    <div class="bullet src"></div>
-                                    {{ 'swapSourceChangesHeading' | translate }}
-
-                                </div>
-                                <div
-                                    class="preview-toggle-button dest"
-                                    [class.selected]="diffsPreviewSlot==='target'"
-                                    [attr.role]="diffsPreviewSlot==='source' ? 'button' : null"
-                                    [tabindex]="diffsPreviewSlot==='source' ? 0 : -1"
-                                    (click)="diffsPreviewSlot='target'"
-                                    [activate-with-keys]>
-
-                                    <div class="bullet dest"></div>
-                                    {{ 'swapTargetChangesHeading' | translate }}
-
-                                </div>
-                            </div>
-                        
-                            <tbl tblClass="tbl fixed stretch">
-                                <tr class="header-row">
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_settingHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_typeHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_oldValueHeader' | translate }}</th>
-                                    <th class="one-quarter-col padded-col">{{ 'slotsDiff_newValueHeader' | translate }}</th>
-                                </tr>
-
-                                <tr *ngFor="let diff of slotsDiffs">
-                                    <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
-                                    <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-                                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
-                                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
-                                </tr>
-
-                                <tr *ngIf="slotsDiffs.length === 0" colspan="4">
-                                    <td colspan="4" class="message-row">{{ 'swapDiffsNoChange' | translate }}<td>
-                                </tr>
-                            </tbl>
-                        </div>
-
-                    </ng-container>
-
-                </ng-container>
             </div>
 
             <div *ngIf="showPhase2Controls" class="controls-container">
