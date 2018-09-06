@@ -885,6 +885,14 @@ export class FunctionAppService {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(context: FunctionAppContext): Result<boolean> {
+        if (ArmUtil.isLinuxDynamic(context.site)) {
+            return Observable.of({
+                isSuccessful: true,
+                result: true,
+                error: null,
+            });
+        }
+
         return this.azure.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.pingScmSiteUrl, true, this.headers(t))
                 .map(_ => true)
