@@ -3035,7 +3035,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you are using Run-From-Zip. When using Run-From-Zip, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_USE_ZIP app setting.</value>
+    <value>Your app is currently in read-only mode because you are running from a package file. When running from a package, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
