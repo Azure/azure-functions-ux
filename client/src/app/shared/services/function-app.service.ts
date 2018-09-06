@@ -1039,10 +1039,12 @@ export class FunctionAppService {
         return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context))
             .map(tuple => {
                 if (tuple[0].isSuccessful) {
-                    const key = tuple[0].result.keys.find(k => k.name === Constants.eventGridName);
+                    const generation = tuple[1];
+                    const eventGridName = generation === 'V1' ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
+                    const key = tuple[0].result.keys.find(k => k.name === eventGridName);
                     return {
                         isSuccessful: true,
-                        result: key ? FunctionsVersionInfoHelper.getEventGridUri(tuple[1], context.mainSiteUrl, functionName, key.value) : '',
+                        result: key ? FunctionsVersionInfoHelper.getEventGridUri(generation, context.mainSiteUrl, functionName, key.value) : '',
                         error: null
                     };
                 } else {
