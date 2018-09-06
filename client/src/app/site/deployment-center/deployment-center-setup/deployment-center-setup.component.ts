@@ -42,7 +42,9 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                     flaskProjectName: ['flaskProjectName', []],
                     djangoSettingsModule: ['DjangoProjectName.settings', []]
                 }),
-                nodejsTaskRunner: [null, []]
+                nodejsTaskRunner: [null, []],
+                frameworkVersion: ['', []],
+                startupCommand: ['', []],
             }),
             deploymentSlotSetting: this._fb.group({
                 newDeploymentSlot: [false, []],

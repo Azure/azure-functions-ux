@@ -76,8 +76,13 @@ export class LinuxSiteEnvironment extends Environment {
         };
 
         this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
-            id: ScenarioIds.onedriveSource,
-            runCheck: () => ({ status: 'disabled' }),
+            id: ScenarioIds.vstsKuduSource,
+            runCheck: () => ({
+                status: 'disabled',
+                data: {
+                    errorMessage: 'This option is unavailable for VSTS Source on Linux Web Apps',
+                },
+            }),
         };
 
         this.scenarioChecks[ScenarioIds.onedriveSource] = {

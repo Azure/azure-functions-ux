@@ -39,7 +39,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public hideBuild = false;
     public hideVstsBuildConfigure = false;
     public isLinuxApp = false;
-
+    public vstsKuduOnly = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -66,13 +66,13 @@ export class DeploymentCenterStateManager implements OnDestroy {
                     scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
                     authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]),
                     scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm }),
-                    scenarioService.checkScenarioAsync(ScenarioIds.vstsKuduSource, { site: this.siteArm }));
+                );
             })
             .subscribe(r => {
-                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck, vstsKuduScenarioCheck] = r;
+                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck] = r;
                 this.deploymentSlotsAvailable = slotsEnabled.status === 'enabled';
                 this.canCreateNewSite = siteCreationPermission;
-                this.hideBuild = vstsScenarioCheck.status === 'disabled' || vstsKuduScenarioCheck.status === 'disabled';
+                this.hideBuild = vstsScenarioCheck.status === 'disabled';
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -217,7 +217,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.isLinuxApp) {
             buildConfig.startupCommand = this.wizardValues.buildSettings.startupCommand;
         }
-        if(this.wizardValues.buildSettings.applicationFramework === 'Ruby') { 
+        if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
             buildConfig.rubyFramework = 1;
         }
         return buildConfig;
@@ -418,4 +418,5 @@ export class DeploymentCenterStateManager implements OnDestroy {
             }
         });
     }
+
 }

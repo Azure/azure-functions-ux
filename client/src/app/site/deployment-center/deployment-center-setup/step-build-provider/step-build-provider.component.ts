@@ -23,6 +23,7 @@ export class StepBuildProviderComponent {
             description: this._translateService.instant(PortalResources.kuduDesc),
             authorizedStatus: 'none',
             enabled: true,
+            errorMessage: 'This option is unavailable for VSTS Source on Linux Web Apps',
         },
         {
             id: 'vsts',
@@ -36,10 +37,11 @@ export class StepBuildProviderComponent {
         },
     ];
 
+    private _vstsKuduSourceScenarioBlocked = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _translateService: TranslateService,
-        scenarioService: ScenarioService) {
+        private _scenarioService: ScenarioService) {
 
         // runs scenario checker for each provider to determine if it should be enabled or not
         // if not enabled then it pulls error message from scenario checker
@@ -47,7 +49,7 @@ export class StepBuildProviderComponent {
             .concatMap(siteObj => {
                 return from(this.providerCards).switchMap((provider: ProviderCard) => {
                     if (provider.scenarioId) {
-                        return forkJoin(of(provider), scenarioService.checkScenarioAsync(provider.scenarioId, { site: siteObj }));
+                        return forkJoin(of(provider), this._scenarioService.checkScenarioAsync(provider.scenarioId, { site: siteObj }));
                     } else {
                         return of([null, null]);
                     }
@@ -60,15 +62,23 @@ export class StepBuildProviderComponent {
                 }
             });
 
+        this.wizard.wizardForm.controls.sourceProvider.valueChanges.subscribe((provider) => {
+            const kuduCard = this.providerCards.find(x => x.id === 'kudu');
+            if (provider === 'vsts' &&  this._vstsKuduSourceScenarioBlocked) {
+                this.chooseBuildProvider({ id: 'vsts', enabled: true } as ProviderCard);
+                kuduCard.enabled = false;
+            } else {
+                this.chooseBuildProvider({ id: 'kudu', enabled: true } as ProviderCard);
+                kuduCard.enabled = true;
+            }
+        });
         // this says if kudu should be hidden then default to vsts instead
         wizard.siteArmObj$
             .map(siteObj => {
-                return scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj });
+                return this._scenarioService.checkScenario(ScenarioIds.vstsKuduSource, { site: siteObj });
             })
             .subscribe(result => {
-                if (result.status === 'disabled') {
-                    wizard.wizardValues = { ...wizard.wizardValues, buildProvider: 'vsts' };
-                }
+                this._vstsKuduSourceScenarioBlocked = result.status === 'disabled';
             });
     }
 

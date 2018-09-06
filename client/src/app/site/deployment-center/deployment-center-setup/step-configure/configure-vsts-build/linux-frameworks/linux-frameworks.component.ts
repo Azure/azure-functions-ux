@@ -67,8 +67,8 @@ export class LinuxFramworksComponent implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
 
   selectedTaskRunner = this.defaultNodeTaskRunner;
-
-  selectedFrameworkVersion = "";
+  selectedFramework = '';
+  selectedFrameworkVersion = '';
   nodeFrameworkVersions: DropDownElement<string>[] = [];
   dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
   phpFrameworkVersions: DropDownElement<string>[] = [];
@@ -81,10 +81,10 @@ export class LinuxFramworksComponent implements OnDestroy {
     siteService.getAvailableStacks(AvailableStacksOsType.Linux)
       .subscribe(vals => {
         const stacks = vals.result.value;
-        const rubyStack = stacks.find(x=> x.name.toLowerCase() === 'ruby');
-        const nodeStack = stacks.find(x=> x.name.toLowerCase() === 'node');
-        const phpStack = stacks.find(x=> x.name.toLowerCase() === 'php');
-        const dotNetCoreStack = stacks.find(x=> x.name.toLowerCase() === 'dotnetcore');
+        const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
+        const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
+        const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
+        const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
         this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
           return {
             displayLabel: x.displayVersion,
@@ -113,8 +113,10 @@ export class LinuxFramworksComponent implements OnDestroy {
           }
         });
       });
+  }
 
-
+  selectedFrameworkChanged() {
+    console.log('changed');
   }
 
   ngOnDestroy(): void {

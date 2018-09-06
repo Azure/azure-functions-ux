@@ -133,6 +133,11 @@ export class StepCompleteComponent {
                 value: buildSettings.applicationFramework
             });
 
+            returnSummaryItems.push({
+                label: "Framework Version",
+                value: buildSettings.frameworkVersion
+            });
+
             if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.workingDirectory),

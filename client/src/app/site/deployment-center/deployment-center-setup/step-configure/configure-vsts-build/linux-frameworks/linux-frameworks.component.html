@@ -18,7 +18,7 @@
         <div class="setting-control-container">
           <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="dotNetCoreFrameworkVersions"
             bindLabel="displayLabel" bindValue="value" placeholder="{{'selectFramework' | translate}}" [(ngModel)]="selectedFrameworkVersion"
-            formControlName="frameworkVersion">
+            formControlName="frameworkVersion" (change)="selectedFrameworkChanged()">
           </ng-select>
         </div>
       </div>
