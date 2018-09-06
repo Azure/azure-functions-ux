@@ -3844,4 +3844,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
   </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Your function app is in read-only mode because it is also a container app.</value>
+  </data>
 </root>
