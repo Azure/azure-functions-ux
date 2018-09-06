@@ -12,7 +12,6 @@ import { Observable } from 'rxjs/Observable';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { TreeNode } from './tree-node';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 interface ErrorTitles {
     noAccessTitle: string;
@@ -63,21 +62,13 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                         this._functionAppService.reachableInternalLoadBalancerApp(this._context),
                         this._functionAppService.getFunctionAppEditMode(this._context).map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false),
                         this._functionAppService.pingScmSite(this._context).map(r => r.isSuccessful ? r.result : false),
-                        Observable.of(ArmUtil.isLinuxDynamic(this._context.site)),
-                        (p, l, r, isReadOnly, ping, linuxDynamic) => ({
-                            hasWritePermission: p,
-                            hasReadOnlyLock: l,
-                            reachable: r,
-                            isReadOnly: isReadOnly,
-                            pingedScmSite: ping,
-                            isLinuxConsumption: linuxDynamic,
-                        }))
+                        (p, l, r, isReadOnly, ping) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly, pingedScmSite: ping }))
                         .switchMap(r => {
-                            if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly && r.pingedScmSite && !r.isLinuxConsumption) {
+                            if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly && r.pingedScmSite) {
                                 return this._updateTreeForStartedSite(workingTitles.default.title, workingTitles.default.newDashboard);
-                            } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly && r.pingedScmSite && !r.isLinuxConsumption) {
+                            } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly && r.pingedScmSite) {
                                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
-                            } else if (!r.pingedScmSite && !r.isLinuxConsumption) {
+                            } else if (!r.pingedScmSite) {
                                 this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
                                 return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
                             } else if (!r.hasWritePermission) {

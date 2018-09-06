@@ -29,7 +29,6 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
-import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
     selector: 'site-summary',
@@ -172,7 +171,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
                 }
 
-                if (!r.pingedScmSite && !ArmUtil.isLinuxDynamic(this.context.site)) {
+                if (!r.pingedScmSite) {
                     this.showComponentError({
                         message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
                         errorId: errorIds.preconditionsErrors.failedToPingScmSite,
