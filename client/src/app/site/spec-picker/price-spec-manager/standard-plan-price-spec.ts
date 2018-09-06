@@ -1,7 +1,7 @@
-import { Links } from './../../../shared/models/constants';
-import { PortalResources } from 'app/shared/models/portal-resources';
-import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core/src/core';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { PortalResources } from './../../../shared/models/portal-resources';
+import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class StandardPlanPriceSpec extends PriceSpec {
@@ -56,10 +56,17 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     }
 
     runInitialization(input: PriceSpecInput) {
-        if (input.specPickerInput.data && input.specPickerInput.data.hostingEnvironmentName) {
-            this.state = 'hidden';
+        // data should only be populated for new plans
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic) {
+                this.state = 'hidden';
+            }
         } else if (input.plan) {
-            if (input.plan.properties.hostingEnvironmentProfile) {
+            if (input.plan.properties.hostingEnvironmentProfile
+                || input.plan.properties.isXenon
+                || AppKind.hasAnyKind(input.plan, [Kinds.elastic])) {
                 this.state = 'hidden';
             }
         }
@@ -87,19 +94,6 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
-
-    runInitialization(input: PriceSpecInput) {
-        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
-            this.state = 'hidden';
-            return Observable.of(null);
-        }
-
-        if (input.plan && input.plan.properties.isXenon) {
-            this.state = 'hidden';
-        }
-
-        return super.runInitialization(input);
-    }
 }
 
 export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
@@ -121,19 +115,6 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
-
-    runInitialization(input: PriceSpecInput) {
-        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
-            this.state = 'hidden';
-            return Observable.of(null);
-        }
-
-        if (input.plan && input.plan.properties.isXenon) {
-            this.state = 'hidden';
-        }
-
-        return super.runInitialization(input);
-    }
 }
 
 export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
@@ -155,17 +136,4 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
-
-    runInitialization(input: PriceSpecInput) {
-        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
-            this.state = 'hidden';
-            return Observable.of(null);
-        }
-
-        if (input.plan && input.plan.properties.isXenon) {
-            this.state = 'hidden';
-        }
-
-        return super.runInitialization(input);
-    }
 }
