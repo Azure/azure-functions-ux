@@ -55,7 +55,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 loadChildren: 'app/site/spec-picker/spec-picker-shell/spec-picker-shell.module#SpecPickerShellModule'
             },
             {
-                path: 'environments/:environmentId/functionapps/:functionAppId/functions/:functionId',
+                path: 'environments/:environmentId/functiongroups/:functionAppId/functions/:functionId',
                 loadChildren: 'app/ibiza-feature/embedded-editor-shell/embedded-editor-shell.module#EmbeddedEditorShellModule'
             },
         ]
