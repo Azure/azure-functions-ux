@@ -78,6 +78,7 @@ export class BroadcastService implements IBroadcastService {
         this._streamMap[BroadcastEvent.RefreshMonitoringView] = new Subject();
         this._streamMap[BroadcastEvent.FunctionCodeUpdate] = new Subject();
         this._streamMap[BroadcastEvent.FunctionRunEvent] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionSchemaEvent] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent

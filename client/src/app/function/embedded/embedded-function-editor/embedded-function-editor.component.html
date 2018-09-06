@@ -1,5 +1,6 @@
 <div id="embedded-function-editor-wrapper"
   [class.right-tabs-expanded]="rightBarExpanded"
+  [class.right-schema-tabs-expanded]="rightSchemaBarExpanded"
   [class.bottom-tabs-expanded]="bottomBarExpanded && !bottomBarMaximized"
   [class.bottom-tabs-maximized]="bottomBarExpanded && bottomBarMaximized">
 
@@ -10,11 +11,7 @@
                   (click)="saveEditorContent()"
                   cssClass="list-item clickable command">
         </command>
-        <command  displayText="{{ 'run' | translate }}"
-                  iconName="ms-Icon ms-Icon--Play"
-                  (click)="run()"
-                  cssClass="list-item clickable command">
-        </command>
+       
         <command  *ngIf="!disabled"
                   displayText="{{ 'Disable' | translate }}"
                   iconName="ms-Icon ms-Icon--Blocked"
@@ -33,9 +30,27 @@
                   cssClass="list-item clickable command">
         </command>
         <command  displayText="{{ 'test' | translate }}"
+                  iconName="ms-Icon ms-Icon--TestBeakerSolid"
                   (click)="setRightBarState()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  displayText="{{ 'Schema' | translate }}"
+                  iconName="ms-Icon ms-Icon--RowsChild"
+                  (click)="setRightSchemaBarState()"
+                  cssClass="list-item clickable command">
+        </command>
+        <command  *ngIf="rightBarExpanded"
+                  displayText="{{ 'run' | translate }}"
+                  iconName="ms-Icon ms-Icon--Play"
+                  (click)="run()"
                   cssClass="list-item clickable command right-edge">
         </command>
+        <command  *ngIf="rightSchemaBarExpanded"
+                  displayText="{{ 'Save' | translate }}"
+                  iconName="ms-Icon ms-Icon--Save"
+                  (click)="saveSchema()"
+                  cssClass="list-item clickable command right-edge">
+            </command>
     </command-bar>
   </section>
 
@@ -59,6 +74,12 @@
             [resourceId]="resourceId"
             [firstRun]="firstRun">
   </embedded-function-test-tab>
+
+  <embedded-function-schema-tab class="right-schema-tabs-bar"
+            *ngIf="rightSchemaBarExpanded"
+            [resourceId]="resourceId"
+            [firstRun]="firstRun">
+  </embedded-function-schema-tab>
 
   <section class="bottom-command-bar-section">
         <command-bar id="command-bar-embedded-bottom">

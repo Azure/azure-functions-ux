@@ -1,0 +1,22 @@
+<busy-state name="embedded-function-schema-tab"></busy-state>
+<section class="schema-tab-right">
+    <section id="schema-tab-request-body">
+        <label>{{ 'Sample request' | translate }}</label>
+
+        <div class="request-editor-container">
+            <text-editor
+                [content]="initialRequestEditorContent"
+                (onContentChanged)="editorRequestContentChanged($event)"></text-editor>
+        </div>
+    </section>
+
+    <section id="schema-tab-output">
+        <label>{{ 'Sample response' | translate }}</label>
+        
+        <div class="response-editor-container">
+            <text-editor
+                [content]="initialResponseEditorContent"
+                (onContentChanged)="editorResponseContentChanged($event)"></text-editor>
+        </div>
+    </section>
+</section>

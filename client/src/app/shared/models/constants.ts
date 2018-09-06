@@ -76,6 +76,7 @@ export class SiteTabIds {
     public static readonly scaleUp = 'scale-up';
     public static readonly embeddedEditor = 'embedded-function-editor';
     public static readonly embeddedTest = 'embedded-function-test-tab';
+    public static readonly embeddedSchema = 'embedded-function-schema-tab';
 }
 
 export class ARM {

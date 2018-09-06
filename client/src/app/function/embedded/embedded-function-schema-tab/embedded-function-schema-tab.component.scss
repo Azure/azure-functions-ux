@@ -1,0 +1,34 @@
+
+@import '../../../../sass/common/variables';
+
+.schema-tab-right {
+    margin: 10px;
+    height: calc(100% - 60px);
+}
+
+label {
+    font-size: 14px;
+    font-weight: 400;
+    color: $pa-text-color;
+    -webkit-margin-bottom-collapse: 8px;
+    font-family: "Segoe UI", "Segoe";
+}
+
+#schema-tab-request-body {
+    height: 50%;
+
+    .request-editor-container{
+        border: $border;
+        height: calc(100% - 20px);
+    }
+
+}
+
+#schema-tab-output {
+    height: 50%;
+
+    .response-editor-container{
+        border: $border;
+        height: calc(100% - 20px);
+    }
+}
