@@ -25,7 +25,7 @@ export class FunctionsVersionInfoHelper {
     public static getEventGridUri(generation: string, mainSiteUrl: string, functionName: string, code: string)
     {
         const path = generation === 'V1' ? 'admin/extensions/EventGridExtensionConfig'
-            : 'runtime/webhooks/EventGridExtensionConfig';
+            : 'runtime/webhooks/EventGrid';
 
         return `${mainSiteUrl.toLowerCase()}/${path}?functionName=${functionName}&code=${code}`;
     }
