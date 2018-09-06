@@ -76,4 +76,8 @@ export namespace errorIds {
     export const embeddedUpdateStatusError = '/errors/embedded/toggle-status';
     export const applicationInsightsInstrumentationKeyMismatch = 'errors/appInsights/instrumentationKey/mismatch';
     export const applicationInsightsConfigure = 'errors/appInsights/configure';
+    export const embeddedUpdateSampleRequestError = '/errors/embedded/updateSampleRequest';
+    export const embeddedUpdateSampleResponseError = '/errors/embedded/updateSampleResponse';
+    export const embeddedGetSampleRequestError = '/errors/embedded/getSampleRequest';
+    export const embeddedGetSampleResponseError = '/errors/embedded/getSampleResponse';
 }

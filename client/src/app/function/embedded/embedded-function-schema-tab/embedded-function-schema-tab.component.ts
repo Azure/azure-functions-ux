@@ -44,6 +44,9 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
   private _busyManager: BusyStateScopeManager;
   private _ngUnsubscribe = new Subject();
 
+  private _requestSchemaPath: string;
+  private _responseSchemaPath: string;
+
   constructor(
     private _cacheService: CacheService,
     private _broadcastService: BroadcastService,
@@ -73,17 +76,16 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
         }
 
         this._functionInfo = r.result;
+        
+        this._requestSchemaPath = this._getRequestUrl(this.resourceId);
+        this._responseSchemaPath = this._getResponseUrl(this.resourceId);
 
         try {
-          const content = JSON.parse(this._functionInfo.test_data);
-          this.initialRequestEditorContent = content.body ? JSON.stringify(content.body, null, '    ') : '';
+          this._getSchema();
         } catch (e) {
           this.initialRequestEditorContent = '';
+          this.initialRequestEditorContent = '';
         }
-
-        this._updatedRequestEditorContent = this.initialRequestEditorContent;
-        this._updatedResponseEditorContent = this.initialResponseEditorContent;
-
       });
 
       this._broadcastService.getEvents<FunctionSchemaEvent<void>>(BroadcastEvent.FunctionSchemaEvent)
@@ -139,14 +141,18 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
   }
 
   saveSchema() {
-    this.saveRequestSchemaContent();
-    this.saveResponseSchemaContent();
+    this._saveRequestSchemaContent();
+    this._saveResponseSchemaContent();
   }
 
-  saveRequestSchemaContent() {
-    let requestSchema: string = this.resourceId + "/files/sampleRequest.json";
-    this._busyManager.setBusy();;
-    this._cacheService.putArm(requestSchema, null, this._updatedRequestEditorContent)
+  _getSchema() {
+    this._getRequestSchemaContent();
+    this._getResponseSchemaContent();
+  }
+
+  _getRequestSchemaContent() {
+    this._busyManager.setBusy();
+    this._cacheService.getArm(this._requestSchemaPath, true)
       .subscribe(r => {
         this._busyManager.clearBusy();
         this.initialRequestEditorContent = r.text();
@@ -154,17 +160,16 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
       }, err => {
         this._busyManager.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-          message: this._translateService.instant(PortalResources.error_unableToUpdateSwaggerData).format(this._functionInfo.name),
-          errorId: errorIds.embeddedUpdateStatusError,
+          message: this._translateService.instant(PortalResources.error_unableToRetrieveSampleRequestSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleRequestError,
           resourceId: this.resourceId,
         });
       });
   }
 
-  saveResponseSchemaContent() {
-    let responseSchema: string = this.resourceId + "/files/sampleResponse.json";
+  _getResponseSchemaContent() {
     this._busyManager.setBusy();;
-    this._cacheService.putArm(responseSchema, null, this._updatedResponseEditorContent)
+    this._cacheService.getArm(this._responseSchemaPath, true)
       .subscribe(r => {
         this._busyManager.clearBusy();
         this.initialResponseEditorContent = r.text();
@@ -172,10 +177,54 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
       }, err => {
         this._busyManager.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-          message: this._translateService.instant(PortalResources.error_unableToUpdateSwaggerData).format(this._functionInfo.name),
-          errorId: errorIds.embeddedUpdateStatusError,
+          message: this._translateService.instant(PortalResources.error_unableToRetrieveSampleResponseSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleResponseError,
           resourceId: this.resourceId,
         });
       });
+  }
+
+  _saveRequestSchemaContent() {
+    this._busyManager.setBusy();;
+    this._cacheService.putArm(this._requestSchemaPath, null, JSON.stringify(this._updatedRequestEditorContent))
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+        this.initialRequestEditorContent = r.text();
+        this._updatedRequestEditorContent = this.initialRequestEditorContent;
+      }, err => {
+        this._busyManager.clearBusy();
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+          message: this._translateService.instant(PortalResources.error_unableToUpdateSampleRequestSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleRequestError,
+          resourceId: this.resourceId,
+        });
+      });
+  }
+
+  _saveResponseSchemaContent() {
+    this._busyManager.setBusy();;
+    this._cacheService.putArm(this._responseSchemaPath, null, JSON.stringify(this._updatedResponseEditorContent))
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+        this.initialResponseEditorContent = r.text();
+        this._updatedResponseEditorContent = this.initialResponseEditorContent;
+      }, err => {
+        this._busyManager.clearBusy();
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+          message: this._translateService.instant(PortalResources.error_unableToUpdateSampleResponseSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleResponseError,
+          resourceId: this.resourceId,
+        });
+      });
+  }
+
+  _getRequestUrl(resourceId: string): string
+  {
+    return `${resourceId}/files/SampleRequest.json`;
+  }
+
+  _getResponseUrl(resourceId: string): string
+  {
+    return `${resourceId}/files/SampleResponse.json`;
   }
 }

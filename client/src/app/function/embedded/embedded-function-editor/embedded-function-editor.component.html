@@ -11,7 +11,11 @@
                   (click)="saveEditorContent()"
                   cssClass="list-item clickable command">
         </command>
-       
+        <command  displayText="{{ 'run' | translate }}"
+                  iconName="ms-Icon ms-Icon--Play"
+                  (click)="run()"
+                  cssClass="list-item clickable command">
+        </command>
         <command  *ngIf="!disabled"
                   displayText="{{ 'Disable' | translate }}"
                   iconName="ms-Icon ms-Icon--Blocked"
@@ -32,24 +36,18 @@
         <command  displayText="{{ 'test' | translate }}"
                   iconName="ms-Icon ms-Icon--TestBeakerSolid"
                   (click)="setRightBarState()"
-                  cssClass="list-item clickable command">
+                  cssClass="list-item clickable command right">
         </command>
         <command  displayText="{{ 'Schema' | translate }}"
                   iconName="ms-Icon ms-Icon--RowsChild"
                   (click)="setRightSchemaBarState()"
-                  cssClass="list-item clickable command">
-        </command>
-        <command  *ngIf="rightBarExpanded"
-                  displayText="{{ 'run' | translate }}"
-                  iconName="ms-Icon ms-Icon--Play"
-                  (click)="run()"
-                  cssClass="list-item clickable command right-edge">
+                  cssClass="list-item clickable command right">
         </command>
         <command  *ngIf="rightSchemaBarExpanded"
-                  displayText="{{ 'Save' | translate }}"
+                  displayText="{{ 'Save schema' | translate }}"
                   iconName="ms-Icon ms-Icon--Save"
                   (click)="saveSchema()"
-                  cssClass="list-item clickable command right-edge">
+                  cssClass="list-item clickable command right edge">
             </command>
     </command-bar>
   </section>
