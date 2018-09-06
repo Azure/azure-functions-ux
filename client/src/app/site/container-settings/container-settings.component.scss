@@ -82,10 +82,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
     position: relative;
     height: 100%;
 
-    button, .message-icon, .message-text{
+    .message-icon, .message-text{
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+    }
+
+    button {
+        margin-top: 10px;
     }
 
     .icon-medium{
