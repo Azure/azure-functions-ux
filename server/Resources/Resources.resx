@@ -3934,4 +3934,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
   </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
+  </data>
 </root>

@@ -53,3 +53,10 @@
     [innerHtml]="('readOnlyLocalCache' | translate)">
   </div>
 </div>
+
+<div *ngIf="readOnlyBYOC">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readOnlyBYOC' | translate }}
+  </div>
+</div>

@@ -1264,4 +1264,5 @@
     public static swapActionLabel = 'swapActionLabel';
     public static extensionUninstallError = 'extensionUninstallError';
     public static v2_preview_label = 'v2_preview_label';
+    public static readOnlyBYOC = 'readOnlyBYOC';
 }
