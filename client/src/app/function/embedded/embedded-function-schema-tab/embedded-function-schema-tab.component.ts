@@ -222,11 +222,11 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
 
   _getRequestUrl(resourceId: string): string
   {
-    return `${resourceId}/files/SampleRequest.json`;
+    return `${resourceId}/files/sampleRequest.json`;
   }
 
   _getResponseUrl(resourceId: string): string
   {
-    return `${resourceId}/files/SampleResponse.json`;
+    return `${resourceId}/files/sampleResponse.json`;
   }
 }
