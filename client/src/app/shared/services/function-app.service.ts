@@ -586,6 +586,21 @@ export class FunctionAppService {
                 .map(r => r.json() as HostStatus));
     }
 
+    getWorkerRuntimeRequired(context: FunctionAppContext): Observable<boolean> {
+        this.getFunctionHostStatus(context)
+            .subscribe(r => {
+                if (r.isSuccessful) {
+                    const exactRuntime = r.result.version;
+                    if (exactRuntime.includes('2.0.12050')) {
+                        return Observable.of(true);
+                    }
+                    return Observable.of(false);
+                }
+                return Observable.of(false);
+            });
+         return Observable.of(false);
+    }
+
     getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {
         const url = context.urlTemplates.getFunctionLogUrl(fi.name);
 

@@ -76,6 +76,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
     public appSettingsArm: ArmObj<ApplicationSettings>;
     public functionAppLanguage: string;
+    public needsWorkerRuntime: boolean;
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
@@ -159,7 +160,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this._functionAppService.getRuntimeGeneration(this.context),
                     this._siteService.getAppSettings(this.context.site.id),
                     this._functionAppService.getBindingConfig(this.context),
-                    this._functionAppService.getTemplates(this.context));
+                    this._functionAppService.getTemplates(this.context),
+                    this._functionAppService.getWorkerRuntimeRequired(this.context));
             })
             .do(null, e => {
                 this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
@@ -169,6 +171,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
                 this.bindings = tuple[3].result.bindings;
+                this.needsWorkerRuntime = tuple[5];
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
@@ -177,7 +180,16 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
                     const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
                     this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
-                    this.allExperimentalLanguages = [];
+                    if (!this.functionAppLanguage) {
+                        this.needsWorkerRuntime = true;
+                    } else {
+                        this.needsWorkerRuntime = false;
+                        this.allExperimentalLanguages = [];
+                    }
+                }
+
+                if (this.needsWorkerRuntime) {
+                    // DROP DOWN TIIIIIME
                 }
 
                 this._buildCreateCardTemplates(tuple[4].result);
