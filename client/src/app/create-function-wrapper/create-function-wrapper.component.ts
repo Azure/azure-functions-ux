@@ -42,24 +42,21 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
                     return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
                         .switchMap(context => {
                             return Observable.zip(
-                                this._functionAppService.getFunctions(context),
-                                this._functionAppService.getFunctionHostStatus(context));
-                            })
+                                this._functionAppService.getFunctions(context).map(r => r.isSuccessful ? r.result : []),
+                                this._functionAppService.getFunctionHostStatus(context).map(r => r.isSuccessful ? r.result.version : ''),
+                                (functions, runtime) => ({functionsInfo: functions, runtimeVersion: runtime}));
+                        })
                         .map(r => {
-                            if (r[0].isSuccessful && r[1].isSuccessful) {
-                                const functionsInfo = r[0].result;
-                                const runtime = r[1].result.version;
-                                if (functionsInfo.length === 0 && !this._configService.isStandalone()) {
-                                    if (runtime.startsWith('2.')) {
-                                        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
-                                        this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
-                                            operation: 'navigate',
-                                            data: 'appNode',
-                                        });
-                                        return null;
-                                    } else {
-                                        return DashboardType[DashboardType.CreateFunctionQuickstartDashboard];
-                                    }
+                            if (r.functionsInfo.length === 0 && !this._configService.isStandalone()) {
+                                if (r.runtimeVersion.startsWith('2.')) {
+                                    this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
+                                    this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
+                                        operation: 'navigate',
+                                        data: 'appNode',
+                                    });
+                                    return null;
+                                } else {
+                                    return DashboardType[DashboardType.CreateFunctionQuickstartDashboard];
                                 }
                             }
                             return DashboardType[DashboardType.CreateFunctionDashboard];
