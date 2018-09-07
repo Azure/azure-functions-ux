@@ -118,7 +118,7 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                 this.quickstartTitle = this._translateService.instant(PortalResources.quickstartPythonTitle);
                 break;
             case 'java':
-                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartPythonTitle);
+                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartJavaTitle);
                 break;
         }
     }
