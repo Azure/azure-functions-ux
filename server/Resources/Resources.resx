@@ -3845,6 +3845,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>~2 (Preview)</value>
   </data>
   <data name="readOnlyBYOC" xml:space="preserve">
-    <value>Your function app is in read-only mode because it is also a container app.</value>
+    <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
   </data>
 </root>
