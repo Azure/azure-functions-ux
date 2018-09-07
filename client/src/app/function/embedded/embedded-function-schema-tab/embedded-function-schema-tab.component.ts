@@ -76,7 +76,7 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
         }
 
         this._functionInfo = r.result;
-        
+
         this._requestSchemaPath = this._getRequestUrl(this.resourceId);
         this._responseSchemaPath = this._getResponseUrl(this.resourceId);
 
@@ -141,11 +141,13 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
   }
 
   saveSchema() {
+    //TODO: Run these in parallel
     this._saveRequestSchemaContent();
     this._saveResponseSchemaContent();
   }
 
   _getSchema() {
+    //TODO: Run these in parallel
     this._getRequestSchemaContent();
     this._getResponseSchemaContent();
   }
@@ -185,7 +187,7 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
   }
 
   _saveRequestSchemaContent() {
-    this._busyManager.setBusy();;
+    this._busyManager.setBusy();
     this._cacheService.putArm(this._requestSchemaPath, null, JSON.stringify(this._updatedRequestEditorContent))
       .subscribe(r => {
         this._busyManager.clearBusy();
@@ -202,7 +204,7 @@ export class EmbeddedFunctionSchemaTabComponent implements OnChanges, OnDestroy 
   }
 
   _saveResponseSchemaContent() {
-    this._busyManager.setBusy();;
+    this._busyManager.setBusy();
     this._cacheService.putArm(this._responseSchemaPath, null, JSON.stringify(this._updatedResponseEditorContent))
       .subscribe(r => {
         this._busyManager.clearBusy();

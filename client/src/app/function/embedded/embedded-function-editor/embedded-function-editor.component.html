@@ -44,10 +44,10 @@
                   cssClass="list-item clickable command right">
         </command>
         <command  *ngIf="rightSchemaBarExpanded"
-                  displayText="{{ 'Save schema' | translate }}"
-                  iconName="ms-Icon ms-Icon--Save"
+                  displayText="{{ 'Update schema' | translate }}"
+                  iconName="ms-Icon ms-Icon--PostUpdate"
                   (click)="saveSchema()"
-                  cssClass="list-item clickable command right edge">
+                  cssClass="list-item clickable command">
             </command>
     </command-bar>
   </section>
