@@ -80,6 +80,7 @@ export class SiteTabIds {
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
     public static readonly scaleUp = 'scale-up';
+    public static readonly quickstart = 'quickstart';
 }
 
 export class ARM {
