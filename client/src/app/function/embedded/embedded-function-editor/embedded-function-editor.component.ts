@@ -1,4 +1,5 @@
 import { FunctionEditorEvent, FunctionEditorEventType } from 'app/function/embedded/function-editor-event';
+import { FunctionSchemaEvent } from 'app/function/embedded/function-schema-event';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
@@ -29,6 +30,7 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   public initialEditorContent = '';
   public fileName = '';
   public rightBarExpanded = false;
+  public rightSchemaBarExpanded = false;
   public bottomBarExpanded = false;
   public bottomBarMaximized = false;
   public functionName = '';
@@ -159,6 +161,17 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
   setRightBarState() {
     this.firstRun = false;
     this.rightBarExpanded = !this.rightBarExpanded;
+    this.rightSchemaBarExpanded = false;
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  setRightSchemaBarState() {
+    this.firstRun = false;
+    this.rightSchemaBarExpanded = !this.rightSchemaBarExpanded;
+    this.rightBarExpanded = false;
 
     setTimeout(() => {
       this.codeEditor.resize();
@@ -182,6 +195,25 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     this.firstRun = true;
     this.rightBarExpanded = true;
     this.bottomBarExpanded = true;
+    this.rightSchemaBarExpanded = false;
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  saveSchema() {
+    if (this.rightSchemaBarExpanded) {
+      setTimeout(() => {
+        this._broadcastService.broadcastEvent<FunctionSchemaEvent<void>>(BroadcastEvent.FunctionSchemaEvent, {
+          type: 'saveSchema',
+          value: null
+        });
+      });
+    }
+
+    this.firstRun = true;
+    this.rightSchemaBarExpanded = true;
 
     setTimeout(() => {
       this.codeEditor.resize();

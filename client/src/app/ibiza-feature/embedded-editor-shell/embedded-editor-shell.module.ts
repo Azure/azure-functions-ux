@@ -2,6 +2,7 @@
 import { EmbeddedEditorShellComponent } from './embedded-editor-shell.component';
 import { EmbeddedFunctionLogsTabComponent } from '../../function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
 import { EmbeddedFunctionTestTabComponent } from '../../function/embedded/embedded-function-test-tab/embedded-function-test-tab.component';
+import { EmbeddedFunctionSchemaTabComponent } from '../../function/embedded/embedded-function-schema-tab/embedded-function-schema-tab.component';
 import { EmbeddedFunctionEditorComponent } from '../../function/embedded/embedded-function-editor/embedded-function-editor.component';
 import { AadRegistrationComponent } from '../../aad-registration/aad-registration.component';
 import { RunHttpComponent } from '../../run-http/run-http.component';
@@ -71,6 +72,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         FunctionDevComponent,
         EmbeddedFunctionEditorComponent,
         EmbeddedFunctionTestTabComponent,
+        EmbeddedFunctionSchemaTabComponent,
         EmbeddedFunctionLogsTabComponent,
         LogStreamingComponent,
         FileExplorerComponent,

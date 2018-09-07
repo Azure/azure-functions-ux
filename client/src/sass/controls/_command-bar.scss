@@ -46,10 +46,11 @@
                 background-color: $pa-command-hover;
             }
 
-            &.right-edge{
+            &.right {
                 float: right;
-                margin-right: 20px;
-                
+                &.edge {
+                    margin-right: 20px;
+                }   
             }
 
             svg{

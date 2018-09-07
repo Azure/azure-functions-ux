@@ -80,7 +80,7 @@ export class CdsEntityDescriptor extends Descriptor {
     }
 
     getTrimmedResourceId() {
-        return `/providers/Microsoft.Blueridge/environments/${this.environment}/scopes/${this.scope}`;
+        return `/providers/Microsoft.Functions/environments/${this.environment}/scopes/${this.scope}`;
     }
 }
 
