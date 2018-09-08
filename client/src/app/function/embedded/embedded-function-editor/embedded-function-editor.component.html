@@ -1,6 +1,5 @@
 <div id="embedded-function-editor-wrapper"
   [class.right-tabs-expanded]="rightBarExpanded"
-  [class.right-schema-tabs-expanded]="rightSchemaBarExpanded"
   [class.bottom-tabs-expanded]="bottomBarExpanded && !bottomBarMaximized"
   [class.bottom-tabs-maximized]="bottomBarExpanded && bottomBarMaximized">
 
@@ -38,17 +37,12 @@
                   (click)="setRightBarState()"
                   cssClass="list-item clickable command right">
         </command>
-        <command  displayText="{{ 'Schema' | translate }}"
+        <command  *ngIf="rightBarExpanded"
+                  displayText="{{ 'Generate Swagger' | translate }}"
                   iconName="ms-Icon ms-Icon--RowsChild"
-                  (click)="setRightSchemaBarState()"
-                  cssClass="list-item clickable command right">
-        </command>
-        <command  *ngIf="rightSchemaBarExpanded"
-                  displayText="{{ 'Update schema' | translate }}"
-                  iconName="ms-Icon ms-Icon--PostUpdate"
                   (click)="saveSchema()"
                   cssClass="list-item clickable command">
-            </command>
+        </command>
     </command-bar>
   </section>
 
@@ -72,12 +66,6 @@
             [resourceId]="resourceId"
             [firstRun]="firstRun">
   </embedded-function-test-tab>
-
-  <embedded-function-schema-tab class="right-schema-tabs-bar"
-            *ngIf="rightSchemaBarExpanded"
-            [resourceId]="resourceId"
-            [firstRun]="firstRun">
-  </embedded-function-schema-tab>
 
   <section class="bottom-command-bar-section">
         <command-bar id="command-bar-embedded-bottom">

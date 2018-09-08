@@ -17,6 +17,7 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { FunctionSchemaEvent } from './../function-schema-event';
 
 @Component({
   selector: 'embedded-function-test-tab',
@@ -41,6 +42,9 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
   private _functionInfo: FunctionInfo;
   private _busyManager: BusyStateScopeManager;
   private _ngUnsubscribe = new Subject();
+
+  private _requestSchemaPath: string;
+  private _responseSchemaPath: string;
 
   constructor(
     private _cacheService: CacheService,
@@ -72,6 +76,8 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
         }
 
         this._functionInfo = r.result;
+        this._requestSchemaPath = this._getRequestUrl(this.resourceId);
+        this._responseSchemaPath = this._getResponseUrl(this.resourceId);
 
         try {
           const content = JSON.parse(this._functionInfo.test_data);
@@ -93,6 +99,18 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
         switch (r.type) {
           case 'runTest':
             this.runTest();
+            break;
+          default:
+            break;
+        }
+      });
+
+      this._broadcastService.getEvents<FunctionSchemaEvent<void>>(BroadcastEvent.FunctionSchemaEvent)
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(r => {
+        switch (r.type) {
+          case 'saveSchema':
+            this.saveSchema();
             break;
           default:
             break;
@@ -151,5 +169,51 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
 
   editorContentChanged(content: string) {
     this._updatedEditorContent = content;
+  }
+
+  saveSchema() {
+    //TODO: Run these in parallel
+    this._saveRequestSchemaContent();
+    this._saveResponseSchemaContent();
+  }
+
+  _saveRequestSchemaContent() {
+    this._busyManager.setBusy();
+    this._cacheService.putArm(this._requestSchemaPath, null, JSON.stringify(this._updatedEditorContent))
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+      }, err => {
+        this._busyManager.clearBusy();
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+          message: this._translateService.instant(PortalResources.error_unableToUpdateSampleRequestSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleRequestError,
+          resourceId: this.resourceId,
+        });
+      });
+  }
+
+  _saveResponseSchemaContent() {
+    this._busyManager.setBusy();
+    this._cacheService.putArm(this._responseSchemaPath, null, JSON.stringify(this.responseOutputText))
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+      }, err => {
+        this._busyManager.clearBusy();
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+          message: this._translateService.instant(PortalResources.error_unableToUpdateSampleResponseSchema).format(this._functionInfo.name),
+          errorId: errorIds.embeddedUpdateSampleResponseError,
+          resourceId: this.resourceId,
+        });
+      });
+  }
+
+  _getRequestUrl(resourceId: string): string
+  {
+    return `${resourceId}/files/sampleRequest.json`;
+  }
+
+  _getResponseUrl(resourceId: string): string
+  {
+    return `${resourceId}/files/sampleResponse.json`;
   }
 }
