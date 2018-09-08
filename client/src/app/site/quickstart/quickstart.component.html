@@ -1,0 +1,19 @@
+<app-card-info-control [image]="'image/quickstart.svg'" 
+    [header]="quickstartTitle" 
+    description="{{'quickstartDescription' | translate}}"
+    learnMoreLink="https://go.microsoft.com/fwlink/?linkid=874656">
+</app-card-info-control>
+
+<ng-container *ngIf="!loading">
+    <div *ngIf="canUseQuickstart" class="wizard-container">
+        <wizard navBarLayout="large-filled-symbols" #wizard StepNumber>
+            <step-choose-dev-environment wizardStep title="{{'chooseDevEnvironment' | translate}}"></step-choose-dev-environment>
+            <step-choose-deployment-method wizardStep *ngIf="showDeploymentStep" title="{{'chooseDeploymentMethod' | translate}}"></step-choose-deployment-method>
+            <step-create-function wizardStep title="{{'createFunction' | translate}}"></step-create-function>
+        </wizard>
+    </div>
+
+    <div *ngIf="!canUseQuickstart" class="no-quickstart">
+        <h2>**Text telling users to set the worker runtime in app settings**</h2>
+    </div>
+</ng-container>

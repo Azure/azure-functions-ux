@@ -816,6 +816,7 @@ export class FunctionAppService {
                         : '';
                     const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
+                    const isContainerApp = ArmUtil.isContainer(context.site);
 
                     const resolveReadOnlyMode = () => {
                         if (sourceControlled) {
@@ -857,6 +858,8 @@ export class FunctionAppService {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
                     } else if (usingLocalCache) {
                         return FunctionAppEditMode.ReadOnlyLocalCache;
+                    } else if (isContainerApp) {
+                        return FunctionAppEditMode.ReadOnlyBYOC;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
@@ -885,6 +888,14 @@ export class FunctionAppService {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(context: FunctionAppContext): Result<boolean> {
+        if (ArmUtil.isLinuxDynamic(context.site)) {
+            return Observable.of({
+                isSuccessful: true,
+                result: true,
+                error: null,
+            });
+        }
+
         return this.azure.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.pingScmSiteUrl, true, this.headers(t))
                 .map(_ => true)
@@ -1031,10 +1042,12 @@ export class FunctionAppService {
         return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context))
             .map(tuple => {
                 if (tuple[0].isSuccessful) {
-                    const key = tuple[0].result.keys.find(k => k.name === Constants.eventGridName);
+                    const generation = tuple[1];
+                    const eventGridName = generation === 'V1' ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
+                    const key = tuple[0].result.keys.find(k => k.name === eventGridName);
                     return {
                         isSuccessful: true,
-                        result: key ? FunctionsVersionInfoHelper.getEventGridUri(tuple[1], context.mainSiteUrl, functionName, key.value) : '',
+                        result: key ? FunctionsVersionInfoHelper.getEventGridUri(generation, context.mainSiteUrl, functionName, key.value) : '',
                         error: null
                     };
                 } else {

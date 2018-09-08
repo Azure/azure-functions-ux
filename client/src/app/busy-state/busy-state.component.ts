@@ -24,7 +24,8 @@ export type BusyStateName =
     | 'log-stream'
     | 'scale-up'
     | 'deployment-slots-config'
-    | 'standalone-config';
+    | 'standalone-config'
+    | 'quickstart';
 
 @Component({
     selector: 'busy-state',

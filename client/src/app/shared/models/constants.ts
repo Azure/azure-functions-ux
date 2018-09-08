@@ -38,7 +38,8 @@ export class Constants {
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
-    public static eventGridName = 'eventgridextensionconfig_extension';
+    public static eventGridName_v1 = 'eventgridextensionconfig_extension';
+    public static eventGridName_v2 = 'eventgrid_extension';
 
     public static portalHostName = 'https://portal.azure.com';
     public static webAppsHostName = 'https://web1.appsvcux.ext.azure.com';
@@ -79,6 +80,7 @@ export class SiteTabIds {
     public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
     public static readonly deploymentSlotsCreate = 'deployment-slots-create';
     public static readonly scaleUp = 'scale-up';
+    public static readonly quickstart = 'quickstart';
 }
 
 export class ARM {
