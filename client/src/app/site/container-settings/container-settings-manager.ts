@@ -1,5 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
-import { SingleContainer, KubernetesContainer, DockerComposeContainer, Container, ContainerSettingsInput, ContainerSettingsData, ImageSourceType, DockerHubAccessType, ContainerSample, ContinuousDeploymentOption } from './container-settings';
+import {
+    SingleContainer,
+    KubernetesContainer,
+    DockerComposeContainer,
+    Container,
+    ContainerSettingsInput,
+    ContainerSettingsData,
+    ImageSourceType,
+    DockerHubAccessType,
+    ContainerSample,
+    ContinuousDeploymentOption } from './container-settings';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';

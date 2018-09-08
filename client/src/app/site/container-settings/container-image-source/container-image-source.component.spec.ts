@@ -44,7 +44,7 @@ describe('ContainerIamgeSourceComponent', () => {
                     MockComponent(NgSelectComponent),
                 ],
                 imports: [
-                    TranslateModule.forRoot()
+                    TranslateModule.forRoot(),
                 ],
                 providers: [
                     BroadcastService,

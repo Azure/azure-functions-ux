@@ -12,7 +12,7 @@ import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourceQuickstartComponent } from './container-image-source-quickstart.component';
 import { NgModel } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { ContainerSamplesService } from '../../../../shared/services/container-samples.service';
+import { ContainerSamplesService } from '../../services/container-samples.service';
 
 describe('ContainerImageSourceQuickstartComponent', () => {
     let component: ContainerImageSourceQuickstartComponent;

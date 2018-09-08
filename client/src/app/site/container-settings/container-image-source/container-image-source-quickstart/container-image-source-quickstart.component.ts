@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Container, ContainerSample, ContainerConfigureData } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
-import { ContainerSamplesService } from '../../../../shared/services/container-samples.service';
+import { ContainerSamplesService } from '../../services/container-samples.service';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 
 @Component({
@@ -10,7 +10,8 @@ import { DropDownElement } from '../../../../shared/models/drop-down-element';
     styleUrls: [
         './../../container-settings.component.scss',
         './../container-image-source.component.scss',
-        './container-image-source-quickstart.component.scss']
+        './container-image-source-quickstart.component.scss',
+    ],
 })
 export class ContainerImageSourceQuickstartComponent {
 

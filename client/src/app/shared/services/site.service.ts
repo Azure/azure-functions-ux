@@ -156,4 +156,12 @@ export class SiteService {
 
         return this._client.execute({ resourceId: resourceId }, t => createSlot);
     }
+
+    getPublishingCredentials(resourceId: string, force?: boolean): Result<ArmObj<ApplicationSettings>> {
+        const getPublishingCredentials = this._cacheService
+            .postArm(`${resourceId}/config/publishingcredentials/list`, force)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getPublishingCredentials);
+    }
 }

@@ -24,7 +24,7 @@ describe('ContainerImageSourceDockerHubComponent', () => {
                     MockDirective(LoadImageDirective),
                 ],
                 imports: [
-                    TranslateModule.forRoot()
+                    TranslateModule.forRoot(),
                 ],
                 providers: [
                     BroadcastService,

@@ -1,19 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
-import { ArmArrayResult } from '../models/arm/arm-obj';
-import { ACRRegistry, ACRCredential, ACRDirectRequestPayload, ACRRepositories, ACRTags, AcrApiObject } from '../../site/container-settings/container-settings';
-import { CacheService } from './cache.service';
-import { ARMApiVersions, LogCategories } from '../models/constants';
-import { Observable } from 'rxjs/Observable';
-import { LogService } from './log.service';
+import { ArmArrayResult } from '../../../shared/models/arm/arm-obj';
+import { ACRRegistry, ACRCredential, ACRDirectRequestPayload, ACRRepositories, ACRTags, AcrApiObject } from '../container-settings';
+import { CacheService } from '../../../shared/services/cache.service';
+import { ARMApiVersions } from '../../../shared/models/constants';
 import { Headers } from '@angular/http';
-import { ConditionalHttpClient, Result } from '../conditional-http-client';
-import { UserService } from './user.service';
+import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
+import { UserService } from '../../../shared/services/user.service';
 
 export interface IContainerACRService {
     getRegistries(subscriptionId: string): Result<ArmArrayResult<ACRRegistry>>;
     getCredentials(resourceUri: string, registry: string): Result<ACRCredential>;
-    getRepositories(subscriptionId: string, loginServer: string, username: string, password: string): Observable<AcrApiObject<ACRRepositories>>;
-    getTags(subscriptionId: string, loginServer: string, repository: string, username: string, password: string): Observable<AcrApiObject<ACRTags>>;
+    getRepositories(subscriptionId: string, resourceId: string, loginServer: string, username: string, password: string): Result<AcrApiObject<ACRRepositories>>;
+    getTags(subscriptionId: string, resourceId: string, loginServer: string, repository: string, username: string, password: string): Result<AcrApiObject<ACRTags>>;
 }
 
 @Injectable()
@@ -22,7 +20,6 @@ export class ContainerACRService implements IContainerACRService {
 
     constructor(
         private _cacheService: CacheService,
-        private _logService: LogService,
         userService: UserService,
         injector: Injector,
     ) {
@@ -49,7 +46,12 @@ export class ContainerACRService implements IContainerACRService {
         return this._client.execute({ resourceId: resourceId }, t => getCredentails);
     }
 
-    public getRepositories(subscriptionId: string, loginServer: string, username: string, password: string): Observable<AcrApiObject<ACRRepositories>> {
+    public getRepositories(
+        subscriptionId: string,
+        resourceId: string,
+        loginServer: string,
+        username: string,
+        password: string): Result<AcrApiObject<ACRRepositories>> {
         const payload: ACRDirectRequestPayload = {
             username,
             password,
@@ -60,21 +62,20 @@ export class ContainerACRService implements IContainerACRService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        const response = this._cacheService
-            .post('/api/getAcrRepositories', false, headers, payload);
+        const getRepositories = this._cacheService
+            .post('/api/getAcrRepositories', false, headers, payload)
+            .map(r => r.json());
 
-        return response
-            .map(r => Observable.of(r.json()))
-            .catch(err => {
-                this._logService.error(
-                    LogCategories.containerACR,
-                    '/api/getAcrRepositories',
-                    `Failed to get credentails for '${payload.username}' at '${payload.endpoint}'`);
-                return Observable.of(null);
-            });
+        return this._client.execute({ resourceId: resourceId }, t => getRepositories);
     }
 
-    public getTags(subscriptionId: string, loginServer: string, repository: string, username: string, password: string): Observable<AcrApiObject<ACRTags>> {
+    public getTags(
+        subscriptionId: string,
+        resourceId: string,
+        loginServer: string,
+        repository: string,
+        username: string,
+        password: string): Result<AcrApiObject<ACRTags>> {
         const payload: ACRDirectRequestPayload = {
             username,
             password,
@@ -85,16 +86,10 @@ export class ContainerACRService implements IContainerACRService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        const response = this._cacheService.post('/api/getAcrTags', false, headers, payload);
+        const getTags = this._cacheService
+            .post('/api/getAcrTags', false, headers, payload)
+            .map(r => r.json());
 
-        return response
-            .map(r => Observable.of(r.json()))
-            .catch(err => {
-                this._logService.error(
-                    LogCategories.containerACR,
-                    '/api/getAcrTags',
-                    `Failed to get credentails for '${payload.username}' at '${payload.endpoint}'`);
-                return Observable.of(null);
-            });
+        return this._client.execute({ resourceId: resourceId }, t => getTags);
     }
 }

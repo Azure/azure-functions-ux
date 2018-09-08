@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ContainerConfigureData, Container, ACRRegistry } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
-import { ContainerACRService } from '../../../../shared/services/container-acr.service';
+import { ContainerACRService } from '../../services/container-acr.service';
 
 @Component({
     selector: 'container-image-source-acr',
@@ -10,7 +10,8 @@ import { ContainerACRService } from '../../../../shared/services/container-acr.s
     styleUrls: [
         './../../container-settings.component.scss',
         './../container-image-source.component.scss',
-        './container-image-source-acr.component.scss']
+        './container-image-source-acr.component.scss',
+    ],
 })
 export class ContainerImageSourceACRComponent {
 
@@ -72,7 +73,7 @@ export class ContainerImageSourceACRComponent {
         this.loadingRegistries = false;
         this.loadingRepo = false;
         this.loadingTag = false;
-        this.registriesMissing = true;
+        this.registriesMissing = false;
 
         this.registryDropdownItems = [];
         this.registryItems = [];
@@ -137,7 +138,9 @@ export class ContainerImageSourceACRComponent {
         this._acrService
             .getRegistries(this.containerConfigureInfo.subscriptionId)
             .subscribe((registryResources) => {
-                if (registryResources.isSuccessful) {
+                if (registryResources.isSuccessful
+                    && registryResources.result.value
+                    && registryResources.result.value.length > 0) {
                     this.registryItems = registryResources.result.value.map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
 
                     this.registryDropdownItems = registryResources.result.value.map(registryResource => ({
@@ -148,7 +151,9 @@ export class ContainerImageSourceACRComponent {
                     this._containerSettingsManager.selectedAcrRegistry$.next(this.registryItems[0].loginServer);
 
                     this.loadingRegistries = false;
-                    this.registriesMissing = !this.registryItems || this.registryItems.length === 0;
+                    this.registriesMissing = false;
+                } else {
+                    this.registriesMissing = true;
                 }
             });
     }
@@ -158,20 +163,26 @@ export class ContainerImageSourceACRComponent {
         this._acrService
             .getRepositories(
                 this.containerConfigureInfo.subscriptionId,
+                this.containerConfigureInfo.resourceId,
                 this.selectedRegistry,
                 this.username,
                 this.password)
             .subscribe((response) => {
-                this.repositoryItems = response.value.repositories;
+                if (response.isSuccessful
+                    && response.result.value
+                    && response.result.value.repositories
+                    && response.result.value.repositories.length > 0) {
+                    this.repositoryItems = response.result.value.repositories;
 
-                this.repositoryDropdownItems = this.repositoryItems.map(item => ({
-                    displayLabel: item,
-                    value: item,
-                }));
+                    this.repositoryDropdownItems = this.repositoryItems.map(item => ({
+                        displayLabel: item,
+                        value: item,
+                    }));
 
-                this._containerSettingsManager.selectedAcrRepo$.next(this.repositoryItems[0]);
+                    this._containerSettingsManager.selectedAcrRepo$.next(this.repositoryItems[0]);
 
-                this.loadingRepo = false;
+                    this.loadingRepo = false;
+                }
             });
     }
 
@@ -180,21 +191,27 @@ export class ContainerImageSourceACRComponent {
         this._acrService
             .getTags(
                 this.containerConfigureInfo.subscriptionId,
+                this.containerConfigureInfo.resourceId,
                 this.selectedRegistry,
                 this.selectedRepository,
                 this.username,
                 this.password)
             .subscribe((response) => {
-                this.tagItems = response.value.tags;
+                if (response.isSuccessful
+                    && response.result.value
+                    && response.result.value.tags
+                    && response.result.value.tags.length > 0) {
+                    this.tagItems = response.result.value.tags;
 
-                this.tagDropdownItems = this.tagItems.map(item => ({
-                    displayLabel: item,
-                    value: item,
-                }));
+                    this.tagDropdownItems = this.tagItems.map(item => ({
+                        displayLabel: item,
+                        value: item,
+                    }));
 
-                this._containerSettingsManager.selectedAcrTag$.next(this.tagItems[0]);
+                    this._containerSettingsManager.selectedAcrTag$.next(this.tagItems[0]);
 
-                this.loadingTag = false;
+                    this.loadingTag = false;
+                }
             });
     }
 }

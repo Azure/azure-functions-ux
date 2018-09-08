@@ -8,7 +8,8 @@ import { ContainerSettingsManager } from '../../container-settings-manager';
     styleUrls: [
         './../../container-settings.component.scss',
         './../container-image-source.component.scss',
-        './container-image-source-dockerhub.component.scss']
+        './container-image-source-dockerhub.component.scss',
+    ],
 })
 export class ContainerImageSourceDockerHubComponent {
 

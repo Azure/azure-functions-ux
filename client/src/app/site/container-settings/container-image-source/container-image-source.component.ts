@@ -6,7 +6,7 @@ import { SelectOption } from '../../../shared/models/select-option';
 @Component({
     selector: 'container-image-source',
     templateUrl: './container-image-source.component.html',
-    styleUrls: ['./../container-settings.component.scss', './container-image-source.component.scss']
+    styleUrls: ['./../container-settings.component.scss', './container-image-source.component.scss'],
 })
 export class ContainerImageSourceComponent {
 

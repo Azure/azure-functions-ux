@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ContainerSample, ContainerOS, ContainerType } from '../../site/container-settings/container-settings';
+import { ContainerSample, ContainerOS, ContainerType } from '../container-settings';
 import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from '../models/portal-resources';
+import { PortalResources } from '../../../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 
 export interface IContainerSamplesService {

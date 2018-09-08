@@ -5,7 +5,7 @@ import { ContainerSettingsManager } from '../container-settings-manager';
 @Component({
     selector: 'container-configure',
     templateUrl: './container-configure.component.html',
-    styleUrls: ['./../container-settings.component.scss', './container-configure.component.scss']
+    styleUrls: ['./../container-settings.component.scss', './container-configure.component.scss'],
 })
 export class ContainerConfigureComponent {
 

@@ -3751,7 +3751,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Update container settings</value>
   </data>
-  <data name="containerQuickStart" xml:space="preserve">
+  <data name="containerQuickstart" xml:space="preserve">
     <value>Quickstart</value>
   </data>
   <data name="containerACR" xml:space="preserve">

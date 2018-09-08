@@ -8,7 +8,8 @@ import { ContainerSettingsManager } from '../../container-settings-manager';
     styleUrls: [
         './../../container-settings.component.scss',
         './../container-image-source.component.scss',
-        './container-image-source-privateregistry.component.scss']
+        './container-image-source-privateregistry.component.scss',
+    ],
 })
 export class ContainerImageSourcePrivateRegistryComponent {
 

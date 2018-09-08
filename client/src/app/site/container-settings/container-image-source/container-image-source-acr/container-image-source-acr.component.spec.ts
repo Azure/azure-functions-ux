@@ -10,7 +10,7 @@ import { TelemetryService } from './../../../../shared/services/telemetry.servic
 import { MockTelemetryService } from './../../../../test/mocks/telemetry.service.mock';
 import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourceACRComponent } from './container-image-source-acr.component';
-import { ContainerACRService } from '../../../../shared/services/container-acr.service';
+import { ContainerACRService } from '../../services/container-acr.service';
 
 describe('ContainerImageSourceACRComponent', () => {
     let component: ContainerImageSourceACRComponent;
@@ -25,7 +25,7 @@ describe('ContainerImageSourceACRComponent', () => {
                     MockDirective(LoadImageDirective),
                 ],
                 imports: [
-                    TranslateModule.forRoot()
+                    TranslateModule.forRoot(),
                 ],
                 providers: [
                     BroadcastService,

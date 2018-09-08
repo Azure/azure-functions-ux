@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
-import { CacheService } from './cache.service';
-import { UserService } from './user.service';
-import { ConditionalHttpClient, Result } from '../conditional-http-client';
+import { CacheService } from '../../../shared/services/cache.service';
+import { UserService } from '../../../shared/services/user.service';
+import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
 
 export interface IContainerLogsService {
     getContainerLogs(resourceId: string): Result<string>;
