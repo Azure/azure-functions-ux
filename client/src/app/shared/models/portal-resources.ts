@@ -1203,7 +1203,7 @@
     public static extensionInstallDocLink = 'extensionInstallDocLink';
     public static pricing_ACU = 'pricing_ACU';
     public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
-    public static containerQuickStart = 'containerQuickStart';
+    public static containerQuickstart = 'containerQuickstart';
     public static containerACR = 'containerACR';
     public static containerDockerHub = 'containerDockerHub';
     public static containerPrivateRegistry = 'containerPrivateRegistry';
