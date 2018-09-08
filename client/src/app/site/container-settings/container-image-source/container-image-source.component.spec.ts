@@ -20,8 +20,10 @@ import { NgModel } from '@angular/forms';
 import { ContainerLogsComponent } from './container-logs/container-logs.component';
 import { ContainerContinuousDeliveryComponent } from './container-continuous-delivery/container-continuos-delivery.component';
 import { ContainerMultiConfigComponent } from './container-multiconfig/container-multiconfig.component';
+import { InfoBoxComponent } from '../../../controls/info-box/info-box.component';
+import { TextboxComponent } from '../../../controls/textbox/textbox.component';
 
-describe('ContainerIamgeSourceComponent', () => {
+describe('ContainerImageSourceComponent', () => {
     let component: ContainerImageSourceComponent;
     let fixture: ComponentFixture<ContainerImageSourceComponent>;
     let containerSettingsManager: ContainerSettingsManager;
@@ -42,6 +44,8 @@ describe('ContainerIamgeSourceComponent', () => {
                     MockDirective(NgModel),
                     MockComponent(RadioSelectorComponent),
                     MockComponent(NgSelectComponent),
+                    MockComponent(InfoBoxComponent),
+                    MockComponent(TextboxComponent),
                 ],
                 imports: [
                     TranslateModule.forRoot(),

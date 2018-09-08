@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from './../../../../controls/load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from './../../../../shared/services/broadcast.service';
@@ -11,6 +11,10 @@ import { MockTelemetryService } from './../../../../test/mocks/telemetry.service
 import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourceACRComponent } from './container-image-source-acr.component';
 import { ContainerACRService } from '../../services/container-acr.service';
+import { InfoBoxComponent } from '../../../../controls/info-box/info-box.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgModel } from '@angular/forms';
+import { TextboxComponent } from '../../../../controls/textbox/textbox.component';
 
 describe('ContainerImageSourceACRComponent', () => {
     let component: ContainerImageSourceACRComponent;
@@ -22,7 +26,11 @@ describe('ContainerImageSourceACRComponent', () => {
             .configureTestingModule({
                 declarations: [
                     ContainerImageSourceACRComponent,
+                    MockComponent(InfoBoxComponent),
+                    MockComponent(NgSelectComponent),
+                    MockComponent(TextboxComponent),
                     MockDirective(LoadImageDirective),
+                    MockDirective(NgModel),
                 ],
                 imports: [
                     TranslateModule.forRoot(),

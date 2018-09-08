@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from './../../../../controls/load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from './../../../../shared/services/broadcast.service';
@@ -10,6 +10,8 @@ import { TelemetryService } from './../../../../shared/services/telemetry.servic
 import { MockTelemetryService } from './../../../../test/mocks/telemetry.service.mock';
 import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourceDockerHubComponent } from './container-image-source-dockerhub.component';
+import { RadioSelectorComponent } from '../../../../radio-selector/radio-selector.component';
+import { TextboxComponent } from '../../../../controls/textbox/textbox.component';
 
 describe('ContainerImageSourceDockerHubComponent', () => {
     let component: ContainerImageSourceDockerHubComponent;
@@ -21,6 +23,8 @@ describe('ContainerImageSourceDockerHubComponent', () => {
             .configureTestingModule({
                 declarations: [
                     ContainerImageSourceDockerHubComponent,
+                    MockComponent(RadioSelectorComponent),
+                    MockComponent(TextboxComponent),
                     MockDirective(LoadImageDirective),
                 ],
                 imports: [

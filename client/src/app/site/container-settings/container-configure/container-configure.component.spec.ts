@@ -21,6 +21,8 @@ import { NgModel } from '@angular/forms';
 import { ContainerLogsComponent } from '../container-image-source/container-logs/container-logs.component';
 import { ContainerMultiConfigComponent } from '../container-image-source/container-multiconfig/container-multiconfig.component';
 import { ContainerContinuousDeliveryComponent } from '../container-image-source/container-continuous-delivery/container-continuos-delivery.component';
+import { InfoBoxComponent } from '../../../controls/info-box/info-box.component';
+import { TextboxComponent } from '../../../controls/textbox/textbox.component';
 
 describe('ContainerConfigureComponent', () => {
     let component: ContainerConfigureComponent;
@@ -44,9 +46,11 @@ describe('ContainerConfigureComponent', () => {
                     MockDirective(NgModel),
                     MockComponent(RadioSelectorComponent),
                     MockComponent(NgSelectComponent),
+                    MockComponent(InfoBoxComponent),
+                    MockComponent(TextboxComponent),
                 ],
                 imports: [
-                    TranslateModule.forRoot()
+                    TranslateModule.forRoot(),
                 ],
                 providers: [
                     BroadcastService,

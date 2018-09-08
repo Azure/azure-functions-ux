@@ -11,7 +11,7 @@ import { Dom } from '../../shared/Utilities/dom';
 @Component({
     selector: 'container-settings',
     templateUrl: './container-settings.component.html',
-    styleUrls: ['./container-settings.component.scss']
+    styleUrls: ['./container-settings.component.scss'],
 })
 export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>> implements OnDestroy {
     @ViewChild(ContainerConfigureComponent) containerConfigureComponent: ContainerConfigureComponent;
@@ -32,7 +32,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
-        super('ContainerSettingsComponent', injector);
+        super('ContainerSettingsComponent', injector, 'dashboard');
 
         this.isParentComponent = true;
         this.featureName = 'ContainerSettings';

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockComponent } from 'ng-mocks';
 import { LoadImageDirective } from './../../../../controls/load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from './../../../../shared/services/broadcast.service';
@@ -10,6 +10,7 @@ import { TelemetryService } from './../../../../shared/services/telemetry.servic
 import { MockTelemetryService } from './../../../../test/mocks/telemetry.service.mock';
 import { ContainerSettingsManager } from './../../container-settings-manager';
 import { ContainerImageSourcePrivateRegistryComponent } from './container-image-source-privateregistry.component';
+import { TextboxComponent } from '../../../../controls/textbox/textbox.component';
 
 describe('ContainerImageSourcePrivateRegistryComponent', () => {
     let component: ContainerImageSourcePrivateRegistryComponent;
@@ -21,6 +22,7 @@ describe('ContainerImageSourcePrivateRegistryComponent', () => {
             .configureTestingModule({
                 declarations: [
                     ContainerImageSourcePrivateRegistryComponent,
+                    MockComponent(TextboxComponent),
                     MockDirective(LoadImageDirective),
                 ],
                 imports: [

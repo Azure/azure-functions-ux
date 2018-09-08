@@ -22,6 +22,10 @@ import { NgModel } from '@angular/forms';
 import { ContainerLogsComponent } from './container-image-source/container-logs/container-logs.component';
 import { ContainerMultiConfigComponent } from './container-image-source/container-multiconfig/container-multiconfig.component';
 import { ContainerContinuousDeliveryComponent } from './container-image-source/container-continuous-delivery/container-continuos-delivery.component';
+import { InfoBoxComponent } from '../../controls/info-box/info-box.component';
+import { TextboxComponent } from '../../controls/textbox/textbox.component';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
+import { ContainerSettingsInput, ContainerSettingsData } from './container-settings';
 
 describe('ContainerSettingsComponent', () => {
     let component: ContainerSettingsComponent;
@@ -46,9 +50,11 @@ describe('ContainerSettingsComponent', () => {
                     MockDirective(NgModel),
                     MockComponent(RadioSelectorComponent),
                     MockComponent(NgSelectComponent),
+                    MockComponent(InfoBoxComponent),
+                    MockComponent(TextboxComponent),
                 ],
                 imports: [
-                    TranslateModule.forRoot()
+                    TranslateModule.forRoot(),
                 ],
                 providers: [
                     BroadcastService,
@@ -56,7 +62,7 @@ describe('ContainerSettingsComponent', () => {
                     ContainerSettingsManager,
                     { provide: LogService, useClass: MockLogService },
                     { provide: TelemetryService, useClass: MockTelemetryService },
-                ]
+                ],
             })
             .compileComponents();
     });
@@ -74,16 +80,23 @@ describe('ContainerSettingsComponent', () => {
         expect(component).toBeDefined();
     });
 
-    it('should initialize in Ibiza', () => {
+    it('should initialize from ibiza creates for web app', () => {
 
-        const input = {
-            resourceId: 'resourceId',
+        const input: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>> = {
+            resourceId: '/subscriptions/1234',
             dashboardType: null,
             node: null,
             data: {
-                id: 'resourceId',
-                data: null,
-                containerSettings: component
+                id: '/subscriptions/1234',
+                data: {
+                    resourceId: '/subscriptions/1234',
+                    isFunctionApp: false,
+                    subscriptionId: '1234',
+                    location: '',
+                    os: 'linux',
+                    fromMenu: false,
+                },
+                containerSettings: component,
             },
         };
 
