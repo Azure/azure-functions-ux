@@ -3544,10 +3544,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="error_unableToUpdateSampleResponseSchema" xml:space="preserve">
     <value>We are not able to update the sample response.</value>
   </data>
-   <data name="error_unableToRetrieveSampleRequestSchema" xml:space="preserve">
-    <value>Unable to retrieve the sample request.</value>
-  </data>
-   <data name="error_unableToRetrieveSampleResponseSchema" xml:space="preserve">
-    <value>Unable to retrieve the sample response</value>
-  </data>
 </root>

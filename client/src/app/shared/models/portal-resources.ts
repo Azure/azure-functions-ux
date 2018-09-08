@@ -1137,6 +1137,4 @@
     public static Enable = 'Enable';
     public static error_unableToUpdateSampleRequestSchema = 'error_unableToUpdateSampleRequestSchema';
     public static error_unableToUpdateSampleResponseSchema = 'error_unableToUpdateSampleResponseSchema';
-    public static error_unableToRetrieveSampleRequestSchema = 'error_unableToRetrieveSampleRequestSchema';
-    public static error_unableToRetrieveSampleResponseSchema = 'error_unableToRetrieveSampleResponseSchema';
 }
