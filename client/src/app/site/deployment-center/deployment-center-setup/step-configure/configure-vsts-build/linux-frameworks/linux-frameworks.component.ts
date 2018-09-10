@@ -125,10 +125,6 @@ export class LinuxFramworksComponent implements OnDestroy {
     });
   }
 
-  selectedFrameworkChanged() {
-    console.log('changed');
-  }
-
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
   }
