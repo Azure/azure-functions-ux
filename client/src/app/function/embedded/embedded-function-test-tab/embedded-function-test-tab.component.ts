@@ -172,33 +172,32 @@ export class EmbeddedFunctionTestTabComponent implements OnChanges, OnDestroy {
   }
 
   saveSchema() {
-    //TODO: Run these in parallel
-    this._saveRequestSchemaContent();
-    this._saveResponseSchemaContent();
+    this._busyManager.setBusy();
+
+    Observable.forkJoin(
+      this._saveRequestSchemaContent(),
+      this._saveResponseSchemaContent())
+      .subscribe(r =>{
+        this._busyManager.clearBusy();
+      }, err =>{
+        this._busyManager.clearBusy();
+      });
   }
 
   _saveRequestSchemaContent() {
-    this._busyManager.setBusy();
-    this._cacheService.putArm(this._requestSchemaPath, null, JSON.stringify(this._updatedEditorContent))
-      .subscribe(r => {
-        this._busyManager.clearBusy();
-      }, err => {
-        this._busyManager.clearBusy();
+    return this._embeddedService.putJsonFileContent(this._requestSchemaPath, this._updatedEditorContent)
+      .do(null, err => {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToUpdateSampleRequestSchema).format(this._functionInfo.name),
           errorId: errorIds.embeddedUpdateSampleRequestError,
           resourceId: this.resourceId,
         });
-      });
+      })
   }
 
   _saveResponseSchemaContent() {
-    this._busyManager.setBusy();
-    this._cacheService.putArm(this._responseSchemaPath, null, JSON.stringify(this.responseOutputText))
-      .subscribe(r => {
-        this._busyManager.clearBusy();
-      }, err => {
-        this._busyManager.clearBusy();
+    return this._embeddedService.putJsonFileContent(this._responseSchemaPath, this.responseOutputText)
+      .do(null, err => {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToUpdateSampleResponseSchema).format(this._functionInfo.name),
           errorId: errorIds.embeddedUpdateSampleResponseError,
