@@ -25,6 +25,11 @@ export namespace ArmUtil {
             obj.properties.sku.toLocaleLowerCase() === 'dynamic';
     }
 
+    export function isContainer(obj: ArmObj<Site> | FunctionContainer): boolean {
+        return obj &&
+            obj.kind.toLocaleLowerCase().indexOf('container') !== -1;
+    }
+
     export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {
         const template = new UrlTemplates(obj, injector);
         return {

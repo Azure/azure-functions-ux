@@ -134,10 +134,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                     this._siteService.getAvailableStacks(AvailableStacksOsType.Linux),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(this.resourceId),
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, {site: this.siteArm}),
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, {site: this.siteArm}),
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, {site: this.siteArm}),
-                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, {site: this.siteArm}));
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, { site: this.siteArm }),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, { site: this.siteArm }),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, { site: this.siteArm }),
+                    this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, { site: this.siteArm }));
             })
             .do(results => {
                 const siteResult = results[0];
@@ -302,8 +302,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
                 const linuxFxVersion = (siteConfigArm.properties.linuxFxVersion || '');
                 if (linuxFxVersion.indexOf(LinuxConstants.dockerPrefix) === -1 &&
-                linuxFxVersion.indexOf(LinuxConstants.composePrefix) === -1 &&
-                linuxFxVersion.indexOf(LinuxConstants.kubernetesPrefix) === -1  ) {
+                    linuxFxVersion.indexOf(LinuxConstants.composePrefix) === -1 &&
+                    linuxFxVersion.indexOf(LinuxConstants.kubernetesPrefix) === -1) {
                     linuxRuntimeSupported = true;
                 }
 
@@ -460,6 +460,13 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         }
     }
 
+    private _getSupportedRemoteDebuggingVersionOptions(): SelectOption<string>[] {
+        return [
+            { displayLabel: '2015', value: 'VS2015' },
+            { displayLabel: '2017', value: 'VS2017' },
+        ];
+    }
+
     private _generateRadioOptions() {
         const onString = this._translateService.instant(PortalResources.on);
         const offString = this._translateService.instant(PortalResources.off);
@@ -488,11 +495,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             [{ displayLabel: offString, value: false },
             { displayLabel: onString, value: true }];
 
-        this.remoteDebuggingVersionOptions =
-            [{ displayLabel: '2012', value: 'VS2012' },
-            { displayLabel: '2013', value: 'VS2013' },
-            { displayLabel: '2015', value: 'VS2015' },
-            { displayLabel: '2017', value: 'VS2017' }];
+        this.remoteDebuggingVersionOptions = this._getSupportedRemoteDebuggingVersionOptions();
 
         this.autoSwapEnabledOptions =
             [{ displayLabel: offString, value: false },
@@ -506,6 +509,17 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.http20EnabledOptions =
             [{ displayLabel: '1.1', value: false },
             { displayLabel: '2.0', value: true }];
+    }
+
+    private _adjustRemoteDebuggingVersionOptions(remoteDebuggingVersion: string) {
+        const remoteDebuggingVersionOptions = this._getSupportedRemoteDebuggingVersionOptions();
+        if (remoteDebuggingVersion === 'VS2012' || remoteDebuggingVersion === 'VS2013') {
+            remoteDebuggingVersionOptions.unshift({
+                displayLabel: remoteDebuggingVersion.substr(2),
+                value: remoteDebuggingVersion,
+            });
+        }
+        this.remoteDebuggingVersionOptions = remoteDebuggingVersionOptions;
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -525,6 +539,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             group.addControl('clientAffinityEnabled', this._fb.control({ value: siteArm.properties.clientAffinityEnabled, disabled: !this.hasWritePermissions }));
         }
         if (this.remoteDebuggingSupported) {
+            this._adjustRemoteDebuggingVersionOptions(siteConfigArm.properties.remoteDebuggingVersion);
             group.addControl('remoteDebuggingEnabled', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
             group.addControl('remoteDebuggingVersion', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
             setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);

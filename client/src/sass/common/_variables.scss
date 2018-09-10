@@ -153,3 +153,13 @@ $log-console-connector: #898787;
 $source-slot-bullet-color: #00c5c5;
 $source-slot-bullet-color-dark: aqua;
 $target-slot-bullet-color: #f77088;
+
+// Card styles:
+$header-box-color: white;
+$footer-shadow-style: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
+$card-box-shadow-style: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+$card-transition-style: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+$card-hover-shadow-style: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+$card-focus-shadow-style: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+$card-selected-transition-style: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
+$card-dark-shadow-style: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
