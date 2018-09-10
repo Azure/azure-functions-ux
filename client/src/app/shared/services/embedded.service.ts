@@ -133,6 +133,10 @@ export class EmbeddedService {
         });
     }
 
+    putJsonFileContent(fileUrl: string, fileContent: string) {
+       return this._cacheService.putArm(fileUrl, null, JSON.stringify(fileContent))
+    }
+
     toggleFunctionStatus(resourceId: string, disable: boolean): Observable<HttpResult<void>> {
         let action: string;
         if (disable) {

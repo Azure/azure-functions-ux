@@ -33,8 +33,15 @@
                   cssClass="list-item clickable command">
         </command>
         <command  displayText="{{ 'test' | translate }}"
+                  iconName="ms-Icon ms-Icon--TestBeakerSolid"
                   (click)="setRightBarState()"
-                  cssClass="list-item clickable command right-edge">
+                  cssClass="list-item clickable command right">
+        </command>
+        <command  *ngIf="rightBarExpanded"
+                  displayText="{{ 'Generate Swagger' | translate }}"
+                  iconName="ms-Icon ms-Icon--RowsChild"
+                  (click)="saveSchema()"
+                  cssClass="list-item clickable command">
         </command>
     </command-bar>
   </section>

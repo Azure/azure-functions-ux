@@ -1,4 +1,5 @@
 import { FunctionEditorEvent, FunctionEditorEventType } from 'app/function/embedded/function-editor-event';
+import { FunctionSchemaEvent } from 'app/function/embedded/function-schema-event';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
@@ -182,6 +183,21 @@ export class EmbeddedFunctionEditorComponent extends FeatureComponent<TreeViewIn
     this.firstRun = true;
     this.rightBarExpanded = true;
     this.bottomBarExpanded = true;
+
+    setTimeout(() => {
+      this.codeEditor.resize();
+    });
+  }
+
+  saveSchema() {
+    if (this.rightBarExpanded && this.firstRun) {
+      setTimeout(() => {
+        this._broadcastService.broadcastEvent<FunctionSchemaEvent<void>>(BroadcastEvent.FunctionSchemaEvent, {
+          type: 'saveSchema',
+          value: null
+        });
+      });
+    }
 
     setTimeout(() => {
       this.codeEditor.resize();

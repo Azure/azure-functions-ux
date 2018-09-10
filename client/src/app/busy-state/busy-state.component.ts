@@ -24,7 +24,7 @@ export type BusyStateName =
     | 'deployment-slots-config'
     | 'standalone-config'
     | 'embedded-function-editor'
-    | 'embedded-function-test-tab';
+    | 'embedded-function-test-tab'
 
 @Component({
     selector: 'busy-state',

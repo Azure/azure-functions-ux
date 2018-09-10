@@ -22,7 +22,7 @@ export class EmbeddedEditorShellComponent implements OnDestroy {
             .takeUntil(this.ngUnsubscribe)
             .subscribe(x => {
                 this.viewInfo = {
-                    resourceId: `/providers/Microsoft.Blueridge/environments/${x['environmentId']}/functionapps/${x['functionAppId']}/functions/${x['functionId']}`,
+                    resourceId: `/providers/Microsoft.Functions/environments/${x['environmentId']}/functiongroups/${x['functionAppId']}/functions/${x['functionId']}`,
                     dashboardType: DashboardType.none,
                     node: null,
                     data: null

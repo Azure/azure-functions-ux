@@ -3538,4 +3538,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="Enable" xml:space="preserve">
     <value>Enable</value>
   </data>
+  <data name="error_unableToUpdateSampleRequestSchema" xml:space="preserve">
+    <value>We are not able to update the sample request.</value>
+  </data>
+  <data name="error_unableToUpdateSampleResponseSchema" xml:space="preserve">
+    <value>We are not able to update the sample response.</value>
+  </data>
 </root>
