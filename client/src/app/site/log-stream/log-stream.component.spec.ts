@@ -1,4 +1,4 @@
-import { LogStreamComponent } from './log-stream.component';
+import { AppLogStreamComponent } from './log-stream.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -17,56 +17,56 @@ import { PopOverComponent } from '../../pop-over/pop-over.component';
 import { UtilitiesService } from '../../shared/services/utilities.service';
 import { UserService } from '../../shared/services/user.service';
 import { FunctionAppService } from '../../shared/services/function-app.service';
-import { LogContentComponent } from './log-content.component';
+import { LogEntryComponent } from './log-entry.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StartupInfo } from '../../shared/models/portal';
 
 describe('LogStreamComponent', () => {
-    let component: LogStreamComponent;
-    let fixture: ComponentFixture<LogStreamComponent>;
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule, LogStreamTestModule
-        ],
-        providers: [
-          BroadcastService, Injector,
-          {provide: TelemetryService, useClass: MockTelemetryService},
-          { provide: SiteService, useClass: MockSiteService },
-          { provide: CacheService, useClass: MockCacheService },
-          { provide: LogService, useClass: MockLogService },
-          { provide: UtilitiesService, useClass: MockUtilitiesService },
-          { provide: UserService, useClass: MockUserService },
-          { provide: FunctionAppService, useClass: MockFunctionAppService }
-        ],
-        declarations: [LogStreamComponent, MockDirective(RadioSelectorComponent), MockDirective(PopOverComponent)]
-      }).compileComponents().then(() => {
-          fixture = TestBed.createComponent(LogStreamComponent);
-          component = fixture.componentInstance;
-          fixture.detectChanges();
-        });
-    }));
-    /** Test cases for Log-stream will be here. */
-    describe('init', () => {
-      it('should create', async(() => {
-        expect(component).toBeTruthy();
-      }));
-
-      it('logs should be empty by default', async(() => {
-        expect(component.logsText).toEqual('');
-      }));
-
-      it('application logs selected by default', async(() => {
-        expect(component.toggleLog).toBeTruthy();
-      }));
-
-      it('clear logs is turned off by default', async(() => {
-        expect(component.clearLogs).toBeFalsy();
-      }));
-
+  let component: AppLogStreamComponent;
+  let fixture: ComponentFixture<AppLogStreamComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule, LogStreamTestModule
+      ],
+      providers: [
+        BroadcastService, Injector,
+        { provide: TelemetryService, useClass: MockTelemetryService },
+        { provide: SiteService, useClass: MockSiteService },
+        { provide: CacheService, useClass: MockCacheService },
+        { provide: LogService, useClass: MockLogService },
+        { provide: UtilitiesService, useClass: MockUtilitiesService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: FunctionAppService, useClass: MockFunctionAppService }
+      ],
+      declarations: [AppLogStreamComponent, MockDirective(RadioSelectorComponent), MockDirective(PopOverComponent)]
+    }).compileComponents().then(() => {
+      fixture = TestBed.createComponent(AppLogStreamComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
     });
+  }));
+  /** Test cases for Log-stream will be here. */
+  describe('init', () => {
+    it('should create', async(() => {
+      expect(component).toBeTruthy();
+    }));
+
+    it('logs should be empty by default', async(() => {
+      expect(component.logsText).toEqual('');
+    }));
+
+    it('application logs selected by default', async(() => {
+      expect(component.toggleLog).toBeTruthy();
+    }));
+
+    it('clear logs is turned off by default', async(() => {
+      expect(component.clearLogs).toBeFalsy();
+    }));
+
+  });
 });
 
 @NgModule({
@@ -74,13 +74,13 @@ describe('LogStreamComponent', () => {
     CommonModule
   ],
   entryComponents: [
-    LogContentComponent
+    LogEntryComponent
   ],
   declarations: [
-    LogContentComponent
+    LogEntryComponent
   ]
 })
-class LogStreamTestModule {}
+class LogStreamTestModule { }
 class MockUtilitiesService {
   copyContentToClipboard() {
 

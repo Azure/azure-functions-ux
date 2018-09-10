@@ -1,46 +1,32 @@
-<div class="browse-container">
-    <radio-selector [options]= "options" [defaultValue]= "currentOption" (value)= "optionsChange.next($event)"></radio-selector>
+<command-bar>
+    <command [displayText]="'logStreaming_reconnect' | translate"
+        [iconUrl]="'image/connect.svg'"
+        (click)="reconnect()"></command>
+
+    <command [displayText]="'logStreaming_copyLogs' | translate "
+        iconUrl="image/copy.svg"
+        (click)="copyLogs()"></command>
+
+    <command [displayText]="(stopped ? 'logStreaming_start' : 'logStreaming_pause') | translate"
+        [iconUrl]="stopped ? 'image/start.svg' : 'image/stop.svg'"
+        (click)="stopped ? startLogs() : stopLogs()"></command>
+
+    <command [displayText]="'logStreaming_clear' | translate"
+        iconUrl="image/discard.svg"
+        (click)="clearLogText()"></command>
+</command-bar>
+
+<div id="log-stream-main">
+    <radio-selector
+        *ngIf="showOptions"
+        [options]= "options"
+        [defaultValue]= "currentOption"
+        (value)= "optionsChange.next($event)"></radio-selector>
     <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
-    <div class="log-toolbar">
-        <span class="log-empty-space"></span>
-        <span (click)="reconnect()" class="link action"
-             role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
-            <pop-over position="bottom" message="{{ getPopoverText() | translate }}" hideAfter="{{popOverTimeout}}">
-                <span class="link">
-                    <i class="fa fa-plug"></i>
-                    {{ 'logStreaming_reconnect' | translate }}
-                </span>
-            </pop-over>
-        </span>
-        <span (click)="copyLogs()" class="link action"
-             role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
-            <pop-over position="bottom" message="{{ 'logStreaming_copied' | translate }}" hideAfter="{{popOverTimeout}}">
-                <span class="link">
-                    <i class="fa fa-clone"></i>
-                    {{ 'logStreaming_copyLogs' | translate }}
-                </span>
-            </pop-over>
-        </span>
-        <span class="link action" *ngIf="stopped" (click)="startLogs()"
-             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
-            <i class="fa fa-play"></i>
-            {{ 'logStreaming_start' | translate }}
-        </span>
-        <span class="link action" *ngIf="!stopped" (click)="stopLogs()"
-             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_pause' | translate }}">
-            <i class="fa fa-pause"></i>
-            {{ 'logStreaming_pause' | translate }}
-        </span>
-        <span class="link action" (click)="clearLogText()"
-             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
-            <i class="fa fa-book"></i>
-            {{ 'logStreaming_clear' | translate }}
-        </span>
-    </div>
     <div id = "log-container">
         <div id= "log-body" class= "log-body">
             <div class = "log-message log-connector" *ngIf = "!clearLogs">{{ 'feature_logStreamingConnecting' | translate }}</div>
-            <ng-container #logs></ng-container>
+            <log-entry *ngFor="let entry of logEntries; trackBy: trackByFn" [level]="entry.level" [message]="entry.message"></log-entry>
         </div>
-      </div>      
+    </div>
 </div>
