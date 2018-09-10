@@ -73,7 +73,6 @@ export class LinuxFramworksComponent implements OnDestroy {
   dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
   phpFrameworkVersions: DropDownElement<string>[] = [];
   rubyFrameworkVersions: DropDownElement<string>[] = [];
-
   constructor(
     public wizard: DeploymentCenterStateManager,
     siteService: SiteService,
@@ -113,6 +112,17 @@ export class LinuxFramworksComponent implements OnDestroy {
           }
         });
       });
+
+    this.wizard.siteArmObj$.subscribe(site => {
+      const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
+      if (linuxFxVersionObj) {
+        const linuxFxVersion = linuxFxVersionObj.value.split('|');
+        const stack = linuxFxVersion[0];
+        const version = linuxFxVersion[1];
+        this.selectedFramework = stack;
+        this.selectedFrameworkVersion = version;
+      }
+    });
   }
 
   selectedFrameworkChanged() {

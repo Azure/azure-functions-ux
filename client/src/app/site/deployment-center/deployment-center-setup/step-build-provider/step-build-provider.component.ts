@@ -23,11 +23,10 @@ export class StepBuildProviderComponent {
             description: this._translateService.instant(PortalResources.kuduDesc),
             authorizedStatus: 'none',
             enabled: true,
-            errorMessage: 'This option is unavailable for VSTS Source on Linux Web Apps',
         },
         {
             id: 'vsts',
-            name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
+            name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}(${this._translateService.instant(PortalResources.preview)})`,
             icon: 'image/deployment-center/vsts.svg',
             color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
@@ -38,6 +37,7 @@ export class StepBuildProviderComponent {
     ];
 
     private _vstsKuduSourceScenarioBlocked = false;
+    private _currentSourceControlProvider: string;
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _translateService: TranslateService,
@@ -63,13 +63,16 @@ export class StepBuildProviderComponent {
             });
 
         this.wizard.wizardForm.controls.sourceProvider.valueChanges.subscribe((provider) => {
-            const kuduCard = this.providerCards.find(x => x.id === 'kudu');
-            if (provider === 'vsts' &&  this._vstsKuduSourceScenarioBlocked) {
-                this.chooseBuildProvider({ id: 'vsts', enabled: true } as ProviderCard);
-                kuduCard.enabled = false;
-            } else {
-                this.chooseBuildProvider({ id: 'kudu', enabled: true } as ProviderCard);
-                kuduCard.enabled = true;
+            if (provider !== this._currentSourceControlProvider) {
+                this._currentSourceControlProvider = provider;
+                const kuduCard = this.providerCards.find(x => x.id === 'kudu');
+                if (provider === 'vsts' && this._vstsKuduSourceScenarioBlocked) {
+                    this.chooseBuildProvider({ id: 'vsts', enabled: true } as ProviderCard);
+                    kuduCard.hidden = true;
+                } else {
+                    this.chooseBuildProvider({ id: 'kudu', enabled: true } as ProviderCard);
+                    kuduCard.hidden = false;
+                }
             }
         });
         // this says if kudu should be hidden then default to vsts instead

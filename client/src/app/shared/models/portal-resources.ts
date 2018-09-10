@@ -1229,4 +1229,8 @@
     public static swapSourceChangesHeading = 'swapSourceChangesHeading';
     public static swapTargetChangesHeading = 'swapTargetChangesHeading';
     public static swapActionLabel = 'swapActionLabel';
+    public static frameworkVersion = 'frameworkVersion';
+    public static startupCommand = 'startupCommand';
+    public static pathToApplicationCode = 'pathToApplicationCode';
+    public static preview = 'preview';
 }

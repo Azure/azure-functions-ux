@@ -8,7 +8,7 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -56,7 +56,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .switchMap(result => {
                 const [site, sub] = result;
                 this.siteArm = site.result;
-                this.isLinuxApp = this.siteArm.kind.toLowerCase().includes('linux');
+                this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
                 this.siteArmObj$.next(this.siteArm);
                 this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;

@@ -3829,4 +3829,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework version</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Startup command</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Path to code</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
 </root>

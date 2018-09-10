@@ -59,7 +59,7 @@
 
     <div [hidden]="selectedFramework!=='Ruby'">
       <div class="setting-wrapper">
-        <div class="setting-label">{{'version' | translate}} </div>
+        <div class="setting-label">{{'frameworkVersion' | translate}} </div>
         <div class="setting-control-container">
           <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="rubyFrameworkVersions"
             bindLabel="displayLabel" bindValue="value" placeholder="{{'selectFramework' | translate}}" [(ngModel)]="selectedFrameworkVersion"
