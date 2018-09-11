@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ContainerConfigureData, Container, ACRRegistry } from '../../container-settings';
+import { ContainerConfigureData, Container, ACRRegistry, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { ContainerACRService } from '../../services/container-acr.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'container-image-source-acr',
@@ -17,7 +18,7 @@ export class ContainerImageSourceACRComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfoInput;
-        this.selectedContainer = containerConfigureInfoInput.container;
+        this._setSelectedContainer(containerConfigureInfoInput.container);
         this._reset();
         this._loadRegistries();
     }
@@ -26,7 +27,6 @@ export class ContainerImageSourceACRComponent {
     public loadingRepo: boolean;
     public loadingTag: boolean;
     public registriesMissing: boolean;
-
     public registryDropdownItems: DropDownElement<string>[];
     public registryItems: ACRRegistry[];
     public repositoryDropdownItems: DropDownElement<string>[];
@@ -38,35 +38,55 @@ export class ContainerImageSourceACRComponent {
     public selectedRegistry: string;
     public selectedRepository: string;
     public selectedTag: string;
-    public username: string;
-    public password: string;
+    public form: FormGroup;
+
+    private _username: string;
+    private _password: string;
 
     constructor(
         private _containerSettingsManager: ContainerSettingsManager,
         private _acrService: ContainerACRService,
     ) {
-        this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-            this.containerConfigureInfo.container = selectedContainer;
-            this._reset();
-            this._loadRegistries();
+        this._containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
+            this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
         });
-
-        this._setupRegistrySubscription();
-        this._setupRepositorySubscription();
-        this._setupTagSubscription();
     }
 
     public registryChanged(element: DropDownElement<string>) {
-        this._containerSettingsManager.selectedAcrRegistry$.next(element.value);
+        this.selectedRepository = '';
+        this.repositoryDropdownItems = [];
+        this.selectedTag = '';
+        this.tagDropdownItems = [];
+        this.loadingRepo = true;
+
+        const acrRegistry = this.registryItems.find(item => item.loginServer === element.value);
+
+        this._acrService
+            .getCredentials(acrRegistry.resourceId)
+            .subscribe((credential) => {
+                if (credential.isSuccessful) {
+                    this._username = credential.result.username;
+                    this._password = credential.result.passwords[0].value;
+
+                    if (this._username && this._password) {
+                        this._loadRepositories();
+                    }
+                }
+            });
     }
 
     public respositoryChanged(element: DropDownElement<string>) {
-        this._containerSettingsManager.selectedAcrRepo$.next(element.value);
+        this.selectedTag = '';
+        this._loadTags();
     }
 
-    public tagChanged(element: DropDownElement<string>) {
-        this._containerSettingsManager.selectedAcrTag$.next(element.value);
+    public extractConfig(event) {
+        const input = event.target;
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.form.controls.config.setValue(reader.result);
+        };
+        reader.readAsText(input.files[0]);
     }
 
     private _reset() {
@@ -81,56 +101,8 @@ export class ContainerImageSourceACRComponent {
         this.repositoryItems = [];
         this.tagDropdownItems = [];
         this.tagItems = [];
-        this.username = '';
-        this.password = '';
-
-        this._containerSettingsManager.selectedAcrRegistry$.next('');
-        this._containerSettingsManager.selectedAcrRepo$.next('');
-        this._containerSettingsManager.selectedAcrTag$.next('');
-    }
-
-    private _setupRegistrySubscription() {
-        this._containerSettingsManager.selectedAcrRegistry$
-            .distinctUntilChanged()
-            .subscribe(registry => {
-                const acrRegistry = this.registryItems.find(registryItem => registryItem.loginServer === registry);
-
-                if (acrRegistry) {
-                    this._acrService
-                        .getCredentials(acrRegistry.resourceId)
-                        .subscribe((credential) => {
-                            if (credential.isSuccessful) {
-                                this.username = credential.result.username;
-                                this.password = credential.result.passwords[0].value;
-                                this.selectedRegistry = registry;
-
-                                if (this.username && this.password) {
-                                    this._loadRepositories();
-                                }
-                            }
-                        });
-                }
-            });
-    }
-
-    private _setupRepositorySubscription() {
-        this._containerSettingsManager.selectedAcrRepo$
-            .distinctUntilChanged()
-            .subscribe(repository => {
-                this.selectedRepository = repository;
-
-                if (repository) {
-                    this._loadTags();
-                }
-            });
-    }
-
-    private _setupTagSubscription() {
-        this._containerSettingsManager.selectedAcrTag$
-            .distinctUntilChanged()
-            .subscribe(tag => {
-                this.selectedTag = tag;
-            });
+        this._username = '';
+        this._password = '';
     }
 
     private _loadRegistries() {
@@ -141,14 +113,16 @@ export class ContainerImageSourceACRComponent {
                 if (registryResources.isSuccessful
                     && registryResources.result.value
                     && registryResources.result.value.length > 0) {
-                    this.registryItems = registryResources.result.value.map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
+                    this.registryItems = registryResources.result.value
+                        .map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
 
-                    this.registryDropdownItems = registryResources.result.value.map(registryResource => ({
-                        displayLabel: registryResource.name,
-                        value: registryResource.properties.loginServer,
-                    }));
+                    this.registryDropdownItems = registryResources.result.value
+                        .map(registryResource => ({
+                            displayLabel: registryResource.name,
+                            value: registryResource.properties.loginServer,
+                        }));
 
-                    this._containerSettingsManager.selectedAcrRegistry$.next(this.registryItems[0].loginServer);
+                    this.selectedRegistry = this.form.controls.acrRegistry.value;
 
                     this.loadingRegistries = false;
                     this.registriesMissing = false;
@@ -165,21 +139,19 @@ export class ContainerImageSourceACRComponent {
                 this.containerConfigureInfo.subscriptionId,
                 this.containerConfigureInfo.resourceId,
                 this.selectedRegistry,
-                this.username,
-                this.password)
+                this._username,
+                this._password)
             .subscribe((response) => {
                 if (response.isSuccessful
-                    && response.result.value
-                    && response.result.value.repositories
-                    && response.result.value.repositories.length > 0) {
-                    this.repositoryItems = response.result.value.repositories;
+                    && response.result
+                    && response.result.repositories
+                    && response.result.repositories.length > 0) {
+                    this.repositoryItems = response.result.repositories;
 
                     this.repositoryDropdownItems = this.repositoryItems.map(item => ({
                         displayLabel: item,
                         value: item,
                     }));
-
-                    this._containerSettingsManager.selectedAcrRepo$.next(this.repositoryItems[0]);
 
                     this.loadingRepo = false;
                 }
@@ -194,24 +166,28 @@ export class ContainerImageSourceACRComponent {
                 this.containerConfigureInfo.resourceId,
                 this.selectedRegistry,
                 this.selectedRepository,
-                this.username,
-                this.password)
+                this._username,
+                this._password)
             .subscribe((response) => {
                 if (response.isSuccessful
-                    && response.result.value
-                    && response.result.value.tags
-                    && response.result.value.tags.length > 0) {
-                    this.tagItems = response.result.value.tags;
+                    && response.result
+                    && response.result.tags
+                    && response.result.tags.length > 0) {
+                    this.tagItems = response.result.tags;
 
                     this.tagDropdownItems = this.tagItems.map(item => ({
                         displayLabel: item,
                         value: item,
                     }));
 
-                    this._containerSettingsManager.selectedAcrTag$.next(this.tagItems[0]);
-
                     this.loadingTag = false;
                 }
             });
+    }
+
+    private _setSelectedContainer(container: Container) {
+        this.selectedContainer = container;
+        this.containerConfigureInfo.container = container;
+        this.form = this._containerSettingsManager.getImageSourceForm(container.id, 'azureContainerRegistry');
     }
 }

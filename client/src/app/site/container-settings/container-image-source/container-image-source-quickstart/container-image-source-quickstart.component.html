@@ -14,22 +14,24 @@
     </ng-select>
 </div>
 
-<div *ngIf="selectedSampleDescription">
-    <label>{{ 'quickStartSampleDescription' | translate }}</label>
-    <p>{{selectedSampleDescription}}</p>
-</div>
+<div [formGroup] = "form">
+    <div *ngIf="selectedSampleDescription">
+        <label>{{ 'quickStartSampleDescription' | translate }}</label>
+        <p>{{selectedSampleDescription}}</p>
+    </div>
 
-<div *ngIf="selectedSampleConfig && selectedContainer.id === 'single'">
-    <label>{{ 'containerImageAndTag' | translate }}</label><br/>
-    <textarea class="singleContainerConfig" disabled>{{selectedSampleConfig}}</textarea>
-</div>
+    <div *ngIf="selectedContainer.id === 'single'">
+        <label>{{ 'containerImageAndTag' | translate }}</label><br/>
+        <textarea formControlName="config" class="singleContainerConfig" disabled></textarea>
+    </div>
 
-<div *ngIf="selectedSampleConfig && selectedContainer.id === 'dockerCompose'">
-    <label>{{ 'containerConfiguration' | translate }}</label><br/>
-    <textarea class="dockerComposeConfig"  disabled>{{selectedSampleConfig}}</textarea>
-</div>
+    <div *ngIf="selectedContainer.id === 'dockerCompose'">
+        <label>{{ 'containerConfiguration' | translate }}</label><br/>
+        <textarea formControlName="config" class="dockerComposeConfig"  disabled></textarea>
+    </div>
 
-<div *ngIf="selectedSampleConfig && selectedContainer.id === 'kubernetes'">
-    <label>{{ 'containerConfiguration' | translate }}</label><br/>
-    <textarea class="kubernetesConfig"  disabled>{{selectedSampleConfig}}</textarea>
+    <div *ngIf="selectedContainer.id === 'kubernetes'">
+        <label>{{ 'containerConfiguration' | translate }}</label><br/>
+        <textarea formControlName="config" class="kubernetesConfig"  disabled></textarea>
+    </div>
 </div>

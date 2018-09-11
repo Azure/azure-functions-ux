@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ContainerConfigureData, Container, ImageSourceType } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
-import { SelectOption } from '../../../shared/models/select-option';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'container-image-source',
@@ -12,28 +12,38 @@ export class ContainerImageSourceComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;
-        this.selectedContainer = containerConfigureInfo.container;
-        this.selectedImageSource = this.selectedImageSource || this.containerSettingsManager.containerImageSourceOptions[0];
+        this._setContainerForm(containerConfigureInfo.container);
+        this._setImageSourceType();
     }
 
     public selectedContainer: Container;
-    public selectedImageSource: SelectOption<ImageSourceType>;
-
+    public selectedImageSource: ImageSourceType;
     public containerConfigureInfo: ContainerConfigureData;
+    public containerForm: FormGroup;
 
     constructor(public containerSettingsManager: ContainerSettingsManager) {
-        this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-            this.containerConfigureInfo.container = selectedContainer;
-        });
 
-        this.containerSettingsManager.selectedImageSource$.subscribe((selectedImageSource: SelectOption<ImageSourceType>) => {
-            this.selectedImageSource = selectedImageSource;
+        this.containerSettingsManager.form.controls.containerType.valueChanges.subscribe(value => {
+            this._setContainerForm(this.containerSettingsManager.containers.find(c => c.id === value));
+            this._setImageSourceType();
         });
     }
 
     public updateContainerImageSource(imageSource: ImageSourceType) {
-        const selectedOption = this.containerSettingsManager.containerImageSourceOptions.find(item => item.value === imageSource);
-        this.containerSettingsManager.selectedImageSource$.next(selectedOption);
+        this.selectedImageSource  = imageSource;
+        this.containerForm.controls.imageSource.setValue(imageSource);
+    }
+
+    private _setContainerForm(container: Container) {
+        this.selectedContainer = container;
+        this.containerForm = this.containerSettingsManager.getContainerForm(this.selectedContainer.id);
+    }
+
+    private _setImageSourceType() {
+        const imageSource = this.containerForm.controls.imageSource.value;
+
+        this.selectedImageSource = this.containerSettingsManager.containerImageSourceOptions
+            .find(option => option.value === imageSource)
+            .value;
     }
 }

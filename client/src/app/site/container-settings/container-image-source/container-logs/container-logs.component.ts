@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Container, ContainerConfigureData } from '../../container-settings';
-import { ContainerSettingsManager } from '../../container-settings-manager';
+import { ContainerLogsService } from '../../services/container-logs.service';
 
 @Component({
     selector: 'container-logs',
@@ -14,16 +14,21 @@ export class ContainerLogsComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;
+        this._loadLogs();
     }
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
-    public log = '';
-    public loading = true;
+    public log = 'loading ...';
 
-    constructor(private _containerSettingsManager: ContainerSettingsManager) {
-        this._containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-        });
+    constructor(private _containerLogsService: ContainerLogsService) {
+    }
+
+    private _loadLogs() {
+        this._containerLogsService
+            .getContainerLogs(this.containerConfigureInfo.resourceId)
+            .subscribe(logResponse => {
+                this.log = logResponse.result._body;
+            });
     }
 }

@@ -1,29 +1,40 @@
 <div>
+    <label>{{ 'containerRepositoryAccess' | translate }}</label>
     <div>
-        <label>{{ 'containerRepositoryAccess' | translate }}</label>
-        <div>
-          <radio-selector
-            [defaultValue] = "selectedAccessType"
-            [options] = "containerSettingsManager.dockerHubAccessOptions"
-            [highlightDirty] = "true"
-            (value) = "updateAccessOptions($event)">
-          </radio-selector>
-        </div>
+        <radio-selector
+        [defaultValue] = "selectedAccessType"
+        [options] = "containerSettingsManager.dockerHubAccessOptions"
+        [highlightDirty] = "true"
+        (value) = "updateAccessOptions($event)">
+        </radio-selector>
     </div>
+</div>
 
+<div [formGroup] = "form">
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerLogin' | translate }}</label>
-        <textbox></textbox>
+        <textbox [control] = "form.controls.login"></textbox>
     </div>
 
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox></textbox>
+        <textbox [control] = "form.controls.password"></textbox>
     </div>
 
     <div *ngIf = "selectedContainer.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
-        <textbox></textbox>
+        <textbox [control] = "form.controls.image"></textbox>
     </div>
 
+    <div *ngIf = "selectedContainer.id !== 'single'">
+        <div>
+            <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
+            <input type="file" (change)="extractConfig($event)">
+        </div>
+    
+        <div>
+            <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
+            <textarea class="config" formControlName="config" disabled></textarea>
+        </div>
+    </div>
 </div>

@@ -7,6 +7,12 @@ import { ContainerSettingsManager } from './container-settings-manager';
 import { ContainerConfigureComponent } from './container-configure/container-configure.component';
 import { KeyCodes } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
+import { SiteService } from '../../shared/services/site.service';
+import { HttpResult } from '../../shared/models/http-result';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { ApplicationSettings } from '../../shared/models/arm/application-settings';
+import { SiteConfig } from '../../shared/models/arm/site-config';
+import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 
 @Component({
     selector: 'container-settings',
@@ -21,25 +27,23 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         this.setInput(viewInfo);
     }
 
-    public containerSettingsInfo;
+    public containerSettingsInfo: ContainerSettingsData;
     public selectedContainer: Container;
     public applyButtonDisabled = false;
     public savevButtonDisabled = false;
     public discardButtonDisabled = false;
     public isUpdating = false;
     public fromMenu = false;
+    public loading = true;
 
     constructor(
+        private _siteService: SiteService,
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerSettingsComponent', injector, 'dashboard');
 
         this.isParentComponent = true;
         this.featureName = 'ContainerSettings';
-
-        this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-        });
     }
 
     ngOnDestroy() {
@@ -49,16 +53,51 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     protected setup(inputEvents: Observable<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>>) {
         return inputEvents
             .distinctUntilChanged()
-            .do(r => {
-                this.containerSettingsManager.resetSettings(r.data);
-                this.containerSettingsManager.initialize(r.data);
+            .concatMap((r): Observable<any[]> => {
                 this.containerSettingsInfo = r.data.data;
                 this.fromMenu = !!this.containerSettingsInfo.fromMenu;
+                this.containerSettingsManager.resetSettings(r.data);
+
+                if (this.fromMenu) {
+                    return Observable.zip(
+                        this._siteService.getAppSettings(this.containerSettingsInfo.resourceId),
+                        this._siteService.getSiteConfig(this.containerSettingsInfo.resourceId),
+                        this._siteService.getPublishingCredentials(this.containerSettingsInfo.resourceId));
+                } else {
+                    return Observable.zip(Observable.of(r.data.data));
+                }
+            })
+            .do(r => {
+                if (this.fromMenu) {
+                    const appSettingsResponse: HttpResult<ArmObj<ApplicationSettings>> = r[0];
+                    const siteConfigResponse: HttpResult<ArmObj<SiteConfig>> = r[1];
+                    const publishingCredentialsResponse: HttpResult<ArmObj<PublishingCredentials>> = r[2];
+
+                    if (appSettingsResponse.isSuccessful
+                        && siteConfigResponse.isSuccessful
+                        && publishingCredentialsResponse.isSuccessful) {
+                        this.containerSettingsManager.initializeForConfig(
+                            this.containerSettingsInfo.os,
+                            appSettingsResponse.result.properties,
+                            siteConfigResponse.result.properties,
+                            publishingCredentialsResponse.result.properties);
+                    }
+                } else {
+                    this.containerSettingsManager.initializeForCreate(this.containerSettingsInfo.os);
+                }
+
+                this._setSelectedContainer();
+
+                this.containerSettingsManager.form.controls.containerType.valueChanges.subscribe(value => {
+                    this._setSelectedContainer();
+                });
+
+                this.loading = false;
             });
     }
 
     public selectContainer(container: Container) {
-        this.containerSettingsManager.selectedContainer$.next(container);
+        this.containerSettingsManager.form.controls.containerType.setValue(container.id);
     }
 
     public onContainerTabKeyPress(event: KeyboardEvent) {
@@ -112,5 +151,10 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         } else {
             Dom.clearFocus(tab);
         }
+    }
+
+    private _setSelectedContainer() {
+        this.selectedContainer = this.containerSettingsManager.containers.find(
+            c => c.id === this.containerSettingsManager.form.controls.containerType.value);
     }
 }

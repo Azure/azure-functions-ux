@@ -57,6 +57,27 @@ export class ContainerSamplesService implements IContainerSamplesService {
             description: this._ts.instant(PortalResources.kubernetesSample1Description),
             containerType: 'kubernetes',
             containerOS: 'linux',
+        }, {
+            name: 'sample1',
+            title: this._ts.instant(PortalResources.quickstartSample2),
+            configBase64Encoded: this._getWindowsSingleContainerSample1Config(),
+            description: this._ts.instant(PortalResources.singleContainerSample1Description),
+            containerType: 'single',
+            containerOS: 'windows',
+        }, {
+            name: 'sample1',
+            title: this._ts.instant(PortalResources.quickstartSample2),
+            configBase64Encoded: this._getWindowsDockerComposeSample1Config(),
+            description: this._ts.instant(PortalResources.singleContainerSample1Description),
+            containerType: 'dockerCompose',
+            containerOS: 'windows',
+        }, {
+            name: 'sample1',
+            title: this._ts.instant(PortalResources.quickstartSample2),
+            configBase64Encoded: this._getWindowsKubernetesSample1Config(),
+            description: this._ts.instant(PortalResources.singleContainerSample1Description),
+            containerType: 'kubernetes',
+            containerOS: 'windows',
         }];
     }
 
@@ -131,5 +152,41 @@ export class ContainerSamplesService implements IContainerSamplesService {
             - containerPort: 80
           - name: redis
             image: redis:alpine`);
+    }
+
+    private _getWindowsSingleContainerSample1Config() {
+        return btoa('microsoft/iis:latest');
+    }
+
+    private _getWindowsDockerComposeSample1Config() {
+        return btoa(`version: "3"
+            services:
+                web:
+                    image: "microsoft/iis:latest"
+                    # the source repo is at https://github.com/yiliaomsft/compose-asp-sql
+                    ports:
+                        - "8080:80"
+                    depends_on:
+                        - db
+                db:
+                    image: "microsoft/mssql-server-windows-developer"
+                    environment:
+                        SA_PASSWORD: "Your_password123"
+                        ACCEPT_EULA: "Y"`);
+    }
+
+    private _getWindowsKubernetesSample1Config() {
+        return btoa(`apiVersion: v1 
+            kind: Pod
+                metadata:
+                name: wordpress
+                spec:
+                containers:
+                    - name: wordpress
+                        image: microsoft/multicontainerwordpress
+                        ports:
+                            - containerPort: 80
+                    - name: redis
+                        image: redis:alpine`);
     }
 }

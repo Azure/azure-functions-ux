@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Container, ContainerConfigureData, ContinuousDeploymentOption } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'container-continuous-delivery',
@@ -14,25 +15,14 @@ export class ContainerContinuousDeliveryComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;
-        this.selectedDeploymentOption = 'off';
     }
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
     public selectedDeploymentOption: ContinuousDeploymentOption;
+    public form: FormGroup;
 
     constructor(public containerSettingsManager: ContainerSettingsManager) {
-
-        this.containerSettingsManager.selectedContainer$.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-        });
-
-        this.containerSettingsManager.selectedContinuousDeploymentOption$.subscribe((option: ContinuousDeploymentOption) => {
-            this.selectedDeploymentOption = option;
-        });
-    }
-
-    public updateContainerImageSupdateDeploymentOptionource(option: ContinuousDeploymentOption) {
-        this.containerSettingsManager.selectedContinuousDeploymentOption$.next(option);
+        this.form = this.containerSettingsManager.form;
     }
 }

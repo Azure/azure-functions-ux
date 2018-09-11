@@ -162,10 +162,6 @@ export interface ACRDirectRequestPayload {
     password: string;
 }
 
-export interface AcrApiObject<T> {
-    value: T;
-}
-
 export interface ACRRepositories {
     repositories: string[];
 }

@@ -1,4 +1,4 @@
-<div>
+<div [formGroup]="form">
     <info-box *ngIf="registriesMissing"
         typeClass="error"
         [infoText]="'containerACRMissingErrorMessage' | translate">
@@ -12,6 +12,7 @@
             bindLabel="displayLabel"
             bindValue="value"
             placeholder="Select Registry"
+            formControlName="registry"
             [loading]="loadingRegistries"
             [items]="registryDropdownItems"
             [clearable]="false"
@@ -19,37 +20,54 @@
             (change)="registryChanged($event)">
         </ng-select>
 
-        <label>{{ 'containerACRImage' | translate }}</label>
-        <ng-select
-            id="container-acr-respositories"
-            class="custom-select container-acr-select"
-            bindLabel="displayLabel"
-            bindValue="value"
-            placeholder="Select Respository"
-            [loading]="loadingRepo"
-            [items]="repositoryDropdownItems"
-            [clearable]="false"
-            [(ngModel)]="selectedRepository"
-            (change)="respositoryChanged($event)">
-        </ng-select>
+        <div *ngIf = "selectedContainer.id === 'single'">
+            <label>{{ 'containerACRImage' | translate }}</label>
+            <ng-select
+                id="container-acr-respositories"
+                class="custom-select container-acr-select"
+                bindLabel="displayLabel"
+                bindValue="value"
+                placeholder="Select Respository"
+                formControlName="repository"
+                [loading]="loadingRepo"
+                [items]="repositoryDropdownItems"
+                [clearable]="false"
+                [(ngModel)]="selectedRepository"
+                (change)="respositoryChanged($event)">
+            </ng-select>
+        </div>
 
-        <label>{{ 'containerACRTag' | translate }}</label>
-        <ng-select
-            id="container-acr-tags"
-            class="custom-select container-acr-select"
-            bindLabel="displayLabel"
-            bindValue="value"
-            placeholder="Select Tag"
-            [loading]="loadingTag"
-            [items]="tagDropdownItems"
-            [clearable]="false"
-            [(ngModel)]="selectedTag"
-            (change)="tagChanged($event)">
-        </ng-select>
+        <div *ngIf = "selectedContainer.id === 'single'">
+            <label>{{ 'containerACRTag' | translate }}</label>
+            <ng-select
+                id="container-acr-tags"
+                class="custom-select container-acr-select"
+                bindLabel="displayLabel"
+                bindValue="value"
+                placeholder="Select Tag"
+                formControlName="tag"
+                [loading]="loadingTag"
+                [items]="tagDropdownItems"
+                [clearable]="false"
+                [(ngModel)]="selectedTag">
+            </ng-select>
+        </div>
 
-        <div  *ngIf = "selectedContainer.id === 'single'">
+        <div *ngIf = "selectedContainer.id === 'single'">
             <label>{{ 'containerACRStartupFile' | translate }}</label>
-            <textbox></textbox>
+            <textbox [control]="form.controls.startupFile"></textbox>
+        </div>
+
+        <div *ngIf = "selectedContainer.id !== 'single'">
+            <div>
+                <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
+                <input type="file" (change)="extractConfig($event)">
+            </div>
+        
+            <div>
+                <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
+                <textarea class="config" formControlName="config" disabled></textarea>
+            </div>
         </div>
     </div>
 </div>

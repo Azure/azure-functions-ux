@@ -40,4 +40,5 @@ export interface SiteConfig {
     connectionStrings?: ConnectionStringInfo[];
     ftpsState?: string;
     http20Enabled: boolean;
+    windowsFxVersion: string;
 }

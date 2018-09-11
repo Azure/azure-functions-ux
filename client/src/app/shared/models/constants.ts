@@ -517,3 +517,23 @@ export class PickerNames {
     public static readonly storage = 'Storage';
     public static readonly storageBlade = 'StorageAccountPickerBlade';
 }
+
+export class ContainerConstants {
+    public static dockerPrefix = 'DOCKER';
+    public static composePrefix = 'COMPOSE';
+    public static kubernetesPrefix = 'KUBE';
+    public static dockerHubUrl = 'https://index.docker.io';
+    public static acrUriBody = 'azurecr';
+    public static imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
+    public static serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';
+    public static usernameSetting = 'DOCKER_REGISTRY_SERVER_USERNAME';
+    public static passwordSetting = 'DOCKER_REGISTRY_SERVER_PASSWORD';
+    public static runCommandSetting = 'DOCKER_CUSTOM_IMAGE_RUN_COMMAND';
+    public static appServiceStorageSetting = 'WEBSITES_ENABLE_APP_SERVICE_STORAGE';
+    public static enableCISetting = 'DOCKER_ENABLE_CI';
+    public static containerWinRmEnabled = 'CONTAINER_WINRM_ENABLED';
+    public static createAcrFwLink = 'https://go.microsoft.com/fwlink/?linkid=852293';
+    public static singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
+    public static dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
+    public static kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
+}

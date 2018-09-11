@@ -1,46 +1,43 @@
-<div>
-    <label>{{ 'containerImageSource' | translate }}</label>
+<div *ngIf = "containerConfigureInfo">
     <div>
-      <radio-selector
-        [defaultValue] = "selectedImageSource.value"
-        [options] = "containerSettingsManager.containerImageSourceOptions"
-        [highlightDirty] = "true"
-        (value) = "updateContainerImageSource($event)">
-      </radio-selector>
+        <label>{{ 'containerImageSource' | translate }}</label>
+        <div>
+        <radio-selector
+            [defaultValue] = "selectedImageSource"
+            [options] = "containerSettingsManager.containerImageSourceOptions"
+            [highlightDirty] = "true"
+            (value) = "updateContainerImageSource($event)">
+        </radio-selector>
+        </div>
     </div>
+
+    <container-image-source-quickstart
+        *ngIf = "selectedImageSource === 'quickstart'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source-quickstart>
+
+    <container-image-source-acr
+        *ngIf = "selectedImageSource === 'azureContainerRegistry'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source-acr>
+
+    <container-image-source-dockerhub
+        *ngIf = "selectedImageSource === 'dockerHub'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source-dockerhub>
+
+    <container-image-source-privateregistry
+        *ngIf = "selectedImageSource === 'privateRegistry'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source-privateregistry>
+
+    <container-continuous-delivery
+        *ngIf = "selectedImageSource !== 'quickstart' && containerConfigureInfo.fromMenu"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-continuous-delivery>
+
+    <container-logs
+        *ngIf = "selectedImageSource !== 'quickstart' && containerConfigureInfo.fromMenu"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-logs>
 </div>
-
-<container-image-source-quickstart
-    *ngIf = "selectedImageSource.value === 'quickstart'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-image-source-quickstart>
-
-<container-image-source-acr
-    *ngIf = "selectedImageSource.value === 'azureContainerRegistry'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-image-source-acr>
-
-<container-image-source-dockerhub
-    *ngIf = "selectedImageSource.value === 'dockerHub'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-image-source-dockerhub>
-
-<container-image-source-privateregistry
-    *ngIf = "selectedImageSource.value === 'privateRegistry'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-image-source-privateregistry>
-
-<container-multiconfig
-    *ngIf = "selectedImageSource.value !== 'quickstart' && selectedContainer.id !== 'single'"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-multiconfig>
-
-<container-continuous-delivery
-    *ngIf = "selectedImageSource.value !== 'quickstart' && containerConfigureInfo.fromMenu"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-continuous-delivery>
-
-<container-logs
-    *ngIf = "selectedImageSource.value !== 'quickstart' && containerConfigureInfo.fromMenu"
-    [containerConfigureInfoInput] = "containerConfigureInfo">
-</container-logs>

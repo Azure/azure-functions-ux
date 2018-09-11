@@ -8,45 +8,89 @@ import {
     ContainerSettingsData,
     ImageSourceType,
     DockerHubAccessType,
-    ContainerSample,
-    ContinuousDeploymentOption } from './container-settings';
-import { Subject } from 'rxjs/Subject';
+    ContinuousDeploymentOption,
+    ContainerOS,
+    ContainerType } from './container-settings';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SelectOption } from '../../shared/models/select-option';
+import { ApplicationSettings } from '../../shared/models/arm/application-settings';
+import { SiteConfig } from '../../shared/models/arm/site-config';
+import { ContainerConstants } from '../../shared/models/constants';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { RequiredValidator } from '../../shared/validators/requiredValidator';
+import { Url } from '../../shared/Utilities/url';
+import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 
 @Injectable()
 export class ContainerSettingsManager {
-    selectedContainer$: Subject<Container> = new Subject<Container>();
-    selectedImageSource$: Subject<SelectOption<ImageSourceType>> = new Subject<SelectOption<ImageSourceType>>();
-    selectedQuickstartSample$: Subject<ContainerSample> = new Subject<ContainerSample>();
-    selectedAcrRegistry$: Subject<string> = new Subject<string>();
-    selectedAcrRepo$: Subject<string> = new Subject<string>();
-    selectedAcrTag$: Subject<string> = new Subject<string>();
-    selectedDockerHubAccessType$: Subject<string> = new Subject<string>();
-    selectedContinuousDeploymentOption$: Subject<string> = new Subject<string>();
-
     containers: Container[] = [];
     containerImageSourceOptions: SelectOption<ImageSourceType>[] = [];
     dockerHubAccessOptions: SelectOption<DockerHubAccessType>[] = [];
     continuousDeploymentOptions: SelectOption<ContinuousDeploymentOption>[] = [];
+    webhookUrl: string;
+
+    form: FormGroup;
 
     constructor(
         private _injector: Injector,
-        private _ts: TranslateService) {
+        private _ts: TranslateService,
+        private _fb: FormBuilder) {
     }
 
-    resetSettings(inputs: ContainerSettingsInput<ContainerSettingsData>) {
+    public resetSettings(inputs: ContainerSettingsInput<ContainerSettingsData>) {
         this._resetContainers(inputs);
         this._resetImageSourceOptions(inputs);
         this._resetDockerHubAccessOptions(inputs);
         this._resetContinuousDeploymentOptions(inputs);
     }
 
-    initialize(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this.selectedContainer$.next(this.containers[0]);
-        this.selectedImageSource$.next(this.containerImageSourceOptions[0]);
-        this.selectedDockerHubAccessType$.next(this.dockerHubAccessOptions[0].value);
+    public initializeForCreate(os: ContainerOS) {
+        this._initializeForm(os, null, null, null);
+    }
+
+    public initializeForConfig(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials) {
+        this._initializeForm(os, appSettings, siteConfig, publishingCredentials);
+    }
+
+    public getContainerForm(containerType: ContainerType): FormGroup {
+        if (containerType === 'single') {
+            return <FormGroup>this.form.controls.singleContainerForm;
+        } else if (containerType === 'dockerCompose') {
+            return <FormGroup>this.form.controls.dockerComposeForm;
+        } else if (containerType === 'kubernetes') {
+            return <FormGroup>this.form.controls.kubernetesForm;
+        } else {
+            throw new Error(`Invalid container type '${containerType}' provided.`);
+        }
+    }
+
+    public getImageSourceForm(containerType: ContainerType, imageSourceType: ImageSourceType): FormGroup {
+        const containerForm = this.getContainerForm(containerType);
+
+        if (imageSourceType === 'quickstart') {
+            return <FormGroup>containerForm.controls.imageSourceQuickstartForm;
+        } else if (imageSourceType === 'azureContainerRegistry') {
+            return <FormGroup>containerForm.controls.imageSourceAcrForm;
+        } else if (imageSourceType === 'dockerHub') {
+            return <FormGroup>containerForm.controls.imageSourceDockerHubForm;
+        } else if (imageSourceType === 'privateRegistry') {
+            return <FormGroup>containerForm.controls.imageSourcePrivateRegistryForm;
+        } else {
+            throw new Error(`Invalid image source type '${imageSourceType}' provided.`);
+        }
+    }
+
+    public getDockerHubForm(containerType: ContainerType, imageSourceType: ImageSourceType, accessType: DockerHubAccessType): FormGroup {
+        const imageSourceForm = this.getImageSourceForm(containerType, imageSourceType);
+
+        if (accessType === 'public') {
+            return <FormGroup>imageSourceForm.controls.dockerHubPublicForm;
+        } else if (accessType === 'private') {
+            return <FormGroup>imageSourceForm.controls.dockerHubPrivateForm;
+        } else {
+            throw new Error(`Invalid access type '${accessType}' provided`);
+        }
     }
 
     private _resetContainers(inputs: ContainerSettingsInput<ContainerSettingsData>) {
@@ -62,7 +106,7 @@ export class ContainerSettingsManager {
             this.containerImageSourceOptions = [];
         } else {
             this.containerImageSourceOptions = [{
-                displayLabel: this._ts.instant(PortalResources.containerQuickStart),
+                displayLabel: this._ts.instant(PortalResources.containerQuickstart),
                 value: 'quickstart',
             }];
         }
@@ -101,5 +145,279 @@ export class ContainerSettingsManager {
             displayLabel: this._ts.instant(PortalResources.off),
             value: 'off',
         }];
+    }
+
+    private _initializeForm(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials) {
+        this.webhookUrl = this._getFormWebhookUrl(publishingCredentials);
+
+        let fxVersion;
+        if (siteConfig) {
+            fxVersion = os === 'linux' ? siteConfig.linuxFxVersion : siteConfig.windowsFxVersion;
+        }
+
+        this.form = this._fb.group({
+            os: [os, []],
+            containerType: [this._getFormContainerType(fxVersion), []],
+            continuousDeploymentOption: [this._getFormContinuousDeploymentOption(appSettings), []],
+            singleContainerForm: this._getSingleContainerForm(fxVersion, appSettings, siteConfig, publishingCredentials),
+            dockerComposeForm: this._getDockerComposeForm(fxVersion, appSettings, siteConfig, publishingCredentials),
+            kubernetesForm: this._getKubernetesForm(fxVersion, appSettings, siteConfig, publishingCredentials),
+        });
+    }
+
+    private _getFormContainerType(fxVersion: string): ContainerType {
+        if (fxVersion) {
+            const prefix = fxVersion.split('|')[0];
+
+            if (prefix) {
+                return prefix === ContainerConstants.kubernetesPrefix
+                    ? 'kubernetes'
+                    : prefix === ContainerConstants.composePrefix
+                        ? 'dockerCompose'
+                        : 'single';
+            }
+        }
+
+        return this.containers[0].id;
+    }
+
+    private _getSingleContainerForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+        return this._fb.group({
+            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
+            imageSourceQuickstartForm: this._getQuickstartForm(),
+            imageSourceAcrForm: this._getAcrForm('single', fxVersion, appSettings, siteConfig),
+            imageSourceDockerHubForm: this._getDockerHubForm('single', fxVersion, appSettings, siteConfig),
+            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('single', fxVersion, appSettings, siteConfig),
+        });
+    }
+
+    private _getDockerComposeForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+        return this._fb.group({
+            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
+            imageSourceQuickstartForm: this._getQuickstartForm(),
+            imageSourceAcrForm: this._getAcrForm('dockerCompose', fxVersion, appSettings, siteConfig),
+            imageSourceDockerHubForm: this._getDockerHubForm('dockerCompose', fxVersion, appSettings, siteConfig),
+            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('dockerCompose', fxVersion, appSettings, siteConfig),
+        });
+    }
+
+    private _getKubernetesForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+        return this._fb.group({
+            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
+            imageSourceQuickstartForm: this._getQuickstartForm(),
+            imageSourceAcrForm: this._getAcrForm('kubernetes', fxVersion, appSettings, siteConfig),
+            imageSourceDockerHubForm: this._getDockerHubForm('kubernetes', fxVersion, appSettings, siteConfig),
+            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('kubernetes', fxVersion, appSettings, siteConfig),
+        });
+    }
+
+    private _getFormContinuousDeploymentOption(appSettings: ApplicationSettings): ContinuousDeploymentOption {
+        return this._getAppSettingsEnableCI(appSettings) === 'true'
+            ? 'on'
+            : 'off';
+    }
+
+    private _getFormWebhookUrl(publishingCredentials: PublishingCredentials) {
+        return publishingCredentials ? `${publishingCredentials.scmUri}/docker/hook` : '';
+    }
+
+    private _getQuickstartForm(): FormGroup {
+        return this._fb.group({
+            config: ['', new RequiredValidator(this._ts)],
+        });
+    }
+
+    private _getAcrForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+        if (containerType === 'single') {
+            return this._fb.group({
+                registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), new RequiredValidator(this._ts)],
+                repository: [this._getAcrRepository(fxVersion, appSettings, siteConfig), new RequiredValidator(this._ts)],
+                tag: [this._getAcrTag(fxVersion, appSettings, siteConfig), new RequiredValidator(this._ts)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
+            });
+        } else {
+            return this._fb.group({
+                registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), new RequiredValidator(this._ts)],
+                config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), []],
+            });
+        }
+    }
+
+    private _getAcrRegistry(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+        if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
+            const serverUrl = appSettings[ContainerConstants.serverUrlSetting];
+            const host = Url.getHostName(serverUrl).toLowerCase();
+            const domain = host.split('.')[1];
+
+            if (domain === ContainerConstants.acrUriBody) {
+                return host;
+            }
+        }
+
+        return '';
+    }
+
+    private _getAcrRepository(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+        if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
+            let image;
+            if (appSettings[ContainerConstants.imageNameSetting]) {
+                image = appSettings[ContainerConstants.imageNameSetting];
+            } else if (fxVersion) {
+                image = fxVersion.split('|')[1];
+            }
+
+            if (image) {
+                const imageWithRepo = image.split(':')[0];
+                return imageWithRepo.split('/')[1];
+            }
+        }
+
+        return '';
+    }
+
+    private _getAcrTag(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+        if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
+            let image;
+            if (appSettings[ContainerConstants.imageNameSetting]) {
+                image = appSettings[ContainerConstants.imageNameSetting];
+            } else if (fxVersion) {
+                image = fxVersion.split('|')[1];
+            }
+
+            if (image) {
+                return image.split(':')[1];
+            }
+        }
+
+        return '';
+    }
+
+    private _getAcrConfig(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+        return this._getConfigFromFxVersion(fxVersion);
+    }
+
+    private _getDockerHubForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+        return this._fb.group({
+            accessType: [this._getDockerHubAccessType(appSettings), []],
+            dockerHubPublicForm: this._getDockerHubPublicForm(containerType, fxVersion, appSettings, siteConfig),
+            dockerHubPrivateForm: this._getDockerHubPrivateForm(containerType, fxVersion, appSettings, siteConfig),
+        });
+    }
+
+    private _getDockerHubAccessType(appSettings: ApplicationSettings): DockerHubAccessType {
+        const username = this._getAppSettingsUsername(appSettings);
+        const password = this._getAppSettingsPassword(appSettings);
+
+        return username && password
+            ? 'private'
+            : 'public';
+    }
+
+    private _getDockerHubPublicForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+        if (containerType === 'single') {
+            return this._fb.group({
+                image: [fxVersion ? fxVersion.split('|')[1] : '', new RequiredValidator(this._ts)],
+            });
+        } else {
+            return this._fb.group({
+                config: [this._getConfigFromFxVersion(fxVersion), new RequiredValidator(this._ts)],
+            });
+        }
+    }
+
+    private _getDockerHubPrivateForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+        if (containerType === 'single') {
+            return this._fb.group({
+                login: [this._getAppSettingsUsername(appSettings), new RequiredValidator(this._ts)],
+                password: [this._getAppSettingsPassword(appSettings), new RequiredValidator(this._ts)],
+                image: [fxVersion ? fxVersion.split('|')[1] : '', new RequiredValidator(this._ts)],
+            });
+        } else {
+            return this._fb.group({
+                login: [this._getAppSettingsUsername(appSettings), new RequiredValidator(this._ts)],
+                password: [this._getAppSettingsPassword(appSettings), new RequiredValidator(this._ts)],
+                config: [this._getConfigFromFxVersion(fxVersion), new RequiredValidator(this._ts)],
+            });
+        }
+    }
+
+    private _getPrivateRegistryForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+        if (containerType === 'single') {
+            return this._fb.group({
+                serverUrl: [this._getAppSettingServerUrl(appSettings), new RequiredValidator(this._ts)],
+                login: [this._getAppSettingsUsername(appSettings), new RequiredValidator(this._ts)],
+                password: [this._getAppSettingsPassword(appSettings), new RequiredValidator(this._ts)],
+                image: [fxVersion ? fxVersion.split('|')[1] : '', new RequiredValidator(this._ts)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), new RequiredValidator(this._ts)],
+            });
+        } else {
+            return this._fb.group({
+                serverUrl: [this._getAppSettingServerUrl(appSettings), new RequiredValidator(this._ts)],
+                login: [this._getAppSettingsUsername(appSettings), new RequiredValidator(this._ts)],
+                password: [this._getAppSettingsPassword(appSettings), new RequiredValidator(this._ts)],
+                config: [this._getConfigFromFxVersion(fxVersion), new RequiredValidator(this._ts)],
+            });
+        }
+    }
+
+    private _getFormImageSource(fxVersion: string, appSettings: ApplicationSettings): ImageSourceType {
+        if (fxVersion || appSettings) {
+            const serverUrl = this._getAppSettingServerUrl(appSettings);
+            if (serverUrl) {
+                const host = Url.getHostName(serverUrl).toLowerCase();
+                const dockerHost = Url.getHostName(ContainerConstants.dockerHubUrl).toLowerCase();
+
+                if (host === dockerHost) {
+                    return 'dockerHub';
+                } else if (host.split('.')[1] === ContainerConstants.acrUriBody) {
+                    return 'azureContainerRegistry';
+                }
+            } else if (fxVersion && fxVersion.split('|')[1]) {
+                return 'dockerHub';
+            }
+
+            return 'privateRegistry';
+        } else {
+            return this.containerImageSourceOptions[0].value;
+        }
+    }
+
+    private _getAppSettingServerUrl(appSettings: ApplicationSettings) {
+        return appSettings && appSettings[ContainerConstants.serverUrlSetting] ? appSettings[ContainerConstants.serverUrlSetting] : '';
+    }
+
+    private _getAppSettingsUsername(appSettings: ApplicationSettings) {
+        return appSettings && appSettings[ContainerConstants.usernameSetting] ? appSettings[ContainerConstants.usernameSetting] : '';
+    }
+
+    private _getAppSettingsPassword(appSettings: ApplicationSettings) {
+        return appSettings && appSettings[ContainerConstants.passwordSetting] ? appSettings[ContainerConstants.passwordSetting] : '';
+    }
+
+    private _getAppSettingsEnableCI(appSettings: ApplicationSettings) {
+        return appSettings && appSettings[ContainerConstants.enableCISetting] ? appSettings[ContainerConstants.enableCISetting] : '';
+    }
+
+    private _getSiteConfigAppCommandLine(siteConfig: SiteConfig) {
+        return siteConfig && siteConfig.appCommandLine ? siteConfig.appCommandLine : '';
+    }
+
+    private _getConfigFromFxVersion(fxVersion: string) {
+        // NOTE(michinoy): The manner in which the form gets populated, it is not possible
+        // to determine whether the config stored in the fxversion is encoded or not. Thus
+        // try to decode, if it fails, than return the config string.
+        if (fxVersion) {
+            const configString = fxVersion.split('|')[1];
+            if (configString) {
+                try {
+                    const config = atob(configString);
+                    return config;
+                } catch (ex) {
+                    return configString;
+                }
+            }
+        }
+
+        return '';
     }
 }

@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Container, ContainerSample, ContainerConfigureData } from '../../container-settings';
+import { Container, ContainerSample, ContainerConfigureData, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { ContainerSamplesService } from '../../services/container-samples.service';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'container-image-source-quickstart',
@@ -17,7 +18,7 @@ export class ContainerImageSourceQuickstartComponent {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.containerConfigureInfo = containerConfigureInfo;
-        this.selectedContainer = containerConfigureInfo.container;
+        this._setSelectedContainer(containerConfigureInfo.container);
         this._refreshSamplesList();
     }
 
@@ -26,36 +27,29 @@ export class ContainerImageSourceQuickstartComponent {
     public samplesList: DropDownElement<string>[] = [];
     public containerSamples: ContainerSample[] = [];
     public selectedSampleValue = '';
-    public selectedSampleConfig = '';
     public selectedSampleDescription = '';
     public samplesLoading = false;
+    public form: FormGroup;
 
     constructor(
         private _containerSettingsManager: ContainerSettingsManager,
         private _containerSampleService: ContainerSamplesService) {
-        this._containerSettingsManager.selectedContainer$.subscribe((container: Container) => {
-            this.selectedContainer = container;
-            this.containerConfigureInfo.container = container;
+        this._containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
+            this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
             this._refreshSamplesList();
-        });
-
-        this._containerSettingsManager.selectedQuickstartSample$.subscribe((sample: ContainerSample) => {
-            this.selectedSampleConfig = atob(sample.configBase64Encoded);
-            this.selectedSampleValue = this._getContainerSampleKey(sample);
-            this.selectedSampleDescription = sample.description;
         });
     }
 
     public sampleChanged(sample: DropDownElement<string>) {
-        const selectedSampleValue = this._getContainerSampleFromKey(sample.value);
-        this._containerSettingsManager.selectedQuickstartSample$.next(selectedSampleValue);
+        const selectedSample = this._getContainerSampleFromKey(sample.value);
+        this.form.controls.config.setValue(atob(selectedSample.configBase64Encoded));
     }
 
     private _refreshSamplesList() {
         this.samplesLoading = true;
         this.samplesList = [];
         this._containerSampleService
-            .getQuickstartSamples('linux', this.selectedContainer.id)
+            .getQuickstartSamples(this.containerConfigureInfo.os, this.selectedContainer.id)
             .subscribe(containerSamples => {
                 this.containerSamples = containerSamples;
 
@@ -64,9 +58,9 @@ export class ContainerImageSourceQuickstartComponent {
                     value: this._getContainerSampleKey(sample),
                 }));
 
-                const sample = this._getContainerSampleFromKey(this.samplesList[0].value);
-                this._containerSettingsManager.selectedQuickstartSample$.next(sample);
                 this.samplesLoading = false;
+                this.selectedSampleValue = this.samplesList[0].value;
+                this.form.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
             });
     }
 
@@ -84,5 +78,11 @@ export class ContainerImageSourceQuickstartComponent {
         return sample.containerOS === containerOS &&
             sample.containerType === containerType &&
             sample.name === name;
+    }
+
+    private _setSelectedContainer(container: Container) {
+        this.selectedContainer = container;
+        this.containerConfigureInfo.container = container;
+        this.form = this._containerSettingsManager.getImageSourceForm(container.id, 'quickstart');
     }
 }

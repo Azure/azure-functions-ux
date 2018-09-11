@@ -17,6 +17,7 @@ import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
 import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
+import { PublishingCredentials } from '../models/publishing-credentials';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -157,7 +158,7 @@ export class SiteService {
         return this._client.execute({ resourceId: resourceId }, t => createSlot);
     }
 
-    getPublishingCredentials(resourceId: string, force?: boolean): Result<ArmObj<ApplicationSettings>> {
+    getPublishingCredentials(resourceId: string, force?: boolean): Result<ArmObj<PublishingCredentials>> {
         const getPublishingCredentials = this._cacheService
             .postArm(`${resourceId}/config/publishingcredentials/list`, force)
             .map(r => r.json());

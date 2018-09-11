@@ -1,4 +1,4 @@
-<div id="container-picker">
+<div *ngIf="!loading" id="container-picker">
     <nav id="container-tabs" role="tablist" #containerSettingsTabs>
         <div *ngFor="let container of containerSettingsManager.containers"
             (click)="selectContainer(container)"
