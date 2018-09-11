@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Container, ContainerSample, ContainerConfigureData, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { ContainerSamplesService } from '../../services/container-samples.service';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { FormGroup } from '@angular/forms';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-image-source-quickstart',
@@ -14,12 +16,10 @@ import { FormGroup } from '@angular/forms';
         './container-image-source-quickstart.component.scss',
     ],
 })
-export class ContainerImageSourceQuickstartComponent {
+export class ContainerImageSourceQuickstartComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.containerConfigureInfo = containerConfigureInfo;
-        this._setSelectedContainer(containerConfigureInfo.container);
-        this._refreshSamplesList();
+        this.setInput(containerConfigureInfo);
     }
 
     public selectedContainer: Container;
@@ -33,16 +33,31 @@ export class ContainerImageSourceQuickstartComponent {
 
     constructor(
         private _containerSettingsManager: ContainerSettingsManager,
-        private _containerSampleService: ContainerSamplesService) {
-        this._containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
-            this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
-            this._refreshSamplesList();
-        });
+        private _containerSampleService: ContainerSamplesService,
+        injector: Injector) {
+        super('ContainerImageSourceQuickstartComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
+        this._containerSettingsManager.form.controls.containerType.valueChanges
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe((containerType: ContainerType) => {
+                this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
+                this._refreshSamplesList();
+            });
     }
 
     public sampleChanged(sample: DropDownElement<string>) {
         const selectedSample = this._getContainerSampleFromKey(sample.value);
         this.form.controls.config.setValue(atob(selectedSample.configBase64Encoded));
+    }
+
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
+            .do(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
+                this._setSelectedContainer(containerConfigureInfo.container);
+                this._refreshSamplesList();
+            });
     }
 
     private _refreshSamplesList() {

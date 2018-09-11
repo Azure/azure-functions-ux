@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { ContainerConfigureData, Container, ACRRegistry, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { ContainerACRService } from '../../services/container-acr.service';
 import { FormGroup } from '@angular/forms';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-image-source-acr',
@@ -14,13 +16,10 @@ import { FormGroup } from '@angular/forms';
         './container-image-source-acr.component.scss',
     ],
 })
-export class ContainerImageSourceACRComponent {
+export class ContainerImageSourceACRComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
-        this.containerConfigureInfo = containerConfigureInfoInput;
-        this._setSelectedContainer(containerConfigureInfoInput.container);
-        this._reset();
-        this._loadRegistries();
+    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+        this.setInput(containerConfigureInfo);
     }
 
     public loadingRegistries: boolean;
@@ -46,10 +45,49 @@ export class ContainerImageSourceACRComponent {
     constructor(
         private _containerSettingsManager: ContainerSettingsManager,
         private _acrService: ContainerACRService,
-    ) {
-        this._containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
-            this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
-        });
+        injector: Injector) {
+        super('ContainerImageSourceACRComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
+
+        this._containerSettingsManager.form.controls.containerType.valueChanges
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe((containerType: ContainerType) => {
+                this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
+            });
+    }
+
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
+            .switchMap(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
+                this._setSelectedContainer(containerConfigureInfo.container);
+                this._reset();
+                this.loadingRegistries = true;
+
+                return this._acrService.getRegistries(this.containerConfigureInfo.subscriptionId);
+            })
+            .do(registryResources => {
+                if (registryResources.isSuccessful
+                    && registryResources.result.value
+                    && registryResources.result.value.length > 0) {
+                    this.registryItems = registryResources.result.value
+                        .map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
+
+                    this.registryDropdownItems = registryResources.result.value
+                        .map(registryResource => ({
+                            displayLabel: registryResource.name,
+                            value: registryResource.properties.loginServer,
+                        }));
+
+                    this.selectedRegistry = this.form.controls.acrRegistry.value;
+
+                    this.loadingRegistries = false;
+                    this.registriesMissing = false;
+                } else {
+                    this.registriesMissing = true;
+                }
+            });
     }
 
     public registryChanged(element: DropDownElement<string>) {
@@ -103,33 +141,6 @@ export class ContainerImageSourceACRComponent {
         this.tagItems = [];
         this._username = '';
         this._password = '';
-    }
-
-    private _loadRegistries() {
-        this.loadingRegistries = true;
-        this._acrService
-            .getRegistries(this.containerConfigureInfo.subscriptionId)
-            .subscribe((registryResources) => {
-                if (registryResources.isSuccessful
-                    && registryResources.result.value
-                    && registryResources.result.value.length > 0) {
-                    this.registryItems = registryResources.result.value
-                        .map(registryResource => ({ ...registryResource.properties, resourceId: registryResource.id }));
-
-                    this.registryDropdownItems = registryResources.result.value
-                        .map(registryResource => ({
-                            displayLabel: registryResource.name,
-                            value: registryResource.properties.loginServer,
-                        }));
-
-                    this.selectedRegistry = this.form.controls.acrRegistry.value;
-
-                    this.loadingRegistries = false;
-                    this.registriesMissing = false;
-                } else {
-                    this.registriesMissing = true;
-                }
-            });
     }
 
     private _loadRepositories() {

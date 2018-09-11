@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { ContainerConfigureData, Container, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-image-source-privateregistry',
@@ -12,22 +14,36 @@ import { FormGroup } from '@angular/forms';
         './container-image-source-privateregistry.component.scss',
     ],
 })
-export class ContainerImageSourcePrivateRegistryComponent {
+export class ContainerImageSourcePrivateRegistryComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfoInput: ContainerConfigureData) {
-        this.containerConfigureInfo = containerConfigureInfoInput;
-        this._setSelectedContainer(containerConfigureInfoInput.container);
+    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+        this.setInput(containerConfigureInfo);
     }
 
     public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
     public form: FormGroup;
 
-    constructor(private _containerSettingsManager: ContainerSettingsManager) {
+    constructor(
+        private _containerSettingsManager: ContainerSettingsManager,
+        injector: Injector) {
+        super('ContainerImageSourcePrivateRegistryComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
 
-        this._containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
-            this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
-        });
+        this._containerSettingsManager.form.controls.containerType.valueChanges
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe((containerType: ContainerType) => {
+                this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
+            });
+    }
+
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
+            .do(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
+                this._setSelectedContainer(containerConfigureInfo.container);
+            });
     }
 
     public extractConfig(event) {

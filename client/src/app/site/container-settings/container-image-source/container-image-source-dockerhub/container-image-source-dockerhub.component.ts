@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { ContainerConfigureData, Container, DockerHubAccessType, ContainerType } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
+import { FeatureComponent } from '../../../../shared/components/feature-component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-image-source-dockerhub',
@@ -12,11 +14,10 @@ import { FormGroup } from '@angular/forms';
         './container-image-source-dockerhub.component.scss',
     ],
 })
-export class ContainerImageSourceDockerHubComponent {
+export class ContainerImageSourceDockerHubComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.containerConfigureInfo = containerConfigureInfo;
-        this._setSelectedContainer(containerConfigureInfo.container);
+        this.setInput(containerConfigureInfo);
     }
 
     public selectedContainer: Container;
@@ -26,11 +27,26 @@ export class ContainerImageSourceDockerHubComponent {
 
     private _imageSourceForm: FormGroup;
 
-    constructor(public containerSettingsManager: ContainerSettingsManager) {
+    constructor(
+        public containerSettingsManager: ContainerSettingsManager,
+        injector: Injector) {
+        super('ContainerImageSourceDockerHubComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
 
-        this.containerSettingsManager.form.controls.containerType.valueChanges.subscribe((containerType: ContainerType) => {
-            this._setSelectedContainer(this.containerSettingsManager.containers.find(c => c.id === containerType));
-        });
+        this.containerSettingsManager.form.controls.containerType.valueChanges
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe((containerType: ContainerType) => {
+                this._setSelectedContainer(this.containerSettingsManager.containers.find(c => c.id === containerType));
+            });
+    }
+
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
+            .do(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
+                this._setSelectedContainer(containerConfigureInfo.container);
+            });
     }
 
     public extractConfig(event) {

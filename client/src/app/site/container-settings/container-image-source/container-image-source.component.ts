@@ -1,19 +1,19 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { ContainerConfigureData, Container, ImageSourceType } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
 import { FormGroup } from '@angular/forms';
+import { FeatureComponent } from '../../../shared/components/feature-component';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'container-image-source',
     templateUrl: './container-image-source.component.html',
     styleUrls: ['./../container-settings.component.scss', './container-image-source.component.scss'],
 })
-export class ContainerImageSourceComponent {
+export class ContainerImageSourceComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.containerConfigureInfo = containerConfigureInfo;
-        this._setContainerForm(containerConfigureInfo.container);
-        this._setImageSourceType();
+        this.setInput(containerConfigureInfo);
     }
 
     public selectedContainer: Container;
@@ -21,12 +21,28 @@ export class ContainerImageSourceComponent {
     public containerConfigureInfo: ContainerConfigureData;
     public containerForm: FormGroup;
 
-    constructor(public containerSettingsManager: ContainerSettingsManager) {
+    constructor(
+        public containerSettingsManager: ContainerSettingsManager,
+        injector: Injector) {
+        super('ContainerImageSourceComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
 
-        this.containerSettingsManager.form.controls.containerType.valueChanges.subscribe(value => {
-            this._setContainerForm(this.containerSettingsManager.containers.find(c => c.id === value));
-            this._setImageSourceType();
-        });
+        this.containerSettingsManager.form.controls.containerType.valueChanges
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(value => {
+                this._setContainerForm(this.containerSettingsManager.containers.find(c => c.id === value));
+                this._setImageSourceType();
+            });
+    }
+
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
+            .do(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
+                this._setContainerForm(containerConfigureInfo.container);
+                this._setImageSourceType();
+            });
     }
 
     public updateContainerImageSource(imageSource: ImageSourceType) {
