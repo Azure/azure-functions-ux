@@ -46,7 +46,7 @@ export class DevSpecGroup extends PriceSpecGroup {
 
     additionalSpecs = [
         new BasicMediumPlanPriceSpec(this.injector),
-        new BasicLargePlanPriceSpec(this.injector)
+        new BasicLargePlanPriceSpec(this.injector),
     ];
 
     selectedSpec = null;
@@ -66,14 +66,14 @@ export class DevSpecGroup extends PriceSpecGroup {
             if (input.specPickerInput.data.isLinux) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_linuxTrial),
-                    level: 'info'
+                    level: 'info',
                 };
 
             } else if (input.specPickerInput.data.isXenon) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_windowsContainers),
                     level: 'info',
-                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013'
+                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
                 };
             }
         }
@@ -87,7 +87,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
         new PremiumV2LargePlanPriceSpec(this.injector),
         new PremiumContainerSmallPriceSpec(this.injector),
         new PremiumContainerMediumPriceSpec(this.injector),
-        new PremiumContainerLargePriceSpec(this.injector)
+        new PremiumContainerLargePriceSpec(this.injector),
     ];
 
     additionalSpecs = [
@@ -115,13 +115,13 @@ export class ProdSpecGroup extends PriceSpecGroup {
             if (input.specPickerInput.data.isLinux) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_linuxTrial),
-                    level: 'info'
+                    level: 'info',
                 };
             } else if (input.specPickerInput.data.isXenon) {
                 this.bannerMessage = {
                     message: this.ts.instant(PortalResources.pricing_windowsContainers),
                     level: 'info',
-                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013'
+                    infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
                 };
             }
         }
@@ -140,7 +140,7 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     recommendedSpecs = [
         new IsolatedSmallPlanPriceSpec(this.injector),
         new IsolatedMediumPlanPriceSpec(this.injector),
-        new IsolatedLargePlanPriceSpec(this.injector)
+        new IsolatedLargePlanPriceSpec(this.injector),
     ];
 
     additionalSpecs = [];
