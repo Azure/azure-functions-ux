@@ -3,6 +3,7 @@ import { ContainerSettingsComponent } from './container-settings.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { FormGroup } from '@angular/forms';
 
 export type ImageSourceType =
     'quickstart' |
@@ -44,6 +45,11 @@ export interface ContainerSettingsData {
 
 export interface ContainerConfigureData extends ContainerSettingsData {
     container: Container;
+    containerForm: FormGroup;
+}
+
+export interface ContainerImageSourceData extends ContainerConfigureData {
+    imageSourceForm: FormGroup;
 }
 
 export abstract class Container {

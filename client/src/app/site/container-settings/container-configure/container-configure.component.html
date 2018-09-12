@@ -1,7 +1,7 @@
-<div *ngIf="!selectedContainer.disableMessage" class="container-configure">
+<div *ngIf="!containerConfigureInfo.container.disableMessage" class="container-configure">
     <section class="container-configure-header">
-        <div [load-image]="selectedContainer.iconUrl" class="icon-large"></div>
-        <h4>{{selectedContainer.detailedDescription}}</h4>
+        <div [load-image]="containerConfigureInfo.container.iconUrl" class="icon-large"></div>
+        <h4>{{containerConfigureInfo.container.detailedDescription}}</h4>
     </section>
 
     <container-image-source
@@ -10,8 +10,8 @@
     </container-image-source>
 </div>
 
-<div *ngIf="selectedContainer.disableMessage" class="container-configure">
+<div *ngIf="containerConfigureInfo.container.disableMessage" class="container-configure">
     <section class="container-configure-header">
-        <h4>{{selectedContainer.disableMessage}}</h4>
+        <h4>{{containerConfigureInfo.container.disableMessage}}</h4>
     </section>
 </div>

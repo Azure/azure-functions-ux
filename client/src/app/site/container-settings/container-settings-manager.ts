@@ -4,7 +4,6 @@ import {
     KubernetesContainer,
     DockerComposeContainer,
     Container,
-    ContainerSettingsInput,
     ContainerSettingsData,
     ImageSourceType,
     DockerHubAccessType,
@@ -38,11 +37,11 @@ export class ContainerSettingsManager {
         private _fb: FormBuilder) {
     }
 
-    public resetSettings(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        this._resetContainers(inputs);
-        this._resetImageSourceOptions(inputs);
-        this._resetDockerHubAccessOptions(inputs);
-        this._resetContinuousDeploymentOptions(inputs);
+    public resetSettings(containerSettingInfo: ContainerSettingsData) {
+        this._resetContainers(containerSettingInfo);
+        this._resetImageSourceOptions(containerSettingInfo);
+        this._resetDockerHubAccessOptions(containerSettingInfo);
+        this._resetContinuousDeploymentOptions(containerSettingInfo);
     }
 
     public initializeForCreate(os: ContainerOS) {
@@ -53,56 +52,85 @@ export class ContainerSettingsManager {
         this._initializeForm(os, appSettings, siteConfig, publishingCredentials);
     }
 
-    public getContainerForm(containerType: ContainerType): FormGroup {
+    public getContainerForm(form: FormGroup, containerType: ContainerType): FormGroup {
+        const singleContainerForm = <FormGroup>form.controls.singleContainerForm;
+        const dockerComposeForm = <FormGroup>form.controls.singleContainerForm;
+        const kubernetesForm = <FormGroup>form.controls.singleContainerForm;
+
+        singleContainerForm.disable();
+        dockerComposeForm.disable();
+        kubernetesForm.disable();
+
         if (containerType === 'single') {
-            return <FormGroup>this.form.controls.singleContainerForm;
+            singleContainerForm.enable();
+            return singleContainerForm;
         } else if (containerType === 'dockerCompose') {
-            return <FormGroup>this.form.controls.dockerComposeForm;
+            dockerComposeForm.enable();
+            return dockerComposeForm;
         } else if (containerType === 'kubernetes') {
-            return <FormGroup>this.form.controls.kubernetesForm;
+            kubernetesForm.enable();
+            return kubernetesForm;
         } else {
             throw new Error(`Invalid container type '${containerType}' provided.`);
         }
     }
 
-    public getImageSourceForm(containerType: ContainerType, imageSourceType: ImageSourceType): FormGroup {
-        const containerForm = this.getContainerForm(containerType);
+    public getImageSourceForm(containerForm: FormGroup, imageSourceType: ImageSourceType): FormGroup {
+        const quickStartForm = <FormGroup>containerForm.controls.imageSourceQuickstartForm;
+        const acrForm = <FormGroup>containerForm.controls.imageSourceAcrForm;
+        const dockerHubForm = <FormGroup>containerForm.controls.imageSourceDockerHubForm;
+        const privateRegistryForm = <FormGroup>containerForm.controls.imageSourcePrivateRegistryForm;
+
+        quickStartForm.disable();
+        acrForm.disable();
+        dockerHubForm.disable();
+        privateRegistryForm.disable();
 
         if (imageSourceType === 'quickstart') {
-            return <FormGroup>containerForm.controls.imageSourceQuickstartForm;
+            quickStartForm.enable();
+            return quickStartForm;
         } else if (imageSourceType === 'azureContainerRegistry') {
-            return <FormGroup>containerForm.controls.imageSourceAcrForm;
+            acrForm.enable();
+            return acrForm;
         } else if (imageSourceType === 'dockerHub') {
-            return <FormGroup>containerForm.controls.imageSourceDockerHubForm;
+            dockerHubForm.enable();
+            return dockerHubForm;
         } else if (imageSourceType === 'privateRegistry') {
-            return <FormGroup>containerForm.controls.imageSourcePrivateRegistryForm;
+            privateRegistryForm.enable();
+            return privateRegistryForm;
         } else {
             throw new Error(`Invalid image source type '${imageSourceType}' provided.`);
         }
     }
 
-    public getDockerHubForm(containerType: ContainerType, imageSourceType: ImageSourceType, accessType: DockerHubAccessType): FormGroup {
-        const imageSourceForm = this.getImageSourceForm(containerType, imageSourceType);
+    public getDockerHubForm(imageSourceForm: FormGroup, accessType: DockerHubAccessType): FormGroup {
+        const publicForm = <FormGroup>imageSourceForm.controls.dockerHubPublicForm;
+        const privateForm = <FormGroup>imageSourceForm.controls.dockerHubPrivateForm;
+
+        publicForm.disable();
+        privateForm.disable();
 
         if (accessType === 'public') {
-            return <FormGroup>imageSourceForm.controls.dockerHubPublicForm;
+            publicForm.enable();
+            return publicForm;
         } else if (accessType === 'private') {
-            return <FormGroup>imageSourceForm.controls.dockerHubPrivateForm;
+            privateForm.enable();
+            return privateForm;
         } else {
             throw new Error(`Invalid access type '${accessType}' provided`);
         }
     }
 
-    private _resetContainers(inputs: ContainerSettingsInput<ContainerSettingsData>) {
+    private _resetContainers(containerSettingInfo: ContainerSettingsData) {
         this.containers = [
-            new SingleContainer(this._injector, inputs.data),
-            new DockerComposeContainer(this._injector, inputs.data),
-            new KubernetesContainer(this._injector, inputs.data),
+            new SingleContainer(this._injector, containerSettingInfo),
+            new DockerComposeContainer(this._injector, containerSettingInfo),
+            new KubernetesContainer(this._injector, containerSettingInfo),
         ];
     }
 
-    private _resetImageSourceOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
-        if (inputs.data.fromMenu) {
+    private _resetImageSourceOptions(containerSettingInfo: ContainerSettingsData) {
+        if (containerSettingInfo.fromMenu) {
             this.containerImageSourceOptions = [];
         } else {
             this.containerImageSourceOptions = [{
@@ -127,7 +155,7 @@ export class ContainerSettingsManager {
         });
     }
 
-    private _resetDockerHubAccessOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
+    private _resetDockerHubAccessOptions(containerSettingInfo: ContainerSettingsData) {
         this.dockerHubAccessOptions = [{
             displayLabel: this._ts.instant(PortalResources.containerRepositoryPublic),
             value: 'public',
@@ -137,7 +165,7 @@ export class ContainerSettingsManager {
         }];
     }
 
-    private _resetContinuousDeploymentOptions(inputs: ContainerSettingsInput<ContainerSettingsData>) {
+    private _resetContinuousDeploymentOptions(containerSettingInfo: ContainerSettingsData) {
         this.continuousDeploymentOptions = [{
             displayLabel: this._ts.instant(PortalResources.on),
             value: 'on',

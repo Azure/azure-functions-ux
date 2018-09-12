@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div *ngIf="imageSourceForm" [formGroup]="imageSourceForm">
     <info-box *ngIf="registriesMissing"
         typeClass="error"
         [infoText]="'containerACRMissingErrorMessage' | translate">
@@ -20,7 +20,7 @@
             (change)="registryChanged($event)">
         </ng-select>
 
-        <div *ngIf = "selectedContainer.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
             <label>{{ 'containerACRImage' | translate }}</label>
             <ng-select
                 id="container-acr-respositories"
@@ -37,7 +37,7 @@
             </ng-select>
         </div>
 
-        <div *ngIf = "selectedContainer.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
             <label>{{ 'containerACRTag' | translate }}</label>
             <ng-select
                 id="container-acr-tags"
@@ -53,17 +53,17 @@
             </ng-select>
         </div>
 
-        <div *ngIf = "selectedContainer.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
             <label>{{ 'containerACRStartupFile' | translate }}</label>
-            <textbox [control]="form.controls.startupFile"></textbox>
+            <textbox [control]="imageSourceForm.controls.startupFile"></textbox>
         </div>
 
-        <div *ngIf = "selectedContainer.id !== 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
             <div>
                 <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
                 <input type="file" (change)="extractConfig($event)">
             </div>
-        
+
             <div>
                 <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
                 <textarea class="config" formControlName="config" disabled></textarea>

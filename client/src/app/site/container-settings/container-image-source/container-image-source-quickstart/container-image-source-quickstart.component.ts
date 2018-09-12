@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
-import { Container, ContainerSample, ContainerConfigureData, ContainerType } from '../../container-settings';
-import { ContainerSettingsManager } from '../../container-settings-manager';
+import { ContainerSample, ContainerImageSourceData } from '../../container-settings';
 import { ContainerSamplesService } from '../../services/container-samples.service';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { FormGroup } from '@angular/forms';
@@ -16,56 +15,44 @@ import { Observable } from 'rxjs/Observable';
         './container-image-source-quickstart.component.scss',
     ],
 })
-export class ContainerImageSourceQuickstartComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
+export class ContainerImageSourceQuickstartComponent extends FeatureComponent<ContainerImageSourceData> implements OnDestroy {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.setInput(containerConfigureInfo);
+    @Input() set containerImageSourceInfoInput(containerImageSourceInfo: ContainerImageSourceData) {
+        this.setInput(containerImageSourceInfo);
     }
 
-    public selectedContainer: Container;
-    public containerConfigureInfo: ContainerConfigureData;
+    public containerImageSourceInfo: ContainerImageSourceData;
     public samplesList: DropDownElement<string>[] = [];
     public containerSamples: ContainerSample[] = [];
     public selectedSampleValue = '';
     public selectedSampleDescription = '';
     public samplesLoading = false;
-    public form: FormGroup;
+    public imageSourceForm: FormGroup;
 
     constructor(
-        private _containerSettingsManager: ContainerSettingsManager,
         private _containerSampleService: ContainerSamplesService,
         injector: Injector) {
         super('ContainerImageSourceQuickstartComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
-        this._containerSettingsManager.form.controls.containerType.valueChanges
-            .takeUntil(this.ngUnsubscribe)
-            .subscribe((containerType: ContainerType) => {
-                this._setSelectedContainer(this._containerSettingsManager.containers.find(c => c.id === containerType));
-                this._refreshSamplesList();
-            });
     }
 
     public sampleChanged(sample: DropDownElement<string>) {
         const selectedSample = this._getContainerSampleFromKey(sample.value);
-        this.form.controls.config.setValue(atob(selectedSample.configBase64Encoded));
+        this.selectedSampleDescription = selectedSample.description;
+        this.imageSourceForm.controls.config.setValue(atob(selectedSample.configBase64Encoded));
     }
 
-    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+    protected setup(inputEvents: Observable<ContainerImageSourceData>) {
         return inputEvents
             .distinctUntilChanged()
-            .do(containerConfigureInfo => {
-                this.containerConfigureInfo = containerConfigureInfo;
-                this._setSelectedContainer(containerConfigureInfo.container);
-                this._refreshSamplesList();
-            });
-    }
+            .switchMap(containerImageSourceInfo => {
+                this.containerImageSourceInfo = containerImageSourceInfo;
+                this.imageSourceForm = containerImageSourceInfo.imageSourceForm;
 
-    private _refreshSamplesList() {
-        this.samplesLoading = true;
-        this.samplesList = [];
-        this._containerSampleService
-            .getQuickstartSamples(this.containerConfigureInfo.os, this.selectedContainer.id)
-            .subscribe(containerSamples => {
+                return this._containerSampleService
+                    .getQuickstartSamples(this.containerImageSourceInfo.os, this.containerImageSourceInfo.container.id);
+            })
+            .do(containerSamples => {
                 this.containerSamples = containerSamples;
 
                 this.samplesList = containerSamples.map(sample => ({
@@ -75,7 +62,8 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
 
                 this.samplesLoading = false;
                 this.selectedSampleValue = this.samplesList[0].value;
-                this.form.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
+                this.selectedSampleDescription = containerSamples[0].description;
+                this.imageSourceForm.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
             });
     }
 
@@ -93,11 +81,5 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
         return sample.containerOS === containerOS &&
             sample.containerType === containerType &&
             sample.name === name;
-    }
-
-    private _setSelectedContainer(container: Container) {
-        this.selectedContainer = container;
-        this.containerConfigureInfo.container = container;
-        this.form = this._containerSettingsManager.getImageSourceForm(container.id, 'quickstart');
     }
 }

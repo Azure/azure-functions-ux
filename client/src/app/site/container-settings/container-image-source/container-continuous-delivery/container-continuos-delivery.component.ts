@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
-import { Container, ContainerConfigureData, ContinuousDeploymentOption } from '../../container-settings';
+import { ContainerConfigureData, ContinuousDeploymentOption } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
@@ -19,17 +19,15 @@ export class ContainerContinuousDeliveryComponent extends FeatureComponent<Conta
         this.setInput(containerConfigureInfo);
     }
 
-    public selectedContainer: Container;
     public containerConfigureInfo: ContainerConfigureData;
     public selectedDeploymentOption: ContinuousDeploymentOption;
-    public form: FormGroup;
+    public containerForm: FormGroup;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerContinuousDeliveryComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
-        this.form = this.containerSettingsManager.form;
     }
 
     protected setup(inputEvents: Observable<ContainerConfigureData>) {
@@ -37,6 +35,7 @@ export class ContainerContinuousDeliveryComponent extends FeatureComponent<Conta
             .distinctUntilChanged()
             .do(containerConfigureInfo => {
                 this.containerConfigureInfo = containerConfigureInfo;
+                this.containerForm = containerConfigureInfo.containerForm;
             });
     }
 }

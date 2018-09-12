@@ -1,10 +1,9 @@
 import { Component, OnDestroy, Input, Injector, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ContainerSettingsInput, ContainerSettingsData, Container } from './container-settings';
+import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureData } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
-import { ContainerConfigureComponent } from './container-configure/container-configure.component';
 import { KeyCodes } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
 import { SiteService } from '../../shared/services/site.service';
@@ -13,6 +12,7 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'container-settings',
@@ -20,21 +20,20 @@ import { PublishingCredentials } from '../../shared/models/publishing-credential
     styleUrls: ['./container-settings.component.scss'],
 })
 export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>> implements OnDestroy {
-    @ViewChild(ContainerConfigureComponent) containerConfigureComponent: ContainerConfigureComponent;
     @ViewChild('containerSettingsTabs') containerSettingsTabs: ElementRef;
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>) {
         this.setInput(viewInfo);
     }
 
-    public containerSettingsInfo: ContainerSettingsData;
-    public selectedContainer: Container;
+    public containerConfigureInfo: ContainerConfigureData;
     public applyButtonDisabled = false;
     public savevButtonDisabled = false;
     public discardButtonDisabled = false;
     public isUpdating = false;
     public fromMenu = false;
     public loading = true;
+    public form: FormGroup;
 
     constructor(
         private _siteService: SiteService,
@@ -54,15 +53,15 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         return inputEvents
             .distinctUntilChanged()
             .concatMap((r): Observable<any[]> => {
-                this.containerSettingsInfo = r.data.data;
-                this.fromMenu = !!this.containerSettingsInfo.fromMenu;
-                this.containerSettingsManager.resetSettings(r.data);
+                this.containerConfigureInfo = { ...r.data.data, container: null, containerForm: null };
+                this.fromMenu = !!this.containerConfigureInfo.fromMenu;
+                this.containerSettingsManager.resetSettings(this.containerConfigureInfo);
 
                 if (this.fromMenu) {
                     return Observable.zip(
-                        this._siteService.getAppSettings(this.containerSettingsInfo.resourceId),
-                        this._siteService.getSiteConfig(this.containerSettingsInfo.resourceId),
-                        this._siteService.getPublishingCredentials(this.containerSettingsInfo.resourceId));
+                        this._siteService.getAppSettings(this.containerConfigureInfo.resourceId),
+                        this._siteService.getSiteConfig(this.containerConfigureInfo.resourceId),
+                        this._siteService.getPublishingCredentials(this.containerConfigureInfo.resourceId));
                 } else {
                     return Observable.zip(Observable.of(r.data.data));
                 }
@@ -77,33 +76,38 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                         && siteConfigResponse.isSuccessful
                         && publishingCredentialsResponse.isSuccessful) {
                         this.containerSettingsManager.initializeForConfig(
-                            this.containerSettingsInfo.os,
+                            this.containerConfigureInfo.os,
                             appSettingsResponse.result.properties,
                             siteConfigResponse.result.properties,
                             publishingCredentialsResponse.result.properties);
                     }
                 } else {
-                    this.containerSettingsManager.initializeForCreate(this.containerSettingsInfo.os);
+                    this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os);
                 }
 
-                this._setSelectedContainer();
+                this.form = this.containerSettingsManager.form;
 
-                this.containerSettingsManager.form.controls.containerType.valueChanges.subscribe(value => {
-                    this._setSelectedContainer();
-                });
+                this.containerConfigureInfo.container = this.containerSettingsManager.containers
+                    .find(c => c.id === this.form.controls.containerType.value);
+
+                this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(
+                    this.form,
+                    this.containerConfigureInfo.container.id);
 
                 this.loading = false;
             });
     }
 
     public selectContainer(container: Container) {
-        this.containerSettingsManager.form.controls.containerType.setValue(container.id);
+        this.form.controls.containerType.setValue(container.id);
+        this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(this.form, container.id);
+        this.containerConfigureInfo.container = container;
     }
 
     public onContainerTabKeyPress(event: KeyboardEvent) {
         const containers = this.containerSettingsManager.containers;
         if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = containers.findIndex(container => container === this.selectedContainer);
+            let curIndex = containers.findIndex(container => container === this.containerConfigureInfo.container);
             const tabElements = this._getTabElements();
             this._updateContainerFocusTab(false, tabElements, curIndex);
 
@@ -121,6 +125,8 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickApply() {
+        // return portal service pcv3 form data
+        // subscribe to form status changes and validate the specific form.
     }
 
     public clickSave() {
@@ -151,10 +157,5 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         } else {
             Dom.clearFocus(tab);
         }
-    }
-
-    private _setSelectedContainer() {
-        this.selectedContainer = this.containerSettingsManager.containers.find(
-            c => c.id === this.containerSettingsManager.form.controls.containerType.value);
     }
 }

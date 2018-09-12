@@ -14,23 +14,23 @@
     </ng-select>
 </div>
 
-<div [formGroup] = "form">
+<div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <div *ngIf="selectedSampleDescription">
         <label>{{ 'quickStartSampleDescription' | translate }}</label>
         <p>{{selectedSampleDescription}}</p>
     </div>
 
-    <div *ngIf="selectedContainer.id === 'single'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label><br/>
         <textarea formControlName="config" class="singleContainerConfig" disabled></textarea>
     </div>
 
-    <div *ngIf="selectedContainer.id === 'dockerCompose'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'dockerCompose'">
         <label>{{ 'containerConfiguration' | translate }}</label><br/>
         <textarea formControlName="config" class="dockerComposeConfig"  disabled></textarea>
     </div>
 
-    <div *ngIf="selectedContainer.id === 'kubernetes'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'kubernetes'">
         <label>{{ 'containerConfiguration' | translate }}</label><br/>
         <textarea formControlName="config" class="kubernetesConfig"  disabled></textarea>
     </div>

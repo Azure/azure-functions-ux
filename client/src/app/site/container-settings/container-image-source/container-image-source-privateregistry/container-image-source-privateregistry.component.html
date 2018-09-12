@@ -1,4 +1,4 @@
-<div [formGroup] = "form">
+<div *ngIf="form" [formGroup] = "form">
     <div>
         <label>{{ 'containerServerURL' | translate }}</label>
         <textbox [control] = "form.controls.serverUrl"></textbox>
@@ -14,22 +14,22 @@
         <textbox [control] = "form.controls.password"></textbox>
     </div>
 
-    <div *ngIf = "selectedContainer.id === 'single'">
+    <div *ngIf = "containerConfigureInfo.container.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
         <textbox [control] = "form.controls.image"></textbox>
     </div>
 
-    <div *ngIf = "selectedContainer.id === 'single'">
+    <div *ngIf = "containerConfigureInfo.container.id === 'single'">
         <label>{{ 'containerStartupFile' | translate }}</label>
         <textbox [control] = "form.controls.startupFile"></textbox>
     </div>
 
-    <div *ngIf = "selectedContainer.id !== 'single'">
+    <div *ngIf = "containerConfigureInfo.container.id !== 'single'">
         <div>
             <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
             <input type="file" (change)="extractConfig($event)">
         </div>
-    
+
         <div>
             <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
             <textarea class="config" formControlName="config" disabled></textarea>

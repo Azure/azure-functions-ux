@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
-import { ContainerConfigureData, Container, ImageSourceType } from '../container-settings';
+import { ContainerConfigureData, ImageSourceType, ContainerImageSourceData } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
-import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { Observable } from 'rxjs';
 
@@ -16,50 +15,37 @@ export class ContainerImageSourceComponent extends FeatureComponent<ContainerCon
         this.setInput(containerConfigureInfo);
     }
 
-    public selectedContainer: Container;
     public selectedImageSource: ImageSourceType;
+    public containerImageSourceInfo: ContainerImageSourceData;
     public containerConfigureInfo: ContainerConfigureData;
-    public containerForm: FormGroup;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerImageSourceComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
-
-        this.containerSettingsManager.form.controls.containerType.valueChanges
-            .takeUntil(this.ngUnsubscribe)
-            .subscribe(value => {
-                this._setContainerForm(this.containerSettingsManager.containers.find(c => c.id === value));
-                this._setImageSourceType();
-            });
     }
 
     protected setup(inputEvents: Observable<ContainerConfigureData>) {
         return inputEvents
             .distinctUntilChanged()
             .do(containerConfigureInfo => {
+                this.selectedImageSource = containerConfigureInfo.containerForm.controls.imageSource.value;
                 this.containerConfigureInfo = containerConfigureInfo;
-                this._setContainerForm(containerConfigureInfo.container);
-                this._setImageSourceType();
+                const imageSourceForm = this.containerSettingsManager.getImageSourceForm(
+                    containerConfigureInfo.containerForm,
+                    this.selectedImageSource);
+
+                this.containerImageSourceInfo = { ...containerConfigureInfo, imageSourceForm: imageSourceForm };
             });
     }
 
     public updateContainerImageSource(imageSource: ImageSourceType) {
+        const imageSourceForm = this.containerSettingsManager.getImageSourceForm(
+            this.containerImageSourceInfo.containerForm,
+            imageSource);
+
+        this.containerImageSourceInfo.imageSourceForm = imageSourceForm;
         this.selectedImageSource  = imageSource;
-        this.containerForm.controls.imageSource.setValue(imageSource);
-    }
-
-    private _setContainerForm(container: Container) {
-        this.selectedContainer = container;
-        this.containerForm = this.containerSettingsManager.getContainerForm(this.selectedContainer.id);
-    }
-
-    private _setImageSourceType() {
-        const imageSource = this.containerForm.controls.imageSource.value;
-
-        this.selectedImageSource = this.containerSettingsManager.containerImageSourceOptions
-            .find(option => option.value === imageSource)
-            .value;
     }
 }

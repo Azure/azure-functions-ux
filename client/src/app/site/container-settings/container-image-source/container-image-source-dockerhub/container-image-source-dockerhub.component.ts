@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
-import { ContainerConfigureData, Container, DockerHubAccessType, ContainerType } from '../../container-settings';
+import { DockerHubAccessType, ContainerImageSourceData } from '../../container-settings';
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
@@ -14,38 +14,32 @@ import { Observable } from 'rxjs/Observable';
         './container-image-source-dockerhub.component.scss',
     ],
 })
-export class ContainerImageSourceDockerHubComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
+export class ContainerImageSourceDockerHubComponent extends FeatureComponent<ContainerImageSourceData> implements OnDestroy {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.setInput(containerConfigureInfo);
+    @Input() set containerImageSourceInfoInput(containerImageSourceInfo: ContainerImageSourceData) {
+        this.setInput(containerImageSourceInfo);
     }
 
-    public selectedContainer: Container;
-    public containerConfigureInfo: ContainerConfigureData;
+    public containerImageSourceInfo: ContainerImageSourceData;
     public selectedAccessType: DockerHubAccessType;
-    public form: FormGroup;
-
-    private _imageSourceForm: FormGroup;
+    public imageSourceForm: FormGroup;
+    public dockerHubForm: FormGroup;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerImageSourceDockerHubComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
-
-        this.containerSettingsManager.form.controls.containerType.valueChanges
-            .takeUntil(this.ngUnsubscribe)
-            .subscribe((containerType: ContainerType) => {
-                this._setSelectedContainer(this.containerSettingsManager.containers.find(c => c.id === containerType));
-            });
     }
 
-    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+    protected setup(inputEvents: Observable<ContainerImageSourceData>) {
         return inputEvents
             .distinctUntilChanged()
-            .do(containerConfigureInfo => {
-                this.containerConfigureInfo = containerConfigureInfo;
-                this._setSelectedContainer(containerConfigureInfo.container);
+            .do(containerImageSourceInfo => {
+                this.containerImageSourceInfo = containerImageSourceInfo;
+                this.imageSourceForm = containerImageSourceInfo.imageSourceForm;
+                this.selectedAccessType = this.imageSourceForm.controls.accessType.value;
+                this.dockerHubForm = this.containerSettingsManager.getDockerHubForm(this.imageSourceForm, this.selectedAccessType);
             });
     }
 
@@ -53,30 +47,14 @@ export class ContainerImageSourceDockerHubComponent extends FeatureComponent<Con
         const input = event.target;
         const reader = new FileReader();
         reader.onload = () => {
-            this.form.controls.config.setValue(reader.result);
+            this.imageSourceForm.controls.config.setValue(reader.result);
         };
         reader.readAsText(input.files[0]);
     }
 
     public updateAccessOptions(accessType: DockerHubAccessType) {
         this.selectedAccessType = accessType;
-        this._imageSourceForm.controls.accessType.setValue(accessType);
-        this.form = this.containerSettingsManager.getDockerHubForm(
-            this.selectedContainer.id,
-            'dockerHub',
-            accessType);
-    }
-
-    private _setSelectedContainer(container: Container) {
-        this.selectedContainer = container;
-        this.containerConfigureInfo.container = container;
-
-        this._imageSourceForm = this.containerSettingsManager.getImageSourceForm(container.id, 'dockerHub');
-        this.form = this.containerSettingsManager.getDockerHubForm(
-            container.id,
-            'dockerHub',
-            this._imageSourceForm.controls.accessType.value);
-
-        this.selectedAccessType = this._imageSourceForm.controls.accessType.value;
+        this.imageSourceForm.controls.accessType.setValue(accessType);
+        this.dockerHubForm = this.containerSettingsManager.getDockerHubForm(this.imageSourceForm, this.selectedAccessType);
     }
 }

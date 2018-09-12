@@ -1,37 +1,36 @@
-<div>
+<div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <label>{{ 'containerRepositoryAccess' | translate }}</label>
     <div>
         <radio-selector
-        [defaultValue] = "selectedAccessType"
-        [options] = "containerSettingsManager.dockerHubAccessOptions"
-        [highlightDirty] = "true"
-        (value) = "updateAccessOptions($event)">
+            [options] = "containerSettingsManager.dockerHubAccessOptions"
+            (value) = "updateAccessOptions($event)"
+            [control] = "imageSourceForm.controls.accessType">
         </radio-selector>
     </div>
 </div>
 
-<div [formGroup] = "form">
+<div *ngIf="dockerHubForm" [formGroup] = "dockerHubForm">
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerLogin' | translate }}</label>
-        <textbox [control] = "form.controls.login"></textbox>
+        <textbox [control] = "dockerHubForm.controls.login"></textbox>
     </div>
 
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox [control] = "form.controls.password"></textbox>
+        <textbox [control] = "dockerHubForm.controls.password"></textbox>
     </div>
 
-    <div *ngIf = "selectedContainer.id === 'single'">
+    <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
-        <textbox [control] = "form.controls.image"></textbox>
+        <textbox [control] = "dockerHubForm.controls.image"></textbox>
     </div>
 
-    <div *ngIf = "selectedContainer.id !== 'single'">
+    <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
         <div>
             <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
             <input type="file" (change)="extractConfig($event)">
         </div>
-    
+
         <div>
             <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
             <textarea class="config" formControlName="config" disabled></textarea>
