@@ -24,8 +24,9 @@
     <span *ngIf="node.iconUrl" [load-image]="node.iconUrl" class="icon-small"></span>
   </i>
 
-  {{node.title}}
-
+  <span class="link nav-link">
+    {{node.title}}
+  </span>
   <span *ngIf="node.isLoading !== undefined" [log-message]="node.title + ' isLoading=' + node.isLoading" log-category="SideNav"></span>
 
   <i *ngIf="node.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
