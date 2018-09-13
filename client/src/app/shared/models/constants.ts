@@ -117,10 +117,10 @@ export class Regex {
     public static readonly singleForwardSlash: RegExp = /\//g;
     public static readonly doubleBackslash: RegExp = /\\\\/g;
     public static readonly newLine: RegExp = /(\n)+/g;
-    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info\])/i;
-    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error\])/i;
-    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning\])/i;
-    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/i;
+    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info|INFO)/;
+    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
+    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
+    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
 }
 
 export class Links {
@@ -203,6 +203,7 @@ export class ScenarioIds {
     public static readonly addScaleUp = 'AddScaleUp';
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
+    public static readonly addWebServerLogging = 'AddWebServerLogging';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -302,6 +303,7 @@ export class LogCategories {
     public static readonly busyState = 'BusyState';
     public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
+    public static readonly logStreamLoad = 'LogStreamLoad';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
     public static readonly connectionStrings = 'ConnectionStrings';
@@ -496,7 +498,8 @@ export class HostTypes {
     public static readonly scm = 1;
 }
 
-export enum LogConsoleTypes {
+export enum LogLevel {
+    Unknown = -1,
     Normal = 1,
     Info = 2,
     Error = 3,
