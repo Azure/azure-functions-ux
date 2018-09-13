@@ -91,14 +91,14 @@ export class LinuxFramworksComponent implements OnDestroy {
           return {
             displayLabel: x.displayVersion,
             value: x.runtimeVersion.replace('RUBY|', ''),
-          }
+          };
         });
 
         this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
           return {
             displayLabel: x.displayVersion,
             value: x.runtimeVersion.replace('PHP|', ''),
-          }
+          };
         });
 
         this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
