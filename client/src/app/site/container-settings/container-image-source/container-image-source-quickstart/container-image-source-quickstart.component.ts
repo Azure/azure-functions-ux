@@ -61,9 +61,11 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
                 }));
 
                 this.samplesLoading = false;
-                this.selectedSampleValue = this.samplesList[0].value;
-                this.selectedSampleDescription = containerSamples[0].description;
-                this.imageSourceForm.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
+                if (containerSamples.length > 0) {
+                    this.selectedSampleValue = this.samplesList[0].value;
+                    this.selectedSampleDescription = containerSamples[0].description;
+                    this.imageSourceForm.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
+                }
             });
     }
 

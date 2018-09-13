@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Container, ContainerConfigureData } from '../../container-settings';
 import { ContainerLogsService } from '../../services/container-logs.service';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-logs',

@@ -1304,4 +1304,6 @@
     public static functionsDockerComposeDisableMessage = 'functionsDockerComposeDisableMessage';
     public static functionsKubernetesDisableMessage = 'functionsKubernetesDisableMessage';
     public static readOnlyBYOC = 'readOnlyBYOC';
+    public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
+    public static invalidUrl = 'invalidUrl';
 }

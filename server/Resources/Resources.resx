@@ -4054,4 +4054,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyBYOC" xml:space="preserve">
     <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
   </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Failed to get data for container configuration.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
+  </data>
 </root>

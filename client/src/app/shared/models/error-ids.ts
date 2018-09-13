@@ -81,4 +81,8 @@ export namespace errorIds {
     export const failedToUpdateHostToOffline = 'error/failedToUpdateHostToOffline';
     export const failedToUpdateHostToRunning = 'error/failedToUpdateHostToRunning';
     export const failedToUninstallExtensions = 'error/failedToUninstallExtensions';
+    export const failedToGetAppSettings = 'error/failedToGetAppSettings';
+    export const failedToGetSiteConfig = 'error/failedToGetSiteConfig';
+    export const failedToGetPublishingCredentials = 'error/failedToGetPublishingCredentials';
+    export const failedToGetContainerConfigData = 'error/failedToGetContainerConfigData';
 }

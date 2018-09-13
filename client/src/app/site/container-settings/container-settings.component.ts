@@ -4,7 +4,7 @@ import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureData } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
-import { KeyCodes } from '../../shared/models/constants';
+import { KeyCodes, LogCategories } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
 import { SiteService } from '../../shared/services/site.service';
 import { HttpResult } from '../../shared/models/http-result';
@@ -12,7 +12,12 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import { LogService } from '../../shared/services/log.service';
+import { errorIds } from '../../shared/models/error-ids';
+import { ErrorEvent } from '../../shared/models/error-event';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../shared/models/portal-resources';
 
 @Component({
     selector: 'container-settings',
@@ -37,6 +42,8 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     constructor(
         private _siteService: SiteService,
+        private _logService: LogService,
+        private _ts: TranslateService,
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerSettingsComponent', injector, 'dashboard');
@@ -80,6 +87,25 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                             appSettingsResponse.result.properties,
                             siteConfigResponse.result.properties,
                             publishingCredentialsResponse.result.properties);
+                    } else {
+                        if (!appSettingsResponse.isSuccessful) {
+                            this._logService.error(LogCategories.containerSettings, errorIds.failedToGetAppSettings, appSettingsResponse.error);
+                        }
+
+                        if (!siteConfigResponse.isSuccessful) {
+                            this._logService.error(LogCategories.containerSettings, errorIds.failedToGetSiteConfig, siteConfigResponse.error);
+                        }
+
+                        if (!publishingCredentialsResponse.isSuccessful) {
+                            this._logService.error(LogCategories.containerSettings, errorIds.failedToGetPublishingCredentials, publishingCredentialsResponse.error);
+                        }
+
+                        const error: ErrorEvent = {
+                            errorId: errorIds.failedToGetContainerConfigData,
+                            resourceId: this.containerConfigureInfo.resourceId,
+                            message: this._ts.instant(PortalResources.failedToGetContainerConfigData),
+                        };
+                        this.showComponentError(error);
                     }
                 } else {
                     this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os);
@@ -125,10 +151,11 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickApply() {
-        // return portal service pcv3 form data
-        // subscribe to form status changes and validate the specific form.
-        const data = this.containerSettingsManager.containerFormData;
-        console.log(data);
+        this._markFormGroupTouchedAndValidate(this.form);
+        if (this.form.valid) {
+            const data = this.containerSettingsManager.containerFormData;
+            console.log(data);
+        }
     }
 
     public clickSave() {
@@ -158,6 +185,23 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
             Dom.setFocus(tab);
         } else {
             Dom.clearFocus(tab);
+        }
+    }
+
+    private _markFormGroupTouchedAndValidate(formGroup: FormGroup) {
+        if (formGroup.controls) {
+            const keys = Object.keys(formGroup.controls);
+            for (let i = 0; i < keys.length; i++) {
+                const control = formGroup.controls[keys[i]];
+                if (control.enabled) {
+                    if (control instanceof FormControl) {
+                        control.markAsTouched();
+                        control.updateValueAndValidity();
+                    } else if (control instanceof FormGroup) {
+                        this._markFormGroupTouchedAndValidate(control);
+                    }
+                }
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { ContainerConfigureData, ImageSourceType, ContainerImageSourceData } from '../container-settings';
 import { ContainerSettingsManager } from '../container-settings-manager';
 import { FeatureComponent } from '../../../shared/components/feature-component';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-image-source',

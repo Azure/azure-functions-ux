@@ -3,7 +3,7 @@ import { ContainerConfigureData, ContinuousDeploymentOption } from '../../contai
 import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'container-continuous-delivery',
