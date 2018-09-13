@@ -3,24 +3,27 @@ import { LogLevel } from '../../shared/models/constants';
 
 @Component({
     selector: 'log-entry',
-    template: `<div class="log-content" [ngClass]="className">{{message}}</div>`,
-    styleUrls: ['./log-stream.component.scss'],
-
+    template: `<div class="log-content" [ngClass]="getClassForLogType()">{{message}}</div>`,
+    styleUrls: ['./log-stream.component.scss']
 })
 export class LogEntryComponent {
-
-    @Input() set level(level: LogLevel) {
-        if (level === LogLevel.Error) {
-            this.className = 'error-content';
-        } else if (level === LogLevel.Info) {
-            this.className = 'info-content';
-        } else if (level === LogLevel.Warning) {
-            this.className = 'warning-content';
-        } else {
-            this.className = '';
-        }
-    }
-
+    @Input() level: LogLevel;
     @Input() message: string;
-    className: string;
+
+    /**
+     * Return class according to the log type.
+     * If the log-type is normal, empty string is returned.
+     */
+    getClassForLogType(): string {
+        if (this.level === LogLevel.Error) {
+            return 'error-content';
+        }
+        if (this.level === LogLevel.Info) {
+            return 'info-content';
+        }
+        if (this.level === LogLevel.Warning) {
+            return 'warning-content';
+        }
+        return '';
+    }
 }

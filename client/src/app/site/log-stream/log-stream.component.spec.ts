@@ -1,8 +1,12 @@
+import { MockScenarioService } from './../../test/mocks/scenario.service.mock';
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
+import { LoadImageDirective } from './../../controls/load-image/load-image.directive';
+import { CommandBarComponent } from './../../controls/command-bar/command-bar.component';
 import { AppLogStreamComponent } from './log-stream.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { Injector, NgModule } from '@angular/core';
+import { Injector } from '@angular/core';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { TelemetryService } from '../../shared/services/telemetry.service';
 import { MockTelemetryService } from '../../test/mocks/telemetry.service.mock';
@@ -22,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { StartupInfo } from '../../shared/models/portal';
+import { CommandComponent } from '../../controls/command-bar/command/command.component';
 
 describe('LogStreamComponent', () => {
   let component: AppLogStreamComponent;
@@ -29,7 +34,7 @@ describe('LogStreamComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule, LogStreamTestModule
+        TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule,
       ],
       providers: [
         BroadcastService, Injector,
@@ -39,9 +44,18 @@ describe('LogStreamComponent', () => {
         { provide: LogService, useClass: MockLogService },
         { provide: UtilitiesService, useClass: MockUtilitiesService },
         { provide: UserService, useClass: MockUserService },
-        { provide: FunctionAppService, useClass: MockFunctionAppService }
+        { provide: FunctionAppService, useClass: MockFunctionAppService },
+        { provide: ScenarioService, useClass: MockScenarioService },
       ],
-      declarations: [AppLogStreamComponent, MockDirective(RadioSelectorComponent), MockDirective(PopOverComponent)]
+      declarations: [
+        AppLogStreamComponent,
+        CommandBarComponent,
+        CommandComponent,
+        LogEntryComponent,
+        MockDirective(LoadImageDirective),
+        MockDirective(RadioSelectorComponent),
+        MockDirective(PopOverComponent),
+      ],
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(AppLogStreamComponent);
       component = fixture.componentInstance;
@@ -69,18 +83,6 @@ describe('LogStreamComponent', () => {
   });
 });
 
-@NgModule({
-  imports: [
-    CommonModule
-  ],
-  entryComponents: [
-    LogEntryComponent
-  ],
-  declarations: [
-    LogEntryComponent
-  ]
-})
-class LogStreamTestModule { }
 class MockUtilitiesService {
   copyContentToClipboard() {
 
