@@ -4,13 +4,21 @@
     <div class="setting-wrapper">
       <div class="setting-label">{{'webAppFramework' | translate}} </div>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="webApplicationFrameworks" bindLabel="displayLabel"
-          bindValue="value" placeholder="{{'selectFramework' | translate}}" [(ngModel)]="selectedFramework" formControlName="applicationFramework">
+        <ng-select 
+              class="custom-select" 
+              [clearable]="false" 
+              [searchable]="false" 
+              [items]="webApplicationFrameworks" 
+              bindLabel="displayLabel"
+              bindValue="value" 
+              placeholder="{{'selectFramework' | translate}}" 
+              [(ngModel)]="selectedFramework" 
+              formControlName="applicationFramework">
         </ng-select>
       </div>
     </div>
 
-    <div *ngIf="selectedFramework!=='AspNetWap' && selectedFramework!=='AspNetCore'">
+    <div *ngIf="selectedFramework !== 'AspNetWap' && selectedFramework !== 'AspNetCore'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'workingDirectory' | translate}} </div>
         <div class="setting-control-container">
@@ -18,22 +26,36 @@
         </div>
       </div>
 
-      <div class="setting-wrapper" *ngIf="selectedFramework==='Node'">
+      <div class="setting-wrapper" *ngIf="selectedFramework === 'Node'">
         <div class="setting-label"> {{'taskRunner' | translate}}</div>
         <div class="setting-control-container">
-          <ng-select [clearable]="false" class="custom-select" [searchable]="false" [items]="nodeJsTaskRunners" bindLabel="displayLabel"
-            bindValue="value" [(ngModel)]="selectedTaskRunner" formControlName="nodejsTaskRunner">
+          <ng-select 
+            [clearable]="false" 
+            class="custom-select" 
+            [searchable]="false" 
+            [items]="nodeJsTaskRunners" 
+            bindLabel="displayLabel"
+            bindValue="value" 
+            [(ngModel)]="selectedTaskRunner" 
+            formControlName="nodejsTaskRunner">
           </ng-select>
         </div>
       </div>
 
-      <div *ngIf="selectedFramework==='Python'" [formGroup]="wizard?.buildSettings?.controls?.pythonSettings" novalidate>
+      <div *ngIf="selectedFramework === 'Python'" [formGroup]="wizard?.buildSettings?.controls?.pythonSettings" novalidate>
 
         <div class="setting-wrapper">
           <div class="setting-label">{{'pythonFramework' | translate}} </div>
           <div class="setting-control-container">
-            <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="pythonFrameworkList" bindLabel="displayLabel"
-              bindValue="value" [(ngModel)]="selectedPythonFramework" formControlName="framework">
+            <ng-select 
+              class="custom-select" 
+              [clearable]="false" 
+              [searchable]="false" 
+              [items]="pythonFrameworkList" 
+              bindLabel="displayLabel"
+              bindValue="value" 
+              [(ngModel)]="selectedPythonFramework" 
+              formControlName="framework">
             </ng-select>
           </div>
         </div>
@@ -41,8 +63,15 @@
         <div class="setting-wrapper">
           <div class="setting-label"> {{'pythonVersion' | translate}} </div>
           <div class="setting-control-container">
-            <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="pythonVersionList" bindLabel="displayLabel"
-              bindValue="value" [(ngModel)]="selectedPythonVersion" formControlName="version">
+            <ng-select 
+              class="custom-select" 
+              [clearable]="false" 
+              [searchable]="false" 
+              [items]="pythonVersionList" 
+              bindLabel="displayLabel"
+              bindValue="value" 
+              [(ngModel)]="selectedPythonVersion" 
+              formControlName="version">
             </ng-select>
           </div>
         </div>

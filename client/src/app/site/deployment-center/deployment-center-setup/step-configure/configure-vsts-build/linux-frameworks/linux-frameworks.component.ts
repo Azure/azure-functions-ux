@@ -29,10 +29,13 @@ export class VSTSRepository {
 @Component({
   selector: 'app-linux-frameworks',
   templateUrl: './linux-frameworks.component.html',
-  styleUrls: ['./linux-frameworks.component.scss', '../../step-configure.component.scss', '../../../deployment-center-setup.component.scss'],
+  styleUrls: [
+    './linux-frameworks.component.scss',
+    '../../step-configure.component.scss',
+    '../../../deployment-center-setup.component.scss',
+  ],
 })
 export class LinuxFramworksComponent implements OnDestroy {
-
   defaultNodeTaskRunner = 'none';
   nodeJsTaskRunners: DropDownElement<string>[] = [
     { value: 'gulp', displayLabel: 'Gulp' },
@@ -74,49 +77,41 @@ export class LinuxFramworksComponent implements OnDestroy {
   phpFrameworkVersions: DropDownElement<string>[] = [];
   rubyFrameworkVersions: DropDownElement<string>[] = [];
 
-  constructor(
-    public wizard: DeploymentCenterStateManager,
-    siteService: SiteService,
-  ) {
-    siteService.getAvailableStacks(AvailableStacksOsType.Linux)
-      .subscribe(vals => {
-        const stacks = vals.result.value;
-        const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
-        const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
-        const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
-        const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
-        this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
-          return {
-            displayLabel: x.displayVersion,
-            value: x.runtimeVersion.replace('RUBY|', ''),
-          }
-        });
-
-        this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
-          return {
-            displayLabel: x.displayVersion,
-            value: x.runtimeVersion.replace('PHP|', ''),
-          }
-        });
-
-        this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
-          return {
-            displayLabel: x.displayVersion,
-            value: x.runtimeVersion.replace('NODE|', ''),
-          }
-        });
-
-        this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
-          return {
-            displayLabel: x.displayVersion,
-            value: x.runtimeVersion.replace('DOTNETCORE|', ''),
-          }
-        });
+  constructor(public wizard: DeploymentCenterStateManager, siteService: SiteService) {
+    siteService.getAvailableStacks(AvailableStacksOsType.Linux).subscribe(vals => {
+      const stacks = vals.result.value;
+      const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
+      const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
+      const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
+      const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
+      this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
+        return {
+          displayLabel: x.displayVersion,
+          value: x.runtimeVersion.replace('RUBY|', ''),
+        };
       });
-  }
 
-  selectedFrameworkChanged() {
-    console.log('changed');
+      this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
+        return {
+          displayLabel: x.displayVersion,
+          value: x.runtimeVersion.replace('PHP|', ''),
+        };
+      });
+
+      this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
+        return {
+          displayLabel: x.displayVersion,
+          value: x.runtimeVersion.replace('NODE|', ''),
+        };
+      });
+
+      this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
+        return {
+          displayLabel: x.displayVersion,
+          value: x.runtimeVersion.replace('DOTNETCORE|', ''),
+        };
+      });
+    });
   }
 
   ngOnDestroy(): void {
