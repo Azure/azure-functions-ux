@@ -25,7 +25,7 @@
     <i *ngIf="!initialized" class = "fa fa-refresh fa-spin fa-fw"></i>
     <div id = "log-container">
         <div id= "log-body" class= "log-body">
-            <div class = "log-message log-connector" *ngIf = "!clearLogs">{{ 'feature_logStreamingConnecting' | translate }}</div>
+            <div class = "log-connector" *ngIf = "!clearLogs">{{ 'feature_logStreamingConnecting' | translate }}</div>
             <log-entry *ngFor="let entry of logEntries; trackBy: trackByFn" [level]="entry.level" [message]="entry.message"></log-entry>
         </div>
     </div>

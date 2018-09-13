@@ -203,7 +203,7 @@ export class ScenarioIds {
     public static readonly addScaleUp = 'AddScaleUp';
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
-    public static readonly addWebServerLogging = 'addWebServerLogging';
+    public static readonly addWebServerLogging = 'AddWebServerLogging';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -303,7 +303,7 @@ export class LogCategories {
     public static readonly busyState = 'BusyState';
     public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
-    public static readonly logStreamLoad = 'logStreamLoad';
+    public static readonly logStreamLoad = 'LogStreamLoad';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
     public static readonly connectionStrings = 'ConnectionStrings';

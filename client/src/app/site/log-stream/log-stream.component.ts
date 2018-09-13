@@ -1,20 +1,17 @@
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { HostTypes, ScenarioIds, LogCategories } from './../../shared/models/constants';
 import { Component, Input, Injector, OnDestroy } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo, SiteData } from '../../tree-view/models/tree-view-info';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
 import { SiteService } from '../../shared/services/site.service';
-import { SiteTabIds, LogLevel, Regex, ConsoleConstants } from '../../shared/models/constants';
+import { SiteTabIds, LogLevel, Regex, ConsoleConstants, HostTypes, ScenarioIds, LogCategories } from '../../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
-import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { FunctionAppService } from '../../shared/services/function-app.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilitiesService } from '../../shared/services/utilities.service';
 
@@ -59,7 +56,6 @@ export class AppLogStreamComponent extends FeatureComponent<TreeViewInfo<SiteDat
     private _xhReq: XMLHttpRequest;
     private _timeouts: number[] = [];
     private _logStreamType: 'application' | 'http';
-    private _publishingCredentials: ArmObj<PublishingCredentials>;
     private _site: ArmObj<Site>;
     private readonly _maxLogEntries = 1000;
 
@@ -68,7 +64,6 @@ export class AppLogStreamComponent extends FeatureComponent<TreeViewInfo<SiteDat
         private _siteService: SiteService,
         private _utilities: UtilitiesService,
         private _userService: UserService,
-        private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService,
         private _logService: LogService,
         injector: Injector,
@@ -217,11 +212,7 @@ export class AppLogStreamComponent extends FeatureComponent<TreeViewInfo<SiteDat
             }
             this._xhReq = new XMLHttpRequest();
             this._xhReq.open('GET', this._getLogUrl(), true);
-            if (this._functionAppService._tryFunctionsBasicAuthToken) {
-                this._xhReq.setRequestHeader('Authorization', `Basic ` + btoa(`${this._publishingCredentials.properties.publishingUserName}:${this._publishingCredentials.properties.publishingPassword}`));
-            } else {
-                this._xhReq.setRequestHeader('Authorization', `Bearer ${this._token}`);
-            }
+            this._xhReq.setRequestHeader('Authorization', `Bearer ${this._token}`);
             this._xhReq.setRequestHeader('FunctionsPortal', '1');
             this._xhReq.send(null);
             const callBack = () => {
@@ -291,11 +282,7 @@ export class AppLogStreamComponent extends FeatureComponent<TreeViewInfo<SiteDat
      * @param logLevel represents the particular type of the log
      */
     private _addLogEntry(message: string, logLevel: LogLevel) {
-        if (!message) {
-            return;
-        }
-
-        message = message.trim();
+        message = message ? message.trim() : message;
 
         if (!message) {
             return;

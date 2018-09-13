@@ -4,7 +4,7 @@ import { LogLevel } from '../shared/models/constants';
 @Component({
     selector: 'log-content',
     template: `<div class="log-content" [ngClass]="getClassForLogType()">{{logs}}</div>`,
-    styleUrls: ['log-streaming.component.scss']
+    styleUrls: ['./log-streaming.component.scss'],
 })
 export class LogContentComponent {
     @Input() type: LogLevel;
