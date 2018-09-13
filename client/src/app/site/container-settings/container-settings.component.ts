@@ -127,6 +127,8 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public clickApply() {
         // return portal service pcv3 form data
         // subscribe to form status changes and validate the specific form.
+        const data = this.containerSettingsManager.containerFormData;
+        console.log(data);
     }
 
     public clickSave() {

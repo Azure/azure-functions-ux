@@ -9,7 +9,10 @@ import {
     DockerHubAccessType,
     ContinuousDeploymentOption,
     ContainerOS,
-    ContainerType } from './container-settings';
+    ContainerType,
+    ContainerFormData,
+    ContainerSiteConfigFormData,
+    ContainerAppSettingsFormData } from './container-settings';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SelectOption } from '../../shared/models/select-option';
@@ -37,6 +40,110 @@ export class ContainerSettingsManager {
         private _fb: FormBuilder) {
     }
 
+    get containerFormData(): ContainerFormData {
+        const form = this.form;
+        const data: ContainerFormData = {
+            siteConfig: this._getSiteConfigFormData(form),
+            appSettings: this._getAppSettingsFormData(form)
+        };
+
+        return data;
+    }
+
+    private _getSiteConfigFormData(form: FormGroup): ContainerSiteConfigFormData {
+        const containerType = form.controls.containerType.value;
+        const containerForm = this.getContainerForm(form, containerType);
+
+        return {
+            fxVersion: this._getFxVersionFormData(containerType, containerForm),
+            appCommandLine: this._getAppCommandLineFormData(containerType, containerForm),
+        }
+    }
+
+    private _getFxVersionFormData(containerType: ContainerType, containerForm: FormGroup): string {
+        const prefix = containerType === 'single'
+            ? ContainerConstants.dockerPrefix
+            : containerType === 'dockerCompose'
+                ? ContainerConstants.composePrefix
+                : ContainerConstants.kubernetesPrefix;
+
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+
+        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+        let fxVersion: string;
+        if (imageSourceType === 'dockerHub') {
+            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
+        }
+
+        if (containerType === 'single' && imageSourceType === 'quickstart') {
+            fxVersion = `${prefix}|${imageSourceForm.controls.config.value}`;
+        } else if (containerType === 'single' && imageSourceType === 'azureContainerRegistry') {
+            const registry = imageSourceForm.controls.registry.value;
+            const repository = imageSourceForm.controls.repository.value;
+            const tag = imageSourceForm.controls.tag.value;
+            fxVersion = `${prefix}|${registry}/${repository}:${tag}`
+        } else if (containerType === 'single' && imageSourceType === 'dockerHub') {
+            fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else if (containerType === 'single' && imageSourceType === 'privateRegistry') {
+            fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else {
+            fxVersion = `${prefix}|${btoa(imageSourceForm.controls.config.value)}`
+        }
+
+        return fxVersion;
+    }
+
+    private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+        if (containerType === 'single'
+            && (imageSourceType === 'azureContainerRegistry' || imageSourceType === 'privateRegistry')) {
+            const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+
+            return imageSourceForm.controls.startupFile.value;
+        }
+
+        return '';
+    }
+
+    private _getAppSettingsFormData(form: FormGroup): ContainerAppSettingsFormData {
+        const containerType = form.controls.containerType.value;
+        const containerForm = this.getContainerForm(form, containerType);
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+
+        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+        if (imageSourceType === 'dockerHub') {
+            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
+        }
+
+        let appSettings: ContainerAppSettingsFormData = {};
+
+        if (form.controls.continuousDeploymentOption.value === 'on') {
+            appSettings[ContainerConstants.enableCISetting] = 'true';
+        }
+
+        if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
+            if (imageSourceForm.controls.login && imageSourceForm.controls.login.value) {
+                appSettings[ContainerConstants.usernameSetting] = imageSourceForm.controls.login.value;
+            }
+
+            if (imageSourceForm.controls.password && imageSourceForm.controls.password.value) {
+                appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
+            }
+        }
+
+        if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {
+            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
+        } else if (imageSourceType === 'privateRegistry') {
+            appSettings[ContainerConstants.serverUrlSetting] = imageSourceForm.controls.serverUrl.value;
+        } else if (imageSourceType === 'azureContainerRegistry') {
+            appSettings[ContainerConstants.serverUrlSetting] = `https://${imageSourceForm.controls.registry.value}`
+        }
+
+        return appSettings;
+    }
+
     public resetSettings(containerSettingInfo: ContainerSettingsData) {
         this._resetContainers(containerSettingInfo);
         this._resetImageSourceOptions(containerSettingInfo);
@@ -54,8 +161,8 @@ export class ContainerSettingsManager {
 
     public getContainerForm(form: FormGroup, containerType: ContainerType): FormGroup {
         const singleContainerForm = <FormGroup>form.controls.singleContainerForm;
-        const dockerComposeForm = <FormGroup>form.controls.singleContainerForm;
-        const kubernetesForm = <FormGroup>form.controls.singleContainerForm;
+        const dockerComposeForm = <FormGroup>form.controls.dockerComposeForm;
+        const kubernetesForm = <FormGroup>form.controls.kubernetesForm;
 
         singleContainerForm.disable();
         dockerComposeForm.disable();

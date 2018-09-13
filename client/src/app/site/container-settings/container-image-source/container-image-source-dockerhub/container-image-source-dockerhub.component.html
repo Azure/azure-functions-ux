@@ -3,6 +3,7 @@
     <div>
         <radio-selector
             [options] = "containerSettingsManager.dockerHubAccessOptions"
+            [highlightDirty] = "containerImageSourceInfo.fromMenu"
             (value) = "updateAccessOptions($event)"
             [control] = "imageSourceForm.controls.accessType">
         </radio-selector>

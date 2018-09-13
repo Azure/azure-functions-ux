@@ -1,30 +1,30 @@
-<div *ngIf="form" [formGroup] = "form">
+<div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <div>
         <label>{{ 'containerServerURL' | translate }}</label>
-        <textbox [control] = "form.controls.serverUrl"></textbox>
+        <textbox [control] = "imageSourceForm.controls.serverUrl"></textbox>
     </div>
 
     <div>
         <label>{{ 'containerLogin' | translate }}</label>
-        <textbox [control] = "form.controls.login"></textbox>
+        <textbox [control] = "imageSourceForm.controls.login"></textbox>
     </div>
 
     <div>
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox [control] = "form.controls.password"></textbox>
+        <textbox [control] = "imageSourceForm.controls.password"></textbox>
     </div>
 
-    <div *ngIf = "containerConfigureInfo.container.id === 'single'">
+    <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
         <label>{{ 'containerImageAndTag' | translate }}</label>
-        <textbox [control] = "form.controls.image"></textbox>
+        <textbox [control] = "imageSourceForm.controls.image"></textbox>
     </div>
 
-    <div *ngIf = "containerConfigureInfo.container.id === 'single'">
+    <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
         <label>{{ 'containerStartupFile' | translate }}</label>
-        <textbox [control] = "form.controls.startupFile"></textbox>
+        <textbox [control] = "imageSourceForm.controls.startupFile"></textbox>
     </div>
 
-    <div *ngIf = "containerConfigureInfo.container.id !== 'single'">
+    <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
         <div>
             <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
             <input type="file" (change)="extractConfig($event)">

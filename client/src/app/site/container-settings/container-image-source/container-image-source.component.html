@@ -4,7 +4,7 @@
         <div>
         <radio-selector
             [options] = "containerSettingsManager.containerImageSourceOptions"
-            [highlightDirty] = "true"
+            [highlightDirty] = "containerImageSourceInfo.fromMenu"
             (value) = "updateContainerImageSource($event)"
             [control] = "containerImageSourceInfo.containerForm.controls.imageSource">
         </radio-selector>

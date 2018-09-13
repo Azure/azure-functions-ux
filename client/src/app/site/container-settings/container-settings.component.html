@@ -33,12 +33,11 @@
         [containerConfigureInfoInput] = "containerConfigureInfo">
     </container-configure>
 
-    <footer>
+    <footer *ngIf = "!containerConfigureInfo.container.disableMessage">
         <div id="container-footer">
             <button *ngIf = "!fromMenu"
                 type="submit"
                 class="custom-button"
-                [disabled]="form && !form.valid"
                 (click)="clickApply()"
                 [attr.aria-label]="'apply' | translate">
 
@@ -48,7 +47,6 @@
 
             <button *ngIf = "fromMenu"
                 class="custom-button"
-                [disabled]="!saveButtonEnabled"
                 (click)="clickSave()"
                 [attr.aria-label]="'save' | translate">
 
@@ -58,7 +56,6 @@
 
             <button *ngIf = "fromMenu"
                 class="custom-button"
-                [disabled]="!discardButtonEnabled"
                 (click)="clickDiscard()"
                 [attr.aria-label]="'discard' | translate">
 

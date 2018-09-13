@@ -52,6 +52,20 @@ export interface ContainerImageSourceData extends ContainerConfigureData {
     imageSourceForm: FormGroup;
 }
 
+export interface ContainerFormData {
+    siteConfig: ContainerSiteConfigFormData;
+    appSettings: ContainerAppSettingsFormData;
+}
+
+export interface ContainerSiteConfigFormData {
+    fxVersion: string;
+    appCommandLine: string;
+}
+
+export interface ContainerAppSettingsFormData {
+    [key: string]: string;
+}
+
 export abstract class Container {
     abstract iconUrl: string;
     abstract title: string;
