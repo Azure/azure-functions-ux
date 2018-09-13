@@ -16,9 +16,12 @@
     .command{
         padding: 12px;
         display: inline-block;
-        
+        color: $default-text-color;
+        text-decoration: none;
+
         &:hover{
             background-color: $command-color-hover;
+            text-decoration: none;
         }
 
         &.left-edge{
@@ -27,26 +30,12 @@
     }
 }
 
-#top-bar{
-    .command-bar-wrapper{
-        command{
-            a {
-                color: $default-text-color;
-            }
-        }
-    }
-}
-
-
 #app-root[theme=dark]{
-    #top-bar{
-        .command-bar-wrapper{
-            command{
-                a {
-                    color: $default-text-color-dark;
-                }
-            }
+    .command{
+        color: $default-text-color-dark;
+
+        &:hover{
+            background-color: $command-color-hover-dark;
         }
     }
-    
 }

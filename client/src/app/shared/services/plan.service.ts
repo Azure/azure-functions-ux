@@ -105,7 +105,7 @@ export class PlanService implements IPlanService {
     getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]> {
         let url = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/billingMeters?api-version=${this._armService.websiteApiVersion}`;
         if (location) {
-            url += `&billingLocation=${location}`;
+            url += `&billingLocation=${location.replace(/\s/g, '')}`;
         }
 
         const getMeters = this._cacheService.get(url);
