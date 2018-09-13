@@ -17,6 +17,7 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
     @Input() level: number;
 
     paddingLeft: string;
+    public types = DashboardType;
 
     public showTryView = false;
     @ViewChild('item') item: ElementRef;

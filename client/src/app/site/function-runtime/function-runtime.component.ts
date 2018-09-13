@@ -128,10 +128,10 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         this.functionRutimeOptions = [
             {
                 displayLabel: '~1',
-                value: '~1'
+                value: '~1',
             }, {
-                displayLabel: 'beta',
-                value: 'beta'
+                displayLabel: this._translateService.instant(PortalResources.v2_preview_label),
+                value: '~2',
             }];
 
         this.proxySettingValueStream = new Subject<boolean>();
@@ -413,7 +413,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
 
-        if (version === 'beta') {
+        if (version === '~2') {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
         } else {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;

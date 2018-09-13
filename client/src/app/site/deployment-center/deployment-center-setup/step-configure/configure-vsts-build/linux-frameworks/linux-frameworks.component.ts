@@ -76,42 +76,64 @@ export class LinuxFramworksComponent implements OnDestroy {
   dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
   phpFrameworkVersions: DropDownElement<string>[] = [];
   rubyFrameworkVersions: DropDownElement<string>[] = [];
+  constructor(
+    public wizard: DeploymentCenterStateManager,
+    siteService: SiteService,
+  ) {
+    siteService.getAvailableStacks(AvailableStacksOsType.Linux)
+      .subscribe(vals => {
+        const stacks = vals.result.value;
+        const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
+        const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
+        const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
+        const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
+        this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('RUBY|', ''),
+          }
+        });
 
-  constructor(public wizard: DeploymentCenterStateManager, siteService: SiteService) {
-    siteService.getAvailableStacks(AvailableStacksOsType.Linux).subscribe(vals => {
-      const stacks = vals.result.value;
-      const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
-      const nodeStack = stacks.find(x => x.name.toLowerCase() === 'node');
-      const phpStack = stacks.find(x => x.name.toLowerCase() === 'php');
-      const dotNetCoreStack = stacks.find(x => x.name.toLowerCase() === 'dotnetcore');
-      this.rubyFrameworkVersions = rubyStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('RUBY|', ''),
-        };
-      });
+        this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('PHP|', ''),
+          }
+        });
 
-      this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('PHP|', ''),
-        };
-      });
+        this.phpFrameworkVersions = phpStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('PHP|', ''),
+          };
+        });
 
-      this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('NODE|', ''),
-        };
-      });
+        this.nodeFrameworkVersions = nodeStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('NODE|', ''),
+          };
+        });
 
-      this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
-        return {
-          displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('DOTNETCORE|', ''),
-        };
+        this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
+          return {
+            displayLabel: x.displayVersion,
+            value: x.runtimeVersion.replace('DOTNET|', ''),
+          };
+        });
+
+        this.wizard.siteArmObj$.subscribe(site => {
+          const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
+          if (linuxFxVersionObj) {
+            const linuxFxVersion = linuxFxVersionObj.value.split('|');
+            const stack = linuxFxVersion[0];
+            const version = linuxFxVersion[1];
+            this.selectedFramework = stack;
+            this.selectedFrameworkVersion = version;
+          }
+        });
+
       });
-    });
   }
 
   ngOnDestroy(): void {

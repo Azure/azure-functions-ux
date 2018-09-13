@@ -342,6 +342,15 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
   </data>
+  <data name="logStreaming_reconnect" xml:space="preserve">
+    <value>Reconnect</value>
+  </data>
+  <data name="logStreaming_reconnectSuccess" xml:space="preserve">
+    <value>Reconnected</value>
+  </data>
+  <data name="logStreaming_connectionExists" xml:space="preserve">
+    <value>Already connected</value>
+  </data>
   <data name="_name" xml:space="preserve">
     <value>Name</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
@@ -3026,7 +3035,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you are using Run-From-Zip. When using Run-From-Zip, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_USE_ZIP app setting.</value>
+    <value>Your app is currently in read-only mode because you are running from a package file. When running from a package, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
@@ -3739,6 +3748,96 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
   </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions for .NET - getting started</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions for JavaScript - getting started</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions for Python - getting started</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions for Java - getting started</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Follow our Quickstart guidance to author and publish a function</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Choose a development environment</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Choose a deployment method</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Create a function</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Any editor + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Any editor + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>In-portal</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Use Visual Studio to author, build, and run .NET functions</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Use Visual Studio Code to author your functions</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Write functions using your favoirte editor and the Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Write Java functions using your favoirte editor and Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Author functions quickly in the portal</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Use Deployment Center</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Configure your app so that you can check your code into source control and run it through a continuous deployment pipeline</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Direct publish</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>A function that will be run whenever it receives an HTTP request</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>A function that will be run on a specified schedule</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Yay! You have created a Function App</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Now it is time to add your code...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Synchronization Request Submitted</value>
   </data>
@@ -3828,5 +3927,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
+  </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework version</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Startup command</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Path to code</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="extensionUninstallError" xml:space="preserve">
+    <value>We were not able to uninstall your outdated extensions</value>
+  </data>
+  <data name="v2_preview_label" xml:space="preserve">
+    <value>~2 (Preview)</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
   </data>
 </root>

@@ -79,7 +79,7 @@ export class StepCompleteComponent {
             this._sourceControlGroup(),
             this._buildControlgroup()
         ];
-        if (this.wizard.wizardValues.buildProvider === 'vsts') {
+        if (this.wizard.wizardValues.buildProvider === 'vsts' && !this.wizard.isLinuxApp) {
             returnVal.push(this._loadTestGroup());
             returnVal.push(this._slotDeploymentGroup());
         }
@@ -134,8 +134,8 @@ export class StepCompleteComponent {
             });
 
             returnSummaryItems.push({
-                label: "Framework Version",
-                value: buildSettings.frameworkVersion
+                label: this._translateService.instant(PortalResources.frameworkVersion),
+                value: buildSettings.frameworkVersion,
             });
 
             if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {

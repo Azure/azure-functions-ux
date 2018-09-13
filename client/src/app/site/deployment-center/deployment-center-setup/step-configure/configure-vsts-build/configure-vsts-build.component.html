@@ -44,4 +44,5 @@
     
   </div>
 </div>
-<app-linux-frameworks></app-linux-frameworks>
+<app-linux-frameworks *ngIf="wizard.isLinuxApp" ></app-linux-frameworks>
+<app-windows-frameworks *ngIf="!wizard.isLinuxApp" ></app-windows-frameworks>

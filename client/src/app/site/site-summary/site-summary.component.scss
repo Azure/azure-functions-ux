@@ -68,3 +68,33 @@
 #site-summary-features{
     width: 300px;
 }
+
+#site-summary-quickstart{
+    width: 330px;
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+    img {
+        height: 100px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.new-function {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: $primary-color-faded;
+    border-color: $border-color;
+    padding: 15px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 50%;
+    display: inline-block;
+}

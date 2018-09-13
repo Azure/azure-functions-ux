@@ -79,9 +79,6 @@ export class LinuxSiteEnvironment extends Environment {
             id: ScenarioIds.vstsKuduSource,
             runCheck: () => ({
                 status: 'disabled',
-                data: {
-                    errorMessage: 'This option is unavailable for VSTS Source on Linux Web Apps',
-                },
             }),
         };
 
