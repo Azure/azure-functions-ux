@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SelectOption } from '../../shared/models/select-option';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
-import { SiteConfig } from '../../shared/models/arm/site-config';
+import { ContainerSiteConfig } from '../../shared/models/arm/site-config';
 import { ContainerConstants } from '../../shared/models/constants';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Url } from '../../shared/Utilities/url';
@@ -47,7 +47,10 @@ export class ContainerSettingsManager {
 
     get containerFormData(): ContainerFormData {
         const form = this.form;
+        const containerForm = this.getContainerForm(form, form.controls.containerType.value);
+
         const data: ContainerFormData = {
+            imageSource: containerForm.controls.imageSource.value,
             siteConfig: this._getSiteConfigFormData(form),
             appSettings: this._getAppSettingsFormData(form),
         };
@@ -156,11 +159,17 @@ export class ContainerSettingsManager {
         this._resetContinuousDeploymentOptions(containerSettingInfo);
     }
 
-    public initializeForCreate(os: ContainerOS) {
-        this._initializeForm(os, null, null, null);
+    public initializeForCreate(os: ContainerOS, containerFormData: ContainerFormData) {
+        if (containerFormData) {
+            const siteConfig = this._getSiteConfigFromContainerFormData(os, containerFormData);
+            const appSettings = this._getAppSettingsFromContainerFormData(os, containerFormData);
+            this._initializeForm(os, appSettings, siteConfig, null);
+        } else {
+            this._initializeForm(os, null, null, null);
+        }
     }
 
-    public initializeForConfig(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials) {
+    public initializeForConfig(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials) {
         this._initializeForm(os, appSettings, siteConfig, publishingCredentials);
     }
 
@@ -233,6 +242,26 @@ export class ContainerSettingsManager {
         }
     }
 
+    private _getSiteConfigFromContainerFormData(os: ContainerOS, containerFormData: ContainerFormData): ContainerSiteConfig {
+        const siteConfig: ContainerSiteConfig = {
+            linuxFxVersion: null,
+            windowsFxVersion: null,
+            appCommandLine: containerFormData.siteConfig.appCommandLine,
+        };
+
+        if (os === 'linux') {
+            siteConfig.linuxFxVersion = containerFormData.siteConfig.fxVersion;
+        } else {
+            siteConfig.windowsFxVersion = containerFormData.siteConfig.fxVersion;
+        }
+
+        return siteConfig;
+    }
+
+    private _getAppSettingsFromContainerFormData(os: ContainerOS, containerFormData: ContainerFormData): ApplicationSettings {
+        return containerFormData.appSettings;
+    }
+
     private _resetContainers(containerSettingInfo: ContainerSettingsData) {
         this.containers = [
             new SingleContainer(this._injector, containerSettingInfo),
@@ -287,7 +316,7 @@ export class ContainerSettingsManager {
         }];
     }
 
-    private _initializeForm(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials) {
+    private _initializeForm(os: ContainerOS, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials) {
         this.webhookUrl = this._getFormWebhookUrl(publishingCredentials);
 
         let fxVersion;
@@ -319,7 +348,7 @@ export class ContainerSettingsManager {
         return 'single';
     }
 
-    private _getSingleContainerForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+    private _getSingleContainerForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
         return this._fb.group({
             imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
             imageSourceQuickstartForm: this._getQuickstartForm(),
@@ -329,7 +358,7 @@ export class ContainerSettingsManager {
         });
     }
 
-    private _getDockerComposeForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+    private _getDockerComposeForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
         return this._fb.group({
             imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
             imageSourceQuickstartForm: this._getQuickstartForm(),
@@ -339,7 +368,7 @@ export class ContainerSettingsManager {
         });
     }
 
-    private _getKubernetesForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+    private _getKubernetesForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
         return this._fb.group({
             imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
             imageSourceQuickstartForm: this._getQuickstartForm(),
@@ -365,7 +394,7 @@ export class ContainerSettingsManager {
         });
     }
 
-    private _getAcrForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+    private _getAcrForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
                 registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
@@ -381,7 +410,7 @@ export class ContainerSettingsManager {
         }
     }
 
-    private _getAcrRegistry(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+    private _getAcrRegistry(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             const serverUrl = appSettings[ContainerConstants.serverUrlSetting];
             const host = Url.getHostName(serverUrl).toLowerCase();
@@ -395,7 +424,7 @@ export class ContainerSettingsManager {
         return '';
     }
 
-    private _getAcrRepository(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+    private _getAcrRepository(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             let image;
             if (appSettings[ContainerConstants.imageNameSetting]) {
@@ -413,7 +442,7 @@ export class ContainerSettingsManager {
         return '';
     }
 
-    private _getAcrTag(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+    private _getAcrTag(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             let image;
             if (appSettings[ContainerConstants.imageNameSetting]) {
@@ -430,11 +459,11 @@ export class ContainerSettingsManager {
         return '';
     }
 
-    private _getAcrConfig(fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): string {
+    private _getAcrConfig(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
         return this._getConfigFromFxVersion(fxVersion);
     }
 
-    private _getDockerHubForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+    private _getDockerHubForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         return this._fb.group({
             accessType: [this._getDockerHubAccessType(appSettings), []],
             dockerHubPublicForm: this._getDockerHubPublicForm(containerType, fxVersion, appSettings, siteConfig),
@@ -451,7 +480,7 @@ export class ContainerSettingsManager {
             : 'public';
     }
 
-    private _getDockerHubPublicForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+    private _getDockerHubPublicForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
@@ -463,7 +492,7 @@ export class ContainerSettingsManager {
         }
     }
 
-    private _getDockerHubPrivateForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+    private _getDockerHubPrivateForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
@@ -479,7 +508,7 @@ export class ContainerSettingsManager {
         }
     }
 
-    private _getPrivateRegistryForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: SiteConfig): FormGroup {
+    private _getPrivateRegistryForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
                 serverUrl: [
@@ -548,7 +577,7 @@ export class ContainerSettingsManager {
         return appSettings && appSettings[ContainerConstants.enableCISetting] ? appSettings[ContainerConstants.enableCISetting] : '';
     }
 
-    private _getSiteConfigAppCommandLine(siteConfig: SiteConfig) {
+    private _getSiteConfigAppCommandLine(siteConfig: ContainerSiteConfig) {
         return siteConfig && siteConfig.appCommandLine ? siteConfig.appCommandLine : '';
     }
 

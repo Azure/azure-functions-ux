@@ -18,6 +18,7 @@ import { errorIds } from '../../shared/models/error-ids';
 import { ErrorEvent } from '../../shared/models/error-event';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { PortalService } from '../../shared/services/portal.service';
 
 @Component({
     selector: 'container-settings',
@@ -29,6 +30,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>) {
         this.setInput(viewInfo);
+        this._viewInfo = viewInfo;
     }
 
     public containerConfigureInfo: ContainerConfigureData;
@@ -39,11 +41,13 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public fromMenu = false;
     public loading = true;
     public form: FormGroup;
+    private _viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>;
 
     constructor(
         private _siteService: SiteService,
         private _logService: LogService,
         private _ts: TranslateService,
+        private _portalService: PortalService,
         public containerSettingsManager: ContainerSettingsManager,
         injector: Injector) {
         super('ContainerSettingsComponent', injector, 'dashboard');
@@ -108,7 +112,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                         this.showComponentError(error);
                     }
                 } else {
-                    this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os);
+                    this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os, this.containerConfigureInfo.containerFormData);
                 }
 
                 this.form = this.containerSettingsManager.form;
@@ -155,13 +159,16 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         if (this.form.valid) {
             const data = this.containerSettingsManager.containerFormData;
             console.log(data);
+            this._portalService.returnPcv3Results<string>(JSON.stringify(data));
         }
     }
 
     public clickSave() {
+        // TODO(michinoy): need to implement.
     }
 
     public clickDiscard() {
+        this.setInput(this._viewInfo);
     }
 
     private _getTargetIndex(containers: Container[], targetIndex: number) {

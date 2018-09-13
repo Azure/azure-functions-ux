@@ -41,6 +41,7 @@ export interface ContainerSettingsData {
     location: string;
     os: ContainerOS;
     fromMenu: boolean;
+    containerFormData: ContainerFormData;
 }
 
 export interface ContainerConfigureData extends ContainerSettingsData {
@@ -53,6 +54,7 @@ export interface ContainerImageSourceData extends ContainerConfigureData {
 }
 
 export interface ContainerFormData {
+    imageSource: ImageSourceType;
     siteConfig: ContainerSiteConfigFormData;
     appSettings: ContainerAppSettingsFormData;
 }

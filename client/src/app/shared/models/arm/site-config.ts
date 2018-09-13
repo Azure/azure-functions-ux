@@ -5,7 +5,13 @@ import { ConnectionStringInfo } from './connection-strings';
 import { ApplicationSettingInfo } from './application-settings';
 import { ProviderType } from '../../../site/deployment-center/Models/deployment-enums';
 
-export interface SiteConfig {
+export interface ContainerSiteConfig {
+    linuxFxVersion: string;
+    windowsFxVersion: string;
+    appCommandLine: string;
+}
+
+export interface SiteConfig extends ContainerSiteConfig {
     scmType: ProviderType;
     alwaysOn: boolean;
     cors: {
@@ -27,8 +33,6 @@ export interface SiteConfig {
     remoteDebuggingVersion: string;
     defaultDocuments: string[];
     handlerMappings: HandlerMapping[];
-    linuxFxVersion: string;
-    appCommandLine: string;
     virtualApplications: VirtualApplication[];
     autoSwapSlotName: string;
     routingRules?: RoutingRule[];
@@ -40,5 +44,4 @@ export interface SiteConfig {
     connectionStrings?: ConnectionStringInfo[];
     ftpsState?: string;
     http20Enabled: boolean;
-    windowsFxVersion: string;
 }
