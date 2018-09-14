@@ -18,7 +18,7 @@
 
     <div *ngIf = "selectedAccessType === 'private'">
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox [control] = "dockerHubForm.controls.password"></textbox>
+        <textbox type="password" [control] = "dockerHubForm.controls.password"></textbox>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'">

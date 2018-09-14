@@ -11,7 +11,7 @@
 
     <div>
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox [control] = "imageSourceForm.controls.password"></textbox>
+        <textbox type="password" [control] = "imageSourceForm.controls.password"></textbox>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
