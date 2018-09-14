@@ -5,6 +5,7 @@ import { ContainerACRService } from '../../services/container-acr.service';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
+import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
 
 @Component({
     selector: 'container-image-source-acr',
@@ -42,6 +43,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
     constructor(
         private _acrService: ContainerACRService,
+        private _multiConfigService: ContainerMultiConfigService,
         injector: Injector) {
         super('ContainerImageSourceACRComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
@@ -117,12 +119,12 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     }
 
     public extractConfig(event) {
-        const input = event.target;
-        const reader = new FileReader();
-        reader.onload = () => {
-            this.imageSourceForm.controls.config.setValue(reader.result);
-        };
-        reader.readAsText(input.files[0]);
+        this._multiConfigService
+            .extractConfig(event.target)
+            .first()
+            .subscribe(config => {
+                this.imageSourceForm.controls.config.setValue(config);
+            });
     }
 
     private _reset() {

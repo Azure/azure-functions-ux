@@ -3,6 +3,7 @@ import { ContainerImageSourceData } from '../../container-settings';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
+import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
 
 @Component({
     selector: 'container-image-source-privateregistry',
@@ -23,6 +24,7 @@ export class ContainerImageSourcePrivateRegistryComponent extends FeatureCompone
     public imageSourceForm: FormGroup;
 
     constructor(
+        private _multiConfigService: ContainerMultiConfigService,
         injector: Injector) {
         super('ContainerImageSourcePrivateRegistryComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
@@ -38,11 +40,11 @@ export class ContainerImageSourcePrivateRegistryComponent extends FeatureCompone
     }
 
     public extractConfig(event) {
-        const input = event.target;
-        const reader = new FileReader();
-        reader.onload = () => {
-            this.imageSourceForm.controls.config.setValue(reader.result);
-        };
-        reader.readAsText(input.files[0]);
+        this._multiConfigService
+            .extractConfig(event.target)
+            .first()
+            .subscribe(config => {
+                this.imageSourceForm.controls.config.setValue(config);
+            });
     }
 }

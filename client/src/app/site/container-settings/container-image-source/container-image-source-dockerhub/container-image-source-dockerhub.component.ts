@@ -4,6 +4,7 @@ import { ContainerSettingsManager } from '../../container-settings-manager';
 import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
+import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
 
 @Component({
     selector: 'container-image-source-dockerhub',
@@ -27,6 +28,7 @@ export class ContainerImageSourceDockerHubComponent extends FeatureComponent<Con
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
+        private _multiConfigService: ContainerMultiConfigService,
         injector: Injector) {
         super('ContainerImageSourceDockerHubComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
@@ -44,12 +46,12 @@ export class ContainerImageSourceDockerHubComponent extends FeatureComponent<Con
     }
 
     public extractConfig(event) {
-        const input = event.target;
-        const reader = new FileReader();
-        reader.onload = () => {
-            this.imageSourceForm.controls.config.setValue(reader.result);
-        };
-        reader.readAsText(input.files[0]);
+        this._multiConfigService
+            .extractConfig(event.target)
+            .first()
+            .subscribe(config => {
+                this.dockerHubForm.controls.config.setValue(config);
+            });
     }
 
     public updateAccessOptions(accessType: DockerHubAccessType) {
