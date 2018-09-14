@@ -16,6 +16,7 @@ Lastly, [install the Azure CLI 2.0](https://go.microsoft.com/fwlink/?linkid=2016
 az login
 ```
 
+<br/>
 # Create an Azure Functions project
 
 In the terminal window or from a command prompt, navigate to an empty folder for your project, and run the following command:
@@ -24,6 +25,7 @@ In the terminal window or from a command prompt, navigate to an empty folder for
 mvn archetype:generate -DarchetypeGroupId=com.microsoft.azure -DarchetypeArtifactId=azure-functions-archetype -DappName={functionAppName} -DappRegion={region} -DresourceGroup={resourceGroup} -DgroupId=com.{functionAppName}.group -DartifactId={functionAppName}-functions -Dpackage=com.{functionAppName} -DinteractiveMode=false
 ```
 
+<br/>
 # Create a function
 
 Creating the project creates an HTTP function by default, so you don't have to do anything for this step right now. Later, if you want to add a new function, run the following command:
@@ -34,6 +36,7 @@ mvn azure-functions:add
 
 Maven will prompt you to select and customize a template for the new function.
 
+<br/>
 # Run your function project locally
 
 Enter the following command to run your function app:
@@ -47,6 +50,7 @@ The runtime will output a URL for any HTTP functions, which can be copied and ru
 
 To stop debugging, use **Ctrl-C** in the terminal.
 
+<br/>
 # Deploy your code to Azure
 
 Use the button below to navigate to Deployment Center and finish setting up your app. This will take you through a new wizard to configure a variety of deployment options. After completing this flow, trigger a deployment using whichever mechanism you configured.
