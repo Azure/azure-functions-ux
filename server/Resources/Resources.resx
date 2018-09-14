@@ -3671,7 +3671,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Single Container.</value>
   </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
+    <value>Docker Compose (Preview)</value>
   </data>
   <data name="dockerComposeContainerDescription" xml:space="preserve">
     <value>This is the description for Docker Compose.</value>
@@ -3680,7 +3680,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Docker Compose.</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
+    <value>Kubernetes (Preview)</value>
   </data>
   <data name="kubernetesContainerDescription" xml:space="preserve">
     <value>This is the description for Kubernetes.</value>
@@ -3747,6 +3747,60 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
+  </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Update container settings</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Private Registry</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Image source</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Image and optional tag (eg 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>To get started, first create an Azure Container Registry and add an image.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Repository Access</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Configuration Source</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Configuration</value>
   </data>
   <data name="quickstartDotnetTitle" xml:space="preserve">
     <value>Azure Functions for .NET - getting started</value>
@@ -3850,6 +3904,33 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
+  <data name="quickstartSample1" xml:space="preserve">
+    <value>Sample #1</value>
+  </data>
+  <data name="quickstartSample2" xml:space="preserve">
+    <value>Sample #2</value>
+  </data>
+  <data name="singleContainerSample1Description" xml:space="preserve">
+    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
+  </data>
+  <data name="singleContainerSample2Description" xml:space="preserve">
+    <value>Static html web page served from Nginx.</value>
+  </data>
+  <data name="dockerComposeSample1Description" xml:space="preserve">
+    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample2Description" xml:space="preserve">
+    <value>WordPress on Multi-container sample app, Docker Compose config.</value>
+  </data>
+  <data name="kubernetesSample1Description" xml:space="preserve">
+    <value>WordPress on Multi-container sample app, Kubernetes config.</value>
+  </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Select sample</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>You don not own any VSTS Repositories</value>
   </data>
@@ -3934,7 +4015,49 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
   </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Registry</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Continuous Deployment</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Configuration File</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose based functions are not currently supported.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes based functions are not currently supported.</value>
+  </data>
   <data name="readOnlyBYOC" xml:space="preserve">
     <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Failed to get data for container configuration.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
   </data>
 </root>

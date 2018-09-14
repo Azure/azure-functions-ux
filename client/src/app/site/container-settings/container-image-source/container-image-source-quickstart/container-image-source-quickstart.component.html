@@ -1,0 +1,37 @@
+<div>
+    <label>{{ 'quickstartSelectSample' | translate }}</label>
+    <ng-select
+        id="container-quickstart"
+        class="custom-select container-samples-select"
+        bindLabel="displayLabel"
+        bindValue="value"
+        placeholder="Select sample"
+        [loading]="samplesLoading"
+        [items]="samplesList"
+        [clearable]="false"
+        [(ngModel)]="selectedSampleValue"
+        (change)="sampleChanged($event)">
+    </ng-select>
+</div>
+
+<div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
+    <div *ngIf="selectedSampleDescription">
+        <label>{{ 'quickStartSampleDescription' | translate }}</label>
+        <p>{{selectedSampleDescription}}</p>
+    </div>
+
+    <div *ngIf="containerImageSourceInfo.container.id === 'single'">
+        <label>{{ 'containerImageAndTag' | translate }}</label><br/>
+        <textarea formControlName="config" class="singleContainerConfig" disabled></textarea>
+    </div>
+
+    <div *ngIf="containerImageSourceInfo.container.id === 'dockerCompose'">
+        <label>{{ 'containerConfiguration' | translate }}</label><br/>
+        <textarea formControlName="config" class="dockerComposeConfig"  disabled></textarea>
+    </div>
+
+    <div *ngIf="containerImageSourceInfo.container.id === 'kubernetes'">
+        <label>{{ 'containerConfiguration' | translate }}</label><br/>
+        <textarea formControlName="config" class="kubernetesConfig"  disabled></textarea>
+    </div>
+</div>

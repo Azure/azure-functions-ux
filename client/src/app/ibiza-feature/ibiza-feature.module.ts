@@ -66,6 +66,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 path: 'subscriptions/:subscriptionId/containersettings',
                 loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule',
             },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/containersettings',
+                loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule',
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/containersettings',
+                loadChildren: 'app/site/container-settings/container-settings-shell/container-settings-shell.module#ContainerSettingsShellModule',
+            },
         ],
     },
 ]);

@@ -1,4 +1,17 @@
-<div>
-    Container Selected <!-- Currenly a place holder page. The next iteration of changes will udpate this page drastically. -->
-    {{selectedContainer.detailedDescription}}
+<div *ngIf="!containerConfigureInfo.container.disableMessage" class="container-configure">
+    <section class="container-configure-header">
+        <div [load-image]="containerConfigureInfo.container.iconUrl" class="icon-large"></div>
+        <h4>{{containerConfigureInfo.container.detailedDescription}}</h4>
+    </section>
+
+    <container-image-source
+        *ngIf = "containerConfigureInfo"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-image-source>
+</div>
+
+<div *ngIf="containerConfigureInfo.container.disableMessage" class="container-configure">
+    <section class="container-configure-header">
+        <h4>{{containerConfigureInfo.container.disableMessage}}</h4>
+    </section>
 </div>

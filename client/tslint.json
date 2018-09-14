@@ -26,11 +26,7 @@
     ],
     "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
     "member-access": false,
-    "member-ordering": [
-      true,
-      "static-before-instance",
-      "variables-before-functions"
-    ],
+    "member-ordering": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -72,9 +68,7 @@
       "single"
     ],
     "radix": true,
-    "semicolon": [
-      "always"
-    ],
+    "semicolon": true,
     "triple-equals": [
       true,
       "allow-null-check"

@@ -329,11 +329,14 @@ export class LogCategories {
     public static readonly serverFarm = 'ServerFarm';
     public static readonly syncTriggers = 'syncTriggers';
     public static readonly functionHostRestart = 'functionHostRestart';
+    public static readonly containerACR = 'containerACR';
+    public static readonly containerSettings = 'containerSettings';
 }
 
 export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
     public static armApiVersion = '2014-04-01';
+    public static acrApiversion = '2017-03-01';
 }
 export class SubscriptionQuotaIds {
     public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
@@ -517,4 +520,24 @@ export class PickerNames {
     public static readonly sql = 'Sql';
     public static readonly storage = 'Storage';
     public static readonly storageBlade = 'StorageAccountPickerBlade';
+}
+
+export class ContainerConstants {
+    public static readonly dockerPrefix = 'DOCKER';
+    public static readonly composePrefix = 'COMPOSE';
+    public static readonly kubernetesPrefix = 'KUBE';
+    public static readonly dockerHubUrl = 'https://index.docker.io';
+    public static readonly acrUriBody = 'azurecr';
+    public static readonly imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
+    public static readonly serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';
+    public static readonly usernameSetting = 'DOCKER_REGISTRY_SERVER_USERNAME';
+    public static readonly passwordSetting = 'DOCKER_REGISTRY_SERVER_PASSWORD';
+    public static readonly runCommandSetting = 'DOCKER_CUSTOM_IMAGE_RUN_COMMAND';
+    public static readonly appServiceStorageSetting = 'WEBSITES_ENABLE_APP_SERVICE_STORAGE';
+    public static readonly enableCISetting = 'DOCKER_ENABLE_CI';
+    public static readonly containerWinRmEnabled = 'CONTAINER_WINRM_ENABLED';
+    public static readonly createAcrFwLink = 'https://go.microsoft.com/fwlink/?linkid=852293';
+    public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
+    public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
+    public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
 }

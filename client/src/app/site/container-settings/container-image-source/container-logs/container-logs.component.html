@@ -1,0 +1,10 @@
+<div>
+    <h2>Logs</h2>
+    <textarea class="logs" disabled>{{log}}</textarea>
+
+    <div class="actionButtons">
+        <button class="custom-button" (click)="clickDownload()">{{'download' | translate}}</button>
+        <button class="custom-button" (click)="clickRefresh()">{{'refresh' | translate}}</button>
+        <a id="hidden-log-link" *ngIf="!!logLink" [href]="logLink" [download]="'container.log'"></a>
+    </div>
+</div>
