@@ -155,7 +155,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickApply() {
-        this._markFormGroupTouchedAndValidate(this.form);
+        this._markFormGroupDirtyAndValidate(this.form);
         if (this.form.valid) {
             const data = this.containerSettingsManager.containerFormData;
             console.log(data);
@@ -195,17 +195,17 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         }
     }
 
-    private _markFormGroupTouchedAndValidate(formGroup: FormGroup) {
+    private _markFormGroupDirtyAndValidate(formGroup: FormGroup) {
         if (formGroup.controls) {
             const keys = Object.keys(formGroup.controls);
             for (let i = 0; i < keys.length; i++) {
                 const control = formGroup.controls[keys[i]];
                 if (control.enabled) {
                     if (control instanceof FormControl) {
-                        control.markAsTouched();
+                        control.markAsDirty();
                         control.updateValueAndValidity();
                     } else if (control instanceof FormGroup) {
-                        this._markFormGroupTouchedAndValidate(control);
+                        this._markFormGroupDirtyAndValidate(control);
                     }
                 }
             }

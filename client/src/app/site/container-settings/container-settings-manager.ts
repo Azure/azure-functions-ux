@@ -23,7 +23,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Url } from '../../shared/Utilities/url';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 import { URLValidator } from '../../shared/validators/urlValidator';
-import { FieldRequiredValidator } from '../../shared/validators/fieldRequiredValidator';
+import { RequiredValidator } from '../../shared/validators/requiredValidator';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -34,14 +34,14 @@ export class ContainerSettingsManager {
     webhookUrl: string;
 
     form: FormGroup;
-    requiredValidator: FieldRequiredValidator;
+    requiredValidator: RequiredValidator;
     urlValidator: URLValidator;
 
     constructor(
         private _injector: Injector,
         private _ts: TranslateService,
         private _fb: FormBuilder) {
-        this.requiredValidator = new FieldRequiredValidator(this._ts);
+        this.requiredValidator = new RequiredValidator(this._ts);
         this.urlValidator = new URLValidator(this._ts);
     }
 
@@ -69,11 +69,15 @@ export class ContainerSettingsManager {
     }
 
     private _getFxVersionFormData(containerType: ContainerType, containerForm: FormGroup): string {
-        const prefix = containerType === 'single'
-            ? ContainerConstants.dockerPrefix
-            : containerType === 'dockerCompose'
-                ? ContainerConstants.composePrefix
-                : ContainerConstants.kubernetesPrefix;
+        let prefix: string;
+
+        if (containerType === 'single') {
+            prefix = ContainerConstants.dockerPrefix;
+        } else if (containerType === 'dockerCompose') {
+            prefix = ContainerConstants.composePrefix;
+        } else {
+            prefix = ContainerConstants.kubernetesPrefix;
+        }
 
         const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
 
@@ -84,17 +88,19 @@ export class ContainerSettingsManager {
             imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
         }
 
-        if (containerType === 'single' && imageSourceType === 'quickstart') {
-            fxVersion = `${prefix}|${imageSourceForm.controls.config.value}`;
-        } else if (containerType === 'single' && imageSourceType === 'azureContainerRegistry') {
-            const registry = imageSourceForm.controls.registry.value;
-            const repository = imageSourceForm.controls.repository.value;
-            const tag = imageSourceForm.controls.tag.value;
-            fxVersion = `${prefix}|${registry}/${repository}:${tag}`;
-        } else if (containerType === 'single' && imageSourceType === 'dockerHub') {
-            fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
-        } else if (containerType === 'single' && imageSourceType === 'privateRegistry') {
-            fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
+        if (containerType === 'single') {
+            if (imageSourceType === 'quickstart') {
+                fxVersion = `${prefix}|${imageSourceForm.controls.config.value}`;
+            } else if (imageSourceType === 'azureContainerRegistry') {
+                const registry = imageSourceForm.controls.registry.value;
+                const repository = imageSourceForm.controls.repository.value;
+                const tag = imageSourceForm.controls.tag.value;
+                fxVersion = `${prefix}|${registry}/${repository}:${tag}`;
+            } else if (imageSourceType === 'dockerHub') {
+                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
+            } else if (imageSourceType === 'privateRegistry') {
+                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
+            }
         } else {
             fxVersion = `${prefix}|${btoa(imageSourceForm.controls.config.value)}`;
         }
