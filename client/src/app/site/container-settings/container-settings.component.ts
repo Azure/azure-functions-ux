@@ -62,9 +62,8 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     protected setup(inputEvents: Observable<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>>) {
         return inputEvents
-            .distinctUntilChanged()
             .concatMap((r): Observable<any[]> => {
-                this.containerConfigureInfo = { ...r.data.data, container: null, containerForm: null };
+                this.containerConfigureInfo = { ...r.data.data, container: null, form: null, containerForm: null };
                 this.fromMenu = !!this.containerConfigureInfo.fromMenu;
                 this.containerSettingsManager.resetSettings(this.containerConfigureInfo);
 
@@ -116,6 +115,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                 }
 
                 this.form = this.containerSettingsManager.form;
+                this.containerConfigureInfo.form = this.form;
 
                 this.containerConfigureInfo.container = this.containerSettingsManager.containers
                     .find(c => c.id === this.form.controls.containerType.value);

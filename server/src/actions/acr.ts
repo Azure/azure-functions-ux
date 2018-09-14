@@ -10,29 +10,23 @@ interface ACRDirectRequestPayload {
     password: string;
 }
 
-export async function getAcrRepositories(req: Request, res: Response) {
-    const payload = req.body as ACRDirectRequestPayload;
-    
-    if (isRequestPayloadValid(payload, res)) {
-        const responseData = await callAcrAPI(payload);
-        if (responseData) {
-            res.send(responseData);
-        } else {
-            res.status(400).send('Failed to get repositories');
-        }
-    }
-}
-
 export async function getAcrTags(req: Request, res: Response) {
     const payload = req.body as ACRDirectRequestPayload;
     
     if (isRequestPayloadValid(payload, res)) {
-        const responseData = await callAcrAPI(payload);
-        if (responseData) {
-            res.send(responseData);
-        } else {
-            res.status(400).send('Failed to get tags');
-        }
+        const response = await callAcrAPI(payload);
+        res.status(response.status)
+        res.send(response.data);
+    }
+}
+
+export async function getAcrRepositories(req: Request, res: Response) {
+    const payload = req.body as ACRDirectRequestPayload;
+    
+    if (isRequestPayloadValid(payload, res)) {
+        const response = await callAcrAPI(payload);
+        res.status(response.status)
+        res.send(response.data);
     }
 }
 
@@ -44,10 +38,10 @@ async function callAcrAPI(payload: ACRDirectRequestPayload) {
             headers: headers
         });
 
-        return response && response.data && response.data;
-    } catch (err) {
-        LogHelper.error('error-callAcrApi', err);
-        return null;
+        return response;
+    } catch (errorResponse) {
+        LogHelper.error('error-callAcrApi', errorResponse);
+        return errorResponse;
     }
 }
 

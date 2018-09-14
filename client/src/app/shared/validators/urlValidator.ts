@@ -10,7 +10,7 @@ export class URLValidator implements Validator {
     }
 
     validate(control: CustomFormControl) {
-        if ((control.dirty || control._msRunValidation) && control.value) {
+        if ((control.touched || control.dirty) && control.value) {
 
             try {
                 const url = new URL(control.value);

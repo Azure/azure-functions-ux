@@ -68,7 +68,7 @@ export class ContainerACRService implements IContainerACRService {
         headers.append('Content-Type', 'application/json');
 
         const getRepositories = this._cacheService
-            .post('/api/getAcrRepositories', false, headers, payload)
+            .post(`/api/getAcrRepositories?server=${loginServer}`, false, headers, payload)
             .map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getRepositories);
@@ -92,7 +92,7 @@ export class ContainerACRService implements IContainerACRService {
         headers.append('Content-Type', 'application/json');
 
         const getTags = this._cacheService
-            .post('/api/getAcrTags', false, headers, payload)
+            .post(`/api/getAcrTags?server=${loginServer}&repository=${repository}`, false, headers, payload)
             .map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getTags);

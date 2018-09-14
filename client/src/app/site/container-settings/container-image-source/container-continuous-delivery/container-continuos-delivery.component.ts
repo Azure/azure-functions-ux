@@ -21,7 +21,7 @@ export class ContainerContinuousDeliveryComponent extends FeatureComponent<Conta
 
     public containerConfigureInfo: ContainerConfigureData;
     public selectedDeploymentOption: ContinuousDeploymentOption;
-    public containerForm: FormGroup;
+    public form: FormGroup;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
@@ -35,7 +35,7 @@ export class ContainerContinuousDeliveryComponent extends FeatureComponent<Conta
             .distinctUntilChanged()
             .do(containerConfigureInfo => {
                 this.containerConfigureInfo = containerConfigureInfo;
-                this.containerForm = containerConfigureInfo.containerForm;
+                this.form = containerConfigureInfo.form;
             });
     }
 }

@@ -46,6 +46,7 @@ export interface ContainerSettingsData {
 
 export interface ContainerConfigureData extends ContainerSettingsData {
     container: Container;
+    form: FormGroup;
     containerForm: FormGroup;
 }
 

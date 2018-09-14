@@ -1,9 +1,9 @@
-<div *ngIf="containerForm" [formGroup] = "containerForm">
-    <h2>{{ 'containerContinuousDeployment' | translate }}</h2>
+<div *ngIf="form" [formGroup] = "form">
+    <label>{{ 'containerContinuousDeployment' | translate }}</label><br/>
     <radio-selector
         [options] = "containerSettingsManager.continuousDeploymentOptions"
         [highlightDirty] = "true"
-        [control] = "containerForm.controls.continuousDeploymentOption">
+        [control] = "form.controls.continuousDeploymentOption">
     </radio-selector>
 
     <div>

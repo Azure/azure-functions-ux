@@ -9,7 +9,7 @@ export class FieldRequiredValidator implements Validator {
     constructor(private _translateService: TranslateService) { }
 
     validate(control: CustomFormControl) {
-        return !!control && (control.touched || control.dirty) && !control.value
+        return (control.touched || control.dirty) && !control.value
             ? { 'required': this._translateService.instant(PortalResources.validation_requiredError) }
             : null;
     }

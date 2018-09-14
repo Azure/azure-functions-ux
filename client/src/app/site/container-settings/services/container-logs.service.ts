@@ -18,11 +18,11 @@ export class ContainerLogsService implements IContainerLogsService {
         this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
 
-    public getContainerLogs(resourceId: string): Result<any> {
+    public getContainerLogs(resourceId: string, force: boolean = false): Result<any> {
         const requestResourceId = `${resourceId}/containerLogs`;
 
         const getContainerLogs = this._cacheService
-            .postArm(requestResourceId)
+            .postArm(requestResourceId, force)
             .map(r => r, { type: 'application/octet-stream' });
 
         return this._client.execute({ resourceId: resourceId }, t => getContainerLogs);

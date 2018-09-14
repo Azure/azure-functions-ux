@@ -162,13 +162,13 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         value: item,
                     }));
 
-                    this.loadingRepo = false;
-
                     if (this.imageSourceForm.controls.repository.value) {
                         this.selectedRepository = this.imageSourceForm.controls.repository.value;
                         this._loadTags();
                     }
                 }
+
+                this.loadingRepo = false;
             });
     }
 
@@ -194,12 +194,12 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         value: item,
                     }));
 
-                    this.loadingTag = false;
-
                     if (this.imageSourceForm.controls.tag.value) {
                         this.selectedTag = this.imageSourceForm.controls.tag.value;
                     }
                 }
+
+                this.loadingTag = false;
             });
     }
 }
