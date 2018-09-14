@@ -42,7 +42,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     bc: BindingManager = new BindingManager();
     showJavaSplashPage = false;
     setShowJavaSplashPage = new Subject<boolean>();
-    templateTypeOptions: TemplateType[] = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
+    templateTypeOptions: TemplateType[];
     runtimeVersion: string;
     public appSettingsArm: ArmObj<ApplicationSettings>;
     functionAppLanguage: string;
@@ -89,9 +89,15 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
 
+                if (this.runtimeVersion === 'V1') {
+                    this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
+                } else {
+                    this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger'];
+                }
+
                 if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
                     const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
-                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
+                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[workerRuntime];
                     this.selectedLanguage = this.functionAppLanguage;
                 }
 
