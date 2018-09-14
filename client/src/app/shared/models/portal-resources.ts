@@ -1306,4 +1306,7 @@
     public static readOnlyBYOC = 'readOnlyBYOC';
     public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
     public static invalidUrl = 'invalidUrl';
+    public static failedToUpdateContainerConfigData = 'failedToUpdateContainerConfigData';
+    public static errorsInContainerSettings = 'errorsInContainerSettings';
+    public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
 }

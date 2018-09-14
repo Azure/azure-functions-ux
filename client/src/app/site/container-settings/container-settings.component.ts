@@ -20,6 +20,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { PortalService } from '../../shared/services/portal.service';
 
+export interface StatusMessage {
+    message: string;
+    level: 'error' | 'success';
+  }
+
 @Component({
     selector: 'container-settings',
     templateUrl: './container-settings.component.html',
@@ -41,6 +46,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public fromMenu = false;
     public loading = true;
     public form: FormGroup;
+    public statusMessage: StatusMessage;
     private _viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>;
 
     constructor(
@@ -155,16 +161,55 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickApply() {
+        this.statusMessage = null;
         this._markFormGroupDirtyAndValidate(this.form);
         if (this.form.valid) {
             const data = this.containerSettingsManager.containerFormData;
-            console.log(data);
             this._portalService.returnPcv3Results<string>(JSON.stringify(data));
+        } else {
+            this.statusMessage = {
+                level: 'error',
+                message: 'Form is invalid',
+            };
         }
     }
 
     public clickSave() {
-        // TODO(michinoy): need to implement.
+        this.statusMessage = null;
+        this._markFormGroupDirtyAndValidate(this.form);
+        if (this.form.valid) {
+            const data = this.containerSettingsManager.containerFormData;
+            this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
+            this.isUpdating = true;
+
+            this.containerSettingsManager
+                .saveContainerConfig(this.containerConfigureInfo.resourceId, this.containerConfigureInfo.os, data)
+                .catch(error => {
+                    this.isUpdating = false;
+                    this.statusMessage = {
+                        level: 'error',
+                        message: error.message,
+                    };
+
+                    return Observable.of(false);
+                })
+                .subscribe(updateSuccess => {
+                    this._portalService.updateDirtyState(!updateSuccess);
+                    this.isUpdating = false;
+
+                    if (updateSuccess) {
+                        this.statusMessage = {
+                            level: 'success',
+                            message: this._ts.instant(PortalResources.containerSettingsUpdateSuccess),
+                        };
+                    }
+                });
+        } else {
+            this.statusMessage = {
+                level: 'error',
+                message: this._ts.instant(PortalResources.errorsInContainerSettings),
+            };
+        }
     }
 
     public clickDiscard() {
