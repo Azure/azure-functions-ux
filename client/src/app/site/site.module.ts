@@ -21,8 +21,7 @@ import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 import { SpecPickerModule } from './spec-picker/spec-picker.module';
 import { ProdFunctionInitialUploadComponent } from '../prod-function-initial-upload/prod-function-initial-upload.component';
 import { ConsoleModule } from './console/console.module';
-import { LogStreamComponent } from './log-stream/log-stream.component';
-import { LogContentComponent } from './log-stream/log-content.component';
+import { LogStreamModule } from './log-stream/log-stream.module';
 import { QuickstartModule } from './quickstart/quickstart.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
@@ -35,8 +34,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         SwaggerDefinitionComponent,
         SiteConfigComponent,
         LogicAppsComponent,
-        LogContentComponent,
-        LogStreamComponent
     ],
     imports: [
         TranslateModule.forChild(),
@@ -46,6 +43,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         ConsoleModule,
         DeploymentCenterModule,
         SpecPickerModule,
+        LogStreamModule,
         routing,
         QuickstartModule,
     ],
@@ -63,9 +61,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         SiteTabComponent,
         LogicAppsComponent,
         ProdFunctionInitialUploadComponent,
-        LogContentComponent,
-        LogStreamComponent
     ],
-    providers: []
+    providers: [
+    ],
 })
 export class SiteModule { }

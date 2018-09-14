@@ -47,6 +47,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
             },
             {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/logstreaming',
+                loadChildren: 'app/site/log-stream/log-stream-shell/log-stream-shell.module#LogStreamShellModule',
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/logstreaming',
+                loadChildren: 'app/site/log-stream/log-stream-shell/log-stream-shell.module#LogStreamShellModule',
+            },
+            {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/serverfarms/:serverfarm/scaleup',
                 loadChildren: 'app/site/spec-picker/spec-picker-shell/spec-picker-shell.module#SpecPickerShellModule',
             },

@@ -1,18 +1,14 @@
 @import '../../../sass/common/variables';
 
-h2{
-    display: inline;
-}
-
-div.browse-container{
-    overflow: auto;
+#log-stream-main{
+    padding: 15px;
 }
 
 #log-container{
     position: absolute;
-    padding-top: 2em;
-    height: calc(100% - 90px);
-    width: calc(100% - 50px);
+    padding-top: 15px;
+    height: calc(100% - 85px);
+    width: calc(100% - 30px);
 }
 
 .action {
@@ -45,9 +41,8 @@ div.log-body{
     overflow: auto;
     word-break: break-word;
     word-wrap: break-word;
-    padding: 0.8em;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 20px);
 }
 
 .log-content {
