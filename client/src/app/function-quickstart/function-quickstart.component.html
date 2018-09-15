@@ -33,7 +33,8 @@
 
         </div>
 
-        <div class="quickstart-template"
+        <div *ngIf="runtimeVersion === 'V1'"
+             class="quickstart-template"
              #queue
              (click)="onFunctionClicked('QueueTrigger')"
              (keydown)="onFunctionKey($event, 'QueueTrigger')"
