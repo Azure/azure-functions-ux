@@ -524,10 +524,10 @@ export class ContainerSettingsManager {
                         this.urlValidator.validate.bind(this.urlValidator),
                     ],
                 ],
-                login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+                login: [this._getAppSettingsUsername(appSettings), []],
+                password: [this._getAppSettingsPassword(appSettings), []],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
-                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
             });
         } else {
             return this._fb.group({
@@ -538,8 +538,8 @@ export class ContainerSettingsManager {
                         this.urlValidator.validate.bind(this.urlValidator),
                     ],
                 ],
-                login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+                login: [this._getAppSettingsUsername(appSettings), []],
+                password: [this._getAppSettingsPassword(appSettings), []],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
