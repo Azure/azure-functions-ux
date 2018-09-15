@@ -3729,7 +3729,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="disconnectConfirm" xml:space="preserve">
     <value>Are you sure you want to disconnect your deployment?</value>
-  </data>  
+  </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
     <value>Community Templates</value>
   </data>
@@ -4059,5 +4059,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="invalidUrl" xml:space="preserve">
     <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>show url</value>
   </data>
 </root>

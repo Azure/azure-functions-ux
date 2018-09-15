@@ -8,6 +8,7 @@
 
     <div>
         <label>{{ 'containerWebhookUrl' | translate }}</label>
-        <copy-pre [content]="containerSettingsManager.webhookUrl"></copy-pre>
+        <a (click)="showUrl()">{{ 'showUrl' | translate }}</a>
+        <copy-pre [content]="webhookUrl"></copy-pre>
     </div>
 </div>
