@@ -1309,4 +1309,7 @@
     public static failedToUpdateContainerConfigData = 'failedToUpdateContainerConfigData';
     public static errorsInContainerSettings = 'errorsInContainerSettings';
     public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
+    public static showUrl = 'showUrl';
+    public static hideUrl = 'hideUrl';
+    public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
 }
