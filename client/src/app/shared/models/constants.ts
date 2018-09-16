@@ -102,6 +102,7 @@ export class NotificationIds {
     public static slotsHostId = 'slotsBlobStorage';
     public static runtimeV2 = 'runtimeV2';
     public static updateExtensions = 'updateExtensions';
+    public static dynamicLinux = 'dynamicLinux';
 }
 
 export class Validations {
@@ -135,6 +136,7 @@ export class Links {
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
     public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
     public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
+    public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=??';
 }
 
 export class Kinds {
