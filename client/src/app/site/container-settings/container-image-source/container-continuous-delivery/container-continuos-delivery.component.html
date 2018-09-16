@@ -8,8 +8,7 @@
 
     <div>
         <label>{{ 'containerWebhookUrl' | translate }}</label>
-        <a *ngIf="!urlVisible" (click)="toggleUrl()">{{ 'showUrl' | translate }}</a>
-        <a *ngIf="urlVisible" (click)="toggleUrl()">{{ 'hideUrl' | translate }}</a>
+        <a (click)="toggleUrl()">{{ (urlVisible ? 'hideUrl' : 'showUrl') | translate }}</a>
         <copy-pre [content]="urlVisible ?  containerSettingsManager.webhookUrl : '****'"></copy-pre>
     </div>
 </div>
