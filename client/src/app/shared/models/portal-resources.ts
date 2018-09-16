@@ -1307,4 +1307,5 @@
     public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
     public static invalidUrl = 'invalidUrl';
     public static showUrl = 'showUrl';
+    public static hideUrl = 'hideUrl';
 }

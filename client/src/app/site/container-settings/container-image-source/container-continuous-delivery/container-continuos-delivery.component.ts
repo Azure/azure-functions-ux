@@ -16,14 +16,14 @@ import { Observable } from 'rxjs/Observable';
 export class ContainerContinuousDeliveryComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
 
     @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.webhookUrl = '****';
+        this.urlVisible = false;
         this.setInput(containerConfigureInfo);
     }
 
     public containerConfigureInfo: ContainerConfigureData;
     public selectedDeploymentOption: ContinuousDeploymentOption;
     public form: FormGroup;
-    public webhookUrl = '****';
+    public urlVisible = false;
 
     constructor(
         public containerSettingsManager: ContainerSettingsManager,
@@ -41,7 +41,7 @@ export class ContainerContinuousDeliveryComponent extends FeatureComponent<Conta
             });
     }
 
-    public showUrl() {
-        this.webhookUrl = this.containerSettingsManager.webhookUrl;
+    public toggleUrl() {
+        this.urlVisible = !this.urlVisible;
     }
 }

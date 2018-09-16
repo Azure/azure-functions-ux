@@ -4063,4 +4063,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="showUrl" xml:space="preserve">
     <value>show url</value>
   </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>hide url</value>
+  </data>
 </root>
