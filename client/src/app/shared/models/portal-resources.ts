@@ -1308,4 +1308,5 @@
     public static invalidUrl = 'invalidUrl';
     public static showUrl = 'showUrl';
     public static hideUrl = 'hideUrl';
+    public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
 }

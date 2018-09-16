@@ -4066,4 +4066,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
+  <data name="singleContainerWindowsSample1Description" xml:space="preserve">
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
 </root>
