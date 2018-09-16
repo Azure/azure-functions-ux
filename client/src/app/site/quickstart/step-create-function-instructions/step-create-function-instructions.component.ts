@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: './step-create-function-instructions.component.html',
     styleUrls: ['./step-create-function-instructions.component.scss', '../quickstart.component.scss'],
 })
-export class StepCreateFunctionInstructionsComponent implements OnDestroy{
+export class StepCreateFunctionInstructionsComponent implements OnDestroy {
 
     public instructions: string;
     public deployment: deploymentOptions;
