@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -101,11 +101,11 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         supportedLanguages: [],
         allLanguages: [],
         categories: [],
-        ids: ['https://www.serverlesslibrary.net/'],
+        ids: [],
         icon: this.createCardStyles['other'].icon,
         color: this.createCardStyles['other'].color,
         barcolor: this.createCardStyles['other'].barcolor,
-        focusable: false
+        focusable: false,
     };
     private category = '';
     private language = '';
@@ -518,7 +518,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
                 this.sidePanelOpened = true;
             } else {
-                window.open(this.communityTemplatesCard.ids[0], '_blank');
+                window.open(Links.communityTemplatesLink, '_blank');
             }
         }
     }
