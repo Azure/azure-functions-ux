@@ -22,49 +22,56 @@ export class ContainerSamplesService implements IContainerSamplesService {
     }
 
     private _loadSamples() {
-        this._samples = [{
-            name: 'sample1',
-            title: this._ts.instant(PortalResources.quickstartSample1),
-            configBase64Encoded: this._getSingleContainerSample1Config(),
-            description: this._ts.instant(PortalResources.singleContainerSample1Description),
-            containerType: 'single',
-            containerOS: 'linux',
-        }, {
-            name: 'sample2',
-            title: this._ts.instant(PortalResources.quickstartSample2),
-            configBase64Encoded: this._getSingleContainerSample2Config(),
-            description: this._ts.instant(PortalResources.singleContainerSample2Description),
-            containerType: 'single',
-            containerOS: 'linux',
-        }, {
-            name: 'sample1',
-            title: this._ts.instant(PortalResources.quickstartSample1),
-            configBase64Encoded: this._getDockerComposeSample1Config(),
-            description: this._ts.instant(PortalResources.dockerComposeSample1Description),
-            containerType: 'dockerCompose',
-            containerOS: 'linux',
-        }, {
-            name: 'sample2',
-            title: this._ts.instant(PortalResources.quickstartSample2),
-            configBase64Encoded: this._getDockerComposeSample2Config(),
-            description: this._ts.instant(PortalResources.dockerComposeSample2Description),
-            containerType: 'dockerCompose',
-            containerOS: 'linux',
-        }, {
-            name: 'sample1',
-            title: this._ts.instant(PortalResources.quickstartSample1),
-            configBase64Encoded: this._getKubernetesComposeSample1Config(),
-            description: this._ts.instant(PortalResources.kubernetesSample1Description),
-            containerType: 'kubernetes',
-            containerOS: 'linux',
-        }, {
-            name: 'sample1',
-            title: this._ts.instant(PortalResources.quickstartSample1),
-            configBase64Encoded: this._getWindowsSingleContainerSample1Config(),
-            description: this._ts.instant(PortalResources.singleContainerWindowsSample1Description),
-            containerType: 'single',
-            containerOS: 'windows',
-        }];
+        this._samples = [
+            {
+                name: 'sample1',
+                title: this._ts.instant(PortalResources.quickstartSample1),
+                configBase64Encoded: this._getSingleContainerSample1Config(),
+                description: this._ts.instant(PortalResources.singleContainerSample1Description),
+                containerType: 'single',
+                containerOS: 'linux',
+            },
+            {
+                name: 'sample2',
+                title: this._ts.instant(PortalResources.quickstartSample2),
+                configBase64Encoded: this._getSingleContainerSample2Config(),
+                description: this._ts.instant(PortalResources.singleContainerSample2Description),
+                containerType: 'single',
+                containerOS: 'linux',
+            },
+            {
+                name: 'sample1',
+                title: this._ts.instant(PortalResources.quickstartSample1),
+                configBase64Encoded: this._getDockerComposeSample1Config(),
+                description: this._ts.instant(PortalResources.dockerComposeSample1Description),
+                containerType: 'dockerCompose',
+                containerOS: 'linux',
+            },
+            {
+                name: 'sample2',
+                title: this._ts.instant(PortalResources.quickstartSample2),
+                configBase64Encoded: this._getDockerComposeSample2Config(),
+                description: this._ts.instant(PortalResources.dockerComposeSample2Description),
+                containerType: 'dockerCompose',
+                containerOS: 'linux',
+            },
+            {
+                name: 'sample1',
+                title: this._ts.instant(PortalResources.quickstartSample1),
+                configBase64Encoded: this._getKubernetesComposeSample1Config(),
+                description: this._ts.instant(PortalResources.kubernetesSample1Description),
+                containerType: 'kubernetes',
+                containerOS: 'linux',
+            },
+            {
+                name: 'sample1',
+                title: this._ts.instant(PortalResources.quickstartSample1),
+                configBase64Encoded: this._getWindowsSingleContainerSample1Config(),
+                description: this._ts.instant(PortalResources.singleContainerWindowsSample1Description),
+                containerType: 'single',
+                containerOS: 'windows',
+            },
+        ];
     }
 
     private _getSingleContainerSample1Config() {
