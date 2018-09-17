@@ -38,7 +38,6 @@ export interface CreateCard extends Template {
     ids: string[];
     color: string;
     icon: string;
-    barcolor: string;
     focusable: boolean;
     allLanguages?: string[];
     supportedLanguages?: string[];
@@ -272,8 +271,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
                     color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
                         this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
-                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
                     focusable: false
                 });
             } else {

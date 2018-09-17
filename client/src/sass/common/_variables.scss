@@ -126,8 +126,11 @@ $black_shadow: rgba(0, 0, 0, 0.075);
 $control-error-color-light: #b40e1b;
 $control-error-color-dark: #f88;
 
-// Sidebar colors:
+// Sidebar:
 $sidebar-border-color: darken($chrome-color, 30%);
+$sidebar-header-border-bottom-style: solid;
+$sidebar-header-border-bottom-width: 1px;
+$sidebar-header-border-color: rgba(204, 204, 204, 0.5);
 
 // Wizard footer:
 $wizard-footer-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
@@ -173,6 +176,9 @@ $card-position: relative;
 $card-cursor-hover: pointer;
 $card-box-shadow-hover: 0px 4px 8px rgba(0, 0, 0, .14);
 
+// Card hover disabled
+$card-cursor-hover-disabled: not-allowed;
+
 // Card selected
 $card-border-color-selected: rgba(65, 155, 243, 0.5);
 $card-transition-selected: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
@@ -209,6 +215,9 @@ $card-description-padding: 15px;
 $card-footer-display: inline-flex;
 $card-footer-max-width: 100%;
 $card-footer-position: absolute;
+$card-footer-border-top-style: solid;
+$card-footer-border-top-width: 1px;
+$card-footer-border-color: rgba(204, 204, 204, 0.5);
 
 // Card dark mode
 $card-dark-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);

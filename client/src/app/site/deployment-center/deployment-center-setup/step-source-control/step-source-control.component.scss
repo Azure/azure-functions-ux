@@ -42,7 +42,7 @@ h1{
     float: $card-float;
     transition: $card-transition;
     &:hover {
-        cursor: not-allowed;
+        cursor: $card-cursor-hover-disabled;
     }
 }
 
@@ -73,7 +73,7 @@ h1{
         outline-width: $card-outline-width;
     }
 
-    .headerBox{
+    .cardHeader{
         display: $card-header-display;
         width: $card-header-width;
         line-height: $card-header-title-line-height;
@@ -88,7 +88,7 @@ h1{
         }
     }
     
-    .sourceDescription {
+    .cardDescription {
         border-top-style: $card-description-border-top-style;
         border-top-width: $card-description-border-top-width;
         border-color: $card-description-border-color;
