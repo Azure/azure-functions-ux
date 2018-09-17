@@ -3911,10 +3911,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sample #2</value>
   </data>
   <data name="singleContainerSample1Description" xml:space="preserve">
-    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
+    <value>Static html web page served from Nginx.</value>
   </data>
   <data name="singleContainerSample2Description" xml:space="preserve">
-    <value>Static html web page served from Nginx.</value>
+    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
   </data>
   <data name="dockerComposeSample1Description" xml:space="preserve">
     <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>

@@ -475,6 +475,7 @@ export class ContainerSettingsManager {
 
     private _getQuickstartForm(): FormGroup {
         return this._fb.group({
+            serverUrl: ['', []],
             config: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
         });
     }
@@ -733,9 +734,7 @@ export class ContainerSettingsManager {
             const repository = imageSourceForm.controls.repository.value;
             const tag = imageSourceForm.controls.tag.value;
             return `${prefix}|${registry}/${repository}:${tag}`;
-        } else if (imageSourceType === 'dockerHub') {
-            return `${prefix}|${imageSourceForm.controls.image.value}`;
-        } else if (imageSourceType === 'privateRegistry') {
+        } else if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
             return `${prefix}|${imageSourceForm.controls.image.value}`;
         } else {
             throw new Error('Unable to form FxVersion.');
@@ -783,10 +782,10 @@ export class ContainerSettingsManager {
             appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
         }
 
-        if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {
-            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
-        } else if (imageSourceType === 'privateRegistry') {
+        if (imageSourceType === 'quickstart' || imageSourceType === 'privateRegistry') {
             appSettings[ContainerConstants.serverUrlSetting] = imageSourceForm.controls.serverUrl.value;
+        } else if (imageSourceType === 'dockerHub') {
+            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
         } else if (imageSourceType === 'azureContainerRegistry') {
             appSettings[ContainerConstants.serverUrlSetting] = `https://${imageSourceForm.controls.registry.value}`;
         }
