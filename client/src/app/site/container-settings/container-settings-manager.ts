@@ -12,7 +12,9 @@ import {
     ContainerType,
     ContainerFormData,
     ContainerSiteConfigFormData,
-    ContainerAppSettingsFormData } from './container-settings';
+    ContainerAppSettingsFormData, 
+    ACRWebhookPayload,
+    ACRRegistry} from './container-settings';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SelectOption } from '../../shared/models/select-option';
@@ -29,6 +31,9 @@ import { SiteService } from '../../shared/services/site.service';
 import { LogService } from '../../shared/services/log.service';
 import { errorIds } from '../../shared/models/error-ids';
 import { ErrorEvent } from '../../shared/models/error-event';
+import { ContainerACRService } from './services/container-acr.service';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -47,6 +52,7 @@ export class ContainerSettingsManager {
         private _ts: TranslateService,
         private _fb: FormBuilder,
         private _siteService: SiteService,
+        private _acrService: ContainerACRService,
         private _logService: LogService) {
         this.requiredValidator = new RequiredValidator(this._ts);
         this.urlValidator = new URLValidator(this._ts);
@@ -63,7 +69,9 @@ export class ContainerSettingsManager {
         };
 
         return data;
-    }public resetSettings(containerSettingInfo: ContainerSettingsData) {
+    }
+
+    public resetSettings(containerSettingInfo: ContainerSettingsData) {
         this._resetContainers(containerSettingInfo);
         this._resetImageSourceOptions(containerSettingInfo);
         this._resetDockerHubAccessOptions(containerSettingInfo);
@@ -162,7 +170,13 @@ export class ContainerSettingsManager {
                 const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
 
                 if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
-                    return Observable.of(true);
+                    if (formData.imageSource === 'azureContainerRegistry'
+                        && formData.appSettings[ContainerConstants.enableCISetting]
+                        && formData.appSettings[ContainerConstants.enableCISetting] === 'true') {
+                        return this._saveAcrWebhook(resourceId, os, formData);
+                    } else {
+                        return Observable.of(true);
+                    }
                 } else {
                     return Observable.throw({
                         errorId: errorIds.failedToUpdateContainerConfigData,
@@ -171,6 +185,65 @@ export class ContainerSettingsManager {
                     });
                 }
             });
+    }
+
+    private _saveAcrWebhook(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+        const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(resourceId);
+
+        return this._acrService
+            .getRegistries(siteDescriptor.subscription)
+            .switchMap(registryResources => {
+                if (registryResources.isSuccessful
+                    && registryResources.result.value
+                    && registryResources.result.value.length > 0) {
+                    const acrRegistry = this._getAcrRegistry(formData.appSettings);
+                    const registry = registryResources.result.value.find(item => item.properties.loginServer === acrRegistry);
+                    return this._updateAcrWebhook(siteDescriptor, registry, formData);
+                } else {
+                    return Observable.throw({
+                        errorId: errorIds.failedToGetAzureContainerRegistries,
+                        resourceId: resourceId,
+                        message: this._ts.instant(PortalResources.failedToUpdateContainerConfigData),
+                    });
+                }
+            })
+            .switchMap(updateResponse => {
+                if (updateResponse.isSuccessful) {
+                    return Observable.of(true);
+                } else {
+                    return Observable.throw({ ... updateResponse.error, resourceId });
+                }
+            });
+    }
+
+    private _updateAcrWebhook(siteDescriptor: ArmSiteDescriptor, registry: ArmObj<ACRRegistry>, formData: ContainerFormData) {
+        const acrRespository = this._getAcrRepository(formData.siteConfig.fxVersion, formData.appSettings);
+        const acrTag = this._getAcrTag(formData.siteConfig.fxVersion, formData.appSettings);
+
+        // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
+        // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
+        const webhookName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+
+        let scope = '';
+        if (acrRespository) {
+            scope += acrRespository;
+
+            if (acrTag) {
+                scope += `:${acrTag}`;
+            }
+        }
+
+        const payload: ACRWebhookPayload = {
+            scope,
+            serviceUri: this.webhookUrl,
+            customHeaders: {},
+            actions: ['push'],
+            status: 'enabled',
+        };
+
+        const webhookResourceId = `${registry.id}/webhooks/${webhookName}`;
+
+        return this._acrService.updateAcrWebhook(webhookResourceId, webhookName, registry.location, payload);
     }
 
     private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData) {
@@ -391,16 +464,16 @@ export class ContainerSettingsManager {
     private _getAcrForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
-                registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                registry: [this._getAcrRegistry(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                repository: [this._getAcrRepository(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
-                tag: [this._getAcrTag(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                repository: [this._getAcrRepository(fxVersion, appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+                tag: [this._getAcrTag(fxVersion, appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
             });
         } else {
             return this._fb.group({
-                registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                registry: [this._getAcrRegistry(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), []],
@@ -408,7 +481,7 @@ export class ContainerSettingsManager {
         }
     }
 
-    private _getAcrRegistry(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
+    private _getAcrRegistry(appSettings: ApplicationSettings): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             const serverUrl = appSettings[ContainerConstants.serverUrlSetting];
             const host = Url.getHostName(serverUrl).toLowerCase();
@@ -422,7 +495,7 @@ export class ContainerSettingsManager {
         return '';
     }
 
-    private _getAcrRepository(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
+    private _getAcrRepository(fxVersion: string, appSettings: ApplicationSettings): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             let image;
             if (appSettings[ContainerConstants.imageNameSetting]) {
@@ -440,7 +513,7 @@ export class ContainerSettingsManager {
         return '';
     }
 
-    private _getAcrTag(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): string {
+    private _getAcrTag(fxVersion: string, appSettings: ApplicationSettings): string {
         if (appSettings && appSettings[ContainerConstants.serverUrlSetting]) {
             let image;
             if (appSettings[ContainerConstants.imageNameSetting]) {

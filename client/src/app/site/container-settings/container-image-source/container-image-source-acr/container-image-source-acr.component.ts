@@ -54,6 +54,9 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.imageSourceForm = containerImageSourceInfo.imageSourceForm;
                 this._reset();
                 this.loadingRegistries = true;
+                this.selectedRegistry = this.imageSourceForm.controls.registry.value;
+                this.selectedRepository = this.imageSourceForm.controls.repository.value;
+                this.selectedTag = this.imageSourceForm.controls.tag.value;
 
                 return this._acrService.getRegistries(this.containerImageSourceInfo.subscriptionId);
             })
@@ -73,8 +76,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                     this.loadingRegistries = false;
                     this.registriesMissing = false;
 
-                    if (this.imageSourceForm.controls.registry.value) {
-                        this.selectedRegistry = this.imageSourceForm.controls.registry.value;
+                    if (this.selectedRegistry) {
                         this._loadRepositories();
                     }
                 } else {
@@ -86,10 +88,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public registryChanged(element: DropDownElement<string>) {
         this.selectedRepository = '';
         this.repositoryDropdownItems = [];
-        this.imageSourceForm.controls.repository.setValue('');
         this.selectedTag = '';
         this.tagDropdownItems = [];
-        this.imageSourceForm.controls.tag.setValue('');
         this.loadingRepo = true;
 
         const acrRegistry = this.registryItems.find(item => item.loginServer === element.value);
@@ -113,7 +113,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public respositoryChanged(element: DropDownElement<string>) {
         this.selectedTag = '';
         this.tagDropdownItems = [];
-        this.imageSourceForm.controls.tag.setValue('');
         this._loadTags();
     }
 
@@ -131,13 +130,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
         this.loadingRepo = false;
         this.loadingTag = false;
         this.registriesMissing = false;
-
-        this.registryDropdownItems = [];
-        this.registryItems = [];
-        this.repositoryDropdownItems = [];
-        this.repositoryItems = [];
-        this.tagDropdownItems = [];
-        this.tagItems = [];
     }
 
     private _loadRepositories() {
@@ -161,8 +153,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         value: item,
                     }));
 
-                    if (this.imageSourceForm.controls.repository.value) {
-                        this.selectedRepository = this.imageSourceForm.controls.repository.value;
+                    if (this.selectedRepository) {
                         this._loadTags();
                     }
                 }
@@ -192,10 +183,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         displayLabel: item,
                         value: item,
                     }));
-
-                    if (this.imageSourceForm.controls.tag.value) {
-                        this.selectedTag = this.imageSourceForm.controls.tag.value;
-                    }
                 }
 
                 this.loadingTag = false;
