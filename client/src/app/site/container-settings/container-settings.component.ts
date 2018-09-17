@@ -169,7 +169,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         } else {
             this.statusMessage = {
                 level: 'error',
-                message: 'Form is invalid',
+                message: this._ts.instant(PortalResources.formIsInvalid),
             };
         }
     }

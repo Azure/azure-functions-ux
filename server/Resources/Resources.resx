@@ -4078,4 +4078,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="singleContainerWindowsSample1Description" xml:space="preserve">
     <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
   </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Some fields are not properly filled out or are required.</value>
+  </data>
 </root>
