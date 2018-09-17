@@ -166,7 +166,8 @@ $card-border-color: rgba(204, 204, 204, 0.5);
 $card-border-style: solid;
 $card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 $card-float: left;
-$card-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1); 
+$card-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+$card-position: relative;
 
 // Card hover
 $card-cursor-hover: pointer;
@@ -203,6 +204,11 @@ $card-description-border-top-width: 1px;
 $card-description-border-color: rgba(204, 204, 204, 0.5);
 $card-description-margin-top: -1px;
 $card-description-padding: 15px;
+
+// Card footer
+$card-footer-display: inline-flex;
+$card-footer-max-width: 100%;
+$card-footer-position: absolute;
 
 // Card dark mode
 $card-dark-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);

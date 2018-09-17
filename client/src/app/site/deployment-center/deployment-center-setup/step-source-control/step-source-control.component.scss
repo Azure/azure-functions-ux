@@ -31,13 +31,16 @@ h1{
 }
 
 .cardDisabled {
+    width: 200px;
     height: 150px;
     margin: 35px;
-    position: relative;
-    min-width: 200px;
-    max-width: 200px;
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: $card-border-radius;
+    border-width: $card-border-width;
+    border-color: $card-border-color;
+    border-style: $card-border-style;
+    box-shadow: $card-box-shadow;
+    float: $card-float;
+    transition: $card-transition;
     &:hover {
         cursor: not-allowed;
     }
@@ -54,6 +57,7 @@ h1{
     box-shadow: $card-box-shadow;
     float: $card-float;
     transition: $card-transition;
+    position: $card-position;
     &.selected {
         border-color: $card-border-color-selected;
         transition: $card-transition-selected;
@@ -91,6 +95,16 @@ h1{
         margin-top: $card-description-margin-top;
         padding: $card-description-padding;
     }
+
+    .cardFooter{
+        display: $card-footer-display;
+        max-width: $card-footer-max-width;
+        position: $card-footer-position;
+        bottom: 0;
+        right: 0;
+        padding-right: 10px;
+        padding-bottom: 5px;
+     }
 }
 
 :host-context(#app-root[theme=dark]){
@@ -105,19 +119,6 @@ h1{
             box-shadow: $card-dark-shadow;
         }
     }
-}
-
-.cardFooter{
-   align-content: flex-end;
-   display: block;
-   position: absolute;
-   max-width: 100%;
-   white-space: nowrap;
-   text-overflow: ellipsis;
-   bottom: 0;
-   right: 0;
-   padding-right: 10px;
-   padding-bottom: 5px;
 }
 
 .sidebar-container {
