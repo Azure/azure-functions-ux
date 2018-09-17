@@ -113,4 +113,12 @@ export class ContainerACRService implements IContainerACRService {
 
         return this._client.execute({ resourceId: resourceId }, t => updateAcrWebhook);
     }
+
+    public deleteAcrWebhook(resourceId: string): Result<Response> {
+        const deleteAcrWebhook = this._cacheService
+            .deleteArm(resourceId, ARMApiVersions.acrWebhookApiVersion)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => deleteAcrWebhook);
+    }
 }

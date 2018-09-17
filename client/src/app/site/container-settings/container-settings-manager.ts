@@ -12,7 +12,7 @@ import {
     ContainerType,
     ContainerFormData,
     ContainerSiteConfigFormData,
-    ContainerAppSettingsFormData, 
+    ContainerAppSettingsFormData,
     ACRWebhookPayload,
     ACRRegistry} from './container-settings';
 import { TranslateService } from '@ngx-translate/core';
@@ -171,10 +171,8 @@ export class ContainerSettingsManager {
                 const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
 
                 if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
-                    if (formData.imageSource === 'azureContainerRegistry'
-                        && formData.appSettings[ContainerConstants.enableCISetting]
-                        && formData.appSettings[ContainerConstants.enableCISetting] === 'true') {
-                        return this._saveAcrWebhook(resourceId, os, formData);
+                    if (formData.imageSource === 'azureContainerRegistry') {
+                        return this._manageAcrWebhook(resourceId, os, formData);
                     } else {
                         return Observable.of(true);
                     }
@@ -188,7 +186,7 @@ export class ContainerSettingsManager {
             });
     }
 
-    private _saveAcrWebhook(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+    private _manageAcrWebhook(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
         const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(resourceId);
 
         return this._acrService
@@ -199,7 +197,12 @@ export class ContainerSettingsManager {
                     && registryResources.result.value.length > 0) {
                     const acrRegistry = this._getAcrRegistry(formData.appSettings);
                     const registry = registryResources.result.value.find(item => item.properties.loginServer === acrRegistry);
-                    return this._updateAcrWebhook(siteDescriptor, registry, formData);
+
+                    if (this._isCIEnabled(formData)) {
+                        return this._updateAcrWebhook(siteDescriptor, registry, formData);
+                    } else {
+                        return this._deleteAcrWebhook(siteDescriptor, registry, formData);
+                    }
                 } else {
                     return Observable.throw({
                         errorId: errorIds.failedToGetAzureContainerRegistries,
@@ -217,13 +220,17 @@ export class ContainerSettingsManager {
             });
     }
 
+    private _deleteAcrWebhook(siteDescriptor: ArmSiteDescriptor, registry: ArmObj<ACRRegistry>, formData: ContainerFormData) {
+        const webhookName = this._getAcrWebhookName(siteDescriptor);
+        const webhookResourceId = `${registry.id}/webhooks/${webhookName}`;
+
+        return this._acrService.deleteAcrWebhook(webhookResourceId);
+    }
+
     private _updateAcrWebhook(siteDescriptor: ArmSiteDescriptor, registry: ArmObj<ACRRegistry>, formData: ContainerFormData) {
         const acrRespository = this._getAcrRepository(formData.siteConfig.fxVersion, formData.appSettings);
         const acrTag = this._getAcrTag(formData.siteConfig.fxVersion, formData.appSettings);
-
-        // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
-        // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
-        const webhookName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+        const webhookName = this._getAcrWebhookName(siteDescriptor);
 
         let scope = '';
         if (acrRespository) {
@@ -245,6 +252,16 @@ export class ContainerSettingsManager {
         const webhookResourceId = `${registry.id}/webhooks/${webhookName}`;
 
         return this._acrService.updateAcrWebhook(webhookResourceId, webhookName, registry.location, payload);
+    }
+
+    private _isCIEnabled(formData) {
+        return formData.appSettings[ContainerConstants.enableCISetting] && formData.appSettings[ContainerConstants.enableCISetting] === 'true';
+    }
+
+    private _getAcrWebhookName(siteDescriptor: ArmSiteDescriptor) {
+        // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
+        // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
+        return siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
     }
 
     private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
