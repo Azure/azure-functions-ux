@@ -29,6 +29,7 @@ import { SiteService } from '../../shared/services/site.service';
 import { LogService } from '../../shared/services/log.service';
 import { errorIds } from '../../shared/models/error-ids';
 import { ErrorEvent } from '../../shared/models/error-event';
+import { HttpResult } from '../../shared/models/http-result';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -47,7 +48,8 @@ export class ContainerSettingsManager {
         private _ts: TranslateService,
         private _fb: FormBuilder,
         private _siteService: SiteService,
-        private _logService: LogService) {
+        private _logService: LogService,
+        ) {
         this.requiredValidator = new RequiredValidator(this._ts);
         this.urlValidator = new URLValidator(this._ts);
     }
@@ -175,7 +177,7 @@ export class ContainerSettingsManager {
             });
     }
 
-    private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData) {
+    private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
         return this._siteService
             .getAppSettings(resourceId, true)
             .switchMap(appSettingsResponse => {
@@ -206,7 +208,7 @@ export class ContainerSettingsManager {
             });
     }
 
-    private _saveContainerSiteConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData) {
+    private _saveContainerSiteConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
         return this._siteService
             .getSiteConfig(resourceId, true)
             .switchMap(siteConfigResponse => {
@@ -620,30 +622,37 @@ export class ContainerSettingsManager {
         const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
 
         let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
-        let fxVersion: string;
         if (imageSourceType === 'dockerHub') {
             const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
             imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
         }
 
-        if (containerType === 'single') {
-            if (imageSourceType === 'quickstart') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.config.value}`;
-            } else if (imageSourceType === 'azureContainerRegistry') {
-                const registry = imageSourceForm.controls.registry.value;
-                const repository = imageSourceForm.controls.repository.value;
-                const tag = imageSourceForm.controls.tag.value;
-                fxVersion = `${prefix}|${registry}/${repository}:${tag}`;
-            } else if (imageSourceType === 'dockerHub') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
-            } else if (imageSourceType === 'privateRegistry') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
-            }
-        } else {
-            fxVersion = `${prefix}|${btoa(imageSourceForm.controls.config.value)}`;
-        }
+        const fxVersion = containerType === 'single'
+            ? this._getSingleContaierFxVersion(prefix, imageSourceType, imageSourceForm)
+            : this._getMultiContainerFxVersion(prefix, imageSourceType, imageSourceForm);
 
         return fxVersion;
+    }
+
+    private _getSingleContaierFxVersion(prefix: string, imageSourceType: ImageSourceType, imageSourceForm: FormGroup) {
+        if (imageSourceType === 'quickstart') {
+            return `${prefix}|${imageSourceForm.controls.config.value}`;
+        } else if (imageSourceType === 'azureContainerRegistry') {
+            const registry = imageSourceForm.controls.registry.value;
+            const repository = imageSourceForm.controls.repository.value;
+            const tag = imageSourceForm.controls.tag.value;
+            return `${prefix}|${registry}/${repository}:${tag}`;
+        } else if (imageSourceType === 'dockerHub') {
+            return `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else if (imageSourceType === 'privateRegistry') {
+            return `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else {
+            throw new Error('Unable to form FxVersion.');
+        }
+    }
+
+    private _getMultiContainerFxVersion(prefix: string, imageSourceType: ImageSourceType, imageSourceForm: FormGroup) {
+        return `${prefix}|${btoa(imageSourceForm.controls.config.value)}`;
     }
 
     private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {

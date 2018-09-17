@@ -39,29 +39,31 @@
                 type="submit"
                 class="custom-button"
                 (click)="clickApply()"
+                [disabled]="isUpdating"
                 [attr.aria-label]="'apply' | translate">
 
                 <span *ngIf="!isUpdating">{{'apply' | translate}}</span>
-                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
             </button>
 
             <button *ngIf = "fromMenu"
                 class="custom-button"
                 (click)="clickSave()"
+                [disabled]="isUpdating"
                 [attr.aria-label]="'save' | translate">
 
                 <span *ngIf="!isUpdating">{{'save' | translate}}</span>
-                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
             </button>
 
             <button *ngIf = "fromMenu"
                 class="custom-button"
                 (click)="clickDiscard()"
+                [disabled]="isUpdating"
                 [attr.aria-label]="'discard' | translate">
 
                 <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
-                <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
             </button>
+
+            <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
 
             <span class="message-icon icon-medium"
                 *ngIf="statusMessage?.message"
