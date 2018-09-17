@@ -1,5 +1,5 @@
 import { devEnvironmentOptions } from './../wizard-logic/quickstart-models';
-import { QuickstartService } from './../../../shared/services/quickstart.service';
+import { QuickstartService } from './../quickstart.service';
 import { Component } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { DeploymentCard } from 'app/site/quickstart/Models/deployment-card';
