@@ -44,70 +44,66 @@ h1{
 }
 
 .cardContainer {
+    width: 200px;
     height: 150px;
     margin: 35px;
-    position: relative;
-    min-width: 200px;
-    max-width: 200px;
-    overflow: hidden;
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: $card-border-radius;
+    border-width: $card-border-width;
+    border-color: $card-border-color;
+    border-style: $card-border-style;
+    box-shadow: $card-box-shadow;
+    float: $card-float;
+    transition: $card-transition;
+    &.selected {
+        border-color: $card-border-color-selected;
+        transition: $card-transition-selected;
+    }
     &:hover {
-        cursor: pointer;
-        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+        cursor: $card-cursor-hover;
+        box-shadow: $card-box-shadow-hover;
     }
     &:focus {
-        cursor: pointer;
-        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+        outline-color: $card-outline-color;
+        outline-offset: $card-outline-offset;
+        outline-style: $card-outline-style;
+        outline-width: $card-outline-width;
     }
-}
 
-.selected {
-    border: $border-selected;
-    background-color: $card-color-selected;
-    transition: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
-    &:focus {
-        cursor: pointer;
-        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    .headerBox{
+        display: $card-header-display;
+        width: $card-header-width;
+        line-height: $card-header-title-line-height;
+        font-size: $card-header-title-font-size;
+        font-weight: $card-header-title-font-weight;
+        height: $card-header-title-height;
+        img {
+            height: $card-header-icon-height;
+            width: $card-header-icon-width;
+            padding: $card-header-icon-padding;
+            margin-right: $card-header-icon-margin-right;
+        }
+    }
+    
+    .sourceDescription {
+        border-top-style: $card-description-border-top-style;
+        border-top-width: $card-description-border-top-width;
+        border-color: $card-description-border-color;
+        margin-top: $card-description-margin-top;
+        padding: $card-description-padding;
     }
 }
 
 :host-context(#app-root[theme=dark]){
+    .footer {
+        background-color: $body-bg-color-dark;
+    }
     .cardContainer {
+        &.selected {
+            background-color: $card-color-selected-dark;
+        }
         &:hover {
-            cursor: pointer;
-            box-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
+            box-shadow: $card-dark-shadow;
         }
-        &:focus {
-            cursor: pointer;
-            box-shadow: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
-        }
-    }
-    .selected {
-        background-color: $card-color-selected-dark;
-    }
-}
-
-.sourceDescription {
-    padding: 15px;
-    text-align: left;
-}
-
-.headerBox{
-    width: 100%;
-    border-bottom: $border;
-    height: 41px;
-    text-align: left;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 37px;
-    img {
-        display: inline-block;
-        height: 40px;
-        width: 40px;
-        margin-right: 15px;
-        color: white;
-        padding: 5px;
     }
 }
 

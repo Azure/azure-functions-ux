@@ -79,54 +79,53 @@
 }
 
 .cardContainer {
-    width: $card-width;
-    height: $card-height;
+    width: 225px;
+    height: 150px;
+    margin: 30px;
     border-radius: $card-border-radius;
     border-width: $card-border-width;
     border-color: $card-border-color;
     border-style: $card-border-style;
     box-shadow: $card-box-shadow;
     float: $card-float;
-    margin: $card-margin;
     transition: $card-transition;
     &.selected {
         border-color: $card-border-color-selected;
         transition: $card-transition-selected;
     }
     &:hover {
-        cursor: pointer;
+        cursor: $card-cursor-hover;
         box-shadow: $card-box-shadow-hover;
     }
     &:focus {
-        cursor: pointer;
         outline-color: $card-outline-color;
         outline-offset: $card-outline-offset;
         outline-style: $card-outline-style;
         outline-width: $card-outline-width;
     }
-}
 
-.headerBox{
-    display: $card-header-display;
-    width: $card-header-width;
-    line-height: $card-header-title-line-height;
-    font-size: $card-header-title-font-size;
-    font-weight: $card-header-title-font-weight;
-    height: $card-header-title-height;
-    img {
-        height: $card-header-icon-height;
-        width: $card-header-icon-width;
-        padding: $card-header-icon-padding;
-        margin-right: $card-header-icon-margin-right;
+    .headerBox{
+        display: $card-header-display;
+        width: $card-header-width;
+        line-height: $card-header-title-line-height;
+        font-size: $card-header-title-font-size;
+        font-weight: $card-header-title-font-weight;
+        height: $card-header-title-height;
+        img {
+            height: $card-header-icon-height;
+            width: $card-header-icon-width;
+            padding: $card-header-icon-padding;
+            margin-right: $card-header-icon-margin-right;
+        }
     }
-}
-
-.cardDescription {
-    border-top-style: $card-description-border-top-style;
-    border-top-width: $card-description-border-top-width;
-    border-color: $card-description-border-color;
-    margin-top: $card-description-margin-top;
-    padding: $card-description-padding;
+    
+    .cardDescription {
+        border-top-style: $card-description-border-top-style;
+        border-top-width: $card-description-border-top-width;
+        border-color: $card-description-border-color;
+        margin-top: $card-description-margin-top;
+        padding: $card-description-padding;
+    }
 }
 
 :host-context(#app-root[theme=dark]){
@@ -134,16 +133,11 @@
         background-color: $body-bg-color-dark;
     }
     .cardContainer {
+        &.selected {
+            background-color: $card-color-selected-dark;
+        }
         &:hover {
-            cursor: pointer;
             box-shadow: $card-dark-shadow;
         }
-        &:focus {
-            cursor: pointer;
-            box-shadow: $card-dark-shadow;
-        }
-    }
-    .selected {
-        background-color: $card-color-selected-dark;
     }
 }
