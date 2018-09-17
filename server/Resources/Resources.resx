@@ -4060,6 +4060,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="invalidUrl" xml:space="preserve">
     <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
   </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Failed to update data for container settings.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Errors in settings.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Settings updated successfully.</value>
+  </data>
   <data name="showUrl" xml:space="preserve">
     <value>show url</value>
   </data>
@@ -4068,5 +4077,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="singleContainerWindowsSample1Description" xml:space="preserve">
     <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Some fields are not properly filled out or are required.</value>
   </data>
 </root>

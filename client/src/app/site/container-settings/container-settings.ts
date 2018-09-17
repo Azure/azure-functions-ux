@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FormGroup } from '@angular/forms';
+import { ErrorEvent } from '../../shared/models/error-event';
 
 export type ImageSourceType =
     'quickstart' |
@@ -192,4 +193,9 @@ export interface ACRRepositories {
 export interface ACRTags {
     name: string;
     tags: string[];
+}
+
+export interface ContainerConfigSaveStatus {
+    success: boolean;
+    error: ErrorEvent;
 }

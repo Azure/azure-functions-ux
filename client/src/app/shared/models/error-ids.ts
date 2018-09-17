@@ -85,4 +85,5 @@ export namespace errorIds {
     export const failedToGetSiteConfig = 'error/failedToGetSiteConfig';
     export const failedToGetPublishingCredentials = 'error/failedToGetPublishingCredentials';
     export const failedToGetContainerConfigData = 'error/failedToGetContainerConfigData';
+    export const failedToUpdateContainerConfigData = 'error/failedToUpdateContainerConfigData';
 }

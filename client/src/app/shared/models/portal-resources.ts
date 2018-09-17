@@ -1306,7 +1306,11 @@
     public static readOnlyBYOC = 'readOnlyBYOC';
     public static failedToGetContainerConfigData = 'failedToGetContainerConfigData';
     public static invalidUrl = 'invalidUrl';
+    public static failedToUpdateContainerConfigData = 'failedToUpdateContainerConfigData';
+    public static errorsInContainerSettings = 'errorsInContainerSettings';
+    public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
     public static showUrl = 'showUrl';
     public static hideUrl = 'hideUrl';
     public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
+    public static formIsInvalid = 'formIsInvalid';
 }

@@ -18,12 +18,18 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { SelectOption } from '../../shared/models/select-option';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { ContainerSiteConfig } from '../../shared/models/arm/site-config';
-import { ContainerConstants } from '../../shared/models/constants';
+import { ContainerConstants, LogCategories } from '../../shared/models/constants';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Url } from '../../shared/Utilities/url';
 import { PublishingCredentials } from '../../shared/models/publishing-credentials';
 import { URLValidator } from '../../shared/validators/urlValidator';
 import { RequiredValidator } from '../../shared/validators/requiredValidator';
+import { Observable } from 'rxjs/Observable';
+import { SiteService } from '../../shared/services/site.service';
+import { LogService } from '../../shared/services/log.service';
+import { errorIds } from '../../shared/models/error-ids';
+import { ErrorEvent } from '../../shared/models/error-event';
+import { HttpResult } from '../../shared/models/http-result';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -40,7 +46,10 @@ export class ContainerSettingsManager {
     constructor(
         private _injector: Injector,
         private _ts: TranslateService,
-        private _fb: FormBuilder) {
+        private _fb: FormBuilder,
+        private _siteService: SiteService,
+        private _logService: LogService,
+        ) {
         this.requiredValidator = new RequiredValidator(this._ts);
         this.urlValidator = new URLValidator(this._ts);
     }
@@ -56,106 +65,6 @@ export class ContainerSettingsManager {
         };
 
         return data;
-    }
-
-    private _getSiteConfigFormData(form: FormGroup): ContainerSiteConfigFormData {
-        const containerType = form.controls.containerType.value;
-        const containerForm = this.getContainerForm(form, containerType);
-
-        return {
-            fxVersion: this._getFxVersionFormData(containerType, containerForm),
-            appCommandLine: this._getAppCommandLineFormData(containerType, containerForm),
-        };
-    }
-
-    private _getFxVersionFormData(containerType: ContainerType, containerForm: FormGroup): string {
-        let prefix: string;
-
-        if (containerType === 'single') {
-            prefix = ContainerConstants.dockerPrefix;
-        } else if (containerType === 'dockerCompose') {
-            prefix = ContainerConstants.composePrefix;
-        } else {
-            prefix = ContainerConstants.kubernetesPrefix;
-        }
-
-        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
-
-        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
-        let fxVersion: string;
-        if (imageSourceType === 'dockerHub') {
-            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
-            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
-        }
-
-        if (containerType === 'single') {
-            if (imageSourceType === 'quickstart') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.config.value}`;
-            } else if (imageSourceType === 'azureContainerRegistry') {
-                const registry = imageSourceForm.controls.registry.value;
-                const repository = imageSourceForm.controls.repository.value;
-                const tag = imageSourceForm.controls.tag.value;
-                fxVersion = `${prefix}|${registry}/${repository}:${tag}`;
-            } else if (imageSourceType === 'dockerHub') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
-            } else if (imageSourceType === 'privateRegistry') {
-                fxVersion = `${prefix}|${imageSourceForm.controls.image.value}`;
-            }
-        } else {
-            fxVersion = `${prefix}|${btoa(imageSourceForm.controls.config.value)}`;
-        }
-
-        return fxVersion;
-    }
-
-    private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
-        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
-        if (containerType === 'single'
-            && (imageSourceType === 'azureContainerRegistry' || imageSourceType === 'privateRegistry')) {
-            const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
-
-            return imageSourceForm.controls.startupFile.value;
-        }
-
-        return '';
-    }
-
-    private _getAppSettingsFormData(form: FormGroup): ContainerAppSettingsFormData {
-        const containerType = form.controls.containerType.value;
-        const containerForm = this.getContainerForm(form, containerType);
-        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
-
-        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
-        if (imageSourceType === 'dockerHub') {
-            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
-            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
-        }
-
-        const appSettings: ContainerAppSettingsFormData = {};
-
-        if (form.controls.continuousDeploymentOption.value === 'on') {
-            appSettings[ContainerConstants.enableCISetting] = 'true';
-        }
-
-        if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
-            if (imageSourceForm.controls.login && imageSourceForm.controls.login.value) {
-                appSettings[ContainerConstants.usernameSetting] = imageSourceForm.controls.login.value;
-            }
-
-            if (imageSourceForm.controls.password && imageSourceForm.controls.password.value) {
-                appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
-            }
-        }
-
-        if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {
-            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
-        } else if (imageSourceType === 'privateRegistry') {
-            appSettings[ContainerConstants.serverUrlSetting] = imageSourceForm.controls.serverUrl.value;
-        } else if (imageSourceType === 'azureContainerRegistry') {
-            appSettings[ContainerConstants.serverUrlSetting] = `https://${imageSourceForm.controls.registry.value}`;
-        }
-
-        return appSettings;
     }
 
     public resetSettings(containerSettingInfo: ContainerSettingsData) {
@@ -246,6 +155,89 @@ export class ContainerSettingsManager {
         } else {
             throw new Error(`Invalid access type '${accessType}' provided`);
         }
+    }
+
+    public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+        return Observable
+            .zip(
+                this._saveContainerAppSettings(resourceId, os, formData),
+                this._saveContainerSiteConfig(resourceId, os, formData))
+            .switchMap(responses => {
+                const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
+
+                if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
+                    return Observable.of(true);
+                } else {
+                    return Observable.throw({
+                        errorId: errorIds.failedToUpdateContainerConfigData,
+                        resourceId: resourceId,
+                        message: this._ts.instant(PortalResources.failedToUpdateContainerConfigData),
+                    });
+                }
+            });
+    }
+
+    private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
+        return this._siteService
+            .getAppSettings(resourceId, true)
+            .switchMap(appSettingsResponse => {
+                if (appSettingsResponse.isSuccessful) {
+                    const appSettings = appSettingsResponse.result.properties;
+
+                    delete appSettings[ContainerConstants.serverUrlSetting];
+                    delete appSettings[ContainerConstants.imageNameSetting];
+                    delete appSettings[ContainerConstants.usernameSetting];
+                    delete appSettings[ContainerConstants.passwordSetting];
+                    delete appSettings[ContainerConstants.enableCISetting];
+
+                    const updatedAppSettings: ApplicationSettings = { ...appSettings, ...formData.appSettings };
+                    appSettingsResponse.result.properties = updatedAppSettings;
+
+                    return this._siteService.updateAppSettings(resourceId, appSettingsResponse.result);
+                } else {
+                    this._logService.error(LogCategories.containerSettings, errorIds.failedToGetAppSettings, appSettingsResponse.error);
+
+                    const error: ErrorEvent = {
+                        errorId: errorIds.failedToGetAppSettings,
+                        resourceId: resourceId,
+                        message: this._ts.instant(PortalResources.failedToGetContainerConfigData),
+                    };
+
+                    return Observable.throw(error);
+                }
+            });
+    }
+
+    private _saveContainerSiteConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
+        return this._siteService
+            .getSiteConfig(resourceId, true)
+            .switchMap(siteConfigResponse => {
+                if (siteConfigResponse.isSuccessful) {
+                    const siteConfig = siteConfigResponse.result;
+
+                    siteConfig.properties.linuxFxVersion = null;
+                    siteConfig.properties.windowsFxVersion = null;
+
+                    if (os === 'linux') {
+                        siteConfig.properties.linuxFxVersion = formData.siteConfig.fxVersion;
+                    } else {
+                        siteConfig.properties.windowsFxVersion = formData.siteConfig.fxVersion;
+                    }
+                    siteConfig.properties.appCommandLine = formData.siteConfig.appCommandLine;
+
+                    return this._siteService.updateSiteConfig(resourceId, siteConfig);
+                } else {
+                    this._logService.error(LogCategories.containerSettings, errorIds.failedToGetSiteConfig, siteConfigResponse.error);
+
+                    const error: ErrorEvent = {
+                        errorId: errorIds.failedToGetSiteConfig,
+                        resourceId: resourceId,
+                        message: this._ts.instant(PortalResources.failedToGetContainerConfigData),
+                    };
+
+                    return Observable.throw(error);
+                }
+            });
     }
 
     private _getSiteConfigFromContainerFormData(os: ContainerOS, containerFormData: ContainerFormData): ContainerSiteConfig {
@@ -604,5 +596,112 @@ export class ContainerSettingsManager {
         }
 
         return '';
+    }
+
+    private _getSiteConfigFormData(form: FormGroup): ContainerSiteConfigFormData {
+        const containerType = form.controls.containerType.value;
+        const containerForm = this.getContainerForm(form, containerType);
+
+        return {
+            fxVersion: this._getFxVersionFormData(containerType, containerForm),
+            appCommandLine: this._getAppCommandLineFormData(containerType, containerForm),
+        };
+    }
+
+    private _getFxVersionFormData(containerType: ContainerType, containerForm: FormGroup): string {
+        let prefix: string;
+
+        if (containerType === 'single') {
+            prefix = ContainerConstants.dockerPrefix;
+        } else if (containerType === 'dockerCompose') {
+            prefix = ContainerConstants.composePrefix;
+        } else {
+            prefix = ContainerConstants.kubernetesPrefix;
+        }
+
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+
+        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+        if (imageSourceType === 'dockerHub') {
+            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
+        }
+
+        const fxVersion = containerType === 'single'
+            ? this._getSingleContaierFxVersion(prefix, imageSourceType, imageSourceForm)
+            : this._getMultiContainerFxVersion(prefix, imageSourceType, imageSourceForm);
+
+        return fxVersion;
+    }
+
+    private _getSingleContaierFxVersion(prefix: string, imageSourceType: ImageSourceType, imageSourceForm: FormGroup) {
+        if (imageSourceType === 'quickstart') {
+            return `${prefix}|${imageSourceForm.controls.config.value}`;
+        } else if (imageSourceType === 'azureContainerRegistry') {
+            const registry = imageSourceForm.controls.registry.value;
+            const repository = imageSourceForm.controls.repository.value;
+            const tag = imageSourceForm.controls.tag.value;
+            return `${prefix}|${registry}/${repository}:${tag}`;
+        } else if (imageSourceType === 'dockerHub') {
+            return `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else if (imageSourceType === 'privateRegistry') {
+            return `${prefix}|${imageSourceForm.controls.image.value}`;
+        } else {
+            throw new Error('Unable to form FxVersion.');
+        }
+    }
+
+    private _getMultiContainerFxVersion(prefix: string, imageSourceType: ImageSourceType, imageSourceForm: FormGroup) {
+        return `${prefix}|${btoa(imageSourceForm.controls.config.value)}`;
+    }
+
+    private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+        if (containerType === 'single'
+            && (imageSourceType === 'azureContainerRegistry' || imageSourceType === 'privateRegistry')) {
+            const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+
+            return imageSourceForm.controls.startupFile.value;
+        }
+
+        return '';
+    }
+
+    private _getAppSettingsFormData(form: FormGroup): ContainerAppSettingsFormData {
+        const containerType = form.controls.containerType.value;
+        const containerForm = this.getContainerForm(form, containerType);
+        const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
+
+        let imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+        if (imageSourceType === 'dockerHub') {
+            const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+            imageSourceForm = this.getDockerHubForm(imageSourceForm, accessType);
+        }
+
+        const appSettings: ContainerAppSettingsFormData = {};
+
+        if (form.controls.continuousDeploymentOption.value === 'on') {
+            appSettings[ContainerConstants.enableCISetting] = 'true';
+        }
+
+        if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
+            if (imageSourceForm.controls.login && imageSourceForm.controls.login.value) {
+                appSettings[ContainerConstants.usernameSetting] = imageSourceForm.controls.login.value;
+            }
+
+            if (imageSourceForm.controls.password && imageSourceForm.controls.password.value) {
+                appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
+            }
+        }
+
+        if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {
+            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
+        } else if (imageSourceType === 'privateRegistry') {
+            appSettings[ContainerConstants.serverUrlSetting] = imageSourceForm.controls.serverUrl.value;
+        } else if (imageSourceType === 'azureContainerRegistry') {
+            appSettings[ContainerConstants.serverUrlSetting] = `https://${imageSourceForm.controls.registry.value}`;
+        }
+
+        return appSettings;
     }
 }
