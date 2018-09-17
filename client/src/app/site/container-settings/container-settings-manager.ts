@@ -63,9 +63,7 @@ export class ContainerSettingsManager {
         };
 
         return data;
-    }
-
-    public resetSettings(containerSettingInfo: ContainerSettingsData) {
+    }public resetSettings(containerSettingInfo: ContainerSettingsData) {
         this._resetContainers(containerSettingInfo);
         this._resetImageSourceOptions(containerSettingInfo);
         this._resetDockerHubAccessOptions(containerSettingInfo);
@@ -394,6 +392,8 @@ export class ContainerSettingsManager {
         if (containerType === 'single') {
             return this._fb.group({
                 registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+                password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 repository: [this._getAcrRepository(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
                 tag: [this._getAcrTag(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
                 startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
@@ -401,6 +401,8 @@ export class ContainerSettingsManager {
         } else {
             return this._fb.group({
                 registry: [this._getAcrRegistry(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+                login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+                password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), []],
             });
         }
@@ -675,14 +677,12 @@ export class ContainerSettingsManager {
             appSettings[ContainerConstants.enableCISetting] = 'true';
         }
 
-        if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
-            if (imageSourceForm.controls.login && imageSourceForm.controls.login.value) {
-                appSettings[ContainerConstants.usernameSetting] = imageSourceForm.controls.login.value;
-            }
+        if (imageSourceForm.controls.login && imageSourceForm.controls.login.value) {
+            appSettings[ContainerConstants.usernameSetting] = imageSourceForm.controls.login.value;
+        }
 
-            if (imageSourceForm.controls.password && imageSourceForm.controls.password.value) {
-                appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
-            }
+        if (imageSourceForm.controls.password && imageSourceForm.controls.password.value) {
+            appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
         }
 
         if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {

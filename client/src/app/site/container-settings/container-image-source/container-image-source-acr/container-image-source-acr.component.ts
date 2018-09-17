@@ -38,9 +38,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public selectedTag: string;
     public imageSourceForm: FormGroup;
 
-    private _username: string;
-    private _password: string;
-
     constructor(
         private _acrService: ContainerACRService,
         private _multiConfigService: ContainerMultiConfigService,
@@ -101,10 +98,12 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
             .getCredentials(acrRegistry.resourceId)
             .subscribe((credential) => {
                 if (credential.isSuccessful) {
-                    this._username = credential.result.username;
-                    this._password = credential.result.passwords[0].value;
+                    const username = credential.result.username;
+                    const password = credential.result.passwords[0].value;
 
-                    if (this._username && this._password) {
+                    if (username && password) {
+                        this.imageSourceForm.controls.login.setValue(username);
+                        this.imageSourceForm.controls.password.setValue(password);
                         this._loadRepositories();
                     }
                 }
@@ -139,8 +138,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
         this.repositoryItems = [];
         this.tagDropdownItems = [];
         this.tagItems = [];
-        this._username = '';
-        this._password = '';
     }
 
     private _loadRepositories() {
@@ -150,8 +147,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.containerImageSourceInfo.subscriptionId,
                 this.containerImageSourceInfo.resourceId,
                 this.selectedRegistry,
-                this._username,
-                this._password)
+                this.imageSourceForm.controls.login.value,
+                this.imageSourceForm.controls.password.value)
             .subscribe((response) => {
                 if (response.isSuccessful
                     && response.result
@@ -182,8 +179,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.containerImageSourceInfo.resourceId,
                 this.selectedRegistry,
                 this.selectedRepository,
-                this._username,
-                this._password)
+                this.imageSourceForm.controls.login.value,
+                this.imageSourceForm.controls.password.value)
             .subscribe((response) => {
                 if (response.isSuccessful
                     && response.result
