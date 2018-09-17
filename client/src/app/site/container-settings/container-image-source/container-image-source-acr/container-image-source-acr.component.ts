@@ -38,9 +38,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public selectedTag: string;
     public imageSourceForm: FormGroup;
 
-    private _username: string;
-    private _password: string;
-
     constructor(
         private _acrService: ContainerACRService,
         private _multiConfigService: ContainerMultiConfigService,
@@ -57,6 +54,9 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.imageSourceForm = containerImageSourceInfo.imageSourceForm;
                 this._reset();
                 this.loadingRegistries = true;
+                this.selectedRegistry = this.imageSourceForm.controls.registry.value;
+                this.selectedRepository = this.imageSourceForm.controls.repository.value;
+                this.selectedTag = this.imageSourceForm.controls.tag.value;
 
                 return this._acrService.getRegistries(this.containerImageSourceInfo.subscriptionId);
             })
@@ -76,8 +76,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                     this.loadingRegistries = false;
                     this.registriesMissing = false;
 
-                    if (this.imageSourceForm.controls.registry.value) {
-                        this.selectedRegistry = this.imageSourceForm.controls.registry.value;
+                    if (this.selectedRegistry) {
                         this._loadRepositories();
                     }
                 } else {
@@ -89,10 +88,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public registryChanged(element: DropDownElement<string>) {
         this.selectedRepository = '';
         this.repositoryDropdownItems = [];
-        this.imageSourceForm.controls.repository.setValue('');
         this.selectedTag = '';
         this.tagDropdownItems = [];
-        this.imageSourceForm.controls.tag.setValue('');
         this.loadingRepo = true;
 
         const acrRegistry = this.registryItems.find(item => item.loginServer === element.value);
@@ -101,10 +98,12 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
             .getCredentials(acrRegistry.resourceId)
             .subscribe((credential) => {
                 if (credential.isSuccessful) {
-                    this._username = credential.result.username;
-                    this._password = credential.result.passwords[0].value;
+                    const username = credential.result.username;
+                    const password = credential.result.passwords[0].value;
 
-                    if (this._username && this._password) {
+                    if (username && password) {
+                        this.imageSourceForm.controls.login.setValue(username);
+                        this.imageSourceForm.controls.password.setValue(password);
                         this._loadRepositories();
                     }
                 }
@@ -114,7 +113,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     public respositoryChanged(element: DropDownElement<string>) {
         this.selectedTag = '';
         this.tagDropdownItems = [];
-        this.imageSourceForm.controls.tag.setValue('');
         this._loadTags();
     }
 
@@ -132,15 +130,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
         this.loadingRepo = false;
         this.loadingTag = false;
         this.registriesMissing = false;
-
-        this.registryDropdownItems = [];
-        this.registryItems = [];
-        this.repositoryDropdownItems = [];
-        this.repositoryItems = [];
-        this.tagDropdownItems = [];
-        this.tagItems = [];
-        this._username = '';
-        this._password = '';
     }
 
     private _loadRepositories() {
@@ -150,8 +139,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.containerImageSourceInfo.subscriptionId,
                 this.containerImageSourceInfo.resourceId,
                 this.selectedRegistry,
-                this._username,
-                this._password)
+                this.imageSourceForm.controls.login.value,
+                this.imageSourceForm.controls.password.value)
             .subscribe((response) => {
                 if (response.isSuccessful
                     && response.result
@@ -164,8 +153,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         value: item,
                     }));
 
-                    if (this.imageSourceForm.controls.repository.value) {
-                        this.selectedRepository = this.imageSourceForm.controls.repository.value;
+                    if (this.selectedRepository) {
                         this._loadTags();
                     }
                 }
@@ -182,8 +170,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this.containerImageSourceInfo.resourceId,
                 this.selectedRegistry,
                 this.selectedRepository,
-                this._username,
-                this._password)
+                this.imageSourceForm.controls.login.value,
+                this.imageSourceForm.controls.password.value)
             .subscribe((response) => {
                 if (response.isSuccessful
                     && response.result
@@ -195,10 +183,6 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                         displayLabel: item,
                         value: item,
                     }));
-
-                    if (this.imageSourceForm.controls.tag.value) {
-                        this.selectedTag = this.imageSourceForm.controls.tag.value;
-                    }
                 }
 
                 this.loadingTag = false;

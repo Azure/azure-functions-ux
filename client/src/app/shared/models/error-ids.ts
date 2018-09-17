@@ -86,4 +86,6 @@ export namespace errorIds {
     export const failedToGetPublishingCredentials = 'error/failedToGetPublishingCredentials';
     export const failedToGetContainerConfigData = 'error/failedToGetContainerConfigData';
     export const failedToUpdateContainerConfigData = 'error/failedToUpdateContainerConfigData';
+    export const failedToGetAzureContainerRegistries = 'error/failedToGetAzureContainerRegistries';
+    export const failedToUpdateACRWebhook = 'error/failedToUpdateACRWebhook';
 }

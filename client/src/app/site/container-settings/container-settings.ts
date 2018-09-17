@@ -199,3 +199,11 @@ export interface ContainerConfigSaveStatus {
     success: boolean;
     error: ErrorEvent;
 }
+
+export interface ACRWebhookPayload {
+    serviceUri: string;
+    customHeaders: { [key: string]: string };
+    actions: string[];
+    status: 'enabled' | 'disabled';
+    scope: string;
+}
