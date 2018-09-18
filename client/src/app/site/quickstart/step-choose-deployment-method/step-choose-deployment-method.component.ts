@@ -1,17 +1,18 @@
 import { devEnvironmentOptions } from './../wizard-logic/quickstart-models';
 import { QuickstartService } from './../quickstart.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { DeploymentCard } from 'app/site/quickstart/Models/deployment-card';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'step-choose-deployment-method',
     templateUrl: './step-choose-deployment-method.component.html',
     styleUrls: ['./step-choose-deployment-method.component.scss', '../quickstart.component.scss'],
 })
-export class StepChooseDeploymentMethodComponent {
+export class StepChooseDeploymentMethodComponent implements OnDestroy {
 
     public readonly deploymentCenterCard: DeploymentCard = {
         id: 'deploymentCenter',
@@ -58,6 +59,8 @@ export class StepChooseDeploymentMethodComponent {
     public devEnvironment: devEnvironmentOptions;
     public deploymentCards: DeploymentCard[];
 
+    private _ngUnsubscribe = new Subject();
+
     constructor(
         private _wizardService: QuickstartStateManager,
         private _translateService: TranslateService,
@@ -66,10 +69,12 @@ export class StepChooseDeploymentMethodComponent {
         this.devEnvironment = this._wizardService.devEnvironment.value;
         this.deploymentCards = this._getDeploymentCards();
 
-        this._wizardService.devEnvironment.statusChanges.subscribe(() => {
-            this.devEnvironment = this._wizardService.devEnvironment.value;
-            this.deploymentCards = this._getDeploymentCards();
-        });
+        this._wizardService.devEnvironment.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.devEnvironment = this._wizardService.devEnvironment.value;
+                this.deploymentCards = this._getDeploymentCards();
+            });
     }
 
     public selectDeployment(card: DeploymentCard) {
@@ -130,5 +135,9 @@ export class StepChooseDeploymentMethodComponent {
             default:
                 return null;
         }
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 }

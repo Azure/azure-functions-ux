@@ -1322,4 +1322,5 @@ export class PortalResources {
     public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
     public static dynamicLinuxPreview = 'dynamicLinuxPreview';
     public static formIsInvalid = 'formIsInvalid';
+    public static finishAndDeploy = 'finishAndDeploy';
 }

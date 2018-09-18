@@ -3,7 +3,7 @@ import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quicksta
 import { SiteService } from './../../shared/services/site.service';
 import { SiteTabIds, Constants } from 'app/shared/models/constants';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { FormBuilder } from '@angular/forms';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -14,6 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { errorIds } from 'app/shared/models/error-ids';
+import { UserService } from 'app/shared/services/user.service';
+import { Subject } from 'rxjs/Subject';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
+import { Subscription as Subs} from 'app/shared/models/subscription';
 
 @Component({
     selector: 'quickstart',
@@ -21,7 +25,7 @@ import { errorIds } from 'app/shared/models/error-ids';
     styleUrls: ['./quickstart.component.scss'],
     providers: [QuickstartStateManager],
 })
-export class QuickstartComponent extends FunctionAppContextComponent {
+export class QuickstartComponent extends FunctionAppContextComponent implements OnDestroy {
 
     public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
     public workerRuntime: workerRuntimeOptions;
@@ -29,8 +33,12 @@ export class QuickstartComponent extends FunctionAppContextComponent {
     public isLinuxConsumption: boolean;
     public canUseQuickstart: boolean;
     public loading = true;
+    public showDeploymentStep: boolean;
+    public devEnvironment: devEnvironmentOptions;
 
+    private _ngUnsubscribe = new Subject();
     private _busyManager: BusyStateScopeManager;
+    private _subs: Subs[];
     private readonly _validWorkerRuntimes = [
         'dotnet',
         'node',
@@ -45,7 +53,8 @@ export class QuickstartComponent extends FunctionAppContextComponent {
         private _siteService: SiteService,
         private _translateService: TranslateService,
         broadcastService: BroadcastService,
-        functionAppService: FunctionAppService) {
+        functionAppService: FunctionAppService,
+        userService: UserService) {
 
         super('quickstart', functionAppService, broadcastService, () => this._busyManager.setBusy());
 
@@ -61,7 +70,21 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             context: [null],
             isLinux: [null],
             isLinuxConsumption: [null],
+            subscriptionName: [null],
         });
+
+        userService.getStartupInfo()
+            .first()
+            .subscribe(info => {
+                this._subs = info.subscriptions;
+            });
+
+        this._wizardService.devEnvironment.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.devEnvironment = this._wizardService.devEnvironment.value;
+                this.showDeploymentStep = this._checkShowDeploymentStep();
+            });
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
     }
@@ -84,8 +107,8 @@ export class QuickstartComponent extends FunctionAppContextComponent {
                             this.isLinux = ArmUtil.isLinuxApp(this.context.site);
                             this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
 
-                            this.setInitalProperties();
-                            this.setQuickstartTitle();
+                            this._setInitalProperties();
+                            this._setQuickstartTitle();
                             this.canUseQuickstart = true;
                         } else {
                             this.canUseQuickstart = false;
@@ -105,7 +128,7 @@ export class QuickstartComponent extends FunctionAppContextComponent {
             });
     }
 
-    setQuickstartTitle() {
+    private _setQuickstartTitle() {
         switch (this.workerRuntime) {
             case 'dotnet':
                 this.quickstartTitle = this._translateService.instant(PortalResources.quickstartDotnetTitle);
@@ -123,23 +146,31 @@ export class QuickstartComponent extends FunctionAppContextComponent {
         }
     }
 
-    setInitalProperties() {
+    private _setInitalProperties() {
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.workerRuntime = this.workerRuntime;
         currentFormValues.context = this.context;
         currentFormValues.isLinux = this.isLinux;
         currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
+        currentFormValues.subscriptionName = this._findSubscriptionName();
         this._wizardService.wizardValues = currentFormValues;
     }
 
-    get showDeploymentStep(): boolean {
-        return this.devEnvironment === 'vs' ||
-            this.devEnvironment === 'maven' ||
-            this.devEnvironment === 'vscode' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption) ||
-            this.devEnvironment === 'coretools' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption);
+    private _findSubscriptionName(): string {
+        const descriptor = new ArmSiteDescriptor(this.context.site.id);
+        const subscriptionId = descriptor.subscription;
+
+        return this._subs ? this._subs.find(s => s.subscriptionId === subscriptionId).displayName : '{subscriptionName}';
     }
 
-    get devEnvironment(): devEnvironmentOptions {
-        return this._wizardService.devEnvironment.value;
+    private _checkShowDeploymentStep(): boolean {
+        return this.devEnvironment === 'vs'
+            || this.devEnvironment === 'maven'
+            || this.devEnvironment === 'vscode' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption)
+            || this.devEnvironment === 'coretools' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption);
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 }
