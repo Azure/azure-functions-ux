@@ -475,6 +475,7 @@ export class ContainerSettingsManager {
 
     private _getQuickstartForm(): FormGroup {
         return this._fb.group({
+            serverUrl: ['', []],
             config: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
         });
     }
@@ -572,10 +573,12 @@ export class ContainerSettingsManager {
     private _getDockerHubPublicForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
+                serverUrl: [ContainerConstants.dockerHubUrl, []],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         } else {
             return this._fb.group({
+                serverUrl: [ContainerConstants.dockerHubUrl, []],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
@@ -584,12 +587,14 @@ export class ContainerSettingsManager {
     private _getDockerHubPrivateForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
+                serverUrl: [ContainerConstants.dockerHubUrl, []],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         } else {
             return this._fb.group({
+                serverUrl: [ContainerConstants.dockerHubUrl, []],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
@@ -733,9 +738,7 @@ export class ContainerSettingsManager {
             const repository = imageSourceForm.controls.repository.value;
             const tag = imageSourceForm.controls.tag.value;
             return `${prefix}|${registry}/${repository}:${tag}`;
-        } else if (imageSourceType === 'dockerHub') {
-            return `${prefix}|${imageSourceForm.controls.image.value}`;
-        } else if (imageSourceType === 'privateRegistry') {
+        } else if (imageSourceType === 'dockerHub' || imageSourceType === 'privateRegistry') {
             return `${prefix}|${imageSourceForm.controls.image.value}`;
         } else {
             throw new Error('Unable to form FxVersion.');
@@ -783,13 +786,9 @@ export class ContainerSettingsManager {
             appSettings[ContainerConstants.passwordSetting] = imageSourceForm.controls.password.value;
         }
 
-        if (imageSourceType === 'quickstart' || imageSourceType === 'dockerHub') {
-            appSettings[ContainerConstants.serverUrlSetting] = ContainerConstants.dockerHubUrl;
-        } else if (imageSourceType === 'privateRegistry') {
-            appSettings[ContainerConstants.serverUrlSetting] = imageSourceForm.controls.serverUrl.value;
-        } else if (imageSourceType === 'azureContainerRegistry') {
-            appSettings[ContainerConstants.serverUrlSetting] = `https://${imageSourceForm.controls.registry.value}`;
-        }
+        appSettings[ContainerConstants.serverUrlSetting] = imageSourceType === 'azureContainerRegistry'
+            ? `https://${imageSourceForm.controls.registry.value}`
+            : imageSourceForm.controls.serverUrl.value;
 
         return appSettings;
     }
