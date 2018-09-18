@@ -17,7 +17,7 @@ import { errorIds } from 'app/shared/models/error-ids';
 import { UserService } from 'app/shared/services/user.service';
 import { Subject } from 'rxjs/Subject';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
-import { Subscription as Subs}  from 'app/shared/models/subscription';
+import { Subscription as Subs} from 'app/shared/models/subscription';
 
 @Component({
     selector: 'quickstart',
