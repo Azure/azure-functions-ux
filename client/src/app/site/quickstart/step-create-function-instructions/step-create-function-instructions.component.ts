@@ -4,10 +4,11 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteTabIds } from 'app/shared/models/constants';
-import { deploymentOptions } from './../wizard-logic/quickstart-models';
+import { deploymentOptions, workerRuntimeOptions } from './../wizard-logic/quickstart-models';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 
 @Component({
     selector: 'step-create-function-instructions',
@@ -18,6 +19,9 @@ export class StepCreateFunctionInstructionsComponent implements OnDestroy {
 
     public instructions: string;
     public deployment: deploymentOptions;
+    public workerRuntime: workerRuntimeOptions;
+    public context: FunctionAppContext;
+    public subscriptionName: string;
     public finishButtonText: string;
 
     private _ngUnsubscribe = new Subject();
@@ -29,25 +33,47 @@ export class StepCreateFunctionInstructionsComponent implements OnDestroy {
 
         this.instructions = this._wizardService.instructions.value;
         this.deployment = this._wizardService.deployment.value;
+        this.workerRuntime = this._wizardService.workerRuntime.value;
+        this.context = this._wizardService.context.value;
+        this.subscriptionName = this._wizardService.subscriptionName.value;
 
         this._wizardService.instructions.statusChanges
             .takeUntil(this._ngUnsubscribe)
             .subscribe(() => {
-                this.instructions = this._wizardService.instructions.value;
-            },
-        );
+                this.instructions = this._wizardService.instructions.value
+                    .replace('{workerRuntime}', this.workerRuntime)
+                    .replace('{functionAppName}', this.context.site.name)
+                    .replace('{subscriptionName}', this.subscriptionName);
+            });
 
         this._wizardService.deployment.statusChanges
             .takeUntil(this._ngUnsubscribe)
             .subscribe(() => {
                 this.deployment = this._wizardService.deployment.value;
                 if (this.deployment === 'deploymentCenter') {
-                    this.finishButtonText = this._translateService.instant(PortalResources.finishandDeploy);
+                    this.finishButtonText = this._translateService.instant(PortalResources.finishAndDeploy);
                 } else {
                     this.finishButtonText = this._translateService.instant(PortalResources.finish);
                 }
-            },
-        );
+            });
+
+        this._wizardService.workerRuntime.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.workerRuntime = this._wizardService.workerRuntime.value;
+            });
+
+        this._wizardService.context.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.context = this._wizardService.context.value;
+            });
+
+        this._wizardService.subscriptionName.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.subscriptionName = this._wizardService.subscriptionName.value;
+            });
     }
 
     public closeTab() {

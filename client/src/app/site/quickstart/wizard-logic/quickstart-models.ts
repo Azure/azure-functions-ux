@@ -9,6 +9,7 @@ export class WizardForm {
     public context: FunctionAppContext;
     public isLinux: boolean;
     public isLinuxConsumption: boolean;
+    public subscriptionName: string;
 }
 
 export type devEnvironmentOptions = 'vs' | 'vscode' | 'coretools' | 'maven' | 'portal';

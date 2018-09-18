@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { DevEnvironmentCard } from '../Models/dev-environment-card';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
+import { Subject } from 'rxjs/Subject';
 @Component({
     selector: 'step-choose-dev-environment',
     templateUrl: './step-choose-dev-environment.component.html',
     styleUrls: ['./step-choose-dev-environment.component.scss', '../quickstart.component.scss'],
 })
-export class StepChooseDevEnvironmentComponent {
+export class StepChooseDevEnvironmentComponent implements OnDestroy {
 
     public readonly vsCard: DevEnvironmentCard = {
         id: 'vs',
@@ -52,10 +53,12 @@ export class StepChooseDevEnvironmentComponent {
     };
 
     public selectedDevEnvironmentCard: DevEnvironmentCard = null;
-    public workerRuntime: workerRuntimeOptions;
     public devEnvironmentCards: DevEnvironmentCard[];
+    public workerRuntime: workerRuntimeOptions;
     public isLinux: boolean;
     public isLinuxConsumption: boolean;
+
+    private _ngUnsubscribe = new Subject();
 
     constructor(
         private _wizardService: QuickstartStateManager,
@@ -66,20 +69,26 @@ export class StepChooseDevEnvironmentComponent {
         this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
         this.devEnvironmentCards = this._getDevEnvironmentCards();
 
-        this._wizardService.workerRuntime.statusChanges.subscribe(() => {
-            this.workerRuntime = this._wizardService.workerRuntime.value;
-            this.devEnvironmentCards = this._getDevEnvironmentCards();
-        });
+        this._wizardService.workerRuntime.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.workerRuntime = this._wizardService.workerRuntime.value;
+                this.devEnvironmentCards = this._getDevEnvironmentCards();
+            });
 
-        this._wizardService.isLinux.statusChanges.subscribe(() => {
-            this.isLinux = this._wizardService.isLinux.value;
-            this.devEnvironmentCards = this._getDevEnvironmentCards();
-        });
+        this._wizardService.isLinux.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.isLinux = this._wizardService.isLinux.value;
+                this.devEnvironmentCards = this._getDevEnvironmentCards();
+            });
 
-        this._wizardService.isLinuxConsumption.statusChanges.subscribe(() => {
-            this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
-            this.devEnvironmentCards = this._getDevEnvironmentCards();
-        });
+        this._wizardService.isLinuxConsumption.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
+                this.devEnvironmentCards = this._getDevEnvironmentCards();
+            });
     }
 
     public selectDevEnvironment(card: DevEnvironmentCard) {
@@ -132,5 +141,9 @@ export class StepChooseDevEnvironmentComponent {
             return [];
         }
         return [this.vsCodeCard, this.mavenCard];
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 }

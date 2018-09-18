@@ -1313,4 +1313,5 @@
     public static hideUrl = 'hideUrl';
     public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
     public static formIsInvalid = 'formIsInvalid';
+    public static finishAndDeploy = 'finishAndDeploy';
 }
