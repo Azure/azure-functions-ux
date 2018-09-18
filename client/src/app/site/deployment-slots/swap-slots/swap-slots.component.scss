@@ -87,9 +87,6 @@ td, th{
 .help-text-container {
     margin-bottom: 10px;
     background-color: $chrome-color;
-    border-color: $border-color;
-    padding: 15px;
-    border: 1px solid transparent;
     box-sizing: border-box;
     display: block;
     border-radius: 4px;
@@ -128,7 +125,6 @@ td, th{
 
     .help-text-container {
         background-color: $chrome-color-dark;
-        border-color: $heading-text-color-dark;
     }
 
 }
