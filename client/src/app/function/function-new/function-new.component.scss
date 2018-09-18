@@ -154,7 +154,7 @@ drop-down{
             background-color: $card-color-selected-dark;
         }
         &:hover {
-            box-shadow: $card-dark-shadow;
+            box-shadow: $card-box-shadow-hover-dark;
         }
     }
 }
