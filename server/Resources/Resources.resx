@@ -3731,10 +3731,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Are you sure you want to disconnect your deployment?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Community Templates</value>
+    <value>Serverless Community Library (Preview)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
+    <value>Not finding what you're looking for? Check out the Azure Serverless Community Library!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Azure Functions Runtime is unreachable.</value>
