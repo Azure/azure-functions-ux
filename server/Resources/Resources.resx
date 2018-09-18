@@ -4070,6 +4070,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
   </data>
   <data name="dynamicLinuxPreview" xml:space="preserve">
-    <value>Linux dynamic is preview text</value>
+    <value>Linux Consumption Functions are a preview offer.</value>
   </data>
 </root>
