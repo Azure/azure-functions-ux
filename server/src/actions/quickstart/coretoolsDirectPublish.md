@@ -17,7 +17,7 @@ In the terminal window or from a command prompt, navigate to an empty folder for
 func init
 ```
 
-You will also be prompted to choose a runtime for the project. Select {workerRuntime}
+You will also be prompted to choose a runtime for the project. Select {workerRuntime}.
 
 <br/>
 # Create a function
