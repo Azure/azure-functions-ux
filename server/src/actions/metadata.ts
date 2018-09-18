@@ -100,8 +100,8 @@ export async function getQuickstart(req: Request, res: Response) {
   }
 
   //this is the ideal item to return, it is the correct language asked for
-  var languageFile = langCode === 'en' ? `${fileName}.md` : `${fileName}.${langCode}.json`;
-  //This is for development only so people can develop without having a templates folder laid out
+  var languageFile = langCode === 'en' ? `${fileName}.md` : `${fileName}.${langCode}.md`;
+  //This is for development only so people can develop without having a quickstart folder laid out
   var defaultFallbackFile = `${fileName}.md`;
 
   var folder = path.join(__dirname, 'quickstart');

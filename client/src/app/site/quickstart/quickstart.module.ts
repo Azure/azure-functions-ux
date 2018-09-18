@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 import { MarkdownModule } from 'ngx-markdown';
-import { QuickstartService } from '../../shared/services/quickstart.service';
+import { QuickstartService } from './quickstart.service';
 
 @NgModule({
     entryComponents: [QuickstartComponent],

@@ -30,7 +30,7 @@ export class SiteService {
         injector: Injector,
         private _cacheService: CacheService) {
 
-        this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token))
+        this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
 
     getSite(resourceId: string): Result<ArmObj<Site>> {
@@ -92,7 +92,7 @@ export class SiteService {
                 if (e.status === 409) {
                     return this._cacheService.postArm(`/subscriptions/${subscriptionId}/providers/Microsoft.ResourceHealth/register`)
                         .mergeMap(() => {
-                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
                         })
                         .map(r => r.json());
                 }
@@ -149,8 +149,8 @@ export class SiteService {
             location: loc,
             properties: {
                 serverFarmId: serverfarmId,
-                siteConfig: config
-            }
+                siteConfig: config,
+            },
         });
         const newSlotId = `${resourceId}/slots/${slotName}`;
         const createSlot = this._cacheService.putArm(newSlotId, null, payload).map(r => r.json());
@@ -164,5 +164,15 @@ export class SiteService {
             .map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getPublishingCredentials);
+    }
+
+    updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
+        const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, null, siteConfig);
+        return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
+    }
+
+    updateAppSettings(resourceId: string, appSettings: ArmObj<ApplicationSettings>) {
+        const putAppSettings = this._cacheService.putArm(`${resourceId}/config/appSettings`, null, appSettings);
+        return this._client.execute({ resourceId: resourceId }, t => putAppSettings);
     }
 }

@@ -1544,13 +1544,13 @@
     <value>Stack</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+    <value>Web Apps on Linux provide runtime options through a collection of built in containers. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startup File</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
@@ -3729,7 +3729,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="disconnectConfirm" xml:space="preserve">
     <value>Are you sure you want to disconnect your deployment?</value>
-  </data>  
+  </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
     <value>Serverless Community Library (Preview)</value>
   </data>
@@ -3911,10 +3911,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sample #2</value>
   </data>
   <data name="singleContainerSample1Description" xml:space="preserve">
-    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
+    <value>Static html web page served from Nginx.</value>
   </data>
   <data name="singleContainerSample2Description" xml:space="preserve">
-    <value>Static html web page served from Nginx.</value>
+    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
   </data>
   <data name="dockerComposeSample1Description" xml:space="preserve">
     <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
@@ -4059,5 +4059,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="invalidUrl" xml:space="preserve">
     <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Failed to update data for container settings.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Errors in settings.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Settings updated successfully.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>show url</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>hide url</value>
+  </data>
+  <data name="singleContainerWindowsSample1Description" xml:space="preserve">
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Some fields are not properly filled out or are required.</value>
   </data>
 </root>

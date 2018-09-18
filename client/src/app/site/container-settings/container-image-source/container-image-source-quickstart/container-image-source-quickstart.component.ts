@@ -40,6 +40,7 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
         const selectedSample = this._getContainerSampleFromKey(sample.value);
         this.selectedSampleDescription = selectedSample.description;
         this.imageSourceForm.controls.config.setValue(atob(selectedSample.configBase64Encoded));
+        this.imageSourceForm.controls.serverUrl.setValue(selectedSample.sourceUrl);
     }
 
     protected setup(inputEvents: Observable<ContainerImageSourceData>) {
@@ -64,6 +65,7 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
                 if (containerSamples.length > 0) {
                     this.selectedSampleValue = this.samplesList[0].value;
                     this.selectedSampleDescription = containerSamples[0].description;
+                    this.imageSourceForm.controls.serverUrl.setValue(this.containerSamples[0].sourceUrl);
                     this.imageSourceForm.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
                 }
             });

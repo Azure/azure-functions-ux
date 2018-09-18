@@ -126,8 +126,14 @@ $black_shadow: rgba(0, 0, 0, 0.075);
 $control-error-color-light: #b40e1b;
 $control-error-color-dark: #f88;
 
-// Sidebar colors:
+// Sidebar:
 $sidebar-border-color: darken($chrome-color, 30%);
+$sidebar-header-border-bottom-style: solid;
+$sidebar-header-border-bottom-width: 1px;
+$sidebar-header-border-color: rgba(204, 204, 204, 0.5);
+
+// Wizard footer:
+$wizard-footer-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
 
 // Table colors:
 $row-hover-color: rgba(0, 137, 250, 0.08);
@@ -155,11 +161,63 @@ $source-slot-bullet-color-dark: aqua;
 $target-slot-bullet-color: #f77088;
 
 // Card styles:
-$header-box-color: white;
-$footer-shadow-style: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
-$card-box-shadow-style: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-$card-transition-style: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-$card-hover-shadow-style: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-$card-focus-shadow-style: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-$card-selected-transition-style: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
-$card-dark-shadow-style: 0px 11px 15px -7px rgba(224,224,224, 0.8), 0px 24px 38px 3px rgba(146, 146, 146, 0.74), 0px 9px 46px 8px rgba(75, 75, 75, 0.72);
+
+// Card default attributes
+$card-border-radius: 2px;
+$card-border-width: 1px;
+$card-border-color: rgba(204, 204, 204, 0.5);
+$card-border-style: solid;
+$card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+$card-float: left;
+$card-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+$card-position: relative;
+
+// Card hover
+$card-cursor-hover: pointer;
+$card-box-shadow-hover: 0px 4px 8px rgba(0, 0, 0, .14);
+
+// Card hover disabled
+$card-cursor-hover-disabled: not-allowed;
+
+// Card selected
+$card-border-color-selected: rgba(65, 155, 243, 0.5);
+$card-transition-selected: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Card focus
+$card-outline-color: rgba(65, 155, 243, 0.5);
+$card-outline-offset: 5px;
+$card-outline-style: dashed;
+$card-outline-width: 1px;
+
+// Card header
+$card-header-display: inline-flex;
+$card-header-width: 100%;
+
+$card-header-icon-height: 40px;
+$card-header-icon-width: 40px;
+$card-header-icon-padding: 5px;
+$card-header-icon-margin-right: 15px;
+
+$card-header-title-padding-left: 20px;
+$card-header-title-line-height: 37px;
+$card-header-title-font-size: 14px;
+$card-header-title-font-weight: 600;
+$card-header-title-height: 41px;
+
+// Card description
+$card-description-border-top-style: solid;
+$card-description-border-top-width: 1px;
+$card-description-border-color: rgba(204, 204, 204, 0.5);
+$card-description-margin-top: -1px;
+$card-description-padding: 15px;
+
+// Card footer
+$card-footer-display: inline-flex;
+$card-footer-max-width: 100%;
+$card-footer-position: absolute;
+$card-footer-border-top-style: solid;
+$card-footer-border-top-width: 1px;
+$card-footer-border-color: rgba(204, 204, 204, 0.5);
+
+// Card dark mode
+$card-box-shadow-hover-dark: 0px 4px 8px rgba(255, 255, 255, .14);

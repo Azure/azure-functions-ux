@@ -2,12 +2,12 @@
     <label>{{ 'containerContinuousDeployment' | translate }}</label><br/>
     <radio-selector
         [options] = "containerSettingsManager.continuousDeploymentOptions"
-        [highlightDirty] = "true"
         [control] = "form.controls.continuousDeploymentOption">
     </radio-selector>
 
     <div>
         <label>{{ 'containerWebhookUrl' | translate }}</label>
-        <copy-pre [content]="containerSettingsManager.webhookUrl"></copy-pre>
+        <a (click)="toggleUrl()">{{ (urlVisible ? 'hideUrl' : 'showUrl') | translate }}</a>
+        <copy-pre [content]="urlVisible ?  containerSettingsManager.webhookUrl : '****'"></copy-pre>
     </div>
 </div>

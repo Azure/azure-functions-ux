@@ -38,7 +38,6 @@ export interface CreateCard extends Template {
     ids: string[];
     color: string;
     icon: string;
-    barcolor: string;
     focusable: boolean;
     allLanguages?: string[];
     supportedLanguages?: string[];
@@ -78,17 +77,17 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public functionAppLanguage: string;
 
     public createCardStyles = {
-        'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
-        'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
-        'eventGrid': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventGrid.svg' },
-        'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
-        'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
-        'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
-        'other': { color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg' },
-        'queue': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg' },
-        'serviceBus': { color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg' },
-        'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
-        'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
+        'blob': { color: '#1E5890', icon: 'image/blob.svg' },
+        'cosmosDB': { color: '#379DA6', icon: 'image/cosmosDB.svg' },
+        'eventGrid': { color: '#719516', icon: 'image/eventGrid.svg' },
+        'eventHub': { color: '#719516', icon: 'image/eventHub.svg' },
+        'http': { color: '#731DDA', icon: 'image/http.svg' },
+        'iot': { color: '#990000', icon: 'image/iot.svg' },
+        'other': { color: '#000000', icon: 'image/other.svg' },
+        'queue': { color: '#1E5890', icon: 'image/queue.svg' },
+        'serviceBus': { color: '#F67600', icon: 'image/serviceBus.svg' },
+        'timer': { color: '#3C86FF', icon: 'image/timer.svg' },
+        'webhook': { color: '#731DDA', icon: 'image/webhook.svg' },
     };
 
     public functionsNode: FunctionsNode;
@@ -287,8 +286,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
                     color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
                         this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
-                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
                     focusable: false
                 });
             } else {
