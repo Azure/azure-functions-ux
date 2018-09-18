@@ -103,7 +103,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         ids: [],
         icon: this.createCardStyles['other'].icon,
         color: this.createCardStyles['other'].color,
-        barcolor: this.createCardStyles['other'].barcolor,
         focusable: false,
     };
     private category = '';
