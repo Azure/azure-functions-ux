@@ -32,7 +32,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
-    public Resources = PortalResources;
     public group: FormGroup;
     public hasWritePermissions: boolean;
     public permissionsMessage: string;
@@ -77,6 +76,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public dropDownOptionsMap: { [key: string]: DropDownElement<string>[] };
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
+    public readonly linuxFxVersionLabelHelp: string;
+    public readonly appCommandLineLabelHelp: string;
 
     private _sku: string;
 
@@ -100,6 +101,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         injector: Injector
     ) {
         super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
+
+        this.linuxFxVersionLabelHelp = this._translateService.instant(PortalResources.linuxFxVersionLabelHelp, { learnMoreLink: Links.linuxContainersLearnMore });
+        this.appCommandLineLabelHelp = this._translateService.instant(PortalResources.appCommandLineLabelHelp, { learnMoreLink: Links.linuxContainersLearnMore });
 
         this._resetSlotsInfo();
 
