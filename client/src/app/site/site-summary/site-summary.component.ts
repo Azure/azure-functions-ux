@@ -1,3 +1,4 @@
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
@@ -59,6 +60,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     public showDownloadFunctionAppModal = false;
     public showQuickstart: boolean;
     public bodyLoading  = true;
+    public notifications: TopBarNotification[] = [];
 
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
@@ -193,17 +195,28 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     });
                 }
 
+                if (ArmUtil.isLinuxDynamic(this.context.site)) {
+                    this.notifications.push({
+                        id: NotificationIds.dynamicLinux,
+                        message: this.ts.instant(PortalResources.dynamicLinuxPreview),
+                        iconClass: 'fa fa-exclamation-triangle warning',
+                        learnMoreLink: Links.dynamicLinuxPreviewLearnMore,
+                        clickCallback: null,
+                    });
+                    this._globalStateService.setTopBarNotifications(this.notifications);
+                }
+
                 if (!!r.runtime && r.runtime.includes('2.0.12050')) {
                     const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
                     if (hasOldExtensions) {
-                        const notifications: TopBarNotification[] = [{
+                        this.notifications.push({
                             id: NotificationIds.updateExtensions,
                             message: this.ts.instant(PortalResources.topBar_updateExtensions),
                             iconClass: 'fa fa-exclamation-triangle warning',
                             learnMoreLink: Links.extensionInstallHelpLink,
                             clickCallback: null,
-                        }];
-                        this._globalStateService.setTopBarNotifications(notifications);
+                        });
+                        this._globalStateService.setTopBarNotifications(this.notifications);
                     }
                 }
 
