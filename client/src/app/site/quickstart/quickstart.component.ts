@@ -160,7 +160,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
         const descriptor = new ArmSiteDescriptor(this.context.site.id);
         const subscriptionId = descriptor.subscription;
 
-        return this._subs ? this._subs.find(s => s.subscriptionId === subscriptionId).displayName : '';
+        return this._subs ? this._subs.find(s => s.subscriptionId === subscriptionId).displayName : '{subscriptionName}';
     }
 
     private _checkShowDeploymentStep(): boolean {
