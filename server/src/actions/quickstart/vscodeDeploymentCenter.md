@@ -17,7 +17,7 @@ Click the **Create New Project…** icon in the **Azure: Functions** panel.
 
 You will be prompted to choose a directory for your app. Choose an empty directory.
 
-You will then be prompted to select a langauge for your project. Choose {workerRuntime}.
+You will then be prompted to select a language for your project. Choose {workerRuntime}.
 
 <br/>
 # Create a function
