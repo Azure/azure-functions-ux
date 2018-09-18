@@ -135,6 +135,7 @@ export class Links {
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
     public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
     public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
+    public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
 }
 
 export class Kinds {
