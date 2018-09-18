@@ -587,18 +587,17 @@ export class FunctionAppService {
     }
 
     getWorkerRuntimeRequired(context: FunctionAppContext): Observable<boolean> {
-        this.getFunctionHostStatus(context)
-            .subscribe(r => {
+        return this.getFunctionHostStatus(context)
+            .map(r => {
                 if (r.isSuccessful) {
                     const exactRuntime = r.result.version;
-                    if (exactRuntime.includes('2.0.12050')) {
-                        return Observable.of(true);
+                    if (exactRuntime.startsWith('2.') && Number(exactRuntime.split('.')[2]) > 12050) {
+                        return true;
                     }
-                    return Observable.of(false);
+                    return false;
                 }
-                return Observable.of(false);
+                return false;
             });
-         return Observable.of(false);
     }
 
     getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {

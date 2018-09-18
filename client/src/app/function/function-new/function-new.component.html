@@ -5,7 +5,27 @@
 
             <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
-            <div *ngIf="functionsInfo" [fnWriteAccess]="context">
+            <ng-container *ngIf="needsWorkerRuntime">
+                <div class="choose">
+                    <h2>Function Apps runtime stack</h2>
+                </div>
+                <div>
+                    <h4>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</h4>
+                </div>
+                <div class="search-and-sort">
+                    {{ 'Function Runtime stack' | translate }}
+                    <drop-down class="tpicker-dropdown"
+                        [options]="possibleRuntimes"
+                        (value)="onRuntimeChanged($event)"
+                        attr.aria-label="{{ 'Function Runtime stack' | translate }}">
+                    </drop-down>
+                    <button class="custom-button"
+                        (click)="setRuntime()">{{ 'Go' | translate }}
+                    </button>
+                </div>
+            </ng-container>
+
+            <div *ngIf="functionsInfo && !needsWorkerRuntime" [fnWriteAccess]="context">
 
                 <div class="choose">
                     <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
@@ -46,7 +66,7 @@
                                    attr.aria-label="{{'templatePicker_scenario' | translate}}">
                         </drop-down>
 
-                        <div *ngIf="runtimeVersion === 'V1'">
+                        <div *ngIf="runtimeVersion === 'V1' && !functionAppLanguage">
                             {{ 'experimentalLanguageSupport' | translate }}
                             <slide-toggle class="language-toggle"
                                           [on]="showExperimentalLanguages"

@@ -26,6 +26,8 @@ import { ScenarioService } from '../../shared/services/scenario/scenario.service
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteService } from '../../shared/services/site.service';
+import { CacheService } from 'app/shared/services/cache.service';
+import { ArmService } from 'app/shared/services/arm.service';
 
 interface CategoryOrder {
     name: string;
@@ -76,7 +78,23 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
     public appSettingsArm: ArmObj<ApplicationSettings>;
     public functionAppLanguage: string;
+    public templates: FunctionTemplate[];
     public needsWorkerRuntime: boolean;
+    public runtime: string;
+
+    public possibleRuntimes: DropDownElement<string>[] =
+    [{
+        displayLabel: 'C#',
+        value: 'dotnet',
+    },
+    {
+        displayLabel: 'Javascript',
+        value: 'node',
+    },
+    {
+        displayLabel: 'Python',
+        value: 'python',
+    }];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
@@ -135,7 +153,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         private _translateService: TranslateService,
         private _logService: LogService,
         private _functionAppService: FunctionAppService,
-        private _siteService: SiteService) {
+        private _siteService: SiteService,
+        private _cacheService: CacheService,
+        private _armService: ArmService) {
         super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
@@ -171,7 +191,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
                 this.bindings = tuple[3].result.bindings;
-                this.needsWorkerRuntime = tuple[5];
+                this.templates = tuple[4].result;
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
@@ -181,18 +201,19 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
                     this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     if (!this.functionAppLanguage) {
+                        // this is if workerRuntime is set, but value is invalid
                         this.needsWorkerRuntime = true;
                     } else {
+                        // workerRuntime is valid
                         this.needsWorkerRuntime = false;
-                        this.allExperimentalLanguages = [];
                     }
+                } else {
+                    this.needsWorkerRuntime = tuple[5];
                 }
 
-                if (this.needsWorkerRuntime) {
-                    // DROP DOWN TIIIIIME
+                if (!this.needsWorkerRuntime) {
+                    this._buildCreateCardTemplates(this.templates);
                 }
-
-                this._buildCreateCardTemplates(tuple[4].result);
                 this._globalStateService.clearBusyState();
             });
     }
@@ -350,6 +371,31 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         this.language = this._translateService.instant('temp_category_all');
         this.category = this._translateService.instant('temp_category_all');
+    }
+
+    onRuntimeChanged(runtime: string) {
+        this.runtime = runtime;
+    }
+
+    setRuntime() {
+        this._globalStateService.setBusyState();
+
+        if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+            delete this.appSettingsArm[Constants.functionsWorkerRuntimeAppSettingsName];
+        }
+        this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
+
+        this._cacheService.putArm(this.appSettingsArm.id, this._armService.websiteApiVersion, this.appSettingsArm)
+            .do(null, e => {
+                this._globalStateService.clearBusyState();
+                this.showComponentError(e);
+            })
+            .subscribe(() => {
+                this.functionAppLanguage = WorkerRuntimeLanguages[this.runtime];
+                this.needsWorkerRuntime = false;
+                this._buildCreateCardTemplates(this.templates);
+                this._globalStateService.clearBusyState();
+            });
     }
 
     switchExperimentalLanguagesOption() {
