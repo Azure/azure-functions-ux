@@ -3887,7 +3887,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>A function that will be run on a specified schedule</value>
   </data>
   <data name="quickstartMessage1" xml:space="preserve">
-    <value>Yay! You have created a Function App</value>
+    <value>You have created a function app!</value>
   </data>
   <data name="quickstartMessage2" xml:space="preserve">
     <value>Now it is time to add your code...</value>
@@ -4080,5 +4080,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="formIsInvalid" xml:space="preserve">
     <value>Some fields are not properly filled out or are required.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Finish and go to Deployment Center</value>
   </data>
 </root>

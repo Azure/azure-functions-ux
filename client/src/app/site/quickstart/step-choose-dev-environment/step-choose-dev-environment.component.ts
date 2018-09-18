@@ -55,6 +55,7 @@ export class StepChooseDevEnvironmentComponent {
     public workerRuntime: workerRuntimeOptions;
     public devEnvironmentCards: DevEnvironmentCard[];
     public isLinux: boolean;
+    public isLinuxConsumption: boolean;
 
     constructor(
         private _wizardService: QuickstartStateManager,
@@ -62,6 +63,7 @@ export class StepChooseDevEnvironmentComponent {
 
         this.workerRuntime = this._wizardService.workerRuntime.value;
         this.isLinux = this._wizardService.isLinux.value;
+        this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
         this.devEnvironmentCards = this._getDevEnvironmentCards();
 
         this._wizardService.workerRuntime.statusChanges.subscribe(() => {
@@ -71,6 +73,11 @@ export class StepChooseDevEnvironmentComponent {
 
         this._wizardService.isLinux.statusChanges.subscribe(() => {
             this.isLinux = this._wizardService.isLinux.value;
+            this.devEnvironmentCards = this._getDevEnvironmentCards();
+        });
+
+        this._wizardService.isLinuxConsumption.statusChanges.subscribe(() => {
+            this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
             this.devEnvironmentCards = this._getDevEnvironmentCards();
         });
     }
@@ -86,9 +93,9 @@ export class StepChooseDevEnvironmentComponent {
                 return this._dotnetEnvironmentCards();
             case 'node':
             case 'nodejs':
-                return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+                return this._nodeEnvironmentCards();
             case 'python':
-                return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+                return this._pythonEnvironmentCards();
             case 'java':
                 return this._javaEnvironmentCards();
             default:
@@ -98,9 +105,26 @@ export class StepChooseDevEnvironmentComponent {
 
     private _dotnetEnvironmentCards(): DevEnvironmentCard[] {
         if (this.isLinux) {
+            if (this.isLinuxConsumption) {
+                return [this.vsCodeCard, this.coreToolsCard];
+            }
             return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
         }
         return [this.vsCard, this.vsCodeCard, this.coreToolsCard, this.portalCard];
+    }
+
+    private _nodeEnvironmentCards(): DevEnvironmentCard[] {
+        if (this.isLinuxConsumption) {
+            return [this.vsCodeCard, this.coreToolsCard];
+        }
+        return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+    }
+
+    private _pythonEnvironmentCards(): DevEnvironmentCard[] {
+        if (this.isLinuxConsumption) {
+            return [this.vsCodeCard, this.coreToolsCard];
+        }
+        return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
     }
 
     private _javaEnvironmentCards(): DevEnvironmentCard[] {
