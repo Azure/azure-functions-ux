@@ -32,4 +32,4 @@ To stop debugging, press **Shift + F5**.
 <br/>
 # Deploy your code to Azure
 
-Use the button below to navigate to Deployment Center and finish setting up your app. This will take you through a new wizard to configure a variety of deployment options. After completing this flow, trigger a deployment using whichever mechanism you configured.
+Use the **Finish and go to Deployment Center** button below to navigate to Deployment Center and finish setting up your app. This will take you through a new wizard to configure a variety of deployment options. After completing this flow, trigger a deployment using whichever mechanism you configured.
