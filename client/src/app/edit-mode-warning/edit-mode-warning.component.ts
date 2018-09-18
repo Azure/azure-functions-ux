@@ -24,7 +24,6 @@ export class EditModeWarningComponent implements OnInit {
     public readWriteVSGenerated = false;
     public readOnlyRunFromZip = false;
     public readOnlyLocalCache = false;
-    public readOnlyBYOC = false;
 
     constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) { }
 
@@ -51,8 +50,6 @@ export class EditModeWarningComponent implements OnInit {
                             this.readOnlyRunFromZip = true;
                         } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
                             this.readOnlyLocalCache = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
-                            this.readOnlyBYOC = true;
                         }
                     }
                 });
