@@ -146,7 +146,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                     && response.result
                     && response.result.repositories
                     && response.result.repositories.length > 0) {
-                    this.repositoryItems = response.result.repositories;
+                    this.repositoryItems = response.result.repositories.sort();
 
                     this.repositoryDropdownItems = this.repositoryItems.map(item => ({
                         displayLabel: item,
@@ -177,7 +177,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                     && response.result
                     && response.result.tags
                     && response.result.tags.length > 0) {
-                    this.tagItems = response.result.tags;
+                    this.tagItems = response.result.tags.sort();
 
                     this.tagDropdownItems = this.tagItems.map(item => ({
                         displayLabel: item,
