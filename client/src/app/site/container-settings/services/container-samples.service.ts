@@ -3,6 +3,7 @@ import { ContainerSample, ContainerOS, ContainerType } from '../container-settin
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
+import { ContainerConstants } from '../../../shared/models/constants';
 
 export interface IContainerSamplesService {
     getQuickstartSamples(containerOS: ContainerOS, containerType: ContainerType): Observable<ContainerSample[]>;
@@ -30,6 +31,7 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.singleContainerSample1Description),
                 containerType: 'single',
                 containerOS: 'linux',
+                sourceUrl: ContainerConstants.dockerHubUrl,
             },
             {
                 name: 'sample2',
@@ -38,6 +40,7 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.singleContainerSample2Description),
                 containerType: 'single',
                 containerOS: 'linux',
+                sourceUrl: ContainerConstants.dockerHubUrl,
             },
             {
                 name: 'sample1',
@@ -46,6 +49,7 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.dockerComposeSample1Description),
                 containerType: 'dockerCompose',
                 containerOS: 'linux',
+                sourceUrl: ContainerConstants.dockerHubUrl,
             },
             {
                 name: 'sample2',
@@ -54,6 +58,7 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.dockerComposeSample2Description),
                 containerType: 'dockerCompose',
                 containerOS: 'linux',
+                sourceUrl: ContainerConstants.dockerHubUrl,
             },
             {
                 name: 'sample1',
@@ -62,6 +67,7 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.kubernetesSample1Description),
                 containerType: 'kubernetes',
                 containerOS: 'linux',
+                sourceUrl: ContainerConstants.dockerHubUrl,
             },
             {
                 name: 'sample1',
@@ -70,16 +76,17 @@ export class ContainerSamplesService implements IContainerSamplesService {
                 description: this._ts.instant(PortalResources.singleContainerWindowsSample1Description),
                 containerType: 'single',
                 containerOS: 'windows',
+                sourceUrl: ContainerConstants.microsoftMcrUrl,
             },
         ];
     }
 
     private _getSingleContainerSample1Config() {
-        return btoa('appsvcsample/flask-sample');
+        return btoa('appsvcsample/static-site');
     }
 
     private _getSingleContainerSample2Config() {
-        return btoa('appsvcsample/static-site');
+        return btoa('appsvcsample/flask-sample');
     }
 
     private _getDockerComposeSample1Config() {

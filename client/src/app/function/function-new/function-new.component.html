@@ -66,24 +66,21 @@
                          [tabindex]="card.focusable ? 0 : -1"
                          (keydown)="onKeyPress($event, card, showTryView && !card.enabledInTryMode)">
 
-                        <div class="headerBox" [style.background-color]="card.barcolor">
-                            {{card.name}}
-                            <img [src]="card.icon" [style.background-color]="card.color"/>
+                        <div class="cardHeader">
+                            <img [src]="card.icon" [style.background-color]="card.color"/>{{card.name}}
                         </div>
-                        <div class="sourceDescription">
+                        <div class="cardDescription">
                             {{card.description}}
                             <p *ngIf="showTryView && !card.enabledInTryMode">
                                 <br>
                                 {{ 'tryNow_FreeAccountToolTip' | translate }}
                             </p>
                         </div>
-                        <div class="cardFooter" [style.background-color]="card.barcolor">
-                            <ng-container *ngIf="!functionAppLanguage">
-                                <div *ngFor="let language of card.languages"
-                                    (click)="onCardLanguageSelected(card, language, showTryView && !card.enabledInTryMode);$event.stopPropagation();">
-                                    {{language}}
-                                </div>
-                            </ng-container>
+                        <div *ngIf="!functionAppLanguage" class="cardFooter">
+                            <div *ngFor="let language of card.languages"
+                                (click)="onCardLanguageSelected(card, language, showTryView && !card.enabledInTryMode);$event.stopPropagation();">
+                                {{language}}
+                            </div>
                         </div>
 
                     </div>

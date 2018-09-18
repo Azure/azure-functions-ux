@@ -137,6 +137,7 @@ export class Links {
     public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
     public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
     public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=??';
+    public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
 }
 
 export class Kinds {
@@ -339,6 +340,7 @@ export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
     public static armApiVersion = '2014-04-01';
     public static acrApiversion = '2017-03-01';
+    public static acrWebhookApiVersion = '2017-10-01';
 }
 export class SubscriptionQuotaIds {
     public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
@@ -529,6 +531,7 @@ export class ContainerConstants {
     public static readonly composePrefix = 'COMPOSE';
     public static readonly kubernetesPrefix = 'KUBE';
     public static readonly dockerHubUrl = 'https://index.docker.io';
+    public static readonly microsoftMcrUrl = 'https://mcr.microsoft.com';
     public static readonly acrUriBody = 'azurecr';
     public static readonly imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
     public static readonly serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';

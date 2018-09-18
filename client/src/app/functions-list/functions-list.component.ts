@@ -102,8 +102,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                             ids: [`${template.id}`],
                             icon: 'image/other.svg',
                             color: '#000000',
-                            barcolor: '#D9D9D9',
-                            focusable: false
+                            focusable: false,
                         });
                     } else {
                         this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
