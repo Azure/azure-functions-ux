@@ -424,9 +424,9 @@ export class ContainerSettingsManager {
             : this._getKubernetesForm(null, null, null);
 
         this.form = this._fb.group({
-            os: [os, []],
-            containerType: [selectedContainerType, []],
-            continuousDeploymentOption: [this._getFormContinuousDeploymentOption(appSettings), []],
+            os: [os, this.requiredValidator.validate.bind(this.requiredValidator)],
+            containerType: [selectedContainerType, this.requiredValidator.validate.bind(this.requiredValidator)],
+            continuousDeploymentOption: [this._getFormContinuousDeploymentOption(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
             singleContainerForm: singleContainerForm,
             dockerComposeForm: dockerComposeForm,
             kubernetesForm: kubernetesForm,
@@ -491,7 +491,7 @@ export class ContainerSettingsManager {
             : this._getPrivateRegistryForm(containerFormType, null, null, null);
 
         return this._fb.group({
-            imageSource: [selectedImageSourceType, []],
+            imageSource: [selectedImageSourceType, this.requiredValidator.validate.bind(this.requiredValidator)],
             imageSourceQuickstartForm: this._getQuickstartForm(),
             imageSourceAcrForm: acrForm,
             imageSourceDockerHubForm: dockerHubForm,
