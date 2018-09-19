@@ -21,9 +21,10 @@ export class RuntimeVersions {
     }
 
     public static workerRuntimeRequired(exactRuntime: string) {
+        const majorVersion = this.majorVersion(exactRuntime);
         const minorVersion = this.minorVersion(exactRuntime);
-        if (minorVersion) {
-            return minorVersion >= 12050;
+        if (majorVersion && minorVersion) {
+            return majorVersion === 2 && minorVersion >= 12050;
         }
         return false;
     }
