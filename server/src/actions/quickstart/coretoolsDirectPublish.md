@@ -1,4 +1,4 @@
-## Install dependencies
+# Install dependencies
 
 Before you can get started, you should [install .NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373). You should also [install Node.JS](https://go.microsoft.com/fwlink/?linkid=2016195) which includes npm, which is how you will obtain the Azure Functions Core Tools. If you prefer not to install Node, see the other installation options in our [Core Tools reference](https://go.microsoft.com/fwlink/?linkid=2016192).
 
@@ -8,7 +8,8 @@ Run the following command to install the Core Tools package:
 npm install -g azure-functions-core-tools
 ```
 
-## Create an Azure Functions project
+<br/>
+# Create an Azure Functions project
 
 In the terminal window or from a command prompt, navigate to an empty folder for your project, and run the following command:
 
@@ -16,9 +17,10 @@ In the terminal window or from a command prompt, navigate to an empty folder for
 func init
 ```
 
-You will also be prompted to choose a runtime for the project. Select {workerRuntime}
+You will also be prompted to choose a runtime for the project. Select {workerRuntime}.
 
-## Create a function
+<br/>
+# Create a function
 
 To create a function, run the following command:
 
@@ -28,7 +30,8 @@ func new
 
 This will prompt you to choose a template for your function. We recommend HTTP trigger for getting started.
 
-## Run your function project locally
+<br/>
+# Run your function project locally
 
 Run the following command to start your function app:
 
@@ -40,7 +43,8 @@ The runtime will output a URL for any HTTP functions, which can be copied and ru
 
 To stop debugging, use **Ctrl-C** in the terminal.
 
-## Deploy your code to Azure
+<br/>
+# Deploy your code to Azure
 
 To publish your Functions project into Azure, enter the following command:
 ```

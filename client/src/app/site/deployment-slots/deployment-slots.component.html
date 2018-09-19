@@ -6,20 +6,6 @@
     <div ng-sidebar-content>
         <command-bar>
             <command
-                displayText="{{ 'slotNew' | translate }}"
-                iconUrl="image/add.svg"
-                (click)="showAddControls()"
-                [disabled]="addSlotCommandDisabled">
-            </command>
-
-            <command
-                displayText="{{ (siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap') | translate }}"
-                iconUrl="image/swap.svg"
-                (click)="showSwapControls()"
-                [disabled]="swapSlotsCommandDisabled">
-            </command>
-
-            <command
                 [displayText]="'save' | translate"
                 iconUrl="image/save.svg"
                 (click)="save()"
@@ -31,6 +17,20 @@
                 iconUrl="image/discard.svg"
                 (click)="discard()"
                 [disabled]="saveAndDiscardCommandsDisabled || !mainForm || mainForm.pristine">
+            </command>
+
+            <command
+                displayText="{{ 'slotNew' | translate }}"
+                iconUrl="image/add.svg"
+                (click)="showAddControls()"
+                [disabled]="addSlotCommandDisabled">
+            </command>
+
+            <command
+                displayText="{{ (siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap') | translate }}"
+                iconUrl="image/swap.svg"
+                (click)="showSwapControls()"
+                [disabled]="swapSlotsCommandDisabled">
             </command>
 
             <command

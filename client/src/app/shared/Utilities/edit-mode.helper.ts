@@ -8,7 +8,7 @@ export class EditModeHelper {
             || editMode === FunctionAppEditMode.ReadOnlyVSGenerated
             || editMode === FunctionAppEditMode.ReadOnlyRunFromZip
             || editMode === FunctionAppEditMode.ReadOnlyLocalCache
-            || editMode === FunctionAppEditMode.ReadOnlyBYOC;
+            || editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
     public static getWarningIfForced(editMode: FunctionAppEditMode): string {
@@ -16,8 +16,8 @@ export class EditModeHelper {
             return 'readOnlyRunFromZip';
         } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
             return 'readOnlyLocalCache';
-        } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
-            return 'readOnlyBYOC';
+        } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
+            return 'readOnlyLinuxDynamic';
         } else {
             return null;
         }

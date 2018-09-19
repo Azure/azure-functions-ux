@@ -1,7 +1,7 @@
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionInfo } from './../../../shared/models/function-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { PortalTemplateCard } from 'app/site/quickstart/Models/portal-function-card';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,13 +14,15 @@ import { WorkerRuntimeLanguages, SiteTabIds } from 'app/shared/models/constants'
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Observable } from 'rxjs/Observable';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
+import { Subject } from 'rxjs/Subject';
+import { errorIds } from 'app/shared/models/error-ids';
 
 @Component({
     selector: 'step-create-portal-function',
     templateUrl: './step-create-portal-function.component.html',
     styleUrls: ['./step-create-portal-function.component.scss', '../quickstart.component.scss'],
 })
-export class StepCreatePortalFunctionComponent implements OnInit {
+export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
 
     public readonly portalTemplateCards: PortalTemplateCard[] = [
         {
@@ -47,6 +49,8 @@ export class StepCreatePortalFunctionComponent implements OnInit {
     public templates: FunctionTemplate[];
     public functionsInfo: FunctionInfo[];
 
+    private _ngUnsubscribe = new Subject();
+
     constructor(
         private _wizardService: QuickstartStateManager,
         private _translateService: TranslateService,
@@ -58,14 +62,18 @@ export class StepCreatePortalFunctionComponent implements OnInit {
         this.workerRuntime = this._wizardService.workerRuntime.value;
         this.language =  this._getLanguage();
 
-        this._wizardService.context.statusChanges.subscribe(() => {
-            this.context = this._wizardService.context.value;
-        });
+        this._wizardService.context.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.context = this._wizardService.context.value;
+            });
 
-        this._wizardService.workerRuntime.statusChanges.subscribe(() => {
-            this.workerRuntime = this._wizardService.workerRuntime.value;
-            this.language = this._getLanguage();
-        });
+        this._wizardService.workerRuntime.statusChanges
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(() => {
+                this.workerRuntime = this._wizardService.workerRuntime.value;
+                this.language = this._getLanguage();
+            });
     }
 
     ngOnInit() {
@@ -107,7 +115,11 @@ export class StepCreatePortalFunctionComponent implements OnInit {
                                 }
                             });
                     } catch (e) {
-                        throw e;
+                        this._broadcastService.broadcast(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
+                            errorId: errorIds.unableToCreateFunction,
+                            resourceId: this.context.site.id,
+                        });
                     }
                 }
                 };
@@ -117,5 +129,9 @@ export class StepCreatePortalFunctionComponent implements OnInit {
 
     private _getLanguage(): string {
         return WorkerRuntimeLanguages[this.workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[this.workerRuntime];
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 }

@@ -102,6 +102,7 @@ export class NotificationIds {
     public static slotsHostId = 'slotsBlobStorage';
     public static runtimeV2 = 'runtimeV2';
     public static updateExtensions = 'updateExtensions';
+    public static dynamicLinux = 'dynamicLinux';
 }
 
 export class Validations {
@@ -117,10 +118,10 @@ export class Regex {
     public static readonly singleForwardSlash: RegExp = /\//g;
     public static readonly doubleBackslash: RegExp = /\\\\/g;
     public static readonly newLine: RegExp = /(\n)+/g;
-    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info\])/i;
-    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error\])/i;
-    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning\])/i;
-    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/i;
+    public static readonly infoLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Info|INFO)/;
+    public static readonly errorLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Error|ERROR)/;
+    public static readonly warningLog: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}\.\d+)\ (\[Warning|WARNING)/;
+    public static readonly log: RegExp = /^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/;
 }
 
 export class Links {
@@ -134,7 +135,10 @@ export class Links {
     public static extensionInstallHelpLink = 'https://go.microsoft.com/fwlink/?linkid=2010300';
     public static funcStorageLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2010003';
     public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
-    public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035&clcid=0x409';
+    public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035';
+    public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2022864';
+    public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552';
+    public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
 }
 
 export class Kinds {
@@ -203,6 +207,7 @@ export class ScenarioIds {
     public static readonly addScaleUp = 'AddScaleUp';
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
+    public static readonly addWebServerLogging = 'AddWebServerLogging';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -302,6 +307,7 @@ export class LogCategories {
     public static readonly busyState = 'BusyState';
     public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
+    public static readonly logStreamLoad = 'LogStreamLoad';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
     public static readonly connectionStrings = 'ConnectionStrings';
@@ -327,11 +333,15 @@ export class LogCategories {
     public static readonly serverFarm = 'ServerFarm';
     public static readonly syncTriggers = 'syncTriggers';
     public static readonly functionHostRestart = 'functionHostRestart';
+    public static readonly containerACR = 'containerACR';
+    public static readonly containerSettings = 'containerSettings';
 }
 
 export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
     public static armApiVersion = '2014-04-01';
+    public static acrApiversion = '2017-03-01';
+    public static acrWebhookApiVersion = '2017-10-01';
 }
 export class SubscriptionQuotaIds {
     public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
@@ -496,7 +506,8 @@ export class HostTypes {
     public static readonly scm = 1;
 }
 
-export enum LogConsoleTypes {
+export enum LogLevel {
+    Unknown = -1,
     Normal = 1,
     Info = 2,
     Error = 3,
@@ -514,4 +525,25 @@ export class PickerNames {
     public static readonly sql = 'Sql';
     public static readonly storage = 'Storage';
     public static readonly storageBlade = 'StorageAccountPickerBlade';
+}
+
+export class ContainerConstants {
+    public static readonly dockerPrefix = 'DOCKER';
+    public static readonly composePrefix = 'COMPOSE';
+    public static readonly kubernetesPrefix = 'KUBE';
+    public static readonly dockerHubUrl = 'https://index.docker.io';
+    public static readonly microsoftMcrUrl = 'https://mcr.microsoft.com';
+    public static readonly acrUriBody = 'azurecr';
+    public static readonly imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
+    public static readonly serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';
+    public static readonly usernameSetting = 'DOCKER_REGISTRY_SERVER_USERNAME';
+    public static readonly passwordSetting = 'DOCKER_REGISTRY_SERVER_PASSWORD';
+    public static readonly runCommandSetting = 'DOCKER_CUSTOM_IMAGE_RUN_COMMAND';
+    public static readonly appServiceStorageSetting = 'WEBSITES_ENABLE_APP_SERVICE_STORAGE';
+    public static readonly enableCISetting = 'DOCKER_ENABLE_CI';
+    public static readonly containerWinRmEnabled = 'CONTAINER_WINRM_ENABLED';
+    public static readonly createAcrFwLink = 'https://go.microsoft.com/fwlink/?linkid=852293';
+    public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
+    public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
+    public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
 }

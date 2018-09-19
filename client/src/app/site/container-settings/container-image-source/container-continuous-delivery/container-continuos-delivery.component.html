@@ -1,0 +1,15 @@
+<div *ngIf="form" [formGroup] = "form">
+    <div class="container-setting-property">
+        <label>{{ 'containerContinuousDeployment' | translate }}</label><br/>
+        <radio-selector
+            [options] = "containerSettingsManager.continuousDeploymentOptions"
+            [control] = "form.controls.continuousDeploymentOption">
+        </radio-selector>
+    </div>
+
+    <div>
+        <label>{{ 'containerWebhookUrl' | translate }}</label>
+        <a (click)="toggleUrl()">{{ (urlVisible ? 'hideUrl' : 'showUrl') | translate }}</a>
+        <copy-pre [content]="urlVisible ?  containerSettingsManager.webhookUrl : '****'"></copy-pre>
+    </div>
+</div>

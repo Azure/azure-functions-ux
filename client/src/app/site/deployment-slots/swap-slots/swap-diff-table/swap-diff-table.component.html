@@ -1,0 +1,65 @@
+<div class="preview-changes-container">
+    <div *ngIf="!showToggle" class="phase-one-preview-indicator">
+        <div class="bullet src"></div>
+        {{ 'swapSourceChangesHeading' | translate }}
+    </div>
+
+    <div *ngIf="showToggle" class="preview-toggle-container">
+        <div
+            class="preview-toggle-button src"
+            [class.selected]="previewSource"
+            [attr.role]="previewSource ? null : 'button'"
+            [tabindex]="previewSource ? -1 : 0"
+            (click)="previewSource=!previewSource"
+            [activate-with-keys]>
+
+            <div class="bullet src"></div>
+            {{ 'swapSourceChangesHeading' | translate }}
+
+        </div>
+        <div
+            class="preview-toggle-button dest"
+            [class.selected]="!previewSource"
+            [attr.role]="!previewSource ? null : 'button'"
+            [tabindex]="!previewSource ? -1 : 0"
+            (click)="previewSource=!previewSource"
+            [activate-with-keys]>
+
+            <div class="bullet dest"></div>
+            {{ 'swapTargetChangesHeading' | translate }}
+
+        </div>
+    </div>
+
+    <tbl tblClass="tbl fixed stretch">
+        <tr class="header-row">
+            <th class="one-quarter-col padded-col">{{ 'slotsDiff_settingHeader' | translate }}</th>
+            <th class="one-quarter-col padded-col">{{ 'slotsDiff_typeHeader' | translate }}</th>
+            <th class="one-quarter-col padded-col">{{ oldValueHeading | translate }}</th>
+            <th class="one-quarter-col padded-col">{{ newValueHeading | translate }}</th>
+        </tr>
+
+        <tr *ngFor="let diff of (loadedOrFailed && diffs ? diffs : [])">
+            <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
+            <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
+            <td class="one-quarter-col padded-col">{{ previewSource ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
+            <td class="one-quarter-col padded-col">{{ previewSource ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
+        </tr>
+
+        <tr *ngIf="loadedOrFailed && diffs && diffs.length === 0">
+            <td colspan="4" class="message-row">{{ 'swapDiffsNoChange' | translate }}<td>
+        </tr>
+
+        <tr *ngIf="loadedOrFailed && !diffs">
+            <td colspan="4" class="message-row">{{ 'swapChangesLoadingFailed' | translate }}<td>
+        </tr>
+
+        <tr *ngIf="loading">
+            <td colspan="4" class="message-row">{{ 'loading' | translate }}<td>
+        </tr>
+
+        <tr *ngIf="invalid">
+            <td colspan="4" class="message-row">{{ 'swapPreviewMakeSelection' | translate }}<td>
+        </tr>
+    </tbl>
+</div>

@@ -24,7 +24,7 @@ export class EditModeWarningComponent implements OnInit {
     public readWriteVSGenerated = false;
     public readOnlyRunFromZip = false;
     public readOnlyLocalCache = false;
-    public readOnlyBYOC = false;
+    public readOnlyLinuxDynamic = false;
 
     constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) { }
 
@@ -51,8 +51,8 @@ export class EditModeWarningComponent implements OnInit {
                             this.readOnlyRunFromZip = true;
                         } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
                             this.readOnlyLocalCache = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
-                            this.readOnlyBYOC = true;
+                        } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
+                            this.readOnlyLinuxDynamic = true;
                         }
                     }
                 });
@@ -63,7 +63,7 @@ export class EditModeWarningComponent implements OnInit {
         this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
             operation: 'navigate',
             resourceId: this.context.site.id,
-            data: SiteTabIds.functionRuntime
+            data: SiteTabIds.functionRuntime,
         });
     }
 }

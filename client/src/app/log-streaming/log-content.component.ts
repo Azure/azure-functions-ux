@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { LogConsoleTypes } from '../shared/models/constants';
+import { LogLevel } from '../shared/models/constants';
 
 @Component({
+    selector: 'log-content',
     template: `<div class="log-content" [ngClass]="getClassForLogType()">{{logs}}</div>`,
-    styleUrls: ['log-streaming.component.scss']
+    styleUrls: ['./log-streaming.component.scss'],
 })
 export class LogContentComponent {
-    public types = LogConsoleTypes;
-    @Input() type: number;
+    @Input() type: LogLevel;
     @Input() logs: string;
 
     /**
@@ -15,13 +15,13 @@ export class LogContentComponent {
      * If the log-type is normal, empty string is returned.
      */
     getClassForLogType(): string {
-        if (this.type === LogConsoleTypes.Error) {
+        if (this.type === LogLevel.Error) {
             return 'error-content';
         }
-        if (this.type === LogConsoleTypes.Info) {
+        if (this.type === LogLevel.Info) {
             return 'info-content';
         }
-        if (this.type === LogConsoleTypes.Warning) {
+        if (this.type === LogLevel.Warning) {
             return 'warning-content';
         }
         return '';
