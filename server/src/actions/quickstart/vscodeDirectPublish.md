@@ -8,7 +8,9 @@ Run the following command to install the Core Tools package:
 npm install -g azure-functions-core-tools
 ```
 
-Next, [install the Azure Functions extension](https://go.microsoft.com/fwlink/?linkid=2016800). Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
+The Core Tools make use of [.NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373), so you should install that, too.
+
+Next, [install the Azure Functions extension for Visual Studio Code](https://go.microsoft.com/fwlink/?linkid=2016800). Once the extension is installed, click on the Azure logo in the Activity Bar. Under **Azure: Functions**, click **Sign in to Azure...** and follow the on-screen instructions.
 
 <br/>
 # Create an Azure Functions project

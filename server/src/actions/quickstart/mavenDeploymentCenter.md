@@ -10,6 +10,8 @@ Run the following command to install the Core Tools package:
 npm install -g azure-functions-core-tools
 ```
 
+The Core Tools make use of [.NET Core 2.1](https://go.microsoft.com/fwlink/?linkid=2016373), so you should install that, too.
+
 Lastly, [install the Azure CLI 2.0](https://go.microsoft.com/fwlink/?linkid=2016701). Once this is installed, make sure you are logged in by running the login command and following the onscreen instructions:
 
 ```
