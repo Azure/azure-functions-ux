@@ -95,6 +95,10 @@ export class SingleContainer extends Container {
 
     constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
         super(injector);
+
+        if (containerSettingsData.os === 'windows') {
+            this.title = this.ts.instant(PortalResources.singleContainerPreviewTitle);
+        }
     }
 }
 

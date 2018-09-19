@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
     templateUrl: './container-continuos-delivery.component.html',
     styleUrls: [
         './../../container-settings.component.scss',
+        './../container-image-source.component.scss',
         './container-continuos-delivery.component.scss',
     ],
 })

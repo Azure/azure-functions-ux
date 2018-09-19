@@ -5,22 +5,24 @@
     </info-box>
 
     <div *ngIf = "!registriesMissing">
-        <label>{{ 'containerACRRegistry' | translate }}</label>
-        <ng-select
-            id="container-acr-registries"
-            class="custom-select container-acr-select"
-            bindLabel="displayLabel"
-            bindValue="value"
-            placeholder="Select Registry"
-            formControlName="registry"
-            [loading]="loadingRegistries"
-            [items]="registryDropdownItems"
-            [clearable]="false"
-            [(ngModel)]="selectedRegistry"
-            (change)="registryChanged($event)">
-        </ng-select>
+        <div class="container-setting-property">
+            <label>{{ 'containerACRRegistry' | translate }}</label>
+            <ng-select
+                id="container-acr-registries"
+                class="custom-select container-acr-select"
+                bindLabel="displayLabel"
+                bindValue="value"
+                placeholder="Select Registry"
+                formControlName="registry"
+                [loading]="loadingRegistries"
+                [items]="registryDropdownItems"
+                [clearable]="false"
+                [(ngModel)]="selectedRegistry"
+                (change)="registryChanged($event)">
+            </ng-select>
+        </div>
 
-        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
             <label>{{ 'containerACRImage' | translate }}</label>
             <ng-select
                 id="container-acr-respositories"
@@ -37,7 +39,7 @@
             </ng-select>
         </div>
 
-        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
             <label>{{ 'containerACRTag' | translate }}</label>
             <ng-select
                 id="container-acr-tags"
@@ -53,18 +55,18 @@
             </ng-select>
         </div>
 
-        <div *ngIf = "containerImageSourceInfo.container.id === 'single'">
+        <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
             <label>{{ 'containerACRStartupFile' | translate }}</label>
             <textbox [control]="imageSourceForm.controls.startupFile"></textbox>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
-            <div>
+            <div class="container-setting-property">
                 <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
                 <input type="file" (change)="extractConfig($event)">
             </div>
 
-            <div>
+            <div class="container-setting-property">
                 <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
                 <textarea class="config" formControlName="config" disabled></textarea>
             </div>

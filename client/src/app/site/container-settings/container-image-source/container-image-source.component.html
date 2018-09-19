@@ -1,12 +1,12 @@
 <div *ngIf = "containerImageSourceInfo" [formGroup] = "containerImageSourceInfo.containerForm">
-    <div>
+    <div class="container-setting-property">
         <label>{{ 'containerImageSource' | translate }}</label>
         <div>
-        <radio-selector
-            [options] = "containerSettingsManager.containerImageSourceOptions"
-            (value) = "updateContainerImageSource($event)"
-            [control] = "containerImageSourceInfo.containerForm.controls.imageSource">
-        </radio-selector>
+            <radio-selector
+                [options] = "containerSettingsManager.containerImageSourceOptions"
+                (value) = "updateContainerImageSource($event)"
+                [control] = "containerImageSourceInfo.containerForm.controls.imageSource">
+            </radio-selector>
         </div>
     </div>
 
