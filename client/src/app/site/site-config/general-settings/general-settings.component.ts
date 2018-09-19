@@ -319,6 +319,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 pythonSupported = false;
                 javaSupported = false;
                 classicPipelineModeSupported = false;
+                linuxRuntimeSupported = false;
 
                 if (this._sku === 'Dynamic') {
                     webSocketsSupported = false;
