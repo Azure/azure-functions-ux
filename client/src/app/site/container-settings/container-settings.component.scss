@@ -43,7 +43,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         text-align: center;
         height: 83px;
         padding-top: 7px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+        box-shadow: $card-box-shadow;
 
         h3 {
             margin-top: 2px;
@@ -113,7 +113,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 :host-context(#app-root[theme=dark]){
     .container{
         background-color: lighten($chrome-color-dark, 10%);
-        box-shadow: 0px 2px 4px rgba(255, 255, 255, .1);
+        box-shadow: $card-box-shadow-hover-dark;
 
         &.selected-container{
             background-color: $chrome-color-dark;
