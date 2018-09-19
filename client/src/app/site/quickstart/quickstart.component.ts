@@ -1,5 +1,5 @@
-import { workerRuntimeOptions } from './wizard-logic/quickstart-models';
-import { devEnvironmentOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
+import { ApplicationSettings } from './../../shared/models/arm/application-settings';
+import { devEnvironmentOptions, workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { SiteService } from './../../shared/services/site.service';
 import { SiteTabIds, Constants } from 'app/shared/models/constants';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
@@ -18,6 +18,8 @@ import { UserService } from 'app/shared/services/user.service';
 import { Subject } from 'rxjs/Subject';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Subscription as Subs} from 'app/shared/models/subscription';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { DropDownElement } from 'app/shared/models/drop-down-element';
 
 @Component({
     selector: 'quickstart',
@@ -35,6 +37,17 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     public loading = true;
     public showDeploymentStep: boolean;
     public devEnvironment: devEnvironmentOptions;
+    public appSettingsArm: ArmObj<ApplicationSettings>;
+    public runtime: string;
+    public possibleRuntimes: DropDownElement<string>[] =
+    [{
+        displayLabel: 'C#',
+        value: 'dotnet',
+    },
+    {
+        displayLabel: 'JavaScript',
+        value: 'node',
+    }];
 
     private _ngUnsubscribe = new Subject();
     private _busyManager: BusyStateScopeManager;
@@ -98,18 +111,12 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
             })
             .subscribe(r => {
                 if (r.isSuccessful) {
-                    const appSettingsArm = r.result;
-                    if (appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-                        const workerRuntimeSetting = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
+                    this.appSettingsArm = r.result;
+                    if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                        const workerRuntimeSetting = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
 
                         if (this._validWorkerRuntimes.indexOf(workerRuntimeSetting) !== -1) {
-                            this.workerRuntime = workerRuntimeSetting as workerRuntimeOptions;
-                            this.isLinux = ArmUtil.isLinuxApp(this.context.site);
-                            this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
-
-                            this._setInitalProperties();
-                            this._setQuickstartTitle();
-                            this.canUseQuickstart = true;
+                            this._useValidWorkerRuntime(workerRuntimeSetting);
                         } else {
                             this.canUseQuickstart = false;
                         }
@@ -126,6 +133,16 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
                 this.loading = false;
                 this._busyManager.clearBusy();
             });
+    }
+
+    private _useValidWorkerRuntime(workerRuntime: string) {
+        this.workerRuntime = workerRuntime as workerRuntimeOptions;
+        this.isLinux = ArmUtil.isLinuxApp(this.context.site);
+        this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+
+        this._setInitalProperties();
+        this._setQuickstartTitle();
+        this.canUseQuickstart = true;
     }
 
     private _setQuickstartTitle() {
@@ -168,6 +185,26 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
             || this.devEnvironment === 'maven'
             || this.devEnvironment === 'vscode' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption)
             || this.devEnvironment === 'coretools' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption);
+    }
+
+    onRuntimeChanged(runtime: string) {
+        this.runtime = runtime;
+    }
+
+    setRuntime() {
+        this._busyManager.setBusy();
+
+        this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
+
+        this._siteService.updateAppSettings(this.context.site.id, this.appSettingsArm)
+            .do(null, e => {
+                this._busyManager.clearBusy();
+                this.showComponentError(e);
+            })
+            .subscribe(() => {
+                this._useValidWorkerRuntime(this.runtime);
+                this._busyManager.clearBusy();
+            });
     }
 
     ngOnDestroy() {
