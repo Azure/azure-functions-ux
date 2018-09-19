@@ -23,11 +23,10 @@ import { FunctionAppEnvironment } from './function-app.environment';
 export interface IScenarioService {
     checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
     checkScenarioAsync(id: string, input?: ScenarioCheckInput): Observable<ScenarioCheckResult>;
-    _getFinalResult(id: string, results: ScenarioCheckResult[]);
 }
 
 @Injectable()
-export class ScenarioService {
+export class ScenarioService implements IScenarioService {
 
     private _environments: Environment[] = [
         new StandaloneEnvironment(),

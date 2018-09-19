@@ -16,6 +16,8 @@ import { SlotsNode } from './slots-node';
 import { FunctionsNode } from './functions-node';
 import { ProxiesNode } from './proxies-node';
 import { Subscription } from 'app/shared/models/subscription';
+import { BroadcastEvent, TreeUpdateEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from './../shared/services/broadcast.service';
 
 export class AppNode extends TreeNode
     implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
@@ -45,6 +47,7 @@ export class AppNode extends TreeNode
     private _scenarioService: ScenarioService;
     private _logService: LogService;
     private _functionAppService: FunctionAppService;
+    private _broadcastService: BroadcastService;
 
     constructor(sideBar: SideNavComponent,
         private _siteArmCacheObj: ArmObj<Site>,
@@ -56,6 +59,7 @@ export class AppNode extends TreeNode
         this._functionAppService = this.sideNav.injector.get(FunctionAppService);
         this._scenarioService = this.sideNav.injector.get(ScenarioService);
         this._logService = this.sideNav.injector.get(LogService);
+        this._broadcastService = this.sideNav.injector.get(BroadcastService);
 
         this.disabled = !!disabled;
         if (disabled) {
@@ -131,6 +135,19 @@ export class AppNode extends TreeNode
         }
 
         return !canSwitchNodes;
+    }
+
+    public handleSelection(): Observable<any> {
+        // Always listening for tree update
+        this._broadcastService.getEvents<TreeUpdateEvent>(BroadcastEvent.TreeUpdate)
+        .takeUntil(this._ngUnsubscribe)
+        .subscribe(event => {
+            if (event.operation === 'newFunction') {
+                (<FunctionsNode>this.children[0]).addChild(event.data);
+            }
+        });
+
+        return Observable.of({});
     }
 
     public handleRefresh(): Observable<any> {

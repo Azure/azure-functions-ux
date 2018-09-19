@@ -6,7 +6,21 @@
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/swap.svg"></span>
         </div>
+
         {{ 'swapSlotsHeading' | translate }}
+
+        <div class="header-close-button"
+            role="button"
+            title="'close' | translate"
+            aria-label="'close' | translate"
+            load-image="image/close.svg"
+            tabindex="0"
+            (click)="closePanel()"
+            [activate-with-keys]>
+            <span
+                class="header-close-button-icon">
+            </span>
+        </div>
     </div>
 
     <div class="body" [formGroup]="swapForm" novalidate>
@@ -140,23 +154,15 @@
                             type="checkbox">
                         {{ 'swapWithPreviewLabel' | translate }}
                     </label>
-                    <span class="glyphicon glyphicon-info-sign help-toggle-icon"
-                        (click)="toggleSwapWithPreviewHelp()"
-                        (keydown)="onSwapWithPreviewHelpKeyPress($event)"
-                        tabindex="0">
-                    </span>
                     <div invalidmessage="form-group" errorkey="authMultiPhaseConflict"></div>
-                </div>
-
-                <div *ngIf="showSwapWithPreviewHelp"
-                    class="help-text-container"
-                    (click)="toggleSwapWithPreviewHelp()"
-                    tabindex="0">
-                    {{ 'swapWithPreviewInfoText' | translate }}
                 </div>
             </div>
 
             <div *ngIf="swapForm?.controls['multiPhase']?.value" class="phase-container">
+                <div class="help-text-container">
+                    {{ 'swapWithPreviewInfoText' | translate }}
+                </div>
+
                 <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
                 <info-box *ngIf="showPreviewLink"
                     typeClass="info"
@@ -165,81 +171,46 @@
                 </info-box>
             </div>
 
+            <div *ngIf="showPreviewChanges && swapForm?.controls['multiPhase']?.value">
+
+                <h1 class="preview-changes-header">{{ 'phaseOneChangesHeading' | translate }}</h1>
+                <div class="help-text-container">
+                    {{ 'phaseOneChangesInfoText' | translate }}
+                </div>
+
+                <swap-diff-table
+                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+                    [invalid]="!swapForm?.pending && !swapForm?.valid"
+                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+                    [diffs]="stickySettingDiffs"
+                    [showToggle]="false"
+                    oldValueHeading="slotsDiff_currentValueHeader"
+                    newValueHeading="slotsDiff_tempValueHeader">
+                </swap-diff-table>
+
+            </div>
+
             <div *ngIf="showPreviewChanges">
-                <h1 class="preview-changes-header">{{ 'swapPreviewChangesHeading' | translate }}</h1>
+                <h1 *ngIf="!swapForm?.controls['multiPhase']?.value" class="preview-changes-header">
+                    {{ 'swapDiffHeading' | translate }}
+                </h1>
+                <h1 *ngIf="swapForm?.controls['multiPhase']?.value" class="preview-changes-header">
+                    {{ 'phaseTwoChangesHeading' | translate }}
+                </h1>
+                <div class="help-text-container">
+                    {{ 'swapChangesInfoText' | translate }}
+                </div>
 
-                <ng-container *ngIf="swapForm?.pending">
-                    {{ 'loading' | translate }}
-                </ng-container>
+                <swap-diff-table
+                    [loading]="swapForm?.pending || (swapForm?.valid && loadingDiffs)"
+                    [invalid]="!swapForm?.pending && !swapForm?.valid"
+                    [loadedOrFailed]="!swapForm?.pending && swapForm?.valid && !loadingDiffs"
+                    [diffs]="slotsDiffs"
+                    [showToggle]="true"
+                    oldValueHeading="slotsDiff_oldValueHeader"
+                    newValueHeading="slotsDiff_newValueHeader">
+                </swap-diff-table>
 
-                <ng-container *ngIf="!swapForm?.pending">
-
-                    <ng-container *ngIf="!swapForm?.valid">
-                        {{ 'swapPreviewMakeSelection' | translate }}
-                    </ng-container>
-
-                    <ng-container *ngIf="swapForm?.valid && loadingDiffs">
-                        {{ 'loading' | translate }}
-                    </ng-container>
-
-                    <ng-container *ngIf="swapForm?.valid && !loadingDiffs">
-
-                        <ng-container *ngIf="!slotsDiffs">
-                            {{ 'swapChangesLoadingFailed' | translate }}
-                        </ng-container>
-
-                        <ng-container *ngIf="slotsDiffs">
-
-                            <div class="preview-changes-container">
-                                <div class="preview-toggle-container">
-                                    <div
-                                        class="preview-toggle-button src"
-                                        [class.selected]="diffsPreviewSlot==='source'"
-                                        [attr.role]="diffsPreviewSlot==='target' ? 'button' : null"
-                                        [tabindex]="diffsPreviewSlot==='target' ? 0 : -1"
-                                        (click)="diffsPreviewSlot='source'"
-                                        [activate-with-keys]>
-
-                                        <div class="bullet src"></div>
-                                        {{ 'swapSourceChangesHeading' | translate }}
-
-                                    </div>
-                                    <div
-                                        class="preview-toggle-button dest"
-                                        [class.selected]="diffsPreviewSlot==='target'"
-                                        [attr.role]="diffsPreviewSlot==='source' ? 'button' : null"
-                                        [tabindex]="diffsPreviewSlot==='source' ? 0 : -1"
-                                        (click)="diffsPreviewSlot='target'"
-                                        [activate-with-keys]>
-
-                                        <div class="bullet dest"></div>
-                                        {{ 'swapTargetChangesHeading' | translate }}
-
-                                    </div>
-                                </div>
-                            
-                                <tbl tblClass="tbl fixed stretch">
-                                    <tr class="header-row">
-                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_settingHeader' | translate }}</th>
-                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_typeHeader' | translate }}</th>
-                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_oldValueHeader' | translate }}</th>
-                                        <th class="one-quarter-col padded-col">{{ 'slotsDiff_newValueHeader' | translate }}</th>
-                                    </tr>
-
-                                    <tr *ngFor="let diff of slotsDiffs">
-                                        <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
-                                        <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-                                        <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
-                                        <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
-                                    </tr>
-                                </tbl>
-                            </div>
-
-                        </ng-container>
-
-                    </ng-container>
-
-                </ng-container>
             </div>
 
             <div *ngIf="showPhase2Controls" class="controls-container">
@@ -292,7 +263,7 @@
             <button
                 class="custom-button"
                 (click)="closePanel()">
-                {{ 'cancel' | translate }}
+                {{ 'close' | translate }}
             </button>
         </div>
 

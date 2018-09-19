@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </ng-container>
-            <div *ngIf="hasFunctions && !functionRuntimeSelectorDisabled" class="alert alert-warning">
+            <div *ngIf="disableRuntimeSelector" class="alert alert-warning">
                 <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                 <div class="alert-message">
                     <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
@@ -112,7 +112,7 @@
                 <radio-selector
                     [defaultValue]="extensionVersion"
                     [options]="functionRutimeOptions"
-                    [disabled]="hasFunctions || functionRuntimeSelectorDisabled"
+                    [disabled]="disableRuntimeSelector"
                     (value)="functionRuntimeValueStream.next($event)"
                     id="runtimeVersionRadioButton"
                     aria-labelledby="runtimeVersionLabel runtimeVersionRadioButton">

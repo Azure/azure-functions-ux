@@ -190,19 +190,8 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
                 const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
-                    if (extensionVersion === 'beta') {
-                        isLatestFunctionRuntime = true;
-                        notifications.push({
-                            id: NotificationIds.runtimeV2,
-                            message: this._translateService.instant(PortalResources.topBar_runtimeV2),
-                            iconClass: 'fa fa-exclamation-triangle warning',
-                            learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=2004544',
-                            clickCallback: null
-                        });
-                    } else {
-                        isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this._configService.FunctionsVersionInfo, extensionVersion);
-                        this._aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.context.site.id });
-                    }
+                    isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this._configService.FunctionsVersionInfo, extensionVersion);
+                    this._aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.context.site.id });
                 }
 
                 if (!isLatestFunctionRuntime) {
@@ -215,7 +204,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
                             this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                                 operation: 'navigate',
                                 resourceId: this.context.site.id,
-                                data: SiteTabIds.functionRuntime
+                                data: SiteTabIds.functionRuntime,
                             });
                         }
                     });

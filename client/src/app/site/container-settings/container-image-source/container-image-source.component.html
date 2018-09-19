@@ -1,0 +1,42 @@
+<div *ngIf = "containerImageSourceInfo" [formGroup] = "containerImageSourceInfo.containerForm">
+    <div class="container-setting-property">
+        <label>{{ 'containerImageSource' | translate }}</label>
+        <div>
+            <radio-selector
+                [options] = "containerSettingsManager.containerImageSourceOptions"
+                (value) = "updateContainerImageSource($event)"
+                [control] = "containerImageSourceInfo.containerForm.controls.imageSource">
+            </radio-selector>
+        </div>
+    </div>
+
+    <container-image-source-quickstart
+        *ngIf = "selectedImageSource === 'quickstart'"
+        [containerImageSourceInfoInput] = "containerImageSourceInfo">
+    </container-image-source-quickstart>
+
+    <container-image-source-acr
+        *ngIf = "selectedImageSource === 'azureContainerRegistry'"
+        [containerImageSourceInfoInput] = "containerImageSourceInfo">
+    </container-image-source-acr>
+
+    <container-image-source-dockerhub
+        *ngIf = "selectedImageSource === 'dockerHub'"
+        [containerImageSourceInfoInput] = "containerImageSourceInfo">
+    </container-image-source-dockerhub>
+
+    <container-image-source-privateregistry
+        *ngIf = "selectedImageSource === 'privateRegistry'"
+        [containerImageSourceInfoInput] = "containerImageSourceInfo">
+    </container-image-source-privateregistry>
+
+    <container-continuous-delivery
+        *ngIf = "selectedImageSource !== 'quickstart' && containerConfigureInfo.fromMenu"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-continuous-delivery>
+
+    <container-logs
+        *ngIf = "selectedImageSource !== 'quickstart' && containerConfigureInfo.fromMenu"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-logs>
+</div>

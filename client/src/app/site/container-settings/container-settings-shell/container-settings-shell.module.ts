@@ -12,8 +12,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
     entryComponents: [],
     imports: [TranslateModule.forChild(),  SharedModule, SharedFunctionsModule, ContainerSettingsModule, routing],
     declarations: [
-        ContainerSettingsShellComponent
+        ContainerSettingsShellComponent,
     ],
-    providers: []
+    providers: [],
 })
 export class ContainerSettingsShellModule { }

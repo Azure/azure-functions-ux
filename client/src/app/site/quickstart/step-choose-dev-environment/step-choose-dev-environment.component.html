@@ -1,0 +1,16 @@
+<div class="topContainer">
+  <div class="selectionContainer" flex-list>
+    <div *ngFor="let card of devEnvironmentCards" class="cardContainer" [class.selected]="selectedDevEnvironmentCard?.name === card.name"
+      (click)="selectDevEnvironment(card)">
+      <div class="cardHeader">
+        <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
+      </div>
+      <div class="cardDescription">
+        {{card.description}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+    <button type="button" class="custom-button form-button" *ngIf="selectedDevEnvironmentCard" nextStep>{{'continue' | translate}}</button>
+</div>

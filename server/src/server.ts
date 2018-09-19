@@ -11,7 +11,7 @@ import * as compression from 'compression';
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
-import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates } from './actions/metadata';
+import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates, getQuickstart } from './actions/metadata';
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
@@ -20,6 +20,8 @@ import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
+import { getAcrRepositories, getAcrTags } from './actions/acr';
+
 const cookieSession = require('cookie-session');
 if (process.env.aiInstrumentationKey) {
     appInsights
@@ -105,7 +107,7 @@ app.get('/api/version', (_, res) => {
 
 app.get('/api/templates', getTemplates);
 app.get('/api/bindingconfig', getBindingConfig);
-
+app.get('/api/quickstart', getQuickstart);
 app.get('/api/resources', getResources);
 app.get('/api/latestruntime', getRuntimeVersion);
 app.get('/api/latestrouting', getRoutingVersion);
@@ -113,7 +115,9 @@ app.get('/api/config', getConfig);
 app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
-app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
+app.get('/api/runtimetoken/*', getLinuxRuntimeToken);
+app.post('/api/getAcrRepositories', getAcrRepositories);
+app.post('/api/getAcrTags', getAcrTags);
 setupDeploymentCenter(app);
 setupAzureStorage(app);
 

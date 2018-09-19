@@ -38,6 +38,13 @@ td, th{
     margin-bottom: 10px;
 }
 
+.phase-one-preview-indicator {
+    padding: 3px 0 3px 5px;
+    background-color: $primary-color;
+    color: $default-text-color-dark;
+    font-weight: bold;
+}
+
 .preview-changes-container{
     border: 1px solid $border-color;
 
@@ -78,12 +85,8 @@ td, th{
 }
 
 .help-text-container {
-    margin-top: 10px;
     margin-bottom: 10px;
     background-color: $chrome-color;
-    border-color: $border-color;
-    padding: 15px;
-    border: 1px solid transparent;
     box-sizing: border-box;
     display: block;
     border-radius: 4px;
@@ -97,6 +100,12 @@ td, th{
         &.src{
             background-color: $source-slot-bullet-color-dark;
         }
+    }
+
+
+    .phase-one-preview-indicator {
+        background-color: $primary-color-dark;
+        color: $body-bg-color-dark;
     }
 
     .preview-changes-container{
@@ -116,7 +125,6 @@ td, th{
 
     .help-text-container {
         background-color: $chrome-color-dark;
-        border-color: $heading-text-color-dark;
     }
 
 }

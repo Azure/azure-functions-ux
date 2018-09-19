@@ -71,12 +71,14 @@
 }
 .fxs-progress-dots > div {
   display: inline-block;
-  height: 6px;
-  width: 6px;
-  -webkit-animation: fxs-progress-animatedEllipses 1.5s infinite;
-  animation: fxs-progress-animatedEllipses 1.5s infinite;
-  background: #aab3bd;
-  margin: 0 2.5px;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  opacity: .3;
+  -webkit-animation: fxs-progress-animatedEllipses 1.8s infinite;
+  animation: fxs-progress-animatedEllipses 1.8s infinite;
+  background: #3471ff;
+  margin: 0 6px;
 }
 .fxs-progress-dots > div:nth-child(1) {
   -webkit-animation-delay: 0s;

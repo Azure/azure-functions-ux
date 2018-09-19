@@ -86,6 +86,33 @@ export async function getResources(req: Request, res: Response) {
   }
 }
 
+export async function getQuickstart(req: Request, res: Response) {
+  const fileName: string = req.query['fileName'];
+  const language: string = req.query['language'] || 'en';
+
+  let langCode = 'en';
+  if (language !== 'en') {
+    if (!!_languageMap[language]) {
+      langCode = _languageMap[language];
+    } else {
+      langCode = `${language.toLowerCase()}-${language.toUpperCase()}`;
+    }
+  }
+
+  //this is the ideal item to return, it is the correct language asked for
+  var languageFile = langCode === 'en' ? `${fileName}.md` : `${fileName}.${langCode}.md`;
+  //This is for development only so people can develop without having a quickstart folder laid out
+  var defaultFallbackFile = `${fileName}.md`;
+
+  var folder = path.join(__dirname, 'quickstart');
+  if (await fs.exists(path.join(folder, languageFile))) {
+    res.sendFile(path.join(folder, languageFile));
+  } else {
+    res.sendFile(path.join(folder, defaultFallbackFile));
+  }
+}
+
+
 export function getRuntimeVersion(_: Request, res: Response) {
   res.json('~1');
 }

@@ -829,6 +829,7 @@ export class FunctionAppService {
                         : '';
                     const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
+                    const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
 
                     const resolveReadOnlyMode = () => {
                         if (sourceControlled) {
@@ -870,6 +871,8 @@ export class FunctionAppService {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
                     } else if (usingLocalCache) {
                         return FunctionAppEditMode.ReadOnlyLocalCache;
+                    } else if (isLinuxDynamic) {
+                        return FunctionAppEditMode.ReadOnlyLinuxDynamic;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {

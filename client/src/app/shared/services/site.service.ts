@@ -13,10 +13,12 @@ import { Site } from './../models/arm/site';
 import { SiteConfig } from './../models/arm/site-config';
 import { SiteExtension } from './../models/arm/site-extension';
 import { SlotConfigNames } from './../models/arm/slot-config-names';
+import { SlotsDiff } from './../models/arm//slots-diff';
 import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
 import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
+import { PublishingCredentials } from '../models/publishing-credentials';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -29,18 +31,18 @@ export class SiteService {
         injector: Injector,
         private _cacheService: CacheService) {
 
-        this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token))
+        this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
 
-    getSite(resourceId: string): Result<ArmObj<Site>> {
-        const getSite = this._cacheService.getArm(resourceId).map(r => r.json());
+    getSite(resourceId: string, force?: boolean): Result<ArmObj<Site>> {
+        const getSite = this._cacheService.getArm(resourceId, force).map(r => r.json());
         return this._client.execute({ resourceId: resourceId }, t => getSite);
     }
 
-    getSlots(resourceId: string): Result<ArmArrayResult<Site>> {
+    getSlots(resourceId: string, force?: boolean): Result<ArmArrayResult<Site>> {
         const siteDescriptor = new ArmSiteDescriptor(resourceId);
         const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
-        const getSlots = this._cacheService.getArm(slotsId).map(r => r.json());
+        const getSlots = this._cacheService.getArm(slotsId, force).map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getSlots);
     }
@@ -91,7 +93,7 @@ export class SiteService {
                 if (e.status === 409) {
                     return this._cacheService.postArm(`/subscriptions/${subscriptionId}/providers/Microsoft.ResourceHealth/register`)
                         .mergeMap(() => {
-                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
                         })
                         .map(r => r.json());
                 }
@@ -148,12 +150,39 @@ export class SiteService {
             location: loc,
             properties: {
                 serverFarmId: serverfarmId,
-                siteConfig: config
-            }
+                siteConfig: config,
+            },
         });
         const newSlotId = `${resourceId}/slots/${slotName}`;
         const createSlot = this._cacheService.putArm(newSlotId, null, payload).map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => createSlot);
+    }
+
+    getSlotDiffs(resourceId: string, slotName: string): Result<ArmArrayResult<SlotsDiff>> {
+        const payload = { targetSlot: slotName };
+
+        const slotDiffsId = `${resourceId}/slotsdiffs`;
+        const getSlotDiffs = this._cacheService.postArm(slotDiffsId, null, null, payload).map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getSlotDiffs);
+    }
+
+    getPublishingCredentials(resourceId: string, force?: boolean): Result<ArmObj<PublishingCredentials>> {
+        const getPublishingCredentials = this._cacheService
+            .postArm(`${resourceId}/config/publishingcredentials/list`, force)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getPublishingCredentials);
+    }
+
+    updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
+        const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, null, siteConfig);
+        return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
+    }
+
+    updateAppSettings(resourceId: string, appSettings: ArmObj<ApplicationSettings>) {
+        const putAppSettings = this._cacheService.putArm(`${resourceId}/config/appSettings`, null, appSettings);
+        return this._client.execute({ resourceId: resourceId }, t => putAppSettings);
     }
 }

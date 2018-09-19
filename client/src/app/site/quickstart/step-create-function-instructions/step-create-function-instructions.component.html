@@ -1,0 +1,9 @@
+<div class="topContainer">
+    <div class="instructionContainer">
+        <markdown [data]="instructions"></markdown>
+    </div>
+</div>
+<div class="footer">
+    <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+    <button type="button" class="custom-button form-button" (click)="closeTab()">{{finishButtonText}}</button>
+</div>

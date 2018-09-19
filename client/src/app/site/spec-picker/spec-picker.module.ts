@@ -9,7 +9,7 @@ import { PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manag
 @NgModule({
     imports: [TranslateModule.forChild(), SharedModule],
     entryComponents: [
-        SpecPickerComponent
+        SpecPickerComponent,
     ],
     declarations: [
         SpecPickerComponent,
@@ -17,10 +17,10 @@ import { PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manag
         SpecFeatureListComponent,
     ],
     providers: [
-        PlanPriceSpecManager
+        PlanPriceSpecManager,
     ],
     exports: [
-        SpecPickerComponent
+        SpecPickerComponent,
     ]
 })
 export class SpecPickerModule { }

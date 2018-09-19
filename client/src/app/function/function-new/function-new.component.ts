@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -38,7 +38,6 @@ export interface CreateCard extends Template {
     ids: string[];
     color: string;
     icon: string;
-    barcolor: string;
     focusable: boolean;
     allLanguages?: string[];
     supportedLanguages?: string[];
@@ -91,20 +90,34 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     }];
 
     public createCardStyles = {
-        'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
-        'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
-        'eventGrid': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventGrid.svg' },
-        'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
-        'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
-        'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
-        'other': { color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg' },
-        'queue': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg' },
-        'serviceBus': { color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg' },
-        'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
-        'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
+        'blob': { color: '#1E5890', icon: 'image/blob.svg' },
+        'cosmosDB': { color: '#379DA6', icon: 'image/cosmosDB.svg' },
+        'eventGrid': { color: '#719516', icon: 'image/eventGrid.svg' },
+        'eventHub': { color: '#719516', icon: 'image/eventHub.svg' },
+        'http': { color: '#731DDA', icon: 'image/http.svg' },
+        'iot': { color: '#990000', icon: 'image/iot.svg' },
+        'other': { color: '#000000', icon: 'image/other.svg' },
+        'queue': { color: '#1E5890', icon: 'image/queue.svg' },
+        'serviceBus': { color: '#F67600', icon: 'image/serviceBus.svg' },
+        'timer': { color: '#3C86FF', icon: 'image/timer.svg' },
+        'webhook': { color: '#731DDA', icon: 'image/webhook.svg' },
     };
 
     public functionsNode: FunctionsNode;
+    public communityTemplatesCard: CreateCard = {
+        name: this._translateService.instant(PortalResources.communityTemplatesTitle),
+        value: 'CommunityTemplatesCard',
+        description: this._translateService.instant(PortalResources.communityTemplatesDescription),
+        enabledInTryMode: false,
+        languages: [],
+        supportedLanguages: [],
+        allLanguages: [],
+        categories: [],
+        ids: [],
+        icon: this.createCardStyles['other'].icon,
+        color: this.createCardStyles['other'].color,
+        focusable: false,
+    };
     private category = '';
     private language = '';
     private search = '';
@@ -296,8 +309,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
                     color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
                         this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
-                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
                     focusable: false
                 });
             } else {
@@ -416,6 +427,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         } else {
             this.cards = this.createCards.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
         }
+        this._appendCommunityTemplatesCard();
 
         // determine which categories are present for the selected cards
 
@@ -487,6 +499,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 .filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
         }
 
+        this._appendCommunityTemplatesCard();
         this._initializeTabableCard();
     }
 
@@ -495,6 +508,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             || card.languages.find(language => { return language.toLowerCase().indexOf(this.search.toLowerCase()) > -1; })
             || card.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
 
+        this._appendCommunityTemplatesCard();
         this._initializeTabableCard();
     }
 
@@ -541,9 +555,13 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
     onCardSelected(functionCard: CreateCard, cardDisabled: boolean) {
         if (!cardDisabled) {
-            this.createFunctionCard = functionCard;
-            this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
-            this.sidePanelOpened = true;
+            if (functionCard.value !== this.communityTemplatesCard.value) {
+                this.createFunctionCard = functionCard;
+                this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
+                this.sidePanelOpened = true;
+            } else {
+                window.open(Links.communityTemplatesLink, '_blank');
+            }
         }
     }
 
@@ -583,6 +601,12 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             this._scrollIntoView(cards[this._focusedCardIndex]);
             event.preventDefault();
 
+        }
+    }
+
+    private _appendCommunityTemplatesCard() {
+        if (this.cards.length === 0 || this.cards[this.cards.length - 1].value !== this.communityTemplatesCard.value) {
+            this.cards.push(this.communityTemplatesCard);
         }
     }
 

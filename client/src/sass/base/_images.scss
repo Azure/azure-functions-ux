@@ -1,6 +1,6 @@
 
 .svg-monochromatic{
-    fill: $default-text-color;
+    fill: $primary-color;
 }
 
 #app-root[theme=dark] .svg-monochromatic{
@@ -59,7 +59,7 @@
 
 #app-root[theme=dark] {
     .svg-monochromatic{
-        fill: $default-text-color-dark;
+        fill: $primary-color-dark;
     }
 
     .msportalfx-svg-c05{

@@ -56,11 +56,13 @@ export class ConditionalHttpClient {
             : query;
 
         const successMapper = () => observableQuery
-            .map(r => ({
-                isSuccessful: true,
-                error: null,
-                result: r
-            }))
+            .map(r => {
+                return {
+                    isSuccessful: true,
+                    error: null,
+                    result: r
+                };
+            })
             .catch((e: any) => {
 
                 return Observable.of({

@@ -1,15 +1,15 @@
-<div id="container-picker">
+<form *ngIf="!loading && containerConfigureInfo && containerConfigureInfo.container && containerConfigureInfo.containerForm" [formGroup]="form" id="container-picker">
     <nav id="container-tabs" role="tablist" #containerSettingsTabs>
         <div *ngFor="let container of containerSettingsManager.containers"
             (click)="selectContainer(container)"
             class="clickable container"
-            [class.selected-container]="container === selectedContainer"
-            [tabindex]="container === selectedContainer ? 0 : -1"
+            [class.selected-container]="container === containerConfigureInfo.container"
+            [tabindex]="container === containerConfigureInfo.container ? 0 : -1"
             (keydown)="onContainerTabKeyPress($event)"
             role="tab"
             [id]="'container-tab-' + container.id"
             [attr.aria-controls]="'container-tab-' + container.id"
-            [attr.aria-selected]="container === selectedContainer"
+            [attr.aria-selected]="container === containerConfigureInfo.container"
             [attr.aria-label]="container.title">
 
             <div [load-image]="container.iconUrl" class="icon-medium"></div>
@@ -18,6 +18,63 @@
         </div>
     </nav>
 
-    <container-configure [containerConfigureInfoInput] = "containerConfigureInfo">
+    <container-configure
+        *ngIf = "containerConfigureInfo.container.id === 'single'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
     </container-configure>
-</div>
+
+    <container-configure
+        *ngIf = "containerConfigureInfo.container.id === 'dockerCompose'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-configure>
+
+    <container-configure
+        *ngIf = "containerConfigureInfo.container.id === 'kubernetes'"
+        [containerConfigureInfoInput] = "containerConfigureInfo">
+    </container-configure>
+
+    <footer *ngIf = "!containerConfigureInfo.container.disableMessage">
+        <div id="container-footer">
+            <button *ngIf = "!fromMenu"
+                type="submit"
+                class="custom-button"
+                (click)="clickApply()"
+                [disabled]="isUpdating"
+                [attr.aria-label]="'apply' | translate">
+
+                <span *ngIf="!isUpdating">{{'apply' | translate}}</span>
+            </button>
+
+            <button *ngIf = "fromMenu"
+                class="custom-button"
+                (click)="clickSave()"
+                [disabled]="isUpdating"
+                [attr.aria-label]="'save' | translate">
+
+                <span *ngIf="!isUpdating">{{'save' | translate}}</span>
+            </button>
+
+            <button *ngIf = "fromMenu"
+                class="custom-button"
+                (click)="clickDiscard()"
+                [disabled]="isUpdating"
+                [attr.aria-label]="'discard' | translate">
+
+                <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
+            </button>
+
+            <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
+
+            <span class="message-icon icon-medium"
+                *ngIf="statusMessage?.message"
+                [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
+
+            <span class="message-text"
+                [class.message-error]="statusMessage?.level === 'error'"
+                [class.message-success]="statusMessage?.level === 'success'">
+
+                {{statusMessage?.message}}
+            </span>
+        </div>
+    </footer>
+</form>

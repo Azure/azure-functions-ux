@@ -1,0 +1,17 @@
+<div class="topContainer">
+    <div class="selectionContainer" flex-list>
+      <div *ngFor="let card of deploymentCards" class="cardContainer" [class.selected]="selectedDeploymentCard?.name === card.name"
+        (click)="selectDeployment(card)">
+        <div class="cardHeader">
+          <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
+        </div>
+        <div class="cardDescription">
+          {{card.description}}
+        </div>
+      </div>
+    </div>
+</div>
+<div class="footer">
+    <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+    <button type="button" class="custom-button form-button" *ngIf="selectedDeploymentCard" nextStep (click)="getInstructions()">{{'continue' | translate}}</button>
+</div>

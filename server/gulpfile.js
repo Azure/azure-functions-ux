@@ -37,7 +37,7 @@ gulp.task('build-test', function (cb) {
 });
 
 gulp.task('build-production', function (cb) {
-    runSequence('build-all', 'bundle-views', 'bundle-json', 'bundle-config', 'package-version', cb);
+    runSequence('build-all', 'bundle-views', 'bundle-static-files', 'bundle-config', 'package-version', cb);
 });
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
@@ -102,10 +102,10 @@ gulp.task('package-version', () => {
 });
 
 /********
- *   Bundle Up production server resources
+ *   Bundle Up production server static files 
  */
-gulp.task('bundle-json', function () {
-    return gulp.src(['src/**/*.json']).pipe(gulp.dest('build'));
+gulp.task('bundle-static-files', function () {
+    return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('build'));
 });
 
 /********
@@ -381,9 +381,9 @@ gulp.task('build-bindings', function (cb) {
 const templateVersionMap = {
     default: '1.0.3.10182',
     '1': '1.0.3.10182',
-    beta: '2.0.0-beta-10235',
+    beta: '2.0.0-10262',
     '2.0.11961.0': '2.0.0-beta-10224',
-    '2': '2.0.0-beta-10235',
+    '2': '2.0.0-10262',
 };
 /*****
  * Download and unzip nuget packages with templates

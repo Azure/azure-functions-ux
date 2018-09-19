@@ -7,5 +7,6 @@ export enum FunctionAppEditMode {
     ReadOnlyVSGenerated,
     ReadWriteVSGenerated,
     ReadOnlyRunFromZip,
-    ReadOnlyLocalCache
+    ReadOnlyLocalCache,
+    ReadOnlyLinuxDynamic,
 }
