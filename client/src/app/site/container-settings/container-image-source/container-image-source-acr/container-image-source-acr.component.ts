@@ -55,8 +55,8 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
                 this._reset();
                 this.loadingRegistries = true;
                 this.selectedRegistry = this.imageSourceForm.controls.registry.value;
-                this.selectedRepository = this.imageSourceForm.controls.repository.value;
-                this.selectedTag = this.imageSourceForm.controls.tag.value;
+                this.selectedRepository = this.imageSourceForm.controls.repository ? this.imageSourceForm.controls.repository.value : '';
+                this.selectedTag = this.imageSourceForm.controls.tag ? this.imageSourceForm.controls.tag.value : '';
 
                 return this._acrService.getRegistries(this.containerImageSourceInfo.subscriptionId);
             })
