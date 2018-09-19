@@ -35,6 +35,19 @@ input.input-error {
     padding-bottom:10px;
 }
 
+.runtimeStackTitle {
+    padding-bottom: 15px;
+    border-bottom: $border;
+    img {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        margin-right: 15px;
+        padding: 5px;
+        float: left;
+    }
+}
+
 drop-down{
     display: inline-block;
 }

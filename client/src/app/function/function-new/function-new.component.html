@@ -6,11 +6,12 @@
             <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
             <ng-container *ngIf="needsWorkerRuntime">
-                <div class="choose">
-                    <h2>Function Apps runtime stack</h2>
+                <div class="runtimeStackTitle">
+                    <img [src]="createCardStyles.other.icon" [style.background-color]="createCardStyles.other.color"/>
+                    <h1>Function Apps runtime stack</h1>
                 </div>
                 <div>
-                    <h4>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</h4>
+                    <h3>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</h3>
                 </div>
                 <div class="search-and-sort">
                     {{ 'Function Runtime stack' | translate }}

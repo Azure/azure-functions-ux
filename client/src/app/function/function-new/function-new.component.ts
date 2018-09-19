@@ -90,10 +90,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     {
         displayLabel: 'Javascript',
         value: 'node',
-    },
-    {
-        displayLabel: 'Python',
-        value: 'python',
     }];
 
     public createCardStyles = {
