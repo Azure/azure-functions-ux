@@ -260,7 +260,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 this.memorySize = this.context.site.properties.containerSize;
                 this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
 
-                if (!this.extensionVersion || this.extensionVersion === '') {
+                if (!this.extensionVersion) {
                     this.extensionVersion = Constants.latest;
                 }
 
