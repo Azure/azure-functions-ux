@@ -4222,4 +4222,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
   </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Hide Values</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Show Values</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Hidden value. Click to edit.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Application Settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Connection Strings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+  </data>
 </root>
