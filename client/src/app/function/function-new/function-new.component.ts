@@ -26,8 +26,6 @@ import { ScenarioService } from '../../shared/services/scenario/scenario.service
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteService } from '../../shared/services/site.service';
-import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
 
 interface CategoryOrder {
     name: string;
@@ -88,7 +86,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         value: 'dotnet',
     },
     {
-        displayLabel: 'Javascript',
+        displayLabel: 'JavaScript',
         value: 'node',
     }];
 
@@ -149,9 +147,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         private _translateService: TranslateService,
         private _logService: LogService,
         private _functionAppService: FunctionAppService,
-        private _siteService: SiteService,
-        private _cacheService: CacheService,
-        private _armService: ArmService) {
+        private _siteService: SiteService) {
         super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
@@ -188,6 +184,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 this.appSettingsArm = tuple[2].result;
                 this.bindings = tuple[3].result.bindings;
                 this.templates = tuple[4].result;
+                this.needsWorkerRuntime = tuple[5];
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
@@ -203,8 +200,6 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         // workerRuntime is valid
                         this.needsWorkerRuntime = false;
                     }
-                } else {
-                    this.needsWorkerRuntime = tuple[5];
                 }
 
                 if (!this.needsWorkerRuntime) {
@@ -376,12 +371,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     setRuntime() {
         this._globalStateService.setBusyState();
 
-        if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-            delete this.appSettingsArm[Constants.functionsWorkerRuntimeAppSettingsName];
-        }
         this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
 
-        this._cacheService.putArm(this.appSettingsArm.id, this._armService.websiteApiVersion, this.appSettingsArm)
+        this._siteService.addOrUpdateAppSettings(this.appSettingsArm.id, this.appSettingsArm.properties)
             .do(null, e => {
                 this._globalStateService.clearBusyState();
                 this.showComponentError(e);

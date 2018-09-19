@@ -3844,4 +3844,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
   </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Function App runtime stack</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Function Runtime stack</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
 </root>

@@ -39,6 +39,7 @@ import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
+import { RuntimeVersions } from 'app/shared/Utilities/runtime-versions';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -590,11 +591,9 @@ export class FunctionAppService {
         return this.getFunctionHostStatus(context)
             .map(r => {
                 if (r.isSuccessful) {
-                    const exactRuntime = r.result.version;
-                    if (exactRuntime.startsWith('2.') && Number(exactRuntime.split('.')[2]) > 12050) {
+                    if (RuntimeVersions.workerRuntimeRequired(r.result.version)) {
                         return true;
                     }
-                    return false;
                 }
                 return false;
             });
