@@ -1323,4 +1323,5 @@
     public static dynamicLinuxPreview = 'dynamicLinuxPreview';
     public static formIsInvalid = 'formIsInvalid';
     public static finishAndDeploy = 'finishAndDeploy';
+    public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
 }
