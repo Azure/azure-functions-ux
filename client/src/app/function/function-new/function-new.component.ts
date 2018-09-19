@@ -384,7 +384,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
 
-        this._siteService.addOrUpdateAppSettings(this.appSettingsArm.id, this.appSettingsArm.properties)
+        this._siteService.updateAppSettings(this.context.site.id, this.appSettingsArm)
             .do(null, e => {
                 this._globalStateService.clearBusyState();
                 this.showComponentError(e);
