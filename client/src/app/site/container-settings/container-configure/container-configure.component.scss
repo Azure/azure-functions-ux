@@ -28,3 +28,9 @@ footer {
     padding: 0px 5px;
     background-color: $body-bg-color;
 }
+
+.container-disabled-icon {
+    height: 100px;
+    width: 100px;
+    filter: grayscale(100%);
+}

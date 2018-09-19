@@ -1,9 +1,11 @@
 <div *ngIf="form" [formGroup] = "form">
-    <label>{{ 'containerContinuousDeployment' | translate }}</label><br/>
-    <radio-selector
-        [options] = "containerSettingsManager.continuousDeploymentOptions"
-        [control] = "form.controls.continuousDeploymentOption">
-    </radio-selector>
+    <div class="container-setting-property">
+        <label>{{ 'containerContinuousDeployment' | translate }}</label><br/>
+        <radio-selector
+            [options] = "containerSettingsManager.continuousDeploymentOptions"
+            [control] = "form.controls.continuousDeploymentOption">
+        </radio-selector>
+    </div>
 
     <div>
         <label>{{ 'containerWebhookUrl' | translate }}</label>

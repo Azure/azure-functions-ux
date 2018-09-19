@@ -7,7 +7,7 @@
 
 <div *ngIf="containerConfigureInfo.container.disableMessage" class="container-configure">
     <section class="container-configure-header">
-        <div [load-image]="containerConfigureInfo.container.iconUrl" class="icon-large"></div>
+        <div [load-image]="containerConfigureInfo.container.iconUrl" class="icon-large container-disabled-icon"></div>
         <h4>{{containerConfigureInfo.container.disableMessage}}</h4>
     </section>
 </div>

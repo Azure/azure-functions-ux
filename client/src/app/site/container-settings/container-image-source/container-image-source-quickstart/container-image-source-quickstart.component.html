@@ -1,4 +1,4 @@
-<div>
+<div class="container-setting-property">
     <label>{{ 'quickstartSelectSample' | translate }}</label>
     <ng-select
         id="container-quickstart"
@@ -15,22 +15,22 @@
 </div>
 
 <div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
-    <div *ngIf="selectedSampleDescription">
+    <div *ngIf="selectedSampleDescription" class="container-setting-property">
         <label>{{ 'quickStartSampleDescription' | translate }}</label>
         <p>{{selectedSampleDescription}}</p>
     </div>
 
-    <div *ngIf="containerImageSourceInfo.container.id === 'single'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
         <label>{{ 'containerImageAndTag' | translate }}</label><br/>
         <textarea formControlName="config" class="singleContainerConfig" disabled></textarea>
     </div>
 
-    <div *ngIf="containerImageSourceInfo.container.id === 'dockerCompose'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'dockerCompose'" class="container-setting-property">
         <label>{{ 'containerConfiguration' | translate }}</label><br/>
         <textarea formControlName="config" class="dockerComposeConfig"  disabled></textarea>
     </div>
 
-    <div *ngIf="containerImageSourceInfo.container.id === 'kubernetes'">
+    <div *ngIf="containerImageSourceInfo.container.id === 'kubernetes'" class="container-setting-property">
         <label>{{ 'containerConfiguration' | translate }}</label><br/>
         <textarea formControlName="config" class="kubernetesConfig"  disabled></textarea>
     </div>
