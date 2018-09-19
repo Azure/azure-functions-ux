@@ -4111,4 +4111,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="finishAndDeploy" xml:space="preserve">
     <value>Finish and go to Deployment Center</value>
   </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
+  </data>
 </root>

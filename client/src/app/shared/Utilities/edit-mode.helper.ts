@@ -2,12 +2,13 @@ import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
 
 export class EditModeHelper {
     public static isReadOnly(editMode: FunctionAppEditMode): boolean {
-        return editMode === FunctionAppEditMode.ReadOnly ||
-            editMode === FunctionAppEditMode.ReadOnlySourceControlled ||
-            editMode === FunctionAppEditMode.ReadOnlySlots ||
-            editMode === FunctionAppEditMode.ReadOnlyVSGenerated ||
-            editMode === FunctionAppEditMode.ReadOnlyRunFromZip ||
-            editMode === FunctionAppEditMode.ReadOnlyLocalCache;
+        return editMode === FunctionAppEditMode.ReadOnly
+            || editMode === FunctionAppEditMode.ReadOnlySourceControlled
+            || editMode === FunctionAppEditMode.ReadOnlySlots
+            || editMode === FunctionAppEditMode.ReadOnlyVSGenerated
+            || editMode === FunctionAppEditMode.ReadOnlyRunFromZip
+            || editMode === FunctionAppEditMode.ReadOnlyLocalCache
+            || editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic;
     }
 
     public static getWarningIfForced(editMode: FunctionAppEditMode): string {
@@ -15,6 +16,8 @@ export class EditModeHelper {
             return 'readOnlyRunFromZip';
         } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
             return 'readOnlyLocalCache';
+        } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
+            return 'readOnlyLinuxDynamic';
         } else {
             return null;
         }
