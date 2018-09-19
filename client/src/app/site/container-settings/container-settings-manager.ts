@@ -409,13 +409,27 @@ export class ContainerSettingsManager {
             fxVersion = os === 'linux' ? siteConfig.linuxFxVersion : siteConfig.windowsFxVersion;
         }
 
+        const selectedContainerType = this._getFormContainerType(fxVersion);
+
+        const singleContainerForm = selectedContainerType === 'single'
+            ? this._getSingleContainerForm(fxVersion, appSettings, siteConfig)
+            : this._getSingleContainerForm(null, null, null);
+
+        const dockerComposeForm = selectedContainerType === 'dockerCompose'
+            ? this._getDockerComposeForm(fxVersion, appSettings, siteConfig)
+            : this._getDockerComposeForm(null, null, null);
+
+        const kubernetesForm = selectedContainerType === 'kubernetes'
+            ? this._getKubernetesForm(fxVersion, appSettings, siteConfig)
+            : this._getKubernetesForm(null, null, null);
+
         this.form = this._fb.group({
-            os: [os, []],
-            containerType: [this._getFormContainerType(fxVersion), []],
-            continuousDeploymentOption: [this._getFormContinuousDeploymentOption(appSettings), []],
-            singleContainerForm: this._getSingleContainerForm(fxVersion, appSettings, siteConfig, publishingCredentials),
-            dockerComposeForm: this._getDockerComposeForm(fxVersion, appSettings, siteConfig, publishingCredentials),
-            kubernetesForm: this._getKubernetesForm(fxVersion, appSettings, siteConfig, publishingCredentials),
+            os: [os, this.requiredValidator.validate.bind(this.requiredValidator)],
+            containerType: [selectedContainerType, this.requiredValidator.validate.bind(this.requiredValidator)],
+            continuousDeploymentOption: [this._getFormContinuousDeploymentOption(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
+            singleContainerForm: singleContainerForm,
+            dockerComposeForm: dockerComposeForm,
+            kubernetesForm: kubernetesForm,
         });
     }
 
@@ -433,33 +447,55 @@ export class ContainerSettingsManager {
         return 'single';
     }
 
-    private _getSingleContainerForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
-        return this._fb.group({
-            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
-            imageSourceQuickstartForm: this._getQuickstartForm(),
-            imageSourceAcrForm: this._getAcrForm('single', fxVersion, appSettings, siteConfig),
-            imageSourceDockerHubForm: this._getDockerHubForm('single', fxVersion, appSettings, siteConfig),
-            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('single', fxVersion, appSettings, siteConfig),
-        });
+    private _getSingleContainerForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
+        return this._getImageSourceForm(
+            'single',
+            fxVersion,
+            appSettings,
+            siteConfig,
+        );
     }
 
-    private _getDockerComposeForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
-        return this._fb.group({
-            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
-            imageSourceQuickstartForm: this._getQuickstartForm(),
-            imageSourceAcrForm: this._getAcrForm('dockerCompose', fxVersion, appSettings, siteConfig),
-            imageSourceDockerHubForm: this._getDockerHubForm('dockerCompose', fxVersion, appSettings, siteConfig),
-            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('dockerCompose', fxVersion, appSettings, siteConfig),
-        });
+    private _getDockerComposeForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
+        return this._getImageSourceForm(
+            'dockerCompose',
+            fxVersion,
+            appSettings,
+            siteConfig,
+        );
     }
 
-    private _getKubernetesForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig, publishingCredentials: PublishingCredentials): FormGroup {
+    private _getKubernetesForm(fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
+        return this._getImageSourceForm(
+            'kubernetes',
+            fxVersion,
+            appSettings,
+            siteConfig,
+        );
+    }
+
+    private _getImageSourceForm(containerFormType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
+        const selectedContainerType = this._getFormContainerType(fxVersion);
+        const selectedImageSourceType = this._getFormImageSource(fxVersion, appSettings);
+
+        const acrForm = selectedContainerType === containerFormType && selectedImageSourceType === 'azureContainerRegistry'
+            ? this._getAcrForm(containerFormType, fxVersion, appSettings, siteConfig)
+            : this._getAcrForm(containerFormType, null, null, null);
+
+        const dockerHubForm = selectedContainerType === containerFormType && selectedImageSourceType === 'dockerHub'
+            ? this._getDockerHubForm(containerFormType, fxVersion, appSettings, siteConfig)
+            : this._getDockerHubForm(containerFormType, null, null, null);
+
+        const privateRegistryForm = selectedContainerType === containerFormType && selectedImageSourceType === 'privateRegistry'
+            ? this._getPrivateRegistryForm(containerFormType, fxVersion, appSettings, siteConfig)
+            : this._getPrivateRegistryForm(containerFormType, null, null, null);
+
         return this._fb.group({
-            imageSource: [this._getFormImageSource(fxVersion, appSettings), []],
+            imageSource: [selectedImageSourceType, this.requiredValidator.validate.bind(this.requiredValidator)],
             imageSourceQuickstartForm: this._getQuickstartForm(),
-            imageSourceAcrForm: this._getAcrForm('kubernetes', fxVersion, appSettings, siteConfig),
-            imageSourceDockerHubForm: this._getDockerHubForm('kubernetes', fxVersion, appSettings, siteConfig),
-            imageSourcePrivateRegistryForm: this._getPrivateRegistryForm('kubernetes', fxVersion, appSettings, siteConfig),
+            imageSourceAcrForm: acrForm,
+            imageSourceDockerHubForm: dockerHubForm,
+            imageSourcePrivateRegistryForm: privateRegistryForm,
         });
     }
 
