@@ -39,6 +39,7 @@ import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
+import { Version } from 'app/shared/Utilities/version';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -584,6 +585,26 @@ export class FunctionAppService {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t))
                 .map(r => r.json() as HostStatus));
+    }
+
+    getWorkerRuntimeRequired(context: FunctionAppContext): Observable<boolean> {
+        return this.getFunctionHostStatus(context)
+            .map(r => {
+                if (r.isSuccessful) {
+                    const runtimeVersion = new Version(r.result.version);
+                    if (this._workerRuntimeRequired(runtimeVersion)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+    }
+
+    private _workerRuntimeRequired(runtimeVersion: Version): boolean {
+        if (runtimeVersion.majorVersion && runtimeVersion.minorVersion) {
+            return runtimeVersion.majorVersion === 2 && runtimeVersion.minorVersion >= 12050;
+        }
+        return false;
     }
 
     getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {

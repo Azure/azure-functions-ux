@@ -14,6 +14,17 @@
     </div>
 
     <div *ngIf="!canUseQuickstart" class="no-quickstart">
-        <h2>**Text telling users to set the worker runtime in app settings**</h2>
+        <h3>{{ 'functionAppRuntimeStackDescription' | translate }}</h3>
+        <div class="runtime-set">
+            {{ 'functionRuntimeStackLabel' | translate }}
+            <drop-down class="runtime-dropdown"
+                [options]="possibleRuntimes"
+                (value)="onRuntimeChanged($event)"
+                attr.aria-label="{{ 'functionRuntimeStackLabel' | translate }}">
+            </drop-down>
+            <button class="custom-button"
+                (click)="setRuntime()">{{ 'Go' | translate }}
+            </button>
+        </div>
     </div>
 </ng-container>
