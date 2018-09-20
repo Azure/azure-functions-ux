@@ -8,12 +8,6 @@ export class DynamicLinuxEnvironment extends Environment {
 
     constructor() {
         super();
-        this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
-            id: ScenarioIds.listExtensionsArm,
-            runCheck: () => {
-                return { status: 'disabled' };
-            },
-        };
 
         this.scenarioChecks[ScenarioIds.deploymentCenter] = {
             id: ScenarioIds.deploymentCenter,
@@ -25,7 +19,7 @@ export class DynamicLinuxEnvironment extends Environment {
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         if (input && input.site) {
-            return ArmUtil.isLinuxDynamic(input.site);
+            return ArmUtil.isContainerApp(input.site);
         }
 
         return false;
