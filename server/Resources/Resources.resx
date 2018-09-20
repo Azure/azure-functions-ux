@@ -3857,10 +3857,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Use Visual Studio Code to author your functions</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Write functions using your favoirte editor and the Azure Functions Core Tools</value>
+    <value>Write functions using your favorite editor and the Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
-    <value>Write Java functions using your favoirte editor and Maven</value>
+    <value>Write Java functions using your favorite editor, such as IntelliJ or Eclipse, and Maven</value>
   </data>
   <data name="portalCardDescription" xml:space="preserve">
     <value>Author functions quickly in the portal</value>
@@ -4050,6 +4050,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Function App runtime stack</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Function Runtime stack</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go</value>
   </data>
   <data name="containerACRRegistry" xml:space="preserve">
     <value>Registry</value>
