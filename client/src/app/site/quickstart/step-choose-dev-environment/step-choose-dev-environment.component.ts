@@ -1,3 +1,4 @@
+import { devEnvironmentOptions } from './../wizard-logic/quickstart-models';
 import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
 import { TranslateService } from '@ngx-translate/core';
@@ -5,6 +6,7 @@ import { DevEnvironmentCard } from '../Models/dev-environment-card';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { Subject } from 'rxjs/Subject';
+import { QuickstartService } from 'app/site/quickstart/quickstart.service';
 @Component({
     selector: 'step-choose-dev-environment',
     templateUrl: './step-choose-dev-environment.component.html',
@@ -57,12 +59,14 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     public workerRuntime: workerRuntimeOptions;
     public isLinux: boolean;
     public isLinuxConsumption: boolean;
+    public fileName: string;
 
     private _ngUnsubscribe = new Subject();
 
     constructor(
         private _wizardService: QuickstartStateManager,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _quickstartService: QuickstartService) {
 
         this.workerRuntime = this._wizardService.workerRuntime.value;
         this.isLinux = this._wizardService.isLinux.value;
@@ -94,6 +98,18 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     public selectDevEnvironment(card: DevEnvironmentCard) {
         this.selectedDevEnvironmentCard = card;
         this._wizardService.devEnvironment.setValue(card.id);
+        if (this.isLinuxConsumption) {
+            this._setDefaultDeploymentMethod(card.id);
+        }
+    }
+
+    public checkNeedInstructions() {
+        if (this.isLinuxConsumption) {
+            this._quickstartService.getQuickstartFile(this.fileName)
+                .subscribe(file => {
+                    this._wizardService.instructions.setValue(file);
+                });
+        }
     }
 
     private _getDevEnvironmentCards(): DevEnvironmentCard[] {
@@ -141,6 +157,19 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
             return [];
         }
         return [this.vsCodeCard, this.mavenCard];
+    }
+
+    private _setDefaultDeploymentMethod(devEnvironment: devEnvironmentOptions) {
+        switch (devEnvironment) {
+            case 'vscode':
+                this._wizardService.deployment.setValue('vscodeDirectPublish');
+                this.fileName = 'vscodeDirectPublish';
+                break;
+            case 'coretools':
+                this._wizardService.deployment.setValue('coretoolsDirectPublish');
+                this.fileName = 'coretoolsDirectPublish';
+                break;
+        }
     }
 
     ngOnDestroy() {
