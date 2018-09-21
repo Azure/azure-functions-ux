@@ -16,7 +16,7 @@
   
     <div *ngIf="installing">
         <h2>{{ 'extension_install_warning' | translate }}</h2> 
-        <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+        <h4><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}</h4>
     </div>
 
     <div *ngIf="!installing && allInstalled">
