@@ -144,6 +144,8 @@ export class AppNode extends TreeNode
         .subscribe(event => {
             if (event.operation === 'newFunction') {
                 (<FunctionsNode>this.children[0]).addChild(event.data);
+            } else if (event.operation === 'moreTemplates') {
+                (<FunctionsNode>this.children[0]).openCreateDashboard(DashboardType.CreateFunctionDashboard);
             }
         });
 
