@@ -60,7 +60,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     public showDownloadFunctionAppModal = false;
     public showQuickstart: boolean;
     public bodyLoading  = true;
-    public notifications: TopBarNotification[] = [];
+    public notifications: TopBarNotification[];
 
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
@@ -195,6 +195,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     });
                 }
 
+                this.notifications = [];
                 if (ArmUtil.isLinuxDynamic(this.context.site)) {
                     this.notifications.push({
                         id: NotificationIds.dynamicLinux,
