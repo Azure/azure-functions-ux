@@ -134,13 +134,13 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-            { resourceId: context.site.id }, /*input*/
-            token => Observable /*query*/
-                .zip(
-                this.retrieveProxies(context, token),
-                this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
-                (p, s) => ({ proxies: p, schema: s }))
-                .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
+                { resourceId: context.site.id }, /*input*/
+                token => Observable /*query*/
+                    .zip(
+                        this.retrieveProxies(context, token),
+                        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+                        (p, s) => ({ proxies: p, schema: s }))
+                    .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
     }
 
     private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
@@ -484,10 +484,18 @@ export class FunctionAppService {
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
-            Observable.zip(
-                this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
-                this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
-            )
+
+            // NOTE: We should be able to ask for the admin and master keys concurrently, however
+            // due to a race condition on the runtime, we need to make them sequential.
+            // Once https://github.com/Azure/azure-functions-host/pull/3498 gets merged/deployed, we can
+            // put this back to being concurrent calls.
+            this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t))
+                .mergeMap(r => {
+                    return Observable.zip(
+                        Observable.of(r),
+                        this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t)),
+                    );
+                })
                 .map(r => {
                     const hostKeys = r[0].json();
                     hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
@@ -716,12 +724,12 @@ export class FunctionAppService {
         if (ArmUtil.isLinuxDynamic(context.site)) {
             this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         } else {
             const url = context.urlTemplates.syncTriggersUrl;
             this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         }
     }
 
