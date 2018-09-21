@@ -21,6 +21,7 @@ import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
 import { getAcrRepositories, getAcrTags } from './actions/acr';
+import { validateContainerImage } from './actions/containerValidation';
 
 const cookieSession = require('cookie-session');
 if (process.env.aiInstrumentationKey) {
@@ -118,6 +119,7 @@ app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken);
 app.post('/api/getAcrRepositories', getAcrRepositories);
 app.post('/api/getAcrTags', getAcrTags);
+app.post('/api/validateContainerImage', validateContainerImage);
 setupDeploymentCenter(app);
 setupAzureStorage(app);
 

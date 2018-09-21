@@ -35,6 +35,7 @@ import { ContainerACRService } from './services/container-acr.service';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { HttpResult } from '../../shared/models/http-result';
+import { ContainerValidationService } from './services/container-validation.service';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -54,7 +55,8 @@ export class ContainerSettingsManager {
         private _fb: FormBuilder,
         private _siteService: SiteService,
         private _acrService: ContainerACRService,
-        private _logService: LogService) {
+        private _logService: LogService,
+        private _containerValidationService: ContainerValidationService) {
         this.requiredValidator = new RequiredValidator(this._ts);
         this.urlValidator = new URLValidator(this._ts);
     }
@@ -162,28 +164,76 @@ export class ContainerSettingsManager {
         }
     }
 
-    public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-        return Observable
-            .zip(
-                this._saveContainerAppSettings(resourceId, os, formData),
-                this._saveContainerSiteConfig(resourceId, os, formData))
-            .switchMap(responses => {
-                const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
+    public applyContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+        return this._validateContainerImage(resourceId, os, formData);
+    }
 
-                if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
-                    if (formData.imageSource === 'azureContainerRegistry') {
-                        return this._manageAcrWebhook(resourceId, os, formData);
-                    } else {
-                        return Observable.of(true);
-                    }
-                } else {
-                    return Observable.throw({
-                        errorId: errorIds.failedToUpdateContainerConfigData,
-                        resourceId: resourceId,
-                        message: this._ts.instant(PortalResources.failedToUpdateContainerConfigData),
+    public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+        return this
+            ._validateContainerImage(resourceId, os, formData)
+            .switchMap(r => {
+                return Observable
+                    .zip(
+                        this._saveContainerAppSettings(resourceId, os, formData),
+                        this._saveContainerSiteConfig(resourceId, os, formData))
+                    .switchMap(responses => {
+                        const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
+
+                        if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
+                            if (formData.imageSource === 'azureContainerRegistry') {
+                                return this._manageAcrWebhook(resourceId, os, formData);
+                            } else {
+                                return Observable.of(true);
+                            }
+                        } else {
+                            return Observable.throw({
+                                errorId: errorIds.failedToUpdateContainerConfigData,
+                                resourceId: resourceId,
+                                message: this._ts.instant(PortalResources.failedToUpdateContainerConfigData),
+                            });
+                        }
                     });
-                }
             });
+    }
+
+    private _validateContainerImage(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
+        const containerType = this._getFormContainerType(formData.siteConfig.fxVersion);
+        const serverUrl = new URL(formData.appSettings[ContainerConstants.serverUrlSetting]);
+
+        if (os === 'windows'
+        && containerType === 'single'
+        && !serverUrl.host.startsWith('mcr.microsoft.com')) {
+            const fxVersionParts = formData.siteConfig.fxVersion.split('|');
+            const imageAndTagParts = fxVersionParts[1].split(':');
+            const image = imageAndTagParts[0];
+            const tag = imageAndTagParts[1];
+
+            return this._containerValidationService
+                .validateContainerImage(
+                    resourceId,
+                    formData.appSettings[ContainerConstants.serverUrlSetting],
+                    'windows',
+                    image,
+                    tag,
+                    formData.appSettings[ContainerConstants.usernameSetting],
+                    formData.appSettings[ContainerConstants.passwordSetting],
+                )
+                .switchMap(r => {
+                    if (r.isSuccessful) {
+                        return Observable.of(true);
+                    } else {
+                        if (r.error.result && r.error.result._body) {
+                            return Observable.throw({
+                                message: r.error.result._body,
+                            });
+                        } else {
+                            return Observable.throw({ ...r.error, resourceId });
+                        }
+                    }
+                });
+        } else {
+            return Observable.of(true);
+        }
     }
 
     private _manageAcrWebhook(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {

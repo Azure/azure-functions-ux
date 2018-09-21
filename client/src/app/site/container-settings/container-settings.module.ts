@@ -16,6 +16,7 @@ import { ContainerContinuousDeliveryComponent } from './container-image-source/c
 import { ContainerACRService } from './services/container-acr.service';
 import { ContainerLogsService } from './services/container-logs.service';
 import { ContainerMultiConfigService } from './services/container-multiconfig.service';
+import { ContainerValidationService } from './services/container-validation.service';
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import { ContainerMultiConfigService } from './services/container-multiconfig.se
         ContainerACRService,
         ContainerLogsService,
         ContainerMultiConfigService,
+        ContainerValidationService,
     ],
     exports: [
         ContainerSettingsComponent,
