@@ -169,8 +169,7 @@ export class ContainerSettingsManager {
     }
 
     public saveContainerConfig(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<boolean> {
-        return this
-            ._validateContainerImage(resourceId, os, formData)
+        return this._validateContainerImage(resourceId, os, formData)
             .switchMap(r => {
                 return Observable
                     .zip(
@@ -201,8 +200,8 @@ export class ContainerSettingsManager {
         const serverUrl = new URL(formData.appSettings[ContainerConstants.serverUrlSetting]);
 
         if (os === 'windows'
-        && containerType === 'single'
-        && !serverUrl.host.startsWith('mcr.microsoft.com')) {
+            && containerType === 'single'
+            && !serverUrl.host.startsWith('mcr.microsoft.com')) {
             const fxVersionParts = formData.siteConfig.fxVersion.split('|');
             const imageAndTagParts = fxVersionParts[1].split(':');
             const image = imageAndTagParts[0];

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Axios from 'axios';
+import axios from 'axios';
 
 export interface ProxyRequest<T> {
     body: T;
@@ -21,7 +21,7 @@ export async function validateContainerImage(req: Request, res: Response) {
     const proxyPayload = req.body as ProxyRequest<GetRepositoryTagRequest>;
     
     try {
-        await Axios.post(proxyPayload.url, proxyPayload.body, {
+        await axios.post(proxyPayload.url, proxyPayload.body, {
             headers: proxyPayload.headers
         });
 
@@ -30,23 +30,27 @@ export async function validateContainerImage(req: Request, res: Response) {
         if (e.response && e.response.status) {
             let message = e.message;
             if (e.response.data && e.response.data.content) {
-                const error = JSON.parse(e.response.data.content);
-                if (error.errors && error.errors[0]) {
-                    res.status(e.response.status).send(error.errors[0].message);
-                }
+                parseErrorToResponse(e.response.status, e.response.data.content, res);
             } else {
                 res.status(e.response.status).send(message);
             }
         } else if (e.request) {
-            res.status(400).send({
-                reason: 'ContainerValidationError',
-                error: 'request error'
-            });
+            res.status(400).send('Request error');
         } else {
-            res.status(e.code).send({
-                reason: 'ContainerValidationError',
-                error: e.code
-            });
+            res.status(e.code).send(e.code);
         }
+    }
+}
+
+function parseErrorToResponse(errorStatus: number, errorContent: any, res: Response) {
+    try {
+        const error = JSON.parse(errorContent);
+        if (error.errors && error.errors[0]) {
+            res.status(errorStatus).send(error.errors[0].message);
+        } else {
+            res.status(errorStatus).send('Error validating image and tag information.')
+        }
+    } catch (parseError) {
+        res.status(400).send(`Could not parse the error payload: ${errorContent}.`);
     }
 }
