@@ -182,9 +182,16 @@
     flex-grow: 1;
 }
 
-
 .tab-heading {
     display: inline-block;
+}
+
+.tab-label {
+    margin-left: 0px;
+}
+
+.tab-label-disabled, .tab-label-selected {
+    margin-left: 5px;
 }
 
 .tab-label-dev {

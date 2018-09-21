@@ -1,51 +1,108 @@
 <div class="log-streaming-container">
-    <div *ngIf="!isHttpLogs" class="log-toolbar">
-        <span class="log-empty-space"></span>
-        <span (click)="reconnect()" class="link action"
-             role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
-            <pop-over message="{{ getPopoverText() | translate }}" hideAfter="{{popOverTimeout}}">
-                <span class="link">
-                    <i class="fa fa-plug"></i>
-                    {{ 'logStreaming_reconnect' | translate }}
-                </span>
-            </pop-over>
-        </span>
-        <span (click)="copyLogs($event)" class="link action"
-            (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
-            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="{{popOverTimeout}}">
-                <span class="link">
-                    <i class="fa fa-clone"></i>
-                    {{ 'logStreaming_copyLogs' | translate }}
-                </span>
-            </pop-over>
-        </span>
-        <span class="link action" *ngIf="stopped" (click)="startLogs()"
-            (keydown)="keyDown($event, 'startLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
-            <i class="fa fa-play"></i>
-            {{ 'logStreaming_start' | translate }}
-        </span>
-        <span class="link action" *ngIf="!stopped" (click)="stopLogs()"
-            (keydown)="keyDown($event, 'stopLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_pause' | translate }}">
-            <i class="fa fa-pause"></i>
-            {{ 'logStreaming_pause' | translate }}
-        </span>
-        <span class="link action" (click)="clearLogs()"
-            (keydown)="keyDown($event, 'clearLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
-            <i class="fa fa-book"></i>
-            {{ 'logStreaming_clear' | translate }}
-        </span>
-        <span *ngIf="!isExpanded" class="link action" (click)="expand()"
-            (keydown)="keyDown($event, 'expand')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
-            <i class="fa fa-expand"></i>
-            {{ 'logStreaming_expand' | translate }}
-        </span>
+    <ng-container *ngIf="!isHttpLogs">
 
-        <span *ngIf="isExpanded" class="link action" (click)="compress()"
-            (keydown)="keyDown($event, 'compress')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
-            <i class="fa fa-compress"></i>
-            {{ 'logStreaming_compress' | translate }}
-        </span>
-    </div>
+        <div *ngIf="!controlsCollapsed" class="log-toolbar">
+            <span class="log-empty-space"></span>
+            <span (click)="reconnect()" class="link action"
+                role="button" attr.aria-label="{{ 'logStreaming_reconnect' | translate }}">
+                <pop-over message="{{ getPopoverText() | translate }}" hideAfter="{{popOverTimeout}}">
+                    <span class="link">
+                        <i class="fa fa-plug"></i>
+                        {{ 'logStreaming_reconnect' | translate }}
+                    </span>
+                </pop-over>
+            </span>
+            <span (click)="copyLogs($event)" class="link action"
+                (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
+                <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="{{popOverTimeout}}">
+                    <span class="link">
+                        <i class="fa fa-clone"></i>
+                        {{ 'logStreaming_copyLogs' | translate }}
+                    </span>
+                </pop-over>
+            </span>
+            <span class="link action" *ngIf="stopped" (click)="startLogs()"
+                (keydown)="keyDown($event, 'startLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
+                <i class="fa fa-play"></i>
+                {{ 'logStreaming_start' | translate }}
+            </span>
+            <span class="link action" *ngIf="!stopped" (click)="stopLogs()"
+                (keydown)="keyDown($event, 'stopLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_pause' | translate }}">
+                <i class="fa fa-pause"></i>
+                {{ 'logStreaming_pause' | translate }}
+            </span>
+            <span class="link action" (click)="clearLogs()"
+                (keydown)="keyDown($event, 'clearLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
+                <i class="fa fa-book"></i>
+                {{ 'logStreaming_clear' | translate }}
+            </span>
+            <span *ngIf="!isExpanded" class="link action" (click)="expand()"
+                (keydown)="keyDown($event, 'expand')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
+                <i class="fa fa-expand"></i>
+                {{ 'logStreaming_expand' | translate }}
+            </span>
+
+            <span *ngIf="isExpanded" class="link action" (click)="compress()"
+                (keydown)="keyDown($event, 'compress')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
+                <i class="fa fa-compress"></i>
+                {{ 'logStreaming_compress' | translate }}
+            </span>
+        </div>
+
+        <div *ngIf="controlsCollapsed"
+            class="menu-container"
+            (focusin)="onMenuFocusIn()"
+            (focusout)="onMenuFocusOut()">
+            <div class="menu-button-container">
+                <span role="button"
+                    tabindex="0"
+                    [attr.title]="'actions' | translate"
+                    class="link action"
+                    (click)="toggleMenu()"
+                    [activate-with-keys]>
+                    <span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+                </span>
+            </div>
+            <ul *ngIf="!menuHidden" role="menu" [attr.aria-label]="'context_menu' | translate" (click)="hideMenu()">
+                <li role="menuitem" tabindex="0" class="link action"
+                    (click)="reconnect()"
+                    [activate-with-keys]
+                    [attr.aria-label]="'logStreaming_reconnect' | translate">
+                    <span class="fa fa-plug"></span>
+                    {{ 'logStreaming_reconnect' | translate }}
+                </li>
+                <li role="menuitem" tabindex="0" class="link action"
+                    (click)="copyLogs($event)"
+                    [activate-with-keys]
+                    [attr.aria-label]="'logStreaming_copyLogs' | translate">
+                    <span class="fa fa-clone"></span>
+                    {{ 'logStreaming_copyLogs' | translate }}
+                </li>
+                <li role="menuitem" tabindex="0" class="link action"
+                    (click)="stopped ? startLogs() : stopLogs()"
+                    [activate-with-keys]
+                    [attr.aria-label]="(stopped ? 'logStreaming_start' : 'logStreaming_pause') | translate">
+                    <span [ngClass]="stopped ? 'fa fa-play' : 'fa fa-pause'"></span>
+                    {{ (stopped ? 'logStreaming_start' : 'logStreaming_pause') | translate }}
+                </li>
+                <li role="menuitem" tabindex="0" class="link action"
+                    (click)="clearLogs()"
+                    [activate-with-keys]
+                    [attr.aria-label]="'logStreaming_clear' | translate">
+                    <span class="fa fa-book"></span>
+                    {{ 'logStreaming_clear' | translate }}
+                </li>
+                <li role="menuitem" tabindex="0" class="link action"
+                    (click)="isExpanded ? compress() : expand()"
+                    [activate-with-keys]
+                    [attr.aria-label]="(isExpanded ? 'logStreaming_compress' : 'logStreaming_expand') | translate">
+                    <span [ngClass]="isExpanded ? 'fa fa-compress' : 'fa fa-expand'"></span>
+                    {{ (isExpanded ? 'logStreaming_compress' : 'logStreaming_expand') | translate }}
+                </li>
+            </ul>
+        </div>
+
+    </ng-container>
     <pre id="log-stream" class="log-stream" tabindex="0"
          (keydown)="handleKeyPress($event)"
          [class.height-fixed]="isHttpLogs"

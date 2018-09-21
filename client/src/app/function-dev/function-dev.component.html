@@ -50,7 +50,7 @@
   [class.bottom-tabs-expanded]="bottomBarExpanded"
   [class.bottom-tabs-maximized]="expandLogs">
 
-  <section id="editor-section">
+  <section #editorSection id="editor-section">
     <div id="command-bar-container">
       <h2
         tabindex="0" class="filename-title">
@@ -270,6 +270,7 @@
     </div>
 
     <log-streaming [hidden]="bottomTab !== 'logs'"
+      [controlsCollapsed]="bottomControlsCollapsed"
       [viewInfo]="viewInfo"
       (expandClicked)="expandLogsClicked($event)"> </log-streaming>
 
@@ -280,6 +281,7 @@
       [monacoEditor]="codeEditor"></errors-warnings>
 
     <console [hidden]="bottomTab !== 'console'"
+      [controlsCollapsed]="bottomControlsCollapsed"
       [viewInfo]="viewInfo"
       (expandClicked)="expandLogsClicked($event)"> </console>
 

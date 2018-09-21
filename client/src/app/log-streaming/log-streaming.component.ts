@@ -26,6 +26,8 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     public timerInterval = 1000;
     public isExpanded = false;
     public popOverTimeout = 500;
+    public menuHidden = true;
+    private _menuHasFocus: boolean;
     private _isConnectionSuccessful = true;
     private _xhReq: XMLHttpRequest;
     private _timeouts: number[];
@@ -38,6 +40,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     private _logStreamIndex = 0;
     private _logComponents: ComponentRef<any>[] = [];
 
+    @Input() controlsCollapsed: boolean;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
@@ -60,6 +63,8 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     setup(): Subscription {
         return this.viewInfoEvents
             .subscribe(view => {
+                this.menuHidden = true;
+                this._menuHasFocus = false;
                 this._functionInfo = view.functionInfo.result;
                 // clear logs on navigation to a new viewInfo
                 this.log = '';
@@ -404,5 +409,26 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         component.instance.logs = logs;
         component.instance.type = type;
         this._logComponents.push(component);
+    }
+
+    public hideMenu() {
+        this.menuHidden = true;
+    }
+
+    public toggleMenu() {
+        this.menuHidden = !this.menuHidden;
+    }
+
+    public onMenuFocusOut() {
+        this._menuHasFocus = false;
+        setTimeout(_ => {
+            if (!this._menuHasFocus) {
+                this.hideMenu();
+            }
+        });
+    }
+
+    public onMenuFocusIn() {
+        this._menuHasFocus = true;
     }
 }

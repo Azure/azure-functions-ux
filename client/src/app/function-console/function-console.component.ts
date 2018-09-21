@@ -1,4 +1,4 @@
-import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output } from '@angular/core';
+import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output, Input } from '@angular/core';
 import { FunctionAppContextComponent } from '../shared/components/function-app-context-component';
 import { FunctionAppService } from '../shared/services/function-app.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -31,6 +31,10 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     public dir: string;
     public isFocused: boolean;
     public leftSideText = '';
+    public menuHidden = true;
+    @Input() controlsCollapsed: boolean;
+
+    private _menuHasFocus: boolean;
     private _tabKeyPointer: number;
     private _resourceId: string;
     private _functionName: string;
@@ -68,6 +72,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         return this.viewInfoEvents
             .subscribe(view => {
                 this.isFocused = false;
+                this.menuHidden = true;
+                this._menuHasFocus = false;
                 this._resourceId = view.siteDescriptor.resourceId;
                 this._functionName = view.functionDescriptor.name;
                 this.clearConsole();
@@ -714,5 +720,26 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             this.dir = Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
             this._setLeftSideText();
         });
+    }
+
+    public hideMenu() {
+        this.menuHidden = true;
+    }
+
+    public toggleMenu() {
+        this.menuHidden = !this.menuHidden;
+    }
+
+    public onMenuFocusOut() {
+        this._menuHasFocus = false;
+        setTimeout(_ => {
+            if (!this._menuHasFocus) {
+                this.hideMenu();
+            }
+        });
+    }
+
+    public onMenuFocusIn() {
+        this._menuHasFocus = true;
     }
 }

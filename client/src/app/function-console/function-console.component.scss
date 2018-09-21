@@ -86,3 +86,47 @@ span.linux-cursor {
         visibility: hidden;
     }
 }
+
+.menu-container{
+    position: relative;
+    top: -13px;
+
+    .menu-button-container{
+        position: relative;
+        float: right;
+        text-align:
+        right; z-index: 1;
+
+        [role=button]{
+            display: inline-block;
+            padding: 6px 10px 6px 10px;
+            margin: 0;
+            background: white;
+
+            span{
+                padding: 0px;
+            }
+        }
+    }
+
+    [role=menu]{
+        position: relative;
+        float: right;
+        padding: 0px;
+        margin: 0px 5px 0px 0px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,.14);
+        z-index: 1;
+
+        [role=menuitem]{
+            display: block;
+            padding:
+            6px 10px 6px 10px;
+            margin: 0;
+            background: white;
+
+            span{
+                padding-right: 5px;
+            }
+        }
+    }
+}
