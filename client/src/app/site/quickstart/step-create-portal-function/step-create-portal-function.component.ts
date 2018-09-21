@@ -42,10 +42,10 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
 
     public readonly moreTemplatesCard: PortalTemplateCard = {
         id: 'MoreTemplates',
-        name: this._translateService.instant(PortalResources.intro_customFunction),
+        name: this._translateService.instant(PortalResources.moreTemplatesTitle),
         icon: 'image/other.svg',
         color: '#000000',
-        description: this._translateService.instant(PortalResources.timerCardDescription),
+        description: this._translateService.instant(PortalResources.moreTemplatesDescription),
     };
 
     public portalTemplateCards: PortalTemplateCard[]
@@ -168,7 +168,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
 
     private _setButtonText() {
         if (this.selectedPortalTemplateCard.id === 'MoreTemplates') {
-            this.finishButtonText = 'See all templates';
+            this.finishButtonText = this._translateService.instant(PortalResources.moreTemplatesButton);
         } else {
             this.finishButtonText = this._translateService.instant(PortalResources.create);
         }

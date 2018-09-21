@@ -1329,4 +1329,7 @@
     public static finishAndDeploy = 'finishAndDeploy';
     public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
     public static singleContainerPreviewTitle = 'singleContainerPreviewTitle';
+    public static moreTemplatesTitle = 'moreTemplatesTitle';
+    public static moreTemplatesDescription = 'moreTemplatesDescription';
+    public static moreTemplatesButton = 'moreTemplatesButton';
 }
