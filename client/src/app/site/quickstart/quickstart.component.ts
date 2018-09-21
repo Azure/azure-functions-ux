@@ -41,7 +41,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     public runtime: string;
     public possibleRuntimes: DropDownElement<string>[] =
     [{
-        displayLabel: 'C#',
+        displayLabel: '.NET',
         value: 'dotnet',
     },
     {

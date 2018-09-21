@@ -81,7 +81,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
     public possibleRuntimes: DropDownElement<string>[] =
     [{
-        displayLabel: 'C#',
+        displayLabel: '.NET',
         value: 'dotnet',
     },
     {
