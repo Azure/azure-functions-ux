@@ -10,6 +10,7 @@ declare var monaco;
     selector: '[monacoEditor]',
 })
 export class MonacoEditorDirective {
+    @Input() public miniMapDisabled: boolean;
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onFileChanged: Subject<void>;
     @Output() public onSave: EventEmitter<string>;
@@ -35,7 +36,7 @@ export class MonacoEditorDirective {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
         this.onRun = new EventEmitter<void>();
-        this.onFileChanged = new Subject();
+        this.onFileChanged = new Subject<void>();
 
         this._userService.getStartupInfo()
             .first()
@@ -227,7 +228,10 @@ export class MonacoEditorDirective {
                     language: that._language,
                     readOnly: that._disabled,
                     lineHeight: 17,
-                    theme: this._theme === 'dark' ? 'vs-dark' : 'vs'
+                    theme: this._theme === 'dark' ? 'vs-dark' : 'vs',
+                    minimap: {
+                        enabled: !this.miniMapDisabled,
+                    },
                 });
                 this.opacity = this._disabled ? '0.5' : '1';
 

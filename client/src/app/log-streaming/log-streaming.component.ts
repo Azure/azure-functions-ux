@@ -133,9 +133,11 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         this.expandClicked.emit(true);
     }
 
-    compress() {
+    compress(preventEvent?: boolean) {
         this.isExpanded = false;
-        this.expandClicked.emit(false);
+        if (!preventEvent) {
+            this.expandClicked.emit(false);
+        }
     }
 
     keyDown(KeyboardEvent: any, command: string) {
