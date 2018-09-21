@@ -74,3 +74,66 @@ pre {
 .warning-content {
     color: $log-warning;
 }
+
+.menu-container{
+    position: relative;
+    top: -13px;
+
+    .menu-button-container{
+        position: relative;
+        float: right;
+        text-align:
+        right; z-index: 1;
+
+        [role=button]{
+            display: inline-block;
+            padding: 6px 10px 6px 10px;
+            margin: 0;
+            background: $body-bg-color;
+
+            span{
+                padding: 0px;
+            }
+        }
+    }
+
+    [role=menu]{
+        position: relative;
+        float: right;
+        padding: 0px;
+        margin: 0px 5px 0px 0px;
+        box-shadow: 0 4px 8px 0 rgba($default-text-color,.14);
+        border: 1px solid rgba(204,204,204,.8);
+        z-index: 1;
+
+        [role=menuitem]{
+            display: block;
+            padding:
+            6px 10px 6px 10px;
+            margin: 0;
+            background: $body-bg-color;
+
+            span{
+                padding-right: 5px;
+            }
+        }
+    }
+}
+
+:host-context(#app-root[theme=dark]){
+    .menu-container{
+        .menu-button-container{
+            [role=button]{
+                background: $body-bg-color-dark;
+            }
+        }
+
+        [role=menu]{
+            border: 1px solid #605e5c;
+
+            [role=menuitem]{
+                background: $body-bg-color-dark;
+            }
+        }
+    }
+}

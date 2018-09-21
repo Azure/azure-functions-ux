@@ -1,4 +1,4 @@
-import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output } from '@angular/core';
+import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FunctionAppContextComponent } from '../shared/components/function-app-context-component';
 import { FunctionAppService } from '../shared/services/function-app.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -22,15 +22,19 @@ import { UtilitiesService } from '../shared/services/utilities.service';
     templateUrl: './function-console.component.html',
     styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss'],
 })
-export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnDestroy {
+export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnChanges, OnDestroy {
 
     public appName: string;
     public isLinux = false;
     public isExpanded = false;
-    public command = {'left': '', 'mid': ' ', 'right': '', 'complete': ''};
+    public command = { 'left': '', 'mid': ' ', 'right': '', 'complete': '' };
     public dir: string;
     public isFocused: boolean;
     public leftSideText = '';
+    public menuHidden = true;
+    @Input() controlsCollapsed: boolean;
+
+    private _menuHasFocus: boolean;
     private _tabKeyPointer: number;
     private _resourceId: string;
     private _functionName: string;
@@ -49,7 +53,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     private _messageComponent: ComponentFactory<any>;
     private _errorComponent: ComponentFactory<any>;
     private _msgComponents: ComponentRef<any>[] = [];
-    @ViewChild('prompt', {read: ViewContainerRef})
+    @ViewChild('prompt', { read: ViewContainerRef })
     private _prompt: ViewContainerRef;
     @Output() expandClicked = new EventEmitter<boolean>();
 
@@ -68,6 +72,8 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         return this.viewInfoEvents
             .subscribe(view => {
                 this.isFocused = false;
+                this.menuHidden = true;
+                this._menuHasFocus = false;
                 this._resourceId = view.siteDescriptor.resourceId;
                 this._functionName = view.functionDescriptor.name;
                 this.clearConsole();
@@ -84,7 +90,13 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                         this._updateDirectory();
                     });
             }
-        );
+            );
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['controlsCollapsed']) {
+            this.menuHidden = true;
+        }
     }
 
     ngOnDestroy() {
@@ -171,9 +183,11 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     /**
      * Compress the console interface
      */
-    compress() {
+    compress(preventEvent?: boolean) {
         this.isExpanded = false;
-        this.expandClicked.emit(false);
+        if (!preventEvent) {
+            this.expandClicked.emit(false);
+        }
     }
 
     /**
@@ -624,7 +638,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         if (this.isLinux) {
             const result = cmd.split(ConsoleConstants.linuxNewLine);
             this.dir = result[result.length - 1];
-        }else {
+        } else {
             const result = cmd.split(ConsoleConstants.windowsNewLine);
             this.dir = result[result.length - 1];
         }
@@ -708,9 +722,30 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             },
         );
         res.subscribe(data => {
-            const {Output} = data.json();
+            const { Output } = data.json();
             this.dir = Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
             this._setLeftSideText();
         });
+    }
+
+    public hideMenu() {
+        this.menuHidden = true;
+    }
+
+    public toggleMenu() {
+        this.menuHidden = !this.menuHidden;
+    }
+
+    public onMenuFocusOut() {
+        this._menuHasFocus = false;
+        setTimeout(_ => {
+            if (!this._menuHasFocus) {
+                this.hideMenu();
+            }
+        });
+    }
+
+    public onMenuFocusIn() {
+        this._menuHasFocus = true;
     }
 }

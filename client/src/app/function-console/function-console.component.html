@@ -1,5 +1,6 @@
 <div class= "console-container">
-    <div class="console-toolbar">
+
+    <div *ngIf="!controlsCollapsed" class="console-toolbar">
         <span class="console-empty-space"></span>
         <span class="link action" (click)="clearConsole()"
             tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
@@ -26,6 +27,46 @@
             {{ 'logStreaming_compress' | translate }}
         </span>
     </div>
+
+    <div *ngIf="controlsCollapsed"
+        class="menu-container"
+        (focusin)="onMenuFocusIn()"
+        (focusout)="onMenuFocusOut()">
+        <div class="menu-button-container">
+            <span role="button"
+                tabindex="0"
+                [attr.title]="'actions' | translate"
+                class="link action"
+                (click)="toggleMenu()"
+                [activate-with-keys]>
+                <span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+            </span>
+        </div>
+        <ul *ngIf="!menuHidden" role="menu" [attr.aria-label]="'context_menu' | translate" (click)="hideMenu()">
+            <li role="menuitem" tabindex="0" class="link action"
+                (click)="clearConsole()"
+                [activate-with-keys]
+                [attr.aria-label]="'logStreaming_clear' | translate">
+                <span class="fa fa-book"></span>
+                {{ 'logStreaming_clear' | translate }}
+            </li>
+            <li role="menuitem" tabindex="0" class="link action"
+                (click)="copyLogs($event)"
+                [activate-with-keys]
+                [attr.aria-label]="'logStreaming_copyLogs' | translate">
+                <span class="fa fa-clone"></span>
+                {{ 'copypre_copy' | translate }}
+            </li>
+            <li role="menuitem" tabindex="0" class="link action"
+                (click)="isExpanded ? compress() : expand()"
+                [activate-with-keys]
+                [attr.aria-label]="(isExpanded ? 'logStreaming_compress' : 'logStreaming_expand') | translate">
+                <span [ngClass]="isExpanded ? 'fa fa-compress' : 'fa fa-expand'"></span>
+                {{ (isExpanded ? 'logStreaming_compress' : 'logStreaming_expand') | translate }}
+            </li>
+        </ul>
+    </div>
+
     <pre id= "console-body" class="console-body" tabindex="0"
          (keydown)="handleKeyPress($event)"
          (click)="focusConsole()">

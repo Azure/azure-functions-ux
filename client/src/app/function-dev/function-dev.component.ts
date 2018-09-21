@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
+import { FunctionConsoleComponent } from '../function-console/function-console.component';
 import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -51,10 +52,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
     @ViewChildren(LogStreamingComponent) logStreamings: QueryList<LogStreamingComponent>;
+    @ViewChild(FunctionConsoleComponent) functionConsole: FunctionConsoleComponent;
 
     @ViewChild('functionContainer') functionContainer: ElementRef;
+    @ViewChild('editorSection') editorSection: ElementRef;
     @ViewChild('rightContainer') rightContainer: ElementRef;
-    @ViewChild('bottomContainer') bottomContainer: ElementRef;
     @ViewChild('selectKeys') selectKeys: ElementRef;
 
     public functionInfo: FunctionInfo;
@@ -93,6 +95,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public selectedFileStream: Subject<FileSelectionEvent>;
     public functionKey: string;
 
+    public bottomControlsCollapsed = false;
     public bottomBarExpanded: boolean;
     public rightBarExpanded: boolean;
 
@@ -207,8 +210,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         status.errors = status.errors || [];
                         this.showComponentError({
                             message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
-                                + '\n'
-                                + status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                            + '\n'
+                            + status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
                             errorId: errorIds.functionRuntimeIsUnableToStart,
                             resourceId: this.context.site.id
                         });
@@ -328,27 +331,29 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             this.testDataEditor.resize();
         }
 
-        if (this.bottomContainer) {
-            this.bottomContainer.nativeElement.style.width = this.codeEditor.width + 'px';
+        if (this.editorSection && this.editorSection.nativeElement) {
+            this.bottomControlsCollapsed = this.editorSection.nativeElement.clientWidth < 800;
         }
     }
 
     clickBottomTab(tab: string) {
+        this.expandLogs = false;
+        if (this.runLogs) {
+            this.runLogs.compress(true);
+        }
+        if (this.functionConsole) {
+            this.functionConsole.compress(true);
+        }
+
         if (this.bottomTab === tab) {
             this.bottomTab = '';
-            this.expandLogs = false;
-            if (this.runLogs) {
-                this.runLogs.compress();
-            }
             this.bottomBarExpanded = false;
         } else {
             this.bottomTab = tab;
             this.bottomBarExpanded = true;
-            this.expandLogs = false;
         }
 
         // double resize to fix pre height
-
         setTimeout(() => {
             this.onResize();
         }, 0);
@@ -540,9 +545,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     appResourceId: this.context.site.id
                 });
             },
-                () => {
-                    this._globalStateService.clearBusyState();
-                });
+            () => {
+                this._globalStateService.clearBusyState();
+            });
     }
 
     contentChanged(content: string) {
@@ -708,6 +713,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             switch (key) {
                 case 'clickRightTab':
                     this.clickRightTab(param);
+                    break;
+                case 'clickBottomTab':
+                    this.clickBottomTab(param);
                     break;
                 case 'setShowFunctionInvokeUrlModal':
                     this.setShowFunctionInvokeUrlModal(param);

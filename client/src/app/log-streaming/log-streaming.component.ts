@@ -1,5 +1,5 @@
 import { BroadcastService } from './../shared/services/broadcast.service';
-import { Component, OnDestroy, Input, Inject, ElementRef, Output, EventEmitter, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, OnDestroy, Input, Inject, ElementRef, Output, EventEmitter, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, SimpleChanges, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
@@ -20,12 +20,14 @@ import { PortalResources } from '../shared/models/portal-resources';
     templateUrl: './log-streaming.component.html',
     styleUrls: ['./log-streaming.component.scss', '../function-dev/function-dev.component.scss']
 })
-export class LogStreamingComponent extends FunctionAppContextComponent implements OnDestroy {
+export class LogStreamingComponent extends FunctionAppContextComponent implements OnChanges, OnDestroy {
     public log: string;
     public stopped: boolean;
     public timerInterval = 1000;
     public isExpanded = false;
     public popOverTimeout = 500;
+    public menuHidden = true;
+    private _menuHasFocus: boolean;
     private _isConnectionSuccessful = true;
     private _xhReq: XMLHttpRequest;
     private _timeouts: number[];
@@ -38,6 +40,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     private _logStreamIndex = 0;
     private _logComponents: ComponentRef<any>[] = [];
 
+    @Input() controlsCollapsed: boolean;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
@@ -60,6 +63,8 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     setup(): Subscription {
         return this.viewInfoEvents
             .subscribe(view => {
+                this.menuHidden = true;
+                this._menuHasFocus = false;
                 this._functionInfo = view.functionInfo.result;
                 // clear logs on navigation to a new viewInfo
                 this.log = '';
@@ -78,6 +83,12 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                     // start polling logs
                     .subscribe(() => this._startPollingRequest());
             });
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['controlsCollapsed']) {
+            this.menuHidden = true;
+        }
     }
 
     ngOnDestroy() {
@@ -133,9 +144,11 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         this.expandClicked.emit(true);
     }
 
-    compress() {
+    compress(preventEvent?: boolean) {
         this.isExpanded = false;
-        this.expandClicked.emit(false);
+        if (!preventEvent) {
+            this.expandClicked.emit(false);
+        }
     }
 
     keyDown(KeyboardEvent: any, command: string) {
@@ -402,5 +415,26 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         component.instance.logs = logs;
         component.instance.type = type;
         this._logComponents.push(component);
+    }
+
+    public hideMenu() {
+        this.menuHidden = true;
+    }
+
+    public toggleMenu() {
+        this.menuHidden = !this.menuHidden;
+    }
+
+    public onMenuFocusOut() {
+        this._menuHasFocus = false;
+        setTimeout(_ => {
+            if (!this._menuHasFocus) {
+                this.hideMenu();
+            }
+        });
+    }
+
+    public onMenuFocusIn() {
+        this._menuHasFocus = true;
     }
 }
