@@ -239,18 +239,20 @@
   </aside>
 
   <footer id="bottom-tabs-bar">
+    <div class="tab-heading" (click)="clickBottomTab(bottomBarExpanded ? bottomTab : 'logs')">
+      <h4 tabindex="0"
+        class="tab-label"
+        (keydown)="keyDown($event, 'clickBottomTab', bottomBarExpanded ? bottomTab : 'logs')">
+          <i *ngIf="bottomBarExpanded" class="fa fa-chevron-down"></i>
+          <i *ngIf="!bottomBarExpanded" class="fa fa-chevron-up"></i>
+      </h4>
+    </div>
+
     <div class="tab-heading" (click)="clickBottomTab('logs')">
       <h4 [class.tab-label-disabled]="bottomTab !== 'logs'"
         [class.tab-label-selected]="bottomTab === 'logs'"
         tabindex="0"
         (keydown)="keyDown($event, 'clickBottomTab', 'logs')">{{ 'logStreaming_logs' | translate }}</h4>
-
-      <h4 tabindex="0"
-        class="tab-label"
-        (keydown)="keyDown($event, 'clickBottomTab', 'logs')">
-          <i *ngIf="bottomTab !== 'logs'" class="fa fa-chevron-up"></i>
-          <i *ngIf="bottomTab === 'logs'" class="fa fa-chevron-down"></i>
-      </h4>
     </div>
 
     <div *ngIf="showErrorsAndWarnings | async" class="tab-heading" (click)="clickBottomTab('errors')">
@@ -258,13 +260,6 @@
         [class.tab-label-selected]="bottomTab === 'errors'"
         tabindex="0"
         (keydown)="keyDown($event, 'clickBottomTab', 'errors')">{{ 'diagnostics_errorsAndWarnings' | translate }}</h4>
-
-      <h4 tabindex="0"
-        class="tab-label"
-        (keydown)="keyDown($event, 'clickBottomTab', 'errors')">
-          <i *ngIf="bottomTab !== 'errors'" class="fa fa-chevron-up"></i>
-          <i *ngIf="bottomTab === 'errors'" class="fa fa-chevron-down"></i>
-      </h4>
     </div>
 
     <div *ngIf="showConsole" class="tab-heading" (click)="clickBottomTab('console')">
@@ -272,13 +267,6 @@
         [class.tab-label-selected]="bottomTab === 'console'"
         tabindex="0"
         (keydown)="keyDown($event, 'clickBottomTab', 'console')">{{ 'feature_consoleName' | translate }}</h4>
-
-      <h4 tabindex="0"
-        class="tab-label"
-        (keydown)="keyDown($event, 'clickBottomTab', 'console')">
-          <i *ngIf="bottomTab !== 'console'" class="fa fa-chevron-up"></i>
-          <i *ngIf="bottomTab === 'console'" class="fa fa-chevron-down"></i>
-      </h4>
     </div>
 
     <log-streaming [hidden]="bottomTab !== 'logs'"
