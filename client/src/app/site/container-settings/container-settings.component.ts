@@ -201,8 +201,30 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
         this.statusMessage = null;
         this._markFormGroupDirtyAndValidate(this.form);
         if (this.form.valid) {
+            this.isUpdating = true;
             const data = this.containerSettingsManager.containerFormData;
-            this._portalService.returnPcv3Results<string>(JSON.stringify(data));
+            this.containerSettingsManager
+                .applyContainerConfig(this.containerConfigureInfo.resourceId, this.containerConfigureInfo.os, data)
+                .catch(error => {
+                    this.isUpdating = false;
+                    this.statusMessage = {
+                        level: 'error',
+                        message: error.message,
+                    };
+
+                    return Observable.of(false);
+                })
+                .subscribe(updateSuccess => {
+                    this.isUpdating = false;
+
+                    if (updateSuccess) {
+                        this.statusMessage = {
+                            level: 'success',
+                            message: this._ts.instant(PortalResources.containerSettingsUpdateSuccess),
+                        };
+                        this._portalService.returnPcv3Results<string>(JSON.stringify(data));
+                    }
+                });
         } else {
             this.statusMessage = {
                 level: 'error',
