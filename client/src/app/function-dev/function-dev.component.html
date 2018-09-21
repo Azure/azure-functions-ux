@@ -257,7 +257,7 @@
       <h4 [class.tab-label-disabled]="bottomTab !== 'errors'"
         [class.tab-label-selected]="bottomTab === 'errors'"
         tabindex="0"
-        (keydown)="keyDown($event, 'clickBottomTab', 'logs')">{{ 'diagnostics_errorsAndWarnings' | translate }}</h4>
+        (keydown)="keyDown($event, 'clickBottomTab', 'errors')">{{ 'diagnostics_errorsAndWarnings' | translate }}</h4>
 
       <h4 tabindex="0"
         class="tab-label"
@@ -283,20 +283,16 @@
 
     <log-streaming [hidden]="bottomTab !== 'logs'"
       [viewInfo]="viewInfo"
-      (closeClicked)="clickBottomTab('logs')"
       (expandClicked)="expandLogsClicked($event)"> </log-streaming>
 
     <errors-warnings *ngIf="showErrorsAndWarnings | async"
       [hidden]="bottomTab !== 'errors'"
       (selectFile)="selectedFileStream.next($event)"
       [viewInfo]="viewInfo"
-      [monacoEditor]="codeEditor"
-      (expandClicked)="expandLogsClicked($event)"
-      (diagnosticDblClicked)="clickRightTab('files')"></errors-warnings>
+      [monacoEditor]="codeEditor"></errors-warnings>
 
     <console [hidden]="bottomTab !== 'console'"
       [viewInfo]="viewInfo"
-      (closeClicked)="clickBottomTab('console')"
       (expandClicked)="expandLogsClicked($event)"> </console>
 
   </footer>

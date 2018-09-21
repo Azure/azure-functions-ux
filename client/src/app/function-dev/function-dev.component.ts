@@ -54,7 +54,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     @ViewChild('functionContainer') functionContainer: ElementRef;
     @ViewChild('rightContainer') rightContainer: ElementRef;
-    @ViewChild('bottomContainer') bottomContainer: ElementRef;
     @ViewChild('selectKeys') selectKeys: ElementRef;
 
     public functionInfo: FunctionInfo;
@@ -207,8 +206,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         status.errors = status.errors || [];
                         this.showComponentError({
                             message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
-                                + '\n'
-                                + status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                            + '\n'
+                            + status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
                             errorId: errorIds.functionRuntimeIsUnableToStart,
                             resourceId: this.context.site.id
                         });
@@ -328,27 +327,27 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             this.testDataEditor.resize();
         }
 
-        if (this.bottomContainer) {
-            this.bottomContainer.nativeElement.style.width = this.codeEditor.width + 'px';
         }
     }
 
     clickBottomTab(tab: string) {
+        this.expandLogs = false;
+        if (this.runLogs) {
+            this.runLogs.compress(true);
+        }
+        if (this.functionConsole) {
+            this.functionConsole.compress(true);
+        }
+
         if (this.bottomTab === tab) {
             this.bottomTab = '';
-            this.expandLogs = false;
-            if (this.runLogs) {
-                this.runLogs.compress();
-            }
             this.bottomBarExpanded = false;
         } else {
             this.bottomTab = tab;
             this.bottomBarExpanded = true;
-            this.expandLogs = false;
         }
 
         // double resize to fix pre height
-
         setTimeout(() => {
             this.onResize();
         }, 0);
@@ -540,9 +539,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     appResourceId: this.context.site.id
                 });
             },
-                () => {
-                    this._globalStateService.clearBusyState();
-                });
+            () => {
+                this._globalStateService.clearBusyState();
+            });
     }
 
     contentChanged(content: string) {
@@ -708,6 +707,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             switch (key) {
                 case 'clickRightTab':
                     this.clickRightTab(param);
+                    break;
+                case 'clickBottomTab':
+                    this.clickBottomTab(param);
                     break;
                 case 'setShowFunctionInvokeUrlModal':
                     this.setShowFunctionInvokeUrlModal(param);
