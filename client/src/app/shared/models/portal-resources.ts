@@ -1175,6 +1175,8 @@
     public static privateRepo = 'privateRepo';
     public static enterUsername = 'enterUsername';
     public static enterPassword = 'enterPassword';
+    public static containerWriteAccessError = 'containerWriteAccessError';
+    public static containerReadLockError = 'containerReadLockError';
     public static singleContainerTitle = 'singleContainerTitle';
     public static singleContainerDescription = 'singleContainerDescription';
     public static singleContainerDetailedDescription = 'singleContainerDetailedDescription';

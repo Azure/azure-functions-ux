@@ -3667,6 +3667,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="enterPassword" xml:space="preserve">
     <value>enter password</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>You must have write access on your app to configure container settings</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Your container settings cannot be configured unless you remove the read-only lock on your app</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Single Container</value>
   </data>
