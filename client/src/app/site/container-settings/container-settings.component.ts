@@ -86,7 +86,6 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
             .do(r => {
                 if (this.fromMenu) {
 
-
                     const appSettingsResponse: HttpResult<ArmObj<ApplicationSettings>> = r[0];
                     const siteConfigResponse: HttpResult<ArmObj<SiteConfig>> = r[1];
                     const publishingCredentialsResponse: HttpResult<ArmObj<PublishingCredentials>> = r[2];
