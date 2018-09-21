@@ -1,4 +1,4 @@
-import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output, Input } from '@angular/core';
+import { OnDestroy, Component, ViewContainerRef, ViewChild, ComponentRef, ComponentFactory, ComponentFactoryResolver, EventEmitter, Output, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FunctionAppContextComponent } from '../shared/components/function-app-context-component';
 import { FunctionAppService } from '../shared/services/function-app.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -22,7 +22,7 @@ import { UtilitiesService } from '../shared/services/utilities.service';
     templateUrl: './function-console.component.html',
     styleUrls: ['./function-console.component.scss', '../function-dev/function-dev.component.scss'],
 })
-export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnDestroy {
+export class FunctionConsoleComponent extends FunctionAppContextComponent implements OnChanges, OnDestroy {
 
     public appName: string;
     public isLinux = false;
@@ -91,6 +91,12 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                     });
             }
             );
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['controlsCollapsed']) {
+            this.menuHidden = true;
+        }
     }
 
     ngOnDestroy() {

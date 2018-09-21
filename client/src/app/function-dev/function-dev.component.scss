@@ -241,6 +241,7 @@
   grid-column: 1;
   -ms-grid-row: 1;
   grid-row: 1;
+  min-width: 550px;
   #text-editor-container {
     height: calc(100% - 40px);
     border-bottom: $border;

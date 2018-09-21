@@ -1,5 +1,5 @@
 import { BroadcastService } from './../shared/services/broadcast.service';
-import { Component, OnDestroy, Input, Inject, ElementRef, Output, EventEmitter, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, OnDestroy, Input, Inject, ElementRef, Output, EventEmitter, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, ComponentRef, SimpleChanges, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
@@ -20,7 +20,7 @@ import { PortalResources } from '../shared/models/portal-resources';
     templateUrl: './log-streaming.component.html',
     styleUrls: ['./log-streaming.component.scss', '../function-dev/function-dev.component.scss']
 })
-export class LogStreamingComponent extends FunctionAppContextComponent implements OnDestroy {
+export class LogStreamingComponent extends FunctionAppContextComponent implements OnChanges, OnDestroy {
     public log: string;
     public stopped: boolean;
     public timerInterval = 1000;
@@ -83,6 +83,12 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                     // start polling logs
                     .subscribe(() => this._startPollingRequest());
             });
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['controlsCollapsed']) {
+            this.menuHidden = true;
+        }
     }
 
     ngOnDestroy() {
