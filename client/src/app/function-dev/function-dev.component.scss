@@ -182,9 +182,16 @@
     flex-grow: 1;
 }
 
-
 .tab-heading {
     display: inline-block;
+}
+
+.tab-label {
+    margin-left: 0px;
+}
+
+.tab-label-disabled, .tab-label-selected {
+    margin-left: 5px;
 }
 
 .tab-label-dev {
@@ -234,6 +241,7 @@
   grid-column: 1;
   -ms-grid-row: 1;
   grid-row: 1;
+  min-width: 850px;
   #text-editor-container {
     height: calc(100% - 40px);
     border-bottom: $border;
