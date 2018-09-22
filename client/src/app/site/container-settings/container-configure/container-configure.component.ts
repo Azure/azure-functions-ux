@@ -1,36 +1,31 @@
-import { Component, Input, Injector } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
+import { ContainerSettingsData, ContainerConfigureData } from '../container-settings';
 import { FeatureComponent } from '../../../shared/components/feature-component';
-import { ContainerConfigureInfo, Container } from '../container-settings';
 import { Observable } from 'rxjs/Observable';
-import { ContainerSettingsManager } from '../container-settings-manager';
 
 @Component({
     selector: 'container-configure',
     templateUrl: './container-configure.component.html',
-    styleUrls: ['./container-configure.component.scss']
+    styleUrls: ['./../container-settings.component.scss', './container-configure.component.scss'],
 })
-export class ContainerConfigureComponent extends FeatureComponent<ContainerConfigureInfo> {
+export class ContainerConfigureComponent extends FeatureComponent<ContainerSettingsData> implements OnDestroy {
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureInfo) {
+    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
         this.setInput(containerConfigureInfo);
     }
 
-    public selectedContainer: Container;
+    public containerConfigureInfo: ContainerConfigureData;
 
-    constructor(
-        private _containerSettingsManager: ContainerSettingsManager,
-        injector: Injector) {
-        super('container-configure', injector, 'dashboard');
-        this.featureName = 'ContainerSettingsComponent';
-
-        this._containerSettingsManager.$selectedContainer.subscribe((selectedContainer: Container) => {
-            this.selectedContainer = selectedContainer;
-        });
+    constructor(injector: Injector) {
+        super('ContainerConfigureComponent', injector, 'dashboard');
+        this.featureName = 'ContainerSettings';
     }
 
-    protected setup(containerConfigureInfoInputEvent: Observable<ContainerConfigureInfo>) {
-        return containerConfigureInfoInputEvent
+    protected setup(inputEvents: Observable<ContainerConfigureData>) {
+        return inputEvents
+            .distinctUntilChanged()
             .do(containerConfigureInfo => {
+                this.containerConfigureInfo = containerConfigureInfo;
             });
     }
 }

@@ -75,7 +75,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     public slotsStatusOptions: SelectOption<boolean>[];
     public slotsAppSetting: string;
     public slotsEnabled: boolean;
-    public functionRuntimeSelectorDisabled = false;
+    public betaDisabled = false;
+    public disableRuntimeSelector = false;
     public slotsValueChange: Subject<boolean>;
     private _busyManager: BusyStateScopeManager;
 
@@ -96,7 +97,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
-        this.functionRuntimeSelectorDisabled = this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled';
+        this.betaDisabled = this._scenarioService.checkScenario(ScenarioIds.functionBeta).status === 'disabled';
 
         this.functionStatusOptions = [
             {
@@ -130,7 +131,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 displayLabel: '~1',
                 value: '~1',
             }, {
-                displayLabel: this._translateService.instant(PortalResources.v2_preview_label),
+                displayLabel: '~2',
                 value: '~2',
             }];
 
@@ -262,6 +263,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 if (!this.extensionVersion) {
                     this.extensionVersion = Constants.latest;
                 }
+
+                this.disableRuntimeSelector = (this.extensionVersion !== Constants.latest) && (this.hasFunctions || this.betaDisabled);
 
                 this.badRuntimeVersion = !this._validRuntimeVersion();
 

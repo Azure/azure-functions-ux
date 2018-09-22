@@ -24,8 +24,9 @@
     <span *ngIf="node.iconUrl" [load-image]="node.iconUrl" class="icon-small"></span>
   </i>
 
-  {{node.title}}
-
+  <span class="link nav-link">
+    {{node.title}}
+  </span>
   <span *ngIf="node.isLoading !== undefined" [log-message]="node.title + ' isLoading=' + node.isLoading" log-category="SideNav"></span>
 
   <i *ngIf="node.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
@@ -33,7 +34,7 @@
   <!-- Optional menu icons that show up on right side of each node -->
   <span class="tree-node-menu">
 
-    <span *ngIf="node.showMenu || node.inSelectedTree" class="menu-items">
+    <span *ngIf="node.showMenu || node.inSelectedTree || node.dashboardType === types.FunctionsDashboard" class="menu-items">
 
       <i *ngIf="node.disabled"
         class="fa fa-info-circle tree-node-menu-item"

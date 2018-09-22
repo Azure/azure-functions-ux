@@ -1,4 +1,4 @@
-<command-bar id="top-bar">
+<command-bar>
   <command [displayText]="context?.site.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
     [iconUrl]="context?.site.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
     (click)="toggleState()"
@@ -146,8 +146,21 @@
 
 </div>
 
-<div id="site-summary-body">
-  <div *ngIf="!isStandalone" id="site-summary-features">
+<div *ngIf="!bodyLoading" id="site-summary-body">
+  <div *ngIf="!showQuickstart && !this.isStandalone" id="site-summary-features">
     <site-enabled-features [siteInput]="context?.site"></site-enabled-features>
+  </div>
+  <div *ngIf="showQuickstart" id="site-summary-quickstart">
+    <img src="image/quickstart.svg"/>
+    <h2>{{ 'quickstartMessage1' | translate }}</h2>
+    <h2>{{ 'quickstartMessage2' | translate }}</h2>
+    <a class="new-function" 
+      (click)="openQuickstartTab()"
+      tabindex="0"
+      (keydown)="onKeyPress($event, 'functionNew')">
+      <span load-image="image/add.svg" class="icon-small"></span>
+      {{ 'newFunction' | translate }}
+    </a>
+    <!-- <h2>Create a function using our new quickstart and we'll get you going in 5 minutes or less!</h2> -->
   </div>
 </div>

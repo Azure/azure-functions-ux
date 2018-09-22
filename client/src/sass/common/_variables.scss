@@ -1,13 +1,12 @@
 
 // Font colors:
-$default-text-color: #464f59;
+$default-text-color: #000;
 $default-text-color-dark: #e0e0e0;
 
 $value-text-color: #1f2327;
 
-
-$label-text-color: #595959;
-$label-text-color-dark: #acacac;
+$label-text-color: #646464;
+$label-text-color-dark: #bbb;
 
 $highlight-text-color: #ffed10;
 
@@ -21,7 +20,7 @@ $qs-header-bg-color: #e8ebef;
 $qs-footer-bg-color: #004075;
 $qs-footer-link-color: #9cdcff;
 
-$chrome-color: #f7f9fa;
+$chrome-color: #fff;
 $chrome-color-dark: $body-bg-color-dark;
 
 $back-bar-color: #e8ebed;
@@ -41,12 +40,12 @@ $top-bar-height: 40px;
 $disabled-color: rgba(#7f7f7f, .7);
 $disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
-$border-color: darken($chrome-color, 10%);
+$border-color: #CCC;
 
-$item-selected-color: #e1efff;
+$item-selected-color: rgba(85,179,255,.2);
 $item-selected-color-dark: lighten($body-bg-color-dark, 20%);
 
-$item-hover-color: darken($chrome-color, 5%);
+$item-hover-color: rgba(85,179,255,.1);
 $item-hover-color-dark: lighten($body-bg-color-dark, 10%);
 
 $border: 1px $border-color solid;
@@ -69,7 +68,7 @@ $warning-color-faded: rgba($warning-color, 0.18);
 $warning-box-color: lighten($warning-color, 40%);
 $warning-box-color-hover: darken($warning-box-color, 5%);
 
-$primary-color: #0058ad;
+$primary-color: #015cda;
 $primary-color-faded: rgba($primary-color, 0.18);
 $primary-color-hover: lighten($primary-color, 10%);
 
@@ -87,7 +86,8 @@ $translucent-shield-color-dark: rgba($body-bg-color-dark, 0.50);
 $grey-color: #f5f5f5;
 $grey-color-dark: #3d3d3d;
 
-$command-color-hover: #f1f1f8;
+$command-color-hover: rgba(85,179,255,.1);
+$command-color-hover-dark: rgba(128,128,128,.3);
 $heading-text-color: #252525;
 
 $info-box-color: #d1e7f8;
@@ -126,8 +126,15 @@ $black_shadow: rgba(0, 0, 0, 0.075);
 $control-error-color-light: #b40e1b;
 $control-error-color-dark: #f88;
 
-// Sidebar colors:
+// Sidebar:
 $sidebar-border-color: darken($chrome-color, 30%);
+$sidebar-header-border-bottom-style: solid;
+$sidebar-header-border-bottom-width: 1px;
+$sidebar-header-border-color: rgba(204, 204, 204, 0.5);
+$sidebar-close-hover-color: #ba141a;
+
+// Wizard footer:
+$wizard-footer-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
 
 // Table colors:
 $row-hover-color: rgba(0, 137, 250, 0.08);
@@ -153,3 +160,65 @@ $log-console-connector: #898787;
 $source-slot-bullet-color: #00c5c5;
 $source-slot-bullet-color-dark: aqua;
 $target-slot-bullet-color: #f77088;
+
+// Card styles:
+
+// Card default attributes
+$card-border-radius: 2px;
+$card-border-width: 1px;
+$card-border-color: rgba(204, 204, 204, 0.5);
+$card-border-style: solid;
+$card-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+$card-float: left;
+$card-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+$card-position: relative;
+
+// Card hover
+$card-cursor-hover: pointer;
+$card-box-shadow-hover: 0px 4px 8px rgba(0, 0, 0, .14);
+
+// Card hover disabled
+$card-cursor-hover-disabled: not-allowed;
+
+// Card selected
+$card-border-color-selected: rgba(65, 155, 243, 0.5);
+$card-transition-selected: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Card focus
+$card-outline-color: rgba(65, 155, 243, 0.5);
+$card-outline-offset: 5px;
+$card-outline-style: dashed;
+$card-outline-width: 1px;
+
+// Card header
+$card-header-display: inline-flex;
+$card-header-width: 100%;
+
+$card-header-icon-height: 40px;
+$card-header-icon-width: 40px;
+$card-header-icon-padding: 5px;
+$card-header-icon-margin-right: 15px;
+
+$card-header-title-padding-left: 20px;
+$card-header-title-line-height: 37px;
+$card-header-title-font-size: 14px;
+$card-header-title-font-weight: 600;
+$card-header-title-height: 41px;
+
+// Card description
+$card-description-border-top-style: solid;
+$card-description-border-top-width: 1px;
+$card-description-border-color: rgba(204, 204, 204, 0.5);
+$card-description-margin-top: -1px;
+$card-description-padding: 15px;
+
+// Card footer
+$card-footer-display: inline-flex;
+$card-footer-max-width: 100%;
+$card-footer-position: absolute;
+$card-footer-border-top-style: solid;
+$card-footer-border-top-width: 1px;
+$card-footer-border-color: rgba(204, 204, 204, 0.5);
+
+// Card dark mode
+$card-box-shadow-hover-dark: 0px 4px 8px rgba(255, 255, 255, .14);

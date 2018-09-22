@@ -39,6 +39,7 @@ import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
+import { Version } from 'app/shared/Utilities/version';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -133,13 +134,13 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-            { resourceId: context.site.id }, /*input*/
-            token => Observable /*query*/
-                .zip(
-                this.retrieveProxies(context, token),
-                this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
-                (p, s) => ({ proxies: p, schema: s }))
-                .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
+                { resourceId: context.site.id }, /*input*/
+                token => Observable /*query*/
+                    .zip(
+                        this.retrieveProxies(context, token),
+                        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+                        (p, s) => ({ proxies: p, schema: s }))
+                    .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
     }
 
     private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
@@ -483,10 +484,18 @@ export class FunctionAppService {
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
-            Observable.zip(
-                this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
-                this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
-            )
+
+            // NOTE: We should be able to ask for the admin and master keys concurrently, however
+            // due to a race condition on the runtime, we need to make them sequential.
+            // Once https://github.com/Azure/azure-functions-host/pull/3498 gets merged/deployed, we can
+            // put this back to being concurrent calls.
+            this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t))
+                .mergeMap(r => {
+                    return Observable.zip(
+                        Observable.of(r),
+                        this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t)),
+                    );
+                })
                 .map(r => {
                     const hostKeys = r[0].json();
                     hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
@@ -584,6 +593,26 @@ export class FunctionAppService {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t))
                 .map(r => r.json() as HostStatus));
+    }
+
+    getWorkerRuntimeRequired(context: FunctionAppContext): Observable<boolean> {
+        return this.getFunctionHostStatus(context)
+            .map(r => {
+                if (r.isSuccessful) {
+                    const runtimeVersion = new Version(r.result.version);
+                    if (this._workerRuntimeRequired(runtimeVersion)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+    }
+
+    private _workerRuntimeRequired(runtimeVersion: Version): boolean {
+        if (runtimeVersion.majorVersion && runtimeVersion.minorVersion) {
+            return runtimeVersion.majorVersion === 2 && runtimeVersion.minorVersion >= 12050;
+        }
+        return false;
     }
 
     getLogs(context: FunctionAppContext, fi: FunctionInfo, range?: number, force: boolean = false): Result<string> {
@@ -695,12 +724,12 @@ export class FunctionAppService {
         if (ArmUtil.isLinuxDynamic(context.site)) {
             this._cacheService.postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         } else {
             const url = context.urlTemplates.syncTriggersUrl;
             this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
                 .subscribe(success => this._logService.verbose(LogCategories.syncTriggers, success),
-                error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
+                    error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error));
         }
     }
 
@@ -816,6 +845,7 @@ export class FunctionAppService {
                         : '';
                     const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
+                    const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
 
                     const resolveReadOnlyMode = () => {
                         if (sourceControlled) {
@@ -857,6 +887,8 @@ export class FunctionAppService {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
                     } else if (usingLocalCache) {
                         return FunctionAppEditMode.ReadOnlyLocalCache;
+                    } else if (isLinuxDynamic) {
+                        return FunctionAppEditMode.ReadOnlyLinuxDynamic;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
@@ -885,6 +917,14 @@ export class FunctionAppService {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(context: FunctionAppContext): Result<boolean> {
+        if (ArmUtil.isLinuxDynamic(context.site)) {
+            return Observable.of({
+                isSuccessful: true,
+                result: true,
+                error: null,
+            });
+        }
+
         return this.azure.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.pingScmSiteUrl, true, this.headers(t))
                 .map(_ => true)

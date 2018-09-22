@@ -66,6 +66,8 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
                     this.removeChild(event.resourceId);
                 } else if (event.operation === 'update') {
                     this.updateChild(event.resourceId, event.data);
+                } else if (event.operation === 'navigate' && event.data === 'appNode') {
+                    this.parent.select();
                 }
             });
 

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { LogContentComponent } from './log-content.component';
-import { Regex, LogConsoleTypes } from '../shared/models/constants';
+import { Regex, LogLevel } from '../shared/models/constants';
 import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
@@ -41,7 +41,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
-    @ViewChild('logs', {read: ViewContainerRef})
+    @ViewChild('logs', { read: ViewContainerRef })
     private _logElement: ViewContainerRef;
 
     constructor(
@@ -133,9 +133,11 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         this.expandClicked.emit(true);
     }
 
-    compress() {
+    compress(preventEvent?: boolean) {
         this.isExpanded = false;
-        this.expandClicked.emit(false);
+        if (!preventEvent) {
+            this.expandClicked.emit(false);
+        }
     }
 
     keyDown(KeyboardEvent: any, command: string) {
@@ -268,7 +270,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                 this._functionAppService.getLogs(this.context, this._functionInfo, 10000).subscribe(r => {
                     oldLogs = r.result;
                     if (!this.stopped) {
-                        this._addLogContent(oldLogs, LogConsoleTypes.Normal);
+                        this._addLogContent(oldLogs, LogLevel.Normal);
                     }
                 });
             }
@@ -280,7 +282,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                     let logStream = '';
                     logStream = this._xhReq.responseText.substring(this._xhReq.responseText.indexOf('\n') + 1);
                     if (oldLogs === '' && this._oldLength === 0) {
-                        this._addLogContent(this._xhReq.responseText.substring(-1, this._xhReq.responseText.indexOf('\n') + 1), LogConsoleTypes.Normal);
+                        this._addLogContent(this._xhReq.responseText.substring(-1, this._xhReq.responseText.indexOf('\n') + 1), LogLevel.Normal);
                     }
                     this._processLogs(logStream.substring(this._logStreamIndex));
                     this.log = this._oldLength > 0
@@ -372,16 +374,16 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
      */
     private _getLogType(log: string) {
         if (log.match(Regex.errorLog)) {
-            return LogConsoleTypes.Error;
+            return LogLevel.Error;
         }
         if (log.match(Regex.infoLog)) {
-            return LogConsoleTypes.Info;
+            return LogLevel.Info;
         }
         if (log.match(Regex.warningLog)) {
-            return LogConsoleTypes.Warning;
+            return LogLevel.Warning;
         }
         if (log.match(Regex.log)) {
-            return LogConsoleTypes.Normal;
+            return LogLevel.Normal;
         }
         return -1;
     }
@@ -397,7 +399,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
             this._logComponents[this._logComponents.length - 1].instance.logs += logs;
             return;
         }
-        type = (type === -1) ? LogConsoleTypes.Normal : type;
+        type = (type === -1) ? LogLevel.Normal : type;
         const component = this._logElement.createComponent(this._logContentComponent);
         component.instance.logs = logs;
         component.instance.type = type;

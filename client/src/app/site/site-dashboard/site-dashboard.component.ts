@@ -33,7 +33,8 @@ import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/component
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 import { Observable } from 'rxjs/Observable';
 import { ConsoleComponent } from '../console/console.component';
-import { LogStreamComponent } from '../log-stream/log-stream.component';
+import { AppLogStreamComponent } from '../log-stream/log-stream.component';
+import { QuickstartComponent } from '../quickstart/quickstart.component';
 
 @Component({
     selector: 'site-dashboard',
@@ -59,6 +60,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     private _currentTabIndex: number;
 
     private _openTabSubscription: Subscription;
+    private _closeTabSubscription: Subscription;
 
     constructor(
         private _globalStateService: GlobalStateService,
@@ -124,6 +126,18 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                             if (tabId) {
                                 this.openFeature(tabId);
                                 this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, null);
+                            }
+                        });
+                }
+
+                if (!this._closeTabSubscription) {
+                    this._closeTabSubscription = this._broadcastService
+                        .getEvents<string>(BroadcastEvent.CloseTab)
+                        .takeUntil(this.ngUnsubscribe)
+                        .subscribe(tabId => {
+                            if (tabId) {
+                                this.closeFeature(tabId);
+                                this._broadcastService.broadcastEvent<string>(BroadcastEvent.CloseTab, null);
                             }
                         });
                 }
@@ -247,6 +261,17 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         this.selectTab(tabInfo);
     }
 
+    closeFeature(featureId: string) {
+        let tabInfo = this.tabInfos.find(t => t.id === featureId);
+
+        if (!tabInfo) {
+            tabInfo = this._getTabInfo(featureId, true /* active */, { viewInfoInput: this.viewInfo });
+            this.tabInfos.push(tabInfo);
+        }
+
+        this.closeTab(tabInfo);
+    }
+
     pinPart() {
         this._portalService.pinPart({
             partSize: PartSize.Normal,
@@ -331,7 +356,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             case SiteTabIds.logStream:
                 info.title = this._translateService.instant(PortalResources.feature_logStreamingName);
                 info.iconUrl = 'image/log-stream.svg';
-                info.componentFactory = LogStreamComponent;
+                info.componentFactory = AppLogStreamComponent;
                 info.closeable = true;
                 break;
 
@@ -350,7 +375,12 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         resourceId: this.site.properties.serverFarmId
                     }
                 };
+                break;
 
+            case SiteTabIds.quickstart:
+                info.title = this._translateService.instant(PortalResources.quickstart);
+                info.iconUrl = 'image/quickstart.svg';
+                info.componentFactory = QuickstartComponent;
                 break;
         }
 

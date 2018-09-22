@@ -27,7 +27,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     public appName: string;
     public isLinux = false;
     public isExpanded = false;
-    public command = {'left': '', 'mid': ' ', 'right': '', 'complete': ''};
+    public command = { 'left': '', 'mid': ' ', 'right': '', 'complete': '' };
     public dir: string;
     public isFocused: boolean;
     public leftSideText = '';
@@ -49,7 +49,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     private _messageComponent: ComponentFactory<any>;
     private _errorComponent: ComponentFactory<any>;
     private _msgComponents: ComponentRef<any>[] = [];
-    @ViewChild('prompt', {read: ViewContainerRef})
+    @ViewChild('prompt', { read: ViewContainerRef })
     private _prompt: ViewContainerRef;
     @Output() expandClicked = new EventEmitter<boolean>();
 
@@ -84,7 +84,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
                         this._updateDirectory();
                     });
             }
-        );
+            );
     }
 
     ngOnDestroy() {
@@ -171,9 +171,11 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
     /**
      * Compress the console interface
      */
-    compress() {
+    compress(preventEvent?: boolean) {
         this.isExpanded = false;
-        this.expandClicked.emit(false);
+        if (!preventEvent) {
+            this.expandClicked.emit(false);
+        }
     }
 
     /**
@@ -624,7 +626,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
         if (this.isLinux) {
             const result = cmd.split(ConsoleConstants.linuxNewLine);
             this.dir = result[result.length - 1];
-        }else {
+        } else {
             const result = cmd.split(ConsoleConstants.windowsNewLine);
             this.dir = result[result.length - 1];
         }
@@ -708,7 +710,7 @@ export class FunctionConsoleComponent extends FunctionAppContextComponent implem
             },
         );
         res.subscribe(data => {
-            const {Output} = data.json();
+            const { Output } = data.json();
             this.dir = Output.trim() + ConsoleConstants.singleBackslash + this._functionName;
             this._setLeftSideText();
         });

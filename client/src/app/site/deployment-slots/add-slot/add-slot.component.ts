@@ -30,7 +30,7 @@ export interface AddSlotParameters {
 @Component({
     selector: 'add-slot',
     templateUrl: './add-slot.component.html',
-    styleUrls: ['./../common.scss', './add-slot.component.scss']
+    styleUrls: ['./../common.scss', './add-slot.component.scss'],
 })
 export class AddSlotComponent extends FeatureComponent<ResourceId> implements OnDestroy {
     @Input() set resourceId(resourceId: ResourceId) {
@@ -59,7 +59,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         private _logService: LogService,
         private _authZService: AuthzService,
         private _scenarioService: ScenarioService,
-        private _injector: Injector
+        private _injector: Injector,
     ) {
         super('AddSlotComponent', _injector, SiteTabIds.deploymentSlotsConfig);
 
@@ -77,7 +77,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         this.addForm = this._fb.group({
             name: nameCtrl,
             cloneSrcId: cloneSrcIdCtrl,
-            cloneSrcConfig: cloneSrcConfigCtrl
+            cloneSrcConfig: cloneSrcConfigCtrl,
         });
     }
 
@@ -102,7 +102,8 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
                     this._siteService.getSite(this._siteId),
                     this._siteService.getSlots(this._siteId),
                     this._authZService.hasPermission(this._siteId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this._siteId));
+                    this._authZService.hasReadOnlyLock(this._siteId),
+                );
             })
             .mergeMap(r => {
                 const [siteResult, slotsResult, hasWritePermission, hasReadOnlyLock] = r;
@@ -174,15 +175,15 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
             const options: DropDownElement<string>[] = [
                 {
                     displayLabel: this._translateService.instant(PortalResources.slotNew_dontCloneConfig),
-                    value: '-'
+                    value: '-',
                 }
             ];
             this._slotsArm.forEach(s => {
                 options.push({
                     displayLabel: s.properties.name,
-                    value: s.id
+                    value: s.id,
                 });
-            })
+            });
             this.cloneSrcIdDropDownOptions = options;
 
             const cloneSrcValidator = new CloneSrcValidator(this._siteService, this._translateService, this.addForm);
@@ -204,11 +205,11 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
             newSlotName: newSlotName,
             location: this._slotsArm[0].location,
             serverFarmId: this._slotsArm[0].properties.serverFarmId,
-            cloneConfig: newSlotConfig
+            cloneConfig: newSlotConfig,
         });
     }
 
-    cancel() {
+    closePanel() {
         const confirmMsg = this._translateService.instant(PortalResources.unsavedChangesWarning);
         const close = (!this.addForm || !this.addForm.dirty) ? true : confirm(confirmMsg);
 

@@ -1,3 +1,5 @@
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
 import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds, Links, NotificationIds } from './../../shared/models/constants';
@@ -56,6 +58,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     public hideAvailability: boolean;
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
+    public showQuickstart: boolean;
+    public bodyLoading  = true;
+    public notifications: TopBarNotification[];
 
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
@@ -152,14 +157,16 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this._functionAppService.getSlotsList(context),
                     this._functionAppService.pingScmSite(context),
                     this._functionAppService.getFunctionHostStatus(context),
+                    this._functionAppService.getFunctions(context),
                     this._functionAppService.getExtensionJson(context),
-                    (p, s, l, slots, ping, host, extensions) => ({
+                    (p, s, l, slots, ping, host, functions, extensions) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         slotsList: slots.isSuccessful ? slots.result : [],
                         pingedScmSite: ping.isSuccessful ? ping.result : false,
                         runtime: host.isSuccessful ? host.result.version : '',
+                        functionInfo: functions.isSuccessful ? functions.result : [],
                         extensionList: extensions.isSuccessful ? extensions.result.map(r => r.name) : [],
                     }));
             })
@@ -171,6 +178,13 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
                 }
 
+                if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime.startsWith('2.')) {
+                    this.showQuickstart = true;
+                } else {
+                    this.showQuickstart = false;
+                }
+                this.bodyLoading = false;
+
                 if (!r.pingedScmSite) {
                     this.showComponentError({
                         message: this.ts.instant(PortalResources.scmPingFailedErrorMessage),
@@ -181,17 +195,29 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     });
                 }
 
+                this.notifications = [];
+                if (ArmUtil.isLinuxDynamic(this.context.site)) {
+                    this.notifications.push({
+                        id: NotificationIds.dynamicLinux,
+                        message: this.ts.instant(PortalResources.dynamicLinuxPreview),
+                        iconClass: 'fa fa-exclamation-triangle warning',
+                        learnMoreLink: Links.dynamicLinuxPreviewLearnMore,
+                        clickCallback: null,
+                    });
+                    this._globalStateService.setTopBarNotifications(this.notifications);
+                }
+
                 if (!!r.runtime && r.runtime.includes('2.0.12050')) {
                     const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
                     if (hasOldExtensions) {
-                        const notifications: TopBarNotification[] = [{
+                        this.notifications.push({
                             id: NotificationIds.updateExtensions,
                             message: this.ts.instant(PortalResources.topBar_updateExtensions),
                             iconClass: 'fa fa-exclamation-triangle warning',
                             learnMoreLink: Links.extensionInstallHelpLink,
                             clickCallback: null,
-                        }];
-                        this._globalStateService.setTopBarNotifications(notifications);
+                        });
+                        this._globalStateService.setTopBarNotifications(this.notifications);
                     }
                 }
 
@@ -510,6 +536,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         );
     }
 
+    openQuickstartTab() {
+        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
+    }
+
     private deleteAppDirectly() {
         const appNode = <AppNode>this._viewInfo.node;
         const appsNode = appNode.parent;
@@ -541,6 +571,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                     break;
                 case 'appServicePlan':
                     this.openPlanBlade();
+                    break;
+                case 'functionNew':
+                    this.openQuickstartTab();
                     break;
                 default:
                     break;

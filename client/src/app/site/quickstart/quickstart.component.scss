@@ -1,0 +1,159 @@
+@import '../../../sass/main';
+@import '../site-config/site-config.component.scss';
+
+.centered-content {
+    margin: auto;
+    text-align: center;
+}
+
+.no-quickstart{
+    height: 100vh;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.runtime-set{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 25px;
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+.runtime-dropdown{
+    width: 200px;
+    height: 23px;
+    padding-left: 7px;
+    padding-right: 25px;
+}
+
+.form-button {
+    min-width: 114px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.footer {
+    position: fixed;
+    background-color: $body-bg-color;
+    height: 50px;
+    margin-bottom: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 100vw;
+    box-shadow: $wizard-footer-shadow;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.settings-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    .setting-wrapper {
+        width: 600px;
+    }
+}
+
+.newOrExistingSelection {
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: $value-text-color;
+    input {
+        margin: 0px 10px;
+    }
+}
+
+.wizard-container {
+    height: 100vh;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.topContainer{
+     margin-top: 30px;
+}
+
+.selectionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+   
+}
+
+.cardContainer {
+    width: 225px;
+    height: 150px;
+    margin: 30px;
+    border-radius: $card-border-radius;
+    border-width: $card-border-width;
+    border-color: $card-border-color;
+    border-style: $card-border-style;
+    box-shadow: $card-box-shadow;
+    float: $card-float;
+    transition: $card-transition;
+    &.selected {
+        border-color: $card-border-color-selected;
+        transition: $card-transition-selected;
+    }
+    &:hover {
+        cursor: $card-cursor-hover;
+        box-shadow: $card-box-shadow-hover;
+    }
+    &:focus {
+        outline-color: $card-outline-color;
+        outline-offset: $card-outline-offset;
+        outline-style: $card-outline-style;
+        outline-width: $card-outline-width;
+    }
+
+    .cardHeader{
+        display: $card-header-display;
+        width: $card-header-width;
+        line-height: $card-header-title-line-height;
+        font-size: $card-header-title-font-size;
+        font-weight: $card-header-title-font-weight;
+        height: $card-header-title-height;
+        img {
+            height: $card-header-icon-height;
+            width: $card-header-icon-width;
+            padding: $card-header-icon-padding;
+            margin-right: $card-header-icon-margin-right;
+        }
+    }
+    
+    .cardDescription {
+        border-top-style: $card-description-border-top-style;
+        border-top-width: $card-description-border-top-width;
+        border-color: $card-description-border-color;
+        margin-top: $card-description-margin-top;
+        padding: $card-description-padding;
+    }
+}
+
+:host-context(#app-root[theme=dark]){
+    .footer {
+        background-color: $body-bg-color-dark;
+    }
+    .cardContainer {
+        &.selected {
+            background-color: $card-color-selected-dark;
+        }
+        &:hover {
+            box-shadow: $card-box-shadow-hover-dark;
+        }
+    }
+}

@@ -12,7 +12,14 @@ export class DynamicLinuxEnvironment extends Environment {
             id: ScenarioIds.listExtensionsArm,
             runCheck: () => {
                 return { status: 'disabled' };
-            }
+            },
+        };
+
+        this.scenarioChecks[ScenarioIds.deploymentCenter] = {
+            id: ScenarioIds.deploymentCenter,
+            runCheck: () => {
+                return { status: 'disabled' };
+            },
         };
     }
 

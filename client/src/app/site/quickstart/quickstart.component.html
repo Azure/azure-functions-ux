@@ -1,0 +1,30 @@
+<app-card-info-control [image]="'image/quickstart.svg'" 
+    [header]="quickstartTitle" 
+    description="{{'quickstartDescription' | translate}}"
+    learnMoreLink="https://go.microsoft.com/fwlink/?linkid=874656">
+</app-card-info-control>
+
+<ng-container *ngIf="!loading">
+    <div *ngIf="canUseQuickstart" class="wizard-container">
+        <wizard navBarLayout="large-filled-symbols" #wizard StepNumber>
+            <step-choose-dev-environment wizardStep title="{{'chooseDevEnvironment' | translate}}"></step-choose-dev-environment>
+            <step-choose-deployment-method wizardStep *ngIf="showDeploymentStep" title="{{'chooseDeploymentMethod' | translate}}"></step-choose-deployment-method>
+            <step-create-function wizardStep title="{{'createFunction' | translate}}"></step-create-function>
+        </wizard>
+    </div>
+
+    <div *ngIf="!canUseQuickstart" class="no-quickstart">
+        <h3>{{ 'functionAppRuntimeStackDescription' | translate }}</h3>
+        <div class="runtime-set">
+            {{ 'functionRuntimeStackLabel' | translate }}
+            <drop-down class="runtime-dropdown"
+                [options]="possibleRuntimes"
+                (value)="onRuntimeChanged($event)"
+                attr.aria-label="{{ 'functionRuntimeStackLabel' | translate }}">
+            </drop-down>
+            <button class="custom-button"
+                (click)="setRuntime()">{{ 'Go' | translate }}
+            </button>
+        </div>
+    </div>
+</ng-container>

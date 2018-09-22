@@ -30,7 +30,7 @@ import { SrcDestPair, SwapSlotParameters } from './swap-slots/swap-slots.compone
 @Component({
     selector: 'deployment-slots',
     templateUrl: './deployment-slots.component.html',
-    styleUrls: ['./deployment-slots.component.scss', './common.scss']
+    styleUrls: ['./deployment-slots.component.scss', './common.scss'],
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public FwdLinks = Links;
@@ -81,6 +81,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     private _slotName: string;
 
+    private _refreshing: boolean;
+
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
     }
@@ -129,7 +131,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 detailBladeInputs: {
                     id: this.siteArm.properties.serverFarmId,
                     feature: 'scaleup',
-                    data: null
+                    data: null,
                 }
             },
             this.componentName)
@@ -141,6 +143,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     refresh(keepVisible?: boolean) {
         if (this._confirmIfDirty()) {
+            this._refreshing = true;
             this.keepVisible = keepVisible;
             const viewInfo: TreeViewInfo<SiteData> = JSON.parse(JSON.stringify(this.viewInfo));
             this.setInput(viewInfo);
@@ -193,9 +196,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 const siteResourceId = siteDescriptor.getSiteOnlyResourceId();
 
                 return Observable.zip(
-                    this._siteService.getSite(siteResourceId),
-                    this._siteService.getSlots(siteResourceId),
-                    this._siteService.getSiteConfig(this.resourceId)
+                    this._siteService.getSite(siteResourceId, this._refreshing),
+                    this._siteService.getSlots(siteResourceId, this._refreshing),
+                    this._siteService.getSiteConfig(this.resourceId, this._refreshing),
                 );
             })
             .switchMap(r => {
@@ -250,13 +253,14 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
                         this._authZService.hasPermission(this.resourceId, [AuthzService.actionScope]),
                         this._authZService.hasReadOnlyLock(this.resourceId),
-                        this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: siteResult.result }));
+                        this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: siteResult.result }),
+                    );
                 } else {
                     return Observable.zip(
                         Observable.of(false),
                         Observable.of(false),
                         Observable.of(true),
-                        Observable.of(null)
+                        Observable.of(null),
                     );
                 }
             })
@@ -283,6 +287,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.fetchingPermissions = false;
 
                 this._updateDisabledState();
+
+                this._refreshing = false;
             });
     }
 
@@ -299,7 +305,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             this.relativeSlotsArm.forEach(siteArm => {
                 const ruleControl = this._generateRuleControl(siteArm);
                 rulesGroup.addControl(siteArm.name, ruleControl);
-            })
+            });
 
             this.mainForm.addControl(RoutingSumValidator.REMAINDER_CONTROL_NAME, remainderControl);
 
@@ -481,7 +487,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.swapControlsOpen = false;
 
         if (!params) {
-            this._updateDisabledState();
+            if (this.configApplied) {
+                this.refresh(true);
+            } else {
+                this._updateDisabledState();
+            }
         } else if (params.operationType === 'slotsswap') {
             this._slotsSwap(params);
         } else if (params.operationType === 'resetSlotConfig') {
@@ -519,7 +529,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                     const pollingInterval = 1000;
                     const pollingTimeout = 180;
                     return Observable.interval(pollingInterval)
-                        .concatMap(_ => this._cacheService.get(location))
+                        .concatMap(_ => this._cacheService.get(location, true))
                         .map((pollResponse: Response) => pollResponse.status)
                         .take(pollingTimeout)
                         .filter(status => status !== 202)
@@ -600,7 +610,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         message: resultMessage,
                         details: resultMessage,
                         errorId: errorIds.failedToSwapSlots,
-                        resourceId: this.resourceId
+                        resourceId: this.resourceId,
                     });
                     this._aiService.trackEvent(errorIds.failedToSwapSlots, { error: r.error, id: this.resourceId });
                     this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', r.error);
@@ -649,7 +659,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                             message: this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(params.newSlotName),
                             details: this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(params.newSlotName),
                             errorId: errorIds.failedToCreateSlot,
-                            resourceId: params.siteId
+                            resourceId: params.siteId,
                         });
                         this._aiService.trackEvent(errorIds.failedToCreateSlot, { error: r.error.result, id: params.siteId });
                         this._updateDisabledState();
@@ -660,11 +670,12 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     openSlotBlade(resourceId: string) {
         if (resourceId) {
-            this._portalService.openBladeDeprecated({
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: { id: resourceId }
-            },
-                'deployment-slots'
+            this._portalService.openBladeDeprecated(
+                {
+                    detailBlade: 'AppsOverviewBlade',
+                    detailBladeInputs: { id: resourceId },
+                },
+                'deployment-slots',
             );
         }
     }

@@ -1370,7 +1370,7 @@
     <value>Open in New Window</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Extensions</value>
+    <value>Site Extensions</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Extensions add functionality to your entire app.</value>
@@ -1544,13 +1544,13 @@
     <value>Stack</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+    <value>Web Apps on Linux provide runtime options through a collection of built in containers. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startup File</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
@@ -2245,6 +2245,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>New Value</value>
   </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Current Value</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Temp Value</value>
+  </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
   </data>
@@ -2849,7 +2855,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Perform swap with preview</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+    <value>Swap with preview breaks down a normal swap into two phases. In phase one, any slot-specific application settings and connections strings on the destination will be temporarily copied to the source slot. This allows you to test the slot with its final configuration values. From here, you may choose to either cancel phase one to revert to your normal configuration, or proceed to phase two, which would remove the temporary config changes and complete swapping the source to destination slot.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Start the swap</value>
@@ -3035,7 +3041,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you are using Run-From-Zip. When using Run-From-Zip, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_USE_ZIP app setting.</value>
+    <value>Your app is currently in read-only mode because you are running from a package file. When running from a package, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
@@ -3661,6 +3667,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="enterPassword" xml:space="preserve">
     <value>enter password</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>You must have write access on your app to configure container settings</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Your container settings cannot be configured unless you remove the read-only lock on your app</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Single Container</value>
   </data>
@@ -3671,7 +3683,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Single Container.</value>
   </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
+    <value>Docker Compose (Preview)</value>
   </data>
   <data name="dockerComposeContainerDescription" xml:space="preserve">
     <value>This is the description for Docker Compose.</value>
@@ -3680,7 +3692,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This is the detailed description for Docker Compose.</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
+    <value>Kubernetes (Preview)</value>
   </data>
   <data name="kubernetesContainerDescription" xml:space="preserve">
     <value>This is the description for Kubernetes.</value>
@@ -3729,12 +3741,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="disconnectConfirm" xml:space="preserve">
     <value>Are you sure you want to disconnect your deployment?</value>
-  </data>  
+  </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Community Templates</value>
+    <value>Serverless Community Library (Preview)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Not finding what you’re looking for? Check out the Serverless Library, our gallery of community created templates, for inspiration!</value>
+    <value>Not finding what you're looking for? Check out the Azure Serverless Community Library!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Azure Functions Runtime is unreachable.</value>
@@ -3748,6 +3760,150 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Update container settings</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Private Registry</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Image source</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Image and optional tag (eg 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>To get started, first create an Azure Container Registry and add an image.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Repository Access</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Configuration Source</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions for .NET - getting started</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions for JavaScript - getting started</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions for Python - getting started</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions for Java - getting started</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Follow our Quickstart guidance to author and publish a function</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Choose a development environment</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Choose a deployment method</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Create a function</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Quickstart</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Any editor + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Any editor + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>In-portal</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Use Visual Studio to author, build, and run .NET functions</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Use Visual Studio Code to author your functions</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Write functions using your favorite editor and the Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Write Java functions using your favorite editor, such as IntelliJ or Eclipse, and Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Author functions quickly in the portal</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Use Deployment Center</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Configure your app so that you can check your code into source control and run it through a continuous deployment pipeline</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Direct publish</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publish directly from Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>A function that will be run whenever it receives an HTTP request</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>A function that will be run on a specified schedule</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>You have created a function app!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Now it is time to add your code...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Synchronization Request Submitted</value>
   </data>
@@ -3759,6 +3915,33 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
+  </data>
+  <data name="quickstartSample1" xml:space="preserve">
+    <value>Sample #1</value>
+  </data>
+  <data name="quickstartSample2" xml:space="preserve">
+    <value>Sample #2</value>
+  </data>
+  <data name="singleContainerSample1Description" xml:space="preserve">
+    <value>Static html web page served from Nginx.</value>
+  </data>
+  <data name="singleContainerSample2Description" xml:space="preserve">
+    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
+  </data>
+  <data name="dockerComposeSample1Description" xml:space="preserve">
+    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample2Description" xml:space="preserve">
+    <value>Docker Compose sample using WordPress and MySQL.</value>
+  </data>
+  <data name="kubernetesSample1Description" xml:space="preserve">
+    <value>Kubernetes sample using WordPress and MySQL.</value>
+  </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Select sample</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>You don not own any VSTS Repositories</value>
@@ -3794,10 +3977,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Source and Destination cannot be the same slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+    <value>Swap with preview can only be used with sites that have slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
@@ -3820,8 +4003,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Loading failed</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Preview Changes</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Phase One Changes</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Phase Two Changes</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Config Changes</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>These are the slot-specific application settings and connection strings from the target slot which will be temporarily applied to the source slot in the first phase of the swap.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>This is a summary of the final set of configuration changes on the source and target slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Please make a valid selection above to load preview</value>
@@ -3838,10 +4033,115 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Swap action</value>
   </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>No Changes</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Not Set</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
     <value>We were not able to uninstall your outdated extensions</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Function App runtime stack</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Function Runtime stack</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Registry</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Continuous Deployment</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Configuration File</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes is only supported on Linux operating system based applications.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker compose based functions are not currently supported.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes based functions are not currently supported.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for function apps deployed as a docker image.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Failed to get data for container configuration.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Failed to update data for container settings.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Errors in settings.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Settings updated successfully.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>show url</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>hide url</value>
+  </data>
+  <data name="singleContainerWindowsSample1Description" xml:space="preserve">
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux Consumption Functions are a preview offer.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Some fields are not properly filled out or are required.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Finish and go to Deployment Center</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Single Container (Preview)</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core with SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>Multi-container WordPress</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Multi-container WordPress</value>
   </data>
 </root>
