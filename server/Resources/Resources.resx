@@ -3932,10 +3932,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
   </data>
   <data name="dockerComposeSample2Description" xml:space="preserve">
-    <value>WordPress on Multi-container sample app, Docker Compose config.</value>
+    <value>Docker Compose sample using WordPress and MySQL.</value>
   </data>
   <data name="kubernetesSample1Description" xml:space="preserve">
-    <value>WordPress on Multi-container sample app, Kubernetes config.</value>
+    <value>Kubernetes sample using WordPress and MySQL.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
@@ -4134,5 +4134,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Preview)</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core with SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>Multi-container WordPress</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Multi-container WordPress</value>
   </data>
 </root>
