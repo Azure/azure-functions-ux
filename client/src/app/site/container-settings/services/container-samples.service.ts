@@ -152,12 +152,12 @@ metadata:
     name: wordpress
 spec:
     containers:
-    - name: wordpress
-        image: microsoft/multicontainerwordpress
-        ports:
-        - containerPort: 80
-    - name: redis
-        image: redis:alpine`);
+        - name: wordpress
+          image: microsoft/multicontainerwordpress
+          ports:
+          - containerPort: 80
+        - name: redis
+          image: redis:alpine`);
     }
 
     private _getWindowsSingleContainerSample1Config() {
