@@ -37,7 +37,6 @@ export class ContainerValidationService {
             .getStartupInfo()
             .first()
             .switchMap(i => {
-                proxyRequest.headers['Authorization'] = `Bearer ${i.token}`;
                 return this._cacheService
                     .post('/api/validateContainerImage', true, null, proxyRequest)
                     .map(r => r.json());
