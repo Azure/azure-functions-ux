@@ -4,6 +4,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
 import { ProxyRequest, GetRepositoryTagRequest } from '../container-settings';
 import { Constants } from '../../../shared/models/constants';
+import { Headers } from '@angular/http';
 
 @Injectable()
 export class ContainerValidationService {
@@ -33,13 +34,16 @@ export class ContainerValidationService {
             headers: {},
         };
 
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
         const validateImage = this._userService
             .getStartupInfo()
             .first()
             .switchMap(i => {
                 proxyRequest.headers['Authorization'] = `Bearer ${i.token}`;
                 return this._cacheService
-                    .post('/api/validateContainerImage', true, null, proxyRequest)
+                    .post('/api/validateContainerImage', true, headers, proxyRequest)
                     .map(r => r.json());
             });
 
