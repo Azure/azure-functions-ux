@@ -33,6 +33,7 @@ export class Constants {
     public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
     public static WebsiteRunFromZip = 'WEBSITE_RUN_FROM_ZIP';
+    public static WebsiteRunFromPackage = 'WEBSITE_RUN_FROM_PACKAGE';
     public static localCacheOptionSettingName = 'WEBSITE_LOCAL_CACHE_OPTION';
     public static localCacheOptionSettingValue = 'always';
 
