@@ -48,7 +48,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
         description: this._translateService.instant(PortalResources.moreTemplatesDescription),
     };
 
-    public portalTemplateCards: PortalTemplateCard[]
+    public portalTemplateCards: PortalTemplateCard[];
     public selectedPortalTemplateCard: PortalTemplateCard = null;
     public bindingManager: BindingManager = new BindingManager();
     public context: FunctionAppContext;
