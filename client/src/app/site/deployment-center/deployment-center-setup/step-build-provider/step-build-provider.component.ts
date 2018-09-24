@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
@@ -8,12 +8,14 @@ import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
+import { Subject } from 'rxjs';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
     styleUrls: ['./step-build-provider.component.scss', '../deployment-center-setup.component.scss'],
 })
-export class StepBuildProviderComponent {
+export class StepBuildProviderComponent implements OnDestroy{
+    
     public readonly providerCards: ProviderCard[] = [
         {
             id: 'kudu',
@@ -38,6 +40,7 @@ export class StepBuildProviderComponent {
 
     private _vstsKuduSourceScenarioBlocked = false;
     private _currentSourceControlProvider: string;
+    private _ngUnsubscribe = new Subject();
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _translateService: TranslateService,
@@ -62,7 +65,7 @@ export class StepBuildProviderComponent {
                 }
             });
 
-        this.wizard.wizardForm.controls.sourceProvider.valueChanges.subscribe((provider) => {
+        this.wizard.wizardForm.controls.sourceProvider.valueChanges.takeUntil(this._ngUnsubscribe).subscribe((provider) => {
             if (provider !== this._currentSourceControlProvider) {
                 this._currentSourceControlProvider = provider;
                 const kuduCard = this.providerCards.find(x => x.id === 'kudu');
@@ -83,6 +86,10 @@ export class StepBuildProviderComponent {
             .subscribe(result => {
                 this._vstsKuduSourceScenarioBlocked = result.status === 'disabled';
             });
+    }
+
+    ngOnDestroy(): void {
+        this._ngUnsubscribe.next();
     }
 
     chooseBuildProvider(card: ProviderCard) {

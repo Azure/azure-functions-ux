@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 
