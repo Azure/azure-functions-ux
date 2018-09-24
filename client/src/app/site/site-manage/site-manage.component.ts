@@ -465,18 +465,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         }
 
         const monitoringFeatures = [
-            new BladeFeature(
-                this._translateService.instant(PortalResources.feature_diagnosticLogsName),
-                this._translateService.instant(PortalResources.feature_diagnosticLogsName),
-                this._translateService.instant(PortalResources.feature_diagnosticLogsInfo),
-                'image/diagnostic-logs.svg',
-                {
-                    detailBlade: 'WebsiteLogsBlade',
-                    detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
-                },
-                this._portalService
-            ),
-
             new TabFeature(
                 this._translateService.instant(PortalResources.feature_logStreamingName),
                 this._translateService.instant(PortalResources.feature_logStreamingName) +

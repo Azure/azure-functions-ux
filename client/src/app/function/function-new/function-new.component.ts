@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links, SiteTabIds } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -26,6 +26,7 @@ import { ScenarioService } from '../../shared/services/scenario/scenario.service
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteService } from '../../shared/services/site.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 interface CategoryOrder {
     name: string;
@@ -784,7 +785,15 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     }
 
     quickstart() {
-        this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
+        if (this.runtimeVersion === 'V1') {
+            this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
+        } else {
+            this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
+            this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
+                operation: 'navigate',
+                data: 'appNode',
+            });
+        }
     }
 
     onKeyPressQuick(event: KeyboardEvent) {
