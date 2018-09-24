@@ -144,6 +144,7 @@ export class StepSourceControlComponent {
                     this.setProviderCardStatus('github', 'authorized', r.json().login);
                 },
                 err => {
+                    this.setProviderCardStatus('github', 'notAuthorized');
                     this._logService.error(LogCategories.cicd, '/fetch-github-user', err);
                 },
             );
@@ -166,6 +167,7 @@ export class StepSourceControlComponent {
                     this.setProviderCardStatus('bitbucket', 'authorized', r.json().display_name);
                 },
                 err => {
+                    this.setProviderCardStatus('bitbucket', 'notAuthorized');
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-user', err);
                 },
             );
@@ -189,6 +191,7 @@ export class StepSourceControlComponent {
                     this.setProviderCardStatus('onedrive', 'authorized', r.json().owner.user.displayName);
                 },
                 err => {
+                    this.setProviderCardStatus('onedrive', 'notAuthorized');
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-user', err);
                 },
             );
@@ -211,6 +214,7 @@ export class StepSourceControlComponent {
                     this.setProviderCardStatus('dropbox', 'authorized', r.json().name.display_name);
                 },
                 err => {
+                    this.setProviderCardStatus('dropbox', 'notAuthorized');
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
                 },
             );

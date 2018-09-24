@@ -29,7 +29,7 @@ export function setupGithubAuthentication(app: Application) {
             res.json(response.data);
         } catch (err) {
             LogHelper.error('github-passthrough', err);
-            res.send(err.response);
+            res.sendStatus(err.response.status);
         }
     });
 
