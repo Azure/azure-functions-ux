@@ -212,3 +212,19 @@ export interface ACRWebhookPayload {
     status: 'enabled' | 'disabled';
     scope: string;
 }
+
+export interface ProxyRequest<T> {
+    body: T;
+    headers: { [name: string]: string };
+    method: string;
+    url: string;
+}
+
+export interface GetRepositoryTagRequest {
+    baseUrl: string;
+    platform: string;
+    repository: string;
+    tag: string;
+    username: string;
+    password: string;
+}

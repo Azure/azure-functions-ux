@@ -4,21 +4,27 @@ import { FunctionAppContext } from './../function-app-context';
 import { Site } from './../models/arm/site';
 import { FunctionContainer } from './../models/function-container';
 import { ArmObj } from './../models/arm/arm-obj';
+import { Kinds } from '../models/constants';
 
 export namespace ArmUtil {
     export function isFunctionApp(obj: ArmObj<any> | FunctionContainer): boolean {
         return obj &&
             (obj.kind &&
-                obj.kind.toLocaleLowerCase().indexOf('functionapp') !== -1 &&
-                obj.kind.toLocaleLowerCase().indexOf('botapp') === -1);
+                obj.kind.toLocaleLowerCase().includes(Kinds.functionApp) &&
+                !obj.kind.toLocaleLowerCase().includes(Kinds.botapp));
     }
 
     export function isLinuxApp(obj: ArmObj<any> | FunctionContainer): boolean {
         return obj &&
             obj.kind &&
-            obj.kind.toLocaleLowerCase().indexOf('linux') !== -1;
+            obj.kind.toLocaleLowerCase().includes(Kinds.linux);
     }
 
+    export function isContainerApp(obj: ArmObj<any> | FunctionContainer) : boolean {
+        return obj &&
+            obj.kind &&
+            obj.kind.toLocaleLowerCase().includes(Kinds.container);
+    }
     export function isLinuxDynamic(obj: ArmObj<Site> | FunctionContainer) {
         return isLinuxApp(obj) &&
             obj.properties.sku &&

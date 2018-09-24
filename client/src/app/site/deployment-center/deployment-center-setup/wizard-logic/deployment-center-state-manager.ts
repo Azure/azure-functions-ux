@@ -183,7 +183,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
             return this._cacheService.post(
                 `https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
-                true, this.getVstsDirectHeaders())
+                true, this.getVstsDirectHeaders(), {
+                    'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
+                })
                 .switchMap(r => setupvsoCall)
                 .switchMap(r => Observable.of(r.json().id));
         }

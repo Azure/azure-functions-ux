@@ -1175,6 +1175,8 @@
     public static privateRepo = 'privateRepo';
     public static enterUsername = 'enterUsername';
     public static enterPassword = 'enterPassword';
+    public static containerWriteAccessError = 'containerWriteAccessError';
+    public static containerReadLockError = 'containerReadLockError';
     public static singleContainerTitle = 'singleContainerTitle';
     public static singleContainerDescription = 'singleContainerDescription';
     public static singleContainerDetailedDescription = 'singleContainerDetailedDescription';
@@ -1333,4 +1335,7 @@
     public static finishAndDeploy = 'finishAndDeploy';
     public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
     public static singleContainerPreviewTitle = 'singleContainerPreviewTitle';
+    public static dockerComposeSample1TitleLinux = 'dockerComposeSample1TitleLinux';
+    public static dockerComposeSample2TitleLinux = 'dockerComposeSample2TitleLinux';
+    public static kubernetesSample1TitleLinux = 'kubernetesSample1TitleLinux';
 }

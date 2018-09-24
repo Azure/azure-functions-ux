@@ -4,6 +4,16 @@ $footer-height: 55px;
 $spec-card-max-width: 350px;
 $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
+#container-shield{
+    position: fixed;
+    background-color: $translucent-shield-color;
+    z-index: 10;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
+
 #container-picker {
     padding-bottom: 60px;
 
@@ -111,6 +121,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 }
 
 :host-context(#app-root[theme=dark]){
+    #container-shield{
+        background-color: $translucent-shield-color-dark;
+    }
+
     .container{
         background-color: lighten($chrome-color-dark, 10%);
         box-shadow: $card-box-shadow-hover-dark;
