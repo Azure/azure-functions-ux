@@ -8,14 +8,14 @@ import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
     styleUrls: ['./step-build-provider.component.scss', '../deployment-center-setup.component.scss'],
 })
-export class StepBuildProviderComponent implements OnDestroy{
-    
+export class StepBuildProviderComponent implements OnDestroy {
+
     public readonly providerCards: ProviderCard[] = [
         {
             id: 'kudu',
