@@ -80,16 +80,17 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
                 this.context = this._wizardService.context.value;
             });
 
-        this._wizardService.context.statusChanges
+        this._wizardService.workerRuntime.statusChanges
             .takeUntil(this._ngUnsubscribe)
             .subscribe(() => {
-                this.context = this._wizardService.context.value;
+                this.workerRuntime = this._wizardService.workerRuntime.value;
+                this.language = this._getLanguage();
             });
 
         this._wizardService.isLinux.statusChanges
             .takeUntil(this._ngUnsubscribe)
             .subscribe(() => {
-                this.workerRuntime = this._wizardService.isLinux.value;
+                this.isLinux = this._wizardService.isLinux.value;
                 this.portalTemplateCards = this._getPortalTemplateCards();
             });
     }
