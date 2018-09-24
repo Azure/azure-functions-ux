@@ -19,7 +19,7 @@
     </div>
 
 
-    <div [hidden]="selectedFramework!=='AspNetCore'">
+    <div [hidden]="selectedFramework !== 'AspNetCore'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'frameworkVersion' | translate}} </div>
         <div class="setting-control-container">
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div [hidden]="selectedFramework!=='Node'">
+    <div [hidden]="selectedFramework !== 'Node'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'version' | translate}} </div>
         <div class="setting-control-container">
@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <div [hidden]="selectedFramework!=='PHP'">
+    <div [hidden]="selectedFramework !== 'PHP'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'frameworkVersion' | translate}} </div>
         <div class="setting-control-container">
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <div [hidden]="selectedFramework!=='Ruby'">
+    <div [hidden]="selectedFramework !== 'Ruby'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'frameworkVersion' | translate}} </div>
         <div class="setting-control-container">
@@ -117,7 +117,7 @@
       </div>
     </div>
 
-    <div [hidden]="selectedFramework==='AspNetCore'">
+    <div [hidden]="selectedFramework === 'AspNetCore'">
       <div class="setting-wrapper">
         <div class="setting-label">{{'pathToApplicationCode' | translate}} </div>
         <div class="setting-control-container">

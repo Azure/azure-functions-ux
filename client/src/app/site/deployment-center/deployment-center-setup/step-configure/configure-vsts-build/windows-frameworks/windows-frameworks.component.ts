@@ -18,14 +18,6 @@ export const WebAppFramework = {
   StaticWebapp: 'StaticWebapp',
 };
 
-export class VSTSRepository {
-  name: string;
-  account: string;
-  remoteUrl: string;
-  projectName: string;
-  id: string;
-}
-
 @Component({
   selector: 'app-windows-frameworks',
   templateUrl: './windows-frameworks.component.html',

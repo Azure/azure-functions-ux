@@ -18,14 +18,6 @@ export const WebAppFramework = {
   Ruby: 'Ruby',
 };
 
-export class VSTSRepository {
-  name: string;
-  account: string;
-  remoteUrl: string;
-  projectName: string;
-  id: string;
-}
-
 @Component({
   selector: 'app-linux-frameworks',
   templateUrl: './linux-frameworks.component.html',
