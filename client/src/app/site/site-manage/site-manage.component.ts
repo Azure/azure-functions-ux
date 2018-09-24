@@ -652,15 +652,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._translateService.instant(PortalResources.feature_activityLogInfo),
             'image/activity-log.svg',
             {
-                detailBlade: 'EventsBrowseBlade',
+                detailBlade: 'ActivityLogBlade',
                 detailBladeInputs: {
                     queryInputs: {
-                        id: site.id
-                    }
+                        id: site.id,
+                    },
                 },
-                extension: 'Microsoft_Azure_Monitoring'
+                extension: 'Microsoft_Azure_ActivityLog',
             },
-            this._portalService
+            this._portalService,
         ));
 
         resourceManagementFeatures.push(new BladeFeature(

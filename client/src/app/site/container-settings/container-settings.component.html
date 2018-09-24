@@ -1,3 +1,4 @@
+<div id="container-shield" *ngIf="isLocked"></div>
 <form *ngIf="!loading && containerConfigureInfo && containerConfigureInfo.container && containerConfigureInfo.containerForm" [formGroup]="form" id="container-picker">
     <nav id="container-tabs" role="tablist" #containerSettingsTabs>
         <div *ngFor="let container of containerSettingsManager.containers"
@@ -47,7 +48,7 @@
             <button *ngIf = "fromMenu"
                 class="custom-button"
                 (click)="clickSave()"
-                [disabled]="isUpdating"
+                [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'save' | translate">
 
                 <span *ngIf="!isUpdating">{{'save' | translate}}</span>
@@ -56,7 +57,7 @@
             <button *ngIf = "fromMenu"
                 class="custom-button"
                 (click)="clickDiscard()"
-                [disabled]="isUpdating"
+                [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'discard' | translate">
 
                 <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
