@@ -25,7 +25,7 @@ describe('Deployment State Manager', () => {
                 branch: [null],
                 isManualIntegration: [false],
                 deploymentRollbackEnabled: [false],
-                isMercurial: [false]
+                isMercurial: [false],
             }),
             buildSettings: _fb.group({
                 createNewVsoAccount: [false],
@@ -38,21 +38,21 @@ describe('Deployment State Manager', () => {
                     framework: [null],
                     version: [null],
                     flaskProjectName: ['flaskProjectName'],
-                    djangoSettingsModule: ['DjangoProjectName.settings']
+                    djangoSettingsModule: ['DjangoProjectName.settings'],
                 }),
-                nodejsTaskRunner: [null]
+                nodejsTaskRunner: [null],
             }),
             deploymentSlotSetting: _fb.group({
                 newDeploymentSlot: [false],
                 deploymentSlotEnabled: [false],
-                deploymentSlot: ['slot']
+                deploymentSlot: ['slot'],
             }),
             testEnvironment: _fb.group({
                 enabled: [false],
                 newApp: [true],
                 appServicePlanId: ['aspid'],
-                webAppId: [null]
-            })
+                webAppId: [null],
+            }),
         });
     };
 
@@ -66,17 +66,17 @@ describe('Deployment State Manager', () => {
                 { provide: PortalService, useClass: MockPortalService },
                 { provide: ScenarioService, useClass: MockScenarioService },
                 { provide: AuthzService, useClass: MockAuthZService },
-                FormBuilder
-            ]
+                FormBuilder,
+            ],
         });
         const userService: MockUserService = TestBed.get(UserService);
         userService.startupInfoStream.next({
-            token: 'adtoken'
+            token: 'adtoken',
         });
         _fb = TestBed.get(FormBuilder);
         spyOn(graphHelper, 'parseToken').and.callFake((token: string) => {
             return {
-                tid: 'tenantId'
+                tid: 'tenantId',
             };
         });
     });
@@ -240,9 +240,9 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return {
-                    displayName: 'displayName'
+                    displayName: 'displayName',
                 };
-            }
+            },
         });
     }
 
@@ -254,14 +254,14 @@ class MockCacheService {
         return Observable.of({
             json: () => {
                 return content;
-            }
+            },
         });
     }
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         return Observable.of({
             json: () => {
                 return content;
-            }
+            },
         });
     }
 }
@@ -270,14 +270,15 @@ class MockCacheService {
 class MockSiteService {
     public siteObject = {
         location: 'loc',
+        kind: 'app',
         properties: {
-            sku: 'sku'
-        }
+            sku: 'sku',
+        },
     };
     getSite(resourceId: string) {
         return Observable.of({
             isSuccessful: true,
-            result: this.siteObject
+            result: this.siteObject,
         });
     }
 }
@@ -294,8 +295,8 @@ class MockPortalService {
     public getAdToken(token: string) {
         return Observable.of({
             result: {
-                token: 'vststoken'
-            }
+                token: 'vststoken',
+            },
         });
     }
 }
@@ -305,14 +306,14 @@ class MockScenarioService implements IScenarioService {
         return {
             status: 'enabled',
             environmentName: 'any',
-            id: id
+            id: id,
         };
     }
     checkScenarioAsync(id: string, input?: ScenarioCheckInput): Observable<ScenarioCheckResult> {
         const result: ScenarioCheckResult = {
             status: 'enabled',
             environmentName: 'any',
-            id: id
+            id: id,
         };
 
         return of(result);
@@ -321,7 +322,7 @@ class MockScenarioService implements IScenarioService {
         return {
             status: 'enabled',
             environmentName: 'any',
-            id: id
+            id: id,
         };
     }
 }

@@ -1,3 +1,4 @@
+
 // This file is auto generated
     export class PortalResources {
     public static azureFunctions = 'azureFunctions';
@@ -257,7 +258,7 @@
     public static seeRecommendedOptions = 'seeRecommendedOptions';
     public static storageLockNote = 'storageLockNote';
     public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
-    public static functionNew_functionExsists = 'functionNew_functionExsists';
+    public static functionNew_functionExists = 'functionNew_functionExists';
     public static binding_storageAccountKey = 'binding_storageAccountKey';
     public static binding_storageAccountName = 'binding_storageAccountName';
     public static binding_storageInfoFooter = 'binding_storageInfoFooter';
@@ -1337,4 +1338,5 @@
     public static dockerComposeSample1TitleLinux = 'dockerComposeSample1TitleLinux';
     public static dockerComposeSample2TitleLinux = 'dockerComposeSample2TitleLinux';
     public static kubernetesSample1TitleLinux = 'kubernetesSample1TitleLinux';
+
 }
