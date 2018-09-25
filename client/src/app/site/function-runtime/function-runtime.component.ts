@@ -345,8 +345,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                             }
                         }, 0).delay(3000);
                     });
+                } else {
+                    throw Observable.throw(r.error);
                 }
-                return Observable.of(null);
             })
             .do(null, e => {
                 this._busyManager.clearBusy();
