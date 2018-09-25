@@ -204,7 +204,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this.selectedTemplateId = this.action.templateId;
                 }
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)
+                    && this.runtimeVersion === 'V2') {
                     const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
                     this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.needsWorkerRuntime = !this.functionAppLanguage;
