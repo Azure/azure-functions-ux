@@ -328,7 +328,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 return this._updateContainerVersion(r.json(), version);
             })
             .mergeMap(r => {
-                return this._functionAppService.getFunctionHostStatus(this.context)
+                if (r.isSuccessful) {
+                    return this._functionAppService.getFunctionHostStatus(this.context)
                     .map(hostStatus => {
                         if (!hostStatus.isSuccessful || !hostStatus.result.version || (hostStatus.result.version === this.exactExtensionVersion && !updateButtonClicked)) {
                             throw Observable.throw('Host version is not updated yet');
@@ -344,6 +345,9 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                             }
                         }, 0).delay(3000);
                     });
+                } else {
+                    throw Observable.throw(r.error);
+                }
             })
             .do(null, e => {
                 this._busyManager.clearBusy();
@@ -416,13 +420,17 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
 
+        if (version === '~1' && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName]) {
+            delete appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+        }
+
         if (version === '~2') {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
         } else {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
         }
 
-        return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+        return this._siteService.updateAppSettings(this.context.site.id, appSettings);
     }
 
     private _updateProxiesVersion(appSettings: ArmObj<any>) {
