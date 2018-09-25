@@ -328,7 +328,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                 return this._updateContainerVersion(r.json(), version);
             })
             .mergeMap(r => {
-                return this._functionAppService.getFunctionHostStatus(this.context)
+                if (r.isSuccessful) {
+                    return this._functionAppService.getFunctionHostStatus(this.context)
                     .map(hostStatus => {
                         if (!hostStatus.isSuccessful || !hostStatus.result.version || (hostStatus.result.version === this.exactExtensionVersion && !updateButtonClicked)) {
                             throw Observable.throw('Host version is not updated yet');
@@ -344,6 +345,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
                             }
                         }, 0).delay(3000);
                     });
+                }
+                return Observable.of(null);
             })
             .do(null, e => {
                 this._busyManager.clearBusy();
