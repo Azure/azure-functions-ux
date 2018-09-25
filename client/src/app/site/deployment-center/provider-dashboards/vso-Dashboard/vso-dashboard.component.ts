@@ -583,7 +583,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                             }),
                         },
                     };
-                    return this._cacheService.putArm(`${this.deploymentObject.site.id}/deployments/${deploymentId}`, null, logData)
+                    return this._cacheService.putArm(`${this.deploymentObject.site.id}/deployments/${deploymentId}`, null, logData);
                 })
                 .switchMap(r => {
                     this.viewInfoStream$.next(this.resourceId);
