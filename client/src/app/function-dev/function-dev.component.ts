@@ -695,7 +695,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     onEventGridSubscribe() {
         if (this.eventGridSubscribeUrl) {
             this._portalService.openBladeDeprecated({
-                detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
+                detailBlade: 'EventSubscriptionCreateBlade',
                 extension: 'Microsoft_Azure_EventGrid',
                 detailBladeInputs: {
                     inputs: {
