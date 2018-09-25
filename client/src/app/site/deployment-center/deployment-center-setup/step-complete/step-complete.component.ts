@@ -23,7 +23,7 @@ interface SummaryGroup {
 @Component({
     selector: 'app-step-complete',
     templateUrl: './step-complete.component.html',
-    styleUrls: ['./step-complete.component.scss', '../deployment-center-setup.component.scss']
+    styleUrls: ['./step-complete.component.scss', '../deployment-center-setup.component.scss'],
 })
 export class StepCompleteComponent {
     resourceId: string;
@@ -35,7 +35,7 @@ export class StepCompleteComponent {
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
         private _portalService: PortalService,
-        private _logService: LogService
+        private _logService: LogService,
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
 
@@ -66,7 +66,7 @@ export class StepCompleteComponent {
                     this.clearBusy();
                     this._portalService.stopNotification(notificationId, false, this._translateService.instant(PortalResources.settingupDeploymentFail));
                     this._logService.error(LogCategories.cicd, '/save-cicd', err);
-                }
+                },
             );
     }
 
@@ -77,9 +77,9 @@ export class StepCompleteComponent {
     get SummaryGroups(): SummaryGroup[] {
         const returnVal = [
             this._sourceControlGroup(),
-            this._buildControlgroup()
+            this._buildControlgroup(),
         ];
-        if (this.wizard.wizardValues.buildProvider === 'vsts') {
+        if (this.wizard.wizardValues.buildProvider === 'vsts' && !this.wizard.isLinuxApp) {
             returnVal.push(this._loadTestGroup());
             returnVal.push(this._slotDeploymentGroup());
         }
@@ -94,88 +94,95 @@ export class StepCompleteComponent {
         if (buildProvider === 'kudu') {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.provider),
-                value: this._translateService.instant(PortalResources.kuduTitle)
+                value: this._translateService.instant(PortalResources.kuduTitle),
             });
         } else {
             const appFramework = wizValues.buildSettings.applicationFramework;
 
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.provider),
-                value: this._translateService.instant(PortalResources.vstsBuildServerTitle)
+                value: this._translateService.instant(PortalResources.vstsBuildServerTitle),
             });
 
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.newAccount),
                 value: buildSettings.createNewVsoAccount ?
                     this._translateService.instant(PortalResources.yes) :
-                    this._translateService.instant(PortalResources.no)
+                    this._translateService.instant(PortalResources.no),
             });
 
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.account),
-                value: buildSettings.vstsAccount
+                value: buildSettings.vstsAccount,
             });
 
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.project),
-                value: buildSettings.vstsProject
+                value: buildSettings.vstsProject,
             });
 
             if (wizValues.buildSettings.createNewVsoAccount) {
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.location),
-                    value: buildSettings.location
+                    value: buildSettings.location,
                 });
             }
 
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.webAppFramework),
-                value: buildSettings.applicationFramework
+                value: buildSettings.applicationFramework,
             });
+
+            if (this.wizard.isLinuxApp) {
+                returnSummaryItems.push({
+                    label: this._translateService.instant(PortalResources.frameworkVersion),
+                    value: buildSettings.frameworkVersion,
+                });
+            }
 
             if (appFramework !== 'AspNetWap' && appFramework !== 'AspNetCore' && !!buildSettings.workingDirectory) {
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.workingDirectory),
-                    value: buildSettings.workingDirectory
+                    value: buildSettings.workingDirectory,
                 });
             }
 
             if (appFramework === 'Node') {
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.taskRunner),
-                    value: buildSettings.nodejsTaskRunner
+                    value: buildSettings.nodejsTaskRunner,
                 });
             }
 
             if (appFramework === 'Python') {
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.pythonVersionLabel),
-                    value: buildSettings.pythonSettings.version
+                    value: buildSettings.pythonSettings.version,
                 });
 
                 returnSummaryItems.push({
                     label: this._translateService.instant(PortalResources.pythonVersionLabel),
-                    value: buildSettings.pythonSettings.framework
+                    value: buildSettings.pythonSettings.framework,
                 });
 
                 if (wizValues.buildSettings.pythonSettings.framework === 'Flask') {
                     returnSummaryItems.push({
                         label: this._translateService.instant(PortalResources.flaskProjectName),
-                        value: buildSettings.pythonSettings.flaskProjectName
+                        value: buildSettings.pythonSettings.flaskProjectName,
                     });
                 }
 
                 if (wizValues.buildSettings.pythonSettings.framework === 'Django') {
                     returnSummaryItems.push({
                         label: this._translateService.instant(PortalResources.djangoSettings),
-                        value: buildSettings.pythonSettings.djangoSettingsModule
+                        value: buildSettings.pythonSettings.djangoSettingsModule,
                     });
                 }
             }
         }
         return {
             label: this._translateService.instant(PortalResources.buildProvider),
-            items: returnSummaryItems
+            items: returnSummaryItems,
         };
     }
 
@@ -187,21 +194,21 @@ export class StepCompleteComponent {
             label: this._translateService.instant(PortalResources.enabled),
             value: testSettings.enabled ?
                 this._translateService.instant(PortalResources.yes)
-                : this._translateService.instant(PortalResources.no)
+                : this._translateService.instant(PortalResources.no),
         });
         if (testSettings.enabled) {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.appServicePlan),
-                value: testSettings.appServicePlanId
+                value: testSettings.appServicePlanId,
             });
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.webApp),
-                value: testSettings.webAppId
+                value: testSettings.webAppId,
             });
         }
         return {
             label: this._translateService.instant(PortalResources.test),
-            items: returnSummaryItems
+            items: returnSummaryItems,
         };
     }
 
@@ -213,23 +220,23 @@ export class StepCompleteComponent {
             label: this._translateService.instant(PortalResources.enabled),
             value: deployValues.deploymentSlotEnabled ?
                 this._translateService.instant(PortalResources.yes)
-                : this._translateService.instant(PortalResources.no)
+                : this._translateService.instant(PortalResources.no),
         });
         if (deployValues.deploymentSlotEnabled) {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.newDeploymentSlot),
                 value: deployValues.newDeploymentSlot ?
                     this._translateService.instant(PortalResources.yes)
-                    : this._translateService.instant(PortalResources.no)
+                    : this._translateService.instant(PortalResources.no),
             });
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.deploymentSlotName),
-                value: deployValues.deploymentSlot
+                value: deployValues.deploymentSlot,
             });
         }
         return {
             label: this._translateService.instant(PortalResources.deploy),
-            items: returnSummaryItems
+            items: returnSummaryItems,
         };
     }
     private _sourceControlGroup(): SummaryGroup {
@@ -239,34 +246,34 @@ export class StepCompleteComponent {
         if (sourceProvider === 'dropbox' || sourceProvider === 'onedrive') {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.folder),
-                value: wizValues.sourceSettings.repoUrl
+                value: wizValues.sourceSettings.repoUrl,
             });
         }
 
         if (sourceProvider === 'github' || sourceProvider === 'bitbucket' || sourceProvider === 'external' || sourceProvider === 'vsts') {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.repository),
-                value: wizValues.sourceSettings.repoUrl
+                value: wizValues.sourceSettings.repoUrl,
             });
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.branch),
-                value: wizValues.sourceSettings.branch || 'master'
+                value: wizValues.sourceSettings.branch || 'master',
             });
         }
 
         if (sourceProvider === 'localgit') {
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.repository),
-                value: this._translateService.instant(PortalResources.localGitRepoMessage)
+                value: this._translateService.instant(PortalResources.localGitRepoMessage),
             });
             returnSummaryItems.push({
                 label: this._translateService.instant(PortalResources.branch),
-                value: 'master'
+                value: 'master',
             });
         }
         return {
             label: this._translateService.instant(PortalResources.sourceControl),
-            items: returnSummaryItems
+            items: returnSummaryItems,
         };
     }
 }
