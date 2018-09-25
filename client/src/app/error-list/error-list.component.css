@@ -16,6 +16,7 @@ div {
     background-color: #ECD0D0;
     border: 1px solid #e6c2c2;
     margin-bottom: 10px;
+    word-wrap: break-word;
 }
 
 .close-button {
