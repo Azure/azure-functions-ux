@@ -5,6 +5,10 @@
     padding: 10px 20px 12px 20px;
 }
 
+:host /deep/ .ng-sidebar__backdrop { 
+    background-color: $sidebar-backdrop-color-light
+}
+
 .essentials-col {
     min-width: 175px;
     display: inline-block;
@@ -55,4 +59,13 @@
 
 .time-column {
     width: 5%; 
+}
+
+
+#app-root[theme=dark]{
+
+    :host /deep/ .ng-sidebar__backdrop { 
+        background-color: $sidebar-backdrop-color-dark;
+    }
+    
 }
