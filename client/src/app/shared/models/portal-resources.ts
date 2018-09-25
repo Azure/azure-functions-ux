@@ -257,7 +257,7 @@
     public static seeRecommendedOptions = 'seeRecommendedOptions';
     public static storageLockNote = 'storageLockNote';
     public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
-    public static functionNew_functionExists = 'functionNew_functionExists';
+    public static functionNew_functionExsists = 'functionNew_functionExsists';
     public static binding_storageAccountKey = 'binding_storageAccountKey';
     public static binding_storageAccountName = 'binding_storageAccountName';
     public static binding_storageInfoFooter = 'binding_storageInfoFooter';
