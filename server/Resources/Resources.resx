@@ -2720,7 +2720,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
