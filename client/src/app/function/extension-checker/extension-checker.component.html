@@ -8,7 +8,7 @@
     
     <ng-container *ngIf="!installing && !allInstalled">
       <h2>{{ 'extension_install_warning' | translate }}</h2> 
-      <h4>{{ 'extension_template_warning' | translate }}</h4>
+      <div>{{ 'extension_template_warning' | translate }}</div>
       <div *ngFor="let nugetPackage of neededExtensions">
         <i class="fa fa-warning"></i> {{nugetPackage.id}}
       </div>
@@ -16,7 +16,7 @@
   
     <div *ngIf="installing">
         <h2>{{ 'extension_install_warning' | translate }}</h2> 
-        <h4><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}</h4>
+        <div><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}</div>
     </div>
 
     <div *ngIf="!installing && allInstalled">
