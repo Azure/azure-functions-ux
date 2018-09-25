@@ -416,13 +416,17 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
 
         appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
 
+        if (version === '~1' && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName]) {
+            delete appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+        }
+
         if (version === '~2') {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersionV2;
         } else {
             appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
         }
 
-        return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+        return this._siteService.updateAppSettings(this.context.site.id, appSettings);
     }
 
     private _updateProxiesVersion(appSettings: ArmObj<any>) {
