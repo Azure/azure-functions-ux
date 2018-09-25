@@ -4,6 +4,10 @@ h2{
     display: inline;
 }
 
+:host /deep/ .ng-sidebar__backdrop { 
+    background-color: $sidebar-backdrop-color-light !important;
+}
+
 .newfunc-container{
     padding: 20px;
 }
@@ -169,6 +173,9 @@ drop-down{
         &:hover {
             box-shadow: $card-box-shadow-hover-dark;
         }
+    }
+    :host /deep/ .ng-sidebar__backdrop { 
+        background-color: $sidebar-backdrop-color-dark !important;
     }
 }
 
