@@ -23,10 +23,12 @@ export class VstsBuildSettings {
     public vstsAccount: string;
     public vstsProject: string;
     public location: string;
-    public applicationFramework: 'AspNetWap' | 'AspNetCore' | 'Node' | 'PHP' | 'Python' | 'StaticWebapp';
+    public applicationFramework: 'AspNetWap' | 'AspNetCore' | 'Node' | 'PHP' | 'Python' | 'StaticWebapp' | 'Ruby';
     public workingDirectory: string;
     public nodejsTaskRunner: string;
     public pythonSettings: PythonSettings;
+    public frameworkVersion: string;
+    public startupCommand: string;
 }
 
 export class PythonSettings {
@@ -263,71 +265,30 @@ export interface CodeRepositoryDeploymentSource extends DeploymentSource {
  * Describes the type of application.
  */
 export enum ApplicationType {
-    /**
-     * Applicate type is not specified.
-     */
     Undefined = 0,
-    /**
-     * ASP.NET web application.
-     */
     AspNetWap = 1,
-    /**
-     * ASP.NET Core web application.
-     */
     AspNetCore = 2,
-    /**
-     * NodeJS application.
-     */
     NodeJS = 3,
-    /**
-     * Virtual Machine image.
-     */
     AzureVirtualMachineImage = 4,
-    /**
-     * Docker container image.
-     */
     DockerImage = 5,
-    /**
-     * .NET container services application.
-     */
     DotNetContainerServices = 6,
-    /**
-     * Python application.
-     */
     Python = 7,
-    /**
-     * PHP application.
-     */
     PHP = 8,
-    /**
-     * Generic container services application.
-     */
     ContainerServices = 9,
-    /**
-     * Function App containing only script files.
-     */
     ScriptFunctionApp = 10,
-    /**
-     * Function App containing buildable code.
-     */
     DotNetPreCompiledFunctionApp = 11,
-    /**
-     * Static Webapp.
-     */
     StaticWebapp = 12,
-    /**
-     * An application which gets executed/installed via a custom script
-     */
     CustomScript = 13,
-    /**
-     * Java web application.
-     */
-    Java = 14
+    Java = 14,
+    Ruby = 15,
 }
 
 export interface BuildConfiguration {
     type: ApplicationType;
     workingDirectory: string;
+    version?: string;
+    startupCommand?: string;
+    rubyFramework?: number;
 }
 
 export interface CodeRepository {

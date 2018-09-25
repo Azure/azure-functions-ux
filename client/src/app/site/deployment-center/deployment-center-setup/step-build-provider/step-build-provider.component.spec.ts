@@ -8,6 +8,7 @@ import { ScenarioService } from '../../../../shared/services/scenario/scenario.s
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { of } from 'rxjs/observable/of';
+import { Subject } from 'rxjs/Subject';
 
 describe('StepBuildProviderComponent', () => {
     let buildStepTest: StepBuildProviderComponent;
@@ -82,6 +83,13 @@ class MockDeploymentCenterStateManager {
         buildProvider: 'kudu',
     };
 
+    wizardForm = {
+        controls: {
+            sourceProvider: {
+                valueChanges: new Subject(),
+            },
+        },
+    };
     public siteArmObj$ = new ReplaySubject<any>();
     constructor() {
         this.siteArmObj$.next({});
