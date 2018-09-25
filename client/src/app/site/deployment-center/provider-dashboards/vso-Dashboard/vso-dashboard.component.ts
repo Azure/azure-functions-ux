@@ -585,8 +585,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     };
                     return this._cacheService.putArm(`${this.deploymentObject.site.id}/deployments/${deploymentId}`, null, logData);
                 })
-                .switchMap(r => {
-                    this.viewInfoStream$.next(this.resourceId);
+                .map(() => {
+                    this.refresh();
                     this._portalService.stopNotification(notificationId.id, true, description);
                     return Observable.of(true);
                 })
@@ -596,11 +596,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     return Observable.of(false);
                 });
         })
-            .subscribe(val => {
-                if (val) {
-                    this.refresh();
-                }
-            });
+            .subscribe();
     }
 
     slotOnClick() {
