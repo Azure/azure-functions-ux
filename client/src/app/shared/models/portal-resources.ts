@@ -1,4 +1,3 @@
-
 // This file is auto generated
     export class PortalResources {
     public static azureFunctions = 'azureFunctions';
@@ -1298,6 +1297,10 @@
     public static swapSourceChangesHeading = 'swapSourceChangesHeading';
     public static swapTargetChangesHeading = 'swapTargetChangesHeading';
     public static swapActionLabel = 'swapActionLabel';
+    public static frameworkVersion = 'frameworkVersion';
+    public static startupCommand = 'startupCommand';
+    public static pathToApplicationCode = 'pathToApplicationCode';
+    public static preview = 'preview';
     public static swapDiffsNoChange = 'swapDiffsNoChange';
     public static swapDiffNotSet = 'swapDiffNotSet';
     public static extensionUninstallError = 'extensionUninstallError';
@@ -1338,5 +1341,4 @@
     public static dockerComposeSample1TitleLinux = 'dockerComposeSample1TitleLinux';
     public static dockerComposeSample2TitleLinux = 'dockerComposeSample2TitleLinux';
     public static kubernetesSample1TitleLinux = 'kubernetesSample1TitleLinux';
-
 }
