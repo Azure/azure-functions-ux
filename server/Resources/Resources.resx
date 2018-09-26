@@ -3916,27 +3916,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
-  <data name="quickstartSample1" xml:space="preserve">
-    <value>Sample #1</value>
-  </data>
-  <data name="quickstartSample2" xml:space="preserve">
-    <value>Sample #2</value>
-  </data>
-  <data name="singleContainerSample1Description" xml:space="preserve">
-    <value>Static html web page served from Nginx.</value>
-  </data>
-  <data name="singleContainerSample2Description" xml:space="preserve">
-    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
-  </data>
-  <data name="dockerComposeSample1Description" xml:space="preserve">
-    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
-  </data>
-  <data name="dockerComposeSample2Description" xml:space="preserve">
-    <value>Docker Compose sample using WordPress and MySQL.</value>
-  </data>
-  <data name="kubernetesSample1Description" xml:space="preserve">
-    <value>Kubernetes sample using WordPress and MySQL.</value>
-  </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
   </data>
@@ -4129,9 +4108,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
-  <data name="singleContainerWindowsSample1Description" xml:space="preserve">
-    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
-  </data>
   <data name="dynamicLinuxPreview" xml:space="preserve">
     <value>Linux Consumption Functions are a preview offer.</value>
   </data>
@@ -4156,13 +4132,64 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="moreTemplatesButton" xml:space="preserve">
     <value>Finish and view templates</value>
   </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>Nginx</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Nginx web server default site, using the official Nginx image.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python “Hello World” sample app.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Static site</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Static HTML web page served from Nginx web server.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
-    <value>ASP.NET Core with SQL Server</value>
+    <value>Python Flask with Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Python Flask sample app that counts the hits on the web page and stores the data in Redis cache.</value>
   </data>
   <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
-    <value>Multi-container WordPress</value>
+    <value>ASP.NET Core with SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Multi-container Wordpress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose sample using Wordpress and MySQL.</value>
   </data>
   <data name="kubernetesSample1TitleLinux" xml:space="preserve">
-    <value>Multi-container WordPress</value>
+    <value>Python Flask with Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes sample app that counts the hits on the web page and stores the data in Redis cache.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Multi-container Wordpress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes sample using WordPress and MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>No logs available.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Error in retrieving logs.</value>
   </data>
 </root>
