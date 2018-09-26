@@ -4133,10 +4133,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Finish and view templates</value>
   </data>
   <data name="singleContainerSample1TitleLinux" xml:space="preserve">
-    <value>Nginx</value>
+    <value>NGINX</value>
   </data>
   <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
-    <value>Nginx web server default site, using the official Nginx image.</value>
+    <value>NGINX web server default site, using the official Nginx image.</value>
   </data>
   <data name="singleContainerSample2TitleLinux" xml:space="preserve">
     <value>Python Hello World</value>
