@@ -1,3 +1,4 @@
+// NOTE(michinoy): Once the samples API is available, this entire file will be replaced with a get call to the samples API.
 import { Injectable } from '@angular/core';
 import { ContainerSample, ContainerOS, ContainerType } from '../container-settings';
 import { TranslateService } from '@ngx-translate/core';
