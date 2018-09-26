@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 export class TextboxComponent implements OnInit {
 
   @Input() control: FormControl;
+  @Input() ariaLabel = '';
   @Input() placeholder = '';
   @Input() highlightDirty: boolean;
   @Input() readonly: boolean;

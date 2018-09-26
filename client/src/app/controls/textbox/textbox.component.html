@@ -1,6 +1,7 @@
 <div class="textbox-wrapper">
 
 <input *ngIf="!control"
+    [attr.aria-label]="ariaLabel"
     [type]="type"
     (change)="onChange($event.target.value)"
     (keyup)="onKeyUp($event.target.value)"
@@ -12,6 +13,7 @@
 
     <input #textboxInput
         [type]="type"
+        [attr.aria-label]="ariaLabel"
         (change)="onChange($event.target.value)"
         (keyup)="onKeyUp($event.target.value)"
         [readonly]="readonly"

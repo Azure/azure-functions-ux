@@ -4,9 +4,9 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'folder' | translate}}</div>
+      <div class="setting-label" id="dc-dropbox-folder-label">{{'folder' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select id="configure-dropbox-folder-select" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="'selectFolder' | translate"
+        <ng-select id="configure-dropbox-folder-select" class="custom-select" [items]="folderList" aria-labelledby="dc-dropbox-folder-label" bindLabel="displayLabel" bindValue="value" placeholder="'selectFolder' | translate"
           [clearable]="false" [(ngModel)]="selectedFolder"  [loading]="foldersLoading"  formControlName="repoUrl">
         </ng-select>
         <div invalidmessage="repoUrl"></div>

@@ -7,7 +7,7 @@
       <div class="setting-label">{{'enableLoadTesting' | translate}}
       </div>
       <div class="setting-control-container">
-        <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
+        <radio-selector [ariaLabel]="'enableLoadTesting' | translate" [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
         </radio-selector>
       </div>
     </div>
@@ -17,7 +17,7 @@
         <div class="setting-label">{{'webApp' | translate}}</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
-            <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true"
+            <radio-selector [ariaLabel]="'newOrExistingWebApp' | translate" [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true"
               (value)="exitingNewChanged($event)">
             </radio-selector>
           </div>
@@ -25,9 +25,9 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div class="setting-label">{{'appServicePlan' | translate}}</div>
+        <div id="dc-step-test-asp" class="setting-label">{{'appServicePlan' | translate}}</div>
         <div class="setting-control-container">
-          <ng-select class="custom-select" [loading]="appServicePlansLoading" [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel"
+          <ng-select aria-labeledby="dc-step-test-asp" class="custom-select" [loading]="appServicePlansLoading" [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel"
             bindValue="value"  [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId"
             (change)="aspChanged($event)">
           </ng-select>
@@ -35,10 +35,10 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div class="setting-label">{{'appName' | translate}}</div>
+        <div id="dc-step-test-app-name" class="setting-label">{{'appName' | translate}}</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
-            <ng-select class="custom-select" [loading]="appsLoading" [clearable]="false" [items]="appsList" bindLabel="displayLabel"
+            <ng-select aria-labelledby="dc-step-test-app-name" class="custom-select" [loading]="appsLoading" [clearable]="false" [items]="appsList" bindLabel="displayLabel"
               bindValue="value" [(ngModel)]="selectedWebApp" formControlName="webAppId">
             </ng-select>
           </div>

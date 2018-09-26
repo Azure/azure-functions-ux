@@ -1,6 +1,6 @@
 <div class="selectionContainer" flex-list>
   <div *ngFor="let card of providerCards" [class.selected]="wizard?.wizardValues?.buildProvider === card.id" [class.cardDisabled]="!card.enabled"
-    [class.cardContainer]="card.enabled" (click)="chooseBuildProvider(card)" id="{{card.id}}" [hidden]="card.hidden">
+    [class.cardContainer]="card.enabled" (click)="chooseBuildProvider(card)" id="{{card.id}}" [hidden]="card.hidden" role="button">
     <div class="cardHeader">
       <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
     </div>

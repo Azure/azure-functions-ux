@@ -4165,4 +4165,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="kubernetesSample1TitleLinux" xml:space="preserve">
     <value>Multi-container WordPress</value>
   </data>
+   <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>New or Existing Deployment Slot</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+  </data>
 </root>
