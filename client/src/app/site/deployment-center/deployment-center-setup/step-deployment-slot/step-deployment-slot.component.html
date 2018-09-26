@@ -21,7 +21,7 @@
               [highlightDirty]="true"  (value)="createOrExistingChanged($event)">
             </radio-selector>
           </div>
-          <ng-select [ariaLabel]="'deploymentSlot' | translate" *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === false" class="custom-select" [loading]="deploymentSlotsLoading"
+          <ng-select aria-label="'deploymentSlot' | translate" *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === false" class="custom-select" [loading]="deploymentSlotsLoading"
             [clearable]="false" [items]="existingDeploymentSlotsList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectExisingSlot' | translate}}"
             [(ngModel)]="selectedDeploymentSlot" formControlName="deploymentSlot">
           </ng-select>

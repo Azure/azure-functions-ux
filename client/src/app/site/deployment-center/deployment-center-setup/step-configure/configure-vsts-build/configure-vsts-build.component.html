@@ -11,33 +11,66 @@
               (value)="createOrExistingChanged($event)">
             </radio-selector>
           </div>
-          <ng-select aria-labelledby="dc-vsts-build-account-label" *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" class="custom-select" [items]="accountList"
-            [clearable]="false" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectAccount' | translate}}" [(ngModel)]="selectedAccount"
-            formControlName="vstsAccount" [loading]="accountListLoading" (change)="accountChanged($event)">
+          <ng-select 
+            aria-describedby="dc-vsts-account-error"
+            aria-labelledby="dc-vsts-build-account-label" 
+            *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" 
+            class="custom-select" 
+            [items]="accountList"
+            [clearable]="false" 
+            bindLabel="displayLabel" 
+            bindValue="value" 
+            placeholder="{{'selectAccount' | translate}}" 
+            [(ngModel)]="selectedAccount"
+            formControlName="vstsAccount" 
+            [loading]="accountListLoading" 
+            (change)="accountChanged($event)">
           </ng-select>
-          <textbox [ariaLabel]="'vstsAccount' | translate" *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" [control]="wizard?.buildSettings?.controls?.vstsAccount"
+          <textbox 
+            ariaErrorId="dc-vsts-account-error"
+            [ariaLabel]="'vstsAccount' | translate" 
+            *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" 
+            [control]="wizard?.buildSettings?.controls?.vstsAccount"
             placeholder="{{'enterAccountName' | translate}}"></textbox>
-            <div invalidmessage="vstsAccount"></div>
+            <div invalidmessage="vstsAccount" id="dc-vsts-account-error" role="alert"></div>
         </div>
       </div>
 
       <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" class="setting-wrapper">
         <div id="dc-vsts-build-location-label" class="setting-label">{{'location' | translate}}</div>
         <div class="setting-control-container">
-          <ng-select aria-labeledBy="dc-vsts-build-location-label" class="custom-select" [items]="locationList" bindLabel="displayLabel" bindValue="value" placeholder="{{'gettingStarted_selectLocation' | translate}}"
-            [clearable]="false" [(ngModel)]="selectedLocation" formControlName="location">
+          <ng-select 
+            aria-describedby="dc-vsts-location-error"
+            aria-labeledBy="dc-vsts-build-location-label" 
+            class="custom-select" 
+            [items]="locationList" 
+            bindLabel="displayLabel" 
+            bindValue="value" 
+            placeholder="{{'gettingStarted_selectLocation' | translate}}"
+            [clearable]="false" 
+            [(ngModel)]="selectedLocation" 
+            formControlName="location">
           </ng-select>
-          <div invalidmessage="location"></div>
+          <div invalidmessage="location" id="dc-vsts-location-error" role="alert"></div>
         </div>
       </div>
 
       <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" class="setting-wrapper">
         <div id="dc-vsts-build-project-label" class="setting-label">{{'project' | translate}}</div>
         <div class="setting-control-container">
-          <ng-select aria-labeledBy="dc-vsts-build-project-label" class="custom-select" [items]="projectList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectProject' | translate}}"
-            [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject">
+          <ng-select 
+            aria-describedby="dc-vsts-project-error"
+            aria-labeledBy="dc-vsts-build-project-label" 
+            class="custom-select" 
+            [items]="projectList" 
+            bindLabel="displayLabel" 
+            bindValue="value" 
+            placeholder="{{'selectProject' | translate}}"
+            [clearable]="false" 
+            [(ngModel)]="selectedProject" 
+            formControlName="vstsProject">
           </ng-select>
-          <div invalidmessage="vstsProject"></div>
+          <div invalidmessage="vstsProject" id="dc-vsts-project-error" role="alert"></div>
         </div>
       </div>
     </div>

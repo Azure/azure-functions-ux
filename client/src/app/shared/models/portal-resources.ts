@@ -1341,4 +1341,7 @@
     public static dockerComposeSample1TitleLinux = 'dockerComposeSample1TitleLinux';
     public static dockerComposeSample2TitleLinux = 'dockerComposeSample2TitleLinux';
     public static kubernetesSample1TitleLinux = 'kubernetesSample1TitleLinux';
+    public static newOrExistingDeploymentSlot = 'newOrExistingDeploymentSlot';
+    public static newOrExistingVstsAccount = 'newOrExistingVstsAccount';
+    public static newOrExistingWebApp = 'newOrExistingWebApp';
 }

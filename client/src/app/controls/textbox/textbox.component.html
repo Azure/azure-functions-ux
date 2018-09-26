@@ -1,6 +1,7 @@
 <div class="textbox-wrapper">
 
 <input *ngIf="!control"
+    [attr.aria-describedby]="ariaErrorId"
     [attr.aria-label]="ariaLabel"
     [type]="type"
     (change)="onChange($event.target.value)"

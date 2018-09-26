@@ -5,8 +5,18 @@
     <div class="setting-wrapper">
       <div class="setting-label" id="dc-github-org-label">{{'organization' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select id='configure-github-org-select' class="custom-select" aria-labelledby="dc-github-org-label" [items]="OrgList" bindLabel="displayLabel" bindValue="value" placeholder="Select org" [clearable]="false"
-          [(ngModel)]="selectedOrg" [ngModelOptions]="{standalone: true}" (change)="OrgChanged($event)">
+        <ng-select 
+          id='configure-github-org-select' 
+          class="custom-select" 
+          aria-labelledby="dc-github-org-label" 
+          [items]="OrgList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="Select org" 
+          [clearable]="false"
+          [(ngModel)]="selectedOrg" 
+          [ngModelOptions]="{standalone: true}" 
+          (change)="OrgChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -14,20 +24,43 @@
     <div class="setting-wrapper">
       <div class="setting-label" id="dc-github-repo-label">{{'repository' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select id='configure-github-repo-select' class="custom-select" aria-labelledby="dc-github-repo-label" [items]="RepoList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repo"
-          [clearable]="false" [loading]="reposLoading" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="RepoChanged($event)">
+        <ng-select 
+          id='configure-github-repo-select' 
+          class="custom-select" 
+          aria-describedby="dc-github-repo-error"
+          aria-labelledby="dc-github-repo-label" 
+          [items]="RepoList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="Select Repo"
+          [clearable]="false" 
+          [loading]="reposLoading" 
+          formControlName="repoUrl" 
+          [(ngModel)]="selectedRepo" 
+          (change)="RepoChanged($event)">
         </ng-select>
-        <div invalidmessage="repoUrl"></div>
+        <div invalidmessage="repoUrl" id="dc-github-repo-error" role="alert"></div>
       </div>
     </div>
 
     <div class="setting-wrapper">
       <div class="setting-label" id="dc-github-branch-label" >{{'branch' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select id='configure-github-branch-select' class="custom-select" [items]="BranchList" aria-labelledby="dc-github-branch-label" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
-          [clearable]="false" [(ngModel)]="selectedBranch" [loading]="branchesLoading" formControlName="branch">
+        <ng-select 
+          id='configure-github-branch-select' 
+          class="custom-select" 
+          [items]="BranchList" 
+          aria-describedby="dc-github-branch-error"
+          aria-labelledby="dc-github-branch-label" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="Select Branch"
+          [clearable]="false" 
+          [(ngModel)]="selectedBranch" 
+          [loading]="branchesLoading" 
+          formControlName="branch">
         </ng-select>
-        <div invalidmessage="branch"></div>
+        <div invalidmessage="branch" id="dc-github-branch-error" role="alert"></div>
       </div>
     </div>
 
