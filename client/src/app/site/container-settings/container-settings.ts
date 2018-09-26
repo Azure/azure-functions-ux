@@ -159,6 +159,7 @@ export interface ContainerSample {
     containerType: ContainerType;
     containerOS: ContainerOS;
     sourceUrl: string;
+    learnMoreLink: string;
 }
 
 export interface ACRRegistry {

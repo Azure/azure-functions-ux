@@ -1258,13 +1258,6 @@
     public static syncRequestSubmittedDesc = 'syncRequestSubmittedDesc';
     public static syncRequestSubmittedDescFail = 'syncRequestSubmittedDescFail';
     public static vsts_permissions_error = 'vsts_permissions_error';
-    public static quickstartSample1 = 'quickstartSample1';
-    public static quickstartSample2 = 'quickstartSample2';
-    public static singleContainerSample1Description = 'singleContainerSample1Description';
-    public static singleContainerSample2Description = 'singleContainerSample2Description';
-    public static dockerComposeSample1Description = 'dockerComposeSample1Description';
-    public static dockerComposeSample2Description = 'dockerComposeSample2Description';
-    public static kubernetesSample1Description = 'kubernetesSample1Description';
     public static quickstartSelectSample = 'quickstartSelectSample';
     public static quickStartSampleDescription = 'quickStartSampleDescription';
     public static no_vsts_repos = 'no_vsts_repos';
@@ -1329,7 +1322,6 @@
     public static containerSettingsUpdateSuccess = 'containerSettingsUpdateSuccess';
     public static showUrl = 'showUrl';
     public static hideUrl = 'hideUrl';
-    public static singleContainerWindowsSample1Description = 'singleContainerWindowsSample1Description';
     public static dynamicLinuxPreview = 'dynamicLinuxPreview';
     public static formIsInvalid = 'formIsInvalid';
     public static finishAndDeploy = 'finishAndDeploy';
@@ -1338,7 +1330,24 @@
     public static moreTemplatesTitle = 'moreTemplatesTitle';
     public static moreTemplatesDescription = 'moreTemplatesDescription';
     public static moreTemplatesButton = 'moreTemplatesButton';
+    public static singleContainerSample1TitleLinux = 'singleContainerSample1TitleLinux';
+    public static singleContainerSample1DescriptionLinux = 'singleContainerSample1DescriptionLinux';
+    public static singleContainerSample2TitleLinux = 'singleContainerSample2TitleLinux';
+    public static singleContainerSample2DescriptionLinux = 'singleContainerSample2DescriptionLinux';
+    public static singleContainerSample3TitleLinux = 'singleContainerSample3TitleLinux';
+    public static singleContainerSample3DescriptionLinux = 'singleContainerSample3DescriptionLinux';
+    public static singleContainerSample1TitleWindows = 'singleContainerSample1TitleWindows';
+    public static singleContainerSample1DescriptionWindows = 'singleContainerSample1DescriptionWindows';
     public static dockerComposeSample1TitleLinux = 'dockerComposeSample1TitleLinux';
+    public static dockerComposeSample1DescriptionLinux = 'dockerComposeSample1DescriptionLinux';
     public static dockerComposeSample2TitleLinux = 'dockerComposeSample2TitleLinux';
+    public static dockerComposeSample2DescriptionLinux = 'dockerComposeSample2DescriptionLinux';
+    public static dockerComposeSample3TitleLinux = 'dockerComposeSample3TitleLinux';
+    public static dockerComposeSample3DescriptionLinux = 'dockerComposeSample3DescriptionLinux';
     public static kubernetesSample1TitleLinux = 'kubernetesSample1TitleLinux';
+    public static kubernetesSample1DescriptionLinux = 'kubernetesSample1DescriptionLinux';
+    public static kubernetesSample2TitleLinux = 'kubernetesSample2TitleLinux';
+    public static kubernetesSample2DescriptionLinux = 'kubernetesSample2DescriptionLinux';
+    public static noLogsAvailable = 'noLogsAvailable';
+    public static errorRetrievingLogs = 'errorRetrievingLogs';
 }
