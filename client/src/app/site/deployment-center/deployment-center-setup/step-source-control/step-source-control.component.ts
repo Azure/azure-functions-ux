@@ -93,7 +93,7 @@ export class StepSourceControlComponent {
             id: 'ftp',
             name: 'FTP',
             icon: 'image/deployment-center/FTP.svg',
-            color: '#FCD116',
+            color: '#FD5C00',
             description: this._translateService.instant(PortalResources.ftpDesc),
             authorizedStatus: 'none',
             manual: true,
