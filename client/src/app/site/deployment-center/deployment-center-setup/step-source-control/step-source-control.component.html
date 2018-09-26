@@ -3,7 +3,7 @@
     <div *ngFor="let card of providerCards" class="cardContainer" [class.selected]="selectedProvider && selectedProvider.name === card.name"
       (click)="selectProvider(card)" [hidden]="card.hidden">
       <div class="cardHeader">
-        <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}}
+        <img [src]="card.icon" [style.background-color]="card.color" alt="{{card.name}}"/> {{card.name}}
       </div>
       <div class="cardDescription">
         {{card.description}}
