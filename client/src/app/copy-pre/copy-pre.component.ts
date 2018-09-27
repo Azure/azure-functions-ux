@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UtilitiesService } from '../shared/services/utilities.service';
+import { KeyCodes } from '../shared/models/constants';
 
 @Component({
     selector: 'copy-pre',
@@ -37,5 +38,21 @@ export class CopyPreComponent implements OnInit {
 
     hidePassword() {
         this.contentView = false;
+    }
+
+    onKeyPress(event: KeyboardEvent, func: 'hide' | 'show' | 'copy' ) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            switch (func) {
+                case 'hide':
+                    this.hidePassword();
+                    break;
+                case 'show':
+                    this.showPassword();
+                    break;
+                case 'copy':
+                    this.copyToClipboard();
+                    break;
+            }
+        }
     }
 }
