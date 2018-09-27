@@ -185,9 +185,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         const newHash = this._getTableHash(tableItems);
         if (this._oldTableHash !== newHash) {
             this._tableItems = tableItems;
-            // setTimeout(() => {
-            //     this.appTable.groupItems('date', 'desc');
-            // }, 0);
             this._oldTableHash = newHash;
         }
     }
@@ -360,7 +357,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
     toggleExpandGroup(group) {
         this.table.groupHeader.toggleExpandGroup(group);
-      }  
+    }
+
     showDeploymentCredentials() {
         this.hideCreds = true;
         this.sidePanelOpened = true;
