@@ -4,7 +4,7 @@
 
   <div class="settings-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
     <div class="setting-wrapper">
-      <div id="dc-vsts-source-vsts-account" class="setting-label">{{'vstsAccount' | translate}}</div>
+      <label id="dc-vsts-source-vsts-account" class="setting-label">{{'vstsAccount' | translate}}</label>
       <div class="setting-control-container">
         <ng-select 
           aria-describedby="dc-vsts-source-account-error"
@@ -25,7 +25,7 @@
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
-      <div id="dc-vsts-source-vsts-project" class="setting-label">{{'project' | translate}}</div>
+      <label id="dc-vsts-source-vsts-project" class="setting-label">{{'project' | translate}}</label>
       <div class="setting-control-container">
         <ng-select
           aria-labelledby="dc-vsts-source-vsts-project" 
@@ -45,7 +45,7 @@
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
-      <div id="dc-vsts-source-vsts-repo" class="setting-label">{{'repository' | translate}}</div>
+      <label id="dc-vsts-source-vsts-repo" class="setting-label">{{'repository' | translate}}</label>
       <div class="setting-control-container">
         <ng-select
           aria-labelledby="dc-vsts-source-vsts-repo"  
@@ -65,7 +65,7 @@
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
-      <div id="dc-vsts-source-vsts-branch" class="setting-label">{{'branch' | translate}}</div>
+      <label id="dc-vsts-source-vsts-branch" class="setting-label">{{'branch' | translate}}</label>
       <div class="setting-control-container">
         <ng-select 
           aria-labelledby="dc-vsts-source-vsts-branch" 

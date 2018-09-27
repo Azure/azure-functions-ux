@@ -2,7 +2,7 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div id="dc-vsts-build-linux-framework-label" class="setting-label">{{'webAppFramework' | translate}} </div>
+      <label id="dc-vsts-build-linux-framework-label" class="setting-label">{{'webAppFramework' | translate}} </label>
       <div class="setting-control-container">
         <ng-select 
           aria-labelledby="dc-vsts-build-linux-framework-label"
@@ -22,7 +22,7 @@
 
     <div [hidden]="selectedFramework !== 'AspNetCore'">
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-linux-fxversion-label" class="setting-label">{{'frameworkVersion' | translate}} </div>
+        <label id="dc-vsts-build-linux-fxversion-label" class="setting-label">{{'frameworkVersion' | translate}} </label>
         <div class="setting-control-container">
           <ng-select 
             aria-labelledby="dc-vsts-build-linux-fxversion-label"
@@ -42,7 +42,7 @@
 
     <div [hidden]="selectedFramework !== 'Node'">
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-linux-node-version-label" class="setting-label">{{'version' | translate}} </div>
+        <label id="dc-vsts-build-linux-node-version-label" class="setting-label">{{'version' | translate}} </label>
         <div class="setting-control-container">
           <ng-select 
             aria-labelledby="dc-vsts-build-linux-node-version-label"
@@ -60,7 +60,7 @@
       </div>
 
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-linux-node-task-runner-label" class="setting-label"> {{'taskRunner' | translate}}</div>
+        <label id="dc-vsts-build-linux-node-task-runner-label" class="setting-label"> {{'taskRunner' | translate}}</label>
         <div class="setting-control-container">
           <ng-select 
             aria-labelledby="dc-vsts-build-linux-node-task-runner-label"
@@ -79,7 +79,7 @@
 
     <div [hidden]="selectedFramework !== 'PHP'">
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-linux-php-version-label" class="setting-label">{{'frameworkVersion' | translate}} </div>
+        <label id="dc-vsts-build-linux-php-version-label" class="setting-label">{{'frameworkVersion' | translate}} </label>
         <div class="setting-control-container">
           <ng-select 
             aria-labelledby="dc-vsts-build-linux-php-version-label"
@@ -99,7 +99,7 @@
 
     <div [hidden]="selectedFramework !== 'Ruby'">
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-linux-ruby-version-label" class="setting-label">{{'frameworkVersion' | translate}} </div>
+        <label id="dc-vsts-build-linux-ruby-version-label" class="setting-label">{{'frameworkVersion' | translate}} </label>
         <div class="setting-control-container">
           <ng-select 
             aria-labelledby="dc-vsts-build-linux-ruby-version-label"
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="setting-wrapper">
-      <div class="setting-label">{{'startupCommand' | translate}} </div>
+      <label class="setting-label">{{'startupCommand' | translate}} </label>
       <div class="setting-control-container">
         <textbox [ariaLabel]="'startupCommand' | translate" [control]="wizard?.buildSettings?.controls?.startupCommand"></textbox>
       </div>
@@ -125,7 +125,7 @@
 
     <div [hidden]="selectedFramework === 'AspNetCore'">
       <div class="setting-wrapper">
-        <div class="setting-label">{{'pathToApplicationCode' | translate}} </div>
+        <label class="setting-label">{{'pathToApplicationCode' | translate}} </label>
         <div class="setting-control-container">
           <textbox [ariaLabel]="'pathToApplicationCode' | translate" [control]="wizard?.buildSettings?.controls?.workingDirectory"></textbox>
         </div>

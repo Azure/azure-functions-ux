@@ -4,8 +4,7 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'enableDeploymentSlot' | translate}}
-      </div>
+      <label class="setting-label">{{'enableDeploymentSlot' | translate}}</label>
       <div class="setting-control-container">
         <radio-selector 
           [ariaLabel]="'enableDeploymentSlot' | translate" 
@@ -18,7 +17,7 @@
     </div>
     <div *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.deploymentSlotEnabled">
       <div class="setting-wrapper">
-        <div class="setting-label">{{'deploymentSlot' | translate}}</div>
+        <label class="setting-label">{{'deploymentSlot' | translate}}</label>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <radio-selector 

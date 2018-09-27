@@ -4,14 +4,14 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label" id="dc-external-repo-label">{{'repository' | translate}}</div>
+      <label class="setting-label" id="dc-external-repo-label">{{'repository' | translate}}</label>
       <div class="setting-control-container">
         <textbox [ariaLabel]="'repository' | translate" [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [placeholder]="'enter repo'"></textbox>
       </div>
     </div>
 
     <div class="setting-wrapper">
-      <div class="setting-label" id="dc-external-branch-label">{{'branch' | translate}}</div>
+      <label class="setting-label" id="dc-external-branch-label">{{'branch' | translate}}</label>
       <div class="setting-control-container">
         <textbox [ariaLabel]="'branch' | translate" [control]="this.wizard?.sourceSettings?.controls?.branch" [placeholder]="'enter branch'"></textbox>
       </div>
@@ -19,14 +19,14 @@
 
     <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.buildProvider ===
       'kudu'">
-      <div class="setting-label" id="dc-external-repoType-label">{{'repoType' | translate}}</div>
+      <label class="setting-label" id="dc-external-repoType-label">{{'repoType' | translate}}</label>
       <div class="setting-control-container">
         <radio-selector [ariaLabel]="'repoType' | translate" [defaultValue]="repoMode" aria-labelledby="dc-external-repoType-label" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>
       </div>
     </div>
     <ng-container *ngIf="wizard?.wizardValues?.buildProvider === 'vsts'">
       <div class="setting-wrapper">
-        <div class="setting-label" id="dc-external-privateRepo-label">{{'privateRepo' | translate}}</div>
+        <label class="setting-label" id="dc-external-privateRepo-label">{{'privateRepo' | translate}}</label>
         <div class="setting-control-container">
           <radio-selector [ariaLabel]="'privateRepo' | translate" [defaultValue]="privateRepo" [options]="AccessTypeOptions" (value)="accessTypeChanged($event)"></radio-selector>
         </div>
@@ -35,13 +35,13 @@
       <ng-container *ngIf="wizard?.wizardValues?.sourceSettings?.privateRepo">
 
         <div class="setting-wrapper">
-          <div class="setting-label" id="dc-external-privateRepoUserName-label">{{'username' | translate }}</div>
+          <label class="setting-label" id="dc-external-privateRepoUserName-label">{{'username' | translate }}</label>
           <div class="setting-control-container">
             <textbox [ariaLabel]="'username' | translate" [control]="this.wizard?.sourceSettings?.controls?.username" [placeholder]="'enterUsername' | translate"></textbox>
           </div>
         </div>
         <div class="setting-wrapper">
-          <div class="setting-label" id="dc-external-privateRepoPassword-label">{{'password' | translate }}</div>
+          <label class="setting-label" id="dc-external-privateRepoPassword-label">{{'password' | translate }}</label>
           <div class="setting-control-container">
             <textbox [ariaLabel]="'password' | translate" [control]="this.wizard?.sourceSettings?.controls?.password" [placeholder]="'enterPassword' | translate" type="password"></textbox>
           </div>

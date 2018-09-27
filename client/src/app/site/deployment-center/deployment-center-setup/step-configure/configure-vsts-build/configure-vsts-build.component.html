@@ -4,7 +4,7 @@
   <div class="settings-wrapper">
     <div *ngIf="wizard?.wizardValues?.sourceProvider !== 'vsts'">
       <div class="setting-wrapper">
-        <div id="dc-vsts-build-account-label" class="setting-label">{{'vstsAccount' | translate}}</div>
+        <label id="dc-vsts-build-account-label" class="setting-label">{{'vstsAccount' | translate}}</label>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <radio-selector [ariaLabel]="'newOrExistingVstsAccount' | translate" [control]="wizard?.buildSettings?.controls?.createNewVsoAccount" [options]="newVsoAccountOptions" [highlightDirty]="true"
@@ -37,7 +37,7 @@
       </div>
 
       <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" class="setting-wrapper">
-        <div id="dc-vsts-build-location-label" class="setting-label">{{'location' | translate}}</div>
+        <label id="dc-vsts-build-location-label" class="setting-label">{{'location' | translate}}</label>
         <div class="setting-control-container">
           <ng-select 
             aria-describedby="dc-vsts-location-error"
@@ -56,7 +56,7 @@
       </div>
 
       <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" class="setting-wrapper">
-        <div id="dc-vsts-build-project-label" class="setting-label">{{'project' | translate}}</div>
+        <label id="dc-vsts-build-project-label" class="setting-label">{{'project' | translate}}</label>
         <div class="setting-control-container">
           <ng-select 
             aria-describedby="dc-vsts-project-error"

@@ -4,8 +4,8 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'enableLoadTesting' | translate}}
-      </div>
+      <label class="setting-label">{{'enableLoadTesting' | translate}}
+      </label>
       <div class="setting-control-container">
         <radio-selector [ariaLabel]="'enableLoadTesting' | translate" [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
         </radio-selector>
@@ -14,7 +14,7 @@
     <div *ngIf="wizard?.wizardValues?.testEnvironment?.enabled">
 
       <div class="setting-wrapper" *ngIf="wizard.canCreateNewSite">
-        <div class="setting-label">{{'webApp' | translate}}</div>
+        <label class="setting-label">{{'webApp' | translate}}</label>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <radio-selector [ariaLabel]="'newOrExistingWebApp' | translate" [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true"
@@ -25,7 +25,7 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div id="dc-step-test-asp" class="setting-label">{{'appServicePlan' | translate}}</div>
+        <label id="dc-step-test-asp" class="setting-label">{{'appServicePlan' | translate}}</label>
         <div class="setting-control-container">
           <ng-select aria-labeledby="dc-step-test-asp" class="custom-select" [loading]="appServicePlansLoading" [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel"
             bindValue="value"  [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId"
@@ -35,7 +35,7 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div id="dc-step-test-app-name" class="setting-label">{{'appName' | translate}}</div>
+        <label id="dc-step-test-app-name" class="setting-label">{{'appName' | translate}}</label>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <ng-select aria-labelledby="dc-step-test-app-name" class="custom-select" [loading]="appsLoading" [clearable]="false" [items]="appsList" bindLabel="displayLabel"
@@ -46,14 +46,14 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">{{'appName' | translate}}</div>
+        <label class="setting-label">{{'appName' | translate}}</label>
         <div class="setting-control-container">
           {{newAppName}}
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">{{'resourceGroup' | translate}}</div>
+        <label class="setting-label">{{'resourceGroup' | translate}}</label>
         <div class="setting-control-container">
           {{resourceGroup}}
         </div>
@@ -61,7 +61,7 @@
 
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">{{'appServicePlan' | translate}}</div>
+        <label class="setting-label">{{'appServicePlan' | translate}}</label>
         <div class="setting-control-container">
           {{appServicePlanName}}
         </div>
@@ -69,14 +69,14 @@
 
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">{{'pricingTier' | translate}}</div>
+        <label class="setting-label">{{'pricingTier' | translate}}</label>
         <div class="setting-control-container">
           {{pricingTier}}
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">{{'location' | translate}}</div>
+        <label class="setting-label">{{'location' | translate}}</label>
         <div class="setting-control-container">
           {{location}}
         </div>
