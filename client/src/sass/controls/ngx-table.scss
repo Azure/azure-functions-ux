@@ -1,0 +1,217 @@
+
+@import '../common/variables';
+
+.ngx-datatable.fluent {
+	background:$body-bg-color;
+	width: 100%;
+  &:not(.cell-selection) {
+    .datatable-body-row {
+      &:hover,
+			&:hover .datatable-row-group {
+	      background-color: $grey-color;
+	      transition-property: background;
+	      transition-duration: .3s;
+	      transition-timing-function: linear;
+	    }
+
+			&:focus,
+			&:focus .datatable-row-group {
+				background-color: $grey-color;
+			}
+    }
+  }
+
+  &.cell-selection {
+    .datatable-body-cell {
+      &:hover,
+			&:hover .datatable-row-group {
+	      background-color: $grey-color;
+	      transition-property: background;
+	      transition-duration: .3s;
+	      transition-timing-function: linear;
+	    }
+
+			&:focus,
+			&:focus .datatable-row-group {
+				background-color: $grey-color;
+			}
+
+    }
+  }
+
+	/**
+	 * Shared Styles
+	 */
+	.empty-row{
+		 height:50px;
+		 text-align: left;
+		 padding: .5rem 1.2rem;
+		 vertical-align: top;
+		 border-top: 0;
+	}
+
+	.loading-row{
+		 text-align: left;
+		 padding: .5rem 1.2rem;
+		 vertical-align: top;
+		 border-top: 0;
+	}
+
+	/**
+	 * Global Row Styles
+	 */
+	 .datatable-header,
+	 .datatable-body {
+		 .datatable-row-left {
+			background-color: $body-bg-color;
+			background-position: 100% 0;
+		}
+
+		.datatable-row-right {
+			background-position: 0 0;
+	    background-color: $body-bg-color;
+		}
+	}
+
+	/**
+	 * Header Styles
+	 */
+	.datatable-header {
+    border-bottom: $border;
+
+    .datatable-header-cell {
+      text-align: left;
+      padding: .9rem 1.2rem;
+      font-weight: 700;
+      color:$default-text-color;
+      vertical-align: bottom;
+      font-size: 12px;
+			text-transform: uppercase;
+      .datatable-header-cell-wrapper {
+        position: relative;
+      }
+	}
+}
+
+	/**
+	 * Body Styles
+	 */
+	.datatable-body {
+
+    .datatable-group-header {
+			padding: 5px;
+			background: $body-bg-color;
+			line-height: 32px;
+			border-bottom: $border;
+    }
+
+	  .datatable-body-row {
+			border-bottom: $border;
+	    .datatable-body-cell {
+	      text-align: left;
+	      padding: .9rem 1.2rem;
+	      vertical-align: middle;
+	      border-top: 0;
+        color: $default-text-color;
+	      transition: width 0.3s ease;
+ 
+			}
+	    .datatable-body-group-cell {
+	      text-align: left;
+	      padding: .9rem 1.2rem;
+	      vertical-align: top;
+	      border-top: 0;
+        color: $default-text-color;
+	      transition: width 0.3s ease;
+        font-size: 14px;
+        font-weight: 400;
+			}
+			&:focus,
+			&:focus .datatable-row-group {
+				background-color: $grey-color;
+			}
+	  }
+	}
+}
+
+
+#app-root[theme=dark]{
+
+	.ngx-datatable.fluent {
+		background:$body-bg-color-dark;
+		&:not(.cell-selection) {
+			.datatable-body-row {
+				&:hover,
+				&:hover .datatable-row-group {
+					background-color: $grey-color-dark;
+				}
+	
+				&:focus,
+				&:focus .datatable-row-group {
+					background-color: $grey-color-dark;
+				}
+			}
+		}
+	
+		&.cell-selection {
+			.datatable-body-cell {
+				&:hover,
+				&:hover .datatable-row-group {
+					background-color: $grey-color-dark;
+				}
+	
+				&:focus,
+				&:focus .datatable-row-group {
+					background-color: $grey-color-dark;
+				}
+	
+			}
+		}
+	
+		/**
+		 * Global Row Styles
+		 */
+		 .datatable-header,
+		 .datatable-body {
+			 .datatable-row-left {
+				background-color: $body-bg-color-dark;
+			}
+	
+			.datatable-row-right {
+				background-color: $body-bg-color-dark;
+			}
+		}
+	
+		/**
+		 * Header Styles
+		 */
+		.datatable-header {
+			.datatable-header-cell {
+				color:$default-text-color-dark;
+				}
+		}
+	}
+	
+		/**
+		 * Body Styles
+		 */
+		.datatable-body {
+	
+			.datatable-group-header {
+				background: $body-bg-color-dark;
+			}
+	
+			.datatable-body-row {
+				.datatable-body-cell {
+					color: $default-text-color-dark;
+				}
+				.datatable-body-group-cell {
+					color: $default-text-color-dark;
+				}
+				&:focus,
+				&:focus .datatable-row-group {
+					background-color: $grey-color-dark;
+				}
+			}
+		}
+	}

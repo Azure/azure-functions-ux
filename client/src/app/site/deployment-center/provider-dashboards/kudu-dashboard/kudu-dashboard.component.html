@@ -80,68 +80,67 @@
         </div>
       </div>
     </div>
-
     <div class="list-container">
-      <tbl [items]="tableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
-        <tr>
-          <th>
-            {{'time' | translate}}
-          </th>
-          <th>
-            {{'active' | translate}}
-          </th>
-          <th>
-            {{'status' | translate}}
-          </th>
-          <th>
-            {{'commitIdAuthor' | translate}}
-          </th>
-          <th>
-            {{'checkinMessage' | translate}}
-          </th>
-          <th class="icon"></th>
-        </tr>
-
-        <tr *ngFor="let item of table.items;trackBy:tableItemTackBy">
-
-          <td class="time-column">
-            <div *ngIf="item.type === 'row'">
-              {{item.time}}
+        <ngx-datatable
+        #myTable
+        class='fluent expandable'
+        columnMode="flex"
+        [rows]="tableItems"
+        [groupRowsBy]="'date'"
+        [headerHeight]="30"
+        [footerHeight]="0"
+        [rowHeight]="'40'"
+        [virtualization]="true"
+        [groupExpansionDefault]="true">
+        <!-- Group Header Template -->
+        <ngx-datatable-group-header [rowHeight]="100" #myGroupHeader>
+          <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+            <div style="padding-left:5px;">
+              <span
+                title="Expand/Collapse Group"
+                (click)="toggleExpandGroup(group)">
+                <b>{{group.value[0].date | date:'fullDate'}}</b>
+            </span>                          
             </div>
-            <div *ngIf="item.type === 'group'">
-              <b>{{item.time}}</b>
-            </div>
-          </td>
-          <td class="icon">
-            <div *ngIf="item.active">
-              <img src="image/success-blue.svg" (click)="details(item)" />
-            </div>
-          </td>
-          <td>
-            {{item.status}}
-          </td>
-          <td>
-            <div *ngIf="item.type === 'row'">
-              {{item.commit}} ({{item.author}})
-            </div>
-          </td>
-          <td>
-
-            {{item.checkinMessage}}
-
-          </td>
-
-          <td class="icon">
-            <div *ngIf="item.type === 'row'">
-              <img src="image/generic-template.svg" (click)="details(item)" />
-            </div>
-          </td>
-        </tr>
-      </tbl>
+          </ng-template>
+        </ngx-datatable-group-header>
+        <!-- Row Column Template -->
+        <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="2">         
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+            let-group="group">
+            <span>
+                {{row.time | date:'longTime'}}
+            </span>           
+          </ng-template>          
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{'status' | translate}}" prop="status" [resizeable]="true" [flexGrow]="2">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+            let-group="group">
+            <span>
+                {{row.status}} {{row.active ? '(Active)' : ''}}
+            </span>           
+          </ng-template>   
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{'commitIdAuthor' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+            let-group="group">
+            <span>
+                {{row.commit}} ({{row.author}})
+            </span>           
+          </ng-template>   
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{'checkinMessage' | translate}}" prop="checkinMessage" [resizeable]="true" [flexGrow]="5"></ngx-datatable-column>
+        <ngx-datatable-column name="{{'logs' | translate}}" prop="" editable="false"  [resizeable]="true" [flexGrow]="1">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+              let-group="group">
+                  <span [load-image]="'image/generic-template.svg'" class="command-icon" (click)="details(row)" role="button" (keyup)="onLogsKeyUp($event.target.value, row)"></span>
+            </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
     </div>
   </div>
-  <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
-    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
+  <ng-sidebar #sidebar *ngIf="sidePanelOpened" [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
+    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'deploymentDetails'| translate" [animate]="true" [showBackdrop]="true">
     <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" [redeployEnabled]="redeployEnabled" (closePanel)="sidebar.close()"></app-deployment-detail>
     <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
   </ng-sidebar>

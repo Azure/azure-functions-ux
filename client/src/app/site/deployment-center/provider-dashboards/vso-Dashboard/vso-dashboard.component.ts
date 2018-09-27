@@ -3,12 +3,11 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { Observable, Subject } from 'rxjs/Rx';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
-import { TblComponent } from '../../../../controls/tbl/tbl.component';
 import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/vso-build-models';
 import { VSTSLogMessageType } from '../../Models/deployment-enums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment-mini-ts';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
@@ -28,7 +27,6 @@ class VSODeploymentObject extends DeploymentData {
 })
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
-    @ViewChild('table') appTable: TblComponent;
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
@@ -74,9 +72,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     tableItem.type = 'row';
                     this._tableItems.push(tableItem);
                 });
-                setTimeout(() => {
-                    this.appTable.groupItems('date', 'desc');
-                }, 0);
 
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
@@ -218,7 +213,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             // grouping is done by date therefore time information is excluded
             date: t.format('YYYY/M/D'),
 
-            time: t.format('hh:mm:ss A'),
+            time: date,
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
             urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
         };
@@ -412,7 +407,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             // grouping is done by date therefore time information is excluded
             date: t.format('YY/M/D'),
 
-            time: t.format('h:mm:ss A'),
+            time: date,
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
             urlInfo: this._getUrlInfoFromStringMessage(messageString),

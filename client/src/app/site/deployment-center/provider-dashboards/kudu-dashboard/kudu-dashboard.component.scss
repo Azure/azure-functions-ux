@@ -1,5 +1,6 @@
 @import '../../../../../sass/main';
 
+
 #essentials-container {
     border-bottom: $border;
     padding: 10px 20px 12px 20px;
@@ -48,15 +49,20 @@
     width: 90%;
     margin: auto;
 
-    img{
-        vertical-align: middle;
-        margin-bottom: 15px;
-        margin-right: 5px;
-        width: 32px;
-        height: 32px;
-    }
+    
 }
-
+.command-icon{
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+}
+.icon {
+    vertical-align: middle;
+    margin-bottom: 15px;
+    margin-right: 5px;
+    width: 32px;
+    height: 32px;
+}
 .time-column {
     width: 5%; 
 }

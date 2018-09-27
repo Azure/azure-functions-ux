@@ -86,7 +86,54 @@
 
 
 <div class="table-container">
-  <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="message">
+    <ngx-datatable
+    #myTable
+    class='fluent expandable'
+    columnMode="flex"
+    [rows]="TableItems"
+    [groupRowsBy]="'date'"
+    [headerHeight]="0"
+    [footerHeight]="0"
+    [rowHeight]="'auto'"
+    [virtualization]="true"
+    [groupExpansionDefault]="true">
+    <!-- Group Header Template -->
+    <ngx-datatable-group-header [rowHeight]="100" #myGroupHeader>
+      <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+        <div style="padding-left:5px;">
+          <span
+            title="Expand/Collapse Group"
+            (click)="toggleExpandGroup(group)">
+            <b>{{group.value[0].date | date:'fullDate'}}</b>
+        </span>                          
+        </div>
+      </ng-template>
+    </ngx-datatable-group-header>
+    <!-- Row Column Template -->
+    <ngx-datatable-column name="{{'message' | translate}}" prop="time" editable="false" [flexGrow]="6">         
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+        let-group="group">
+        <img style='display:inline-block;vertical-align:middle;width:18px;height:18px;' [src]="row.icon"
+        />
+        <div class="messageColumn">
+          <p >{{row.message}}</p>
+          <div style="display:inline-block;margin-left:10px;" *ngFor="let url of row.urlInfo">
+            <span *ngIf="url.urlIcon" [load-image]="url.urlIcon" class="statusImage"></span>
+            <a (click)="onUrlClick(url.url)" tabindex="0">{{url.urlText}}</a>
+          </div>
+        </div>
+      </ng-template>          
+    </ngx-datatable-column>
+    <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="1">         
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
+        let-group="group">
+        <span>
+            {{row.time | date:'longTime'}}
+        </span>           
+      </ng-template>          
+    </ngx-datatable-column>
+  </ngx-datatable>
+  <!-- <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="message">
     <tr style="display:none">
       <th>
         <tbl-th name="message">{{'message' | translate}}</tbl-th>
@@ -120,5 +167,5 @@
       </td>
       <td>{{item.time}}</td>
     </tr>
-  </tbl>
+  </tbl> -->
 </div>
