@@ -80,6 +80,7 @@
                             "http",
                             "mobileTable",
                             "documentDB",
+                            "cosmosDB",
                             "table",
                             "notificationHub",
                             "twilioSms",
