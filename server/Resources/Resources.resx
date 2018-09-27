@@ -880,7 +880,7 @@
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>A File with the name {{fileName}} already exists.</value>
   </data>
-  <data name="functionNew_functionExsists" xml:space="preserve">
+  <data name="functionNew_functionExists" xml:space="preserve">
     <value>Function with name '{{name}}' already exists.</value>
   </data>
   <data name="binding_storageAccountKey" xml:space="preserve">
@@ -2720,7 +2720,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies, you will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -3916,27 +3916,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
   </data>
-  <data name="quickstartSample1" xml:space="preserve">
-    <value>Sample #1</value>
-  </data>
-  <data name="quickstartSample2" xml:space="preserve">
-    <value>Sample #2</value>
-  </data>
-  <data name="singleContainerSample1Description" xml:space="preserve">
-    <value>Static html web page served from Nginx.</value>
-  </data>
-  <data name="singleContainerSample2Description" xml:space="preserve">
-    <value>Python Flask sample web app displays random picture from NASA.GOV.</value>
-  </data>
-  <data name="dockerComposeSample1Description" xml:space="preserve">
-    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
-  </data>
-  <data name="dockerComposeSample2Description" xml:space="preserve">
-    <value>Docker Compose sample using WordPress and MySQL.</value>
-  </data>
-  <data name="kubernetesSample1Description" xml:space="preserve">
-    <value>Kubernetes sample using WordPress and MySQL.</value>
-  </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
   </data>
@@ -3944,13 +3923,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Description</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
+    <value>You do not own any VSTS Repositories</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
+    <value>You do not have any valid VSTS Accounts</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>You do not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
@@ -4129,9 +4108,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="hideUrl" xml:space="preserve">
     <value>hide url</value>
   </data>
-  <data name="singleContainerWindowsSample1Description" xml:space="preserve">
-    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
-  </data>
   <data name="dynamicLinuxPreview" xml:space="preserve">
     <value>Linux Consumption Functions are a preview offer.</value>
   </data>
@@ -4156,14 +4132,65 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="moreTemplatesButton" xml:space="preserve">
     <value>Finish and view templates</value>
   </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>NGINX web server default site, using the official Nginx image.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python “Hello World” sample app.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Static site</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Static HTML web page served from Nginx web server.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+  </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
-    <value>ASP.NET Core with SQL Server</value>
+    <value>Python Flask with Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Python Flask sample app that counts the hits on the web page and stores the data in Redis cache.</value>
   </data>
   <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
-    <value>Multi-container WordPress</value>
+    <value>ASP.NET Core with SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose sample using ASP.NET Core with SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Multi-container Wordpress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose sample using Wordpress and MySQL.</value>
   </data>
   <data name="kubernetesSample1TitleLinux" xml:space="preserve">
-    <value>Multi-container WordPress</value>
+    <value>Python Flask with Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes sample app that counts the hits on the web page and stores the data in Redis cache.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Multi-container Wordpress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes sample using WordPress and MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>No logs available.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Error in retrieving logs.</value>
   </data>
    <data name="newOrExistingDeploymentSlot" xml:space="preserve">
     <value>New or Existing Deployment Slot</value>

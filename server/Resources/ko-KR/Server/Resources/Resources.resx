@@ -877,7 +877,7 @@
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>A File with the name {{fileName}} already exists.</value>
   </data>
-  <data name="functionNew_functionExsists" xml:space="preserve">
+  <data name="functionNew_functionExists" xml:space="preserve">
     <value>이름이 '{{name}}'인 함수가 이미 존재합니다.</value>
   </data>
   <data name="binding_storageAccountKey" xml:space="preserve">

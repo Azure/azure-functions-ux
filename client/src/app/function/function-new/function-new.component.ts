@@ -81,14 +81,14 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public runtime: string;
 
     public possibleRuntimes: DropDownElement<string>[] =
-    [{
-        displayLabel: '.NET',
-        value: 'dotnet',
-    },
-    {
-        displayLabel: 'JavaScript',
-        value: 'node',
-    }];
+        [{
+            displayLabel: '.NET',
+            value: 'dotnet',
+        },
+        {
+            displayLabel: 'JavaScript',
+            value: 'node',
+        }];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', icon: 'image/blob.svg' },
@@ -535,7 +535,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 return f.name.toLowerCase() === this.functionName.toLowerCase();
             });
             if (nameMatch) {
-                this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
+                this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExists, { name: this.functionName });
                 this.areInputsValid = false;
             }
         }
