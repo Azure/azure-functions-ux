@@ -2,34 +2,36 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'webAppFramework' | translate}} </div>
+      <label id="dc-vsts-build-windows-framework-label" class="setting-label">{{'webAppFramework' | translate}} </label>
       <div class="setting-control-container">
         <ng-select 
-              class="custom-select" 
-              [clearable]="false" 
-              [searchable]="false" 
-              [items]="webApplicationFrameworks" 
-              bindLabel="displayLabel"
-              bindValue="value" 
-              placeholder="{{'selectFramework' | translate}}" 
-              [(ngModel)]="selectedFramework" 
-              formControlName="applicationFramework">
+            aria-labelledby="dc-vsts-build-windows-framework-label"
+            class="custom-select" 
+            [clearable]="false" 
+            [searchable]="false" 
+            [items]="webApplicationFrameworks" 
+            bindLabel="displayLabel"
+            bindValue="value" 
+            placeholder="{{'selectFramework' | translate}}" 
+            [(ngModel)]="selectedFramework" 
+            formControlName="applicationFramework">
         </ng-select>
       </div>
     </div>
 
     <div *ngIf="selectedFramework !== 'AspNetWap' && selectedFramework !== 'AspNetCore'">
       <div class="setting-wrapper">
-        <div class="setting-label">{{'workingDirectory' | translate}} </div>
+        <label class="setting-label">{{'workingDirectory' | translate}} </label>
         <div class="setting-control-container">
-          <textbox [control]="wizard?.buildSettings?.controls?.workingDirectory"></textbox>
+          <textbox [ariaLabel]="'workingDirectory' | translate" [control]="wizard?.buildSettings?.controls?.workingDirectory"></textbox>
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="selectedFramework === 'Node'">
-        <div class="setting-label"> {{'taskRunner' | translate}}</div>
+        <label id="dc-vsts-build-windows-task-runner-label" class="setting-label"> {{'taskRunner' | translate}}</label>
         <div class="setting-control-container">
           <ng-select 
+            aria-labelledby="dc-vsts-build-windows-task-runner-label"
             [clearable]="false" 
             class="custom-select" 
             [searchable]="false" 
@@ -45,9 +47,10 @@
       <div *ngIf="selectedFramework === 'Python'" [formGroup]="wizard?.buildSettings?.controls?.pythonSettings" novalidate>
 
         <div class="setting-wrapper">
-          <div class="setting-label">{{'pythonFramework' | translate}} </div>
+          <label id="dc-vsts-build-windows-pythonfx-label" class="setting-label">{{'pythonFramework' | translate}} </label>
           <div class="setting-control-container">
             <ng-select 
+              aria-labelledby="dc-vsts-build-windows-pythonfx-label"
               class="custom-select" 
               [clearable]="false" 
               [searchable]="false" 
@@ -61,9 +64,10 @@
         </div>
 
         <div class="setting-wrapper">
-          <div class="setting-label"> {{'pythonVersion' | translate}} </div>
+          <label id="dc-vsts-build-windows-python-version-label" class="setting-label"> {{'pythonVersion' | translate}} </label>
           <div class="setting-control-container">
             <ng-select 
+              aria-labelledby="dc-vsts-build-windows-python-version-label"
               class="custom-select" 
               [clearable]="false" 
               [searchable]="false" 
@@ -77,16 +81,16 @@
         </div>
 
         <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Django'">
-          <div class="setting-label"> {{'djangoSettings' | translate}} </div>
+          <label class="setting-label"> {{'djangoSettings' | translate}} </label>
           <div class="setting-control-container">
-            <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule"></textbox>
+            <textbox [ariaLabel]="'djangoSettings' | translate" [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule"></textbox>
           </div>
         </div>
 
         <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Flask'">
-          <div class="setting-label">{{'flaskProjectName' | translate}}</div>
+          <label class="setting-label">{{'flaskProjectName' | translate}}</label>
           <div class="setting-control-container">
-            <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.flaskProjectName"></textbox>
+            <textbox [ariaLabel]="'flaskProjectName' | translate" [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.flaskProjectName"></textbox>
           </div>
         </div>
       </div>

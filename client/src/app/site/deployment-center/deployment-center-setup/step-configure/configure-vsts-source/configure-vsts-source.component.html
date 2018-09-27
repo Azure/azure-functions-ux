@@ -4,42 +4,83 @@
 
   <div class="settings-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
     <div class="setting-wrapper">
-      <div class="setting-label">{{'vstsAccount' | translate}}</div>
+      <label id="dc-vsts-source-vsts-account" class="setting-label">{{'vstsAccount' | translate}}</label>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="accountList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectAccount' | translate}}"
-          [clearable]="false" [(ngModel)]="selectedAccount" [loading]="accountListLoading" formControlName="vstsAccount" (change)="accountChanged($event)">
+        <ng-select 
+          aria-describedby="dc-vsts-source-account-error"
+          aria-labelledby="dc-vsts-source-vsts-account"
+          class="custom-select" 
+          [items]="accountList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="{{'selectAccount' | translate}}"
+          [clearable]="false" 
+          [(ngModel)]="selectedAccount" 
+          [loading]="accountListLoading" 
+          formControlName="vstsAccount" 
+          (change)="accountChanged($event)">
         </ng-select>
-        <div invalidmessage="vstsAccount"></div>
+        <div invalidmessage="vstsAccount" id="dc-vsts-source-account-error" role="alert"></div>
       </div>
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
-      <div class="setting-label">{{'project' | translate}}</div>
+      <label id="dc-vsts-source-vsts-project" class="setting-label">{{'project' | translate}}</label>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="projectList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectProject' | translate}}"
-          [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject" (change)="projectChanged($event)">
+        <ng-select
+          aria-labelledby="dc-vsts-source-vsts-project" 
+          aria-describedby="dc-vsts-source-project-error"
+          class="custom-select" 
+          [items]="projectList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="{{'selectProject' | translate}}"
+          [clearable]="false" 
+          [(ngModel)]="selectedProject" 
+          formControlName="vstsProject" 
+          (change)="projectChanged($event)">
         </ng-select>
-        <div invalidmessage="vstsProject"></div>
+        <div invalidmessage="vstsProject" id="dc-vsts-source-project-error" role="alert"></div>
       </div>
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
-      <div class="setting-label">{{'repository' | translate}}</div>
+      <label id="dc-vsts-source-vsts-repo" class="setting-label">{{'repository' | translate}}</label>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="repositoryList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectRepo' | translate}}"
-          [clearable]="false" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
+        <ng-select
+          aria-labelledby="dc-vsts-source-vsts-repo"  
+          aria-describedby="dc-vsts-source-repo-error"
+          class="custom-select" 
+          [items]="repositoryList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="{{'selectRepo' | translate}}"
+          [clearable]="false" 
+          formControlName="repoUrl" 
+          [(ngModel)]="selectedRepo" 
+          (change)="repoChanged($event)">
         </ng-select>
-        <div invalidmessage="repoUrl"></div>
+        <div invalidmessage="repoUrl" id="dc-vsts-source-repo-error" role="alert" ></div>
       </div>
     </div>
 
     <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
-      <div class="setting-label">{{'branch' | translate}}</div>
+      <label id="dc-vsts-source-vsts-branch" class="setting-label">{{'branch' | translate}}</label>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="branchList" bindLabel="displayLabel" bindValue="value" placeholder="{{'selectBranch' | translate}}"
-          [clearable]="false" [(ngModel)]="selectedBranch" [loading]="branchesLoading" formControlName="branch">
+        <ng-select 
+          aria-labelledby="dc-vsts-source-vsts-branch" 
+          aria-describedby="dc-vsts-source-repo-error"
+          class="custom-select" 
+          [items]="branchList" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="{{'selectBranch' | translate}}"
+          [clearable]="false" 
+          [(ngModel)]="selectedBranch" 
+          [loading]="branchesLoading" 
+          formControlName="branch">
         </ng-select>
-        <div invalidmessage="branch"></div>
+        <div invalidmessage="branch" id="dc-vsts-source-repo-error" role="alert"></div>
       </div>
     </div>
   </div>

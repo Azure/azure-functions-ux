@@ -4210,6 +4210,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorRetrievingLogs" xml:space="preserve">
     <value>Error in retrieving logs.</value>
   </data>
+   <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>New or Existing Deployment Slot</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+    </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
   </data>

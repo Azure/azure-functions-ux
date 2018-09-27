@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Constants, LogCategories, ScenarioIds } from 'app/shared/models/constants';
+import { Constants, LogCategories, ScenarioIds, KeyCodes } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
@@ -93,7 +93,7 @@ export class StepSourceControlComponent {
             id: 'ftp',
             name: 'FTP',
             icon: 'image/deployment-center/FTP.svg',
-            color: '#FCD116',
+            color: '#FD5C00',
             description: this._translateService.instant(PortalResources.ftpDesc),
             authorizedStatus: 'none',
             manual: true,
@@ -331,5 +331,11 @@ export class StepSourceControlComponent {
                 }
             } catch (e) { }
         });
+    }
+
+    onKeyPress(event: KeyboardEvent, card: ProviderCard) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.selectProvider(card);
+        }
     }
 }

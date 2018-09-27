@@ -4,12 +4,23 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'folder' | translate}}</div>
+      <label class="setting-label" id="dc-dropbox-folder-label">{{'folder' | translate}}</label>
       <div class="setting-control-container">
-        <ng-select id="configure-dropbox-folder-select" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="'selectFolder' | translate"
-          [clearable]="false" [(ngModel)]="selectedFolder"  [loading]="foldersLoading"  formControlName="repoUrl">
+        <ng-select 
+          id="configure-dropbox-folder-select" 
+          class="custom-select" 
+          [items]="folderList"
+          aria-describedby="dc-dropbox-folder-error"
+          aria-labelledby="dc-dropbox-folder-label" 
+          bindLabel="displayLabel" 
+          bindValue="value" 
+          placeholder="'selectFolder' | translate"
+          [clearable]="false" 
+          [(ngModel)]="selectedFolder"  
+          [loading]="foldersLoading"  
+          formControlName="repoUrl">
         </ng-select>
-        <div invalidmessage="repoUrl"></div>
+        <div invalidmessage="repoUrl" id="dc-dropbox-folder-error" role="alert"></div>
       </div>
     </div>
 

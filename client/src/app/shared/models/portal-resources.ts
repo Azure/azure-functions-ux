@@ -1356,4 +1356,8 @@
     public static kubernetesSample2DescriptionLinux = 'kubernetesSample2DescriptionLinux';
     public static noLogsAvailable = 'noLogsAvailable';
     public static errorRetrievingLogs = 'errorRetrievingLogs';
+    public static newOrExistingDeploymentSlot = 'newOrExistingDeploymentSlot';
+    public static newOrExistingVstsAccount = 'newOrExistingVstsAccount';
+    public static newOrExistingWebApp = 'newOrExistingWebApp';
+    public static deploymentDetails = 'deploymentDetails';
 }

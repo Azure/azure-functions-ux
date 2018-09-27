@@ -23,6 +23,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
     @Input() defaultValue: T;
     @Input() focusOnLoad: boolean;
     @Input() id: string;
+    @Input() ariaLabel = '';
     @Output() value: Subject<T>;
 
     public activeDescendantId: string;
