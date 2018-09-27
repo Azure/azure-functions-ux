@@ -106,16 +106,14 @@
         </ngx-datatable-group-header>
         <!-- Row Column Template -->
         <ngx-datatable-column name="{{'time' | translate}}" prop="time" editable="false" [flexGrow]="2">         
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
-            let-group="group">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
             <span>
                 {{row.time | date:'longTime'}}
             </span>           
           </ng-template>          
         </ngx-datatable-column>
         <ngx-datatable-column name="{{'status' | translate}}" prop="status" [resizeable]="true" [flexGrow]="2">
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
-            let-group="group">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"  let-group="group">
             <span>
                 {{row.status}} {{row.active ? '(Active)' : ''}}
             </span>           
@@ -123,7 +121,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="{{'commitIdAuthor' | translate}}" prop="commit" [resizeable]="true" [flexGrow]="2">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
-            let-group="group">
+              let-group="group">
             <span>
                 {{row.commit}} ({{row.author}})
             </span>           
@@ -139,8 +137,19 @@
       </ngx-datatable>
     </div>
   </div>
-  <ng-sidebar #sidebar *ngIf="sidePanelOpened" [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
-    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'deploymentDetails'| translate" [animate]="true" [showBackdrop]="true">
+  <ng-sidebar 
+  #sidebar 
+  *ngIf="sidePanelOpened" 
+  [(opened)]="sidePanelOpened" 
+  [mode]="'over'" 
+  [position]="'right'" 
+  [closeOnClickOutside]="true" 
+  [trapFocus]="false"
+  [autoFocus]="true" 
+  [sidebarClass]="'sidebar'" 
+  [ariaLabel]="'deploymentDetails'| translate" 
+  [animate]="true" 
+  [showBackdrop]="true">
     <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" [redeployEnabled]="redeployEnabled" (closePanel)="sidebar.close()"></app-deployment-detail>
     <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
   </ng-sidebar>
