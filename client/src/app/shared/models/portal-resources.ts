@@ -1356,4 +1356,6 @@
     public static kubernetesSample2DescriptionLinux = 'kubernetesSample2DescriptionLinux';
     public static noLogsAvailable = 'noLogsAvailable';
     public static errorRetrievingLogs = 'errorRetrievingLogs';
+    public static deploymentDetails = 'deploymentDetails';
+    public static installingExtensionIntegrate = 'installingExtensionIntegrate';
 }

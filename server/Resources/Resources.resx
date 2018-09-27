@@ -4213,4 +4213,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
   </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. You can leave this page and continue to use the portal during this time.</value>
+  </data>
 </root>

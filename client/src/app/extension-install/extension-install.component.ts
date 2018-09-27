@@ -1,3 +1,4 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { PortalService } from './../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from './../shared/services/broadcast.service';
@@ -7,6 +8,8 @@ import { RuntimeExtension } from '../shared/models/binding';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseExtensionInstallComponent } from 'app/extension-install/base-extension-install-component';
 import { AiService } from '../shared/services/ai.service';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { errorIds } from 'app/shared/models/error-ids';
 
 @Component({
     selector: 'extension-install',
@@ -22,7 +25,7 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
     constructor(
         broadcastService: BroadcastService,
         translateService: TranslateService,
-        aiService: AiService,
+        public aiService: AiService,
         portalService: PortalService,
         _functionAppService: FunctionAppService) {
         super('extension-install', _functionAppService, broadcastService, aiService, translateService, portalService);
@@ -42,5 +45,18 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
             this.installed.next(true);
             this.neededExtensions = [];
         }
+    }
+
+    showInstallFailed(context: FunctionAppContext, id: string) {
+        this.installFailed = true;
+        this.showComponentError({
+            message: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
+            errorId: errorIds.timeoutInstallingFunctionRuntimeExtension,
+            resourceId: context.site.id,
+        });
+
+        this.aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension),
+        });
     }
 }

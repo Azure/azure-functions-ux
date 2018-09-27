@@ -6,7 +6,7 @@
     </div>
     <div *ngIf="installing" class="panel panel-default fit-width">
         <div class="panel-body">
-            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtensionIntegrate' | translate }}
         </div>
     </div>
     <div *ngIf="neededExtensions && neededExtensions.length > 0 && !loading && !installing">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <a class="link left" (click)="takeHostOffline()">
+                <a class="link left" (click)="installExtensions()">
                     {{ 'extension_install_button' | translate }}
                 </a>
             </div>

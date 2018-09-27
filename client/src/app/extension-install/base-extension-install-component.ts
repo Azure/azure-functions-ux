@@ -34,7 +34,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
         super(componentName, functionAppService, broadcastService, setBusy);
     }
 
-    takeHostOffline() {
+    installExtensions() {
         if (this.neededExtensions.length > 0) {
             this.installing = true;
             this.installFailed = false;
@@ -248,9 +248,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
                         // if failed then show error, remove from status tracking queue
                         if (jobInstallationStatusResult.isSuccessful && jobInstallationStatusResult.result.status === 'Failed') {
                             this.showInstallFailed(this.context, jobInstallationStatusResult.result.id);
-                        }
-                        // error status also show up here, error is different from failed
-                        else if (jobInstallationStatusResult.isSuccessful &&
+                        } else if (jobInstallationStatusResult.isSuccessful &&
                             jobInstallationStatusResult.result.status !== 'Succeeded' &&
                             jobInstallationStatusResult.result.status !== 'Failed') {
                             job.push(jobInstallationStatusResult.result);
@@ -293,16 +291,5 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
         });
     }
 
-    showInstallFailed(context: FunctionAppContext, id) {
-        this.showComponentError({
-            message: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
-            errorId: errorIds.timeoutInstallingFunctionRuntimeExtension,
-            resourceId: context.site.id,
-        });
-
-        this._aiService.trackEvent(errorIds.timeoutInstallingFunctionRuntimeExtension, {
-            content: this.translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension),
-        });
-    }
-
+    abstract showInstallFailed(context: FunctionAppContext, id: string);
 }
