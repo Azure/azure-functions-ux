@@ -4210,4 +4210,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorRetrievingLogs" xml:space="preserve">
     <value>Error in retrieving logs.</value>
   </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Deployment Details</value>
+  </data>
 </root>

@@ -70,7 +70,7 @@ export interface ActivityDetailsLog {
     icon: string;
     message: string;
     date: string;
-    time: string;
+    time: Date;
     urlInfo: UrlInfo[];
 }
 
