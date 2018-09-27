@@ -133,39 +133,4 @@
       </ng-template>          
     </ngx-datatable-column>
   </ngx-datatable>
-  <!-- <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="message">
-    <tr style="display:none">
-      <th>
-        <tbl-th name="message">{{'message' | translate}}</tbl-th>
-      </th>
-      <th>
-        <tbl-th name="time">{{'time' | translate}}</tbl-th>
-      </th>
-      <th>
-        <tbl-th name="date">{{'date' | translate}}</tbl-th>
-      </th>
-    </tr>
-
-    <tr *ngFor="let item of table.items">
-      <td>
-        <img *ngIf="item.type === 'row'" style='display:inline-block;vertical-align:middle;width:18px;height:18px;' [src]="item.icon"
-        />
-
-        <div *ngIf="item.type === 'group'" class="messageColumn">
-          <b>
-            <p>{{item.message}}</p>
-          </b>
-        </div>
-        <div *ngIf="item.type === 'row'" class="messageColumn">
-
-          <p>{{item.message}}</p>
-          <div style="display:inline-block;margin-left:10px;" *ngFor="let url of item.urlInfo">
-            <span *ngIf="url.urlIcon" [load-image]="url.urlIcon" class="statusImage"></span>
-            <a (click)="onUrlClick(url.url)" tabindex="0">{{url.urlText}}</a>
-          </div>
-        </div>
-      </td>
-      <td>{{item.time}}</td>
-    </tr>
-  </tbl> -->
 </div>
