@@ -1,6 +1,6 @@
 import { ArmService } from '../../../../shared/services/arm.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
-import { TableItem, TblComponent } from '../../../../controls/tbl/tbl.component';
+import { TableItem } from '../../../../controls/tbl/tbl.component';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -12,7 +12,7 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds, KeyCodes } from 'app/shared/models/constants';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
@@ -27,7 +27,7 @@ enum DeployStatus {
 
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
-    public time: string;
+    public time: Date;
     public date: string;
     public status: string;
     public checkinMessage: string;
@@ -44,7 +44,7 @@ class KuduTableItem implements TableItem {
 })
 export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
-    @ViewChild(TblComponent) appTable: TblComponent;
+    @ViewChild('myTable') table: any;
 
     public viewInfoStream$: Subject<string>;
 
@@ -125,6 +125,11 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
     }
 
+    onLogsKeyUp(event: KeyboardEvent, row: any) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.details(row);
+        }
+    }
     private _redeployEnabled() {
         const scmProvider = this.deploymentObject.siteConfig.properties.scmType;
         if (scmProvider === 'Dropbox' || scmProvider === 'OneDrive') {
@@ -165,7 +170,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             const author = item.author;
             const row: KuduTableItem = {
                 type: 'row',
-                time: t.format('h:mm:ss A'),
+                time: date,
                 date: t.format('M/D/YY'),
                 commit: commitId,
                 checkinMessage: item.message,
@@ -180,9 +185,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         const newHash = this._getTableHash(tableItems);
         if (this._oldTableHash !== newHash) {
             this._tableItems = tableItems;
-            setTimeout(() => {
-                this.appTable.groupItems('date', 'desc');
-            }, 0);
             this._oldTableHash = newHash;
         }
     }
@@ -352,6 +354,9 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     tableItemTackBy(index: number, item: KuduTableItem) {
         return item && item.commit; // or item.id
+    }
+    toggleExpandGroup(group) {
+        this.table.groupHeader.toggleExpandGroup(group);
     }
 
     showDeploymentCredentials() {

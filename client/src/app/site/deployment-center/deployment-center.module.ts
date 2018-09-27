@@ -27,6 +27,7 @@ import { FtpDashboardComponent } from './provider-dashboards/ftp-dashboard/ftp-d
 import { DeploymentCredentialsComponent } from './provider-dashboards/deployment-credentials/deployment-credentials.component';
 import { LinuxFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/linux-frameworks/linux-frameworks.component';
 import { WindowsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/windows-frameworks/windows-frameworks.component';
+import { NgxDatatableModule } from 'ngx-datatable-accessable';
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -55,7 +56,7 @@ import { WindowsFramworksComponent } from './deployment-center-setup/step-config
         LinuxFramworksComponent,
         WindowsFramworksComponent,
     ],
-    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule],
+    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
     exports: [DeploymentCenterComponent],
 })
 export class DeploymentCenterModule {

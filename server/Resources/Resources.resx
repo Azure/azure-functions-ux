@@ -3148,6 +3148,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Elastic Premium is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Scale up</value>
   </data>
@@ -3199,6 +3202,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Manual scale</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Rapid scale</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Scale out function apps based on event trigger.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Auto scale</value>
   </data>
@@ -3210,6 +3219,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Up to {0} instances.  Subject to availability.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>High Density</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Efficiently share an App Service plan across multiple Function Apps.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Staging slots</value>
@@ -3240,6 +3255,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Isolated network</value>
+  </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Virtual Network Integration</value>
   </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Runs within your own virtual network.</value>
@@ -3710,7 +3728,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Session id: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Local SSD based storage for hosting of containers and optional {0} GB disk storage shared by all apps deployed in the App Service Plan.</value>
+    <value>Local SSD based storage for hosting of containers and optional {0} disk storage shared by all apps deployed in the App Service Plan.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Function app name</value>
@@ -4200,5 +4218,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>New or Existing VSTS Account</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Deployment Details</value>
   </data>
 </root>

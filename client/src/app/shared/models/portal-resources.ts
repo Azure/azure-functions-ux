@@ -1005,6 +1005,7 @@
     public static pricing_emptyDevTestGroup = 'pricing_emptyDevTestGroup';
     public static pricing_emptyProdGroup = 'pricing_emptyProdGroup';
     public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
+    public static pricing_epNotAvailable = 'pricing_epNotAvailable';
     public static pricing_scaleUp = 'pricing_scaleUp';
     public static free = 'free';
     public static pricing_pricePerMonth = 'pricing_pricePerMonth';
@@ -1022,10 +1023,14 @@
     public static pricing_customDomainsSslDesc = 'pricing_customDomainsSslDesc';
     public static pricing_customDomainsIpSslDesc = 'pricing_customDomainsIpSslDesc';
     public static pricing_manualScale = 'pricing_manualScale';
+    public static pricing_rapidScale = 'pricing_rapidScale';
+    public static pricing_rapidScaleDesc = 'pricing_rapidScaleDesc';
     public static pricing_autoScale = 'pricing_autoScale';
     public static pricing_largeScale = 'pricing_largeScale';
     public static pricing_largeScaleDesc = 'pricing_largeScaleDesc';
     public static pricing_scaleDesc = 'pricing_scaleDesc';
+    public static pricing_highDensity = 'pricing_highDensity';
+    public static pricing_highDensityDesc = 'pricing_highDensityDesc';
     public static pricing_stagingSlots = 'pricing_stagingSlots';
     public static pricing_slotsDesc = 'pricing_slotsDesc';
     public static pricing_dailyBackup = 'pricing_dailyBackup';
@@ -1036,6 +1041,7 @@
     public static pricing_ase = 'pricing_ase';
     public static pricing_aseDesc = 'pricing_aseDesc';
     public static pricing_isolatedNetwork = 'pricing_isolatedNetwork';
+    public static pricing_virtualNetwork = 'pricing_virtualNetwork';
     public static pricing_isolatedNetworkDesc = 'pricing_isolatedNetworkDesc';
     public static pricing_privateAppAccess = 'pricing_privateAppAccess';
     public static pricing_privateAppAccessDesc = 'pricing_privateAppAccessDesc';
@@ -1353,4 +1359,5 @@
     public static newOrExistingDeploymentSlot = 'newOrExistingDeploymentSlot';
     public static newOrExistingVstsAccount = 'newOrExistingVstsAccount';
     public static newOrExistingWebApp = 'newOrExistingWebApp';
+    public static deploymentDetails = 'deploymentDetails';
 }
