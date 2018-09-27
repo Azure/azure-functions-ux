@@ -28,7 +28,7 @@ export class StepBuildProviderComponent implements OnDestroy {
         },
         {
             id: 'vsts',
-            name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}(${this._translateService.instant(PortalResources.preview)})`,
+            name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}`,
             icon: 'image/deployment-center/vsts.svg',
             color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
