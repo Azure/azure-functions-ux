@@ -229,7 +229,7 @@
         "fileExplorer_upload": "Upload",
         "storageLockNote": "One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.",
         "fileExplorer_fileAlreadyExists": "A File with the name {{fileName}} already exists.",
-        "functionNew_functionExsists": "Function with name '{{name}}' already exists.",
+        "functionNew_functionExists": "Function with name '{{name}}' already exists.",
         "binding_storageAccountKey": "Account Key:",
         "binding_storageAccountName": "Account Name:",
         "binding_storageInfoFooter": "You can now view the blobs, queues and tables associated with this storage binding.",

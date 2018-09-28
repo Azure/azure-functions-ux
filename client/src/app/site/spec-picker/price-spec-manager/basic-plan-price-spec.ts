@@ -1,5 +1,6 @@
-import { Links } from './../../../shared/models/constants';
-import { PortalResources } from 'app/shared/models/portal-resources';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { PortalResources } from './../../../shared/models/portal-resources';
+import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
@@ -38,11 +39,14 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
         // data should only be populated for new plans
         if (input.specPickerInput.data) {
             if (input.specPickerInput.data.hostingEnvironmentName
-                || input.specPickerInput.data.isXenon) {
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic) {
                 this.state = 'hidden';
             }
         } else if (input.plan) {
-            if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
+            if (input.plan.properties.hostingEnvironmentProfile
+                || input.plan.properties.isXenon
+                || AppKind.hasAnyKind(input.plan, [Kinds.elastic])) {
                 this.state = 'hidden';
             }
         }

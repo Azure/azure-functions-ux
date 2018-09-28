@@ -6,10 +6,10 @@
     </div>
     <div *ngIf="installing" class="panel panel-default fit-width">
         <div class="panel-body">
-            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtensionIntegrate' | translate }}
         </div>
     </div>
-    <div *ngIf="extensions && extensions.length > 0 && !loading && !installing">
+    <div *ngIf="neededExtensions && neededExtensions.length > 0 && !loading && !installing">
         <div class="panel panel-default fit-width">
             <div class="panel-heading">
                 <i class="fa fa-warning"></i> {{ 'extension_install_warning' | translate }}
@@ -17,18 +17,18 @@
             <div class="panel-body">
                 <div *ngIf="!integrateText">{{ 'extension_template_warning' | translate }}</div>
                 <div *ngIf="integrateText">{{ 'extension_integrate_warning' | translate }}</div>
-                <div *ngFor="let nugetPackage of extensions">
+                <div *ngFor="let nugetPackage of neededExtensions">
                     <i class="fa fa-warning"></i> {{nugetPackage.id}}
                 </div>
             </div>
             <div class="panel-footer">
-                <a class="link left" (click)="installRequiredExtensions()">
+                <a class="link left" (click)="installExtensions()">
                     {{ 'extension_install_button' | translate }}
                 </a>
             </div>
         </div>
     </div>
-    <div class="panel panel-default fit-width" *ngIf="installationSucceeded && !loading && !installing" role="alert">
+    <div class="panel panel-default fit-width" *ngIf="allInstalled && !loading && !installing" role="alert">
         <div class="panel-heading">
             <i class="fa fa-check-circle"></i> {{ 'extension_install_success' | translate }}
         </div>

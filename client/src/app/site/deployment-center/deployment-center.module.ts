@@ -25,6 +25,9 @@ import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FtpDashboardComponent } from './provider-dashboards/ftp-dashboard/ftp-dashboard.component';
 import { DeploymentCredentialsComponent } from './provider-dashboards/deployment-credentials/deployment-credentials.component';
+import { LinuxFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/linux-frameworks/linux-frameworks.component';
+import { WindowsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/windows-frameworks/windows-frameworks.component';
+import { NgxDatatableModule } from 'ngx-datatable-accessable';
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -49,10 +52,12 @@ import { DeploymentCredentialsComponent } from './provider-dashboards/deployment
         ConfigureBitbucketComponent,
         ConfigureLocalGitComponent,
         FtpDashboardComponent,
-        DeploymentCredentialsComponent
+        DeploymentCredentialsComponent,
+        LinuxFramworksComponent,
+        WindowsFramworksComponent,
     ],
-    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule],
-    exports: [DeploymentCenterComponent]
+    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
+    exports: [DeploymentCenterComponent],
 })
 export class DeploymentCenterModule {
     static forRoot(): ModuleWithProviders {

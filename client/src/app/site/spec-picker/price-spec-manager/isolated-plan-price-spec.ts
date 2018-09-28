@@ -1,10 +1,10 @@
-import { Links } from 'app/shared/models/constants';
-import { Kinds } from './../../../shared/models/constants';
-import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
-import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
-import { AseService } from '../../../shared/services/ase.service';
+import { Kinds, Links } from './../../../shared/models/constants';
 import { PortalResources } from '../../../shared/models/portal-resources';
+import { AseService } from '../../../shared/services/ase.service';
+import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
+import { AppKind } from './../../../shared/Utilities/app-kind';
+import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
@@ -66,10 +66,14 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
             this.state = 'hidden';
         } else if (input.specPickerInput.data
-            && (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon)) {
+            && (!input.specPickerInput.data.allowAseV2Creation
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic)) {
             this.state = 'hidden';
         } else if (input.plan) {
-            if (!input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
+            if (!input.plan.properties.hostingEnvironmentProfile
+                || input.plan.properties.isXenon
+                || AppKind.hasAnyKind(input.plan, [Kinds.elastic])) {
                 this.state = 'hidden';
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)

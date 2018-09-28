@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HttpResult } from '../../../../shared/models/http-result';
 
 @Component({
     selector: 'container-logs',
@@ -31,11 +32,11 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
     constructor(
         private _containerLogsService: ContainerLogsService,
         private _domSanitizer: DomSanitizer,
-        ts: TranslateService,
+        private _ts: TranslateService,
         injector: Injector) {
         super('ContainerLogsComponent', injector, 'dashboard');
         this.featureName = 'ContainerSettings';
-        this.loadingMessage = ts.instant(PortalResources.loading);
+        this.loadingMessage = this._ts.instant(PortalResources.loading);
         this.log = this.loadingMessage;
     }
 
@@ -49,7 +50,7 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
                 return this._containerLogsService.getContainerLogs(containerConfigureInfo.resourceId);
             })
             .do(logResponse => {
-                this.log = logResponse.result._body;
+                this._displayLog(logResponse);
             });
     }
 
@@ -82,8 +83,20 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
         this._containerLogsService
             .getContainerLogs(this.containerConfigureInfo.resourceId, true)
             .subscribe(logResponse => {
-                this.log = logResponse.result._body;
+                this._displayLog(logResponse);
             });
+    }
+
+    private _displayLog(logResponse: HttpResult<any>) {
+        if (logResponse.isSuccessful) {
+            if (logResponse.result && logResponse.result._body) {
+                this.log = logResponse.result._body;
+            } else {
+                this.log = this._ts.instant(PortalResources.noLogsAvailable);
+            }
+        } else {
+            this.log = this._ts.instant(PortalResources.errorRetrievingLogs);
+        }
     }
 
     private _cleanupBlob() {

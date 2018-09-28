@@ -1,8 +1,8 @@
-import { Links } from 'app/shared/models/constants';
-import { PriceSpec, PriceSpecInput } from './price-spec';
-import { Kinds } from '../../../shared/models/constants';
 import { Injector } from '@angular/core';
+import { Kinds, Links } from './../../../shared/models/constants';
 import { PortalResources } from '../../../shared/models/portal-resources';
+import { AppKind } from './../../../shared/Utilities/app-kind';
+import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
 
@@ -60,13 +60,14 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         if (input.specPickerInput.data) {
             if (input.specPickerInput.data.hostingEnvironmentName
                 || input.specPickerInput.data.isLinux
-                || input.specPickerInput.data.isXenon) {
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic) {
                 this.state = 'hidden';
             }
         } else if (input.plan) {
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
+            if (input.plan.properties.hostingEnvironmentProfile
+                || input.plan.properties.isXenon
+                || AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])) {
                 this.state = 'hidden';
             }
         }
