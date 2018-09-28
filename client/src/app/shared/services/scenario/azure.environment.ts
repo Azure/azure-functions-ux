@@ -52,7 +52,7 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.enablePlatform64,
             runCheck: (input: ScenarioCheckInput) => {
                 const scenarioResult = this._enableIfBasicOrHigher(input);
-                scenarioResult.data = this._translateService.instant(PortalResources.alwaysOnUpsell);
+                scenarioResult.data = this._translateService.instant(PortalResources.use32BitWorkerProcessUpsell);
                 return scenarioResult;
             },
         };

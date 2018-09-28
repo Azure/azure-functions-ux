@@ -191,20 +191,18 @@
       </div>
     </div>
 
-    <ng-container *ngIf="http20Supported">
-      <div class="setting-wrapper">
-        <label class="setting-label">{{ 'httpVersion' | translate }}</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['http20Enabled'] : null"
-            [options]="http20EnabledOptions"
-            [highlightDirty]="true">
-          </radio-selector>
-        </div>
+    <div *ngIf="http20Supported" class="setting-wrapper">
+      <label class="setting-label">{{ 'httpVersion' | translate }}</label>
+      <div class="setting-control-container">
+        <radio-selector
+          [control]="!!group ? group.controls['http20Enabled'] : null"
+          [options]="http20EnabledOptions"
+          [highlightDirty]="true">
+        </radio-selector>
       </div>
-    </ng-container> 
+    </div>
 
-    <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
+    <div *ngIf="clientAffinitySupported" class="setting-wrapper">
       <info-box
         [infoText]="('clientAffinityInfoText' | translate)"
         [infoLink]="FwLinks.clientAffinityLearnMore">
@@ -219,34 +217,31 @@
       </div>
     </div>
 
-    <ng-container *ngIf="autoSwapSupported">
-      <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="last">
-        <info-box
-          *ngIf="isProductionSlot"
-          [infoText]="('autoSwapNotSupportedFromProd' | translate)"
+    <div *ngIf="autoSwapSupported" class="setting-wrapper">
+      <info-box
+        *ngIf="isProductionSlot"
+        [infoText]="('autoSwapNotSupportedFromProd' | translate)"
+        check-scenario="EnableAutoSwap"
+        [cs-input]="{site: siteArm}">
+      </info-box>
+      <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
+      <div class="setting-control-container">
+        <radio-selector
+          [control]="!!group ? group.controls['autoSwapEnabled'] : null"
+          [options]="autoSwapEnabledOptions"
+          [highlightDirty]="true"
+          (value)="updateAutoSwapSlotNameOptions($event)"
           check-scenario="EnableAutoSwap"
           [cs-input]="{site: siteArm}">
-        </info-box>
-        <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['autoSwapEnabled'] : null"
-            [options]="autoSwapEnabledOptions"
-            [highlightDirty]="true"
-            (value)="updateAutoSwapSlotNameOptions($event)"
-            check-scenario="EnableAutoSwap"
-            [cs-input]="{site: siteArm}">
-          </radio-selector>
+        </radio-selector>
 
-          <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
-            <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-            <pop-over [message]="autoSwapUpsell">
-              <span load-image="image/upsell.svg" class="icon-small"></span>
-            </pop-over>
-          </span>
-        </div>
+        <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="autoSwapUpsell">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
-      
       <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}">
         <label class="setting-label">{{ 'autoSwapSlotNameLabel' | translate }}</label>
         <div class="setting-control-container">
@@ -257,24 +252,22 @@
           </drop-down>
         </div>
       </div>
-    </ng-container>
+    </div>
 
-    <ng-container *ngIf="FTPAccessSupported">
-      <div class="setting-wrapper last">
-        <info-box
-          [infoText]="('FTPMessage' | translate)"
-          [infoLink]="FwLinks.FTPAccessLearnMore">
-        </info-box>
-        <label class="setting-label">{{'FTPLabel' | translate}}</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['FTPAccessOptions'] : null"
-            [options]="FTPAccessOptions"
-            [highlightDirty]="true">
-          </radio-selector>
-        </div>
+    <div *ngIf="FTPAccessSupported" class="setting-wrapper">
+      <info-box
+        [infoText]="('FTPMessage' | translate)"
+        [infoLink]="FwLinks.FTPAccessLearnMore">
+      </info-box>
+      <label class="setting-label">{{'FTPLabel' | translate}}</label>
+      <div class="setting-control-container">
+        <radio-selector
+          [control]="!!group ? group.controls['FTPAccessOptions'] : null"
+          [options]="FTPAccessOptions"
+          [highlightDirty]="true">
+        </radio-selector>
       </div>
-    </ng-container> 
+    </div>
   </div>
   
   <ng-container *ngIf="remoteDebuggingSupported">
@@ -304,7 +297,7 @@
         </div>
       </div>
 
-      <div class="setting-wrapper last">
+      <div class="setting-wrapper">
         <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
         <div class="setting-control-container">
           <radio-selector
@@ -348,7 +341,7 @@
         </div>
       </div>
 
-      <div class="setting-wrapper last">
+      <div class="setting-wrapper">
         <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
           <pop-over [message]="appCommandLineLabelHelp" position="right">
               <span class="glyphicon glyphicon-info-sign button-title"></span>

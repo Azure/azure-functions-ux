@@ -235,7 +235,7 @@ export class ScenarioIds {
     public static readonly pythonSupported = 'PythonSupported';
     public static readonly javaSupported = 'JavaSupported';
     public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
-    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
+    public static readonly autoSwapSupported = 'AutoSwapSupported';
     public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
     public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
