@@ -204,8 +204,6 @@ export class AzureEnvironment extends Environment {
             case ServerFarmSku.premiumV2:
             case ServerFarmSku.isolated:
             case ServerFarmSku.premiumContainer:
-            case ServerFarmSku.elasticPremium:
-            case ServerFarmSku.elasticIsolated:
                 limit = 20;
                 break;
             default:

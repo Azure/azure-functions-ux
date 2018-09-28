@@ -877,7 +877,7 @@
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>名為 {{fileName}} 的檔案已存在。</value>
   </data>
-  <data name="functionNew_functionExists" xml:space="preserve">
+  <data name="functionNew_functionExsists" xml:space="preserve">
     <value>名為 '{{name}}' 的函式已存在。</value>
   </data>
   <data name="binding_storageAccountKey" xml:space="preserve">

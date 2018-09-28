@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links, SiteTabIds } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages, Links } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -26,7 +26,6 @@ import { ScenarioService } from '../../shared/services/scenario/scenario.service
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteService } from '../../shared/services/site.service';
-import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 interface CategoryOrder {
     name: string;
@@ -81,14 +80,14 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public runtime: string;
 
     public possibleRuntimes: DropDownElement<string>[] =
-        [{
-            displayLabel: '.NET',
-            value: 'dotnet',
-        },
-        {
-            displayLabel: 'JavaScript',
-            value: 'node',
-        }];
+    [{
+        displayLabel: '.NET',
+        value: 'dotnet',
+    },
+    {
+        displayLabel: 'JavaScript',
+        value: 'node',
+    }];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', icon: 'image/blob.svg' },
@@ -204,8 +203,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this.selectedTemplateId = this.action.templateId;
                 }
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)
-                    && this.runtimeVersion === 'V2') {
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
                     const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
                     this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.needsWorkerRuntime = !this.functionAppLanguage;
@@ -535,7 +533,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 return f.name.toLowerCase() === this.functionName.toLowerCase();
             });
             if (nameMatch) {
-                this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExists, { name: this.functionName });
+                this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
                 this.areInputsValid = false;
             }
         }
@@ -786,15 +784,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     }
 
     quickstart() {
-        if (this.runtimeVersion === 'V1') {
-            this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
-        } else {
-            this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
-            this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
-                operation: 'navigate',
-                data: 'appNode',
-            });
-        }
+        this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 
     onKeyPressQuick(event: KeyboardEvent) {

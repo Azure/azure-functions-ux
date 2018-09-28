@@ -3,11 +3,12 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { Observable, Subject } from 'rxjs/Rx';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
+import { TblComponent } from '../../../../controls/tbl/tbl.component';
 import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/vso-build-models';
 import { VSTSLogMessageType } from '../../Models/deployment-enums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as moment from 'moment-mini-ts';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
@@ -27,6 +28,7 @@ class VSODeploymentObject extends DeploymentData {
 })
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
+    @ViewChild('table') appTable: TblComponent;
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
@@ -50,8 +52,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
-                    this._cacheService.postArm(`${resourceId}/config/metadata/list`, true),
-                    this._cacheService.getArm(`${resourceId}/deployments`, true),
+                    this._cacheService.postArm(`${resourceId}/config/metadata/list`),
+                    this._cacheService.getArm(`${resourceId}/deployments`),
                     (site, metadata, deployments) => ({
                         site: site.json(),
                         metadata: metadata.json(),
@@ -72,6 +74,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     tableItem.type = 'row';
                     this._tableItems.push(tableItem);
                 });
+                setTimeout(() => {
+                    this.appTable.groupItems('date', 'desc');
+                }, 0);
 
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
@@ -211,9 +216,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
 
             // grouping is done by date therefore time information is excluded
-            date: t.format('YYYY/M/D'),
+            date: t.format('YY/M/D'),
 
-            time: date,
+            time: t.format('h:mm:ss A'),
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
             urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
         };
@@ -407,7 +412,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             // grouping is done by date therefore time information is excluded
             date: t.format('YY/M/D'),
 
-            time: date,
+            time: t.format('h:mm:ss A'),
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
             urlInfo: this._getUrlInfoFromStringMessage(messageString),
@@ -532,66 +537,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         }
         const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
         return !!slotName ? slotName : null;
-    }
-
-    syncScm() {
-        const fullUrl = this.deploymentObject.VSOData.url;
-        const url = new URL(fullUrl);
-        let collectionUrl = `https://${url.host}`;
-        let accountName = '';
-        if (collectionUrl.includes(this._devAzureCom)) {
-            accountName = url.pathname.split('/')[1];
-            collectionUrl = `${collectionUrl}/${accountName}`;
-        } else {
-            accountName = url.pathname.split('/')[0].split('.')[0];
-        }
-
-        this._busyManager.setBusy();
-        const title = this._translateService.instant(PortalResources.syncRequestSubmitted);
-        const description = this._translateService.instant(PortalResources.syncRequestSubmittedDesc).format(this.deploymentObject.site.name);
-        const failMessage = this._translateService.instant(PortalResources.syncRequestSubmittedDescFail).format(this.deploymentObject.site.name);
-        this._portalService.startNotification(title, description).concatMap(notificationId => {
-            const syncUrl = `${collectionUrl}/${this.deploymentObject.VSOData.project.id}/_apis/build/Builds?api-version=3.1`;
-            return this._cacheService.post(syncUrl, true, null, {
-                definition: {
-                    id: `${this.deploymentObject.VSOData.id}`,
-                },
-                sourceBranch: this.deploymentObject.VSOData.repository.defaultBranch,
-            })
-                .concatMap(() => {
-                    const deploymentId = Date.now().toString();
-                    const logData = {
-                        id: deploymentId,
-                        properties: {
-                            id: deploymentId,
-                            status: 4,
-                            active: false,
-                            author: 'VSTSRM',
-                            deployer: 'VSTSRM',
-                            message: JSON.stringify({
-                                type: 'Sync',
-                                prodAppName: this.deploymentObject.site.name,
-                                buildId: `${this.deploymentObject.VSOData.id}`,
-                                collectionUrl: collectionUrl,
-                                teamProject: this.deploymentObject.VSOData.project.id,
-                                message: '',
-                            }),
-                        },
-                    };
-                    return this._cacheService.putArm(`${this.deploymentObject.site.id}/deployments/${deploymentId}`, null, logData);
-                })
-                .map(() => {
-                    this.refresh();
-                    this._portalService.stopNotification(notificationId.id, true, description);
-                    return Observable.of(true);
-                })
-                .catch(() => {
-                    this._busyManager.clearBusy();
-                    this._portalService.stopNotification(notificationId.id, false, failMessage);
-                    return Observable.of(false);
-                });
-        })
-            .subscribe();
     }
 
     slotOnClick() {

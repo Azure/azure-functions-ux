@@ -4,22 +4,12 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <label id="dc-onedrive-folder-label" class="setting-label">{{'folder' | translate}}</label>
+      <div class="setting-label">{{'folder' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select 
-          aria-describedby="dc-onedrive-folder-error"
-          aria-labelledby="dc-onesrive-folder-label"  
-          [clearable]="false" 
-          class="custom-select" 
-          [items]="folderList" 
-          bindLabel="displayLabel" 
-          bindValue="value" 
-          placeholder="Select Folder"
-          [clearable]="false" 
-          [loading]="foldersLoading" 
-          formControlName="repoUrl">
+        <ng-select [clearable]="false" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
+          [clearable]="false" [loading]="foldersLoading" formControlName="repoUrl">
         </ng-select>
-        <div invalidmessage="repoUrl" id="dc-onedrive-folder-error" role="alert"></div>
+        <div invalidmessage="repoUrl"></div>
       </div>
     </div>
 

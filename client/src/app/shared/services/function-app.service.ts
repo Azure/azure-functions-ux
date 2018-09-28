@@ -40,7 +40,6 @@ import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
 import { Version } from 'app/shared/Utilities/version';
-import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -842,8 +841,8 @@ export class FunctionAppService {
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
                     const usingRunFromZip = appSettings
-                        ? this._getRFZSetting(appSettings) !== '0'
-                        : false;
+                        ? appSettings.properties[Constants.WebsiteUseZip] || appSettings.properties[Constants.WebsiteRunFromZip] || ''
+                        : '';
                     const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
                     const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
@@ -899,13 +898,6 @@ export class FunctionAppService {
                     }
                 })
                 .catch(() => Observable.of(FunctionAppEditMode.ReadWrite)));
-    }
-
-    private _getRFZSetting(appSettings: ArmObj<ApplicationSettings>) {
-        return appSettings.properties[Constants.WebsiteUseZip]
-                || appSettings.properties[Constants.WebsiteRunFromZip]
-                || appSettings.properties[Constants.WebsiteRunFromPackage]
-                || '0';
     }
 
     public getAuthSettings(context: FunctionAppContext): Result<AuthSettings> {

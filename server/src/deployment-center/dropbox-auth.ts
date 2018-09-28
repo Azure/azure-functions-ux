@@ -28,7 +28,7 @@ export function setupDropboxAuthentication(app: Application) {
             res.json(response.data);
         } catch (err) {
             LogHelper.error('dropbox-passthrough', err);
-            res.sendStatus(err.response.status);
+            res.send(err.response);
         }
     });
 

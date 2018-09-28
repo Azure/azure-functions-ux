@@ -4,7 +4,6 @@ import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from 
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectOption } from './../../../shared/models/select-option';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
 import { LogService } from './../../../shared/services/log.service';
@@ -38,8 +37,6 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
   public loadingMessage: string;
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
-  public showValues: boolean;
-  public showValuesOptions: SelectOption<boolean>[];
 
   private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
@@ -61,11 +58,6 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
 
     this.newItem = null;
     this.originalItemsDeleted = 0;
-
-    this.showValuesOptions = [
-      { displayLabel: this._translateService.instant(PortalResources.hideValues), value: false },
-      { displayLabel: this._translateService.instant(PortalResources.showValues), value: true },
-    ];
   }
 
   protected get _isPristine() {
@@ -384,9 +376,5 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
     this.newItem.msExistenceState = 'new';
     this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
-  }
-
-  updateShowValues(showValues: boolean) {
-    this.showValues = showValues;
   }
 }

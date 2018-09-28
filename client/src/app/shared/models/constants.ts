@@ -33,7 +33,6 @@ export class Constants {
     public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
     public static WebsiteRunFromZip = 'WEBSITE_RUN_FROM_ZIP';
-    public static WebsiteRunFromPackage = 'WEBSITE_RUN_FROM_PACKAGE';
     public static localCacheOptionSettingName = 'WEBSITE_LOCAL_CACHE_OPTION';
     public static localCacheOptionSettingValue = 'always';
 
@@ -140,7 +139,6 @@ export class Links {
     public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2022864';
     public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552';
     public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
-    public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
 }
 
 export class Kinds {
@@ -149,7 +147,7 @@ export class Kinds {
     public static readonly container = 'container';
     public static readonly functionApp = 'functionapp';
     public static readonly botapp = 'botapp';
-    public static readonly elastic = 'elastic'; // only applies to server farm
+    
 }
 
 export class LocalStorageKeys {
@@ -292,8 +290,6 @@ export class ServerFarmSku {
     public static readonly premiumContainer = 'PremiumContainer';
     public static readonly isolated = 'Isolated';
     public static readonly dynamic = 'Dynamic';
-    public static readonly elasticPremium = 'ElasticPremium';
-    public static readonly elasticIsolated = 'ElasticIsolated';
 }
 
 export class NationalCloudArmUris {

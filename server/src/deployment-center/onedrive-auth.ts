@@ -26,7 +26,7 @@ export function setupOnedriveAuthentication(app: Application) {
             res.json(response.data);
         } catch (err) {
             LogHelper.error('onedrive-passthrough', err);
-            res.sendStatus(err.response.status);
+            res.send(err.response);
         }
     });
 

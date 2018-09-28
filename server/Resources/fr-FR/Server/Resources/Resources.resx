@@ -877,7 +877,7 @@
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
     <value>Un fichier portant le nom {{fileName}} existe déjà.</value>
   </data>
-  <data name="functionNew_functionExists" xml:space="preserve">
+  <data name="functionNew_functionExsists" xml:space="preserve">
     <value>La fonction portant le nom « {{name}} » existe déjà.</value>
   </data>
   <data name="binding_storageAccountKey" xml:space="preserve">

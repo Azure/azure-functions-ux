@@ -1,13 +1,14 @@
+import { Links } from './../../../shared/models/constants';
+import { PortalResources } from 'app/shared/models/portal-resources';
+import { PlanService } from './../../../shared/services/plan.service';
+import { PriceSpec, PriceSpecInput } from './price-spec';
+import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
-import { PortalResources } from './../../../shared/models/portal-resources';
-import { ServerFarm } from './../../../shared/models/server-farm';
-import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
-import { AppKind } from './../../../shared/Utilities/app-kind';
-import { DV2SeriesPriceSpec } from './dV2series-price-spec';
-import { NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { ResourceId } from '../../../shared/models/arm/arm-obj';
 
-export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
+export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
+
+    protected readonly _disabledLink = 'https://go.microsoft.com/fwlink/?linkid=2009376';
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',
@@ -54,29 +55,69 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
 
     cssClass = 'spec premium-spec';
 
+    private _planService: PlanService;
+
     constructor(injector: Injector) {
-        super(
-            injector,
-            ServerFarmSku.premiumV2,
-            PortalResources.pricing_pv2NotAvailable,
-            Links.premiumV2NotAvailableLearnMore,
-        );
+        super(injector);
+        this._planService = injector.get(PlanService);
     }
 
-    protected _matchSku(sku: Sku): boolean {
-        return sku.name.indexOf('v2') > -1;
+    runInitialization(input: PriceSpecInput) {
+        let $checkStamp: Observable<any> = Observable.of(null);
+
+        if (input.specPickerInput.data) {
+
+            if (input.specPickerInput.data.hostingEnvironmentName) {
+                this.state = 'hidden';
+            } else {
+                return this.checkIfDreamspark(input.subscriptionId)
+                    .switchMap(isDreamspark => {
+                        if (!isDreamspark) {
+                            return this._planService.getAvailablePremiumV2GeoRegions(
+                                input.specPickerInput.data.subscriptionId, input.specPickerInput.data.isLinux)
+                                .do(geoRegions => {
+                                    if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
+                                        this.state = 'disabled';
+                                        this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                                        this.disabledInfoLink = this._disabledLink;
+                                    }
+                                });
+                        }
+
+                        return Observable.of(null);
+                    });
+
+            }
+        } else if (input.plan) {
+            if (input.plan.properties.hostingEnvironmentProfile) {
+                this.state = 'hidden';
+            } else {
+
+                $checkStamp = this._checkIfPremiumV2EnabledOnStamp(input.plan.id);
+            }
+
+            return $checkStamp.switchMap(_ => {
+                return this.checkIfDreamspark(input.subscriptionId);
+            });
+        }
+
+        return Observable.of(null);
     }
 
-    protected _shouldHideForNewPlan(data: NewPlanSpecPickerData): boolean {
-        return !!data.hostingEnvironmentName
-            || data.isXenon
-            || data.isElastic;
-    }
+    private _checkIfPremiumV2EnabledOnStamp(resourceId: ResourceId) {
+        if (this.state !== 'hidden') {
+            return this._planService.getAvailableSkusForPlan(resourceId)
+                .do(availableSkus => {
+                    this.state = availableSkus.find(s => s.sku.name.indexOf('v2') > -1) ? 'enabled' : 'disabled';
 
-    protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
-        return !!plan.properties.hostingEnvironmentProfile
-            || plan.properties.isXenon
-            || AppKind.hasAnyKind(plan, [Kinds.elastic]);
+                    if (this.state === 'disabled') {
+                        this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                        this.disabledInfoLink = this._disabledLink;
+                    }
+                });
+        }
+
+        return Observable.of(null);
     }
 }
 
@@ -99,6 +140,19 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
@@ -120,6 +174,19 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
@@ -141,4 +208,17 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        if (input.plan && input.plan.properties.isXenon) {
+            this.state = 'hidden';
+        }
+
+        return super.runInitialization(input);
+    }
 }

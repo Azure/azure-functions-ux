@@ -14,12 +14,90 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 import { PortalResources } from '../../../../../shared/models/portal-resources';
 import { VstsValidators } from '../../validators/vsts-validators';
 
+export const TaskRunner = {
+  None: 'None',
+  Gulp: 'Gulp',
+  Grunt: 'Grunt',
+};
+
+export const WebAppFramework = {
+  AspNetWap: 'AspNetWap',
+  AspNetCore: 'AspNetCore',
+  Node: 'Node',
+  PHP: 'PHP',
+  Python: 'Python',
+  StaticWebapp: 'StaticWebapp',
+};
+
+export class VSTSRepository {
+  name: string;
+  account: string;
+  remoteUrl: string;
+  projectName: string;
+  id: string;
+}
+
 @Component({
   selector: 'app-configure-vsts-build',
   templateUrl: './configure-vsts-build.component.html',
   styleUrls: ['./configure-vsts-build.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureVstsBuildComponent implements OnDestroy {
+
+  defaultNodeTaskRunner = 'none';
+  nodeJsTaskRunners: DropDownElement<string>[] = [
+    { value: 'gulp', displayLabel: 'Gulp' },
+    { value: 'grunt', displayLabel: 'Grunt' },
+    { value: 'none', displayLabel: 'None' },
+  ];
+
+  recommendedPythonVersion = 'python353x86';
+  pythonVersionList: DropDownElement<string>[] = [
+    { value: 'python2712x64', displayLabel: 'Python 2.7.12 x64' },
+    { value: 'python2712x86', displayLabel: 'Python 2.7.12 x86' },
+    { value: 'python2713x64', displayLabel: 'Python 2.7.13 x64' },
+    { value: 'python2713x86', displayLabel: 'Python 2.7.13 x86' },
+    { value: 'python353x64', displayLabel: 'Python 3.5.3 x64' },
+    { value: 'python353x86', displayLabel: 'Python 3.5.3 x86' }, // Recommended version
+    { value: 'python360x86', displayLabel: 'Python 3.6.0 x86' },
+    { value: 'python360x64', displayLabel: 'Python 3.6.0 x64' },
+    { value: 'python361x86', displayLabel: 'Python 3.6.1 x86' },
+    { value: 'python361x64', displayLabel: 'Python 3.6.1 x64' },
+  ];
+
+  defaultPythonFramework = 'Bottle';
+  pythonFrameworkList: DropDownElement<string>[] = [
+    { value: 'Bottle', displayLabel: 'Bottle' },
+    { value: 'Django', displayLabel: 'Django' },
+    { value: 'Flask', displayLabel: 'Flask' },
+  ];
+
+  webApplicationFrameworks: DropDownElement<string>[] = [
+    {
+      displayLabel: 'ASP.NET',
+      value: WebAppFramework.AspNetWap,
+    },
+    {
+      displayLabel: 'ASP.NET Core',
+      value: WebAppFramework.AspNetCore,
+    },
+    {
+      displayLabel: 'Node.JS',
+      value: WebAppFramework.Node,
+    },
+    {
+      displayLabel: 'PHP',
+      value: WebAppFramework.PHP,
+    },
+    {
+      displayLabel: 'Python',
+      value: WebAppFramework.Python,
+    },
+    {
+      displayLabel: 'Static Webapp',
+      value: WebAppFramework.StaticWebapp,
+    },
+  ];
 
   public newVsoAccountOptions: SelectOption<boolean>[];
   private _ngUnsubscribe$ = new Subject();
@@ -35,6 +113,10 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedAccount = '';
   selectedProject = '';
   selectedLocation = '';
+  selectedFramework = WebAppFramework.AspNetWap;
+  selectedPythonVersion = this.recommendedPythonVersion;
+  selectedPythonFramework = this.defaultPythonFramework;
+  selectedTaskRunner = this.defaultNodeTaskRunner;
 
   constructor(
     private _translateService: TranslateService,
@@ -163,6 +245,10 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         return Observable.of(accounts);
       }
     });
+  }
+
+  get getFramework() {
+    return this.selectedPythonFramework;
   }
 
   createOrExistingChanged(event) {

@@ -4754,10 +4754,6 @@ ng2-popover@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/ng2-popover/-/ng2-popover-0.0.14.tgz#6cad6a6555fd2b81759f3d85b4cb8c3e3731f296"
 
-ngx-datatable-accessable@^13.1.0:
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-datatable-accessable/-/ngx-datatable-accessable-13.1.0.tgz#c15a818b23c40a360b4784e5a81e9499f24f3774"
-
 ngx-markdown@^1.5.2:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/ngx-markdown/-/ngx-markdown-1.6.0.tgz#4143967baec7af36528a9ea0520f51773502ad98"

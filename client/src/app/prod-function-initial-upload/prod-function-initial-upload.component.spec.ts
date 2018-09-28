@@ -10,7 +10,7 @@ import { CardInfoControlComponent } from '../controls/card-info-control/card-inf
 import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 
 describe('ProdFunctionInitialUploadComponent', () => {

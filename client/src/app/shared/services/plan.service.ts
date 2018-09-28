@@ -18,7 +18,7 @@ export interface IPlanService {
     getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
     updatePlan(plan: ArmObj<ServerFarm>);
     getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]>;
-    getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean);
+    getAvailablePremiumV2GeoRegions(subscriptionId: string, isLinux: boolean);
     getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]>;
 }
 
@@ -92,11 +92,11 @@ export class PlanService implements IPlanService {
         return this._client.execute({ resourceId: resourceId }, t => getSkus).map(r => r.result.json().value);
     }
 
-    getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
+    getAvailablePremiumV2GeoRegions(subscriptionId: string, isLinux: boolean) {
 
         return Observable.zip(
             this._getProviderLocations(subscriptionId, 'serverFarms'),
-            this._getAllGeoRegionsForSku(subscriptionId, sku, isLinux))
+            this._getAllPremiumV2GeoRegions(subscriptionId, isLinux))
             .map(r => {
                 return this._getAvailableGeoRegionsList(r[1], r[0]);
             });
@@ -114,7 +114,6 @@ export class PlanService implements IPlanService {
                 return r.result.json().value;
             });
     }
-
     getSpecCosts(query: SpecCostQueryInput) {
         const url = `https://s2.billing.ext.azure.com/api/Billing/Subscription/GetSpecsCosts`;
 
@@ -135,16 +134,16 @@ export class PlanService implements IPlanService {
             });
     }
 
-    private _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Observable<ArmObj<GeoRegion>[]> {
-        let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
+    private _getAllPremiumV2GeoRegions(subscriptionId: string, isLinux: boolean): Observable<ArmObj<GeoRegion>[]> {
+        let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=PremiumV2`;
         if (isLinux) {
             id += '&linuxWorkersEnabled=true';
         }
 
-        const getRegionsForSku = this._cacheService.getArm(id);
+        const getPremiumV2Regions = this._cacheService.getArm(id);
 
 
-        return this._client.execute({ resourceId: '' }, t => getRegionsForSku)
+        return this._client.execute({ resourceId: '' }, t => getPremiumV2Regions)
             .map(r => {
                 return r.result.json().value;
             });

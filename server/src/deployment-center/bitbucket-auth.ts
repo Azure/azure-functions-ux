@@ -26,7 +26,7 @@ export function setupBitbucketAuthentication(app: Application) {
             res.json(response.data);
         } catch (err) {
             LogHelper.error('bitbucket-passthrough', err);
-            res.sendStatus(err.response.status);
+            res.send(err.response); //most likely due to expired creds
         }
     });
 

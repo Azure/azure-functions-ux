@@ -11,7 +11,6 @@ import { ConnectionStringType, ConnectionStrings } from './../../../shared/model
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
-import { SelectOption } from './../../../shared/models/select-option';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -40,8 +39,6 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
     public FwLinks = Links;
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
-    public showValues: boolean;
-    public showValuesOptions: SelectOption<boolean>[];
     public isFunctionApp: boolean;
 
     private _requiredValidator: RequiredValidator;
@@ -61,11 +58,6 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
 
         this.newItem = null;
         this.originalItemsDeleted = 0;
-
-        this.showValuesOptions = [
-            { displayLabel: this._translateService.instant(PortalResources.hideValues), value: false },
-            { displayLabel: this._translateService.instant(PortalResources.showValues), value: true },
-        ];
     }
 
     protected get _isPristine() {
@@ -400,9 +392,5 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
         });
 
         return connectionStringDropDownTypes;
-    }
-
-    updateShowValues(showValues: boolean) {
-        this.showValues = showValues;
     }
 }

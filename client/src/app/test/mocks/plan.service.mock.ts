@@ -37,7 +37,7 @@ export class MockPlanService implements IPlanService {
         return null;
     }
 
-    getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
+    getAvailablePremiumV2GeoRegions(subscriptionId: string, isLinux: boolean) {
         return null;
     }
 

@@ -8,10 +8,6 @@
     &.ng-sidebar--opened.ng-sidebar--push {
         border-left: $border;
     }
-    &.ng-sidebar--opened.ng-sidebar--over {
-        box-shadow: $sidebar-flyout-border-shadow-light;
-    }
-    
 }
 
 .sidebar-ftp-dashboard {
@@ -23,9 +19,6 @@
 .sidebar-new-function {
     background-color: $body-bg-color;
     z-index: 11 !important;
-    &.ng-sidebar--opened.ng-sidebar--over {
-        box-shadow: $sidebar-flyout-border-shadow-light;
-    }
 }
 
 .sidebar-new-function {
@@ -62,9 +55,6 @@
 #app-root[theme=dark]{
     .sidebar{
         background-color: $body-bg-color-dark;
-        &.ng-sidebar--opened.ng-sidebar--over {
-            box-shadow: $sidebar-flyout-border-shadow-dark;
-        }
     }
 
     .sidebar-ftp-dashboard {
@@ -73,9 +63,6 @@
 
     .sidebar-new-function {
         background-color: $body-bg-color-dark;
-        &.ng-sidebar--opened.ng-sidebar--over {
-            box-shadow: $sidebar-flyout-border-shadow-dark;
-        }
     }
     .sidebar-monitor-details {
         background-color: $body-bg-color-dark;

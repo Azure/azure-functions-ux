@@ -8,7 +8,7 @@
     
     <ng-container *ngIf="!installing && !allInstalled">
       <h2>{{ 'extension_install_warning' | translate }}</h2> 
-      <div>{{ 'extension_template_warning' | translate }}</div>
+      <h4>{{ 'extension_template_warning' | translate }}</h4>
       <div *ngFor="let nugetPackage of neededExtensions">
         <i class="fa fa-warning"></i> {{nugetPackage.id}}
       </div>
@@ -16,7 +16,7 @@
   
     <div *ngIf="installing">
         <h2>{{ 'extension_install_warning' | translate }}</h2> 
-        <div><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}</div>
+        <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
     </div>
 
     <div *ngIf="!installing && allInstalled">
@@ -26,7 +26,7 @@
     <button *ngIf="!allInstalled"
             class="custom-button"
             [disabled]="installing"
-            (click)="installExtensions()">{{ 'extension_install_button' | translate }}
+            (click)="takeHostOffline()">{{ 'extension_install_button' | translate }}
     </button>
     <button *ngIf="!allInstalled"
             class="custom-button-invert"

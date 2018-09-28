@@ -134,10 +134,6 @@ h3{
     padding-left: 10px;
     position: relative;
 
-    &.collapse-top{
-        margin-top: 0px;
-    }
-
     .settings-load-message{
         padding-top: 15px;
         padding-bottom: 15px;
@@ -153,10 +149,6 @@ h3{
     .setting-wrapper{
         width: 535px;
         padding-bottom: 15px;
-
-        &.wide{
-            width: 100%;
-        }
 
         &.last{
             padding-bottom: 0px;

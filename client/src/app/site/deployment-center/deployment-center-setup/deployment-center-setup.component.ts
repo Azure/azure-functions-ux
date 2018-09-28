@@ -42,9 +42,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                     flaskProjectName: ['flaskProjectName', []],
                     djangoSettingsModule: ['DjangoProjectName.settings', []]
                 }),
-                nodejsTaskRunner: [null, []],
-                frameworkVersion: ['', []],
-                startupCommand: ['', []],
+                nodejsTaskRunner: [null, []]
             }),
             deploymentSlotSetting: this._fb.group({
                 newDeploymentSlot: [false, []],
@@ -66,7 +64,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             this.wizard.wizardForm &&
             this.wizard.wizardForm.controls['buildProvider'] &&
             this.wizard.wizardForm.controls['buildProvider'].value;
-        return buildProvider === 'vsts' && !this.wizard.isLinuxApp;
+        return buildProvider === 'vsts';
     }
 
     get showDeployStep() {
@@ -117,19 +115,18 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         }
     }
 
-    get showSummaryStep() {
-        const sourceProvider = this.wizard && this.wizard.wizardValues && this.wizard.wizardValues.sourceProvider;
-        return sourceProvider && sourceProvider !== 'ftp' && sourceProvider !== 'webdeploy';
-    }
-
     // This is ran when the user attempts to exit the configuration step of the wizard
-    // Arrow notation removes the need for .bind(this) in html
-    public buildConfigValid = (direction: MovingDirection) => {
+    buildConfigValid(direction: MovingDirection) {
         if (direction === MovingDirection.Forwards) {
             this.wizard.markSectionAsTouched(this.wizard.buildSettings);
             this.wizard.markSectionAsTouched(this.wizard.sourceSettings);
             return this.wizard.buildSettings.valid && this.wizard.sourceSettings.valid;
         }
         return true;
+    }
+
+    get showSummaryStep() {
+        const sourceProvider = this.wizard && this.wizard.wizardValues && this.wizard.wizardValues.sourceProvider;
+        return sourceProvider && sourceProvider !== 'ftp' && sourceProvider !== 'webdeploy';
     }
 }

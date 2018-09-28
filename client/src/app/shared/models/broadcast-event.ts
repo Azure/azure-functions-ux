@@ -39,7 +39,7 @@ export interface BusyStateEvent {
 }
 
 export interface TreeUpdateEvent {
-    operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate' | 'newFunction' | 'moreTemplates';
+    operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate' | 'newFunction';
     resourceId: string;
     data?: any;
 }

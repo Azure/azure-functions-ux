@@ -26,7 +26,6 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
     public containerSamples: ContainerSample[] = [];
     public selectedSampleValue = '';
     public selectedSampleDescription = '';
-    public selectedSampleLearnMoreLink = '';
     public samplesLoading = false;
     public imageSourceForm: FormGroup;
 
@@ -40,7 +39,6 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
     public sampleChanged(sample: DropDownElement<string>) {
         const selectedSample = this._getContainerSampleFromKey(sample.value);
         this.selectedSampleDescription = selectedSample.description;
-        this.selectedSampleLearnMoreLink = selectedSample.learnMoreLink;
         this.imageSourceForm.controls.config.setValue(atob(selectedSample.configBase64Encoded));
         this.imageSourceForm.controls.serverUrl.setValue(selectedSample.sourceUrl);
     }
@@ -67,7 +65,6 @@ export class ContainerImageSourceQuickstartComponent extends FeatureComponent<Co
                 if (containerSamples.length > 0) {
                     this.selectedSampleValue = this.samplesList[0].value;
                     this.selectedSampleDescription = containerSamples[0].description;
-                    this.selectedSampleLearnMoreLink = containerSamples[0].learnMoreLink;
                     this.imageSourceForm.controls.serverUrl.setValue(this.containerSamples[0].sourceUrl);
                     this.imageSourceForm.controls.config.setValue(atob(this.containerSamples[0].configBase64Encoded));
                 }

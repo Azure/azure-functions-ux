@@ -1,14 +1,14 @@
-import { Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Rx';
-import { SubscriptionQuotaIds, LogCategories } from '../../../shared/models/constants';
-import { PortalResources } from '../../../shared/models/portal-resources';
-import { ServerFarm } from './../../../shared/models/server-farm';
-import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { BillingService } from './../../../shared/services/billing.service';
-import { LogService } from '../../../shared/services/log.service';
+import { ServerFarm } from './../../../shared/models/server-farm';
 import { SpecResourceSet } from './billing-models';
+import { Observable } from 'rxjs/Rx';
 import { PriceSpecDetail } from './price-spec-detail';
+import { ArmObj } from '../../../shared/models/arm/arm-obj';
+import { Injector } from '@angular/core';
+import { SubscriptionQuotaIds, LogCategories } from '../../../shared/models/constants';
+import { LogService } from '../../../shared/services/log.service';
+import { PortalResources } from '../../../shared/models/portal-resources';
 import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
@@ -62,8 +62,10 @@ export abstract class PriceSpec {
 
     protected checkIfDreamspark(subscriptionId: string) {
         if (this.state !== 'hidden') {
+
             return this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId)
                 .do(isDreamspark => {
+
                     if (isDreamspark) {
                         this.state = 'disabled';
                         this.disabledMessage = this._ts.instant(PortalResources.pricing_subscriptionNotAllowed);
@@ -75,3 +77,4 @@ export abstract class PriceSpec {
         return Observable.of(null);
     }
 }
+

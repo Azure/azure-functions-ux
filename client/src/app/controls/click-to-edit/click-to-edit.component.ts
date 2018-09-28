@@ -1,12 +1,9 @@
-import { Component, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, ContentChild, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
-import { PortalResources } from './../../shared/models/portal-resources';
-
+import { FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, ContentChild, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 // Used to communicate between click-to-edit components
 export class CustomFormGroup extends FormGroup {
@@ -46,7 +43,6 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() name: string;
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
-  @Input() maskText: string;
 
   // This allows for a given control to affect the state of other controls in the group while not actually being "click-to-edit-able" itself.
   // (i.e. The control's own editable/non-editable state is not affected by the extended fields in the CustomFormGroup its associated with.)
@@ -66,9 +62,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   private _focusFunc = (e: FocusEvent) => { this._targetFocusListener(e); };
   private _blurFunc = (e: FocusEvent) => { this._targetBlurListener(e); };
 
-  constructor(translateService: TranslateService) {
-    this.maskText = translateService.instant(PortalResources.hiddenValueClickToShow);
-  }
+  constructor() { }
 
   ngOnInit() {
     this._targetFocusState = 'blurred';

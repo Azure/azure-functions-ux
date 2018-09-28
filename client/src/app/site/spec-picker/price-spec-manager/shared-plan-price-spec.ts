@@ -1,7 +1,6 @@
-import { Kinds } from '../../../shared/models/constants';
-import { PortalResources } from './../../../shared/models/portal-resources';
-import { AppKind } from './../../../shared/Utilities/app-kind';
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { PriceSpec, PriceSpecInput } from './price-spec';
+import { Kinds } from '../../../shared/models/constants';
 
 export class SharedPlanPriceSpec extends PriceSpec {
     skuCode = 'D1';
@@ -51,14 +50,13 @@ export class SharedPlanPriceSpec extends PriceSpec {
         if (input.specPickerInput.data) {
             if (input.specPickerInput.data.hostingEnvironmentName
                 || input.specPickerInput.data.isLinux
-                || input.specPickerInput.data.isXenon
-                || input.specPickerInput.data.isElastic) {
+                || input.specPickerInput.data.isXenon) {
                 this.state = 'hidden';
             }
         } else if (input.plan) {
-            if (input.plan.properties.hostingEnvironmentProfile
-                || input.plan.properties.isXenon
-                || AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])) {
+            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
+                this.state = 'hidden';
+            } else if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             }
         }

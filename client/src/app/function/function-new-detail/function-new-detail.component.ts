@@ -273,7 +273,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                     return f.name.toLowerCase() === this.functionName.toLowerCase();
                 });
                 if (nameMatch) {
-                    this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExists, { name: this.functionName });
+                    this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
                     this.areInputsValid = false;
                 }
             }

@@ -17,14 +17,7 @@
 <div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <div *ngIf="selectedSampleDescription" class="container-setting-property">
         <label>{{ 'quickStartSampleDescription' | translate }}</label>
-        <p>
-            {{selectedSampleDescription}}
-            <a *ngIf="selectedSampleLearnMoreLink"
-                [href]="selectedSampleLearnMoreLink"
-                target="_blank">
-                {{ 'topBar_learnMore' | translate }}
-            </a>
-        </p>
+        <p>{{selectedSampleDescription}}</p>
     </div>
 
     <div *ngIf="containerImageSourceInfo.container.id === 'single'" class="container-setting-property">

@@ -1,6 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
-import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository, BuildConfiguration } from './deployment-center-setup-models';
+import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -8,7 +8,7 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -38,8 +38,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public canCreateNewSite = true;
     public hideBuild = false;
     public hideVstsBuildConfigure = false;
-    public isLinuxApp = false;
-    public vstsKuduOnly = false;
     constructor(
         private _cacheService: CacheService,
         siteService: SiteService,
@@ -56,7 +54,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .switchMap(result => {
                 const [site, sub] = result;
                 this.siteArm = site.result;
-                this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
                 this.siteArmObj$.next(this.siteArm);
                 this.subscriptionName = sub.json().displayName;
                 this._location = this.siteArm.location;
@@ -66,13 +63,13 @@ export class DeploymentCenterStateManager implements OnDestroy {
                     scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
                     authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [AuthzService.writeScope]),
                     scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm }),
-                );
+                    scenarioService.checkScenarioAsync(ScenarioIds.vstsKuduSource, { site: this.siteArm }));
             })
             .subscribe(r => {
-                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck] = r;
+                const [slotsEnabled, siteCreationPermission, vstsScenarioCheck, vstsKuduScenarioCheck] = r;
                 this.deploymentSlotsAvailable = slotsEnabled.status === 'enabled';
                 this.canCreateNewSite = siteCreationPermission;
-                this.hideBuild = vstsScenarioCheck.status === 'disabled';
+                this.hideBuild = vstsScenarioCheck.status === 'disabled' || vstsKuduScenarioCheck.status === 'disabled';
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
@@ -147,6 +144,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 properties: payload,
             }).map(r => r.json());
         }
+
     }
 
     private _deployVsts() {
@@ -204,25 +202,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private get _deploymentSource(): CodeRepositoryDeploymentSource {
         return {
             type: DeploymentSourceType.CodeRepository,
-            buildConfiguration: this._buildConfiguration,
+            buildConfiguration: {
+                type: this._applicationType,
+                workingDirectory: this.wizardValues.buildSettings.workingDirectory,
+            },
             repository: this._repoInfo,
         };
-    }
-
-    private get _buildConfiguration(): BuildConfiguration {
-        const buildConfig: BuildConfiguration = {
-            type: this._applicationType,
-            workingDirectory: this.wizardValues.buildSettings.workingDirectory,
-            version: this.wizardValues.buildSettings.frameworkVersion,
-        };
-
-        if (this.isLinuxApp) {
-            buildConfig.startupCommand = this.wizardValues.buildSettings.startupCommand;
-        }
-        if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
-            buildConfig.rubyFramework = 1;
-        }
-        return buildConfig;
     }
 
     private get _repoInfo(): CodeRepository {
@@ -302,7 +287,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
         const targetObject = {
             provider: DeploymentTargetProvider.Azure,
-            type: this.isLinuxApp ? AzureResourceType.LinuxAppService : AzureResourceType.WindowsAppService,
+            type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Production,
             friendlyName: 'Production',
             subscriptionId: siteDescriptor.subscription,
@@ -336,7 +321,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const appServicePlanDescriptor = new ArmPlanDescriptor(this.wizardValues.testEnvironment.appServicePlanId);
         const targetObject = {
             provider: DeploymentTargetProvider.Azure,
-            type: this.isLinuxApp ? AzureResourceType.LinuxAppService : AzureResourceType.WindowsAppService,
+            type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Test,
             friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
@@ -373,8 +358,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 return ApplicationType.PHP;
             case 'Python':
                 return ApplicationType.Python;
-            case 'Ruby':
-                return ApplicationType.Ruby;
             default:
                 return ApplicationType.StaticWebapp;
         };
@@ -420,5 +403,4 @@ export class DeploymentCenterStateManager implements OnDestroy {
             }
         });
     }
-
 }
