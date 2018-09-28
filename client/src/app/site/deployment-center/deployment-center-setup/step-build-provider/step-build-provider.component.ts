@@ -3,7 +3,7 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ProviderCard } from '../../Models/provider-card';
-import { ScenarioIds } from '../../../../shared/models/constants';
+import { ScenarioIds, KeyCodes } from '../../../../shared/models/constants';
 import { from } from 'rxjs/observable/from';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -28,7 +28,7 @@ export class StepBuildProviderComponent implements OnDestroy {
         },
         {
             id: 'vsts',
-            name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}(${this._translateService.instant(PortalResources.preview)})`,
+            name: `${this._translateService.instant(PortalResources.vstsBuildServerTitle)}`,
             icon: 'image/deployment-center/vsts.svg',
             color: '#2B79DA',
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
@@ -97,6 +97,12 @@ export class StepBuildProviderComponent implements OnDestroy {
             const currentFormValues = this.wizard.wizardValues;
             currentFormValues.buildProvider = card.id;
             this.wizard.wizardValues = currentFormValues;
+        }
+    }
+
+    onKeyPress(event: KeyboardEvent, card: ProviderCard) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.chooseBuildProvider(card);
         }
     }
 }

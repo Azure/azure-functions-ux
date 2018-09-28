@@ -12,7 +12,25 @@
     [infoText]="loadingFailureMessage">
   </info-box>
 
-  <div class="settings-wrapper">
+  <div class="settings-wrapper collapse-top">
+
+    <ng-container *ngIf="hasWritePermissions && !!groupArray && !loadingFailureMessage">
+
+      <div class="setting-wrapper wide">
+
+        <info-box
+          [infoText]="'appSettingsEncryptedInfoText' | translate">
+        </info-box>
+
+        <radio-selector
+          [options]="showValuesOptions"
+          [defaultValue]="false"
+          (value)="updateShowValues($event)">
+        </radio-selector>
+
+      </div>
+
+    </ng-container>
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_applicationSettingsName | translate" [items]="groupArray?.controls" #appSettingsTable>
@@ -43,7 +61,7 @@
         </td>
 
         <td class="two-thirds-col padded-col" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="value">
+          <click-to-edit [group]="group" name="value" [hiddenText]="!showValues" [maskText]="'hiddenValueClickToEdit' | translate">
 
             <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
 

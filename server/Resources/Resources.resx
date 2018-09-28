@@ -4210,10 +4210,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorRetrievingLogs" xml:space="preserve">
     <value>Error in retrieving logs.</value>
   </data>
+   <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>New or Existing Deployment Slot</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>New or Existing VSTS Account</value>
+    </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
     <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. You can leave this page and continue to use the portal during this time.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Hide Values</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Show Values</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Hidden value. Click to edit.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Application Settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Connection Strings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below.</value>
   </data>
 </root>

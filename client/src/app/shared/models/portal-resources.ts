@@ -1358,4 +1358,13 @@
     public static errorRetrievingLogs = 'errorRetrievingLogs';
     public static deploymentDetails = 'deploymentDetails';
     public static installingExtensionIntegrate = 'installingExtensionIntegrate';
+    public static newOrExistingDeploymentSlot = 'newOrExistingDeploymentSlot';
+    public static newOrExistingVstsAccount = 'newOrExistingVstsAccount';
+    public static newOrExistingWebApp = 'newOrExistingWebApp';
+    public static deploymentDetails = 'deploymentDetails';
+    public static hideValues = 'hideValues';
+    public static showValues = 'showValues';
+    public static hiddenValueClickToEdit = 'hiddenValueClickToEdit';
+    public static appSettingsEncryptedInfoText = 'appSettingsEncryptedInfoText';
+    public static connectionStringsEncryptedInfoText = 'connectionStringsEncryptedInfoText';
 }
