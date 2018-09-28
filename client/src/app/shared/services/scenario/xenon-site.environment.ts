@@ -78,12 +78,12 @@ export class XenonSiteEnvironment extends Environment {
             runCheck: () => disabledResult
         };
 
-        this.scenarioChecks[ScenarioIds.autoSwapSuuported] = {
-            id: ScenarioIds.autoSwapSuuported,
+        this.scenarioChecks[ScenarioIds.autoSwapSupported] = {
+            id: ScenarioIds.autoSwapSupported,
             runCheck: (input: ScenarioCheckInput) => {
                 let winFxVersionStartsWithDocker = false;
                 if (input && input.site && input.site.properties && input.site.properties.siteProperties && input.site.properties.siteProperties.properties) {
-                    const winFxVersion = input.site.properties.siteProperties.properties.find(prop => prop.name.toLowerCase() === 'windowsfxversion' );
+                    const winFxVersion = input.site.properties.siteProperties.properties.find(prop => prop.name.toLowerCase() === 'windowsfxversion');
                     if (winFxVersion && winFxVersion.value && winFxVersion.value.toLowerCase().startsWith('docker|')) {
                         winFxVersionStartsWithDocker = true;
                     }

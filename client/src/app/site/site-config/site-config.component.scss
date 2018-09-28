@@ -152,14 +152,19 @@ h3{
 
     .setting-wrapper{
         width: 535px;
-        padding-bottom: 15px;
+        margin-top: 15px;
+        margin-bottom: 15px;
 
         &.wide{
             width: 100%;
         }
 
-        &.last{
-            padding-bottom: 0px;
+        &:first-child{
+            margin-top: 0px;
+        }
+
+        &:last-child{
+            margin-bottom: 0px;
         }
 
         .setting-label{
