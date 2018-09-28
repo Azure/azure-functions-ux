@@ -35,6 +35,7 @@ export class BindingType {
     static GraphWebhookCreator = "GraphWebhookCreator";
     static eventGridTrigger = "eventGridTrigger";
     static cosmosDBTrigger = "cosmosDBTrigger";
+    static cosmosDB = "cosmosDB";
     static activityTrigger = "activityTrigger";
     static orchestrationTrigger = "orchestrationTrigger";
     static orchestrationClient = "orchestrationClient";
