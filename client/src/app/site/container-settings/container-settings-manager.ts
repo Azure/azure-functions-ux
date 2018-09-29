@@ -611,7 +611,11 @@ export class ContainerSettingsManager {
             if (image) {
                 const imageWithRepo = image.split(':')[0];
                 const imageOnlyParts = imageWithRepo.split('/');
-                imageOnlyParts.shift();
+
+                if (imageOnlyParts.length > 1) {
+                    imageOnlyParts.shift();
+                }
+
                 return imageOnlyParts.join('/');
             }
         }
