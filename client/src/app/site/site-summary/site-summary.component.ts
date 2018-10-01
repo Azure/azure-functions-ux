@@ -58,8 +58,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     public hideAvailability: boolean;
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
-    public showQuickstart: boolean;
-    public bodyLoading  = true;
+    public showQuickstart = false;
     public notifications: TopBarNotification[];
 
     private _viewInfo: TreeViewInfo<SiteData>;
@@ -180,10 +179,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
                 if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime.startsWith('2.')) {
                     this.showQuickstart = true;
-                } else {
-                    this.showQuickstart = false;
                 }
-                this.bodyLoading = false;
 
                 if (!r.pingedScmSite) {
                     this.showComponentError({
