@@ -218,13 +218,13 @@
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 50px;
-  grid-template-columns: auto 50px;
+  -ms-grid-columns: minmax(850px, 1fr) 50px;
+  grid-template-columns: minmax(850px, 1fr) 50px;
   -ms-grid-rows: 1fr 39px;
   grid-template-rows: auto 39px;
   &.right-tabs-expanded {
-    -ms-grid-columns: 1fr 475px;
-    grid-template-columns: auto 475px;
+    -ms-grid-columns: minmax(850px, 1fr) 475px;
+    grid-template-columns: minmax(850px, 1fr) 475px;
   }
   &.bottom-tabs-expanded {
     -ms-grid-rows: 1fr 300px;
@@ -241,7 +241,6 @@
   grid-column: 1;
   -ms-grid-row: 1;
   grid-row: 1;
-  min-width: 850px;
   #text-editor-container {
     height: calc(100% - 40px);
     border-bottom: $border;
