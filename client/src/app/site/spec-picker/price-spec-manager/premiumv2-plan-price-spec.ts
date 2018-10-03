@@ -12,44 +12,44 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
     featureItems = [{
         iconUrl: 'image/ssl.svg',
         title: this._ts.instant(PortalResources.pricing_customDomainsSsl),
-        description: this._ts.instant(PortalResources.pricing_customDomainsIpSslDesc)
+        description: this._ts.instant(PortalResources.pricing_customDomainsIpSslDesc),
     },
     {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_autoScale),
-        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(20)
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(20),
     },
     {
         iconUrl: 'image/slots.svg',
         title: this._ts.instant(PortalResources.pricing_stagingSlots),
-        description: this._ts.instant(PortalResources.pricing_slotsDesc).format(20)
+        description: this._ts.instant(PortalResources.pricing_slotsDesc).format(20),
     },
     {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
-        description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
+        description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50),
     },
     {
         iconUrl: 'image/globe.svg',
         title: this._ts.instant(PortalResources.pricing_trafficManager),
-        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc),
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
         description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
-        learnMoreUrl: Links.azureComputeUnitLearnMore
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
     },
     {
         iconUrl: 'image/website-power.svg',
         title: this._ts.instant(PortalResources.memory),
-        description: this._ts.instant(PortalResources.pricing_dedicatedMemory)
+        description: this._ts.instant(PortalResources.pricing_dedicatedMemory),
     },
     {
         iconUrl: 'image/storage.svg',
         title: this._ts.instant(PortalResources.storage),
-        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('250 GB')
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('250 GB'),
     }];
 
     cssClass = 'spec premium-spec';
@@ -86,7 +86,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_ACU).format('210'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Small App Service Hours';
@@ -106,7 +106,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_ACU).format('420'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -126,7 +126,7 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_ACU).format('840'),
         this._ts.instant(PortalResources.pricing_memory).format('14'),
-        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Large App Service Hours';
