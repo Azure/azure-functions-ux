@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Kinds } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -17,8 +17,9 @@ export class FreePlanPriceSpec extends PriceSpec {
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_sharedCpu)
+        title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
+        description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
+        learnMoreUrl: Links.azureComputeUnitLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',

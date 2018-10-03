@@ -34,9 +34,9 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_aSeriesDedicatedCpu),
-        learnMoreUrl: Links.vmSizeLearnMore
+        title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
+        description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
+        learnMoreUrl: Links.azureComputeUnitLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -80,10 +80,9 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P1';
     legacySkuName = 'small_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_ACU).format('100'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
-        this._ts.instant(PortalResources.pricing_aSeriesCompute)
+        this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent)
     ];
 
     meterFriendlyName = 'Premium Small App Service Hours';
@@ -101,10 +100,9 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P2';
     legacySkuName = 'medium_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_ACU).format('200'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_aSeriesCompute)
+        this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent)
     ];
 
     meterFriendlyName = 'Premium Medium App Service Hours';
@@ -122,10 +120,9 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P3';
     legacySkuName = 'large_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_ACU).format('400'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        this._ts.instant(PortalResources.pricing_aSeriesCompute)
+        this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent)
     ];
 
     meterFriendlyName = 'Premium Large App Service Hours';

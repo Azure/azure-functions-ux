@@ -3130,6 +3130,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Every instance of your App Service plan will include the following hardware configuration:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure Compute Units (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
   </data>
@@ -3175,11 +3178,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Dedicated compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Memory available to run applications deployed and running in the App Service plan.</value>
@@ -3277,11 +3277,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} cores</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A-Series compute</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>A-Series compute equivalent</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2-Series compute</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv2-Series compute equivalent</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>
@@ -3610,11 +3610,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Deployment Credentials</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-Series compute</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedicated Dv3-series compute resources used to run applications deployed in the App Service Plan.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv3-Series compute equivalent</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>

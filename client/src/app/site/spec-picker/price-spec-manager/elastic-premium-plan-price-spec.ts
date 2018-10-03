@@ -40,9 +40,9 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     hardwareItems = [
         {
             iconUrl: 'image/app-service-plan.svg',
-            title: this._ts.instant(PortalResources.cpu),
-            description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
-            learnMoreUrl: Links.vmSizeLearnMore,
+            title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
+            description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
+            learnMoreUrl: Links.azureComputeUnitLearnMore,
         },
         {
             iconUrl: 'image/website-power.svg',
@@ -83,10 +83,9 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
     skuCode = 'EP1';
     legacySkuName = 'small_elastic_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_ACU).format('210'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute),
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Small App Service Hours';
@@ -101,10 +100,9 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
     skuCode = 'EP2';
     legacySkuName = 'medium_elastic_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_ACU).format('420'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute),
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -119,10 +117,9 @@ export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpe
     skuCode = 'EP3';
     legacySkuName = 'large_elastic_premium';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_ACU).format('840'),
         this._ts.instant(PortalResources.pricing_memory).format('14'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute),
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Premium V2 Large App Service Hours';
