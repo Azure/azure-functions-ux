@@ -66,13 +66,21 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     deployments: r.deployments,
                     VSOData: null,
                 };
-                this._tableItems = [];
+                const tableItems = [];
                 this.deploymentObject.deployments.value.forEach(element => {
                     const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
                     tableItem.type = 'row';
-                    this._tableItems.push(tableItem);
+                    tableItems.push(tableItem);
                 });
-
+                this._tableItems = tableItems.sort((a, b) => {
+                    if (a.time < b.time) {
+                        return -1;
+                    }
+                    if (a.time > b.time) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
                 const endpoint = vstsMetaData['VSTSRM_ConfiguredCDEndPoint'];

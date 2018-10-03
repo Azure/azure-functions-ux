@@ -184,7 +184,15 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
         const newHash = this._getTableHash(tableItems);
         if (this._oldTableHash !== newHash) {
-            this._tableItems = tableItems;
+            this._tableItems = tableItems.sort((a, b) => {
+                if (a.time < b.time) {
+                    return -1;
+                }
+                if (a.time > b.time) {
+                    return 1;
+                }
+                return 0;
+            });
             this._oldTableHash = newHash;
         }
     }
@@ -271,7 +279,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     return Observable.of(false);
                 });
         })
-        .subscribe();
+            .subscribe();
     }
 
     disconnect() {
