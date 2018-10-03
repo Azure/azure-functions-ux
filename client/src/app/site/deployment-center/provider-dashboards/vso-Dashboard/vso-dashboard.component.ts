@@ -15,6 +15,7 @@ import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-m
 import { ArmService } from '../../../../shared/services/arm.service';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
+import { dateTimeComparator } from '../../../../shared/Utilities/comparators';
 
 class VSODeploymentObject extends DeploymentData {
     VSOData: VSOBuildDefinition;
@@ -66,21 +67,12 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     deployments: r.deployments,
                     VSOData: null,
                 };
-                const tableItems = [];
-                this.deploymentObject.deployments.value.forEach(element => {
+                const tableItems = this.deploymentObject.deployments.value.map(element => {
                     const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
                     tableItem.type = 'row';
-                    tableItems.push(tableItem);
+                    return tableItem;
                 });
-                this._tableItems = tableItems.sort((a, b) => {
-                    if (a.time < b.time) {
-                        return -1;
-                    }
-                    if (a.time > b.time) {
-                        return 1;
-                    }
-                    return 0;
-                });
+                this._tableItems = tableItems.sort(dateTimeComparator);
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
                 const endpoint = vstsMetaData['VSTSRM_ConfiguredCDEndPoint'];

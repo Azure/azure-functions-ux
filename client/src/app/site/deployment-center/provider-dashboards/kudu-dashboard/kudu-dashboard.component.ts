@@ -16,6 +16,7 @@ import { LogCategories, SiteTabIds, KeyCodes } from 'app/shared/models/constants
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
+import { dateTimeComparator } from '../../../../shared/Utilities/comparators';
 
 enum DeployStatus {
     Pending,
@@ -159,9 +160,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         return hashNumber;
     }
     private _populateTable() {
-        const tableItems = [];
         const deployments = this.deploymentObject.deployments.value;
-        deployments.forEach(value => {
+        const tableItems = deployments.map(value => {
             const item = value.properties;
             const date: Date = new Date(item.received_time);
             const t = moment(date);
@@ -174,25 +174,16 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 date: t.format('M/D/YY'),
                 commit: commitId,
                 checkinMessage: item.message,
-                // TODO: Compute status and show appropriate message
                 status: this._getStatusString(item.status, item.progress),
                 active: item.active,
                 author: author,
                 deploymentObj: value,
             };
-            tableItems.push(row);
+            return row;
         });
         const newHash = this._getTableHash(tableItems);
         if (this._oldTableHash !== newHash) {
-            this._tableItems = tableItems.sort((a, b) => {
-                if (a.time < b.time) {
-                    return -1;
-                }
-                if (a.time > b.time) {
-                    return 1;
-                }
-                return 0;
-            });
+            this._tableItems = tableItems.sort(dateTimeComparator);
             this._oldTableHash = newHash;
         }
     }
