@@ -11,44 +11,44 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     featureItems = [{
         iconUrl: 'image/app-service-environment.svg',
         title: this._ts.instant(PortalResources.pricing_ase),
-        description: this._ts.instant(PortalResources.pricing_aseDesc)
+        description: this._ts.instant(PortalResources.pricing_aseDesc),
     },
     {
         iconUrl: 'image/networking.svg',
         title: this._ts.instant(PortalResources.pricing_isolatedNetwork),
-        description: this._ts.instant(PortalResources.pricing_isolatedNetworkDesc)
+        description: this._ts.instant(PortalResources.pricing_isolatedNetworkDesc),
     },
     {
         iconUrl: 'image/active-directory.svg',
         title: this._ts.instant(PortalResources.pricing_privateAppAccess),
-        description: this._ts.instant(PortalResources.pricing_privateAppAccessDesc)
+        description: this._ts.instant(PortalResources.pricing_privateAppAccessDesc),
     },
     {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_largeScale),
-        description: this._ts.instant(PortalResources.pricing_largeScaleDesc)
+        description: this._ts.instant(PortalResources.pricing_largeScaleDesc),
     },
     {
         iconUrl: 'image/globe.svg',
         title: this._ts.instant(PortalResources.pricing_trafficManager),
-        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc),
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
-        learnMoreUrl: Links.vmSizeLearnMore
+        title: this._ts.instant(PortalResources.pricing_includedHardware_azureComputeUnits),
+        description: this._ts.instant(PortalResources.pricing_computeDedicatedAcu),
+        learnMoreUrl: Links.azureComputeUnitLearnMore,
     },
     {
         iconUrl: 'image/website-power.svg',
         title: this._ts.instant(PortalResources.memory),
-        description: this._ts.instant(PortalResources.pricing_dedicatedMemory)
+        description: this._ts.instant(PortalResources.pricing_dedicatedMemory),
     },
     {
         iconUrl: 'image/storage.svg',
         title: this._ts.instant(PortalResources.storage),
-        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('1 TB')
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('1 TB'),
     }];
 
     cssClass = 'spec isolated-spec';
@@ -100,10 +100,9 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I1';
     legacySkuName = 'small_isolated';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_ACU).format('210'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Isolated Small App Service Hours';
@@ -121,10 +120,9 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I2';
     legacySkuName = 'medium_isolated';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_ACU).format('420'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Isolated Medium App Service Hours';
@@ -142,10 +140,9 @@ export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I3';
     legacySkuName = 'large_isolated';
     topLevelFeatures = [
-        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_ACU).format('840'),
         this._ts.instant(PortalResources.pricing_memory).format('14'),
-        this._ts.instant(PortalResources.pricing_dSeriesCompute)
+        this._ts.instant(PortalResources.pricing_dSeriesComputeEquivalent),
     ];
 
     meterFriendlyName = 'Isolated Large App Service Hours';
