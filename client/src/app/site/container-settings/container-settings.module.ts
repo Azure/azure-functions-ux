@@ -17,6 +17,7 @@ import { ContainerACRService } from './services/container-acr.service';
 import { ContainerLogsService } from './services/container-logs.service';
 import { ContainerMultiConfigService } from './services/container-multiconfig.service';
 import { ContainerValidationService } from './services/container-validation.service';
+import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { ContainerValidationService } from './services/container-validation.serv
         ContainerImageSourcePrivateRegistryComponent,
         ContainerLogsComponent,
         ContainerContinuousDeliveryComponent,
+        GroupTabsComponent,
     ],
     providers: [
         ContainerSettingsManager,
