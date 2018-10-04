@@ -95,17 +95,17 @@
       <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ (showPermissionsMessage) ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
+        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4" table-cell [editable]="false">
           {{ ('emptyAppSettings' | translate) }}
         </td>
 
