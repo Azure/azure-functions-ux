@@ -6,11 +6,11 @@ import {
     Input,
     SimpleChanges,
     Output,
-    EventEmitter,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { KeyCodes } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
+import { Subject } from 'rxjs/Subject';
 
 export interface GroupTab {
     title: string;
@@ -28,13 +28,13 @@ export class GroupTabsComponent implements OnChanges {
     @Input() control: FormControl;
     @Input() tabs: GroupTab[];
     @Input() groupId: string;
-    @Output() valueChanged: EventEmitter<string>;
+    @Output() valueChanged: Subject<string>;
 
     public selectedTabId: string;
     private _originalTabId: string;
 
     constructor() {
-        this.valueChanged = new EventEmitter<string>();
+        this.valueChanged = new Subject<string>();
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -48,7 +48,7 @@ export class GroupTabsComponent implements OnChanges {
         if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
             let curIndex = this.tabs.findIndex(tab => tab.id === this.selectedTabId);
             const tabElements = this._getTabElements();
-            this._updateTabFocus(false, tabElements, curIndex);
+            this._setFocus(false, tabElements, curIndex);
 
             if (event.keyCode === KeyCodes.arrowRight) {
                 curIndex = this._getTargetIndex(curIndex + 1);
@@ -56,34 +56,30 @@ export class GroupTabsComponent implements OnChanges {
                 curIndex = this._getTargetIndex(curIndex - 1);
             }
 
-            this._setSelectedValue(this.tabs[curIndex].id);
-            this._updateTabFocus(true, tabElements, curIndex);
+            this.select(this.tabs[curIndex].id);
+            this._setFocus(true, tabElements, curIndex);
 
             event.preventDefault();
         }
     }
 
-    select(value: string) {
-        this._setSelectedValue(value);
-    }
-
-    private _setSelectedValue(value: string) {
-        if (value !== this._originalTabId) {
+    select(tabId: string) {
+        if (tabId !== this._originalTabId) {
             this.control.markAsDirty();
         } else {
             this.control.markAsPristine();
         }
 
-        this.control.setValue(value);
-        this.selectedTabId = value;
-        this.valueChanged.next(value);
+        this.control.setValue(tabId);
+        this.selectedTabId = tabId;
+        this.valueChanged.next(tabId);
     }
 
     private _getTabElements() {
         return this.groupTabs.nativeElement.children;
     }
 
-    private _updateTabFocus(set: boolean, elements: HTMLCollection, index: number) {
+    private _setFocus(set: boolean, elements: HTMLCollection, index: number) {
         const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
 
         if (set) {
