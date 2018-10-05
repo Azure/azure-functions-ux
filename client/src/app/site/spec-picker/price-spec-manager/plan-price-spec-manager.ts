@@ -242,7 +242,7 @@ export class PlanPriceSpecManager {
             }
 
             // Expand if selected spec is in the "all specs" list or all of the specs in the recommended list are disabled.
-            g.isExpanded = (g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec)) || g.recommendedSpecs.every(s => s.state === 'disabled') ? true : false;
+            g.isExpanded = (g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec)) || !g.recommendedSpecs.some(s => s.state === 'enabled') ? true : false;
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;
