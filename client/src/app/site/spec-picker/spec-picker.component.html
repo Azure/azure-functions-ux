@@ -1,6 +1,7 @@
 <div id="spec-picker-container" *ngIf="specManager && specManager.selectedSpecGroup">
   <div id="spec-picker-shield" *ngIf="isUpdating || shieldEnabled" [class.spec-picker-shield-menu]="isOpenedFromMenu"></div>
 
+  <!-- TODO(michinoy): Switch to using GroupTabs control (WI #3158544)-->
   <nav id="spec-group-tabs" role="tablist" #specGroupTabs>
     <div *ngFor="let specGroup of specManager.specGroups"
       (click)="selectGroup(specGroup)"

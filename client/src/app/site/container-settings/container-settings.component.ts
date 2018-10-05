@@ -1,11 +1,10 @@
-import { Component, OnDestroy, Input, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, Input, Injector } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureData } from './container-settings';
+import { ContainerSettingsInput, ContainerSettingsData, ContainerConfigureData, ContainerType } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
-import { KeyCodes, LogCategories } from '../../shared/models/constants';
-import { Dom } from '../../shared/Utilities/dom';
+import { LogCategories } from '../../shared/models/constants';
 import { SiteService } from '../../shared/services/site.service';
 import { HttpResult } from '../../shared/models/http-result';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
@@ -31,8 +30,6 @@ export interface StatusMessage {
     styleUrls: ['./container-settings.component.scss'],
 })
 export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>> implements OnDestroy {
-    @ViewChild('containerSettingsTabs') containerSettingsTabs: ElementRef;
-
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>) {
         this.setInput(viewInfo);
         this._viewInfo = viewInfo;
@@ -171,30 +168,9 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
             });
     }
 
-    public selectContainer(container: Container) {
-        this.form.controls.containerType.setValue(container.id);
-        this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(this.form, container.id);
-        this.containerConfigureInfo.container = container;
-    }
-
-    public onContainerTabKeyPress(event: KeyboardEvent) {
-        const containers = this.containerSettingsManager.containers;
-        if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = containers.findIndex(container => container === this.containerConfigureInfo.container);
-            const tabElements = this._getTabElements();
-            this._updateContainerFocusTab(false, tabElements, curIndex);
-
-            if (event.keyCode === KeyCodes.arrowRight) {
-                curIndex = this._getTargetIndex(containers, curIndex + 1);
-            } else {
-                curIndex = this._getTargetIndex(containers, curIndex - 1);
-            }
-
-            this.selectContainer(containers[curIndex]);
-            this._updateContainerFocusTab(true, tabElements, curIndex);
-
-            event.preventDefault();
-        }
+    public selectContainer(containerId: ContainerType) {
+        this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(this.form, containerId);
+        this.containerConfigureInfo.container = this.containerSettingsManager.containers.find(container => container.id === containerId);
     }
 
     public clickApply() {
@@ -273,30 +249,6 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     public clickDiscard() {
         this.setInput(this._viewInfo);
-    }
-
-    private _getTargetIndex(containers: Container[], targetIndex: number) {
-        if (targetIndex < 0) {
-            targetIndex = containers.length - 1;
-        } else if (targetIndex >= containers.length) {
-            targetIndex = 0;
-        }
-
-        return targetIndex;
-    }
-
-    private _getTabElements() {
-        return this.containerSettingsTabs.nativeElement.children;
-    }
-
-    private _updateContainerFocusTab(set: boolean, elements: HTMLCollection, index: number) {
-        const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
-
-        if (set) {
-            Dom.setFocus(tab);
-        } else {
-            Dom.clearFocus(tab);
-        }
     }
 
     private _markFormGroupDirtyAndValidate(formGroup: FormGroup) {
