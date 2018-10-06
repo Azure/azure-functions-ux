@@ -44,6 +44,11 @@
         color: darken($primary-color-dark, 10%);
         border-color: darken($primary-color, 10%);
     }
+
+    &:disabled {
+        background: $disabled-color;
+        cursor: arrow;
+    }
 }
 
 .button-block{

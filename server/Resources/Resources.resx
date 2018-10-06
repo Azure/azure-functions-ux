@@ -991,6 +991,9 @@
   <data name="test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Test is not supported for Github webhook functions.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
