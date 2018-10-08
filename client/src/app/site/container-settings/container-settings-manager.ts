@@ -845,16 +845,15 @@ export class ContainerSettingsManager {
     private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
         const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
         if (containerType === 'single') {
+            const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+
             if (imageSourceType === 'dockerHub') {
-                const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
                 const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
                 const dockerHubForm = this.getDockerHubForm(imageSourceForm, accessType);
                 return dockerHubForm.controls.startupFile.value;
             } else {
-                const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
                 return imageSourceForm.controls.startupFile.value;
             }
-
         }
 
         return '';
