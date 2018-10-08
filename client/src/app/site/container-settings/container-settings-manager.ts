@@ -310,7 +310,13 @@ export class ContainerSettingsManager {
     private _getAcrWebhookName(siteDescriptor: ArmSiteDescriptor) {
         // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
         // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
-        return siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+        let webhookName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+
+        if (siteDescriptor.slot) {
+            webhookName += siteDescriptor.slot.replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        return webhookName;
     }
 
     private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
