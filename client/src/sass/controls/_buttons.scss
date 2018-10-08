@@ -26,7 +26,6 @@
     &:disabled {
         background: $disabled-color;
         cursor: arrow;
-        color: $disabled-color;
     }
 }
 
@@ -49,7 +48,8 @@
     &:disabled {
         background: $disabled-color;
         cursor: arrow;
-        color: $disabled-color
+        color: $body-bg-color;
+        border: none;
     }
 }
 
