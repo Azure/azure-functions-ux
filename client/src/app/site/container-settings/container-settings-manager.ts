@@ -666,6 +666,7 @@ export class ContainerSettingsManager {
             return this._fb.group({
                 serverUrl: [ContainerConstants.dockerHubUrl, []],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
             });
         } else {
             return this._fb.group({
@@ -682,6 +683,7 @@ export class ContainerSettingsManager {
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
             });
         } else {
             return this._fb.group({
@@ -842,11 +844,17 @@ export class ContainerSettingsManager {
 
     private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
         const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
-        if (containerType === 'single'
-            && (imageSourceType === 'azureContainerRegistry' || imageSourceType === 'privateRegistry')) {
-            const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+        if (containerType === 'single') {
+            if (imageSourceType === 'dockerHub') {
+                const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+                const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+                const dockerHubForm = this.getDockerHubForm(imageSourceForm, accessType);
+                return dockerHubForm.controls.startupFile.value;
+            } else {
+                const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
+                return imageSourceForm.controls.startupFile.value;
+            }
 
-            return imageSourceForm.controls.startupFile.value;
         }
 
         return '';
