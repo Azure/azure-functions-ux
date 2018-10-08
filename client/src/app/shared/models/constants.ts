@@ -556,3 +556,8 @@ export class ContainerConstants {
     public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
     public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
 }
+
+export class WebhookTypes {
+    public static readonly github = 'github';
+    public static readonly genericjson = 'genericjson';
+}

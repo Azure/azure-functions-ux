@@ -36,7 +36,7 @@ import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
-import { LogCategories } from '../shared/models/constants';
+import { LogCategories, WebhookTypes } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
@@ -80,6 +80,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public showFunctionKey = false;
     public showFunctionInvokeUrlModal = false;
     public showFunctionKeyModal = false;
+    public isRunEnabled = true;
+    public runHoverText: string;
 
     public rightTab: string;
     public bottomTab: string;
@@ -283,7 +285,10 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         delete this.webHookType;
                     }
 
-                    this.showFunctionKey = this.webHookType === 'github';
+                    this.showFunctionKey = this.webHookType && this.webHookType.toLowerCase() === WebhookTypes.github;
+
+                    this.isRunEnabled = !this.showFunctionKey;
+                    this.runHoverText = this.isRunEnabled ? PortalResources.run : PortalResources.testFunctionNotSupportedForGitHubWebhook;
 
                     inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                         ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
@@ -442,7 +447,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     clientId = keyWithValue.name;
                 }
 
-                if (this.webHookType.toLowerCase() !== 'genericjson') {
+                if (this.webHookType.toLowerCase() !== WebhookTypes.genericjson) {
                     code = '';
                 }
             }
