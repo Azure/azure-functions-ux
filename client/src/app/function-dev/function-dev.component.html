@@ -65,8 +65,8 @@
         class="custom-button-invert"
         [disabled]="!runValid || !isRunEnabled"
         [class.dirty]="scriptFile?.isDirty"
-        [title]="(runHoverText | translate)"
-        [attr.aria-describedby]="(runHoverText | translate)"
+        [title]="runHoverText | translate"
+        [attr.aria-label]="runHoverText | translate"
         (click)="runFunction()">
         <i class="fa fa-play"></i> {{ 'functionDev_saveAndRun' | translate }} </button>
 
@@ -74,8 +74,8 @@
         class="custom-button-invert"
         [disabled]="!runValid || !isRunEnabled"
         [class.dirty]="scriptFile?.isDirty"
-        [title]="(runHoverText | translate)"
-        [attr.aria-describedby]="(runHoverText | translate)"
+        [title]="runHoverText | translate"
+        [attr.aria-label]="runHoverText | translate"
         (click)="runFunction()">
         <i class="fa fa-play"></i> {{ 'run' | translate }} </button>
 

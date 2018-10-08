@@ -285,7 +285,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                         delete this.webHookType;
                     }
 
-                    this.showFunctionKey = this.webHookType.toLowerCase() === WebhookTypes.github;
+                    this.showFunctionKey = this.webHookType && this.webHookType.toLowerCase() === WebhookTypes.github;
 
                     this.isRunEnabled = !this.showFunctionKey;
                     this.runHoverText = this.isRunEnabled ? PortalResources.run : PortalResources.testFunctionNotSupportedForGitHubWebhook;
