@@ -7,7 +7,8 @@
     <div class="feature-body">
       <h4 [id]="feature.title | removeSpaces">{{feature.title}}</h4>
       <div class="feature-description">{{feature.description}}
-        <div *ngIf="feature.learnMoreUrl"
+        <div class="feature-learnMore"
+          *ngIf="feature.learnMoreUrl"
           [attr.aria-labelledBy]="feature.title | removeSpaces"
           [attr.aria-label]="'topBar_learnMore' | translate">
           <a [href]="feature.learnMoreUrl"
