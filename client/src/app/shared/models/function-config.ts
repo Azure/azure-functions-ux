@@ -1,5 +1,5 @@
 export interface FunctionConfig {
-    disabled?: boolean;    // can be null for empty template
+    disabled?: boolean | string;    // can be null for empty template
     bindings: FunctionBinding[];
 }
 
