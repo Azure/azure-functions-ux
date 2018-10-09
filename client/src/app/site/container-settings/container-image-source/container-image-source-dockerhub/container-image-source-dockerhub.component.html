@@ -4,7 +4,7 @@
         <radio-selector
             [options] = "containerSettingsManager.dockerHubAccessOptions"
             (value) = "updateAccessOptions($event)"
-            [control] = "imageSourceForm.controls.accessType">
+            [control] = "imageSourceForm?.controls?.accessType">
         </radio-selector>
     </div>
 </div>
@@ -12,17 +12,17 @@
 <div *ngIf="dockerHubForm" [formGroup] = "dockerHubForm">
     <div *ngIf = "selectedAccessType === 'private'" class="container-setting-property">
         <label>{{ 'containerLogin' | translate }}</label>
-        <textbox [control] = "dockerHubForm.controls.login"></textbox>
+        <textbox [control] = "dockerHubForm?.controls?.login"></textbox>
     </div>
 
     <div *ngIf = "selectedAccessType === 'private'" class="container-setting-property">
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox type="password" [control] = "dockerHubForm.controls.password"></textbox>
+        <textbox type="password" [control] = "dockerHubForm?.controls?.password"></textbox>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
         <label>{{ 'containerImageAndTag' | translate }}</label>
-        <textbox [control] = "dockerHubForm.controls.image"></textbox>
+        <textbox [control] = "dockerHubForm?.controls?.image"></textbox>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">

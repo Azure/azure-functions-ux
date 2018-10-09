@@ -221,6 +221,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             text-overflow: ellipsis;
             max-height: 36px;       /* fallback */
         }
+
+        .feature-learnMore{
+            display: inline-block;
+        }
     }
 
     footer{
