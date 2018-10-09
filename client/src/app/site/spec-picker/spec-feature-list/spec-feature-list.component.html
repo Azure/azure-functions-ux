@@ -7,12 +7,13 @@
     <div class="feature-body">
       <h4 [id]="feature.title | removeSpaces">{{feature.title}}</h4>
       <div class="feature-description">{{feature.description}}
-        <a *ngIf="feature.learnMoreUrl"
-          [href]="feature.learnMoreUrl"
-          target="_blank"
+        <div *ngIf="feature.learnMoreUrl"
           [attr.aria-labelledBy]="feature.title | removeSpaces"
-          [attr.aria-label]="'topBar_learnMore' | translate"
-          [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+          [attr.aria-label]="'topBar_learnMore' | translate">
+          <a [href]="feature.learnMoreUrl"
+            target="_blank"
+            [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+        </div>
       </div>
     </div>
   </div>
