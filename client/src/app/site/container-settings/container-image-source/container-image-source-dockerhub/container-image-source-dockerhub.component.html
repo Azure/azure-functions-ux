@@ -27,7 +27,7 @@
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
         <label>{{ 'containerStartupFile' | translate }}</label>
-        <textbox [control] = "dockerHubForm.controls.startupFile"></textbox>
+        <textbox [control] = "dockerHubForm?.controls?.startupFile"></textbox>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">

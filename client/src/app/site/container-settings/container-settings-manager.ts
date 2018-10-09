@@ -666,7 +666,7 @@ export class ContainerSettingsManager {
             return this._fb.group({
                 serverUrl: [ContainerConstants.dockerHubUrl, []],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
-                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
@@ -683,7 +683,7 @@ export class ContainerSettingsManager {
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
-                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
