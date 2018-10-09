@@ -57,7 +57,7 @@
               role="button"
               tabindex="0"
               [attr.aria-expanded]="specManager.selectedSpecGroup.isExpanded"
-              [attr.aria-controls]="specManager.selectedSpecGroup.id + specManager.selectedSpecGroup.selectedSpec.skuCode">
+              [attr.aria-controls]="specManager.selectedSpecGroup.id + specManager.selectedSpecGroup.selectedSpec?.skuCode">
 
           <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
           <a>{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
