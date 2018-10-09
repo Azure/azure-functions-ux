@@ -25,6 +25,11 @@
         <textbox [control] = "dockerHubForm?.controls?.image"></textbox>
     </div>
 
+    <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
+        <label>{{ 'containerStartupFile' | translate }}</label>
+        <textbox [control] = "dockerHubForm?.controls?.startupFile"></textbox>
+    </div>
+
     <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
         <div class="container-setting-property">
             <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
