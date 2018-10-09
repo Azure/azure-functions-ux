@@ -1,7 +1,7 @@
 <div id="container-shield" *ngIf="isLocked"></div>
 <form *ngIf="!loading && containerConfigureInfo && containerConfigureInfo.container && containerConfigureInfo.containerForm" [formGroup]="form" id="container-picker">
     <group-tabs
-        [control] = "form.controls.containerType"
+        [control] = "form?.controls?.containerType"
         [tabs] = "containerSettingsManager.containers"
         [groupId] = "'container-settings'"
         (valueChanged)="selectContainer($event)">
