@@ -72,6 +72,19 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         if (this.sideNav.portalService.isEmbeddedFunctions) {
             this.showExpandIcon = false;
         }
+
+        if (typeof this.functionInfo.config.disabled === 'string') {
+            const settingName = this.functionInfo.config.disabled;
+            this._siteService.getAppSettings(this.context.site.id)
+            .subscribe(r => {
+                if (r.isSuccessful) {
+                    const result = r.result.properties[settingName];
+                    this.functionInfo.config.disabled = result === '1' || result === 'true';
+                } else {
+                    this._logService.error(LogCategories.SideNav, errorIds.failedToGetAppSettings, r.error);
+                }
+            });
+        }
     }
 
     // This will be called on every change detection run. So I'm making sure to always
@@ -83,19 +96,6 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         }
 
         const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
-
-        if (typeof this.functionInfo.config.disabled === 'string') {
-            const settingName = this.functionInfo.config.disabled;
-            this._siteService.getAppSettings(this.context.site.id)
-            .subscribe(r => {
-                if (r.isSuccessful) {
-                    const result = r.result.properties[settingName];
-                    this.functionInfo.config.disabled = result === '1' || result.toLowerCase() === 'true';
-                } else {
-                    this._logService.error(LogCategories.SideNav, errorIds.failedToGetAppSettings, r.error);
-                }
-            });
-        }
 
         return this.functionInfo.config.disabled
             ? `(${disabledStr}) ${this.functionInfo.name}`
