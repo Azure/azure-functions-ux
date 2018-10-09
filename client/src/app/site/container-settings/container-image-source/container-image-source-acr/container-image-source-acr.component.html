@@ -57,7 +57,7 @@
 
         <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
             <label>{{ 'containerACRStartupFile' | translate }}</label>
-            <textbox [control]="imageSourceForm.controls.startupFile"></textbox>
+            <textbox [control]="imageSourceForm?.controls?.startupFile"></textbox>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
