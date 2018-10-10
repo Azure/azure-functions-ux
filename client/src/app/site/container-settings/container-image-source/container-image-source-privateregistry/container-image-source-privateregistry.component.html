@@ -1,27 +1,32 @@
 <div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <div class="container-setting-property">
         <label>{{ 'containerServerURL' | translate }}</label>
-        <textbox [control] = "imageSourceForm?.controls?.serverUrl"></textbox>
+        <textbox [control] = "imageSourceForm?.controls?.serverUrl" [disablePopOverError] = "true"></textbox>
+        <div invalidmessage="serverUrl" id="containersettings-pr-serverurl-error" role="alert"></div>
     </div>
 
     <div class="container-setting-property">
         <label>{{ 'containerLogin' | translate }}</label>
-        <textbox [control] = "imageSourceForm?.controls?.login"></textbox>
+        <textbox [control] = "imageSourceForm?.controls?.login" [disablePopOverError] = "true"></textbox>
+        <div invalidmessage="login" id="containersettings-pr-login-error" role="alert"></div>
     </div>
 
     <div class="container-setting-property">
         <label>{{ 'containerPassword' | translate }}</label>
-        <textbox type="password" [control] = "imageSourceForm?.controls?.password"></textbox>
+        <textbox type="password" [control] = "imageSourceForm?.controls?.password" [disablePopOverError] = "true"></textbox>
+        <div invalidmessage="password" id="containersettings-pr-password-error" role="alert"></div>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
         <label>{{ 'containerImageAndTag' | translate }}</label>
-        <textbox [control] = "imageSourceForm?.controls?.image"></textbox>
+        <textbox [control] = "imageSourceForm?.controls?.image" [disablePopOverError] = "true"></textbox>
+        <div invalidmessage="image" id="containersettings-pr-image-error" role="alert"></div>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
         <label>{{ 'containerStartupFile' | translate }}</label>
-        <textbox [control] = "imageSourceForm?.controls?.startupFile"></textbox>
+        <textbox [control] = "imageSourceForm?.controls?.startupFile" [disablePopOverError] = "true"></textbox>
+        <div invalidmessage="startupFile" id="containersettings-pr-startupFile-error" role="alert"></div>
     </div>
 
     <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
@@ -32,7 +37,8 @@
 
         <div class="container-setting-property">
             <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
-            <textarea class="config" formControlName="config" disabled></textarea>
+            <textarea class="config" formControlName="config" readonly></textarea>
+            <div invalidmessage="config" id="containersettings-pr-config-error" role="alert"></div>
         </div>
     </div>
 </div>

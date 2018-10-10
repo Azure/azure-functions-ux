@@ -20,6 +20,7 @@
                 [(ngModel)]="selectedRegistry"
                 (change)="registryChanged($event)">
             </ng-select>
+            <div invalidmessage="registry" id="containersettings-acr-registry-error" role="alert"></div>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
@@ -37,6 +38,7 @@
                 [(ngModel)]="selectedRepository"
                 (change)="respositoryChanged($event)">
             </ng-select>
+            <div invalidmessage="repository" id="containersettings-acr-repository-error" role="alert"></div>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
@@ -53,11 +55,13 @@
                 [clearable]="false"
                 [(ngModel)]="selectedTag">
             </ng-select>
+            <div invalidmessage="tag" id="containersettings-acr-tag-error" role="alert"></div>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id === 'single'" class="container-setting-property">
             <label>{{ 'containerACRStartupFile' | translate }}</label>
             <textbox [control]="imageSourceForm?.controls?.startupFile"></textbox>
+            <div invalidmessage="startupFile" id="containersettings-acr-startupFile-error" role="alert"></div>
         </div>
 
         <div *ngIf = "containerImageSourceInfo.container.id !== 'single'">
@@ -68,7 +72,8 @@
 
             <div class="container-setting-property">
                 <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
-                <textarea class="config" formControlName="config" disabled></textarea>
+                <textarea class="config" formControlName="config" readonly></textarea>
+                <div invalidmessage="config" id="containersettings-acr-config-error" role="alert"></div>
             </div>
         </div>
     </div>

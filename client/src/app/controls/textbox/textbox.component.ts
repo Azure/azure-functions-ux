@@ -17,6 +17,7 @@ export class TextboxComponent implements OnInit, OnChanges {
     @Input() readonly: boolean;
     @Input() disabled: boolean;
     @Input() type: 'text' | 'password' = 'text';
+    @Input() disablePopOverError: boolean;
     @Output() change: Subject<string>;
     @Output() value: Subject<string>;
 

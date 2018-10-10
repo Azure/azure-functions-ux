@@ -586,7 +586,7 @@ export class ContainerSettingsManager {
                 registry: [this._getAcrRegistry(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                config: [this._getAcrConfig(fxVersion, appSettings, siteConfig)],
+                config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
     }
