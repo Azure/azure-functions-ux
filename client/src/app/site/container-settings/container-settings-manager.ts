@@ -95,6 +95,10 @@ export class ContainerSettingsManager {
         this._initializeForm(os, appSettings, siteConfig, publishingCredentials);
     }
 
+    public intializeForLockedMode(os: ContainerOS) {
+        this._initializeForm(os, null, null, null);
+    }
+
     public getContainerForm(form: FormGroup, containerType: ContainerType): FormGroup {
         const singleContainerForm = <FormGroup>form.controls.singleContainerForm;
         const dockerComposeForm = <FormGroup>form.controls.dockerComposeForm;
