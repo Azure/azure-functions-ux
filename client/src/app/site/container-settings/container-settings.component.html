@@ -39,8 +39,7 @@
                 (click)="clickSave()"
                 [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'save' | translate">
-
-                <span *ngIf="!isUpdating">{{'save' | translate}}</span>
+                {{'save' | translate}}
             </button>
 
             <button *ngIf = "fromMenu"
@@ -48,8 +47,7 @@
                 (click)="clickDiscard()"
                 [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'discard' | translate">
-
-                <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
+                {{'discard' | translate}}
             </button>
 
             <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
