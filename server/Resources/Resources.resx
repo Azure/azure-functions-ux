@@ -3338,7 +3338,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Log Level</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS Continuous Delivery</value>
+    <value>VSTS Build (Preview)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services sets up a robust deployment pipeline for your application. The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
@@ -3437,7 +3437,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Pricing Tier</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Deployment Center (Preview)</value>
+    <value>Deployment Center</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service Deployment Center enables you to choose the location of your code as well as options for build and deployment to the cloud.</value>
