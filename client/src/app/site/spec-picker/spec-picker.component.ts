@@ -1,7 +1,7 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
+import { ArmResourceDescriptor, ArmSubcriptionDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
@@ -12,6 +12,7 @@ import { PriceSpec } from './price-spec-manager/price-spec';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { Links, ServerFarmSku } from './../../shared/models/constants';
 
 export interface StatusMessage {
   message: string;
@@ -42,6 +43,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   private _planOrSubResourceId: ResourceId;
   private _input: SpecPickerInput<NewPlanSpecPickerData>;
+  private _isUpdateScenario: boolean;
+  private _originalSku: string;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
@@ -97,16 +100,25 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
             data: null,
             specPicker: this,
           };
+          this._isUpdateScenario = true;
         } else {
           // data will be set if opened from Ibiza
           this._input = info.data;
           this._input.specPicker = this;
+
+          const subscriptionDescriptor = new ArmSubcriptionDescriptor(this._input.id);
+          if (subscriptionDescriptor && subscriptionDescriptor.parts.length === 2) {
+            this._isUpdateScenario = false; // create scenario
+          } else {
+            this._isUpdateScenario = true; // update scenarios like scaleup or clone or upsell
+          }
         }
 
         return this.specManager.initialize(this._input);
       })
       .switchMap(_ => {
         this.specManager.cleanUpGroups();
+        this._originalSku = this.specManager.selectedSpecGroup.selectedSpec.sku;
 
         // Clearing isInitializing here because if getSpeccosts fails for some reason, we still want to allow the user to
         // be able to scale
@@ -153,6 +165,17 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
 
     this.statusMessage = null;
+
+    if (this._isUpdateScenario && !!this._originalSku) {
+      if ((this._originalSku === ServerFarmSku.premiumV2 && spec.sku !== ServerFarmSku.premiumV2) || (this._originalSku !== ServerFarmSku.premiumV2 && spec.sku === ServerFarmSku.premiumV2)) {
+        // show message when upgrading to PV2 or downgrading from PV2.
+        this.statusMessage = {
+          message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+          level: 'info',
+          infoLink: Links.pv2UpsellInfoLearnMore
+        };
+      }
+    }
 
     this.specManager.selectedSpecGroup.selectedSpec = spec;
   }

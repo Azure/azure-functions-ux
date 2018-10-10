@@ -88,14 +88,15 @@
       </button>
         <span class="message-icon icon-medium"
           *ngIf="statusMessage?.message"
-          [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
+          [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : statusMessage?.level === 'info' ? 'image/info.svg' : 'image/success.svg'"></span>
 
-        <span class="message-text"
-          [class.message-error]="statusMessage?.level === 'error'"
-          [class.message-success]="statusMessage?.level === 'success'">
+          <span class="message-text"
+            [class.message-error]="statusMessage?.level === 'error'"
+            [class.message-success]="statusMessage?.level === 'success'">
 
-          {{statusMessage?.message}}
-        </span>  
+            {{statusMessage?.message}}
+          </span>
+          <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank">Learn more</a>
     </div>
   </footer>
 </div>

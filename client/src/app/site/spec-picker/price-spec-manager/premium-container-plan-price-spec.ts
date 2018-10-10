@@ -1,9 +1,10 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { Links } from '../../../shared/models/constants';
+import { Links, ServerFarmSku } from '../../../shared/models/constants';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
+    sku = ServerFarmSku.premiumContainer;
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',

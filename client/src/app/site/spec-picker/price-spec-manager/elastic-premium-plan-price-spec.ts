@@ -8,6 +8,7 @@ import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { NewPlanSpecPickerData } from './plan-price-spec-manager';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
+    sku = ServerFarmSku.elasticPremium;
 
     featureItems = [
         {
