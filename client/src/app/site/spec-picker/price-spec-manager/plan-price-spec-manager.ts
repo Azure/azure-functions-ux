@@ -15,7 +15,8 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories } from '../../../shared/models/constants';
+import { LogCategories, ServerFarmSku, Links } from '../../../shared/models/constants';
+import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
@@ -275,6 +276,53 @@ export class PlanPriceSpecManager {
     // components to dispose when they're ready.
     dispose() {
         this._ngUnsubscribe$.next();
+    }
+
+    setSelectedSpec(spec: PriceSpec) {
+        this.selectedSpecGroup.selectedSpec = spec;
+
+        // plan is null for new plans
+        if (this._plan) {
+            const tier = this._plan.sku.tier;
+            if ((tier === ServerFarmSku.premiumV2 && spec.sku !== ServerFarmSku.premiumV2)
+                || (tier !== ServerFarmSku.premiumV2 && spec.sku === ServerFarmSku.premiumV2)) {
+
+                // show message when upgrading to PV2 or downgrading from PV2.
+                this._specPicker.statusMessage = {
+                    message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+                    level: 'info',
+                    infoLink: Links.pv2UpsellInfoLearnMore
+                };
+            }
+        }
+    }
+
+    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, resourceId: string, authZService: AuthzService) {
+        return Observable.zip(
+            !input.data ? authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
+            !input.data ? authZService.hasReadOnlyLock(resourceId) : Observable.of(false)
+        ).do(r => {
+            if (!input.data) {
+                const planDescriptor = new ArmResourceDescriptor(resourceId);
+                const name = planDescriptor.parts[planDescriptor.parts.length - 1];
+
+                if (!r[0]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
+                        level: 'error'
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                } else if (r[1]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
+                        level: 'error'
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                }
+            }
+        });
     }
 
     private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {

@@ -1,7 +1,6 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ArmResourceDescriptor, ArmSubcriptionDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
@@ -12,7 +11,6 @@ import { PriceSpec } from './price-spec-manager/price-spec';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
-import { Links, ServerFarmSku } from './../../shared/models/constants';
 
 export interface StatusMessage {
   message: string;
@@ -41,10 +39,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   shieldEnabled = false;
   disableUpdates = false;
 
-  private _planOrSubResourceId: ResourceId;
+  private _resourceId: ResourceId;
   private _input: SpecPickerInput<NewPlanSpecPickerData>;
-  private _isUpdateScenario: boolean;
-  private _originalSku: string;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
@@ -60,6 +56,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       return false;
     } else {
       return true;
+    }
+  }
+
+  get statusMessageImage(): string {
+    switch (this.statusMessage.level) {
+      case 'error':
+        return 'image/error.svg';
+      case 'success':
+        return 'image/success.svg';
+      case 'warning':
+        return 'image/warning.svg';
+      case 'info':
+        return 'image/info.svg';
+      default:
+        throw new Error('Invalid level');
     }
   }
 
@@ -91,7 +102,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         // The resourceId would be a plan resourceId if it's an existing plan.  Or a subscription resourceId
         // if it's a new plan.
-        this._planOrSubResourceId = info.resourceId;
+        this._resourceId = info.resourceId;
 
         // data will be null if opened as a tab
         if (!info.data) {
@@ -100,25 +111,16 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
             data: null,
             specPicker: this,
           };
-          this._isUpdateScenario = true;
         } else {
           // data will be set if opened from Ibiza
           this._input = info.data;
           this._input.specPicker = this;
-
-          const subscriptionDescriptor = new ArmSubcriptionDescriptor(this._input.id);
-          if (subscriptionDescriptor && subscriptionDescriptor.parts.length === 2) {
-            this._isUpdateScenario = false; // create scenario
-          } else {
-            this._isUpdateScenario = true; // update scenarios like scaleup or clone or upsell
-          }
         }
 
         return this.specManager.initialize(this._input);
       })
       .switchMap(_ => {
         this.specManager.cleanUpGroups();
-        this._originalSku = this.specManager.selectedSpecGroup.selectedSpec.sku;
 
         // Clearing isInitializing here because if getSpeccosts fails for some reason, we still want to allow the user to
         // be able to scale
@@ -127,31 +129,9 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          !this._input.data ? this._authZService.hasPermission(this._planOrSubResourceId, [AuthzService.writeScope]) : Observable.of(true),
-          !this._input.data ? this._authZService.hasReadOnlyLock(this._planOrSubResourceId) : Observable.of(false));
+          this.specManager.checkAccess(this._input, this._resourceId, this._authZService));
       })
       .do(r => {
-
-        if (!this._input.data) {
-          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
-          const name = planDescriptor.parts[planDescriptor.parts.length - 1];
-
-          if (!r[1]) {
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
-              level: 'error',
-            };
-
-            this.shieldEnabled = true;
-          } else if (r[2]) {
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
-              level: 'error',
-            };
-
-            this.shieldEnabled = true;
-          }
-        }
       });
   }
 
@@ -166,18 +146,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
     this.statusMessage = null;
 
-    if (this._isUpdateScenario && !!this._originalSku) {
-      if ((this._originalSku === ServerFarmSku.premiumV2 && spec.sku !== ServerFarmSku.premiumV2) || (this._originalSku !== ServerFarmSku.premiumV2 && spec.sku === ServerFarmSku.premiumV2)) {
-        // show message when upgrading to PV2 or downgrading from PV2.
-        this.statusMessage = {
-          message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
-          level: 'info',
-          infoLink: Links.pv2UpsellInfoLearnMore
-        };
-      }
-    }
-
-    this.specManager.selectedSpecGroup.selectedSpec = spec;
+    this.specManager.setSelectedSpec(spec);
   }
 
   clickApply() {
