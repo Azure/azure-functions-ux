@@ -991,6 +991,9 @@
   <data name="test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Testing is not supported for GitHub webhook functions.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
@@ -1319,7 +1322,7 @@
     <value>Deployment options</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
+    <value>Configure and manage deployment options for your app, including continuous deployment from VSTS, GitHub and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Deployment credentials</value>
@@ -3008,7 +3011,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Sync content from a OneDrive cloud folder.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Configure continuous integration with a Github repo.</value>
+    <value>Configure continuous integration with a GitHub repo.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Configure continuous integration with a VSTS repo.</value>

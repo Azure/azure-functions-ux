@@ -23,7 +23,7 @@
         [placeholder]="placeholder"
         [class.dirty]="highlightDirty && control?.dirty" />
 
-    <div class="validation-error">
+    <div *ngIf="!disablePopOverError" class="validation-error">
         <pop-over *ngIf="!!control.errors && Obj.keys(control.errors).length > 0"
                 [message]="control.errors[Obj.keys(control.errors)[0]]"
                 popOverClass="pop-over-container pop-over-input-error">

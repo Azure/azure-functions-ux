@@ -1,11 +1,10 @@
-import { Component, OnDestroy, Input, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, Input, Injector } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ContainerSettingsInput, ContainerSettingsData, Container, ContainerConfigureData } from './container-settings';
+import { ContainerSettingsInput, ContainerSettingsData, ContainerConfigureData, ContainerType } from './container-settings';
 import { Observable } from 'rxjs/Observable';
 import { ContainerSettingsManager } from './container-settings-manager';
-import { KeyCodes, LogCategories } from '../../shared/models/constants';
-import { Dom } from '../../shared/Utilities/dom';
+import { LogCategories } from '../../shared/models/constants';
 import { SiteService } from '../../shared/services/site.service';
 import { HttpResult } from '../../shared/models/http-result';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
@@ -19,6 +18,7 @@ import { ErrorEvent } from '../../shared/models/error-event';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { PortalService } from '../../shared/services/portal.service';
+import { Subscription } from 'rxjs/Subscription';
 
 export interface StatusMessage {
     message: string;
@@ -31,8 +31,6 @@ export interface StatusMessage {
     styleUrls: ['./container-settings.component.scss'],
 })
 export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>> implements OnDestroy {
-    @ViewChild('containerSettingsTabs') containerSettingsTabs: ElementRef;
-
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>) {
         this.setInput(viewInfo);
         this._viewInfo = viewInfo;
@@ -49,6 +47,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     public form: FormGroup;
     public statusMessage: StatusMessage;
     private _viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>;
+    private _formStatusSubscription: Subscription;
 
     constructor(
         private _siteService: SiteService,
@@ -65,6 +64,9 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
 
     ngOnDestroy() {
         super.ngOnDestroy();
+        this.clearBusy();
+        this._clearFormStatusSubscription();
+        this._portalService.updateDirtyState(false);
     }
 
     protected setup(inputEvents: Observable<TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>>) {
@@ -101,57 +103,12 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                             publishingCredentialsResponse.result.properties);
 
                     } else {
-                        let noWritePermission = false;
-                        let hasReadOnlyLock = false;
 
-                        if (!appSettingsResponse.isSuccessful) {
-                            if (appSettingsResponse.error.errorId === errorIds.armErrors.noAccess) {
-                                noWritePermission = true;
-                            } else if (appSettingsResponse.error.errorId === errorIds.armErrors.scopeLocked) {
-                                hasReadOnlyLock = true;
-                            } else {
-                                this._logService.error(LogCategories.containerSettings, errorIds.failedToGetAppSettings, appSettingsResponse.error);
-                            }
-                        }
+                        this._handleUnsuccessfulRespose(
+                            appSettingsResponse,
+                            siteConfigResponse,
+                            publishingCredentialsResponse);
 
-                        if (!publishingCredentialsResponse.isSuccessful) {
-                            if (publishingCredentialsResponse.error.errorId === errorIds.armErrors.noAccess) {
-                                noWritePermission = true;
-                            } else if (publishingCredentialsResponse.error.errorId === errorIds.armErrors.scopeLocked) {
-                                hasReadOnlyLock = true;
-                            } else {
-                                this._logService.error(LogCategories.containerSettings, errorIds.failedToGetPublishingCredentials, publishingCredentialsResponse.error);
-                            }
-                        }
-
-                        if (!siteConfigResponse.isSuccessful) {
-                            this._logService.error(LogCategories.containerSettings, errorIds.failedToGetSiteConfig, siteConfigResponse.error);
-                        }
-
-                        if (noWritePermission) {
-                            this.statusMessage = {
-                                message: this._ts.instant(PortalResources.containerWriteAccessError),
-                                level: 'error',
-                            };
-                            this.isLocked = true;
-                            this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os, null);
-
-                        } else if (hasReadOnlyLock) {
-                            this.statusMessage = {
-                                message: this._ts.instant(PortalResources.containerReadLockError),
-                                level: 'error',
-                            };
-                            this.isLocked = true;
-                            this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os, null);
-
-                        } else {
-                            const error: ErrorEvent = {
-                                errorId: errorIds.failedToGetContainerConfigData,
-                                resourceId: this.containerConfigureInfo.resourceId,
-                                message: this._ts.instant(PortalResources.failedToGetContainerConfigData),
-                            };
-                            this.showComponentError(error);
-                        }
                     }
                 } else {
                     this.containerSettingsManager.initializeForCreate(this.containerConfigureInfo.os, this.containerConfigureInfo.containerFormData);
@@ -168,33 +125,14 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                     this.containerConfigureInfo.container.id);
 
                 this.loading = false;
+
+                this._setupDirtyStateSubscription();
             });
     }
 
-    public selectContainer(container: Container) {
-        this.form.controls.containerType.setValue(container.id);
-        this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(this.form, container.id);
-        this.containerConfigureInfo.container = container;
-    }
-
-    public onContainerTabKeyPress(event: KeyboardEvent) {
-        const containers = this.containerSettingsManager.containers;
-        if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = containers.findIndex(container => container === this.containerConfigureInfo.container);
-            const tabElements = this._getTabElements();
-            this._updateContainerFocusTab(false, tabElements, curIndex);
-
-            if (event.keyCode === KeyCodes.arrowRight) {
-                curIndex = this._getTargetIndex(containers, curIndex + 1);
-            } else {
-                curIndex = this._getTargetIndex(containers, curIndex - 1);
-            }
-
-            this.selectContainer(containers[curIndex]);
-            this._updateContainerFocusTab(true, tabElements, curIndex);
-
-            event.preventDefault();
-        }
+    public selectContainer(containerId: ContainerType) {
+        this.containerConfigureInfo.containerForm = this.containerSettingsManager.getContainerForm(this.form, containerId);
+        this.containerConfigureInfo.container = this.containerSettingsManager.containers.find(container => container.id === containerId);
     }
 
     public clickApply() {
@@ -261,6 +199,8 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                             level: 'success',
                             message: this._ts.instant(PortalResources.containerSettingsUpdateSuccess),
                         };
+
+                        this.form.markAsPristine();
                     }
                 });
         } else {
@@ -272,30 +212,9 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
     }
 
     public clickDiscard() {
-        this.setInput(this._viewInfo);
-    }
-
-    private _getTargetIndex(containers: Container[], targetIndex: number) {
-        if (targetIndex < 0) {
-            targetIndex = containers.length - 1;
-        } else if (targetIndex >= containers.length) {
-            targetIndex = 0;
-        }
-
-        return targetIndex;
-    }
-
-    private _getTabElements() {
-        return this.containerSettingsTabs.nativeElement.children;
-    }
-
-    private _updateContainerFocusTab(set: boolean, elements: HTMLCollection, index: number) {
-        const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
-
-        if (set) {
-            Dom.setFocus(tab);
-        } else {
-            Dom.clearFocus(tab);
+        const proceed = confirm(this._ts.instant(PortalResources.unsavedChangesWarning));
+        if (proceed) {
+            this.setInput(this._viewInfo);
         }
     }
 
@@ -313,6 +232,81 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
                     }
                 }
             }
+        }
+    }
+
+    private _handleUnsuccessfulRespose(
+        appSettingsResponse: HttpResult<ArmObj<ApplicationSettings>>,
+        siteConfigResponse: HttpResult<ArmObj<SiteConfig>>,
+        publishingCredentialsResponse: HttpResult<ArmObj<PublishingCredentials>>,
+    ) {
+        let noWritePermission = false;
+        let hasReadOnlyLock = false;
+
+        if (!appSettingsResponse.isSuccessful) {
+            if (appSettingsResponse.error.errorId === errorIds.armErrors.noAccess) {
+                noWritePermission = true;
+            } else if (appSettingsResponse.error.errorId === errorIds.armErrors.scopeLocked) {
+                hasReadOnlyLock = true;
+            } else {
+                this._logService.error(LogCategories.containerSettings, errorIds.failedToGetAppSettings, appSettingsResponse.error);
+            }
+        }
+
+        if (!publishingCredentialsResponse.isSuccessful) {
+            if (publishingCredentialsResponse.error.errorId === errorIds.armErrors.noAccess) {
+                noWritePermission = true;
+            } else if (publishingCredentialsResponse.error.errorId === errorIds.armErrors.scopeLocked) {
+                hasReadOnlyLock = true;
+            } else {
+                this._logService.error(LogCategories.containerSettings, errorIds.failedToGetPublishingCredentials, publishingCredentialsResponse.error);
+            }
+        }
+
+        if (!siteConfigResponse.isSuccessful) {
+            this._logService.error(LogCategories.containerSettings, errorIds.failedToGetSiteConfig, siteConfigResponse.error);
+        }
+
+        if (noWritePermission) {
+            this.statusMessage = {
+                message: this._ts.instant(PortalResources.containerWriteAccessError),
+                level: 'error',
+            };
+            this.isLocked = true;
+            this.containerSettingsManager.intializeForLockedMode(this.containerConfigureInfo.os);
+
+        } else if (hasReadOnlyLock) {
+            this.statusMessage = {
+                message: this._ts.instant(PortalResources.containerReadLockError),
+                level: 'error',
+            };
+            this.isLocked = true;
+            this.containerSettingsManager.intializeForLockedMode(this.containerConfigureInfo.os);
+
+        } else {
+            const error: ErrorEvent = {
+                errorId: errorIds.failedToGetContainerConfigData,
+                resourceId: this.containerConfigureInfo.resourceId,
+                message: this._ts.instant(PortalResources.failedToGetContainerConfigData),
+            };
+            this.showComponentError(error);
+        }
+    }
+
+    private _setupDirtyStateSubscription() {
+        this._clearFormStatusSubscription();
+
+        if (this.form) {
+            this._formStatusSubscription = this.form.statusChanges.subscribe(status => {
+                this._portalService.updateDirtyState(this.form.dirty);
+            });
+        }
+    }
+
+    private _clearFormStatusSubscription() {
+        if (this._formStatusSubscription) {
+            this._formStatusSubscription.unsubscribe();
+            this._formStatusSubscription = null;
         }
     }
 }

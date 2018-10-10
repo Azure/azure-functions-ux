@@ -5,13 +5,16 @@
 
     <div [load-image]="feature.iconUrl" class="icon-medium"></div>
     <div class="feature-body">
-      <h4>{{feature.title}}</h4>
-      <div class="feature-description" [id]="feature.title | removeSpaces">{{feature.description}}
-        <a *ngIf="feature.learnMoreUrl"
-          [href]="feature.learnMoreUrl"
-          target="_blank"
-          [attr.aria-label]="feature.title"
-          [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+      <h4 [id]="feature.title | removeSpaces">{{feature.title}}</h4>
+      <div class="feature-description">{{feature.description}}
+        <div class="feature-learnMore"
+          *ngIf="feature.learnMoreUrl"
+          [attr.aria-labelledBy]="feature.title | removeSpaces"
+          [attr.aria-label]="'topBar_learnMore' | translate">
+          <a [href]="feature.learnMoreUrl"
+            target="_blank"
+            [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+        </div>
       </div>
     </div>
   </div>

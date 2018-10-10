@@ -235,7 +235,7 @@ export class ScenarioIds {
     public static readonly pythonSupported = 'PythonSupported';
     public static readonly javaSupported = 'JavaSupported';
     public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
-    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
+    public static readonly autoSwapSupported = 'AutoSwapSupported';
     public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
     public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
@@ -555,4 +555,9 @@ export class ContainerConstants {
     public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
     public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
     public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
+}
+
+export class WebhookTypes {
+    public static readonly github = 'github';
+    public static readonly genericjson = 'genericjson';
 }

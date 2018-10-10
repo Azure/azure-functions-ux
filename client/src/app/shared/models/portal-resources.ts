@@ -294,6 +294,7 @@
     public static functionNew_nameError = 'functionNew_nameError';
     public static functionDev_loading = 'functionDev_loading';
     public static test = 'test';
+    public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
     public static runtimeVersion = 'runtimeVersion';
     public static runtimeImage = 'runtimeImage';
     public static runtimeImagev1 = 'runtimeImagev1';
