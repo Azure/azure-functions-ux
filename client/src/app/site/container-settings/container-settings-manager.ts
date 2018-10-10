@@ -861,7 +861,7 @@ export class ContainerSettingsManager {
                 const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
                 const dockerHubForm = this.getDockerHubForm(imageSourceForm, accessType);
                 return dockerHubForm.controls.startupFile.value;
-            } else {
+            } else if (imageSourceType !== 'quickstart') {
                 return imageSourceForm.controls.startupFile.value;
             }
         }
