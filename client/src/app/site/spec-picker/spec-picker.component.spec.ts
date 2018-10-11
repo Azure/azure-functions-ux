@@ -184,7 +184,7 @@ fdescribe('SpecPickerComponentAccessTest', () => {
                 { provide: BroadcastService, useClass: MockBroadcastService },
                 { provide: LogService, useClass: MockLogService },
                 { provide: TelemetryService, useClass: MockTelemetryService },
-                PlanPriceSpecManager
+                PlanPriceSpecManager,
             ]
         })
             .compileComponents();
@@ -205,7 +205,7 @@ fdescribe('SpecPickerComponentAccessTest', () => {
             data: {
                 id: planResourceId,
                 data: null,
-                specPicker: component
+                specPicker: component,
             }
         };
 
@@ -247,7 +247,7 @@ fdescribe('SpecPickerComponentAccessTest', () => {
             data: {
                 id: planResourceId,
                 data: null,
-                specPicker: component
+                specPicker: component,
             }
         };
 

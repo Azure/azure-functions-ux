@@ -301,7 +301,7 @@ export class PlanPriceSpecManager {
         const resourceId = input.id;
         return Observable.zip(
             !input.data ? authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
-            !input.data ? authZService.hasReadOnlyLock(resourceId) : Observable.of(false)
+            !input.data ? authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
         ).do(r => {
             if (!input.data) {
                 const planDescriptor = new ArmResourceDescriptor(resourceId);
@@ -310,14 +310,14 @@ export class PlanPriceSpecManager {
                 if (!r[0]) {
                     this._specPicker.statusMessage = {
                         message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
-                        level: 'error'
+                        level: 'error',
                     };
 
                     this._specPicker.shieldEnabled = true;
                 } else if (r[1]) {
                     this._specPicker.statusMessage = {
                         message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
-                        level: 'error'
+                        level: 'error',
                     };
 
                     this._specPicker.shieldEnabled = true;
