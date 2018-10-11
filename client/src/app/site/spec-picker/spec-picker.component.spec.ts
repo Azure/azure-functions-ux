@@ -206,7 +206,7 @@ fdescribe('SpecPickerComponentAccessTest', () => {
                 id: planResourceId,
                 data: null,
                 specPicker: component,
-            }
+            },
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
@@ -248,7 +248,7 @@ fdescribe('SpecPickerComponentAccessTest', () => {
                 id: planResourceId,
                 data: null,
                 specPicker: component,
-            }
+            },
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
