@@ -1,10 +1,11 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
+    tier = ServerFarmSku.premium;
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',

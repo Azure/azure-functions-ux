@@ -87,15 +87,16 @@
         <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
       </button>
         <span class="message-icon icon-medium"
-          *ngIf="statusMessage?.message"
-          [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
+          *ngIf="statusMessage && statusMessage.message"
+          [load-image]="statusMessageImage"></span>
 
-        <span class="message-text"
-          [class.message-error]="statusMessage?.level === 'error'"
-          [class.message-success]="statusMessage?.level === 'success'">
+          <span class="message-text"
+            [class.message-error]="statusMessage?.level === 'error'"
+            [class.message-success]="statusMessage?.level === 'success'">
 
-          {{statusMessage?.message}}
-        </span>  
+            {{statusMessage?.message}}
+          </span>
+          <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank">{{'topBar_learnMore' | translate}}</a>
     </div>
   </footer>
 </div>

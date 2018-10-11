@@ -1,15 +1,12 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
-import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
-import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
 
@@ -40,7 +37,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   shieldEnabled = false;
   disableUpdates = false;
 
-  private _planOrSubResourceId: ResourceId;
   private _input: SpecPickerInput<NewPlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
@@ -60,9 +56,23 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
   }
 
+  get statusMessageImage(): string {
+    switch (this.statusMessage.level) {
+      case 'error':
+        return 'image/error.svg';
+      case 'success':
+        return 'image/success.svg';
+      case 'warning':
+        return 'image/warning.svg';
+      case 'info':
+        return 'image/info.svg';
+      default:
+        throw new Error('Invalid level');
+    }
+  }
+
   constructor(
     public specManager: PlanPriceSpecManager,
-    private _authZService: AuthzService,
     private _ts: TranslateService,
     private _portalService: PortalService,
     injector: Injector) {
@@ -85,10 +95,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         this.isInitializing = true;
         this.statusMessage = null;
         this.shieldEnabled = false;
-
-        // The resourceId would be a plan resourceId if it's an existing plan.  Or a subscription resourceId
-        // if it's a new plan.
-        this._planOrSubResourceId = info.resourceId;
 
         // data will be null if opened as a tab
         if (!info.data) {
@@ -115,31 +121,9 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          !this._input.data ? this._authZService.hasPermission(this._planOrSubResourceId, [AuthzService.writeScope]) : Observable.of(true),
-          !this._input.data ? this._authZService.hasReadOnlyLock(this._planOrSubResourceId) : Observable.of(false));
+          this.specManager.checkAccess(this._input));
       })
       .do(r => {
-
-        if (!this._input.data) {
-          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
-          const name = planDescriptor.parts[planDescriptor.parts.length - 1];
-
-          if (!r[1]) {
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
-              level: 'error',
-            };
-
-            this.shieldEnabled = true;
-          } else if (r[2]) {
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
-              level: 'error',
-            };
-
-            this.shieldEnabled = true;
-          }
-        }
       });
   }
 
@@ -154,7 +138,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
     this.statusMessage = null;
 
-    this.specManager.selectedSpecGroup.selectedSpec = spec;
+    this.specManager.setSelectedSpec(spec);
   }
 
   clickApply() {

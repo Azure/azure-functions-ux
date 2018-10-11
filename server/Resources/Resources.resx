@@ -3160,6 +3160,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Scale up</value>
   </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Outgoing IP addresses for your app might change.</value>
+  </data>
   <data name="free" xml:space="preserve">
     <value>Free</value>
   </data>

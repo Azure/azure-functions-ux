@@ -21,11 +21,13 @@ import { TelemetryService } from '../../shared/services/telemetry.service';
 import { SpecPickerInput, NewPlanSpecPickerData, PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.component';
+import { MockPlanService } from '../../test/mocks/plan.service.mock';
+import { PlanService } from '../../shared/services/plan.service';
 
 describe('SpecPickerComponent', () => {
     let component: SpecPickerComponent;
-    let mockSpecManager: MockSpecManager;
     let fixture: ComponentFixture<SpecPickerComponent>;
+    let priceSpecManager: PlanPriceSpecManager;
     const subscriptionId = 'mysub';
     const planName = 'myplan';
     const planResourceId = `/subscriptions/${subscriptionId}/resourcegroups/myrg/providers/microsoft.web/serverfarms/${planName}`;
@@ -45,11 +47,12 @@ describe('SpecPickerComponent', () => {
             providers: [
                 { provide: AuthzService, useClass: MockAuthzService },
                 { provide: PortalService, useClass: MockPortalService },
+                { provide: PlanService, useClass: MockPlanService },
                 { provide: BroadcastService, useClass: MockBroadcastService },
                 { provide: LogService, useClass: MockLogService },
                 { provide: TelemetryService, useClass: MockTelemetryService },
-                { provide: PlanPriceSpecManager, useClass: MockSpecManager },
-            ],
+                PlanPriceSpecManager,
+            ]
         })
             .compileComponents();
     }));
@@ -57,11 +60,19 @@ describe('SpecPickerComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(SpecPickerComponent);
         component = fixture.componentInstance;
+        priceSpecManager = TestBed.get(PlanPriceSpecManager);
 
-        mockSpecManager = TestBed.get(PlanPriceSpecManager);
-        spyOn(mockSpecManager, 'initialize').and.callThrough();
-        spyOn(mockSpecManager, 'getSpecCosts').and.callThrough();
-        spyOn(mockSpecManager, 'cleanUpGroups').and.callThrough();
+        spyOn(priceSpecManager, 'resetGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'cleanUpGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'getSpecCosts').and.callFake(() => {
+            return Observable.of(true);
+        });
 
         fixture.detectChanges();
     });
@@ -71,7 +82,6 @@ describe('SpecPickerComponent', () => {
     });
 
     it('should initialize in Ibiza', () => {
-
         const input = {
             resourceId: planResourceId,
             dashboardType: null,
@@ -83,16 +93,24 @@ describe('SpecPickerComponent', () => {
             },
         };
 
+        spyOn(priceSpecManager, 'initialize').and.callFake(() => {
+            return Observable.of(null);
+        });
+
+        spyOn(priceSpecManager, 'checkAccess').and.callFake(() => {
+            return Observable.of(true);
+        });
+
         component.viewInfoInput = input;
-        expect(mockSpecManager.initialize).toHaveBeenCalledWith(input.data);
-        expect(mockSpecManager.getSpecCosts).toHaveBeenCalled();
-        expect(mockSpecManager.cleanUpGroups).toHaveBeenCalled();
+        expect(priceSpecManager.initialize).toHaveBeenCalledWith(input.data);
+        expect(priceSpecManager.getSpecCosts).toHaveBeenCalled();
+        expect(priceSpecManager.cleanUpGroups).toHaveBeenCalled();
+        expect(priceSpecManager.checkAccess).toHaveBeenCalled();
         expect(component.shieldEnabled).toBeFalsy();
         expect(component.statusMessage).toBeNull();
     });
 
     it('should initialize as a tab in Functions', () => {
-
         const input = {
             resourceId: planResourceId,
             dashboardType: null,
@@ -100,29 +118,44 @@ describe('SpecPickerComponent', () => {
             data: null,
         };
 
+        spyOn(priceSpecManager, 'initialize').and.callFake(() => {
+            return Observable.of(null);
+        });
+
+        spyOn(priceSpecManager, 'checkAccess').and.callFake(() => {
+            return Observable.of(true);
+        });
+
         component.viewInfoInput = input;
 
-        const actualInput = <SpecPickerInput<NewPlanSpecPickerData>>(<jasmine.Spy>mockSpecManager.initialize).calls.argsFor(0)[0];
+        const actualInput = <SpecPickerInput<NewPlanSpecPickerData>>(<jasmine.Spy>priceSpecManager.initialize).calls.argsFor(0)[0];
         expect(actualInput.id).toEqual(planResourceId);
         expect(actualInput.data).toBeNull();
         expect(actualInput.specPicker).toEqual(component);
-        expect(mockSpecManager.getSpecCosts).toHaveBeenCalled();
-        expect(mockSpecManager.cleanUpGroups).toHaveBeenCalled();
+        expect(priceSpecManager.getSpecCosts).toHaveBeenCalled();
+        expect(priceSpecManager.cleanUpGroups).toHaveBeenCalled();
         expect(component.shieldEnabled).toBeFalsy();
         expect(component.statusMessage).toBeNull();
     });
 
     it('should show plan write permission error', () => {
-
         const input = {
             resourceId: planResourceId,
             dashboardType: null,
             node: null,
-            data: null,
+            data: {
+                id: planResourceId,
+                data: null,
+                specPicker: component,
+            },
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
         spyOn(authZService, 'hasPermission').and.callFake(() => {
+            return Observable.of(false);
+        });
+
+        spyOn(authZService, 'hasReadOnlyLock').and.callFake(() => {
             return Observable.of(false);
         });
 
@@ -135,15 +168,22 @@ describe('SpecPickerComponent', () => {
     });
 
     it('should show plan read lock error', () => {
-
         const input = {
             resourceId: planResourceId,
             dashboardType: null,
             node: null,
-            data: null,
+            data: {
+                id: planResourceId,
+                data: null,
+                specPicker: component,
+            },
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
+        spyOn(authZService, 'hasPermission').and.callFake(() => {
+            return Observable.of(true);
+        });
+
         spyOn(authZService, 'hasReadOnlyLock').and.callFake(() => {
             return Observable.of(true);
         });
@@ -156,19 +196,3 @@ describe('SpecPickerComponent', () => {
         expect(component.statusMessage.message).toEqual(PortalResources.pricing_planReadonlyLockFormat);
     });
 });
-
-class MockSpecManager {
-    resetGroups() { };
-
-    initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        return Observable.of(null);
-    }
-
-    getSpecCosts(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        return Observable.of(null);
-    }
-
-    cleanUpGroups() { }
-
-    dispose() { }
-}

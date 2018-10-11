@@ -142,6 +142,7 @@ export class Links {
     public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
     public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
     public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
+    public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
 }
 
 export class Kinds {

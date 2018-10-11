@@ -15,7 +15,8 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories } from '../../../shared/models/constants';
+import { LogCategories, ServerFarmSku, Links } from '../../../shared/models/constants';
+import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
@@ -59,6 +60,7 @@ export class PlanPriceSpecManager {
     private _ngUnsubscribe$ = new Subject();
 
     constructor(
+        private _authZService: AuthzService,
         private _planService: PlanService,
         private _portalService: PortalService,
         private _ts: TranslateService,
@@ -100,7 +102,7 @@ export class PlanPriceSpecManager {
                     specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
                 });
 
-                return Observable.zip(...specInitCalls);
+                return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
             });
     }
 
@@ -277,6 +279,54 @@ export class PlanPriceSpecManager {
         this._ngUnsubscribe$.next();
     }
 
+    setSelectedSpec(spec: PriceSpec) {
+        this.selectedSpecGroup.selectedSpec = spec;
+
+        // plan is null for new plans
+        if (this._plan) {
+            const tier = this._plan.sku.tier;
+            if ((tier === ServerFarmSku.premiumV2 && spec.tier !== ServerFarmSku.premiumV2)
+                || (tier !== ServerFarmSku.premiumV2 && spec.tier === ServerFarmSku.premiumV2)) {
+
+                // show message when upgrading to PV2 or downgrading from PV2.
+                this._specPicker.statusMessage = {
+                    message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+                    level: 'info',
+                    infoLink: Links.pv2UpsellInfoLearnMore,
+                };
+            }
+        }
+    }
+
+    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>) {
+        const resourceId = input.id;
+        return Observable.zip(
+            !input.data ? this._authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
+            !input.data ? this._authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
+        ).do(r => {
+            if (!input.data) {
+                const planDescriptor = new ArmResourceDescriptor(resourceId);
+                const name = planDescriptor.parts[planDescriptor.parts.length - 1];
+
+                if (!r[0]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
+                        level: 'error',
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                } else if (r[1]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
+                        level: 'error',
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                }
+            }
+        });
+    }
+
     private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
         if (!inputs.data) {
             return this._planService.getPlan(inputs.id, true)
@@ -288,7 +338,7 @@ export class PlanPriceSpecManager {
                         if (this._plan.sku.name === this.DynamicSku) {
                             this._specPicker.statusMessage = {
                                 message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
+                                level: 'error',
                             };
 
                             this._specPicker.shieldEnabled = true;
@@ -298,7 +348,7 @@ export class PlanPriceSpecManager {
                     } else {
                         this._specPicker.statusMessage = {
                             message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
+                            level: 'error',
                         };
 
                         this._specPicker.shieldEnabled = true;
