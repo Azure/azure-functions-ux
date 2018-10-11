@@ -29,10 +29,10 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
     @Input() control: FormControl;
     @Input() tabs: GroupTab[];
     @Input() groupId: string;
-    @Input() defaultTabId: string;
+    @Input() selectedTabId: string;
     @Output() valueChanged: Subject<string>;
 
-    public selectedTabId: string;
+    public currentTabId: string;
     private _originalTabId: string;
 
     constructor() {
@@ -47,7 +47,7 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
         let selectedTabId: string;
 
         if (changes['defaultTabId']) {
-            selectedTabId = this.defaultTabId;
+            selectedTabId = this.selectedTabId;
         }
 
         if (changes['control']) {
@@ -56,14 +56,14 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
 
         if (selectedTabId) {
             this._originalTabId = selectedTabId;
-            this.selectedTabId = selectedTabId;
+            this.currentTabId = selectedTabId;
             this._setFocusOnSelectedTab();
         }
     }
 
     onKeyDown(event: KeyboardEvent) {
         if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = this.tabs.findIndex(tab => tab.id === this.selectedTabId);
+            let curIndex = this.tabs.findIndex(tab => tab.id === this.currentTabId);
             const tabElements = this._getTabElements();
             this._setFocus(false, tabElements, curIndex);
 
@@ -90,12 +90,12 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
 
             this.control.setValue(tabId);
         }
-        this.selectedTabId = tabId;
+        this.currentTabId = tabId;
         this.valueChanged.next(tabId);
     }
 
     private _setFocusOnSelectedTab() {
-        const curIndex = this.tabs.findIndex(tab => tab.id === this.selectedTabId);
+        const curIndex = this.tabs.findIndex(tab => tab.id === this.currentTabId);
         const tabElements = this._getTabElements();
         this._setFocus(true, tabElements, curIndex);
     }

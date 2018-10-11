@@ -20,6 +20,7 @@ import { MockLogService } from '../../test/mocks/log.service.mock';
 import { TelemetryService } from '../../shared/services/telemetry.service';
 import { SpecPickerInput, NewPlanSpecPickerData, PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.component';
 
 describe('SpecPickerComponent', () => {
     let component: SpecPickerComponent;
@@ -37,7 +38,9 @@ describe('SpecPickerComponent', () => {
                 SpecListComponent,
                 SpecFeatureListComponent,
                 RemoveSpacesPipe,
-                MockDirective(LoadImageDirective)],
+                GroupTabsComponent,
+                MockDirective(LoadImageDirective),
+            ],
             imports: [TranslateModule.forRoot()],
             providers: [
                 { provide: AuthzService, useClass: MockAuthzService },
@@ -45,8 +48,8 @@ describe('SpecPickerComponent', () => {
                 { provide: BroadcastService, useClass: MockBroadcastService },
                 { provide: LogService, useClass: MockLogService },
                 { provide: TelemetryService, useClass: MockTelemetryService },
-                { provide: PlanPriceSpecManager, useClass: MockSpecManager }
-            ]
+                { provide: PlanPriceSpecManager, useClass: MockSpecManager },
+            ],
         })
             .compileComponents();
     }));
@@ -76,7 +79,7 @@ describe('SpecPickerComponent', () => {
             data: {
                 id: planResourceId,
                 data: null,
-                specPicker: component
+                specPicker: component,
             },
         };
 
@@ -94,7 +97,7 @@ describe('SpecPickerComponent', () => {
             resourceId: planResourceId,
             dashboardType: null,
             node: null,
-            data: null
+            data: null,
         };
 
         component.viewInfoInput = input;
@@ -115,7 +118,7 @@ describe('SpecPickerComponent', () => {
             resourceId: planResourceId,
             dashboardType: null,
             node: null,
-            data: null
+            data: null,
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
@@ -137,7 +140,7 @@ describe('SpecPickerComponent', () => {
             resourceId: planResourceId,
             dashboardType: null,
             node: null,
-            data: null
+            data: null,
         };
 
         const authZService: MockAuthzService = TestBed.get(AuthzService);
