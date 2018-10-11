@@ -300,6 +300,6 @@ class MockSpecManager {
     checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, resourceId: string, authZService: AuthzService) {
         return Observable.of(null);
     }
-    
+
     setSelectedSpec(spec: PriceSpec) { }
 }

@@ -291,7 +291,7 @@ export class PlanPriceSpecManager {
                 this._specPicker.statusMessage = {
                     message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
                     level: 'info',
-                    infoLink: Links.pv2UpsellInfoLearnMore
+                    infoLink: Links.pv2UpsellInfoLearnMore,
                 };
             }
         }
@@ -337,7 +337,7 @@ export class PlanPriceSpecManager {
                         if (this._plan.sku.name === this.DynamicSku) {
                             this._specPicker.statusMessage = {
                                 message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
+                                level: 'error',
                             };
 
                             this._specPicker.shieldEnabled = true;
@@ -347,7 +347,7 @@ export class PlanPriceSpecManager {
                     } else {
                         this._specPicker.statusMessage = {
                             message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
+                            level: 'error',
                         };
 
                         this._specPicker.shieldEnabled = true;
