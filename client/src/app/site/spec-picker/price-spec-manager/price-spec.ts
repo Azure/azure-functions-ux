@@ -9,10 +9,10 @@ import { BillingService } from './../../../shared/services/billing.service';
 import { LogService } from '../../../shared/services/log.service';
 import { SpecResourceSet } from './billing-models';
 import { PriceSpecDetail } from './price-spec-detail';
-import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
-    specPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
+    specPickerInput: SpecPickerInput<PlanSpecPickerData>;
     subscriptionId: string;
     plan?: ArmObj<ServerFarm>;
 }

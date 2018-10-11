@@ -66,11 +66,6 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
             this.state = 'hidden';
-        } else if (input.specPickerInput.data
-            && (!input.specPickerInput.data.allowAseV2Creation
-                || input.specPickerInput.data.isXenon
-                || input.specPickerInput.data.isElastic)) {
-            this.state = 'hidden';
         } else if (input.plan) {
             if (!input.plan.properties.hostingEnvironmentProfile
                 || input.plan.properties.isXenon
@@ -91,6 +86,11 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
                         }
                     });
             }
+        } else if (input.specPickerInput.data
+            && (!input.specPickerInput.data.allowAseV2Creation
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic)) {
+            this.state = 'hidden';
         }
 
         return this.checkIfDreamspark(input.subscriptionId);

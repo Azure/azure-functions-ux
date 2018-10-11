@@ -5,7 +5,7 @@ import { ServerFarm } from './../../../shared/models/server-farm';
 import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV2SeriesPriceSpec } from './dV2series-price-spec';
-import { NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { PlanSpecPickerData } from './plan-price-spec-manager';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     tier = ServerFarmSku.elasticPremium;
@@ -67,7 +67,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
         return sku.name.toLowerCase().startsWith('ep');
     }
 
-    protected _shouldHideForNewPlan(data: NewPlanSpecPickerData): boolean {
+    protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
         return !!data.hostingEnvironmentName
             || data.isXenon
             || !data.isElastic;

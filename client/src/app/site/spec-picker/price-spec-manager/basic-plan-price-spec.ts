@@ -37,17 +37,16 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
     cssClass = 'spec basic-spec';
 
     runInitialization(input: PriceSpecInput) {
-        // data should only be populated for new plans
-        if (input.specPickerInput.data) {
-            if (input.specPickerInput.data.hostingEnvironmentName
-                || input.specPickerInput.data.isXenon
-                || input.specPickerInput.data.isElastic) {
-                this.state = 'hidden';
-            }
-        } else if (input.plan) {
+        if (input.plan) {
             if (input.plan.properties.hostingEnvironmentProfile
                 || input.plan.properties.isXenon
                 || AppKind.hasAnyKind(input.plan, [Kinds.elastic])) {
+                this.state = 'hidden';
+            }
+        } else if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName
+                || input.specPickerInput.data.isXenon
+                || input.specPickerInput.data.isElastic) {
                 this.state = 'hidden';
             }
         }

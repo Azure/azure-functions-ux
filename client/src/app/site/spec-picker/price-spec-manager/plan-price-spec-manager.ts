@@ -24,7 +24,7 @@ export interface SpecPickerInput<T> {
     specPicker: SpecPickerComponent;
 }
 
-export interface NewPlanSpecPickerData {
+export interface PlanSpecPickerData {
     subscriptionId: string;
     location: string;
     hostingEnvironmentName: string | null;
@@ -34,6 +34,7 @@ export interface NewPlanSpecPickerData {
     isXenon: boolean;
     isElastic?: boolean;
     selectedLegacySkuName: string;  // Looks like "small_standard"
+    initialSelectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -56,7 +57,7 @@ export class PlanPriceSpecManager {
     private _specPicker: SpecPickerComponent;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
-    private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
+    private _inputs: SpecPickerInput<PlanSpecPickerData>;
     private _ngUnsubscribe$ = new Subject();
 
     constructor(
@@ -76,7 +77,7 @@ export class PlanPriceSpecManager {
         ];
     }
 
-    initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+    initialize(inputs: SpecPickerInput<PlanSpecPickerData>) {
         this._specPicker = inputs.specPicker;
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
@@ -298,13 +299,13 @@ export class PlanPriceSpecManager {
         }
     }
 
-    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>) {
-        const resourceId = input.id;
+    checkAccess() {
+        const resourceId = this._inputs.id;
         return Observable.zip(
-            !input.data ? this._authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
-            !input.data ? this._authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
+            !this._inputs.data ? this._authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
+            !this._inputs.data ? this._authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
         ).do(r => {
-            if (!input.data) {
+            if (!this._inputs.data) {
                 const planDescriptor = new ArmResourceDescriptor(resourceId);
                 const name = planDescriptor.parts[planDescriptor.parts.length - 1];
 
@@ -327,8 +328,8 @@ export class PlanPriceSpecManager {
         });
     }
 
-    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        if (!inputs.data) {
+    private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {
+        if (this._isUpdateScenario(inputs)) {
             return this._planService.getPlan(inputs.id, true)
                 .map(r => {
 
@@ -405,8 +406,8 @@ export class PlanPriceSpecManager {
             .map(s => s.specResourceSet));
     }
 
-    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        if (!inputs.data) {
+    private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
+        if (this._isUpdateScenario(inputs)) {
 
             // If we're getting meters for an existing plan
             return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
@@ -453,12 +454,13 @@ export class PlanPriceSpecManager {
 
     private _findSelectedSpec(specs: PriceSpec[]) {
         return specs.find((s, specIndex) => {
-            return (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
+            return (this._inputs.data && this._inputs.data.initialSelectedSkuCode && this._inputs.data.initialSelectedSkuCode.toLowerCase() === s.skuCode.toLowerCase())
+                || (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
                 || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
         });
     }
 
-    private _filterOutForbiddenSkus(inputs: SpecPickerInput<NewPlanSpecPickerData>, specs: PriceSpec[]) {
+    private _filterOutForbiddenSkus(inputs: SpecPickerInput<PlanSpecPickerData>, specs: PriceSpec[]) {
         if (inputs.data && inputs.data.forbiddenSkus) {
             return specs
                 .filter(s => !this._inputs.data.forbiddenSkus
@@ -466,5 +468,9 @@ export class PlanPriceSpecManager {
         }
 
         return specs;
+    }
+
+    private _isUpdateScenario(inputs: SpecPickerInput<PlanSpecPickerData>): boolean {
+        return !inputs.data || (inputs.data && !!inputs.data.initialSelectedSkuCode);
     }
 }
