@@ -1,6 +1,6 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { HttpMethods, HttpConstants, LogCategories } from './../models/constants';
+import { HttpMethods, HttpConstants, LogCategories, ContainerConstants } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -847,6 +847,7 @@ export class FunctionAppService {
                     const usingLocalCache = appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
                     const hasSlots = result.hasSlots.result;
                     const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
+                    const isContainerApp = appSettings && appSettings.properties[ContainerConstants.appServiceStorageSetting] === 'false';
 
                     const resolveReadOnlyMode = () => {
                         if (sourceControlled) {
@@ -890,6 +891,8 @@ export class FunctionAppService {
                         return FunctionAppEditMode.ReadOnlyLocalCache;
                     } else if (isLinuxDynamic) {
                         return FunctionAppEditMode.ReadOnlyLinuxDynamic;
+                    } else if (isContainerApp) {
+                        return FunctionAppEditMode.ReadOnlyBYOC;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
