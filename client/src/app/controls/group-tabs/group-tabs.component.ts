@@ -46,7 +46,7 @@ export class GroupTabsComponent implements AfterViewInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         let selectedTabId: string;
 
-        if (changes['defaultTabId']) {
+        if (changes['selectedTabId']) {
             selectedTabId = this.selectedTabId;
         }
 

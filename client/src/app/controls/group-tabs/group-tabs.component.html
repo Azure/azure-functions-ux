@@ -1,17 +1,17 @@
-<nav *ngIf="tabs && selectedTabId" 
+<nav *ngIf="tabs && currentTabId" 
     [id]="'group-tab-' + groupId"
     role="tablist"
     #groupTabs>
     <div *ngFor="let tabItem of tabs"
         (click)="select(tabItem.id)"
         class="clickable group-tab"
-        [class.selected-container]="tabItem.id === selectedTabId"
-        [tabindex]="tabItem.id === selectedTabId ? 0 : -1"
+        [class.selected-container]="tabItem.id === currentTabId"
+        [tabindex]="tabItem.id === currentTabId ? 0 : -1"
         (keydown)="onKeyDown($event)"
         role="tab"
         [id]="'group-tab-item-' + tabItem.id"
         [attr.aria-controls]="'group-tab-item-' + tabItem.id"
-        [attr.aria-selected]="tabItem.id === selectedTabId"
+        [attr.aria-selected]="tabItem.id === currentTabId"
         [attr.aria-label]="tabItem.title">
 
         <div [load-image]="tabItem.iconUrl" class="icon-medium"></div>
