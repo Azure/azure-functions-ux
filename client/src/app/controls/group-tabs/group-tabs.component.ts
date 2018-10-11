@@ -6,6 +6,7 @@ import {
     Input,
     SimpleChanges,
     Output,
+    AfterViewInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { KeyCodes } from '../../shared/models/constants';
@@ -23,30 +24,46 @@ export interface GroupTab {
     templateUrl: './group-tabs.component.html',
     styleUrls: ['./group-tabs.component.scss'],
 })
-export class GroupTabsComponent implements OnChanges {
+export class GroupTabsComponent implements AfterViewInit, OnChanges {
     @ViewChild('groupTabs') groupTabs: ElementRef;
     @Input() control: FormControl;
     @Input() tabs: GroupTab[];
     @Input() groupId: string;
+    @Input() selectedTabId: string;
     @Output() valueChanged: Subject<string>;
 
-    public selectedTabId: string;
+    public currentTabId: string;
     private _originalTabId: string;
 
     constructor() {
         this.valueChanged = new Subject<string>();
     }
 
+    ngAfterViewInit() {
+        this._setFocusOnSelectedTab();
+    }
+
     ngOnChanges(changes: SimpleChanges) {
+        let selectedTabId: string;
+
+        if (changes['selectedTabId']) {
+            selectedTabId = this.selectedTabId;
+        }
+
         if (changes['control']) {
-            this._originalTabId = this.control.value;
-            this.selectedTabId = this.control.value;
+            selectedTabId = this.control.value;
+        }
+
+        if (selectedTabId) {
+            this._originalTabId = selectedTabId;
+            this.currentTabId = selectedTabId;
+            this._setFocusOnSelectedTab();
         }
     }
 
     onKeyDown(event: KeyboardEvent) {
         if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-            let curIndex = this.tabs.findIndex(tab => tab.id === this.selectedTabId);
+            let curIndex = this.tabs.findIndex(tab => tab.id === this.currentTabId);
             const tabElements = this._getTabElements();
             this._setFocus(false, tabElements, curIndex);
 
@@ -64,28 +81,38 @@ export class GroupTabsComponent implements OnChanges {
     }
 
     select(tabId: string) {
-        if (tabId !== this._originalTabId) {
-            this.control.markAsDirty();
-        } else {
-            this.control.markAsPristine();
-        }
+        if (this.control) {
+            if (tabId !== this._originalTabId) {
+                this.control.markAsDirty();
+            } else {
+                this.control.markAsPristine();
+            }
 
-        this.control.setValue(tabId);
-        this.selectedTabId = tabId;
+            this.control.setValue(tabId);
+        }
+        this.currentTabId = tabId;
         this.valueChanged.next(tabId);
     }
 
+    private _setFocusOnSelectedTab() {
+        const curIndex = this.tabs.findIndex(tab => tab.id === this.currentTabId);
+        const tabElements = this._getTabElements();
+        this._setFocus(true, tabElements, curIndex);
+    }
+
     private _getTabElements() {
-        return this.groupTabs.nativeElement.children;
+        return this.groupTabs && this.groupTabs.nativeElement ? this.groupTabs.nativeElement.children : [];
     }
 
     private _setFocus(set: boolean, elements: HTMLCollection, index: number) {
-        const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
+        if (elements.length > 0) {
+            const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
 
-        if (set) {
-            Dom.setFocus(tab);
-        } else {
-            Dom.clearFocus(tab);
+            if (set) {
+                Dom.setFocus(tab);
+            } else {
+                Dom.clearFocus(tab);
+            }
         }
     }
 
