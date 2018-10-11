@@ -13,6 +13,26 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
-    gulp default --gulpfile gulpfile.js
+    npm install -g @angular/cli
+  displayName: 'install angular CLI'
+
+- script: |
+    npm install -g yarn
+  displayName: 'install yarn'
+
+- script: |
+    cd client 
+    yarn install
+    node_modules/.bin/ng test --code-coverage
   displayName: 'npm install and run gulp'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TESTS.xml'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/client/coverage/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/client/coverage'
