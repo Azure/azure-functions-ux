@@ -1,7 +1,6 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
@@ -74,7 +73,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   constructor(
     public specManager: PlanPriceSpecManager,
-    private _authZService: AuthzService,
     private _ts: TranslateService,
     private _portalService: PortalService,
     injector: Injector) {
@@ -123,7 +121,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          this.specManager.checkAccess(this._input, this._authZService));
+          this.specManager.checkAccess(this._input));
       })
       .do(r => {
       });

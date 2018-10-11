@@ -4,7 +4,7 @@ import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export class SharedPlanPriceSpec extends PriceSpec {
-    sku = ServerFarmSku.shared;
+    tier = ServerFarmSku.shared;
     skuCode = 'D1';
     legacySkuName = 'shared';
     topLevelFeatures = [

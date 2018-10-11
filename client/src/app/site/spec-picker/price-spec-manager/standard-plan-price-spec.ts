@@ -5,7 +5,7 @@ import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class StandardPlanPriceSpec extends PriceSpec {
-    sku = ServerFarmSku.standard;
+    tier = ServerFarmSku.standard;
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',

@@ -8,7 +8,7 @@ import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { NewPlanSpecPickerData } from './plan-price-spec-manager';
 
 export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
-    sku = ServerFarmSku.premiumV2;
+    tier = ServerFarmSku.premiumV2;
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',

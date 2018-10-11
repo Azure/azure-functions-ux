@@ -60,6 +60,7 @@ export class PlanPriceSpecManager {
     private _ngUnsubscribe$ = new Subject();
 
     constructor(
+        private _authZService: AuthzService,
         private _planService: PlanService,
         private _portalService: PortalService,
         private _ts: TranslateService,
@@ -284,8 +285,8 @@ export class PlanPriceSpecManager {
         // plan is null for new plans
         if (this._plan) {
             const tier = this._plan.sku.tier;
-            if ((tier === ServerFarmSku.premiumV2 && spec.sku !== ServerFarmSku.premiumV2)
-                || (tier !== ServerFarmSku.premiumV2 && spec.sku === ServerFarmSku.premiumV2)) {
+            if ((tier === ServerFarmSku.premiumV2 && spec.tier !== ServerFarmSku.premiumV2)
+                || (tier !== ServerFarmSku.premiumV2 && spec.tier === ServerFarmSku.premiumV2)) {
 
                 // show message when upgrading to PV2 or downgrading from PV2.
                 this._specPicker.statusMessage = {
@@ -297,11 +298,11 @@ export class PlanPriceSpecManager {
         }
     }
 
-    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, authZService: AuthzService) {
+    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>) {
         const resourceId = input.id;
         return Observable.zip(
-            !input.data ? authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
-            !input.data ? authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
+            !input.data ? this._authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
+            !input.data ? this._authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
         ).do(r => {
             if (!input.data) {
                 const planDescriptor = new ArmResourceDescriptor(resourceId);

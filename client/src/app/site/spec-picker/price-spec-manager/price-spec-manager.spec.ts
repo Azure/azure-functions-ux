@@ -17,6 +17,8 @@ import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { Injector } from '@angular/core';
 import { ArmSubcriptionDescriptor } from '../../../shared/resourceDescriptors';
+import { AuthzService } from './../../../shared/services/authz.service';
+import { MockAuthzService } from './../../../test/mocks/authz.service.mock';
 
 describe('Price Spec Manager', () => {
     let specManager: PlanPriceSpecManager;
@@ -32,6 +34,7 @@ describe('Price Spec Manager', () => {
             imports: [TranslateModule.forRoot()],
             providers: [
                 PlanPriceSpecManager,
+                { provide: AuthzService, useClass: MockAuthzService },
                 { provide: PlanService, useClass: MockPlanService },
                 { provide: PortalService, useClass: MockPortalService },
                 { provide: LogService, useClass: MockLogService },
@@ -211,7 +214,7 @@ describe('Price Spec Manager', () => {
 });
 
 class MockPriceSpec extends PriceSpec {
-    sku = null;
+    tier = null;
     skuCode = null;
     legacySkuName = null;
     topLevelFeatures = [
@@ -240,9 +243,9 @@ class MockPriceSpec extends PriceSpec {
         }]
     };
 
-    constructor(injector: Injector, skuCode: string, sku: string) {
+    constructor(injector: Injector, skuCode: string, tier: string) {
         super(injector);
-        this.sku = sku;
+        this.tier = tier;
         this.skuCode = skuCode;
         this.legacySkuName = `Legacy-${skuCode}`;
         this.meterFriendlyName = `${skuCode} App Service`;

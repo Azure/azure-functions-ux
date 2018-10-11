@@ -7,7 +7,7 @@ import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
-    sku = ServerFarmSku.isolated;
+    tier = ServerFarmSku.isolated;
 
     featureItems = [{
         iconUrl: 'image/app-service-environment.svg',

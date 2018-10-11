@@ -19,7 +19,7 @@ export interface PriceSpecInput {
 
 export abstract class PriceSpec {
     abstract skuCode: string;                // SKU code name, like S1 or P1v2
-    abstract sku: string;
+    abstract tier: string;
 
     // Used ONLY for returning legacy PCV3 SKU names to Ibiza create scenario's since it currently
     // relies on this format.  There's no reason why we couldn't remove it going forward but I've

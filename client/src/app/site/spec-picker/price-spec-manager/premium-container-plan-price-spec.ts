@@ -4,7 +4,7 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 import { Links, ServerFarmSku } from '../../../shared/models/constants';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
-    sku = ServerFarmSku.premiumContainer;
+    tier = ServerFarmSku.premiumContainer;
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',
