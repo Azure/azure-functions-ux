@@ -21,6 +21,9 @@ import { TelemetryService } from '../../shared/services/telemetry.service';
 import { SpecPickerInput, NewPlanSpecPickerData, PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.component';
+import { PriceSpec } from './price-spec-manager/price-spec';
+import { MockPlanService } from '../../test/mocks/plan.service.mock';
+import { PlanService } from '../../shared/services/plan.service';
 
 describe('SpecPickerComponent', () => {
     let component: SpecPickerComponent;
@@ -157,6 +160,128 @@ describe('SpecPickerComponent', () => {
     });
 });
 
+fdescribe('SpecPickerComponentAccessTest', () => {
+    let component: SpecPickerComponent;
+    let fixture: ComponentFixture<SpecPickerComponent>;
+    const subscriptionId = 'mysub';
+    const planName = 'myplan';
+    const planResourceId = `/subscriptions/${subscriptionId}/resourcegroups/myrg/providers/microsoft.web/serverfarms/${planName}`;
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                SpecPickerComponent,
+                InfoBoxComponent,
+                SpecListComponent,
+                SpecFeatureListComponent,
+                RemoveSpacesPipe,
+                MockDirective(LoadImageDirective)],
+            imports: [TranslateModule.forRoot()],
+            providers: [
+                { provide: AuthzService, useClass: MockAuthzService },
+                { provide: PortalService, useClass: MockPortalService },
+                { provide: PlanService, useClass: MockPlanService },
+                { provide: BroadcastService, useClass: MockBroadcastService },
+                { provide: LogService, useClass: MockLogService },
+                { provide: TelemetryService, useClass: MockTelemetryService },
+                PlanPriceSpecManager
+            ]
+        })
+            .compileComponents();
+    }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SpecPickerComponent);
+        component = fixture.componentInstance;
+
+        fixture.detectChanges();
+    });
+
+    it('should show plan write permission error', () => {
+        const input = {
+            resourceId: planResourceId,
+            dashboardType: null,
+            node: null,
+            data: {
+                id: planResourceId,
+                data: null,
+                specPicker: component
+            }
+        };
+
+        const authZService: MockAuthzService = TestBed.get(AuthzService);
+        const priceSpecManager: PlanPriceSpecManager = TestBed.get(PlanPriceSpecManager);
+        spyOn(authZService, 'hasPermission').and.callFake(() => {
+            return Observable.of(false);
+        });
+
+        spyOn(authZService, 'hasReadOnlyLock').and.callFake(() => {
+            return Observable.of(false);
+        });
+
+        spyOn(priceSpecManager, 'resetGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'cleanUpGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'getSpecCosts').and.callFake(() => {
+            return Observable.of(true);
+        });
+
+        component.viewInfoInput = input;
+
+        expect(component.shieldEnabled).toBeTruthy();
+        expect(component.statusMessage).not.toBeNull();
+        expect(component.statusMessage.level).toEqual('error');
+        expect(component.statusMessage.message).toEqual(PortalResources.pricing_noWritePermissionsOnPlanFormat);
+    });
+
+    it('should show plan read lock error', () => {
+        const input = {
+            resourceId: planResourceId,
+            dashboardType: null,
+            node: null,
+            data: {
+                id: planResourceId,
+                data: null,
+                specPicker: component
+            }
+        };
+
+        const authZService: MockAuthzService = TestBed.get(AuthzService);
+        const priceSpecManager: PlanPriceSpecManager = TestBed.get(PlanPriceSpecManager);
+        spyOn(authZService, 'hasPermission').and.callFake(() => {
+            return Observable.of(true);
+        });
+
+        spyOn(authZService, 'hasReadOnlyLock').and.callFake(() => {
+            return Observable.of(true);
+        });
+
+        spyOn(priceSpecManager, 'resetGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'cleanUpGroups').and.callFake(() => {
+            return;
+        });
+
+        spyOn(priceSpecManager, 'getSpecCosts').and.callFake(() => {
+            return Observable.of(true);
+        });
+
+        component.viewInfoInput = input;
+
+        expect(component.shieldEnabled).toBeTruthy();
+        expect(component.statusMessage).not.toBeNull();
+        expect(component.statusMessage.level).toEqual('error');
+        expect(component.statusMessage.message).toEqual(PortalResources.pricing_planReadonlyLockFormat);
+    });
+});
+
 class MockSpecManager {
     resetGroups() { };
 
@@ -171,4 +296,10 @@ class MockSpecManager {
     cleanUpGroups() { }
 
     dispose() { }
+
+    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, resourceId: string, authZService: AuthzService) {
+        return Observable.of(null);
+    }
+    
+    setSelectedSpec(spec: PriceSpec) { }
 }

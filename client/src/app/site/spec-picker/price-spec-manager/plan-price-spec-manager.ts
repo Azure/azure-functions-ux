@@ -101,7 +101,7 @@ export class PlanPriceSpecManager {
                     specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
                 });
 
-                return Observable.zip(...specInitCalls);
+                return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
             });
     }
 
@@ -297,7 +297,8 @@ export class PlanPriceSpecManager {
         }
     }
 
-    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, resourceId: string, authZService: AuthzService) {
+    checkAccess(input: SpecPickerInput<NewPlanSpecPickerData>, authZService: AuthzService) {
+        const resourceId = input.id;
         return Observable.zip(
             !input.data ? authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
             !input.data ? authZService.hasReadOnlyLock(resourceId) : Observable.of(false)

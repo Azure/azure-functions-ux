@@ -190,14 +190,14 @@ describe('Price Spec Manager', () => {
         return new MockSpecGroup(
             injector,
             [
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended1`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended2`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended3`)
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended1`, 'Recommended1'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended2`, 'Recommended2'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended3`, 'Recommended3')
             ],
             [
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional1`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional2`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional3`)
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional1`, 'Additional1'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional2`, 'Additional2'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional3`, 'Additional3')
             ]);
     }
 
@@ -211,6 +211,7 @@ describe('Price Spec Manager', () => {
 });
 
 class MockPriceSpec extends PriceSpec {
+    sku = null;
     skuCode = null;
     legacySkuName = null;
     topLevelFeatures = [
@@ -239,8 +240,9 @@ class MockPriceSpec extends PriceSpec {
         }]
     };
 
-    constructor(injector: Injector, skuCode: string) {
+    constructor(injector: Injector, skuCode: string, sku: string) {
         super(injector);
+        this.sku = sku;
         this.skuCode = skuCode;
         this.legacySkuName = `Legacy-${skuCode}`;
         this.meterFriendlyName = `${skuCode} App Service`;

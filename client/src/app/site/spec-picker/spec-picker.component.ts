@@ -8,7 +8,6 @@ import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
-import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
 
@@ -39,7 +38,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   shieldEnabled = false;
   disableUpdates = false;
 
-  private _resourceId: ResourceId;
   private _input: SpecPickerInput<NewPlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
@@ -100,10 +98,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         this.statusMessage = null;
         this.shieldEnabled = false;
 
-        // The resourceId would be a plan resourceId if it's an existing plan.  Or a subscription resourceId
-        // if it's a new plan.
-        this._resourceId = info.resourceId;
-
         // data will be null if opened as a tab
         if (!info.data) {
           this._input = {
@@ -129,7 +123,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          this.specManager.checkAccess(this._input, this._resourceId, this._authZService));
+          this.specManager.checkAccess(this._input, this._authZService));
       })
       .do(r => {
       });
