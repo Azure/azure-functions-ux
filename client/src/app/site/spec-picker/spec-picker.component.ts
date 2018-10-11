@@ -9,11 +9,9 @@ import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
-import { PriceSpecGroup } from './price-spec-manager/price-spec-group';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
-import { Dom } from '../../shared/Utilities/dom';
 
 export interface StatusMessage {
   message: string;
@@ -97,7 +95,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
           this._input = {
             id: info.resourceId,
             data: null,
-            specPicker: this
+            specPicker: this,
           };
         } else {
           // data will be set if opened from Ibiza
@@ -129,14 +127,14 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
           if (!r[1]) {
             this.statusMessage = {
               message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
-              level: 'error'
+              level: 'error',
             };
 
             this.shieldEnabled = true;
           } else if (r[2]) {
             this.statusMessage = {
               message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
-              level: 'error'
+              level: 'error',
             };
 
             this.shieldEnabled = true;
@@ -145,8 +143,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       });
   }
 
-  selectGroup(group: PriceSpecGroup) {
-    this.specManager.selectedSpecGroup = group;
+  selectGroup(groupId: string) {
+    this.specManager.selectedSpecGroup = this.specManager.specGroups.find(group => group.id === groupId);
   }
 
   selectSpec(spec: PriceSpec) {
@@ -185,27 +183,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
   }
 
-  onGroupTabKeyPress(event: KeyboardEvent) {
-    const groups = this.specManager.specGroups;
-
-    if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
-      let curIndex = groups.findIndex(g => g === this.specManager.selectedSpecGroup);
-      const tabElements = this._getTabElements();
-      this._updateFocusOnGroupTab(false, tabElements, curIndex);
-
-      if (event.keyCode === KeyCodes.arrowRight) {
-        curIndex = this._getTargetIndex(groups, curIndex + 1);
-      } else {
-        curIndex = this._getTargetIndex(groups, curIndex - 1);
-      }
-
-      this.selectGroup(groups[curIndex]);
-      this._updateFocusOnGroupTab(true, tabElements, curIndex);
-
-      event.preventDefault();
-    }
-  }
-
   onExpandKeyPress(event: KeyboardEvent) {
     if (event.keyCode === KeyCodes.enter) {
       this.specManager.selectedSpecGroup.isExpanded = !this.specManager.selectedSpecGroup.isExpanded;
@@ -226,29 +203,5 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   get showAllSpecs() {
     return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
       || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
-  }
-
-  private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {
-    if (targetIndex < 0) {
-      targetIndex = groups.length - 1;
-    } else if (targetIndex >= groups.length) {
-      targetIndex = 0;
-    }
-
-    return targetIndex;
-  }
-
-  private _getTabElements() {
-    return this.groupElements.nativeElement.children;
-  }
-
-  private _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
-    const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
-
-    if (set) {
-      Dom.setFocus(tab);
-    } else {
-      Dom.clearFocus(tab);
-    }
   }
 }

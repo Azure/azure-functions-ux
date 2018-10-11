@@ -1,26 +1,12 @@
 <div id="spec-picker-container" *ngIf="specManager && specManager.selectedSpecGroup">
   <div id="spec-picker-shield" *ngIf="isUpdating || shieldEnabled" [class.spec-picker-shield-menu]="isOpenedFromMenu"></div>
 
-  <!-- TODO(michinoy): Switch to using GroupTabs control (WI #3158544)-->
-  <nav id="spec-group-tabs" role="tablist" #specGroupTabs>
-    <div *ngFor="let specGroup of specManager.specGroups"
-      (click)="selectGroup(specGroup)"
-      class="clickable spec-group"
-      [class.selected-spec-group]="specGroup === specManager.selectedSpecGroup"
-      [tabindex]="specGroup === specManager.selectedSpecGroup ? 0 : -1"
-      (keydown)="onGroupTabKeyPress($event)"
-      role="tab"
-      [id]="'spec-group-tab-' + specGroup.id"
-      [attr.aria-controls]="'spec-group-tab-' + specGroup.id"
-      [attr.aria-selected]="specGroup === specManager.selectedSpecGroup"
-      [attr.aria-label]="specGroup.title"
-      aria-describedBy="subGroupDescriptionId">
-
-      <div [load-image]="specGroup.iconUrl" class="icon-medium"></div>
-      <h3>{{specGroup.title}}</h3>
-      <h4 id="subGroupDescriptionId">{{specGroup.description}}</h4>
-    </div>
-  </nav>
+  <group-tabs
+    [tabs] = "specManager.specGroups"
+    groupId = "spec-group"
+    [defaultTabId] = "specManager.selectedSpecGroup.id"
+    (valueChanged)="selectGroup($event)">
+  </group-tabs>
 
   <section role="tabpanel"
     [id]="'spec-group-tab-' + specManager.selectedSpecGroup.id"
