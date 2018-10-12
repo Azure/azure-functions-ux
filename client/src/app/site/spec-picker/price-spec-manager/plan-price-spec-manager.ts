@@ -222,10 +222,13 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's a spec in the current group that matches the plan sku
-            g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
+            const allSpecs = [...g.recommendedSpecs, ...g.additionalSpecs];
+
+            // Find if there's a spec in any group that matches the selectedSkuCode or selectedLegacySkuName
+            g.selectedSpec = this._findSelectedSpec(allSpecs);
             if (!g.selectedSpec) {
-                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
+                // Find if there's a spec in any group that matches the plan sku
+                g.selectedSpec = this._findPlanSpec(allSpecs);
             }
 
             // If a plan's sku matches a spec in the current group, then make that group the default group
@@ -456,8 +459,13 @@ export class PlanPriceSpecManager {
         // NOTE(shimedh): The order of checks should always be as below.
         return specs.find((s, specIndex) => {
             return (this._inputs.data && this._inputs.data.selectedSkuCode && this._inputs.data.selectedSkuCode.toLowerCase() === s.skuCode.toLowerCase())
-                || (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
                 || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
+        });
+    }
+
+    private _findPlanSpec(specs: PriceSpec[]) {
+        return specs.find((s, specIndex) => {
+            return this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase();
         });
     }
 
