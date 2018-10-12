@@ -24,7 +24,8 @@ steps:
     cd client 
     yarn install
     node_modules/.bin/ng test --code-coverage
-  displayName: 'npm install and run gulp'
+    node_modules/.bin/ng build --prod
+  displayName: 'yarn install and ng build/test'
 
 - task: PublishTestResults@2
   inputs:
