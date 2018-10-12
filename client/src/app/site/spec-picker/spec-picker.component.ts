@@ -1,7 +1,7 @@
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
+import { PlanPriceSpecManager, PlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
@@ -22,9 +22,9 @@ export interface StatusMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnDestroy {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>> implements OnDestroy {
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>) {
     this.setInput(viewInfo);
   }
 
@@ -37,7 +37,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   shieldEnabled = false;
   disableUpdates = false;
 
-  private _input: SpecPickerInput<NewPlanSpecPickerData>;
+  private _input: SpecPickerInput<PlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
@@ -87,7 +87,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.specManager.dispose();
   }
 
-  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>>) {
+  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>>) {
     return inputEvents
       .distinctUntilChanged()
       .switchMap(info => {
@@ -121,7 +121,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          this.specManager.checkAccess(this._input));
+          this.specManager.checkAccess());
       })
       .do(r => {
       });

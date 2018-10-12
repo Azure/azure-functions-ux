@@ -49,18 +49,17 @@ export class SharedPlanPriceSpec extends PriceSpec {
     cssClass = 'spec premium-spec';
 
     runInitialization(input: PriceSpecInput) {
-        // data should only be populated for new plans
-        if (input.specPickerInput.data) {
+        if (input.plan) {
+            if (input.plan.properties.hostingEnvironmentProfile
+                || input.plan.properties.isXenon
+                || AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])) {
+                this.state = 'hidden';
+            }
+        } else if (input.specPickerInput.data) {
             if (input.specPickerInput.data.hostingEnvironmentName
                 || input.specPickerInput.data.isLinux
                 || input.specPickerInput.data.isXenon
                 || input.specPickerInput.data.isElastic) {
-                this.state = 'hidden';
-            }
-        } else if (input.plan) {
-            if (input.plan.properties.hostingEnvironmentProfile
-                || input.plan.properties.isXenon
-                || AppKind.hasAnyKind(input.plan, [Kinds.linux, Kinds.elastic])) {
                 this.state = 'hidden';
             }
         }
