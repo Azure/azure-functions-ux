@@ -34,7 +34,7 @@ export interface PlanSpecPickerData {
     isXenon: boolean;
     isElastic?: boolean;
     selectedLegacySkuName: string;  // Looks like "small_standard"
-    initialSelectedSkuCode?: string; // Can be set in update scenario for initial spec selection
+    selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -453,8 +453,9 @@ export class PlanPriceSpecManager {
     }
 
     private _findSelectedSpec(specs: PriceSpec[]) {
+        // NOTE(shimedh): The order of checks should always be as below.
         return specs.find((s, specIndex) => {
-            return (this._inputs.data && this._inputs.data.initialSelectedSkuCode && this._inputs.data.initialSelectedSkuCode.toLowerCase() === s.skuCode.toLowerCase())
+            return (this._inputs.data && this._inputs.data.selectedSkuCode && this._inputs.data.selectedSkuCode.toLowerCase() === s.skuCode.toLowerCase())
                 || (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
                 || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
         });
@@ -471,6 +472,6 @@ export class PlanPriceSpecManager {
     }
 
     private _isUpdateScenario(inputs: SpecPickerInput<PlanSpecPickerData>): boolean {
-        return !inputs.data || (inputs.data && !!inputs.data.initialSelectedSkuCode);
+        return !inputs.data || (inputs.data && !!inputs.data.selectedSkuCode);
     }
 }
