@@ -63,15 +63,19 @@
 
       <button *ngIf="scriptFile?.isDirty && !isStandalone"
         class="custom-button-invert"
-        [disabled]="!runValid"
+        [disabled]="!runValid || !isRunEnabled"
         [class.dirty]="scriptFile?.isDirty"
+        [title]="runHoverText | translate"
+        [attr.aria-label]="runHoverText | translate"
         (click)="runFunction()">
         <i class="fa fa-play"></i> {{ 'functionDev_saveAndRun' | translate }} </button>
 
       <button *ngIf="!scriptFile?.isDirty && !isStandalone"
         class="custom-button-invert"
-        [disabled]="!runValid"
+        [disabled]="!runValid || !isRunEnabled"
         [class.dirty]="scriptFile?.isDirty"
+        [title]="runHoverText | translate"
+        [attr.aria-label]="runHoverText | translate"
         (click)="runFunction()">
         <i class="fa fa-play"></i> {{ 'run' | translate }} </button>
 
@@ -173,7 +177,7 @@
         </file-explorer>
       </div>
 
-      <div *ngIf="rightTab === 'run'" class="dev-full dev-border dev-flex-column">
+      <div *ngIf="rightTab === 'run' && isRunEnabled" class="dev-full dev-border dev-flex-column">
 
         <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
 
@@ -236,6 +240,12 @@
           </button>
         </div>
       </div>
+
+      <info-box
+        *ngIf="rightTab === 'run' && !isRunEnabled"
+        class="dev-full dev-border dev-flex-column"
+        [infoText]="'testFunctionNotSupportedForGitHubWebhook' | translate">
+      </info-box>
     </div>
   </aside>
 

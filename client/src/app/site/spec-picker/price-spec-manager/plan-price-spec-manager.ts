@@ -15,7 +15,8 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories } from '../../../shared/models/constants';
+import { LogCategories, ServerFarmSku, Links } from '../../../shared/models/constants';
+import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
@@ -23,7 +24,7 @@ export interface SpecPickerInput<T> {
     specPicker: SpecPickerComponent;
 }
 
-export interface NewPlanSpecPickerData {
+export interface PlanSpecPickerData {
     subscriptionId: string;
     location: string;
     hostingEnvironmentName: string | null;
@@ -33,6 +34,7 @@ export interface NewPlanSpecPickerData {
     isXenon: boolean;
     isElastic?: boolean;
     selectedLegacySkuName: string;  // Looks like "small_standard"
+    selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
 
 export type ApplyButtonState = 'enabled' | 'disabled';
@@ -55,10 +57,11 @@ export class PlanPriceSpecManager {
     private _specPicker: SpecPickerComponent;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
-    private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
+    private _inputs: SpecPickerInput<PlanSpecPickerData>;
     private _ngUnsubscribe$ = new Subject();
 
     constructor(
+        private _authZService: AuthzService,
         private _planService: PlanService,
         private _portalService: PortalService,
         private _ts: TranslateService,
@@ -74,7 +77,7 @@ export class PlanPriceSpecManager {
         ];
     }
 
-    initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
+    initialize(inputs: SpecPickerInput<PlanSpecPickerData>) {
         this._specPicker = inputs.specPicker;
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
@@ -100,7 +103,7 @@ export class PlanPriceSpecManager {
                     specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(priceSpecInput)));
                 });
 
-                return Observable.zip(...specInitCalls);
+                return specInitCalls.length > 0 ? Observable.zip(...specInitCalls) : Observable.of(null);
             });
     }
 
@@ -219,10 +222,13 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's a spec in the current group that matches the plan sku
-            g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
+            const allSpecs = [...g.recommendedSpecs, ...g.additionalSpecs];
+
+            // Find if there's a spec in any group that matches the selectedSkuCode or selectedLegacySkuName
+            g.selectedSpec = this._findSelectedSpec(allSpecs);
             if (!g.selectedSpec) {
-                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
+                // Find if there's a spec in any group that matches the plan sku
+                g.selectedSpec = this._findPlanSpec(allSpecs);
             }
 
             // If a plan's sku matches a spec in the current group, then make that group the default group
@@ -241,8 +247,8 @@ export class PlanPriceSpecManager {
                 g.selectedSpec = g.additionalSpecs[0];
             }
 
-            // Expand if selected spec is in the "all specs" list
-            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
+            // Expand if selected spec is in the "all specs" list or all of the specs in the recommended list are disabled.
+            g.isExpanded = (g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec)) || !g.recommendedSpecs.some(s => s.state === 'enabled') ? true : false;
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;
@@ -277,8 +283,56 @@ export class PlanPriceSpecManager {
         this._ngUnsubscribe$.next();
     }
 
-    private _getPlan(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        if (!inputs.data) {
+    setSelectedSpec(spec: PriceSpec) {
+        this.selectedSpecGroup.selectedSpec = spec;
+
+        // plan is null for new plans
+        if (this._plan) {
+            const tier = this._plan.sku.tier;
+            if ((tier === ServerFarmSku.premiumV2 && spec.tier !== ServerFarmSku.premiumV2)
+                || (tier !== ServerFarmSku.premiumV2 && spec.tier === ServerFarmSku.premiumV2)) {
+
+                // show message when upgrading to PV2 or downgrading from PV2.
+                this._specPicker.statusMessage = {
+                    message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
+                    level: 'info',
+                    infoLink: Links.pv2UpsellInfoLearnMore,
+                };
+            }
+        }
+    }
+
+    checkAccess() {
+        const resourceId = this._inputs.id;
+        return Observable.zip(
+            !this._inputs.data ? this._authZService.hasPermission(resourceId, [AuthzService.writeScope]) : Observable.of(true),
+            !this._inputs.data ? this._authZService.hasReadOnlyLock(resourceId) : Observable.of(false),
+        ).do(r => {
+            if (!this._inputs.data) {
+                const planDescriptor = new ArmResourceDescriptor(resourceId);
+                const name = planDescriptor.parts[planDescriptor.parts.length - 1];
+
+                if (!r[0]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
+                        level: 'error',
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                } else if (r[1]) {
+                    this._specPicker.statusMessage = {
+                        message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
+                        level: 'error',
+                    };
+
+                    this._specPicker.shieldEnabled = true;
+                }
+            }
+        });
+    }
+
+    private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {
+        if (this._isUpdateScenario(inputs)) {
             return this._planService.getPlan(inputs.id, true)
                 .map(r => {
 
@@ -288,7 +342,7 @@ export class PlanPriceSpecManager {
                         if (this._plan.sku.name === this.DynamicSku) {
                             this._specPicker.statusMessage = {
                                 message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
-                                level: 'error'
+                                level: 'error',
                             };
 
                             this._specPicker.shieldEnabled = true;
@@ -298,7 +352,7 @@ export class PlanPriceSpecManager {
                     } else {
                         this._specPicker.statusMessage = {
                             message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
-                            level: 'error'
+                            level: 'error',
                         };
 
                         this._specPicker.shieldEnabled = true;
@@ -355,8 +409,8 @@ export class PlanPriceSpecManager {
             .map(s => s.specResourceSet));
     }
 
-    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
-        if (!inputs.data) {
+    private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
+        if (this._isUpdateScenario(inputs)) {
 
             // If we're getting meters for an existing plan
             return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
@@ -402,13 +456,20 @@ export class PlanPriceSpecManager {
     }
 
     private _findSelectedSpec(specs: PriceSpec[]) {
+        // NOTE(shimedh): The order of checks should always be as below.
         return specs.find((s, specIndex) => {
-            return (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
+            return (this._inputs.data && this._inputs.data.selectedSkuCode && this._inputs.data.selectedSkuCode.toLowerCase() === s.skuCode.toLowerCase())
                 || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
         });
     }
 
-    private _filterOutForbiddenSkus(inputs: SpecPickerInput<NewPlanSpecPickerData>, specs: PriceSpec[]) {
+    private _findPlanSpec(specs: PriceSpec[]) {
+        return specs.find((s, specIndex) => {
+            return this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase();
+        });
+    }
+
+    private _filterOutForbiddenSkus(inputs: SpecPickerInput<PlanSpecPickerData>, specs: PriceSpec[]) {
         if (inputs.data && inputs.data.forbiddenSkus) {
             return specs
                 .filter(s => !this._inputs.data.forbiddenSkus
@@ -416,5 +477,9 @@ export class PlanPriceSpecManager {
         }
 
         return specs;
+    }
+
+    private _isUpdateScenario(inputs: SpecPickerInput<PlanSpecPickerData>): boolean {
+        return !inputs.data || (inputs.data && !!inputs.data.selectedSkuCode);
     }
 }

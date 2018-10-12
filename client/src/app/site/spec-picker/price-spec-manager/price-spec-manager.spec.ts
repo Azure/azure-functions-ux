@@ -5,7 +5,7 @@ import { MockLogService } from './../../../test/mocks/log.service.mock';
 import { LogService } from 'app/shared/services/log.service';
 import { MockPortalService } from './../../../test/mocks/portal.service.mock';
 import { MockPlanService } from './../../../test/mocks/plan.service.mock';
-import { PlanPriceSpecManager, SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { PlanPriceSpecManager, SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
 import { async, TestBed, inject } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { PlanService } from '../../../shared/services/plan.service';
@@ -17,14 +17,16 @@ import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { Injector } from '@angular/core';
 import { ArmSubcriptionDescriptor } from '../../../shared/resourceDescriptors';
+import { AuthzService } from './../../../shared/services/authz.service';
+import { MockAuthzService } from './../../../test/mocks/authz.service.mock';
 
 describe('Price Spec Manager', () => {
     let specManager: PlanPriceSpecManager;
     let planService: MockPlanService;
     let group1: MockSpecGroup;
     let group2: MockSpecGroup;
-    let existingPlanSpecPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
-    let newPlanSpecPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
+    let existingPlanSpecPickerInput: SpecPickerInput<PlanSpecPickerData>;
+    let newPlanSpecPickerInput: SpecPickerInput<PlanSpecPickerData>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -32,6 +34,7 @@ describe('Price Spec Manager', () => {
             imports: [TranslateModule.forRoot()],
             providers: [
                 PlanPriceSpecManager,
+                { provide: AuthzService, useClass: MockAuthzService },
                 { provide: PlanService, useClass: MockPlanService },
                 { provide: PortalService, useClass: MockPortalService },
                 { provide: LogService, useClass: MockLogService },
@@ -190,14 +193,14 @@ describe('Price Spec Manager', () => {
         return new MockSpecGroup(
             injector,
             [
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended1`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended2`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Recommended3`)
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended1`, 'Recommended1'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended2`, 'Recommended2'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Recommended3`, 'Recommended3')
             ],
             [
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional1`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional2`),
-                new MockPriceSpec(injector, `Group${groupNumber}-Additional3`)
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional1`, 'Additional1'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional2`, 'Additional2'),
+                new MockPriceSpec(injector, `Group${groupNumber}-Additional3`, 'Additional3')
             ]);
     }
 
@@ -211,6 +214,7 @@ describe('Price Spec Manager', () => {
 });
 
 class MockPriceSpec extends PriceSpec {
+    tier = null;
     skuCode = null;
     legacySkuName = null;
     topLevelFeatures = [
@@ -239,8 +243,9 @@ class MockPriceSpec extends PriceSpec {
         }]
     };
 
-    constructor(injector: Injector, skuCode: string) {
+    constructor(injector: Injector, skuCode: string, tier: string) {
         super(injector);
+        this.tier = tier;
         this.skuCode = skuCode;
         this.legacySkuName = `Legacy-${skuCode}`;
         this.meterFriendlyName = `${skuCode} App Service`;

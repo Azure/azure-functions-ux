@@ -57,8 +57,14 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         return functionMonitorInfoInputEvent
             .switchMap(functionMonitorInfo => Observable.zip(
                 Observable.of(functionMonitorInfo),
-                this._applicationInsightsService.getLast30DaysSummary(functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(), functionMonitorInfo.functionInfo.name),
-                this._applicationInsightsService.getInvocationTraces(functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(), functionMonitorInfo.functionInfo.name)
+                this._applicationInsightsService.getLast30DaysSummary(
+                    functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
+                    functionMonitorInfo.functionAppContext.site.name,
+                    functionMonitorInfo.functionInfo.name),
+                this._applicationInsightsService.getInvocationTraces(
+                    functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
+                    functionMonitorInfo.functionAppContext.site.name,
+                    functionMonitorInfo.functionInfo.name)
             ))
             .do(tuple => {
                 this.functionMonitorInfo = tuple[0];
@@ -111,6 +117,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public openAppInsightsQueryEditor() {
         const url = this._applicationInsightsService.getInvocationTracesDirectUrl(
             this.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
+            this.functionMonitorInfo.functionAppContext.site.name,
             this.functionMonitorInfo.functionInfo.name);
 
         window.open(url, '_blank');

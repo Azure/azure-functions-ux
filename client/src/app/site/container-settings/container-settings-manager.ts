@@ -95,6 +95,10 @@ export class ContainerSettingsManager {
         this._initializeForm(os, appSettings, siteConfig, publishingCredentials);
     }
 
+    public intializeForLockedMode(os: ContainerOS) {
+        this._initializeForm(os, null, null, null);
+    }
+
     public getContainerForm(form: FormGroup, containerType: ContainerType): FormGroup {
         const singleContainerForm = <FormGroup>form.controls.singleContainerForm;
         const dockerComposeForm = <FormGroup>form.controls.dockerComposeForm;
@@ -310,7 +314,13 @@ export class ContainerSettingsManager {
     private _getAcrWebhookName(siteDescriptor: ArmSiteDescriptor) {
         // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
         // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
-        return siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+        let webhookName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+
+        if (siteDescriptor.slot) {
+            webhookName += siteDescriptor.slot.replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        return webhookName;
     }
 
     private _saveContainerAppSettings(resourceId: string, os: ContainerOS, formData: ContainerFormData): Observable<HttpResult<Response>> {
@@ -560,7 +570,7 @@ export class ContainerSettingsManager {
 
     private _getQuickstartForm(): FormGroup {
         return this._fb.group({
-            serverUrl: ['', []],
+            serverUrl: [''],
             config: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
         });
     }
@@ -573,14 +583,14 @@ export class ContainerSettingsManager {
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 repository: [this._getAcrRepository(fxVersion, appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 tag: [this._getAcrTag(fxVersion, appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
                 registry: [this._getAcrRegistry(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-                config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), []],
+                config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
     }
@@ -646,7 +656,7 @@ export class ContainerSettingsManager {
 
     private _getDockerHubForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         return this._fb.group({
-            accessType: [this._getDockerHubAccessType(appSettings), []],
+            accessType: [this._getDockerHubAccessType(appSettings)],
             dockerHubPublicForm: this._getDockerHubPublicForm(containerType, fxVersion, appSettings, siteConfig),
             dockerHubPrivateForm: this._getDockerHubPrivateForm(containerType, fxVersion, appSettings, siteConfig),
         });
@@ -664,12 +674,13 @@ export class ContainerSettingsManager {
     private _getDockerHubPublicForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
-                serverUrl: [ContainerConstants.dockerHubUrl, []],
+                serverUrl: [ContainerConstants.dockerHubUrl],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
-                serverUrl: [ContainerConstants.dockerHubUrl, []],
+                serverUrl: [ContainerConstants.dockerHubUrl],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
@@ -678,14 +689,15 @@ export class ContainerSettingsManager {
     private _getDockerHubPrivateForm(containerType: ContainerType, fxVersion: string, appSettings: ApplicationSettings, siteConfig: ContainerSiteConfig): FormGroup {
         if (containerType === 'single') {
             return this._fb.group({
-                serverUrl: [ContainerConstants.dockerHubUrl, []],
+                serverUrl: [ContainerConstants.dockerHubUrl],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
-                serverUrl: [ContainerConstants.dockerHubUrl, []],
+                serverUrl: [ContainerConstants.dockerHubUrl],
                 login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
@@ -703,10 +715,10 @@ export class ContainerSettingsManager {
                         this.urlValidator.validate.bind(this.urlValidator),
                     ],
                 ],
-                login: [this._getAppSettingsUsername(appSettings), []],
-                password: [this._getAppSettingsPassword(appSettings), []],
+                login: [this._getAppSettingsUsername(appSettings)],
+                password: [this._getAppSettingsPassword(appSettings)],
                 image: [fxVersion ? fxVersion.split('|')[1] : '', this.requiredValidator.validate.bind(this.requiredValidator)],
-                startupFile: [this._getSiteConfigAppCommandLine(siteConfig), []],
+                startupFile: [this._getSiteConfigAppCommandLine(siteConfig)],
             });
         } else {
             return this._fb.group({
@@ -717,8 +729,8 @@ export class ContainerSettingsManager {
                         this.urlValidator.validate.bind(this.urlValidator),
                     ],
                 ],
-                login: [this._getAppSettingsUsername(appSettings), []],
-                password: [this._getAppSettingsPassword(appSettings), []],
+                login: [this._getAppSettingsUsername(appSettings)],
+                password: [this._getAppSettingsPassword(appSettings)],
                 config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
             });
         }
@@ -842,11 +854,16 @@ export class ContainerSettingsManager {
 
     private _getAppCommandLineFormData(containerType: ContainerType, containerForm: FormGroup): string {
         const imageSourceType: ImageSourceType = containerForm.controls.imageSource.value;
-        if (containerType === 'single'
-            && (imageSourceType === 'azureContainerRegistry' || imageSourceType === 'privateRegistry')) {
+        if (containerType === 'single') {
             const imageSourceForm = this.getImageSourceForm(containerForm, imageSourceType);
 
-            return imageSourceForm.controls.startupFile.value;
+            if (imageSourceType === 'dockerHub') {
+                const accessType: DockerHubAccessType = imageSourceForm.controls.accessType.value;
+                const dockerHubForm = this.getDockerHubForm(imageSourceForm, accessType);
+                return dockerHubForm.controls.startupFile.value;
+            } else if (imageSourceType !== 'quickstart') {
+                return imageSourceForm.controls.startupFile.value;
+            }
         }
 
         return '';

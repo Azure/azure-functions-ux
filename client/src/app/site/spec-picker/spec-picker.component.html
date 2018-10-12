@@ -1,24 +1,12 @@
 <div id="spec-picker-container" *ngIf="specManager && specManager.selectedSpecGroup">
   <div id="spec-picker-shield" *ngIf="isUpdating || shieldEnabled" [class.spec-picker-shield-menu]="isOpenedFromMenu"></div>
 
-  <nav id="spec-group-tabs" role="tablist" #specGroupTabs>
-    <div *ngFor="let specGroup of specManager.specGroups"
-      (click)="selectGroup(specGroup)"
-      class="clickable spec-group"
-      [class.selected-spec-group]="specGroup === specManager.selectedSpecGroup"
-      [tabindex]="specGroup === specManager.selectedSpecGroup ? 0 : -1"
-      (keydown)="onGroupTabKeyPress($event)"
-      role="tab"
-      [id]="'spec-group-tab-' + specGroup.id"
-      [attr.aria-controls]="'spec-group-tab-' + specGroup.id"
-      [attr.aria-selected]="specGroup === specManager.selectedSpecGroup"
-      [attr.aria-label]="specGroup.title">
-
-      <div [load-image]="specGroup.iconUrl" class="icon-medium"></div>
-      <h3>{{specGroup.title}}</h3>
-      <h4>{{specGroup.description}}</h4>
-    </div>
-  </nav>
+  <group-tabs
+    [tabs] = "specManager.specGroups"
+    groupId = "spec-group"
+    [selectedTabId] = "specManager.selectedSpecGroup.id"
+    (valueChanged)="selectGroup($event)">
+  </group-tabs>
 
   <section role="tabpanel"
     [id]="'spec-group-tab-' + specManager.selectedSpecGroup.id"
@@ -42,30 +30,32 @@
     </section>
 
     <section class="centered">
-      <h2 class="tiers-header" *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0">{{'pricing_recommendedTiers' | translate}}</h2>
-      <spec-list *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0"
-        [specGroup]="specManager.selectedSpecGroup"
-        [isRecommendedList]="true"
-        (onSelectedSpec)="selectSpec($event)"></spec-list>
+      <ng-container *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0">
+        <h2 class="tiers-header" tabindex="0" >{{'pricing_recommendedTiers' | translate}}</h2>
+        <spec-list [specGroup]="specManager.selectedSpecGroup"
+          [isRecommendedList]="true"
+          (onSelectedSpec)="selectSpec($event)"></spec-list>
+      </ng-container>
 
-        <div class="spec-expander" *ngIf="showExpander">
-          <span (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
-                (keydown)="onExpandKeyPress($event)"
-                role="link"
-                tabindex="0"
-                [attr.aria-expanded]="specManager.selectedSpecGroup.isExpanded"
-                [attr.aria-controls]="specManager.selectedSpecGroup.id + specManager.selectedSpecGroup.selectedSpec">
-    
-            <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
-            <a>{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
-          </span>
-        </div>
+      <div class="spec-expander" *ngIf="showExpander">
+        <span (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
+              (keydown)="onExpandKeyPress($event)"
+              role="button"
+              tabindex="0"
+              [attr.aria-expanded]="specManager.selectedSpecGroup.isExpanded"
+              [attr.aria-controls]="specManager.selectedSpecGroup.id + specManager.selectedSpecGroup.selectedSpec?.skuCode">
 
-      <h2 class="tiers-header" *ngIf="showAllSpecs">{{'pricing_additionalTiers' | translate}}</h2>
-      <spec-list *ngIf="showAllSpecs"
-        [specGroup]="specManager.selectedSpecGroup"
-        [isRecommendedList]="false"
-        (onSelectedSpec)="selectSpec($event)"></spec-list>
+          <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
+          <a>{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
+        </span>
+      </div>
+
+      <ng-container *ngIf="showAllSpecs">
+        <h2 class="tiers-header" tabindex="0">{{'pricing_additionalTiers' | translate}}</h2>
+        <spec-list [specGroup]="specManager.selectedSpecGroup"
+          [isRecommendedList]="false"
+          (onSelectedSpec)="selectSpec($event)"></spec-list>
+      </ng-container>
     </section>
 
     <section *ngIf="specManager.selectedSpecGroup.selectedSpec" class="feature-lists-container centered">
@@ -97,15 +87,16 @@
         <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>
       </button>
         <span class="message-icon icon-medium"
-          *ngIf="statusMessage?.message"
-          [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
+          *ngIf="statusMessage && statusMessage.message"
+          [load-image]="statusMessageImage"></span>
 
-        <span class="message-text"
-          [class.message-error]="statusMessage?.level === 'error'"
-          [class.message-success]="statusMessage?.level === 'success'">
+          <span class="message-text"
+            [class.message-error]="statusMessage?.level === 'error'"
+            [class.message-success]="statusMessage?.level === 'success'">
 
-          {{statusMessage?.message}}
-        </span>  
+            {{statusMessage?.message}}
+          </span>
+          <a *ngIf="statusMessage?.infoLink" class="message-text" [href]="statusMessage?.infoLink" target="_blank">{{'topBar_learnMore' | translate}}</a>
     </div>
   </footer>
 </div>

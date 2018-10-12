@@ -16,7 +16,10 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Url } from 'app/shared/Utilities/url';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { ScenarioIds} from './../shared/models/constants';
+import { ScenarioIds, LogCategories} from './../shared/models/constants';
+import { SiteService } from 'app/shared/services/site.service';
+import { LogService } from './../shared/services/log.service';
+import { errorIds } from '../shared/models/error-ids';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.FunctionDashboard;
@@ -25,6 +28,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     private _broadcastService: BroadcastService;
     private _ngUnsubscribe = new Subject();
     private _scenarioService: ScenarioService;
+    private _siteService: SiteService;
+    private _logService: LogService;
 
     public static blockNavChangeHelper(currentNode: TreeNode) {
         let canSwitchFunction = true;
@@ -57,6 +62,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this._scenarioService = this.sideNav.injector.get(ScenarioService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
         this._globalStateService = sideNav.injector.get(GlobalStateService);
+        this._siteService = sideNav.injector.get(SiteService);
+        this._logService = sideNav.injector.get(LogService);
 
         this.iconClass = 'tree-node-svg-icon';
         this.iconUrl = 'image/function_f.svg';
@@ -64,6 +71,19 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
         if (this.sideNav.portalService.isEmbeddedFunctions) {
             this.showExpandIcon = false;
+        }
+
+        if (typeof this.functionInfo.config.disabled === 'string') {
+            const settingName = this.functionInfo.config.disabled;
+            this._siteService.getAppSettings(this.context.site.id)
+            .subscribe(r => {
+                if (r.isSuccessful) {
+                    const result = r.result.properties[settingName];
+                    this.functionInfo.config.disabled = result === '1' || result === 'true';
+                } else {
+                    this._logService.error(LogCategories.SideNav, errorIds.failedToGetAppSettings, r.error);
+                }
+            });
         }
     }
 

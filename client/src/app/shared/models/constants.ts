@@ -141,6 +141,8 @@ export class Links {
     public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552';
     public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
     public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
+    public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
+    public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
 }
 
 export class Kinds {
@@ -234,7 +236,7 @@ export class ScenarioIds {
     public static readonly pythonSupported = 'PythonSupported';
     public static readonly javaSupported = 'JavaSupported';
     public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
-    public static readonly autoSwapSuuported = 'AutoSwapSuuported';
+    public static readonly autoSwapSupported = 'AutoSwapSupported';
     public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
     public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
     public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
@@ -554,4 +556,9 @@ export class ContainerConstants {
     public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
     public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
     public static readonly kubeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873150';
+}
+
+export class WebhookTypes {
+    public static readonly github = 'github';
+    public static readonly genericjson = 'genericjson';
 }

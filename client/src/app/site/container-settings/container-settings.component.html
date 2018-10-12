@@ -1,22 +1,11 @@
 <div id="container-shield" *ngIf="isLocked"></div>
 <form *ngIf="!loading && containerConfigureInfo && containerConfigureInfo.container && containerConfigureInfo.containerForm" [formGroup]="form" id="container-picker">
-    <nav id="container-tabs" role="tablist" #containerSettingsTabs>
-        <div *ngFor="let container of containerSettingsManager.containers"
-            (click)="selectContainer(container)"
-            class="clickable container"
-            [class.selected-container]="container === containerConfigureInfo.container"
-            [tabindex]="container === containerConfigureInfo.container ? 0 : -1"
-            (keydown)="onContainerTabKeyPress($event)"
-            role="tab"
-            [id]="'container-tab-' + container.id"
-            [attr.aria-controls]="'container-tab-' + container.id"
-            [attr.aria-selected]="container === containerConfigureInfo.container"
-            [attr.aria-label]="container.title">
-
-            <div [load-image]="container.iconUrl" class="icon-medium"></div>
-            <h3>{{container.title}}</h3>
-        </div>
-    </nav>
+    <group-tabs
+        [control] = "form?.controls?.containerType"
+        [tabs] = "containerSettingsManager.containers"
+        [groupId] = "'container-settings'"
+        (valueChanged)="selectContainer($event)">
+    </group-tabs>
 
     <container-configure
         *ngIf = "containerConfigureInfo.container.id === 'single'"
@@ -50,8 +39,7 @@
                 (click)="clickSave()"
                 [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'save' | translate">
-
-                <span *ngIf="!isUpdating">{{'save' | translate}}</span>
+                {{'save' | translate}}
             </button>
 
             <button *ngIf = "fromMenu"
@@ -59,8 +47,7 @@
                 (click)="clickDiscard()"
                 [disabled]="isUpdating || isLocked"
                 [attr.aria-label]="'discard' | translate">
-
-                <span *ngIf="!isUpdating">{{'discard' | translate}}</span>
+                {{'discard' | translate}}
             </button>
 
             <span *ngIf="isUpdating" load-image="image/loader.svg" class="icon-medium fa-spin"></span>

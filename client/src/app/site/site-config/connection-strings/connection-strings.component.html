@@ -103,17 +103,17 @@
       <tr *ngIf="!groupArray || (!!groupArray && connectionStringsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="5" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="5" table-cell [editable]="false">
           {{ showPermissionsMessage ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && connectionStringsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4" table-cell [editable]="false">
+        <td *ngIf="!!groupArray && connectionStringsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="5" table-cell [editable]="false">
           {{ ('emptyConnectionStrings' | translate) }}
         </td>
 

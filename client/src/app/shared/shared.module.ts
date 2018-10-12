@@ -74,6 +74,7 @@ import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
 import { QuotaService } from './services/quota.service';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 import { MarkdownModule } from 'ngx-markdown';
+import { GroupTabsComponent } from '../controls/group-tabs/group-tabs.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -134,7 +135,8 @@ export function AiServiceFactory() {
         CardInfoControlComponent,
         InvalidmessageDirective,
         FlexListDirective,
-        RemoveSpacesPipe
+        RemoveSpacesPipe,
+        GroupTabsComponent,
     ],
     exports: [
         CommonModule,
@@ -177,7 +179,8 @@ export function AiServiceFactory() {
         InvalidmessageDirective,
         NgUploaderModule,
         FlexListDirective,
-        RemoveSpacesPipe
+        RemoveSpacesPipe,
+        GroupTabsComponent,
     ],
     imports: [
         FormsModule,
@@ -209,8 +212,8 @@ export class SharedModule {
                         UserService,
                         PortalService,
                         AiService,
-                        Injector
-                    ]
+                        Injector,
+                    ],
                 },
                 CacheService,
                 ScenarioService,
@@ -228,8 +231,8 @@ export class SharedModule {
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler },
                 ApplicationInsightsService,
-                QuotaService
-            ]
+                QuotaService,
+            ],
         };
     }
 }

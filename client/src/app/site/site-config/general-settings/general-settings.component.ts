@@ -368,7 +368,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 javaSupported = false;
             }
 
-            if (this._scenarioService.checkScenario(ScenarioIds.autoSwapSuuported, { site: siteArm }).status === 'disabled') {
+            if (this._scenarioService.checkScenario(ScenarioIds.autoSwapSupported, { site: siteArm }).status === 'disabled') {
                 autoSwapSupported = false;
             }
 

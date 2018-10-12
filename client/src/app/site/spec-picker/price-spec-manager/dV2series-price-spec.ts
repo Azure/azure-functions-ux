@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { ArmObj, ResourceId, Sku } from '../../../shared/models/arm/arm-obj';
 import { PlanService } from './../../../shared/services/plan.service';
-import { NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { PlanSpecPickerData } from './plan-price-spec-manager';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
@@ -21,7 +21,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     }
 
     protected abstract _matchSku(sku: Sku): boolean;
-    protected abstract _shouldHideForNewPlan(data: NewPlanSpecPickerData): boolean;
+    protected abstract _shouldHideForNewPlan(data: PlanSpecPickerData): boolean;
     protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean;
 
     private _checkIfSkuEnabledOnStamp(resourceId: ResourceId) {
@@ -56,18 +56,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     }
 
     runInitialization(input: PriceSpecInput) {
-        if (input.specPickerInput.data) {
-
-            this.state = this._shouldHideForNewPlan(input.specPickerInput.data)
-                ? 'hidden'
-                : this.state;
-
-            return this.checkIfDreamspark(input.subscriptionId)
-                .switchMap(_ => {
-                    return this._checkIfSkuEnabledInRegion(input.subscriptionId, input.specPickerInput.data.location, input.specPickerInput.data.isLinux);
-                });
-
-        } else if (input.plan) {
+        if (input.plan) {
 
             this.state = this._shouldHideForExistingPlan(input.plan)
                 ? 'hidden'
@@ -76,6 +65,17 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
             return this._checkIfSkuEnabledOnStamp(input.plan.id)
                 .switchMap(_ => {
                     return this.checkIfDreamspark(input.subscriptionId);
+                });
+
+        } else if (input.specPickerInput.data) {
+
+            this.state = this._shouldHideForNewPlan(input.specPickerInput.data)
+                ? 'hidden'
+                : this.state;
+
+            return this.checkIfDreamspark(input.subscriptionId)
+                .switchMap(_ => {
+                    return this._checkIfSkuEnabledInRegion(input.subscriptionId, input.specPickerInput.data.location, input.specPickerInput.data.isLinux);
                 });
 
         }

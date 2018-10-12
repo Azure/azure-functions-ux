@@ -9,16 +9,17 @@ import { BillingService } from './../../../shared/services/billing.service';
 import { LogService } from '../../../shared/services/log.service';
 import { SpecResourceSet } from './billing-models';
 import { PriceSpecDetail } from './price-spec-detail';
-import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
-    specPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
+    specPickerInput: SpecPickerInput<PlanSpecPickerData>;
     subscriptionId: string;
     plan?: ArmObj<ServerFarm>;
 }
 
 export abstract class PriceSpec {
     abstract skuCode: string;                // SKU code name, like S1 or P1v2
+    abstract tier: string;
 
     // Used ONLY for returning legacy PCV3 SKU names to Ibiza create scenario's since it currently
     // relies on this format.  There's no reason why we couldn't remove it going forward but I've

@@ -1,0 +1,39 @@
+# Node.js with gulp
+# Build a Node.js project using the gulp task runner.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '8.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+  displayName: 'install angular CLI'
+
+- script: |
+    npm install -g yarn
+  displayName: 'install yarn'
+
+- script: |
+    cd client 
+    yarn install
+    node_modules/.bin/ng test --code-coverage
+    node_modules/.bin/ng build --prod
+  displayName: 'yarn install and ng build/test'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TESTS.xml'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/client/coverage/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/client/coverage'

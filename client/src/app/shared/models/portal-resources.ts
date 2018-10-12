@@ -294,6 +294,7 @@
     public static functionNew_nameError = 'functionNew_nameError';
     public static functionDev_loading = 'functionDev_loading';
     public static test = 'test';
+    public static testFunctionNotSupportedForGitHubWebhook = 'testFunctionNotSupportedForGitHubWebhook';
     public static runtimeVersion = 'runtimeVersion';
     public static runtimeImage = 'runtimeImage';
     public static runtimeImagev1 = 'runtimeImagev1';
@@ -999,6 +1000,7 @@
     public static pricing_includedFeaturesDesc = 'pricing_includedFeaturesDesc';
     public static pricing_includedHardware = 'pricing_includedHardware';
     public static pricing_includedHardwareDesc = 'pricing_includedHardwareDesc';
+    public static pricing_includedHardware_azureComputeUnits = 'pricing_includedHardware_azureComputeUnits';
     public static pricing_linuxTrial = 'pricing_linuxTrial';
     public static pricing_windowsContainers = 'pricing_windowsContainers';
     public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';
@@ -1007,6 +1009,7 @@
     public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
     public static pricing_epNotAvailable = 'pricing_epNotAvailable';
     public static pricing_scaleUp = 'pricing_scaleUp';
+    public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
     public static free = 'free';
     public static pricing_pricePerMonth = 'pricing_pricePerMonth';
     public static pricing_pricePerHour = 'pricing_pricePerHour';
@@ -1014,8 +1017,7 @@
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
     public static pricing_sharedCpu = 'pricing_sharedCpu';
-    public static pricing_aSeriesDedicatedCpu = 'pricing_aSeriesDedicatedCpu';
-    public static pricing_dv2SeriesDedicatedCpu = 'pricing_dv2SeriesDedicatedCpu';
+    public static pricing_computeDedicatedAcu = 'pricing_computeDedicatedAcu';
     public static pricing_sharedMemory = 'pricing_sharedMemory';
     public static pricing_dedicatedMemory = 'pricing_dedicatedMemory';
     public static pricing_sharedDisk = 'pricing_sharedDisk';
@@ -1048,8 +1050,8 @@
     public static pricing_memory = 'pricing_memory';
     public static pricing_computeLimit = 'pricing_computeLimit';
     public static pricing_numCores = 'pricing_numCores';
-    public static pricing_aSeriesCompute = 'pricing_aSeriesCompute';
-    public static pricing_dSeriesCompute = 'pricing_dSeriesCompute';
+    public static pricing_aSeriesComputeEquivalent = 'pricing_aSeriesComputeEquivalent';
+    public static pricing_dSeriesComputeEquivalent = 'pricing_dSeriesComputeEquivalent';
     public static proxyJsonInvalid = 'proxyJsonInvalid';
     public static schemaJsonInvalid = 'schemaJsonInvalid';
     public static operationId = 'operationId';
@@ -1157,8 +1159,7 @@
     public static edit = 'edit';
     public static sync = 'sync';
     public static deploymentCredentials = 'deploymentCredentials';
-    public static pricing_dv3SeriesCompute = 'pricing_dv3SeriesCompute';
-    public static pricing_dv3SeriesDedicatedCpu = 'pricing_dv3SeriesDedicatedCpu';
+    public static pricing_dv3SeriesComputeEquivalent = 'pricing_dv3SeriesComputeEquivalent';
     public static funcConnStringsInfoText = 'funcConnStringsInfoText';
     public static appFunctionSettings_functionAppSettings_versionLoading = 'appFunctionSettings_functionAppSettings_versionLoading';
     public static readOnlyLocalCache = 'readOnlyLocalCache';

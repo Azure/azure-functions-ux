@@ -26,6 +26,10 @@ export class ArmSubcriptionDescriptor extends Descriptor {
     constructor(resourceId: string) {
         super(resourceId);
 
+        if (this.parts[0].toLowerCase() !== 'subscriptions') {
+            throw Error(`Expected subscriptions segment in resourceId: ${resourceId}`);
+        }
+
         this.subscriptionId = this.parts[1];
     }
 
