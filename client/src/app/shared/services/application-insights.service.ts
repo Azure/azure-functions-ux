@@ -31,11 +31,11 @@ export class ApplicationInsightsService {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
 
-  public getLast30DaysSummary(aiResourceId: string, functionName: string): Observable<AIMonthlySummary> {
+  public getLast30DaysSummary(aiResourceId: string, functionAppName: string, functionName: string): Observable<AIMonthlySummary> {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForLast30DaysSummary(functionName)
+      'query': this._getQueryForLast30DaysSummary(functionAppName, functionName)
     };
 
     const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_30DaysSummary');
@@ -45,11 +45,11 @@ export class ApplicationInsightsService {
       .map(response => this._extractSummaryFromResponse(response));
   }
 
-  public getInvocationTraces(aiResourceId: string, functionName: string, top: number = 20): Observable<AIInvocationTrace[]> {
+  public getInvocationTraces(aiResourceId: string, functionAppName: string, functionName: string, top: number = 20): Observable<AIInvocationTrace[]> {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForInvocationTraces(functionName, top)
+      'query': this._getQueryForInvocationTraces(functionAppName, functionName, top)
     };
 
     const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraces');
@@ -73,9 +73,9 @@ export class ApplicationInsightsService {
       .map(response => this._extractInvocationTraceHistoryFromResponse(response));
   }
 
-  public getInvocationTracesDirectUrl(aiDirectResourceId: string, functionName: string, top: number = 20): string {
+  public getInvocationTracesDirectUrl(aiDirectResourceId: string, functionAppName: string, functionName: string, top: number = 20): string {
     const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
-    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraces(functionName, top));
+    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraces(functionAppName, functionName, top));
     return baseUrl + query;
   }
 
@@ -133,14 +133,23 @@ export class ApplicationInsightsService {
       this._localStorage.removeItem(key);
   }
 
-  private _getQueryForLast30DaysSummary(functionName: string): string {
+  private _getQueryForLast30DaysSummary(functionAppName: string, functionName: string): string {
+    this._validateFunctionAppName(functionAppName);
     this._validateFunctionName(functionName);
-    return `requests | where timestamp >= ago(30d) | where name == '${functionName}' | summarize count=count() by success`;
+    return `requests ` +
+    `| where timestamp >= ago(30d) ` +
+    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' ` +
+    `| summarize count=count() by success`;
   }
 
-  private _getQueryForInvocationTraces(functionName: string, top: number): string {
+  private _getQueryForInvocationTraces(functionAppName: string, functionName: string, top: number): string {
+    this._validateFunctionAppName(functionAppName);
     this._validateFunctionName(functionName);
-    return `requests | project timestamp, id, name, success, resultCode, duration, operation_Id | where timestamp > ago(30d) | where name == '${functionName}' | order by timestamp desc | take ${top}`;
+    return `requests ` +
+    `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
+    `| where timestamp > ago(30d) ` +
+    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' `+
+    `| order by timestamp desc | take ${top}`;
   }
 
   private _getQueryForInvocationTraceHistory(operationId: string): string {
@@ -157,6 +166,12 @@ export class ApplicationInsightsService {
   private _validateAiResourceid(aiResourceId: string): void {
     if (!aiResourceId) {
       throw Error('aiResourceId is required.');
+    }
+  }
+
+  private _validateFunctionAppName(functionAppName: string): void {
+    if (!functionAppName) {
+      throw Error('functionAppName is required.');
     }
   }
 
