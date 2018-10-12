@@ -5,7 +5,7 @@ import { MockLogService } from './../../../test/mocks/log.service.mock';
 import { LogService } from 'app/shared/services/log.service';
 import { MockPortalService } from './../../../test/mocks/portal.service.mock';
 import { MockPlanService } from './../../../test/mocks/plan.service.mock';
-import { PlanPriceSpecManager, SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
+import { PlanPriceSpecManager, SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
 import { async, TestBed, inject } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { PlanService } from '../../../shared/services/plan.service';
@@ -25,8 +25,8 @@ describe('Price Spec Manager', () => {
     let planService: MockPlanService;
     let group1: MockSpecGroup;
     let group2: MockSpecGroup;
-    let existingPlanSpecPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
-    let newPlanSpecPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
+    let existingPlanSpecPickerInput: SpecPickerInput<PlanSpecPickerData>;
+    let newPlanSpecPickerInput: SpecPickerInput<PlanSpecPickerData>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

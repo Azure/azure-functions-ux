@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LogService } from '../../shared/services/log.service';
 import { MockLogService } from '../../test/mocks/log.service.mock';
 import { TelemetryService } from '../../shared/services/telemetry.service';
-import { SpecPickerInput, NewPlanSpecPickerData, PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
+import { SpecPickerInput, PlanSpecPickerData, PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.component';
 import { MockPlanService } from '../../test/mocks/plan.service.mock';
@@ -128,7 +128,7 @@ describe('SpecPickerComponent', () => {
 
         component.viewInfoInput = input;
 
-        const actualInput = <SpecPickerInput<NewPlanSpecPickerData>>(<jasmine.Spy>priceSpecManager.initialize).calls.argsFor(0)[0];
+        const actualInput = <SpecPickerInput<PlanSpecPickerData>>(<jasmine.Spy>priceSpecManager.initialize).calls.argsFor(0)[0];
         expect(actualInput.id).toEqual(planResourceId);
         expect(actualInput.data).toBeNull();
         expect(actualInput.specPicker).toEqual(component);
