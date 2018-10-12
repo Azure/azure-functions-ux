@@ -18,15 +18,15 @@ import * as moment from 'moment-mini-ts';
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
 
-  private readonly _apiVersion: string = '2015-05-01';
-  private readonly _directUrl: string = 'https://analytics.applicationinsights.io/';
+  private readonly _apiVersion = '2015-05-01';
+  private readonly _directUrl = 'https://analytics.applicationinsights.io/';
 
   constructor(
     private _logService: LogService,
     private _cacheService: CacheService,
     private _localStorage: LocalStorageService,
     userService: UserService,
-    injector: Injector
+    injector: Injector,
   ) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
@@ -35,7 +35,7 @@ export class ApplicationInsightsService {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForLast30DaysSummary(functionAppName, functionName)
+      'query': this._getQueryForLast30DaysSummary(functionAppName, functionName),
     };
 
     const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_30DaysSummary');
@@ -49,7 +49,7 @@ export class ApplicationInsightsService {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForInvocationTraces(functionAppName, functionName, top)
+      'query': this._getQueryForInvocationTraces(functionAppName, functionName, top),
     };
 
     const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraces');
@@ -63,7 +63,7 @@ export class ApplicationInsightsService {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForInvocationTraceHistory(operationId)
+      'query': this._getQueryForInvocationTraceHistory(operationId),
     };
 
     const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraceHistory');
@@ -114,7 +114,7 @@ export class ApplicationInsightsService {
       const key = `${functionAppResourceId}/monitor/view`;
       const item: MonitorViewItem = {
         id: functionAppResourceId,
-        value: value
+        value: value,
       };
 
       this._localStorage.setItem(key, item);
@@ -148,7 +148,7 @@ export class ApplicationInsightsService {
     return `requests ` +
     `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
     `| where timestamp > ago(30d) ` +
-    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' `+
+    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' ` +
     `| order by timestamp desc | take ${top}`;
   }
 
@@ -160,7 +160,7 @@ export class ApplicationInsightsService {
     `| where timestamp > ago(30d)` +
     `| where operation_Id == '${operationId}'` +
     `| order by timestamp asc` +
-    `| project timestamp, message = iff(message != '', message, customDimensions.["prop__{OriginalFormat}"]), logLevel = customDimensions.["LogLevel"]`;
+    `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`;
   }
 
   private _validateAiResourceid(aiResourceId: string): void {
@@ -190,7 +190,7 @@ export class ApplicationInsightsService {
   private _extractSummaryFromResponse(response: HttpResult<Response>): AIMonthlySummary {
     const summary: AIMonthlySummary = {
       successCount: 0,
-      failedCount: 0
+      failedCount: 0,
     };
 
     if (response.isSuccessful) {
@@ -236,7 +236,7 @@ export class ApplicationInsightsService {
               success: row[3] === 'True',
               resultCode: row[4],
               duration: Number.parseFloat(row[5]),
-              operationId: row[6]
+              operationId: row[6],
             });
           });
         }
@@ -263,7 +263,7 @@ export class ApplicationInsightsService {
               timestamp: row[0],
               timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
               message: row[1],
-              logLevel: row[2]
+              logLevel: row[2],
             });
           });
         }
