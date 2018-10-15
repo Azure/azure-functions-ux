@@ -149,7 +149,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.statusMessage = null;
 
     // This is an existing plan, so just upgrade in-place
-    if (!this._input.data) {
+    if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode)) {
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
       this.isUpdating = true;
       this.disableUpdates = true;
