@@ -1,7 +1,7 @@
 <div *ngIf="generation === 'V2'" class="alert alert-warning alert-dismissible" role="alert">
-    {{'swaggerDefinition_notSupportedForBeta' | translate}}
+    {{'swaggerDefinition_notSupportedForV2' | translate}}
 </div>
-   
+
 <div *ngIf="generation === 'V1'" class="wrapper">
     <div>
         <div class="section-left full-height" [class.collapse]="isFullscreen">
@@ -17,8 +17,9 @@
                 </pop-over>
                 <div class="setting-wrapper">
                     <!--<button class="custom-button medium">Download Function Keys</button>-->
-                    <button [disabled]="exportToPowerAppsDisabled" id="powerAppsFlowButton" class="custom-button medium" style="margin-left:0px;" (click)='openBlade("ExportToPowerApps")'
-                        aria-labelledby="useApiDefinition powerAppsFlowButton" tabindex="0">{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
+                    <button [disabled]="exportToPowerAppsDisabled" id="powerAppsFlowButton" class="custom-button medium"
+                        style="margin-left:0px;" (click)='openBlade("ExportToPowerApps")' aria-labelledby="useApiDefinition powerAppsFlowButton"
+                        tabindex="0">{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
                 </div>
             </div>
             <div [class.collapse]="!swaggerEnabled">
@@ -33,16 +34,12 @@
             </div>
             <div [class.collapse]="!swaggerEnabled">
                 <div style="padding-left: 6px;">
-                    <i class="fa clickable link" 
-                       [class.fa-plus]="!keyVisible" 
-                       [class.fa-minus]="keyVisible" 
-                       (click)="toggleKeyVisibility()"
-                       tabindex="0" 
-                       (keydown)="apiDefinitionKeyDown($event)" 
-                       [attr.aria-expanded]="keyVisible" 
-                       attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_key' | translate}}">
+                    <i class="fa clickable link" [class.fa-plus]="!keyVisible" [class.fa-minus]="keyVisible" (click)="toggleKeyVisibility()"
+                        tabindex="0" (keydown)="apiDefinitionKeyDown($event)" [attr.aria-expanded]="keyVisible"
+                        attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_key' | translate}}">
                     </i>
-                    <label id="apiDefinitionKeyLabel" class="setting-title-collapsible link" (click)="toggleKeyVisibility()" (keydown)="apiDefinitionKeyDown($event)">
+                    <label id="apiDefinitionKeyLabel" class="setting-title-collapsible link" (click)="toggleKeyVisibility()"
+                        (keydown)="apiDefinitionKeyDown($event)">
                         {{'swaggerDefinition_key' | translate}}
                     </label>
                     <pop-over [position]="'bottom'" [message]="'swaggerDefinition_keyHelp' | translate">
@@ -55,10 +52,7 @@
                     </div>
                     <div class="setting-wrapper operation link">
                         <span (click)="renewSwaggerSecret()" attr.aria-label="{{'swaggerDefinition_renew' | translate}} {{'swaggerDefinition_key' | translate}}">
-                            <i class="fa fa-refresh" 
-                               tabindex="0" 
-                               (keydown)="renewKeyDown($event)" 
-                               attr.aria-label="{{'swaggerDefinition_renew' | translate}} {{'swaggerDefinition_key' | translate}}">
+                            <i class="fa fa-refresh" tabindex="0" (keydown)="renewKeyDown($event)" attr.aria-label="{{'swaggerDefinition_renew' | translate}} {{'swaggerDefinition_key' | translate}}">
                             </i>
                             {{'swaggerDefinition_renew' | translate}}
                         </span>
@@ -72,31 +66,36 @@
                 </pop-over>
                 <div class="setting-wrapper">
                     <div style="min-width: 270px">
-                        <radio-selector id="selectapiDefinitionSourceRadio" [options]="swaggerStatusOptions" [defaultValue]="swaggerEnabled" (value)="valueChange.next($event)"
-                            tabindex="0" (keydown)="apiDefinitionSourceKeyDown($event)" aria-labelledby="apiDefinitionSourceLabel selectapiDefinitionSourceRadio"></radio-selector>
+                        <radio-selector id="selectapiDefinitionSourceRadio" [options]="swaggerStatusOptions"
+                            [defaultValue]="swaggerEnabled" (value)="valueChange.next($event)" tabindex="0" (keydown)="apiDefinitionSourceKeyDown($event)"
+                            aria-labelledby="apiDefinitionSourceLabel selectapiDefinitionSourceRadio"></radio-selector>
                     </div>
                 </div>
                 <div class="setting-wrapper column">
-                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;" (click)='openBlade("ApiDefinition")'>
+                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;"
+                        (click)='openBlade("ApiDefinition")'>
                         {{'swaggerDefinition_setExternal' | translate}}
                     </button>
                 </div>
             </div>
             <div>
                 <div style="padding-left: 6px;">
-                    <i class="fa clickable link" [class.fa-plus]="!documentationVisible" [class.fa-minus]="documentationVisible" (click)="toggleDocumentationVisibility()"
-                        tabindex="0" (keydown)="documentKeyDown($event)" [attr.aria-expanded]="documentationVisible" attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_documentation' | translate}}"></i>
-                    <label class="setting-title-collapsible link" (click)="toggleDocumentationVisibility()">{{'swaggerDefinition_documentation' | translate}}</label>
+                    <i class="fa clickable link" [class.fa-plus]="!documentationVisible" [class.fa-minus]="documentationVisible"
+                        (click)="toggleDocumentationVisibility()" tabindex="0" (keydown)="documentKeyDown($event)"
+                        [attr.aria-expanded]="documentationVisible" attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_documentation' | translate}}"></i>
+                    <label class="setting-title-collapsible link" (click)="toggleDocumentationVisibility()">{{'swaggerDefinition_documentation'
+                        | translate}}</label>
                 </div>
                 <div role="region" [class.collapse]="!documentationVisible" (click)="toggleDocumentationVisibility()">
                     <div class="setting-wrapper operation link" (click)="toggleDocumentationVisibility()">
                         <ul>
                             <li>
-                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started" target="_blank"
-                                    tabindex="0">{{'swaggerDefinition_getting_started' | translate}}</a>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started"
+                                    target="_blank" tabindex="0">{{'swaggerDefinition_getting_started' | translate}}</a>
                             </li>
                             <li>
-                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition" target="_blank" tabindex="0">{{'swaggerDefinition_feature_overview' | translate}}</a>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition"
+                                    target="_blank" tabindex="0">{{'swaggerDefinition_feature_overview' | translate}}</a>
                             </li>
                         </ul>
                     </div>
@@ -107,30 +106,22 @@
             <div class="topbar">
                 <div class="header left">
                     <button class="custom-button left" (click)="saveChanges()">{{ 'save' | translate }}</button>
-                    <button class="custom-button-invert left medium" (click)="resetEditor()">{{ 'swaggerDefinition_revert' | translate }}</button>
-                    <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()' style="width:200px;">{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
+                    <button class="custom-button-invert left medium" (click)="resetEditor()">{{
+                        'swaggerDefinition_revert' | translate }}</button>
+                    <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()' style="width:200px;">{{'swaggerDefinition_loadGeneratedDefinition'
+                        | translate}}</button>
                     <pop-over [position]="'bottom'" style="padding:5px;" [message]="'swaggerDefinition_generateHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
                 </div>
                 <div class="header right">
-                    <span class="link"
-                          *ngIf="!isFullscreen"
-                          (click)="isFullscreen = true"
-                          tabindex="0"
-                          role="button"
-                          attr.aria-label="{{'swaggerDefinition_expand' | translate}}"
-                          (keydown)="expandCollapseKeyDown($event)">
+                    <span class="link" *ngIf="!isFullscreen" (click)="isFullscreen = true" tabindex="0" role="button"
+                        attr.aria-label="{{'swaggerDefinition_expand' | translate}}" (keydown)="expandCollapseKeyDown($event)">
                         <i class="fa fa-expand"></i>
                         {{'swaggerDefinition_expand' | translate}}
                     </span>
-                    <span class="link"
-                          *ngIf="isFullscreen"
-                          (click)="isFullscreen = false"
-                          tabindex="0"
-                          role="button"
-                          attr.aria-label="{{'swaggerDefinition_collapse' | translate}}"
-                          (keydown)="expandCollapseKeyDown($event)">
+                    <span class="link" *ngIf="isFullscreen" (click)="isFullscreen = false" tabindex="0" role="button"
+                        attr.aria-label="{{'swaggerDefinition_collapse' | translate}}" (keydown)="expandCollapseKeyDown($event)">
                         <i class="fa fa-compress"></i>
                         {{'swaggerDefinition_collapse' | translate}}
                     </span>

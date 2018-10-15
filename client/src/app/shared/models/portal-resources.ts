@@ -906,7 +906,7 @@
     public static production = 'production';
     public static entity = 'entity';
     public static entityColon = 'entityColon';
-    public static swaggerDefinition_notSupportedForBeta = 'swaggerDefinition_notSupportedForBeta';
+    public static swaggerDefinition_notSupportedForV2 = 'swaggerDefinition_notSupportedForV2';
     public static deployedSuccessfullyTo = 'deployedSuccessfullyTo';
     public static deployedFailedTo = 'deployedFailedTo';
     public static swapWithPreviewLabel = 'swapWithPreviewLabel';
