@@ -9,7 +9,6 @@ import { CacheService } from '../../../../../shared/services/cache.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LogService } from '../../../../../shared/services/log.service';
-import { DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { WizardForm } from '../../wizard-logic/deployment-center-setup-models';
 import { MockLogService } from '../../../../../test/mocks/log.service.mock';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
