@@ -105,8 +105,8 @@ export enum LogEntryLevel {
     Error = 2,
 }
 
-export enum BroadcastMessageIds {
-    updatePlan = 'UPDATE_PLAN',
+export enum BroadcastMessageId {
+    planUpdated = 'PLAN_UPDATED',
 }
 
 // Mainly used for Ibiza legacy reasons
@@ -158,7 +158,7 @@ export interface SubscriptionRequest {
 }
 
 export interface BroadcastMessage<T> {
-    id: BroadcastMessageIds;
+    id: BroadcastMessageId;
     resourceId: string;
     data?: T;
 }
