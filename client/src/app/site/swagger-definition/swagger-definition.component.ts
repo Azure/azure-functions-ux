@@ -60,7 +60,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         broadcastService: BroadcastService,
         private _translateService: TranslateService,
         private _functionAppService: FunctionAppService,
-        private _scenarioService: ScenarioService
+        private _scenarioService: ScenarioService,
     ) {
         super('swagger-definition', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
@@ -68,11 +68,11 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         this.swaggerStatusOptions = [
             {
                 displayLabel: this._translateService.instant(PortalResources.swaggerDefinition_internal),
-                value: true
+                value: true,
             },
             {
                 displayLabel: this._translateService.instant(PortalResources.swaggerDefinition_external),
-                value: false
+                value: false,
             }];
 
         this.valueChange = new Subject<boolean>();
@@ -163,7 +163,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     openBlade(name: string) {
         this._portalService.openBladeDeprecated({
             detailBlade: name,
-            detailBladeInputs: { resourceUri: this.context.site.id }
+            detailBladeInputs: { resourceUri: this.context.site.id },
         }, name);
     }
 
@@ -210,9 +210,9 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
                     return Observable.of({
                         isSuccessful: false,
                         error: {
-                            errorId: ''
+                            errorId: '',
                         },
-                        result: null
+                        result: null,
                     });
                 }
             })
@@ -297,7 +297,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
                 this.showComponentError({
                     message: this._translateService.instant(PortalResources.swaggerDefinition_prompt),
                     errorId: errorIds.malformedAPIDefinition,
-                    resourceId: this.context.site.id
+                    resourceId: this.context.site.id,
                 });
 
                 this._busyManager.clearBusy();
