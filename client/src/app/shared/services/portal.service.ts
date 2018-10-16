@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, DataMessageResult, DirtyStateInfo, SubscriptionRequest, BladeResult } from './../models/portal';
-import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
+import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent, BroadcastMessage, BroadcastMessageIds } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event';
@@ -340,6 +340,16 @@ export class PortalService implements IPortalService {
         };
 
         this.postMessage(Verbs.updateDirtyState, JSON.stringify(info));
+    }
+
+    broadcastMessage<T>(id: BroadcastMessageIds, resourceId: string, data?: T): void {
+        const info: BroadcastMessage<T> = {
+            id,
+            resourceId,
+            data
+        };
+
+        this.postMessage(Verbs.broadcastMessage, JSON.stringify(info));
     }
 
     logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
