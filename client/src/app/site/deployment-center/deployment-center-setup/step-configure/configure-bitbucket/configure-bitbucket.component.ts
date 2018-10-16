@@ -24,6 +24,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     private _ngUnsubscribe$ = new Subject();
     private repoUrlToNameMap: { [key: string]: string } = {};
 
+    selectedOrg = null;
     selectedRepo = null;
     selectedBranch = null;
 
