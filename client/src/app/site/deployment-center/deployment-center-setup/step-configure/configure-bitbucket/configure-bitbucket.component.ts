@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 @Component({
     selector: 'app-configure-bitbucket',
@@ -29,6 +30,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     public reposLoading = false;
     public branchesLoading = false;
     public orgsLoading = false;
+
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
@@ -41,6 +43,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.fetchOrgs();
         this.updateFormValidation();
 
+        // TODO, Travih use map instead of push and move pagelen to const
         // if auth changes then this will force refresh the config data
         this.wizard.updateSourceProviderConfig$
             .takeUntil(this._ngUnsubscribe$)
@@ -92,7 +95,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
 
                     this.orgsLoading = false;
                     newOrgList.push({
-                        displayLabel: `${user.json().display_name} (Personal)`,
+                        displayLabel: `${user.json().display_name} (${this._translateService.instant(PortalResources.personal)})`,
                         value: `self:${user.json().username}`,
                     });
                     this.OrgList = newOrgList;
