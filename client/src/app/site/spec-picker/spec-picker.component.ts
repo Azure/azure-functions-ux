@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { BroadcastMessageId } from '../../shared/models/portal';
 
 export interface StatusMessage {
   message: string;
@@ -160,6 +161,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
           this.disableUpdates = applyButtonState === 'disabled' ? true : false;
           this._portalService.updateDirtyState(false);
+          this._portalService.broadcastMessage(BroadcastMessageId.planUpdated, this._input.id);
         });
     } else {
       // This is a new plan, so return plan information to parent blade

@@ -84,6 +84,7 @@ export class Verbs {
     public static setNotification = 'set-notification';
     public static getSubscriptionInfo = 'get-subscription-info';
     public static getSpecCosts = 'get-spec-costs';
+    public static broadcastMessage = 'broadcast-message';
 
     // Requests from Ibiza
     public static sendStartupInfo = 'send-startup-info';
@@ -102,6 +103,10 @@ export enum LogEntryLevel {
     Verbose = 0,
     Warning = 1,
     Error = 2,
+}
+
+export enum BroadcastMessageId {
+    planUpdated = 'PLAN_UPDATED',
 }
 
 // Mainly used for Ibiza legacy reasons
@@ -150,6 +155,12 @@ export interface DirtyStateInfo {
 
 export interface SubscriptionRequest {
     subscriptionId: string;
+}
+
+export interface BroadcastMessage<T> {
+    id: BroadcastMessageId;
+    resourceId: string;
+    data?: T;
 }
 
 export enum PartSize {
