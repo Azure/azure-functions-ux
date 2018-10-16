@@ -4248,5 +4248,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="personal" xml:space="preserve">
     <value>Personal</value>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>API definition is not available as the Function App is in readonly mode.</value>
   </data>
 </root>

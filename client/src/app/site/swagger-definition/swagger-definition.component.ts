@@ -28,6 +28,8 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { HttpResult } from '../../shared/models/http-result';
 import { Host } from '../../shared/models/host';
+import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
+import { EditModeHelper } from 'app/shared/Utilities/edit-mode.helper';
 
 @Component({
     selector: 'swaggerdefinition',
@@ -47,6 +49,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     public swaggerKey: string;
     public swaggerURL: string;
     public generation: string;
+    public showReadonlyMessage = false;
 
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
@@ -94,17 +97,32 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     setup(): Subscription {
         return this.viewInfoEvents
             .switchMap(viewInfo => {
-                return Observable.zip(this._functionAppService.getHostJson(this.context), this._functionAppService.getRuntimeGeneration(this.context),
-                    (a: HttpResult<Host>, b: string) => ({ host: a, gen: b }));
+                return Observable.zip(
+                    this._functionAppService.getHostJson(this.context),
+                    this._functionAppService.getRuntimeGeneration(this.context),
+                    this._functionAppService.getFunctionAppEditMode(this.context),
+                    (a: HttpResult<Host>, b: string, c: HttpResult<FunctionAppEditMode>) => ({
+                        host: a,
+                        gen: b,
+                        appEditModeResult: c,
+                    }));
             })
             .switchMap(result => {
                 this.generation = result.gen;
                 this.swaggerEnabled = false;
-                if (result.host && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
-                    this.swaggerEnabled = result.host.result.swagger.enabled;
+                this.showReadonlyMessage = false;
+
+                if (result.appEditModeResult.isSuccessful) {
+                    this.showReadonlyMessage = EditModeHelper.isReadOnly(result.appEditModeResult.result);
                 }
 
-                this.exportToPowerAppsAvailable = this._scenarioService.checkScenario(ScenarioIds.enableExportToPowerApps).status !== 'disabled';
+                if (!this.showReadonlyMessage) {
+                    if (result.host && result.host.isSuccessful && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
+                        this.swaggerEnabled = result.host.result.swagger.enabled;
+                    }
+
+                    this.exportToPowerAppsAvailable = this._scenarioService.checkScenario(ScenarioIds.enableExportToPowerApps).status !== 'disabled';
+                }
 
                 if (this.swaggerEnabled) {
                     return this.restoreSwaggerSecrets();
