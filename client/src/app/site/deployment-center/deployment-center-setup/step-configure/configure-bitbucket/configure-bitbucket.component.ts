@@ -7,6 +7,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-configure-bitbucket',
@@ -14,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureBitbucketComponent implements OnDestroy {
+    public OrgList: DropDownElement<string>[] = [];
     public RepoList: DropDownElement<string>[] = [];
     public BranchList: DropDownElement<string>[] = [];
 
@@ -26,7 +28,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
 
     public reposLoading = false;
     public branchesLoading = false;
-
+    public orgsLoading = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
@@ -36,14 +38,14 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.fetchBranches(r);
         });
-        this.fetchRepos();
+        this.fetchOrgs();
         this.updateFormValidation();
 
         // if auth changes then this will force refresh the config data
         this.wizard.updateSourceProviderConfig$
             .takeUntil(this._ngUnsubscribe$)
             .subscribe(r => {
-                this.fetchRepos();
+                this.fetchOrgs();
             });
     }
 
@@ -55,28 +57,92 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
     }
 
-    fetchRepos() {
+    fetchOrgs() {
+        this.OrgList = [];
+        const newOrgList = [];
+        this.orgsLoading = true;
+        const userValueCall = this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
+            url: 'https://api.bitbucket.org/2.0/user',
+            authToken: this.wizard.getToken(),
+        });
+        const orgsCall = this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
+            url: `${DeploymentCenterConstants.bitbucketApiUrl}/teams?role=admin&pagelen=100`,
+            authToken: this.wizard.getToken(),
+        })
+        .expand(value => {
+            const page = value.json();
+            page.values.forEach(org => {
+                newOrgList.push({
+                    displayLabel: org.username,
+                    value: org.username,
+                });
+            });
+            if (!page.next) {
+                return Observable.empty();
+            } else {
+                return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
+                    url: page.next,
+                    authToken: this.wizard.getToken(),
+                });
+            }
+        });
+        Observable.forkJoin([userValueCall, orgsCall])
+            .subscribe(
+                ([user, _]) => {
+
+                    this.orgsLoading = false;
+                    newOrgList.push({
+                        displayLabel: `${user.json().display_name} (Personal)`,
+                        value: `self:${user.json().username}`,
+                    });
+                    this.OrgList = newOrgList;
+                },
+                err => {
+                    this.orgsLoading = false;
+                    this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
+                },
+            );
+    }
+
+    fetchRepos(team: string) {
         this.RepoList = [];
+        const newRepoList = [];
+        this.repoUrlToNameMap = {};
         this.reposLoading = true;
-        this._cacheService
+        let uri = ``;
+        if(team.includes('self:')){
+            const username = team.split(':')[1];
+            uri = `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${username}?pagelen=100`;
+        } else {
+            uri = `${DeploymentCenterConstants.bitbucketApiUrl}/teams/${team}/repositories?pagelen=100`;
+        }
+        Observable.forkJoin(this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`,
+                url: uri,
                 authToken: this.wizard.getToken(),
             })
-            .subscribe(
-                r => {
-                    this.reposLoading = false;
-                    const newRepoList: DropDownElement<string>[] = [];
-                    this.repoUrlToNameMap = {};
-                    r.json().values.forEach(repo => {
-                        const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
-                        newRepoList.push({
-                            displayLabel: repo.name,
-                            value: repoUrl,
-                        });
-                        this.repoUrlToNameMap[repoUrl] = repo.full_name;
+            .expand(value => {
+                const page = value.json();
+                page.values.forEach(repo => {
+                    const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
+                    newRepoList.push({
+                        displayLabel: repo.name,
+                        value: repoUrl,
                     });
-
+                    this.repoUrlToNameMap[repoUrl] = repo.full_name;
+                });
+                if (!page.next) {
+                    return Observable.empty();
+                } else {
+                    return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
+                        url: page.next,
+                        authToken: this.wizard.getToken(),
+                    });
+                }
+            }))
+            .subscribe(
+                _ => {
+                    this.reposLoading = false;
                     this.RepoList = newRepoList;
                 },
                 err => {
@@ -89,23 +155,33 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     fetchBranches(repo: string) {
         this.branchesLoading = true;
         this.BranchList = [];
+        const newBranchList: DropDownElement<string>[] = [];
+        Observable.forkJoin(
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
-                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches`,
+                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches?pagelen=100`,
                 authToken: this.wizard.getToken(),
             })
-            .subscribe(
+        .expand(value => {
+            const page = value.json();
+            page.values.forEach(branch => {
+                newBranchList.push({
+                    displayLabel: branch.name,
+                    value: branch.name,
+                });
+            });
+            if (!page.next) {
+                return Observable.empty();
+            } else {
+                return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
+                    url: page.next,
+                    authToken: this.wizard.getToken(),
+                });
+            }
+        }))
+         .subscribe(
                 r => {
                     this.branchesLoading = false;
-                    const newBranchList: DropDownElement<string>[] = [];
-
-                    r.json().values.forEach(branch => {
-                        newBranchList.push({
-                            displayLabel: branch.name,
-                            value: branch.name,
-                        });
-                    });
-
                     this.BranchList = newBranchList;
                 },
                 err => {
@@ -119,6 +195,11 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.reposStream$.next(this.repoUrlToNameMap[repo.value]);
     }
 
+    OrgChanged(org: DropDownElement<string>) {
+        this.fetchRepos(org.value);
+        this.selectedRepo = null;
+        this.selectedBranch = null;
+    }
     ngOnDestroy(): void {
         this._ngUnsubscribe$.next();
     }

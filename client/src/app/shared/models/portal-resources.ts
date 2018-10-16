@@ -1367,4 +1367,5 @@
     public static hiddenValueClickToEdit = 'hiddenValueClickToEdit';
     public static appSettingsEncryptedInfoText = 'appSettingsEncryptedInfoText';
     public static connectionStringsEncryptedInfoText = 'connectionStringsEncryptedInfoText';
+    public static Team = 'Team';
 }
