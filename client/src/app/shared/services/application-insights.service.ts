@@ -138,7 +138,7 @@ export class ApplicationInsightsService {
     this._validateFunctionName(functionName);
     return `requests ` +
     `| where timestamp >= ago(30d) ` +
-    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' ` +
+    `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
     `| summarize count=count() by success`;
   }
 
@@ -148,7 +148,7 @@ export class ApplicationInsightsService {
     return `requests ` +
     `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
     `| where timestamp > ago(30d) ` +
-    `| where cloud_RoleName == '${functionAppName}' and name == '${functionName}' ` +
+    `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
     `| order by timestamp desc | take ${top}`;
   }
 
