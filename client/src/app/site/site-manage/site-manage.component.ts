@@ -157,27 +157,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
     private _initCol1Groups(site: ArmObj<Site>) {
         const codeDeployFeatures = [];
-        const deploymentOptionsFeature: FeatureItem = new DisableableBladeFeature(
-            this._translateService.instant(PortalResources.feature_deploymentSourceName),
-            this._translateService.instant(PortalResources.continuousDeployment) +
-            ' ' +
-            this._translateService.instant(PortalResources.source) +
-            ' ' +
-            this._translateService.instant(PortalResources.options) +
-            '  github bitbucket dropbox onedrive vsts vso',
-            this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
-            'image/deployment-source.svg',
-            {
-                detailBlade: 'ContinuousDeploymentListBlade',
-                detailBladeInputs: {
-                    id: this._descriptor.resourceId,
-                    ResourceId: this._descriptor.resourceId
-                }
-            },
-            this._portalService,
-            this._hasSiteWritePermissionStream
-        );
-        codeDeployFeatures.push(deploymentOptionsFeature);
         const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
         const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site }).data !== 'disabled';
         if (deploymentCenterEnabled || showDeploymentCenterFlag) {
@@ -196,21 +175,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             );
             codeDeployFeatures.push(deploymentCenterFeature);
         }
-        codeDeployFeatures.push(
-            new BladeFeature(
-                this._translateService.instant(PortalResources.feature_deploymentCredsName),
-                this._translateService.instant(PortalResources.feature_deploymentCredsName),
-                this._translateService.instant(PortalResources.feature_deploymentCredsInfo),
-                'image/deployment-credentials.svg',
-                {
-                    detailBlade: 'FtpCredentials',
-                    detailBladeInputs: {
-                        WebsiteId: this._descriptor.getWebsiteId()
-                    }
-                },
-                this._portalService
-            )
-        );
 
         const developmentToolFeatures = [];
         if (this._scenarioService.checkScenario(ScenarioIds.addLogicApps, { site: site }).status !== 'disabled') {
@@ -220,7 +184,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._translateService.instant(PortalResources.feature_logicAppsInfo),
                 'image/logicapp.svg',
                 SiteTabIds.logicApps,
-                this._broadcastService
+                this._broadcastService,
             ));
         }
 
