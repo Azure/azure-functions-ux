@@ -2,6 +2,26 @@
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
   <div class="settings-wrapper">
+
+      <div class="setting-wrapper">
+        <label class="setting-label" id="dc-bitbucket-org-label">{{'team' | translate}}</label>
+        <div class="setting-control-container">
+         <ng-select 
+              id='configure-bitbucket-org-select' 
+              class="custom-select" 
+              aria-labelledby="dc-bitbucket-org-label"  
+              [items]="OrgList" 
+              bindLabel="displayLabel" 
+              bindValue="value" 
+              [placeholder]="'selectOrg' | translate"
+              [clearable]="false" 
+              [(ngModel)]="selectedOrg" 
+              [loading]="orgsLoading" 
+              [ngModelOptions]="{standalone: true}" 
+              (change)="OrgChanged($event)">
+        </ng-select>
+      </div>
+    </div>
     <div class="setting-wrapper">
       <label class="setting-label" id="dc-bitbucket-repo-label" >{{'repository' | translate}}</label>
       <div class="setting-control-container">
