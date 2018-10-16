@@ -16,7 +16,7 @@ import { LogCategories, SiteTabIds, KeyCodes } from 'app/shared/models/constants
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { dateTimeComparator } from '../../../../shared/Utilities/comparators';
+import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 
 enum DeployStatus {
     Pending,
@@ -183,7 +183,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         });
         const newHash = this._getTableHash(tableItems);
         if (this._oldTableHash !== newHash) {
-            this._tableItems = tableItems.sort(dateTimeComparator);
+            this._tableItems = tableItems.sort(dateTimeComparatorReverse);
             this._oldTableHash = newHash;
         }
     }
