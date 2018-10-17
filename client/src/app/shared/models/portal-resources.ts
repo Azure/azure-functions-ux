@@ -1369,4 +1369,5 @@
     public static connectionStringsEncryptedInfoText = 'connectionStringsEncryptedInfoText';
     public static team = 'team';
     public static personal = 'personal';
+    public static swaggerDefinitionReadOnly = 'swaggerDefinitionReadOnly';
 }

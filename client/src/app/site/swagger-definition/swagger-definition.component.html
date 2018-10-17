@@ -2,7 +2,11 @@
     {{'swaggerDefinition_notSupportedForV2' | translate}}
 </div>
 
-<div *ngIf="generation === 'V1'" class="wrapper">
+<div *ngIf="generation === 'V1' && isReadonlyFunctionApp" class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'swaggerDefinitionReadOnly' | translate }}
+</div>
+
+<div *ngIf="generation === 'V1' && !isReadonlyFunctionApp" class="wrapper">
     <div>
         <div class="section-left full-height" [class.collapse]="isFullscreen">
             <div>
