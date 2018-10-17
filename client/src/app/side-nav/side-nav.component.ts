@@ -250,7 +250,13 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     }, 0);
   }
 
-  updateView(newSelectedNode: TreeNode, newDashboardType: DashboardType, resourceId: string, force?: boolean): Observable<boolean> {
+  updateView(
+    newSelectedNode: TreeNode,
+    newDashboardType: DashboardType,
+    resourceId: string,
+    force?: boolean,
+    keepChildBladesOpen?: boolean
+  ): Observable<boolean> {
     if (this.selectedNode) {
       if (!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === newDashboardType) {
         return Observable.of(false);
@@ -297,7 +303,10 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     this.broadcastService.broadcastEvent(BroadcastEvent.TreeNavigation, viewInfo);
 
     this._updateTitle(newSelectedNode);
-    this.portalService.closeBlades();
+
+    if (!keepChildBladesOpen) {
+      this.portalService.closeBlades();
+    }
 
     return newSelectedNode.handleSelection();
   }

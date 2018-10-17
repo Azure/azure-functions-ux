@@ -12,11 +12,15 @@ export class InfoBoxComponent {
   private static _dismissedIds: { [key: string]: boolean } = {};
   private _dismissId: string;
 
+  private readonly _actionIconClassDefault = 'icon-small info-box-action-icon';
+
   public typeClass = 'info';
   public iconPath = 'image/info.svg';
+  public actionIconClass = this._actionIconClassDefault;
   public dismissed = false;
-  public actionIconClass = 'icon-small info-box-action-icon';
 
+  @Input()
+  isBanner = false;
   @Input()
   infoText: string = null;
   @Input()
@@ -34,22 +38,27 @@ export class InfoBoxComponent {
       case 'info':
         this.typeClass = 'info';
         this.iconPath = 'image/info.svg';
+        this.actionIconClass = this._actionIconClassDefault;
         break;
       case 'warning':
         this.typeClass = 'warning';
         this.iconPath = 'image/warning.svg';
+        this.actionIconClass = this._actionIconClassDefault;
         break;
       case 'error':
         this.typeClass = 'error';
         this.iconPath = 'image/error.svg';
+        this.actionIconClass = this._actionIconClassDefault;
         break;
       case 'success':
         this.typeClass = 'success';
         this.iconPath = 'image/success.svg';
+        this.actionIconClass = this._actionIconClassDefault;
         break;
       case 'spinner':
         this.typeClass = 'spinner';
         this.iconPath = 'image/spinner.svg';
+        this.actionIconClass = this._actionIconClassDefault;
         break;
       case 'upsell':
         this.typeClass = 'upsell';

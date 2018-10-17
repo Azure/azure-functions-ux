@@ -112,6 +112,8 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
   private _websiteId: WebsiteId;
 
+  public static getSiteResourceIdFromProperties;
+
   public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | CdsEntityDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
     let siteId = '';
@@ -132,6 +134,15 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     }
 
     return new ArmSiteDescriptor(siteId);
+  }
+
+  public static generateResourceUri(subscription: string, resourceGroup: string, site: string, slot?: string) {
+    if (!subscription || !resourceGroup || !site) {
+      return null;
+    }
+
+    const siteUri = `/subscriptions/${subscription}/resourceGroups/${resourceGroup}/providers/Microsoft.Web/sites/${site}`;
+    return slot ? `${siteUri}/slots/${slot}` : siteUri;
   }
 
   constructor(resourceId: string) {

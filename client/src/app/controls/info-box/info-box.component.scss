@@ -22,16 +22,25 @@
 
   .info-text-container {
     display: table-cell;
+    width: 100%;
     vertical-align: middle;
     padding: 10px;
     color: $body-bg-color-dark;
+
+    &.banner {
+      width: initial;
+    }
   }
 
   .info-link-container {
     display: table-cell;
     vertical-align: top;
-    padding-top: 11px;
+    padding-top: 5px;
     padding-right: 5px;
+
+    &.banner {
+      vertical-align: middle;
+    }
   }
 
   .info-dismiss-container {

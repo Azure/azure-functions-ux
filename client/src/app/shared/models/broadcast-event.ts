@@ -25,6 +25,10 @@ export enum BroadcastEvent {
   FunctionCodeUpdate,
   FunctionRunEvent,
   CloseTab,
+  PlanUpdated,
+  SiteUpdated,
+  SlotSwap,
+  SlotNew,
 }
 
 export interface DirtyStateEvent {
@@ -42,4 +46,9 @@ export interface TreeUpdateEvent {
   operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate' | 'newFunction' | 'moreTemplates';
   resourceId: string;
   data?: any;
+}
+
+export interface EventMessage<T> {
+  resourceId: string;
+  metadata?: T;
 }

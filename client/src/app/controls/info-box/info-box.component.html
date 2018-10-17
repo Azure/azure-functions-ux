@@ -3,19 +3,20 @@
     [ngClass]="typeClass"
     [class.clickable]="!!infoLink || !!infoActionFn"
     (click)="onClick($event)"
-    [tabIndex]="(!!infoLink || !!infoActionFn) ? 0 : -1"
+    [attr.tabindex]="(!!infoLink || !!infoActionFn) ? 0 : null"
     (keydown)="onKeyPress($event)">
 
     <div class="info-icon-container">
         <div [load-image]="iconPath" class="info-icon"></div>
     </div>
-    <div class="info-text-container">
+    <div class="info-text-container" [class.banner]="isBanner">
         <div>{{ infoText }}</div>
     </div>
     <div *ngIf="!!infoLink || !!infoActionFn" class="info-link-container">
         <span
-            [class]="actionIconClass"
-            [load-image]="infoActionIcon || 'image/arrow-right.svg'">
+            [ngClass]="actionIconClass"
+            [class.banner]="isBanner"
+            [load-image]="infoActionIcon || (isBanner ? 'image/arrow-right.svg' : 'image/learn-more.svg')">
         </span>
     </div>
 

@@ -2210,13 +2210,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Creating new slot {0} </value>
+    <value>Creating new slot '{0}' </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>Successfully created slot {0} </value>
+    <value>Successfully created slot '{0}' </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Failed to create slot {0} </value>
+    <value>Failed to create slot '{0}' </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Unable to upate the list of slots</value>
@@ -2900,10 +2900,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to cancel {{operation}}. Error: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>Swapped slot {0} with {1}</value>
+    <value>Swapped slot '{0}' with '{1}'</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>Failed to swap slot {0} with {1}</value>
+    <value>Failed to swap slot '{0}' with '{1}'</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Successfully setup Continuous Delivery and triggered build</value>

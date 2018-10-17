@@ -2,7 +2,7 @@
     [is-dirty]="swapping || (swapForm && swapForm.dirty)"
     [is-dirty-message]="swapping ? operationInProgressWarning : (swapForm && swapForm.dirty) ? unsavedChangesWarning : null">
 
-    <div class="header">
+    <div *ngIf="showHeader" class="header">
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/swap.svg"></span>
         </div>
@@ -164,6 +164,7 @@
                 </div>
 
                 <progress-bar [steps]="phases" class="NavSymbols"></progress-bar>
+
                 <info-box *ngIf="showPreviewLink"
                     typeClass="info"
                     [infoText]="'swapMultiPhasePreviewMessage' | translate"
@@ -190,7 +191,7 @@
 
             </div>
 
-            <div *ngIf="showPreviewChanges">
+            <div>
                 <h1 *ngIf="!swapForm?.controls['multiPhase']?.value" class="preview-changes-header">
                     {{ 'swapDiffHeading' | translate }}
                 </h1>
@@ -213,7 +214,7 @@
 
             </div>
 
-            <div *ngIf="showPhase2Controls" class="controls-container">
+            <div *ngIf="showPhase2Controls" class="controls-container revert-dropdown-container">
                 <div class="control-container">
                     <div class="control-label">
                         {{ 'swapActionLabel' | translate }}
@@ -249,19 +250,20 @@
             <button *ngIf="!showPhase2Controls"
                 class="custom-button"
                 (click)="executePhase1()"
-                [disabled]="executeButtonDisabed || !swapForm || swapForm.pending || !swapForm.valid">
+                [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid">
                 {{ (swapForm && swapForm.controls['multiPhase'].value ? 'startSwap' : 'swap') | translate }}
             </button>
 
             <button *ngIf="showPhase2Controls"
                 class="custom-button"
-                (click)="executePhase2()"
-                [disabled]="executeButtonDisabed || !swapForm || swapForm.pending || !swapForm.valid">
+                [disabled]="executeButtonDisabled || !swapForm || swapForm.pending || !swapForm.valid"
+                (click)="executePhase2()">
                 {{ (swapForm && swapForm.controls['revertSwap'].value ? 'cancelSwap' : 'completeSwap') | translate }}
             </button>
 
             <button
                 class="custom-button"
+                [disabled]="swapping"
                 (click)="closePanel()">
                 {{ 'close' | translate }}
             </button>

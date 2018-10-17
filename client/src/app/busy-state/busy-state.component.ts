@@ -24,6 +24,8 @@ export type BusyStateName =
   | 'log-stream'
   | 'scale-up'
   | 'deployment-slots-config'
+  | 'deployment-slots-swap'
+  | 'deployment-slots-create'
   | 'standalone-config'
   | 'quickstart';
 

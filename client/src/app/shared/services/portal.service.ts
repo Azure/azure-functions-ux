@@ -15,6 +15,8 @@ import {
   DirtyStateInfo,
   SubscriptionRequest,
   BladeResult,
+  EventFilter,
+  EventVerbs,
 } from './../models/portal';
 import {
   Event,
@@ -32,12 +34,13 @@ import {
 } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
-import { BroadcastEvent } from '../models/broadcast-event';
+import { BroadcastEvent, EventMessage } from '../models/broadcast-event';
 import { AiService } from './ai.service';
 import { Guid } from '../Utilities/Guid';
 import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
+import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
 
 export interface IPortalService {
   getStartupInfo();
@@ -65,7 +68,7 @@ export interface IPortalService {
   updateDirtyState(dirty: boolean, message?: string);
   logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]);
   returnPcv3Results<T>(results: T);
-  broadcastMessage(id: BroadcastMessageId, resourceId: string);
+  broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T);
 }
 
 @Injectable()
@@ -139,6 +142,11 @@ export class PortalService implements IPortalService {
     });
   }
 
+  setInboundEventFilter(allowedIFrameEventVerbs: string[]) {
+    const payload: EventFilter = { allowedIFrameEventVerbs: allowedIFrameEventVerbs || [] };
+    this.postMessage(Verbs.setFrameboundEventFilter, this._packageData(payload));
+  }
+
   sendTimerEvent(evt: TimerEvent) {
     this.postMessage(Verbs.logTimerEvent, this._packageData(evt));
   }
@@ -157,7 +165,7 @@ export class PortalService implements IPortalService {
 
   // Returns an Observable which resolves when blade is close.
   // Optionally may also return a value
-  openBlade(bladeInfo: OpenBladeInfo, source: string) {
+  openBlade(bladeInfo: OpenBladeInfo, source: string): Observable<BladeResult<any>> {
     const payload: DataMessage<OpenBladeInfo> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
@@ -290,6 +298,10 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.closeBlades, this._packageData({}));
   }
 
+  closeSelf() {
+    this.postMessage(Verbs.closeSelf, '');
+  }
+
   updateBladeInfo(title: string, subtitle: string) {
     const payload: UpdateBladeInfo = {
       title: title,
@@ -363,10 +375,11 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.updateDirtyState, this._packageData(info));
   }
 
-  broadcastMessage(id: BroadcastMessageId, resourceId: string): void {
-    const info: BroadcastMessage = {
+  broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
+    const info: BroadcastMessage<T> = {
       id,
       resourceId,
+      metadata,
     };
 
     this.postMessage(Verbs.broadcastMessage, this._packageData(info));
@@ -444,6 +457,18 @@ export class PortalService implements IPortalService {
       this.startupInfoObservable.next(this.startupInfo);
     } else if (methodName === Verbs.sendData) {
       this.operationStream.next(data);
+    } else if (methodName === EventVerbs.siteUpdated) {
+      const siteUpdatedMessage: EventMessage<void> = data;
+      this._broadcastService.broadcastEvent(BroadcastEvent.SiteUpdated, siteUpdatedMessage);
+    } else if (methodName === EventVerbs.planUpdated) {
+      const planUpdatedMessage: EventMessage<void> = data;
+      this._broadcastService.broadcastEvent(BroadcastEvent.PlanUpdated, planUpdatedMessage);
+    } else if (methodName === EventVerbs.slotSwap) {
+      const slotSwapMessage: EventMessage<SlotSwapInfo> = data;
+      this._broadcastService.broadcastEvent(BroadcastEvent.SlotSwap, slotSwapMessage);
+    } else if (methodName === EventVerbs.slotNew) {
+      const slotNewMessage: EventMessage<SlotNewInfo> = data;
+      this._broadcastService.broadcastEvent(BroadcastEvent.SlotNew, slotNewMessage);
     }
   }
 
