@@ -1,12 +1,12 @@
 ﻿export interface HttpRunModel {
-    method: string;
-    availableMethods?: string[];
-    queryStringParams?: Param[];
-    headers?: Param[];
-    body: string;
+  method: string;
+  availableMethods?: string[];
+  queryStringParams?: Param[];
+  headers?: Param[];
+  body: string;
 }
 
 export interface Param {
-    name: string;
-    value: string;
+  name: string;
+  value: string;
 }

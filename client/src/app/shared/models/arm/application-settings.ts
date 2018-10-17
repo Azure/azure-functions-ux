@@ -1,8 +1,8 @@
 export interface ApplicationSettings {
-    [key: string]: string;
+  [key: string]: string;
 }
 
 export interface ApplicationSettingInfo {
-    name: string;
-    value: string;
+  name: string;
+  value: string;
 }

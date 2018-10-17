@@ -14,37 +14,32 @@ import { UserService } from './user.service';
 
 @Injectable()
 export class LanguageService {
+  private _startupInfo: StartupInfo<void>;
 
-    private _startupInfo: StartupInfo<void>;
+  constructor(private _userService: UserService, private _cacheService: CacheService, private _translateService: TranslateService) {
+    this._userService.getStartupInfo().subscribe(startupInfo => {
+      this._startupInfo = startupInfo;
+    });
+  }
 
-    constructor(
-        private _userService: UserService,
-        private _cacheService: CacheService,
-        private _translateService: TranslateService) {
+  getResources(extensionVersion: string) {
+    return this._getLocalizedResources(this._startupInfo, extensionVersion);
+  }
 
-        this._userService.getStartupInfo()
-            .subscribe(startupInfo => {
-                this._startupInfo = startupInfo;
-            })
-    }
+  private _getLocalizedResources(startupInfo: StartupInfo<void>, runtime: string): Observable<any> {
+    const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
 
-    getResources(extensionVersion: string) {
-        return this._getLocalizedResources(this._startupInfo, extensionVersion)
-    }
+    return this._cacheService
+      .get(
+        `${Constants.cdnHost}api/resources?name=${input.lang}&runtime=${input.runtime}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
+        false,
+        LanguageServiceHelper.getApiControllerHeaders()
+      )
 
-    private _getLocalizedResources(startupInfo: StartupInfo<void>, runtime: string): Observable<any> {
-
-        const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
-
-        return this._cacheService.get(
-            `${Constants.cdnHost}api/resources?name=${input.lang}&runtime=${input.runtime}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-            false,
-            LanguageServiceHelper.getApiControllerHeaders())
-
-            .retryWhen(LanguageServiceHelper.retry)
-            .map(r => {
-                const resources = r.json();
-                LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
-            });
-    }
+      .retryWhen(LanguageServiceHelper.retry)
+      .map(r => {
+        const resources = r.json();
+        LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
+      });
+  }
 }

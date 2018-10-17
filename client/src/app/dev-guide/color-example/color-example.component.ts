@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { HighlightService } from '../highlight.service';
 
 @Component({
-    selector: 'color-example',
-    styleUrls: ['./color-example.component.scss'],
-    templateUrl: './color-example.component.html'
+  selector: 'color-example',
+  styleUrls: ['./color-example.component.scss'],
+  templateUrl: './color-example.component.html',
 })
 export class ColorExampleComponent {
-    constructor(highlightService: HighlightService){
-        this.globalCss = highlightService.highlightString(this.globalCss, 'scss');
-    }
+  constructor(highlightService: HighlightService) {
+    this.globalCss = highlightService.highlightString(this.globalCss, 'scss');
+  }
 
-    // tslint:disable-next-line:member-ordering
-    public globalCss = `
+  // tslint:disable-next-line:member-ordering
+  public globalCss = `
 // Normal style
 .myclass{
     color: $default-text-color;

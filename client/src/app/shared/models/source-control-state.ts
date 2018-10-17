@@ -1,5 +1,5 @@
 export enum SourceControlState {
-    NotEnabled,
-    EnabledClean,
-    EnabledDirty
+  NotEnabled,
+  EnabledClean,
+  EnabledDirty,
 }

@@ -9,24 +9,23 @@ import { ContainerSettingsData, ContainerSettingsInput } from '../container-sett
 @Component({
   selector: 'container-settings-shell',
   templateUrl: './container-settings-shell.component.html',
-  styleUrls: ['./container-settings-shell.component.scss']
+  styleUrls: ['./container-settings-shell.component.scss'],
 })
 export class ContainerSettingsShellComponent {
   viewInfo: TreeViewInfo<ContainerSettingsInput<ContainerSettingsData>>;
 
   constructor(translateService: TranslateService, userService: UserService) {
-    userService.getStartupInfo()
+    userService
+      .getStartupInfo()
       .first()
       .subscribe((info: StartupInfo<ContainerSettingsInput<ContainerSettingsData>>) => {
-
         if (info.featureInfo && info.featureInfo.id) {
           this.viewInfo = {
             resourceId: info.featureInfo.id,
             dashboardType: DashboardType.none,
             node: null,
-            data: info.featureInfo
+            data: info.featureInfo,
           };
-
         }
       });
   }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 @Component({
-    selector: 'empty-dashboard',
-    template: ''
+  selector: 'empty-dashboard',
+  template: '',
 })
-export class EmptyDashboardComponent {
-}
+export class EmptyDashboardComponent {}

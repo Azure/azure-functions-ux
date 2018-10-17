@@ -1,7 +1,7 @@
 /**
  * Created by marc on 01.06.17.
  */
-import {Directive, TemplateRef} from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
 /**
  * The `wizardStepTitle` directive can be used as an alternative to the `title` input of a [[WizardStep]]
@@ -19,7 +19,7 @@ import {Directive, TemplateRef} from '@angular/core';
  * @author Marc Arndt
  */
 @Directive({
-  selector: 'ng-template[wizardStepTitle]'
+  selector: 'ng-template[wizardStepTitle]',
 })
 export class WizardStepTitleDirective {
   /**
@@ -27,5 +27,5 @@ export class WizardStepTitleDirective {
    *
    * @param templateRef A reference to the content of the `ng-template` that contains this [[WizardStepTitleDirective]]
    */
-  constructor(public templateRef: TemplateRef<any>) { }
+  constructor(public templateRef: TemplateRef<any>) {}
 }

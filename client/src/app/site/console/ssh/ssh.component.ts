@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConsoleService } from './../shared/services/console.service';
 import { Site } from '../../../shared/models/arm/site';
 import { ArmObj } from '../../../shared/models/arm/arm-obj';
@@ -13,54 +13,50 @@ import { SiteTabIds, HostTypes } from '../../../shared/models/constants';
   styleUrls: ['./../console.component.scss', './ssh.component.scss'],
 })
 export class SSHComponent implements OnInit, OnDestroy {
-
   public sshUrl = '';
   protected site: ArmObj<Site>;
   private _siteSubscription: Subscription;
   private _busyManager: BusyStateScopeManager;
 
-  constructor(
-    private _consoleService: ConsoleService,
-    private _broadcastService: BroadcastService,
-    ) {
-      this._busyManager = new BusyStateScopeManager(this._broadcastService, SiteTabIds.console);
-      this._busyManager.setBusy();
-    }
+  constructor(private _consoleService: ConsoleService, private _broadcastService: BroadcastService) {
+    this._busyManager = new BusyStateScopeManager(this._broadcastService, SiteTabIds.console);
+    this._busyManager.setBusy();
+  }
 
   ngOnInit() {
-      this._siteSubscription = this._consoleService.getSite().subscribe(site => {
-          this.site = site;
-          this.sshUrl = this.getKuduUri();
-      });
+    this._siteSubscription = this._consoleService.getSite().subscribe(site => {
+      this.site = site;
+      this.sshUrl = this.getKuduUri();
+    });
   }
 
   ngOnDestroy() {
-      this._siteSubscription.unsubscribe();
+    this._siteSubscription.unsubscribe();
   }
 
   /**
    * Check when the iframe is loaded
    */
   iframeLoaded() {
-      this._busyManager.clearBusy();
+    this._busyManager.clearBusy();
   }
 
   /**
    * Reconnect the SSH on Button click
    */
   reconnect() {
-      this.sshUrl = '';
-      this._busyManager.setBusy();
-      setTimeout(() => {
-          this.sshUrl = this.getKuduUri();
-      }, 50);
+    this.sshUrl = '';
+    this._busyManager.setBusy();
+    setTimeout(() => {
+      this.sshUrl = this.getKuduUri();
+    }, 50);
   }
 
   /**
    * Get Kudu API URL
    */
   public getKuduUri(): string {
-      const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
-      return `https://${scmHostName}/webssh/host`;
+    const scmHostName = this.site.properties.hostNameSslStates.find(h => h.hostType === HostTypes.scm).name;
+    return `https://${scmHostName}/webssh/host`;
   }
 }

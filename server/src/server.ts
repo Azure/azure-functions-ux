@@ -25,85 +25,84 @@ import { validateContainerImage } from './actions/containerValidation';
 
 const cookieSession = require('cookie-session');
 if (process.env.aiInstrumentationKey) {
-    appInsights
-        .setup(process.env.aiInstrumentationKey)
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setUseDiskRetryCaching(true)
-        .start();
-    setInterval(trackAppServicePerformance, 30 * 1000);
+  appInsights
+    .setup(process.env.aiInstrumentationKey)
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setUseDiskRetryCaching(true)
+    .start();
+  setInterval(trackAppServicePerformance, 30 * 1000);
 }
 
 const app = express();
 //Load config before anything else
 configLoader.config();
 app
-    .use(compression())
-    .use(express.static(path.join(__dirname, 'public')))
-    .use(logger('combined'))
-    .set('view engine', 'pug')
-    .set('views', 'src/views')
-    .set('view cache', true)
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended: true }))
-    .use(cookieParser())
-    .use(
-        cookieSession({
-            //This session cookie will live as long as the session and be used for authentication/security purposes
-            name: 'session',
-            keys: [process.env.SALT],
-            cookie: {
-                httpOnly: true,
-                secure: true
-            }
-        })
-    );
+  .use(compression())
+  .use(express.static(path.join(__dirname, 'public')))
+  .use(logger('combined'))
+  .set('view engine', 'pug')
+  .set('views', 'src/views')
+  .set('view cache', true)
+  .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(cookieParser())
+  .use(
+    cookieSession({
+      //This session cookie will live as long as the session and be used for authentication/security purposes
+      name: 'session',
+      keys: [process.env.SALT],
+      cookie: {
+        httpOnly: true,
+        secure: true,
+      },
+    })
+  );
 app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
-    if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
-        res.redirect('https://azure.microsoft.com/services/functions/');
-    }
-    else {
-        next();
-    }
+  if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
+    res.redirect('https://azure.microsoft.com/services/functions/');
+  } else {
+    next();
+  }
 };
 
 const renderIndex = (req: express.Request, res: express.Response) => {
-    staticConfig.config.clientOptimzationsOff = req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
-    res.render('index', staticConfig);
+  staticConfig.config.clientOptimzationsOff =
+    req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
+  res.render('index', staticConfig);
 };
 app.get('/', redirectToAcom, renderIndex);
 
 app.get('/signin', (_, res) => {
-    res.redirect('https://portal.azure.com')
+  res.redirect('https://portal.azure.com');
 });
 
 app.get('/try', (_, res) => {
-    res.redirect('https://www.tryfunctions.com/try')
+  res.redirect('https://www.tryfunctions.com/try');
 });
 
 app.get('/api/ping', (_, res) => {
-    res.send('success');
+  res.send('success');
 });
 
 app.get('/api/health', (_, res) => {
-    res.send('healthy');
+  res.send('healthy');
 });
-
 
 let packageJson = { version: '0.0.0' };
 //This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
 if (fs.existsSync(path.join(__dirname, 'package.json'))) {
-    packageJson = require('./package.json');
+  packageJson = require('./package.json');
 } else if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
-    packageJson = require('../package.json');
-};
+  packageJson = require('../package.json');
+}
 app.get('/api/version', (_, res) => {
-    res.send(packageJson.version);
+  res.send(packageJson.version);
 });
 
 app.get('/api/templates', getTemplates);
@@ -127,32 +126,32 @@ setupAzureStorage(app);
 // render index and let angular handle the path.
 app.get('*', renderIndex);
 if (process.env.FUNCTIONS_SLOT_NAME) {
-    function normalizePort(val: any) {
-        var port = parseInt(val, 10);
+  function normalizePort(val: any) {
+    var port = parseInt(val, 10);
 
-        if (isNaN(port)) {
-            // named pipe
-            return val;
-        }
-
-        if (port >= 0) {
-            // port number
-            return port;
-        }
-
-        return false;
+    if (isNaN(port)) {
+      // named pipe
+      return val;
     }
 
-    var port = normalizePort(process.env.PORT || '3000');
-    app.set('port', port);
-    var server = http.createServer(app as any);
-    server.listen(port);
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+
+    return false;
+  }
+
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+  var server = http.createServer(app as any);
+  server.listen(port);
 } else {
-    //This is for localhost development
-    var privateKey = fs.readFileSync('localhost.key', 'utf8');
-    var certificate = fs.readFileSync('localhost.crt', 'utf8');
+  //This is for localhost development
+  var privateKey = fs.readFileSync('localhost.key', 'utf8');
+  var certificate = fs.readFileSync('localhost.crt', 'utf8');
 
-    const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
+  const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
 
-    httpsServer.listen(44300);
+  httpsServer.listen(44300);
 }

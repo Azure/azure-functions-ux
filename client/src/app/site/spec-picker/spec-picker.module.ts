@@ -7,20 +7,10 @@ import { SpecFeatureListComponent } from './spec-feature-list/spec-feature-list.
 import { PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
 
 @NgModule({
-    imports: [TranslateModule.forChild(), SharedModule],
-    entryComponents: [
-        SpecPickerComponent,
-    ],
-    declarations: [
-        SpecPickerComponent,
-        SpecListComponent,
-        SpecFeatureListComponent,
-    ],
-    providers: [
-        PlanPriceSpecManager,
-    ],
-    exports: [
-        SpecPickerComponent,
-    ]
+  imports: [TranslateModule.forChild(), SharedModule],
+  entryComponents: [SpecPickerComponent],
+  declarations: [SpecPickerComponent, SpecListComponent, SpecFeatureListComponent],
+  providers: [PlanPriceSpecManager],
+  exports: [SpecPickerComponent],
 })
-export class SpecPickerModule { }
+export class SpecPickerModule {}

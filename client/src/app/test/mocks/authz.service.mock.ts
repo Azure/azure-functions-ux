@@ -4,18 +4,16 @@ import { IAuthzService } from '../../shared/services/authz.service';
 
 @Injectable()
 export class MockAuthzService implements IAuthzService {
+  public returnHasPermission = true;
+  public returnHasReadOnlyLock = false;
 
-    public returnHasPermission = true;
-    public returnHasReadOnlyLock = false;
+  constructor() {}
 
-    constructor() {
-    }
+  hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean> {
+    return Observable.of(this.returnHasPermission);
+  }
 
-    hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean> {
-        return Observable.of(this.returnHasPermission);
-    }
-
-    hasReadOnlyLock(resourceId: string): Observable<boolean> {
-        return Observable.of(this.returnHasReadOnlyLock);
-    }
+  hasReadOnlyLock(resourceId: string): Observable<boolean> {
+    return Observable.of(this.returnHasReadOnlyLock);
+  }
 }

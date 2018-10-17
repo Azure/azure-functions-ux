@@ -17,7 +17,7 @@ interface ProxyItem {
 @Component({
   selector: 'proxies-list',
   templateUrl: './proxies-list.component.html',
-  styleUrls: ['./proxies-list.component.scss']
+  styleUrls: ['./proxies-list.component.scss'],
 })
 export class ProxiesListComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
@@ -32,34 +32,30 @@ export class ProxiesListComponent implements OnDestroy {
   constructor(private _broadcastService: BroadcastService) {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+    this._broadcastService
+      .getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
       .filter(info => info.dashboardType === DashboardType.ProxiesDashboard)
       .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
       .switchMap(viewInfo => {
         this.isLoading = true;
-        this._proxiesNode = (<ProxiesNode>viewInfo.node);
+        this._proxiesNode = <ProxiesNode>viewInfo.node;
 
-        this._clearProxyErrors([
-          errorIds.proxyJsonNotValid,
-          errorIds.proxySchemaNotValid,
-          errorIds.proxySchemaValidationFails
-        ]);
+        this._clearProxyErrors([errorIds.proxyJsonNotValid, errorIds.proxySchemaNotValid, errorIds.proxySchemaValidationFails]);
 
         return this._proxiesNode.loadChildren();
       })
       .subscribe(() => {
         this.isLoading = false;
         this.requiresAdvancedEditor = this._proxiesNode.requiresAdvancedEditor;
-        
-        this.proxies = (<ProxyNode[]>this._proxiesNode.children)
-          .map(p => {
-            return <ProxyItem>{
-              name: p.title,
-              url: p.proxy.backendUri,
-              node: p
-            };
-          });
+
+        this.proxies = (<ProxyNode[]>this._proxiesNode.children).map(p => {
+          return <ProxyItem>{
+            name: p.title,
+            url: p.proxy.backendUri,
+            node: p,
+          };
+        });
       });
   }
 

@@ -7,22 +7,23 @@ import { PriceSpec } from '../price-spec-manager/price-spec';
 @Component({
   selector: 'spec-list',
   templateUrl: './spec-list.component.html',
-  styleUrls: ['./spec-list.component.scss']
+  styleUrls: ['./spec-list.component.scss'],
 })
 export class SpecListComponent implements OnChanges {
-  @Input() specGroup: PriceSpecGroup;
-  @Input() isRecommendedList = false;
-  @Output() onSelectedSpec = new Subject<PriceSpec>();
+  @Input()
+  specGroup: PriceSpecGroup;
+  @Input()
+  isRecommendedList = false;
+  @Output()
+  onSelectedSpec = new Subject<PriceSpec>();
 
   specs: PriceSpec[];
 
-  constructor() { }
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.specGroup) {
-      this.specs = this.isRecommendedList
-        ? this.specGroup.recommendedSpecs
-        : this.specGroup.additionalSpecs;
+      this.specs = this.isRecommendedList ? this.specGroup.recommendedSpecs : this.specGroup.additionalSpecs;
     }
   }
 

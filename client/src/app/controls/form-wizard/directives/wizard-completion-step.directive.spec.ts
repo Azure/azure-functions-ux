@@ -1,13 +1,13 @@
 /**
  * Created by marc on 20.05.17.
  */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ViewChild, Component} from '@angular/core';
-import {WizardComponent} from '../components/wizard.component';
-import {MovingDirection} from '../util/moving-direction.enum';
-import {By} from '@angular/platform-browser';
-import {WizardModule} from '../wizard.module';
-import {WizardCompletionStepDirective} from './wizard-completion-step.directive';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ViewChild, Component } from '@angular/core';
+import { WizardComponent } from '../components/wizard.component';
+import { MovingDirection } from '../util/moving-direction.enum';
+import { By } from '@angular/platform-browser';
+import { WizardModule } from '../wizard.module';
+import { WizardCompletionStepDirective } from './wizard-completion-step.directive';
 
 @Component({
   selector: 'test-wizard',
@@ -24,7 +24,7 @@ import {WizardCompletionStepDirective} from './wizard-completion-step.directive'
         Step 3
       </div>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -50,7 +50,7 @@ describe('WizardCompletionStepDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 
@@ -90,8 +90,7 @@ describe('WizardCompletionStepDirective', () => {
     wizardTestFixture.detectChanges();
 
     expect(wizardTest.wizard.currentStepIndex).toBe(2);
-    expect(wizardTest.eventLog).toEqual(['enter Forwards 1', 'exit Forwards 1', 'enter Forwards 2',
-      'exit Forwards 2', 'enter Forwards 3']);
+    expect(wizardTest.eventLog).toEqual(['enter Forwards 1', 'exit Forwards 1', 'enter Forwards 2', 'exit Forwards 2', 'enter Forwards 3']);
   });
 
   it('should enter completion step after jumping over second optional step', () => {
@@ -116,7 +115,6 @@ describe('WizardCompletionStepDirective', () => {
     expect(wizardTest.wizard.canGoToStep(1)).toBe(false);
   });
 
-
   it('should not be able to leave the completion step in any direction', () => {
     wizardTest.isValid = false;
 
@@ -127,7 +125,7 @@ describe('WizardCompletionStepDirective', () => {
     expect(wizardTest.wizard.currentStep.canExit).toBe(false);
   });
 
-  it('should not leave the completion step if it can\'t be exited', () => {
+  it("should not leave the completion step if it can't be exited", () => {
     wizardTest.isValid = false;
 
     wizardTest.wizard.goToStep(2);
@@ -139,7 +137,6 @@ describe('WizardCompletionStepDirective', () => {
     wizardTestFixture.detectChanges();
 
     expect(wizardTest.wizard.currentStepIndex).toBe(2);
-    expect(wizardTest.eventLog)
-      .toEqual(['enter Forwards 1', 'exit Forwards 1', 'enter Forwards 3', 'enter Stay 3']);
+    expect(wizardTest.eventLog).toEqual(['enter Forwards 1', 'exit Forwards 1', 'enter Forwards 3', 'enter Stay 3']);
   });
 });

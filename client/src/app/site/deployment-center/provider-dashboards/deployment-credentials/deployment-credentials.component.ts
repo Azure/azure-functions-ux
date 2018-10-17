@@ -18,13 +18,16 @@ import { Dom } from '../../../../shared/Utilities/dom';
 @Component({
   selector: 'app-deployment-credentials',
   templateUrl: './deployment-credentials.component.html',
-  styleUrls: ['./deployment-credentials.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
+  styleUrls: ['./deployment-credentials.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss'],
 })
 export class DeploymentCredentialsComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
-  @ViewChild('credsTabs') groupElements: ElementRef;
+  @ViewChild('credsTabs')
+  groupElements: ElementRef;
 
-  @Input() resourceId: string;
-  @Input() standalone = true;
+  @Input()
+  resourceId: string;
+  @Input()
+  standalone = true;
 
   activeTab: 'user' | 'app' = 'app';
 
@@ -39,57 +42,67 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   private _currentTabIndex: number;
   public saving = false;
   public resetting = false;
-  constructor(private _cacheService: CacheService, private _siteService: SiteService, fb: FormBuilder, broadcastService: BroadcastService, translateService: TranslateService, injector: Injector) {
+  constructor(
+    private _cacheService: CacheService,
+    private _siteService: SiteService,
+    fb: FormBuilder,
+    broadcastService: BroadcastService,
+    translateService: TranslateService,
+    injector: Injector
+  ) {
     super('DeploymentCredentialsComponent', injector);
     const requiredValidation = new RequiredValidator(translateService, true);
     this.userPasswordForm = fb.group({
       userName: ['', [requiredValidation]],
       password: ['', [requiredValidation]],
-      passwordConfirm: ['']
+      passwordConfirm: [''],
     });
-    this.userPasswordForm.get('passwordConfirm').setValidators(ConfirmPasswordValidator.create(translateService, this.userPasswordForm.get('password')));
+    this.userPasswordForm
+      .get('passwordConfirm')
+      .setValidators(ConfirmPasswordValidator.create(translateService, this.userPasswordForm.get('password')));
   }
 
   protected setup(inputEvents: Observable<string>) {
-    return inputEvents
-      .switchMap(() => {
-        const publishXml$ = this._siteService.getPublishingProfile(this.resourceId)
-          .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
-          .filter(x => x.publishMethod === 'FTP')
-          .do(ftpProfile => {
-            this.appUserName = ftpProfile.userName;
-            this.appPwd = ftpProfile.userPWD;
-          });
+    return inputEvents.switchMap(() => {
+      const publishXml$ = this._siteService
+        .getPublishingProfile(this.resourceId)
+        .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
+        .filter(x => x.publishMethod === 'FTP')
+        .do(ftpProfile => {
+          this.appUserName = ftpProfile.userName;
+          this.appPwd = ftpProfile.userPWD;
+        });
 
-        const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true)
-          .do(r => {
-            const creds = r.json();
-            this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
-          });
-        return forkJoin(publishXml$, publishingUsers$);
+      const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true).do(r => {
+        const creds = r.json();
+        this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
+      return forkJoin(publishXml$, publishingUsers$);
+    });
   }
 
   ngOnInit() {
     this._resetPublishingProfile$
       .takeUntil(this._ngUnsubscribe$)
-      .do(() => this.resetting = true)
+      .do(() => (this.resetting = true))
       .switchMap(() => {
         return this._cacheService.postArm(`${this.resourceId}/newpassword`, true);
       })
-      .do(() => this.resetting = false)
+      .do(() => (this.resetting = false))
       .subscribe(() => this.setInput(this.resourceId));
 
     this._saveUserCredentials$
       .takeUntil(this._ngUnsubscribe$)
-      .do(() => this.saving = true)
-      .switchMap(() => this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
-        properties: {
-          publishingUserName: this.userPasswordForm.value.userName,
-          publishingPassword: this.userPasswordForm.value.password
-        }
-      }))
-      .do(() => this.saving = false)
+      .do(() => (this.saving = true))
+      .switchMap(() =>
+        this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
+          properties: {
+            publishingUserName: this.userPasswordForm.value.userName,
+            publishingPassword: this.userPasswordForm.value.password,
+          },
+        })
+      )
+      .do(() => (this.saving = false))
       .subscribe(() => this.setInput(this.resourceId));
     this.setInput(this.resourceId);
   }

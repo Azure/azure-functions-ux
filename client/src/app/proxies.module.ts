@@ -9,34 +9,24 @@ import { RouterModule } from '@angular/router';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
-    {
-        path: '',
-        component: ProxiesListComponent,
-        pathMatch: 'full',
-    },
-    {
-        path: 'new/proxy',
-        component: ApiNewComponent
-    },
-    {
-        path: ':proxyName',
-        component: ApiDetailsComponent,
-    }
+  {
+    path: '',
+    component: ProxiesListComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'new/proxy',
+    component: ApiNewComponent,
+  },
+  {
+    path: ':proxyName',
+    component: ApiDetailsComponent,
+  },
 ]);
 
 @NgModule({
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        SharedFunctionsModule,
-        routing
-    ],
-    declarations: [
-        ProxiesListComponent,
-        ApiNewComponent,
-        RequestResposeOverrideComponent,
-        ApiDetailsComponent
-    ],
-    providers: []
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, routing],
+  declarations: [ProxiesListComponent, ApiNewComponent, RequestResposeOverrideComponent, ApiDetailsComponent],
+  providers: [],
 })
-export class ProxiesModule { }
+export class ProxiesModule {}

@@ -1,5 +1,5 @@
-import {Directive, Host, OnInit} from '@angular/core';
-import {WizardStep} from '../util/wizard-step.interface';
+import { Directive, Host, OnInit } from '@angular/core';
+import { WizardStep } from '../util/wizard-step.interface';
 
 /**
  * The `optionalStep` directive can be used to define an optional `wizard-step`.
@@ -24,7 +24,7 @@ import {WizardStep} from '../util/wizard-step.interface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[optionalStep]'
+  selector: '[optionalStep]',
 })
 export class OptionalStepDirective implements OnInit {
   /**
@@ -32,7 +32,7 @@ export class OptionalStepDirective implements OnInit {
    *
    * @param wizardStep The wizard step, which contains this [[OptionalStepDirective]]
    */
-  constructor(@Host() private wizardStep: WizardStep) { }
+  constructor(@Host() private wizardStep: WizardStep) {}
 
   /**
    * Initialization work

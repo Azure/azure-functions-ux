@@ -5,12 +5,10 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="command-bar-wrapper">
       <ng-content></ng-content>
-    </div>`
+    </div>`,
 })
 export class CommandBarComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

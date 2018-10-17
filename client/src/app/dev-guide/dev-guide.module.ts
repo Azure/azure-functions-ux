@@ -20,36 +20,29 @@ import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
-    {
-        path: '**', component: DevGuideComponent
-    }
+  {
+    path: '**',
+    component: DevGuideComponent,
+  },
 ]);
 
 @NgModule({
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        routing,
-        SidebarModule,
-        NgSelectModule
-    ],
-    declarations: [
-        TabsComponent,
-        DevGuideComponent,
-        TypographyExampleComponent,
-        ListExampleComponent,
-        ButtonExampleComponent,
-        ColorExampleComponent,
-        SvgExampleComponent,
-        TextboxExampleComponent,
-        RadioSelectorExampleComponent,
-        TblExampleComponent,
-        EditableTblExampleComponent,
-        DropdownExampleComponent,
-        SidepanelExampleComponent
-    ],
-    providers: [
-        HighlightService
-    ]
+  imports: [TranslateModule.forChild(), SharedModule, routing, SidebarModule, NgSelectModule],
+  declarations: [
+    TabsComponent,
+    DevGuideComponent,
+    TypographyExampleComponent,
+    ListExampleComponent,
+    ButtonExampleComponent,
+    ColorExampleComponent,
+    SvgExampleComponent,
+    TextboxExampleComponent,
+    RadioSelectorExampleComponent,
+    TblExampleComponent,
+    EditableTblExampleComponent,
+    DropdownExampleComponent,
+    SidepanelExampleComponent,
+  ],
+  providers: [HighlightService],
 })
-export class DevGuideModule { }
+export class DevGuideModule {}

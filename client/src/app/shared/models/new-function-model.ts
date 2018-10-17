@@ -1,6 +1,6 @@
 export interface NewFunctionModel {
-    functionName?: string;
-    selectedContentSource?: string;
-    selectedTrigger?: string;
-    selectedLanguage?: string;
+  functionName?: string;
+  selectedContentSource?: string;
+  selectedTrigger?: string;
+  selectedLanguage?: string;
 }

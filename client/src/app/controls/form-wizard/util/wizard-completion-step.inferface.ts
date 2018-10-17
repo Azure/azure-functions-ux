@@ -1,4 +1,4 @@
-import {WizardStep} from './wizard-step.interface';
+import { WizardStep } from './wizard-step.interface';
 
 /**
  * Basic functionality every wizard completion step needs to provide

@@ -21,10 +21,13 @@ export const WebAppFramework = {
 @Component({
   selector: 'app-windows-frameworks',
   templateUrl: './windows-frameworks.component.html',
-  styleUrls: ['./windows-frameworks.component.scss', '../../step-configure.component.scss', '../../../deployment-center-setup.component.scss'],
+  styleUrls: [
+    './windows-frameworks.component.scss',
+    '../../step-configure.component.scss',
+    '../../../deployment-center-setup.component.scss',
+  ],
 })
 export class WindowsFramworksComponent implements OnDestroy {
-
   defaultNodeTaskRunner = 'none';
   nodeJsTaskRunners: DropDownElement<string>[] = [
     { value: 'gulp', displayLabel: 'Gulp' },
@@ -87,9 +90,7 @@ export class WindowsFramworksComponent implements OnDestroy {
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
 
-  constructor(
-    public wizard: DeploymentCenterStateManager,
-  ) {}
+  constructor(public wizard: DeploymentCenterStateManager) {}
 
   get getFramework() {
     return this.selectedPythonFramework;

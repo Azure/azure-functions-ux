@@ -11,9 +11,9 @@ import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: DeploymentShellComponent }]);
 
 @NgModule({
-    entryComponents: [DeploymentShellComponent, DeploymentCenterComponent],
-    imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SiteConfigModule, routing, DeploymentCenterModule],
-    declarations: [DeploymentShellComponent],
-    providers: []
+  entryComponents: [DeploymentShellComponent, DeploymentCenterComponent],
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SiteConfigModule, routing, DeploymentCenterModule],
+  declarations: [DeploymentShellComponent],
+  providers: [],
 })
 export class DeploymentShellModule {}

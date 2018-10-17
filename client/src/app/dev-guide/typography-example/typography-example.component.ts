@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { HighlightService } from '../highlight.service';
 
 @Component({
-    selector: 'typography-example',
-    styleUrls: ['./typography-example.component.scss'],
-    templateUrl: './typography-example.component.html'
+  selector: 'typography-example',
+  styleUrls: ['./typography-example.component.scss'],
+  templateUrl: './typography-example.component.html',
 })
 export class TypographyExampleComponent {
-    constructor(highlightService: HighlightService){
-        this.htmlCode = highlightService.highlightString(this.htmlCode, 'html');
-    }
-    // tslint:disable-next-line:member-ordering
-    public htmlCode = `
+  constructor(highlightService: HighlightService) {
+    this.htmlCode = highlightService.highlightString(this.htmlCode, 'html');
+  }
+  // tslint:disable-next-line:member-ordering
+  public htmlCode = `
 <div class="header">
     <label>EXAMPLE</label>
     <h1>Heading 1</h1>

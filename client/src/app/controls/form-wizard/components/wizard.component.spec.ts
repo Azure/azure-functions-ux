@@ -1,9 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {QueryList, Component, ViewChild} from '@angular/core';
-import {WizardComponent} from './wizard.component';
-import {By} from '@angular/platform-browser';
-import {WizardStep} from '../util/wizard-step.interface';
-import {WizardModule} from '../wizard.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { QueryList, Component, ViewChild } from '@angular/core';
+import { WizardComponent } from './wizard.component';
+import { By } from '@angular/platform-browser';
+import { WizardStep } from '../util/wizard-step.interface';
+import { WizardModule } from '../wizard.module';
 
 @Component({
   selector: 'test-wizard',
@@ -13,7 +13,7 @@ import {WizardModule} from '../wizard.module';
       <wizard-step title='Steptitle 2'>Step 2</wizard-step>
       <wizard-step title='Steptitle 3'>Step 3</wizard-step>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -31,11 +31,15 @@ function checkWizardSteps(steps: QueryList<WizardStep>, selectedStepIndex: numbe
 
     // All steps before the selected step need to be completed
     if (index < selectedStepIndex) {
-      expect(step.completed).toBe(true,
-        `the wizard step ${index} is not completed while the currently selected step index is ${selectedStepIndex}`);
+      expect(step.completed).toBe(
+        true,
+        `the wizard step ${index} is not completed while the currently selected step index is ${selectedStepIndex}`
+      );
     } else if (index > selectedStepIndex) {
-      expect(step.completed).toBe(false,
-        `the wizard step ${index} is completed while the currently selected step index is ${selectedStepIndex}`);
+      expect(step.completed).toBe(
+        false,
+        `the wizard step ${index} is completed while the currently selected step index is ${selectedStepIndex}`
+      );
     }
   });
 }
@@ -47,7 +51,7 @@ describe('WizardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 
@@ -75,8 +79,7 @@ describe('WizardComponent', () => {
   });
 
   it('should return correct step at index', () => {
-    expect(() => wizardTest.wizard.getStepAtIndex(-1))
-      .toThrow(new Error(`Expected a known step, but got stepIndex: -1.`));
+    expect(() => wizardTest.wizard.getStepAtIndex(-1)).toThrow(new Error(`Expected a known step, but got stepIndex: -1.`));
 
     expect(wizardTest.wizard.getStepAtIndex(0).title).toBe('Steptitle 1');
     expect(wizardTest.wizard.getStepAtIndex(1).title).toBe('Steptitle 2');
@@ -85,8 +88,7 @@ describe('WizardComponent', () => {
     // Check that the first wizard step is the only selected one
     checkWizardSteps(wizardTest.wizard.wizardSteps, 0);
 
-    expect(() => wizardTest.wizard.getStepAtIndex(3))
-      .toThrow(new Error(`Expected a known step, but got stepIndex: 3.`));
+    expect(() => wizardTest.wizard.getStepAtIndex(3)).toThrow(new Error(`Expected a known step, but got stepIndex: 3.`));
   });
 
   it('should return correct index at step', () => {

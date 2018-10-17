@@ -39,53 +39,55 @@ import { isBoolean } from 'util';
  * @author Marc Arndt
  */
 @Component({
-    selector: 'wizard',
-    templateUrl: 'wizard.component.html',
-    styleUrls: ['wizard.component.scss']
+  selector: 'wizard',
+  templateUrl: 'wizard.component.html',
+  styleUrls: ['wizard.component.scss'],
 })
 export class WizardComponent implements AfterContentInit {
-    /**
+  /**
    * A QueryList containing all WizardSteps in this Wizard
    */
-    @ContentChildren(WizardStep) public wizardSteps: QueryList<WizardStep>;
+  @ContentChildren(WizardStep)
+  public wizardSteps: QueryList<WizardStep>;
 
-    /**
+  /**
    * The location of the navigation bar inside the wizard.
    * This location can be either top, bottom, left or right
    *
    * @type {string}
    */
-    @Input() public navBarLocation = 'top';
+  @Input()
+  public navBarLocation = 'top';
 
-    /**
+  /**
    * Returns true if this wizard uses a horizontal orientation.
    * The wizard uses a horizontal orientation, iff the navigation bar is shown at the top or bottom of this wizard
    *
    * @returns {boolean} True if this wizard uses a horizontal orientation
    */
-    @HostBinding('class.horizontal')
-    public get horizontalOrientation(): boolean {
-        return this.navBarLocation === 'top' || this.navBarLocation === 'bottom';
-    }
+  @HostBinding('class.horizontal')
+  public get horizontalOrientation(): boolean {
+    return this.navBarLocation === 'top' || this.navBarLocation === 'bottom';
+  }
 
-    /**
+  /**
    * Returns true if this wizard uses a vertical orientation.
    * The wizard uses a vertical orientation, iff the navigation bar is shown at the left or right of this wizard
    *
    * @returns {boolean} True if this wizard uses a vertical orientation
    */
-    @HostBinding('class.vertical')
-    public get verticalOrientation(): boolean {
-        return this.navBarLocation === 'left' || this.navBarLocation === 'right';
-    }
+  @HostBinding('class.vertical')
+  public get verticalOrientation(): boolean {
+    return this.navBarLocation === 'left' || this.navBarLocation === 'right';
+  }
 
-    /**
+  /**
    * The index of the currently visible and selected step inside the wizardSteps QueryList.
    * If this wizard contains no steps, currentStepIndex is -1
    */
-    public currentStepIndex = -1;
+  public currentStepIndex = -1;
 
-    /**
+  /**
    * The WizardStep object belonging to the currently visible and selected step.
    * The currentStep is always the currently selected wizard step.
    * The currentStep can be either completed, if it was visited earlier,
@@ -93,63 +95,63 @@ export class WizardComponent implements AfterContentInit {
    *
    * If this wizard contains no steps, currentStep is null
    */
-    public currentStep: WizardStep;
+  public currentStep: WizardStep;
 
-    /**
+  /**
    * If this wizard has been completed, `completed` will be true
    */
-    public completed: boolean;
+  public completed: boolean;
 
-    /**
+  /**
    * Constructor
    */
-    constructor() {}
+  constructor() {}
 
-    /**
+  /**
    * Initialization work
    */
-    ngAfterContentInit(): void {
-        this.reset();
-    }
+  ngAfterContentInit(): void {
+    this.reset();
+  }
 
-    /**
+  /**
    * Checks if a given index `stepIndex` is inside the range of possible wizard steps inside this wizard
    *
    * @param stepIndex The to be checked index of a step inside this wizard
    * @returns {boolean} True if the given `stepIndex` is contained inside this wizard, false otherwise
    */
-    hasStep(stepIndex: number): boolean {
-        return this.wizardSteps.length > 0 && 0 <= stepIndex && stepIndex < this.wizardSteps.length;
-    }
+  hasStep(stepIndex: number): boolean {
+    return this.wizardSteps.length > 0 && 0 <= stepIndex && stepIndex < this.wizardSteps.length;
+  }
 
-    /**
+  /**
    * Checks if this wizard has a previous step, compared to the current step
    *
    * @returns {boolean} True if this wizard has a previous step before the current step
    */
-    hasPreviousStep(): boolean {
-        return this.hasStep(this.currentStepIndex - 1);
-    }
+  hasPreviousStep(): boolean {
+    return this.hasStep(this.currentStepIndex - 1);
+  }
 
-    /**
+  /**
    * Checks if this wizard has a next step, compared to the current step
    *
    * @returns {boolean} True if this wizard has a next step after the current step
    */
-    hasNextStep(): boolean {
-        return this.hasStep(this.currentStepIndex + 1);
-    }
+  hasNextStep(): boolean {
+    return this.hasStep(this.currentStepIndex + 1);
+  }
 
-    /**
+  /**
    * Checks if this wizard is currently inside its last step
    *
    * @returns {boolean} True if the wizard is currently inside its last step
    */
-    isLastStep(): boolean {
-        return this.wizardSteps.length > 0 && this.currentStepIndex === this.wizardSteps.length - 1;
-    }
+  isLastStep(): boolean {
+    return this.wizardSteps.length > 0 && this.currentStepIndex === this.wizardSteps.length - 1;
+  }
 
-    /**
+  /**
    * Finds the [[WizardStep]] at the given index `stepIndex`.
    * If no [[WizardStep]] exists at the given index an Error is thrown
    *
@@ -157,177 +159,177 @@ export class WizardComponent implements AfterContentInit {
    * @returns {undefined|WizardStep} The found [[WizardStep]] at the given index `stepIndex`
    * @throws An `Error` is thrown, if the given index `stepIndex` doesn't exist
    */
-    getStepAtIndex(stepIndex: number): WizardStep {
-        if (!this.hasStep(stepIndex)) {
-            throw new Error(`Expected a known step, but got stepIndex: ${stepIndex}.`);
-        }
-
-        return this.wizardSteps.find((item, index, array) => index === stepIndex);
+  getStepAtIndex(stepIndex: number): WizardStep {
+    if (!this.hasStep(stepIndex)) {
+      throw new Error(`Expected a known step, but got stepIndex: ${stepIndex}.`);
     }
 
-    /**
+    return this.wizardSteps.find((item, index, array) => index === stepIndex);
+  }
+
+  /**
    * Find the index of the given [[WizardStep]] `step`.
    * If the given [[WizardStep]] is not contained inside this wizard, `-1` is returned
    *
    * @param step The given [[WizardStep]]
    * @returns {number} The found index of `step` or `-1` if the step is not included in the wizard
    */
-    getIndexOfStep(step: WizardStep): number {
-        let stepIndex: number = -1;
+  getIndexOfStep(step: WizardStep): number {
+    let stepIndex: number = -1;
 
-        this.wizardSteps.forEach((item, index, array) => {
-            if (item === step) {
-                stepIndex = index;
-            }
-        });
+    this.wizardSteps.forEach((item, index, array) => {
+      if (item === step) {
+        stepIndex = index;
+      }
+    });
 
-        return stepIndex;
-    }
+    return stepIndex;
+  }
 
-    /**
+  /**
    * Calculates the correct [[MovingDirection]] value for a given `destinationStep` compared to the `currentStepIndex`.
    *
    * @param destinationStep The given destination step
    * @returns {MovingDirection} The calculated [[MovingDirection]]
    */
-    getMovingDirection(destinationStep: number): MovingDirection {
-        let movingDirection: MovingDirection;
+  getMovingDirection(destinationStep: number): MovingDirection {
+    let movingDirection: MovingDirection;
 
-        if (destinationStep > this.currentStepIndex) {
-            movingDirection = MovingDirection.Forwards;
-        } else if (destinationStep < this.currentStepIndex) {
-            movingDirection = MovingDirection.Backwards;
-        } else {
-            movingDirection = MovingDirection.Stay;
-        }
-
-        return movingDirection;
+    if (destinationStep > this.currentStepIndex) {
+      movingDirection = MovingDirection.Forwards;
+    } else if (destinationStep < this.currentStepIndex) {
+      movingDirection = MovingDirection.Backwards;
+    } else {
+      movingDirection = MovingDirection.Stay;
     }
 
-    /**
+    return movingDirection;
+  }
+
+  /**
    * Tries to transition the wizard to the previous step from the `currentStep`
    */
-    goToPreviousStep(): void {
-        if (this.hasPreviousStep()) {
-            this.goToStep(this.currentStepIndex - 1);
-        }
+  goToPreviousStep(): void {
+    if (this.hasPreviousStep()) {
+      this.goToStep(this.currentStepIndex - 1);
     }
+  }
 
-    /**
+  /**
    * Tries to transition the wizard to the next step from the `currentStep`
    */
-    goToNextStep(): void {
-        if (this.hasNextStep()) {
-            this.goToStep(this.currentStepIndex + 1);
-        }
+  goToNextStep(): void {
+    if (this.hasNextStep()) {
+      this.goToStep(this.currentStepIndex + 1);
     }
+  }
 
-    /**
+  /**
    * Checks if it's possible to transition to the previous step from the `currentStep`
    *
    * @returns {boolean} True if it's possible to transition to the previous step, false otherwise
    */
-    canGoToPreviousStep(): boolean {
-        const previousStepIndex = this.currentStepIndex - 1;
+  canGoToPreviousStep(): boolean {
+    const previousStepIndex = this.currentStepIndex - 1;
 
-        return this.hasStep(previousStepIndex) && this.canGoToStep(previousStepIndex);
-    }
+    return this.hasStep(previousStepIndex) && this.canGoToStep(previousStepIndex);
+  }
 
-    /**
+  /**
    * Checks if it's possible to transition to the next step from the `currentStep`
    *
    * @returns {boolean} True if it's possible to transition to the next step, false otherwise
    */
-    canGoToNextStep(): boolean {
-        const nextStepIndex = this.currentStepIndex + 1;
+  canGoToNextStep(): boolean {
+    const nextStepIndex = this.currentStepIndex + 1;
 
-        return this.hasStep(nextStepIndex) && this.canGoToStep(nextStepIndex);
-    }
+    return this.hasStep(nextStepIndex) && this.canGoToStep(nextStepIndex);
+  }
 
-    /**
+  /**
    * Checks if it's possible to transition to the step with the given `stepIndex` from the `currentStep`.
    *
    * @param stepIndex The to be checked step index
    * @returns {boolean} True if it's possible to transition to the given `stepIndex`
    */
-    canGoToStep(stepIndex: number): boolean {
-        let result: boolean = this.canExitStep(this.currentStep, this.getMovingDirection(stepIndex)) && this.hasStep(stepIndex);
+  canGoToStep(stepIndex: number): boolean {
+    let result: boolean = this.canExitStep(this.currentStep, this.getMovingDirection(stepIndex)) && this.hasStep(stepIndex);
 
-        this.wizardSteps.forEach((wizardStep, index, array) => {
-            if (index < stepIndex && index !== this.currentStepIndex) {
-                // all steps before the next step, that aren't the current step, must be completed or optional
-                result = result && (wizardStep.completed || wizardStep.optional);
-            }
-        });
+    this.wizardSteps.forEach((wizardStep, index, array) => {
+      if (index < stepIndex && index !== this.currentStepIndex) {
+        // all steps before the next step, that aren't the current step, must be completed or optional
+        result = result && (wizardStep.completed || wizardStep.optional);
+      }
+    });
 
-        return result;
-    }
+    return result;
+  }
 
-    /**
+  /**
    * Tries to transition to the given `destinationStepIndex`.
    * This will only fail, if the `currentStep` can't be left
    *
    * @param destinationStepIndex The index of the destination step
    */
-    goToStep(destinationStepIndex: number): void {
-        const destinationStep: WizardStep = this.getStepAtIndex(destinationStepIndex);
+  goToStep(destinationStepIndex: number): void {
+    const destinationStep: WizardStep = this.getStepAtIndex(destinationStepIndex);
 
-        // In which direction is a step transition done?
-        const movingDirection: MovingDirection = this.getMovingDirection(destinationStepIndex);
+    // In which direction is a step transition done?
+    const movingDirection: MovingDirection = this.getMovingDirection(destinationStepIndex);
 
-        if (this.canExitStep(this.currentStep, movingDirection)) {
-            // is it possible to leave the current step in the given direction?
-            this.wizardSteps.forEach((wizardStep, index, array) => {
-                if (index === this.currentStepIndex) {
-                    // finish processing old step
-                    wizardStep.completed = true;
-                }
-
-                if (this.currentStepIndex > destinationStepIndex && index > destinationStepIndex) {
-                    // if the next step is before the current step set all steps in between to incomplete
-                    wizardStep.completed = false;
-                }
-            });
-
-            // leave current step
-            this.currentStep.exit(movingDirection);
-            this.currentStep.selected = false;
-
-            // go to next step
-            this.currentStepIndex = destinationStepIndex;
-            this.currentStep = destinationStep;
-            this.currentStep.enter(movingDirection);
-            this.currentStep.selected = true;
-        } else {
-            // if the current step can't be left, reenter the current step
-            this.currentStep.exit(MovingDirection.Stay);
-            this.currentStep.enter(MovingDirection.Stay);
+    if (this.canExitStep(this.currentStep, movingDirection)) {
+      // is it possible to leave the current step in the given direction?
+      this.wizardSteps.forEach((wizardStep, index, array) => {
+        if (index === this.currentStepIndex) {
+          // finish processing old step
+          wizardStep.completed = true;
         }
-    }
 
-    /**
+        if (this.currentStepIndex > destinationStepIndex && index > destinationStepIndex) {
+          // if the next step is before the current step set all steps in between to incomplete
+          wizardStep.completed = false;
+        }
+      });
+
+      // leave current step
+      this.currentStep.exit(movingDirection);
+      this.currentStep.selected = false;
+
+      // go to next step
+      this.currentStepIndex = destinationStepIndex;
+      this.currentStep = destinationStep;
+      this.currentStep.enter(movingDirection);
+      this.currentStep.selected = true;
+    } else {
+      // if the current step can't be left, reenter the current step
+      this.currentStep.exit(MovingDirection.Stay);
+      this.currentStep.enter(MovingDirection.Stay);
+    }
+  }
+
+  /**
    * Resets the state of this wizard.
    * A reset transitions the wizard automatically to the first step and sets all steps as incomplete.
    * In addition the whole wizard is set as incomplete
    */
-    reset(): void {
-        // reset the step internal state
-        this.wizardSteps.forEach((step, index) => {
-            step.completed = false;
-            step.selected = false;
-        });
+  reset(): void {
+    // reset the step internal state
+    this.wizardSteps.forEach((step, index) => {
+      step.completed = false;
+      step.selected = false;
+    });
 
-        // set the wizard to incomplete
-        this.completed = false;
+    // set the wizard to incomplete
+    this.completed = false;
 
-        // set the first step as the current step
-        this.currentStepIndex = 0;
-        this.currentStep = this.getStepAtIndex(0);
-        this.currentStep.selected = true;
-        this.currentStep.enter(MovingDirection.Forwards);
-    }
+    // set the first step as the current step
+    this.currentStepIndex = 0;
+    this.currentStep = this.getStepAtIndex(0);
+    this.currentStep.selected = true;
+    this.currentStep.enter(MovingDirection.Forwards);
+  }
 
-    /**
+  /**
    * This method returns true, if the given step `wizardStep` can be exited and false otherwise.
    * Because this method depends on the value `canExit`, it will throw an error, if `canExit` is neither a boolean
    * nor a function.
@@ -337,13 +339,13 @@ export class WizardComponent implements AfterContentInit {
    * @returns {any} True if the given step `wizardStep` can be exited in the given direction, false otherwise
    * @throws An `Error` is thrown if `wizardStep.canExit` is neither a function nor a boolean
    */
-    public canExitStep(wizardStep: WizardStep, direction: MovingDirection): boolean {
-        if (isBoolean(wizardStep.canExit)) {
-            return wizardStep.canExit as boolean;
-        } else if (wizardStep.canExit instanceof Function) {
-            return wizardStep.canExit(direction);
-        } else {
-            throw new Error(`Input value '${wizardStep.canExit}' is neither a boolean nor a function`);
-        }
+  public canExitStep(wizardStep: WizardStep, direction: MovingDirection): boolean {
+    if (isBoolean(wizardStep.canExit)) {
+      return wizardStep.canExit as boolean;
+    } else if (wizardStep.canExit instanceof Function) {
+      return wizardStep.canExit(direction);
+    } else {
+      throw new Error(`Input value '${wizardStep.canExit}' is neither a boolean nor a function`);
     }
+  }
 }

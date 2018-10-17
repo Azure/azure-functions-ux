@@ -1,5 +1,5 @@
 export interface GeoRegion {
-    name: string;
-    displayName: string;
-    sortOrder: number;
+  name: string;
+  displayName: string;
+  sortOrder: number;
 }

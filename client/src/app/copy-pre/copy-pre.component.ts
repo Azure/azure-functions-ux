@@ -3,56 +3,59 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 import { KeyCodes } from '../shared/models/constants';
 
 @Component({
-    selector: 'copy-pre',
-    templateUrl: './copy-pre.component.html',
-    styleUrls: ['./copy-pre.component.scss']
+  selector: 'copy-pre',
+  templateUrl: './copy-pre.component.html',
+  styleUrls: ['./copy-pre.component.scss'],
 })
 export class CopyPreComponent implements OnInit {
-    @Input() selectOnClick = true;
-    @Input() content: string;
-    @Input() label: string;
-    @Input() passwordField = false;
+  @Input()
+  selectOnClick = true;
+  @Input()
+  content: string;
+  @Input()
+  label: string;
+  @Input()
+  passwordField = false;
 
-    public contentView = true;
-    public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';
-    constructor(private _utilities: UtilitiesService) {
-    }
+  public contentView = true;
+  public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';
+  constructor(private _utilities: UtilitiesService) {}
 
-    ngOnInit() {
-        this.contentView = !this.passwordField;
-    }
+  ngOnInit() {
+    this.contentView = !this.passwordField;
+  }
 
-    highlightText(event: Event) {
-        if (this.selectOnClick) {
-            this._utilities.highlightText(<Element>event.target);
-        }
+  highlightText(event: Event) {
+    if (this.selectOnClick) {
+      this._utilities.highlightText(<Element>event.target);
     }
+  }
 
-    copyToClipboard() {
-        this._utilities.copyContentToClipboard(this.content);
-    }
+  copyToClipboard() {
+    this._utilities.copyContentToClipboard(this.content);
+  }
 
-    showPassword() {
-        this.contentView = true;
-    }
+  showPassword() {
+    this.contentView = true;
+  }
 
-    hidePassword() {
-        this.contentView = false;
-    }
+  hidePassword() {
+    this.contentView = false;
+  }
 
-    onKeyPress(event: KeyboardEvent, func: 'hide' | 'show' | 'copy' ) {
-        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
-            switch (func) {
-                case 'hide':
-                    this.hidePassword();
-                    break;
-                case 'show':
-                    this.showPassword();
-                    break;
-                case 'copy':
-                    this.copyToClipboard();
-                    break;
-            }
-        }
+  onKeyPress(event: KeyboardEvent, func: 'hide' | 'show' | 'copy') {
+    if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+      switch (func) {
+        case 'hide':
+          this.hidePassword();
+          break;
+        case 'show':
+          this.showPassword();
+          break;
+        case 'copy':
+          this.copyToClipboard();
+          break;
+      }
     }
+  }
 }

@@ -1,5 +1,5 @@
 export interface RunFunctionResult {
-    statusCode: number;
-    statusText: string;
-    content: string;
+  statusCode: number;
+  statusText: string;
+  content: string;
 }

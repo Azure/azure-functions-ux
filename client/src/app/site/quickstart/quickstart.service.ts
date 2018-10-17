@@ -12,42 +12,38 @@ import { UserService } from './../../shared/services/user.service';
 
 @Injectable()
 export class QuickstartService {
+  private _startupInfo: StartupInfo<void>;
 
-    private _startupInfo: StartupInfo<void>;
+  constructor(private _userService: UserService, private _cacheService: CacheService) {
+    this._userService.getStartupInfo().subscribe(startupInfo => {
+      this._startupInfo = startupInfo;
+    });
+  }
 
-    constructor(
-        private _userService: UserService,
-        private _cacheService: CacheService) {
+  getQuickstartFile(fileName: string) {
+    return this._getLocalizedQuickstart(this._startupInfo, fileName);
+  }
 
-        this._userService.getStartupInfo()
-            .subscribe(startupInfo => {
-                this._startupInfo = startupInfo;
-            });
-    }
+  private _getApiControllerHeaders(): Headers {
+    const headers = new Headers();
+    headers.append('Content-Type', 'text/plain');
+    headers.append('Accept', 'text/plain,*/*');
 
-    getQuickstartFile(fileName: string) {
-        return this._getLocalizedQuickstart(this._startupInfo, fileName);
-    }
+    return headers;
+  }
 
-    private _getApiControllerHeaders(): Headers {
-        const headers = new Headers();
-        headers.append('Content-Type', 'text/plain');
-        headers.append('Accept', 'text/plain,*/*');
+  private _getLocalizedQuickstart(startupInfo: StartupInfo<void>, fileName: string) {
+    const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, null);
 
-        return headers;
-    }
-
-    private _getLocalizedQuickstart(startupInfo: StartupInfo<void>, fileName: string) {
-
-        const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, null);
-
-        return this._cacheService.get(
-            `${Constants.serviceHost}api/quickstart?fileName=${fileName}&language=${input.lang}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
-            false,
-            this._getApiControllerHeaders())
-            .map(r => {
-                const quickstart = r.text();
-                return quickstart;
-            });
-    }
+    return this._cacheService
+      .get(
+        `${Constants.serviceHost}api/quickstart?fileName=${fileName}&language=${input.lang}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
+        false,
+        this._getApiControllerHeaders()
+      )
+      .map(r => {
+        const quickstart = r.text();
+        return quickstart;
+      });
+  }
 }

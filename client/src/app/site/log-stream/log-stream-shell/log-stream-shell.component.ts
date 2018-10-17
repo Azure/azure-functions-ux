@@ -14,10 +14,10 @@ export class LogStreamShellComponent {
   viewInfo: TreeViewInfo<void>;
 
   constructor(translateService: TranslateService, userService: UserService) {
-    userService.getStartupInfo()
+    userService
+      .getStartupInfo()
       .first()
       .subscribe((info: StartupInfo<LogStreamInput<void>>) => {
-
         if (info.featureInfo && info.featureInfo.id) {
           this.viewInfo = {
             resourceId: info.featureInfo.id,

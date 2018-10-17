@@ -12,32 +12,28 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextEditorComponent } from 'app/controls/text-editor/text-editor.component';
 
 @NgModule({
-    declarations: [
-        FunctionKeysComponent,
-        PairListComponent,
-        EditModeWarningComponent,
-        FnWriteAccessDirective,
-        MonacoEditorDirective,
-        RightTabsComponent,
-        BottomTabsComponent,
-        BottomTabComponent,
-        TextEditorComponent
-    ],
-    exports: [
-        FunctionKeysComponent,
-        PairListComponent,
-        EditModeWarningComponent,
-        FnWriteAccessDirective,
-        MonacoEditorDirective,
-        RightTabsComponent,
-        BottomTabsComponent,
-        BottomTabComponent,
-        TextEditorComponent
-    ],
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule
-    ]
+  declarations: [
+    FunctionKeysComponent,
+    PairListComponent,
+    EditModeWarningComponent,
+    FnWriteAccessDirective,
+    MonacoEditorDirective,
+    RightTabsComponent,
+    BottomTabsComponent,
+    BottomTabComponent,
+    TextEditorComponent,
+  ],
+  exports: [
+    FunctionKeysComponent,
+    PairListComponent,
+    EditModeWarningComponent,
+    FnWriteAccessDirective,
+    MonacoEditorDirective,
+    RightTabsComponent,
+    BottomTabsComponent,
+    BottomTabComponent,
+    TextEditorComponent,
+  ],
+  imports: [TranslateModule.forChild(), SharedModule],
 })
-export class SharedFunctionsModule {
-}
+export class SharedFunctionsModule {}

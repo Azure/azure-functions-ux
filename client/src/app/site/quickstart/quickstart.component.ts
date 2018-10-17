@@ -17,197 +17,193 @@ import { errorIds } from 'app/shared/models/error-ids';
 import { UserService } from 'app/shared/services/user.service';
 import { Subject } from 'rxjs/Subject';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
-import { Subscription as Subs} from 'app/shared/models/subscription';
+import { Subscription as Subs } from 'app/shared/models/subscription';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 
 @Component({
-    selector: 'quickstart',
-    templateUrl: './quickstart.component.html',
-    styleUrls: ['./quickstart.component.scss'],
-    providers: [QuickstartStateManager],
+  selector: 'quickstart',
+  templateUrl: './quickstart.component.html',
+  styleUrls: ['./quickstart.component.scss'],
+  providers: [QuickstartStateManager],
 })
 export class QuickstartComponent extends FunctionAppContextComponent implements OnDestroy {
-
-    public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
-    public workerRuntime: workerRuntimeOptions;
-    public isLinux: boolean;
-    public isLinuxConsumption: boolean;
-    public canUseQuickstart: boolean;
-    public loading = true;
-    public showDeploymentStep: boolean;
-    public devEnvironment: devEnvironmentOptions;
-    public appSettingsArm: ArmObj<ApplicationSettings>;
-    public runtime: string;
-    public possibleRuntimes: DropDownElement<string>[] =
-    [{
-        displayLabel: '.NET',
-        value: 'dotnet',
+  public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
+  public workerRuntime: workerRuntimeOptions;
+  public isLinux: boolean;
+  public isLinuxConsumption: boolean;
+  public canUseQuickstart: boolean;
+  public loading = true;
+  public showDeploymentStep: boolean;
+  public devEnvironment: devEnvironmentOptions;
+  public appSettingsArm: ArmObj<ApplicationSettings>;
+  public runtime: string;
+  public possibleRuntimes: DropDownElement<string>[] = [
+    {
+      displayLabel: '.NET',
+      value: 'dotnet',
     },
     {
-        displayLabel: 'JavaScript',
-        value: 'node',
-    }];
+      displayLabel: 'JavaScript',
+      value: 'node',
+    },
+  ];
 
-    private _ngUnsubscribe = new Subject();
-    private _busyManager: BusyStateScopeManager;
-    private _subs: Subs[];
-    private readonly _validWorkerRuntimes = [
-        'dotnet',
-        'node',
-        'nodejs',
-        'python',
-        'java',
-    ];
+  private _ngUnsubscribe = new Subject();
+  private _busyManager: BusyStateScopeManager;
+  private _subs: Subs[];
+  private readonly _validWorkerRuntimes = ['dotnet', 'node', 'nodejs', 'python', 'java'];
 
-    constructor(
-        private _wizardService: QuickstartStateManager,
-        private _fb: FormBuilder,
-        private _siteService: SiteService,
-        private _translateService: TranslateService,
-        broadcastService: BroadcastService,
-        functionAppService: FunctionAppService,
-        userService: UserService) {
+  constructor(
+    private _wizardService: QuickstartStateManager,
+    private _fb: FormBuilder,
+    private _siteService: SiteService,
+    private _translateService: TranslateService,
+    broadcastService: BroadcastService,
+    functionAppService: FunctionAppService,
+    userService: UserService
+  ) {
+    super('quickstart', functionAppService, broadcastService, () => this._busyManager.setBusy());
 
-        super('quickstart', functionAppService, broadcastService, () => this._busyManager.setBusy());
+    this._wizardService.wizardForm = this._fb.group({
+      // wizard values
+      devEnvironment: [null],
+      workerRuntime: [null],
+      portalTemplate: [null],
+      deployment: [null],
+      instructions: [null],
 
-        this._wizardService.wizardForm = this._fb.group({
-            // wizard values
-            devEnvironment: [null],
-            workerRuntime: [null],
-            portalTemplate: [null],
-            deployment: [null],
-            instructions: [null],
+      // app values
+      context: [null],
+      isLinux: [null],
+      isLinuxConsumption: [null],
+      subscriptionName: [null],
+    });
 
-            // app values
-            context: [null],
-            isLinux: [null],
-            isLinuxConsumption: [null],
-            subscriptionName: [null],
-        });
+    userService
+      .getStartupInfo()
+      .first()
+      .subscribe(info => {
+        this._subs = info.subscriptions;
+      });
 
-        userService.getStartupInfo()
-            .first()
-            .subscribe(info => {
-                this._subs = info.subscriptions;
-            });
+    this._wizardService.devEnvironment.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
+      this.devEnvironment = this._wizardService.devEnvironment.value;
+      this.showDeploymentStep = this._checkShowDeploymentStep();
+    });
 
-        this._wizardService.devEnvironment.statusChanges
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(() => {
-                this.devEnvironment = this._wizardService.devEnvironment.value;
-                this.showDeploymentStep = this._checkShowDeploymentStep();
-            });
+    this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
+  }
 
-        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.quickstart);
-    }
-
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .takeUntil(this.ngUnsubscribe)
-            .switchMap(viewInfo => {
-                this._busyManager.setBusy();
-                return this._siteService.getAppSettings(viewInfo.context.site.id);
-            })
-            .subscribe(r => {
-                if (r.isSuccessful) {
-                    this.appSettingsArm = r.result;
-                    if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-                        const workerRuntimeSetting = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
-
-                        if (this._validWorkerRuntimes.indexOf(workerRuntimeSetting) !== -1) {
-                            this._useValidWorkerRuntime(workerRuntimeSetting);
-                        } else {
-                            this.canUseQuickstart = false;
-                        }
-                    } else {
-                        this.canUseQuickstart = false;
-                    }
-                } else {
-                    this.showComponentError({
-                        errorId: errorIds.quickstartLoadError,
-                        message: `${r[0].error}\n${r[1].error}`,
-                        resourceId: this.context.site.id,
-                    });
-                }
-                this.loading = false;
-                this._busyManager.clearBusy();
-            });
-    }
-
-    private _useValidWorkerRuntime(workerRuntime: string) {
-        this.workerRuntime = workerRuntime as workerRuntimeOptions;
-        this.isLinux = ArmUtil.isLinuxApp(this.context.site);
-        this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
-
-        this._setInitalProperties();
-        this._setQuickstartTitle();
-        this.canUseQuickstart = true;
-    }
-
-    private _setQuickstartTitle() {
-        switch (this.workerRuntime) {
-            case 'dotnet':
-                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartDotnetTitle);
-                break;
-            case 'node':
-            case 'nodejs':
-                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartNodeTitle);
-                break;
-            case 'python':
-                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartPythonTitle);
-                break;
-            case 'java':
-                this.quickstartTitle = this._translateService.instant(PortalResources.quickstartJavaTitle);
-                break;
-        }
-    }
-
-    private _setInitalProperties() {
-        const currentFormValues = this._wizardService.wizardValues;
-        currentFormValues.workerRuntime = this.workerRuntime;
-        currentFormValues.context = this.context;
-        currentFormValues.isLinux = this.isLinux;
-        currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
-        currentFormValues.subscriptionName = this._findSubscriptionName();
-        this._wizardService.wizardValues = currentFormValues;
-    }
-
-    private _findSubscriptionName(): string {
-        const descriptor = new ArmSiteDescriptor(this.context.site.id);
-        const subscriptionId = descriptor.subscription;
-
-        return this._subs ? this._subs.find(s => s.subscriptionId === subscriptionId).displayName : '{subscriptionName}';
-    }
-
-    private _checkShowDeploymentStep(): boolean {
-        return this.devEnvironment === 'vs'
-            || this.devEnvironment === 'maven'
-            || this.devEnvironment === 'vscode' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption)
-            || this.devEnvironment === 'coretools' && (!this.isLinux || this.isLinux && !this.isLinuxConsumption);
-    }
-
-    onRuntimeChanged(runtime: string) {
-        this.runtime = runtime;
-    }
-
-    setRuntime() {
+  setup(): Subscription {
+    return this.viewInfoEvents
+      .takeUntil(this.ngUnsubscribe)
+      .switchMap(viewInfo => {
         this._busyManager.setBusy();
+        return this._siteService.getAppSettings(viewInfo.context.site.id);
+      })
+      .subscribe(r => {
+        if (r.isSuccessful) {
+          this.appSettingsArm = r.result;
+          if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+            const workerRuntimeSetting = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
 
-        this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
+            if (this._validWorkerRuntimes.indexOf(workerRuntimeSetting) !== -1) {
+              this._useValidWorkerRuntime(workerRuntimeSetting);
+            } else {
+              this.canUseQuickstart = false;
+            }
+          } else {
+            this.canUseQuickstart = false;
+          }
+        } else {
+          this.showComponentError({
+            errorId: errorIds.quickstartLoadError,
+            message: `${r[0].error}\n${r[1].error}`,
+            resourceId: this.context.site.id,
+          });
+        }
+        this.loading = false;
+        this._busyManager.clearBusy();
+      });
+  }
 
-        this._siteService.updateAppSettings(this.context.site.id, this.appSettingsArm)
-            .do(null, e => {
-                this._busyManager.clearBusy();
-                this.showComponentError(e);
-            })
-            .subscribe(() => {
-                this._useValidWorkerRuntime(this.runtime);
-                this._busyManager.clearBusy();
-            });
+  private _useValidWorkerRuntime(workerRuntime: string) {
+    this.workerRuntime = workerRuntime as workerRuntimeOptions;
+    this.isLinux = ArmUtil.isLinuxApp(this.context.site);
+    this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
+
+    this._setInitalProperties();
+    this._setQuickstartTitle();
+    this.canUseQuickstart = true;
+  }
+
+  private _setQuickstartTitle() {
+    switch (this.workerRuntime) {
+      case 'dotnet':
+        this.quickstartTitle = this._translateService.instant(PortalResources.quickstartDotnetTitle);
+        break;
+      case 'node':
+      case 'nodejs':
+        this.quickstartTitle = this._translateService.instant(PortalResources.quickstartNodeTitle);
+        break;
+      case 'python':
+        this.quickstartTitle = this._translateService.instant(PortalResources.quickstartPythonTitle);
+        break;
+      case 'java':
+        this.quickstartTitle = this._translateService.instant(PortalResources.quickstartJavaTitle);
+        break;
     }
+  }
 
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
-    }
+  private _setInitalProperties() {
+    const currentFormValues = this._wizardService.wizardValues;
+    currentFormValues.workerRuntime = this.workerRuntime;
+    currentFormValues.context = this.context;
+    currentFormValues.isLinux = this.isLinux;
+    currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
+    currentFormValues.subscriptionName = this._findSubscriptionName();
+    this._wizardService.wizardValues = currentFormValues;
+  }
+
+  private _findSubscriptionName(): string {
+    const descriptor = new ArmSiteDescriptor(this.context.site.id);
+    const subscriptionId = descriptor.subscription;
+
+    return this._subs ? this._subs.find(s => s.subscriptionId === subscriptionId).displayName : '{subscriptionName}';
+  }
+
+  private _checkShowDeploymentStep(): boolean {
+    return (
+      this.devEnvironment === 'vs' ||
+      this.devEnvironment === 'maven' ||
+      (this.devEnvironment === 'vscode' && (!this.isLinux || (this.isLinux && !this.isLinuxConsumption))) ||
+      (this.devEnvironment === 'coretools' && (!this.isLinux || (this.isLinux && !this.isLinuxConsumption)))
+    );
+  }
+
+  onRuntimeChanged(runtime: string) {
+    this.runtime = runtime;
+  }
+
+  setRuntime() {
+    this._busyManager.setBusy();
+
+    this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName] = this.runtime;
+
+    this._siteService
+      .updateAppSettings(this.context.site.id, this.appSettingsArm)
+      .do(null, e => {
+        this._busyManager.clearBusy();
+        this.showComponentError(e);
+      })
+      .subscribe(() => {
+        this._useValidWorkerRuntime(this.runtime);
+        this._busyManager.clearBusy();
+      });
+  }
+
+  ngOnDestroy() {
+    this._ngUnsubscribe.next();
+  }
 }

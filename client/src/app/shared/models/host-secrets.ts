@@ -1,4 +1,4 @@
 ﻿export interface HostSecrets {
-    masterKey: string;
-    functionKey: string;
+  masterKey: string;
+  functionKey: string;
 }

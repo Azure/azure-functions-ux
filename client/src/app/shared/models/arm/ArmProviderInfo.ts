@@ -1,8 +1,8 @@
 export interface ArmProviderInfo {
-    resourceTypes: ResourceType[];
+  resourceTypes: ResourceType[];
 }
 
 export interface ResourceType {
-    resourceType: string;
-    locations: string[];
+  resourceType: string;
+  locations: string[];
 }

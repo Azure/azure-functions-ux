@@ -5,18 +5,16 @@ import { TopBarNotification } from './../top-bar/top-bar-models';
 @Component({
   selector: 'top-warning',
   templateUrl: './top-warning.component.html',
-  styleUrls: ['./top-warning.component.scss']
+  styleUrls: ['./top-warning.component.scss'],
 })
 export class TopWarningComponent implements OnInit {
-
   public notifications: TopBarNotification[] = [];
 
-  constructor(private _globalStateService: GlobalStateService) { }
+  constructor(private _globalStateService: GlobalStateService) {}
 
   ngOnInit() {
-    this._globalStateService.topBarNotificationsStream
-        .subscribe(topBarNotifications => {
-            this.notifications = topBarNotifications;
+    this._globalStateService.topBarNotificationsStream.subscribe(topBarNotifications => {
+      this.notifications = topBarNotifications;
     });
   }
 
@@ -25,5 +23,4 @@ export class TopWarningComponent implements OnInit {
       notification.clickCallback();
     }
   }
-
 }

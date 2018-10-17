@@ -17,16 +17,19 @@ import { VfsObject } from 'app/shared/models/vfs-object';
 @Component({
   selector: 'embedded-function-logs-tab',
   templateUrl: './embedded-function-logs-tab.component.html',
-  styleUrls: ['./embedded-function-logs-tab.component.scss']
+  styleUrls: ['./embedded-function-logs-tab.component.scss'],
 })
 export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent implements OnChanges, OnDestroy {
-  @Input() resourceId: string;
+  @Input()
+  resourceId: string;
 
-  public commands = [{
-    iconUrl: 'image/start.svg',
-    text: `{{ 'logStreaming_pause' | translate }}`,
-    click: () => this._startLogs()
-  }];
+  public commands = [
+    {
+      iconUrl: 'image/start.svg',
+      text: `{{ 'logStreaming_pause' | translate }}`,
+      click: () => this._startLogs(),
+    },
+  ];
 
   public logContent = '';
   public isPolling = false;
@@ -44,7 +47,8 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     private _armService: ArmService,
     private _broadcastService: BroadcastService,
     private _logService: LogService,
-    private _translateService: TranslateService) {
+    private _translateService: TranslateService
+  ) {
     super();
 
     this._resourceIdStream
@@ -56,7 +60,8 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         this._setupPingsToStatus(resourceId);
       });
 
-    this._broadcastService.getEvents<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent)
+    this._broadcastService
+      .getEvents<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent)
       .filter(e => e.type === 'runTest')
       .takeUntil(this._ngUnsubscribe)
       .subscribe(r => {
@@ -85,17 +90,22 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     this._timerSub = Observable.timer(0, 45000)
       .takeUntil(this._ngUnsubscribe)
       .switchMap(_ => {
-        const statusId = resourceId.split('/').splice(0, 9).join('/') + '/status';
+        const statusId =
+          resourceId
+            .split('/')
+            .splice(0, 9)
+            .join('/') + '/status';
         return this._cacheService.getArm(statusId, true);
       })
-      .subscribe(r => {
-      }, err => {
-        this._logService.error(LogCategories.FunctionEdit, '/embedded/editor-status', 'Ping to function status failed');
-      });
+      .subscribe(
+        r => {},
+        err => {
+          this._logService.error(LogCategories.FunctionEdit, '/embedded/editor-status', 'Ping to function status failed');
+        }
+      );
   }
 
   private _startLogs() {
-
     if (this.isPolling) {
       return;
     }
@@ -124,9 +134,11 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         if (r) {
           const files: VfsObject[] = r.json();
           if (files.length > 0) {
-
             files
-              .map(e => { e.parsedTime = new Date(e.mtime); return e; })
+              .map(e => {
+                e.parsedTime = new Date(e.mtime);
+                return e;
+              })
               .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
             const headers = this._armService.getHeaders();
@@ -159,6 +171,4 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     this._stopPolling.next();
     this.isPolling = false;
   }
-
-
 }
