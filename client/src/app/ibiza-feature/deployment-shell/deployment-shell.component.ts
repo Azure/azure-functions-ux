@@ -3,6 +3,7 @@ import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: 'app-deployment-shell',
@@ -17,9 +18,7 @@ export class DeploymentShellComponent implements OnDestroy {
   constructor(route: ActivatedRoute) {
     this.routeParamsSubscription = route.params.subscribe(x => {
       this.viewInfo = {
-        resourceId:
-          `/subscriptions/${x['subscriptionId']}/resourceGroups/${x['resourceGroup']}/providers/Microsoft.Web/sites/${x['site']}` +
-          (x['slot'] ? `/slots/${x['slot']}` : ``),
+        resourceId: ArmSiteDescriptor.generateResourceUri(x['subscriptionId'], x['resourceGroup'], x['site'], x['slot']),
         dashboardType: DashboardType.none,
         node: null,
         data: null,

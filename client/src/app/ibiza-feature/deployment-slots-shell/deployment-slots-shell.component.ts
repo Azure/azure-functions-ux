@@ -4,6 +4,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: 'app-deployment-slots-shell',
@@ -12,7 +13,6 @@ import { Subject } from 'rxjs/Subject';
 })
 export class DeploymentSlotsShellComponent implements OnDestroy {
   viewInfo: TreeViewInfo<SiteData>;
-  swapMode: boolean;
   ngUnsubscribe: Subject<void>;
 
   constructor(translateService: TranslateService, route: ActivatedRoute) {
@@ -20,17 +20,11 @@ export class DeploymentSlotsShellComponent implements OnDestroy {
 
     route.params.takeUntil(this.ngUnsubscribe).subscribe(x => {
       this.viewInfo = {
-        resourceId:
-          `/subscriptions/${x['subscriptionId']}/resourceGroups/${x['resourceGroup']}/providers/Microsoft.Web/sites/${x['site']}` +
-          (x['slot'] ? `/slots/${x['slot']}` : ``),
+        resourceId: ArmSiteDescriptor.generateResourceUri(x['subscriptionId'], x['resourceGroup'], x['site'], x['slot']),
         dashboardType: DashboardType.none,
         node: null,
         data: null,
       };
-
-      if (x['action'] && x['action'] === 'swap') {
-        this.swapMode = true;
-      }
     });
   }
 

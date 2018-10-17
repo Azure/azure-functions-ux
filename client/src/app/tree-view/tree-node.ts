@@ -100,7 +100,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
   }
 
   // Virtual
-  public refresh(event?: UIEvent) {
+  public refresh(event?: UIEvent, keepChildBladesOpen?: boolean) {
     if (event && event.type === DomEvents.keydown) {
       if ((<KeyboardEvent>event).keyCode !== KeyCodes.enter) {
         return;
@@ -114,7 +114,13 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
       .subscribe(s => {
         console.log(s);
         this.sideNav
-          .updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, this.sideNav.selectedNode.resourceId, true)
+          .updateView(
+            this.sideNav.selectedNode,
+            this.sideNav.selectedDashboardType,
+            this.sideNav.selectedNode.resourceId,
+            true,
+            keepChildBladesOpen
+          )
           .do(null, e => {
             this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');
           })

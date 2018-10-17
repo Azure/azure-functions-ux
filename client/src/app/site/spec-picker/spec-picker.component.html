@@ -14,11 +14,13 @@
 
     <section>
       <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage && specManager.selectedSpecGroup.bannerMessage.infoLink"
+        [isBanner]="true"
         [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
         [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
         [infoLink]="specManager.selectedSpecGroup.bannerMessage.infoLink"></info-box>
 
       <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage && specManager.selectedSpecGroup.bannerMessage.infoActionFn"
+        [isBanner]="true"
         [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
         [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
         [infoActionFn]="specManager.selectedSpecGroup.bannerMessage.infoActionFn"></info-box>

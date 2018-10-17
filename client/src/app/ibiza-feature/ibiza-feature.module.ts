@@ -39,14 +39,20 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
       },
       {
-        path:
-          'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deploymentslots/actions/:action',
-        loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/swapslots',
+        loadChildren: 'app/ibiza-feature/swap-slots-shell/swap-slots-shell.module#SwapSlotsShellModule',
       },
       {
-        path:
-          'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deploymentslots/actions/:action',
-        loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/swapslots',
+        loadChildren: 'app/ibiza-feature/swap-slots-shell/swap-slots-shell.module#SwapSlotsShellModule',
+      },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/addslot',
+        loadChildren: 'app/ibiza-feature/add-slot-shell/add-slot-shell.module#AddSlotShellModule',
+      },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/addslot',
+        loadChildren: 'app/ibiza-feature/add-slot-shell/add-slot-shell.module#AddSlotShellModule',
       },
       {
         path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/logstreaming',

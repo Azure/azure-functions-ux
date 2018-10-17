@@ -29,6 +29,7 @@ export class CloneSrcValidator implements AsyncValidator {
 
     if (!(nameCtrl as CustomFormControl)._msRunValidation) {
       (nameCtrl as CustomFormControl)._msRunValidation = true;
+      nameCtrl.markAsTouched();
 
       if (nameCtrl.pristine) {
         nameCtrl.updateValueAndValidity();

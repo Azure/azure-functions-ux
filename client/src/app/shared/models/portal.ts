@@ -74,6 +74,7 @@ export class Verbs {
   public static returnPCV3Results = 'return-pcv3-results';
 
   public static closeBlades = 'close-blades';
+  public static closeSelf = 'close-self';
   public static logAction = 'log-action';
   public static logMessage = 'log-message';
   public static logTimerEvent = 'log-timer-event';
@@ -85,6 +86,7 @@ export class Verbs {
   public static getSubscriptionInfo = 'get-subscription-info';
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
+  public static setFrameboundEventFilter = 'set-framebound-event-filter';
 
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
@@ -97,6 +99,13 @@ export class Verbs {
   public static sendData = 'send-data';
 }
 
+export class EventVerbs {
+  public static planUpdated = 'plan-updated';
+  public static siteUpdated = 'site-updated';
+  public static slotSwap = 'slot-swap';
+  public static slotNew = 'slot-new';
+}
+
 export enum LogEntryLevel {
   Custom = -2,
   Debug = -1,
@@ -107,6 +116,9 @@ export enum LogEntryLevel {
 
 export enum BroadcastMessageId {
   planUpdated = 'PLAN_UPDATED',
+  siteUpdated = 'SITE_UPDATED',
+  slotSwap = 'SLOT_SWAP',
+  slotNew = 'SLOT_NEW',
 }
 
 // Mainly used for Ibiza legacy reasons
@@ -159,9 +171,10 @@ export interface SubscriptionRequest {
   subscriptionId: string;
 }
 
-export interface BroadcastMessage {
+export interface BroadcastMessage<T> {
   id: BroadcastMessageId;
   resourceId: string;
+  metadata?: T;
 }
 
 export enum PartSize {
@@ -227,4 +240,8 @@ export interface TokenResponse {
 export interface BladeResult<T> {
   reason: 'userNavigation' | 'childClosedSelf';
   data: T;
+}
+
+export interface EventFilter {
+  allowedIFrameEventVerbs: string[];
 }

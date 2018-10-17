@@ -83,6 +83,10 @@ export class BroadcastService implements IBroadcastService {
     this._streamMap[BroadcastEvent.FunctionCodeUpdate] = new Subject();
     this._streamMap[BroadcastEvent.FunctionRunEvent] = new Subject();
     this._streamMap[BroadcastEvent.CloseTab] = new ReplaySubject(1);
+    this._streamMap[BroadcastEvent.PlanUpdated] = new Subject();
+    this._streamMap[BroadcastEvent.SiteUpdated] = new Subject();
+    this._streamMap[BroadcastEvent.SlotSwap] = new Subject();
+    this._streamMap[BroadcastEvent.SlotNew] = new Subject();
   }
 
   // DEPRECATED - Use broadcastEvent
