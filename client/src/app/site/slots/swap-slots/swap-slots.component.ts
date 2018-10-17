@@ -19,6 +19,7 @@ import { SlotsDiff, SimpleSlotsDiff } from './../../../shared/models/arm/slots-d
 import { AuthzService } from './../../../shared/services/authz.service';
 import { CacheService } from './../../../shared/services/cache.service';
 import { LogService } from './../../../shared/services/log.service';
+import { PortalService } from '../../../shared/services/portal.service';
 import { SiteService } from './../../../shared/services/site.service';
 import { SlotSwapGroupValidator } from './slotSwapGroupValidator';
 import { SlotSwapSlotIdValidator } from './slotSwapSlotIdValidator';
@@ -54,6 +55,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._resourceId = resourceId;
     this.setInput(resourceId);
   }
+  @Input()
+  showHeader = true;
 
   @Output('parameters')
   parameters$: Subject<SwapSlotParameters>;
@@ -110,18 +113,19 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _logService: LogService,
+    private _portalService: PortalService,
     private _siteService: SiteService,
     private _translateService: TranslateService,
     injector: Injector
   ) {
-    super('SwapSlotsComponent', injector, SiteTabIds.deploymentSlotsConfig);
+    super('SwapSlotsComponent', injector, SiteTabIds.deploymentSlotsSwap);
 
     this.parameters$ = new Subject<SwapSlotParameters>();
     this.configApplied$ = new Subject<SrcDestPair>();
 
     // TODO [andimarc]
     // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
-    this.featureName = 'deploymentslots';
+    this.featureName = 'swapslots';
     this.isParentComponent = true;
 
     this.unsavedChangesWarning = this._translateService.instant(PortalResources.unsavedChangesWarning);
@@ -478,7 +482,12 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     const close = confirmMsg ? confirm(confirmMsg) : true;
     if (close) {
       this.parameters$.next(null);
+      this._closeSelf();
     }
+  }
+
+  private _closeSelf() {
+    this._portalService.closeSelf();
   }
 
   executePhase1() {

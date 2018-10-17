@@ -1,7 +1,7 @@
 <div class="wrapper"
     [is-dirty]="addForm?.dirty">
 
-    <div class="header">
+    <div *ngIf="showHeader" class="header">
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/add.svg"></span>
         </div>

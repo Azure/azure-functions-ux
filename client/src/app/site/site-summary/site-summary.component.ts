@@ -39,6 +39,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { errorIds } from '../../shared/models/error-ids';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
+import { OpenBladeInfo } from '../../shared/models/portal';
 
 @Component({
   selector: 'site-summary',
@@ -529,13 +530,21 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   }
 
   openSwapBlade() {
-    this._portalService.openBladeDeprecated(
-      {
-        detailBlade: 'WebsiteSlotsListBlade',
-        detailBladeInputs: { resourceUri: this.context.site.id },
-      },
-      'site-summary'
-    );
+    const bladeInfo: OpenBladeInfo = {
+      detailBlade: 'SwapSlotsFrameBlade',
+      detailBladeInputs: { id: this.context.site.id },
+      openAsContextBlade: true,
+    };
+
+    this.setBusy();
+    this._portalService
+      .openBlade(bladeInfo, 'site-summary')
+      .do(null, _ => {
+        this.clearBusy();
+      })
+      .subscribe(_ => {
+        this.clearBusy();
+      });
   }
 
   openDeleteBlade() {

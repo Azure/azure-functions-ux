@@ -2,7 +2,7 @@
     [is-dirty]="swapping || (swapForm && swapForm.dirty)"
     [is-dirty-message]="swapping ? operationInProgressWarning : (swapForm && swapForm.dirty) ? unsavedChangesWarning : null">
 
-    <div class="header">
+    <div *ngIf="showHeader" class="header">
         <div class="header-icon-container">
             <span class="header-icon" load-image="image/swap.svg"></span>
         </div>

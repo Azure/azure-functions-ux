@@ -156,7 +156,7 @@ export class PortalService implements IPortalService {
 
   // Returns an Observable which resolves when blade is close.
   // Optionally may also return a value
-  openBlade(bladeInfo: OpenBladeInfo, source: string) {
+  openBlade(bladeInfo: OpenBladeInfo, source: string): Observable<BladeResult<any>> {
     const payload: DataMessage<OpenBladeInfo> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
@@ -287,6 +287,10 @@ export class PortalService implements IPortalService {
 
   closeBlades() {
     this.postMessage(Verbs.closeBlades, '');
+  }
+
+  closeSelf() {
+    this.postMessage(Verbs.closeSelf, '');
   }
 
   updateBladeInfo(title: string, subtitle: string) {

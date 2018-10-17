@@ -272,6 +272,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
           detailBladeInputs: {
             resourceId: this._descriptor.resourceId,
           },
+          openAsContextBlade: true,
         },
         this._portalService
       ),

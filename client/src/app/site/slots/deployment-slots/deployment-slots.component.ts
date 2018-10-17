@@ -3,34 +3,35 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Response } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
-import { InfoBoxType } from './../../controls/info-box/info-box.component';
-import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
-import { FeatureComponent } from './../../shared/components/feature-component';
-import { Links, LogCategories, ScenarioIds, SiteTabIds } from './../../shared/models/constants';
-import { PortalResources } from './../../shared/models/portal-resources';
-import { ArmObj, ResourceId } from './../../shared/models/arm/arm-obj';
-import { RoutingRule } from './../../shared/models/arm/routing-rule';
-import { Site } from './../../shared/models/arm/site';
-import { SiteConfig } from './../../shared/models/arm/site-config';
-import { errorIds } from './../../shared/models/error-ids';
-import { AiService } from './../../shared/services/ai.service';
-import { AuthzService } from './../../shared/services/authz.service';
-import { CacheService } from './../../shared/services/cache.service';
-import { LogService } from './../../shared/services/log.service';
-import { PortalService } from './../../shared/services/portal.service';
-import { SiteService } from './../../shared/services/site.service';
-import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { DecimalRangeValidator } from './../../shared/validators/decimalRangeValidator';
-import { RoutingSumValidator } from './../../shared/validators/routingSumValidator';
-import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
-import { AddSlotParameters } from './add-slot/add-slot.component';
-import { SrcDestPair, SwapSlotParameters } from './swap-slots/swap-slots.component';
+import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit.component';
+import { InfoBoxType } from '../../../controls/info-box/info-box.component';
+import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
+import { FeatureComponent } from '../../../shared/components/feature-component';
+import { Links, LogCategories, ScenarioIds, SiteTabIds } from '../../../shared/models/constants';
+import { PortalResources } from '../../../shared/models/portal-resources';
+import { ArmObj, ResourceId } from '../../../shared/models/arm/arm-obj';
+import { RoutingRule } from '../../../shared/models/arm/routing-rule';
+import { Site } from '../../../shared/models/arm/site';
+import { SiteConfig } from '../../../shared/models/arm/site-config';
+import { errorIds } from '../../../shared/models/error-ids';
+import { AiService } from '../../../shared/services/ai.service';
+import { AuthzService } from '../../../shared/services/authz.service';
+import { CacheService } from '../../../shared/services/cache.service';
+import { LogService } from '../../../shared/services/log.service';
+import { PortalService } from '../../../shared/services/portal.service';
+import { SiteService } from '../../../shared/services/site.service';
+import { ScenarioService } from '../../../shared/services/scenario/scenario.service';
+import { DecimalRangeValidator } from '../../../shared/validators/decimalRangeValidator';
+import { RoutingSumValidator } from '../../../shared/validators/routingSumValidator';
+import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
+import { AddSlotParameters } from '../add-slot/add-slot.component';
+import { SrcDestPair, SwapSlotParameters } from '../swap-slots/swap-slots.component';
+import { OpenBladeInfo } from 'app/shared/models/portal';
 
 @Component({
   selector: 'deployment-slots',
   templateUrl: './deployment-slots.component.html',
-  styleUrls: ['./deployment-slots.component.scss', './common.scss'],
+  styleUrls: ['./../common.scss', './deployment-slots.component.scss'],
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
   public FwdLinks = Links;
@@ -88,16 +89,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.setInput(viewInfo);
   }
 
-  private _swapMode: boolean;
-  @Input()
-  set swapMode(swapMode: boolean) {
-    // We don't expect this input to change after it is set for the first time,
-    // but here we make sure to only react the first time the input is set.
-    if (this._swapMode === undefined && swapMode !== undefined) {
-      this._swapMode = swapMode;
-    }
-  }
-
   constructor(
     private _authZService: AuthzService,
     private _cacheService: CacheService,
@@ -141,7 +132,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       )
       .subscribe(r => {
         this.clearBusy();
-        this._logService.debug(LogCategories.siteConfig, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
+        this._logService.debug(LogCategories.deploymentSlots, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
       });
   }
 
@@ -242,15 +233,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.keepVisible = false;
 
         this._setupForm();
-
-        if (this._swapMode) {
-          this._swapMode = false;
-          if (success) {
-            setTimeout(_ => {
-              this.showSwapControls();
-            });
-          }
-        }
 
         this.clearBusyEarly();
 
@@ -484,7 +466,31 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     if (this._confirmIfDirty()) {
       this.swapControlsOpen = true;
       this._updateDisabledState();
+      this._openSwapPane();
     }
+  }
+
+  private _openSwapPane() {
+    this.setBusy();
+
+    const bladeInfo: OpenBladeInfo = {
+      detailBlade: 'SwapSlotsFrameBlade',
+      detailBladeInputs: { id: this.siteArm.id },
+      openAsContextBlade: true,
+    };
+
+    this._portalService
+      .openBlade(bladeInfo, this.componentName)
+      .do(null, err => {
+        this.clearBusy();
+        this.swapControlsOpen = false;
+        this._updateDisabledState();
+      })
+      .subscribe(r => {
+        this.clearBusy();
+        this.swapControlsOpen = false;
+        this._updateDisabledState();
+      });
   }
 
   receiveSwapParams(params: SwapSlotParameters) {
@@ -645,7 +651,31 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     if (this._confirmIfDirty()) {
       this.addControlsOpen = true;
       this._updateDisabledState();
+      this._openAddPane();
     }
+  }
+
+  private _openAddPane() {
+    this.setBusy();
+
+    const bladeInfo: OpenBladeInfo = {
+      detailBlade: 'AddSlotFrameBlade',
+      detailBladeInputs: { id: this.siteArm.id },
+      openAsContextBlade: true,
+    };
+
+    this._portalService
+      .openBlade(bladeInfo, this.componentName)
+      .do(null, err => {
+        this.clearBusy();
+        this.addControlsOpen = false;
+        this._updateDisabledState();
+      })
+      .subscribe(r => {
+        this.clearBusy();
+        this.addControlsOpen = false;
+        this._updateDisabledState();
+      });
   }
 
   receiveAddParams(params: AddSlotParameters) {
