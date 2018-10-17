@@ -1,4 +1,4 @@
 ﻿export interface CreateFunctionInfo {
-    templateId: string;
-    name: string;
+  templateId: string;
+  name: string;
 }

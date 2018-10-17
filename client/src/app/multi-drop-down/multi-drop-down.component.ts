@@ -9,21 +9,30 @@ import { MultiDropDownElement } from './../shared/models/drop-down-element';
 @Component({
   selector: 'multi-drop-down',
   templateUrl: './multi-drop-down.component.html',
-  styleUrls: ['./multi-drop-down.component.scss']
+  styleUrls: ['./multi-drop-down.component.scss'],
 })
 export class MultiDropDownComponent<T> {
+  @Input()
+  ariaLabel: string = null;
+  @Input()
+  displayText = '';
+  @Input()
+  allItemsDisplay: string | null;
+  @Input()
+  numberItemsDisplay: string | null;
+  @Input()
+  id: string;
+  @Output()
+  public selectedValues = new ReplaySubject<T[]>(1);
 
-  @Input() ariaLabel: string = null;
-  @Input() displayText = '';
-  @Input() allItemsDisplay: string | null;
-  @Input() numberItemsDisplay: string | null;
-  @Input() id: string;
-  @Output() public selectedValues = new ReplaySubject<T[]>(1);
-
-  @ViewChild('comboBox') comboBox: ElementRef;
-  @ViewChild('displayInput') displayInput: ElementRef;
-  @ViewChild('toggleArrow') toggleArrow: ElementRef;
-  @ViewChild('listBox') listBox: ElementRef;
+  @ViewChild('comboBox')
+  comboBox: ElementRef;
+  @ViewChild('displayInput')
+  displayInput: ElementRef;
+  @ViewChild('toggleArrow')
+  toggleArrow: ElementRef;
+  @ViewChild('listBox')
+  listBox: ElementRef;
 
   public opened = false;
   public options: MultiDropDownElement<T>[];
@@ -38,11 +47,12 @@ export class MultiDropDownComponent<T> {
     this._selectAllOption = {
       displayLabel: _ts.instant(PortalResources.selectAll),
       value: null,
-      isSelected: false
+      isSelected: false,
     };
   }
 
-  @Input() set inputOptions(inputOptions: MultiDropDownElement<T>[]) {
+  @Input()
+  set inputOptions(inputOptions: MultiDropDownElement<T>[]) {
     const options: MultiDropDownElement<T>[] = [];
     let defaultSelected = false;
     inputOptions.forEach(option => {
@@ -119,21 +129,18 @@ export class MultiDropDownComponent<T> {
       this.selectedValues.next(newValues);
       this._initialized = true;
     } else {
-      this.selectedValues
-        .first()
-        .subscribe(currentValues => {
-          if (currentValues.length === newValues.length) {
-
-            for (let i = 0; i < currentValues.length; i++) {
-              if (currentValues[i] !== newValues[i]) {
-                this.selectedValues.next(newValues);
-                break;
-              }
+      this.selectedValues.first().subscribe(currentValues => {
+        if (currentValues.length === newValues.length) {
+          for (let i = 0; i < currentValues.length; i++) {
+            if (currentValues[i] !== newValues[i]) {
+              this.selectedValues.next(newValues);
+              break;
             }
-          } else {
-            this.selectedValues.next(newValues);
           }
-        });
+        } else {
+          this.selectedValues.next(newValues);
+        }
+      });
     }
   }
 
@@ -204,9 +211,9 @@ export class MultiDropDownComponent<T> {
       option.isSelected = !option.isSelected;
       if (option === this._selectAllOption) {
         if (option.isSelected) {
-          this.options.forEach(o => o.isSelected = true);
+          this.options.forEach(o => (o.isSelected = true));
         } else {
-          this.options.forEach(o => o.isSelected = false);
+          this.options.forEach(o => (o.isSelected = false));
         }
       } else {
         if (option.isSelected) {
@@ -279,7 +286,6 @@ export class MultiDropDownComponent<T> {
 
     // If view needs to scroll down
     if ((this.focusedIndex + 1) * itemHeight > viewBottom) {
-
       // If view is scrolled way out of view, then scroll so that selected is top
       if (viewBottom + itemHeight < (this.focusedIndex + 1) * itemHeight) {
         view.scrollTop = this.focusedIndex * itemHeight;

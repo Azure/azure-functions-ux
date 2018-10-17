@@ -1,8 +1,8 @@
-import {ViewChild, Component} from '@angular/core';
-import {WizardComponent} from '../components/wizard.component';
-import {ComponentFixture, async, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {WizardModule} from '../wizard.module';
+import { ViewChild, Component } from '@angular/core';
+import { WizardComponent } from '../components/wizard.component';
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { WizardModule } from '../wizard.module';
 
 @Component({
   selector: 'test-wizard',
@@ -17,7 +17,7 @@ import {WizardModule} from '../wizard.module';
         <button type="button" nextStep (finalize)="finalizeStep(2)">Go to third step</button>
       </wizard-step>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -37,7 +37,7 @@ describe('NextStepDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 
@@ -48,19 +48,16 @@ describe('NextStepDirective', () => {
   });
 
   it('should create an instance', () => {
-    expect(wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 1"] > button[nextStep]'))).toBeTruthy();
-    expect(wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 2"] > button[nextStep]'))).toBeTruthy();
-    expect(wizardTestFixture.debugElement.queryAll(
-      By.css('wizard-step > button[nextStep]')).length).toBe(2);
+    expect(wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 1"] > button[nextStep]'))).toBeTruthy();
+    expect(wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 2"] > button[nextStep]'))).toBeTruthy();
+    expect(wizardTestFixture.debugElement.queryAll(By.css('wizard-step > button[nextStep]')).length).toBe(2);
   });
 
   it('should move correctly to the next step', () => {
-    const firstStepButton = wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 1"] > button[nextStep]')).nativeElement;
-    const secondStepButton = wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 2"] > button[nextStep]')).nativeElement;
+    const firstStepButton = wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 1"] > button[nextStep]'))
+      .nativeElement;
+    const secondStepButton = wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 2"] > button[nextStep]'))
+      .nativeElement;
 
     expect(wizardTest.wizard.currentStepIndex).toBe(0);
 
@@ -76,10 +73,10 @@ describe('NextStepDirective', () => {
   });
 
   it('should move call finalize correctly when going the next step', () => {
-    const firstStepButton = wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 1"] > button[nextStep]')).nativeElement;
-    const secondStepButton = wizardTestFixture.debugElement.query(
-      By.css('wizard-step[title="Steptitle 2"] > button[nextStep]')).nativeElement;
+    const firstStepButton = wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 1"] > button[nextStep]'))
+      .nativeElement;
+    const secondStepButton = wizardTestFixture.debugElement.query(By.css('wizard-step[title="Steptitle 2"] > button[nextStep]'))
+      .nativeElement;
 
     expect(wizardTest.eventLog).toEqual([]);
 

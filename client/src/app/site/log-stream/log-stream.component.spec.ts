@@ -33,11 +33,10 @@ describe('LogStreamComponent', () => {
   let fixture: ComponentFixture<AppLogStreamComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule,
-      ],
+      imports: [TranslateModule.forRoot(), CommonModule, BrowserModule, FormsModule],
       providers: [
-        BroadcastService, Injector,
+        BroadcastService,
+        Injector,
         { provide: TelemetryService, useClass: MockTelemetryService },
         { provide: SiteService, useClass: MockSiteService },
         { provide: CacheService, useClass: MockCacheService },
@@ -56,11 +55,13 @@ describe('LogStreamComponent', () => {
         MockDirective(RadioSelectorComponent),
         MockDirective(PopOverComponent),
       ],
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(AppLogStreamComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(AppLogStreamComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
   }));
   /** Test cases for Log-stream will be here. */
   describe('init', () => {
@@ -79,14 +80,11 @@ describe('LogStreamComponent', () => {
     it('clear logs is turned off by default', async(() => {
       expect(component.clearLogs).toBeFalsy();
     }));
-
   });
 });
 
 class MockUtilitiesService {
-  copyContentToClipboard() {
-
-  }
+  copyContentToClipboard() {}
 }
 class MockUserService {
   private _startupInfoStream: ReplaySubject<StartupInfo<any>>;

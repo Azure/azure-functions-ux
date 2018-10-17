@@ -26,18 +26,22 @@ describe('DeploymentCredentialsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DeploymentCredentialsComponent, MockComponent(TextboxComponent), MockComponent(CardInfoControlComponent), MockComponent(CopyPreComponent), MockComponent(BusyStateComponent)],
+      declarations: [
+        DeploymentCredentialsComponent,
+        MockComponent(TextboxComponent),
+        MockComponent(CardInfoControlComponent),
+        MockComponent(CopyPreComponent),
+        MockComponent(BusyStateComponent),
+      ],
       providers: [
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
         { provide: TelemetryService, useClass: MockTelemetryService },
         { provide: SiteService, useClass: MockSiteService },
-        BroadcastService
-
+        BroadcastService,
       ],
-      imports: [TranslateModule.forRoot(), CommonModule, ReactiveFormsModule, FormsModule]
-    })
-      .compileComponents();
+      imports: [TranslateModule.forRoot(), CommonModule, ReactiveFormsModule, FormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -89,7 +93,7 @@ describe('DeploymentCredentialsComponent', () => {
       component.userPasswordForm.setValue({
         userName: username,
         password: password,
-        passwordConfirm: confirmPassword
+        passwordConfirm: confirmPassword,
       });
     };
     it('reset should reset password and fetch new password', () => {
@@ -129,13 +133,12 @@ class MockSiteService {
   `;
   getPublishingProfile(resourceId: string): any {
     return of({
-      result: this.mockPublishProfile.format(this.password)
+      result: this.mockPublishProfile.format(this.password),
     });
   }
 }
 
 class MockCacheService {
-
   public siteService: MockSiteService = null;
   public savedCreds = null;
   getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<any> {
@@ -143,17 +146,15 @@ class MockCacheService {
       json: () => {
         return {
           properties: {
-            publishingUserName: 'username'
-          }
+            publishingUserName: 'username',
+          },
         };
-      }
+      },
     });
-
   }
 
   postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<any> {
     if (resourceId.includes('/publishxml')) {
-
     } else if (resourceId.includes('/newpassword')) {
       this.siteService.password = 'newpassword';
     }

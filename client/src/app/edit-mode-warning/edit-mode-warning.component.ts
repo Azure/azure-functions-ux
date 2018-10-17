@@ -8,65 +8,63 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FunctionAppEditMode } from '../shared/models/function-app-edit-mode';
 
 @Component({
-    selector: 'app-edit-mode-warning',
-    templateUrl: './edit-mode-warning.component.html',
-    styleUrls: ['./edit-mode-warning.component.scss']
+  selector: 'app-edit-mode-warning',
+  templateUrl: './edit-mode-warning.component.html',
+  styleUrls: ['./edit-mode-warning.component.scss'],
 })
 export class EditModeWarningComponent implements OnInit {
+  @Input()
+  context: FunctionAppContext;
 
-    @Input() context: FunctionAppContext;
+  public readOnly = false;
+  public readOnlySourceControlled = false;
+  public readWriteSourceControlled = false;
+  public readOnlySlots = false;
+  public readOnlyVSGenerated = false;
+  public readWriteVSGenerated = false;
+  public readOnlyRunFromZip = false;
+  public readOnlyLocalCache = false;
+  public readOnlyLinuxDynamic = false;
+  public readOnlyBYOC = false;
 
-    public readOnly = false;
-    public readOnlySourceControlled = false;
-    public readWriteSourceControlled = false;
-    public readOnlySlots = false;
-    public readOnlyVSGenerated = false;
-    public readWriteVSGenerated = false;
-    public readOnlyRunFromZip = false;
-    public readOnlyLocalCache = false;
-    public readOnlyLinuxDynamic = false;
-    public readOnlyBYOC = false;
+  constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) {}
 
-    constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) { }
-
-    ngOnInit() {
-        if (this.context) {
-            this._functionAppService
-                .getFunctionAppEditMode(this.context)
-                .subscribe(editModeResult => {
-                    if (editModeResult.isSuccessful) {
-                        const editMode = editModeResult.result;
-                        if (editMode === FunctionAppEditMode.ReadOnly) {
-                            this.readOnly = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
-                            this.readOnlySourceControlled = true;
-                        } else if (editMode === FunctionAppEditMode.ReadWriteSourceControlled) {
-                            this.readWriteSourceControlled = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
-                            this.readOnlySlots = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyVSGenerated) {
-                            this.readOnlyVSGenerated = true;
-                        } else if (editMode === FunctionAppEditMode.ReadWriteVSGenerated) {
-                            this.readWriteVSGenerated = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyRunFromZip) {
-                            this.readOnlyRunFromZip = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
-                            this.readOnlyLocalCache = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
-                            this.readOnlyLinuxDynamic = true;
-                        } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
-                            this.readOnlyBYOC = true;
-                        }
-                    }
-                });
+  ngOnInit() {
+    if (this.context) {
+      this._functionAppService.getFunctionAppEditMode(this.context).subscribe(editModeResult => {
+        if (editModeResult.isSuccessful) {
+          const editMode = editModeResult.result;
+          if (editMode === FunctionAppEditMode.ReadOnly) {
+            this.readOnly = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
+            this.readOnlySourceControlled = true;
+          } else if (editMode === FunctionAppEditMode.ReadWriteSourceControlled) {
+            this.readWriteSourceControlled = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
+            this.readOnlySlots = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyVSGenerated) {
+            this.readOnlyVSGenerated = true;
+          } else if (editMode === FunctionAppEditMode.ReadWriteVSGenerated) {
+            this.readWriteVSGenerated = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyRunFromZip) {
+            this.readOnlyRunFromZip = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
+            this.readOnlyLocalCache = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
+            this.readOnlyLinuxDynamic = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
+            this.readOnlyBYOC = true;
+          }
         }
+      });
     }
+  }
 
-    onFunctionAppSettingsClicked() {
-        this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-            operation: 'navigate',
-            resourceId: this.context.site.id,
-            data: SiteTabIds.functionRuntime,
-        });
-    }
+  onFunctionAppSettingsClicked() {
+    this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+      operation: 'navigate',
+      resourceId: this.context.site.id,
+      data: SiteTabIds.functionRuntime,
+    });
+  }
 }

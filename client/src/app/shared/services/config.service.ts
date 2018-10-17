@@ -5,21 +5,21 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ConfigService {
-    private runtimeType = window.appsvc.env.runtimeType;
+  private runtimeType = window.appsvc.env.runtimeType;
 
-    get FunctionsVersionInfo(): FunctionsVersionInfo {
-        return window.appsvc.functionsVersionInfo;
-    }
+  get FunctionsVersionInfo(): FunctionsVersionInfo {
+    return window.appsvc.functionsVersionInfo;
+  }
 
-    isOnPrem(): boolean {
-        return this.runtimeType === 'OnPrem';
-    }
+  isOnPrem(): boolean {
+    return this.runtimeType === 'OnPrem';
+  }
 
-    isAzure(): boolean {
-        return this.runtimeType === 'Azure';
-    }
+  isAzure(): boolean {
+    return this.runtimeType === 'Azure';
+  }
 
-    isStandalone(): boolean {
-        return this.runtimeType === 'Standalone';
-    }
+  isStandalone(): boolean {
+    return this.runtimeType === 'Standalone';
+  }
 }

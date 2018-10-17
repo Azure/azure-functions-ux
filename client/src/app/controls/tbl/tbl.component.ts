@@ -20,18 +20,24 @@ export interface TableItem {
     [attr.aria-label]="name">
       <ng-content></ng-content>
   </table>`,
-  exportAs: 'tbl'
+  exportAs: 'tbl',
 })
 export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
-  @Input() name: string | null;
-  @Input() tblClass = 'tbl';
-  @Input() items: TableItem[];
+  @Input()
+  name: string | null;
+  @Input()
+  tblClass = 'tbl';
+  @Input()
+  items: TableItem[];
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
-  @Input() groupColName: string | null;
-  @ContentChildren(TblThComponent) headers: QueryList<TblThComponent>;
+  @Input()
+  groupColName: string | null;
+  @ContentChildren(TblThComponent)
+  headers: QueryList<TblThComponent>;
 
-  @ViewChild('tbl') table: ElementRef;
+  @ViewChild('tbl')
+  table: ElementRef;
 
   public sortedColName: string;
   public sortAscending: boolean;
@@ -43,14 +49,12 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   private _focusedRowIndex = -1;
   private _focusedCellIndex = -1;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterContentChecked() {
-    this.headers.forEach(h => h.table = this);
+    this.headers.forEach(h => (h.table = this));
   }
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
@@ -85,7 +89,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   }
 
   onClick(e: MouseEvent) {
-
     // If someone clicks on a cell directly, then we'll have to figure out
     // which cell and row that click event belonged to and update our
     // knowledge of it.
@@ -102,8 +105,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
         this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
         if (e.target === cell || document.activeElement === cell) {
           this._setFocusOnCell(rows, rowIndex, cellIndex);
-        }
-        else if (cell.contains(document.activeElement)) {
+        } else if (cell.contains(document.activeElement)) {
           Dom.setFocusable(document.activeElement as HTMLElement);
           this._focusedRowIndex = rowIndex;
           this._focusedCellIndex = cellIndex;
@@ -117,35 +119,26 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   // like up/down/left/right and enter keys.
   onKeyDown(event: KeyboardEvent) {
     if (event.keyCode === KeyCodes.arrowRight) {
-
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex + 1);
-
     } else if (event.keyCode === KeyCodes.arrowLeft) {
-
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex - 1);
-
     } else if (event.keyCode === KeyCodes.arrowDown) {
-
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex + 1, this._focusedCellIndex);
       this._scrollIntoView(rows[this._focusedRowIndex]);
       event.preventDefault(); // Don't allow to bubble outside of table
-
     } else if (event.keyCode === KeyCodes.arrowUp) {
-
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex - 1, this._focusedCellIndex);
       this._scrollIntoView(rows[this._focusedRowIndex]);
       event.preventDefault(); // Don't allow to bubble outside of table
-
     } else if (event.keyCode === KeyCodes.enter) {
-
       // If focus is currently on a cell (NOT on a control inside a cell), hitting enter
       // will result in a "click" on the first tab-able element in the cell (or on the cell itself
       // if the cell contains no tab-able elements).
@@ -161,9 +154,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
           event.preventDefault();
         }
       }
-
     } else if (event.keyCode === KeyCodes.escape) {
-
       // If a control within a cell is currently selected, hitting escape will cause the
       // focus to switch to the containing cell instead.
       const rows = this._getRows();
@@ -180,7 +171,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   // I'm not sure what the proper type is so I'm just treating it like an array
   // without "findIndex"
   private _findElemIndex(elems: NodeList, elem: HTMLElement) {
-
     for (let i = 0; i < elems.length; i++) {
       if (elems[i] === elem) {
         return i;
@@ -225,7 +215,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
         } else {
           return Dom.getTabbableControl(rowCells[this._focusedCellIndex]);
         }
-
       } else {
         this._focusedRowIndex = -1;
         this._focusedCellIndex = -1;
@@ -266,11 +255,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     return cells.length > 0 ? cells : row.querySelectorAll('td');
   }
 
-  private _clearFocusOnCell(
-    rows: NodeListOf<HTMLTableRowElement>,
-    rowIndex: number,
-    cellIndex: number) {
-
+  private _clearFocusOnCell(rows: NodeListOf<HTMLTableRowElement>, rowIndex: number, cellIndex: number) {
     let srcRow: HTMLTableRowElement;
     if (rowIndex >= 0 && rowIndex < rows.length) {
       srcRow = rows[rowIndex];
@@ -287,11 +272,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     }
   }
 
-  private _setFocusOnCell(
-    rows: NodeListOf<HTMLTableRowElement>,
-    rowIndex: number,
-    cellIndex: number
-  ) {
+  private _setFocusOnCell(rows: NodeListOf<HTMLTableRowElement>, rowIndex: number, cellIndex: number) {
     let destRow: HTMLTableRowElement;
 
     // We have to recompute the "final" row and cell indices because it's
@@ -333,7 +314,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
           finalCellIndex = destCells.length - 1;
           destCell = destCells[finalCellIndex];
         }
-
       }
 
       if (destCell) {
@@ -353,7 +333,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   }
 
   groupItems(name: string, sortDir: 'asc' | 'desc' = 'asc') {
-
     if (!this.groupColName) {
       throw Error('No group name was specified for this table component');
     }
@@ -366,21 +345,19 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       this.items = this.items.filter(item => item.type !== 'group');
     } else {
       // sort the row items by groupColName
-      const newItems = this.items.filter(item => item.type !== 'group')
-        .sort((a: TableItem, b: TableItem) => {
+      const newItems = this.items.filter(item => item.type !== 'group').sort((a: TableItem, b: TableItem) => {
+        let aCol: any;
+        let bCol: any;
 
-          let aCol: any;
-          let bCol: any;
+        aCol = Object.byString(a, this.groupColName);
+        bCol = Object.byString(b, this.groupColName);
 
-          aCol = Object.byString(a, this.groupColName);
-          bCol = Object.byString(b, this.groupColName);
+        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
-          aCol = typeof aCol === 'string' ? aCol : aCol.toString();
-          bCol = typeof bCol === 'string' ? bCol : bCol.toString();
+        return bCol.localeCompare(aCol) * sortMult;
+      });
 
-          return bCol.localeCompare(aCol) * sortMult;
-        });
-      
       // determine uniqueGroup values
       const uniqueDictGroups = {};
       newItems.forEach(item => {
@@ -404,7 +381,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
       this.items = [];
       newItems.reverse();
-      
+
       uniqueGroups.sort((a, b) => a.localeCompare(b) * sortMult).forEach(group => {
         newItems.forEach(item => {
           if (item.type === 'group' && item[this.groupColName] === group) {
@@ -417,9 +394,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
       this.sortAscending = true;
       this.sortedColName = this.groupColName;
-
     }
-
   }
-
 }

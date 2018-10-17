@@ -15,12 +15,11 @@ import { ArmUtil } from '../../shared/Utilities/arm-utils';
 @Component({
   selector: ComponentNames.monitorConfigure,
   templateUrl: './monitor-configure.component.html',
-  styleUrls: ['./../function-monitor.component.scss', './monitor-configure.component.scss']
+  styleUrls: ['./../function-monitor.component.scss', './monitor-configure.component.scss'],
 })
-
 export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigureInfo> {
-
-  @Input() set monitorConfigureInfoInput(monitorConfigureInfo: MonitorConfigureInfo) {
+  @Input()
+  set monitorConfigureInfoInput(monitorConfigureInfo: MonitorConfigureInfo) {
     this.enableConfigureButton = false;
     this.allowSwitchToClassic = false;
     this.setInput(monitorConfigureInfo);
@@ -45,19 +44,18 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
   }
 
   protected setup(monitorConfigureInfoInputEvent: Observable<MonitorConfigureInfo>) {
-    return monitorConfigureInfoInputEvent
-      .do(monitorConfigureInfo => {
-        this._functionMonitorInfo = monitorConfigureInfo.functionMonitorInfo;
-        this._errorEvent = monitorConfigureInfo.errorEvent;
-        this.isLinuxApp = ArmUtil.isLinuxApp(this._functionMonitorInfo.functionAppContext.site);
+    return monitorConfigureInfoInputEvent.do(monitorConfigureInfo => {
+      this._functionMonitorInfo = monitorConfigureInfo.functionMonitorInfo;
+      this._errorEvent = monitorConfigureInfo.errorEvent;
+      this.isLinuxApp = ArmUtil.isLinuxApp(this._functionMonitorInfo.functionAppContext.site);
 
-        this._setupConfigureButton();
-        this._setupSwitchToClassicButton();
+      this._setupConfigureButton();
+      this._setupSwitchToClassicButton();
 
-        if (this._errorEvent) {
-          this.showComponentError(this._errorEvent);
-        }
-      });
+      if (this._errorEvent) {
+        this.showComponentError(this._errorEvent);
+      }
+    });
   }
 
   public navigateToConfigureInstructions() {
@@ -65,7 +63,10 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
   }
 
   public switchToClassicView() {
-    this._applicationInsightsService.setFunctionMonitorClassicViewPreference(this._functionMonitorInfo.functionAppContext.site.id, FunctionMonitorComponent.CLASSIC_VIEW);
+    this._applicationInsightsService.setFunctionMonitorClassicViewPreference(
+      this._functionMonitorInfo.functionAppContext.site.id,
+      FunctionMonitorComponent.CLASSIC_VIEW
+    );
     this._broadcastService.broadcastEvent<FunctionMonitorInfo>(BroadcastEvent.RefreshMonitoringView, this._functionMonitorInfo);
   }
 
@@ -77,26 +78,25 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
     const appInsightBladeInput = {
       detailBlade: 'AppServicesEnablementBlade',
       detailBladeInputs: {
-          resourceUri: this._functionMonitorInfo.functionAppContext.site.id,
-          linkedComponent: null
+        resourceUri: this._functionMonitorInfo.functionAppContext.site.id,
+        linkedComponent: null,
       },
-      extension: 'AppInsightsExtension'
+      extension: 'AppInsightsExtension',
     };
 
-    this._portalService
-      .openBlade(appInsightBladeInput, ComponentNames.functionMonitor)
-      .subscribe(result => {
+    this._portalService.openBlade(appInsightBladeInput, ComponentNames.functionMonitor).subscribe(
+      result => {
         this.refresh();
-      }, err => {
+      },
+      err => {
         this._logService.error(LogCategories.applicationInsightsConfigure, errorIds.applicationInsightsConfigure, err);
-      });
+      }
+    );
   }
 
   private _setupConfigureButton() {
     this.enableConfigureButton =
-      !this.isLinuxApp &&
-      (!this._errorEvent ||
-      this._errorEvent.errorId === errorIds.preconditionsErrors.clientCertEnabled);
+      !this.isLinuxApp && (!this._errorEvent || this._errorEvent.errorId === errorIds.preconditionsErrors.clientCertEnabled);
   }
 
   private _setupSwitchToClassicButton() {
@@ -104,15 +104,16 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
       !this.isLinuxApp &&
       this._isV1App() &&
       (!this._errorEvent ||
-      (this._errorEvent.errorId !== errorIds.preconditionsErrors.clientCertEnabled &&
-      this._errorEvent.errorId !== errorIds.applicationInsightsInstrumentationKeyMismatch));
+        (this._errorEvent.errorId !== errorIds.preconditionsErrors.clientCertEnabled &&
+          this._errorEvent.errorId !== errorIds.applicationInsightsInstrumentationKeyMismatch));
   }
 
   private _isV1App() {
-      return this._functionMonitorInfo &&
-        this._functionMonitorInfo.functionAppSettings &&
-        this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] &&
-        this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] === '~1';
+    return (
+      this._functionMonitorInfo &&
+      this._functionMonitorInfo.functionAppSettings &&
+      this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] &&
+      this._functionMonitorInfo.functionAppSettings['FUNCTIONS_EXTENSION_VERSION'] === '~1'
+    );
   }
-
 }

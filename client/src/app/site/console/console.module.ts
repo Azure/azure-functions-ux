@@ -16,42 +16,30 @@ import { SanitizeURL } from './shared/directives/sanitizeURL.pipe';
 import { SharedFunctionsModule } from '../../shared/shared-functions.module';
 
 @NgModule({
-    entryComponents: [
-      ConsoleComponent,
-      CmdComponent,
-      PowershellComponent,
-      BashComponent,
-      SSHComponent,
-      PromptComponent,
-      ErrorComponent,
-      MessageComponent,
-    ],
-    imports: [
-      TranslateModule.forChild(),
-      CommonModule,
-      SharedModule,
-      SharedFunctionsModule,
-    ],
-    declarations: [
-      SanitizeURL,
-      ConsoleComponent,
-      CmdComponent,
-      PowershellComponent,
-      BashComponent,
-      SSHComponent,
-      PromptComponent,
-      ClickOutsideDirective,
-      ErrorComponent,
-      MessageComponent,
-    ],
-    providers: [
-      ConsoleService,
-    ],
-    exports: [
-      CmdComponent,
-      PowershellComponent,
-      BashComponent,
-      SSHComponent,
-    ],
-  })
-export class ConsoleModule { }
+  entryComponents: [
+    ConsoleComponent,
+    CmdComponent,
+    PowershellComponent,
+    BashComponent,
+    SSHComponent,
+    PromptComponent,
+    ErrorComponent,
+    MessageComponent,
+  ],
+  imports: [TranslateModule.forChild(), CommonModule, SharedModule, SharedFunctionsModule],
+  declarations: [
+    SanitizeURL,
+    ConsoleComponent,
+    CmdComponent,
+    PowershellComponent,
+    BashComponent,
+    SSHComponent,
+    PromptComponent,
+    ClickOutsideDirective,
+    ErrorComponent,
+    MessageComponent,
+  ],
+  providers: [ConsoleService],
+  exports: [CmdComponent, PowershellComponent, BashComponent, SSHComponent],
+})
+export class ConsoleModule {}

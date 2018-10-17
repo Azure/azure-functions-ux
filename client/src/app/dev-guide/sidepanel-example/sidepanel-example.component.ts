@@ -4,13 +4,13 @@ import { HighlightService } from '../highlight.service';
 @Component({
   selector: 'app-sidepanel-example',
   templateUrl: './sidepanel-example.component.html',
-  styleUrls: ['./sidepanel-example.component.scss']
+  styleUrls: ['./sidepanel-example.component.scss'],
 })
 export class SidepanelExampleComponent {
   public opened = false;
   public backdropEnabled = true;
 
-  constructor(highlight: HighlightService) { 
+  constructor(highlight: HighlightService) {
     this.htmlCode = highlight.highlightString(this.htmlCode, 'html');
     this.typescriptCode = highlight.highlightString(this.typescriptCode, 'typescript');
     this.scssCode = highlight.highlightString(this.scssCode, 'scss');

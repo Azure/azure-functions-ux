@@ -12,106 +12,106 @@ import { TryFunctionsService } from './try-functions.service';
 
 @Injectable()
 export class GlobalStateService {
-    public _functionsService: TryFunctionsService;
-    public showTryView: boolean;
-    public showTopbar: boolean;
-    public isAlwaysOn = true;
-    public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public topBarNotificationsStream = new ReplaySubject<TopBarNotification[]>(1);
-    public disabledMessage = new Subject<string>();
-    private _functionContainer: FunctionContainer;
-    private _appSettings: { [key: string]: string };
-    private _globalBusyStateComponent: BusyStateComponent;
-    private _shouldBeBusy: boolean;
-    private _token: string;
-    private _tryAppServicetoken: string;
-    private _globalDisabled = false;
-    private _trialExpired = false;
+  public _functionsService: TryFunctionsService;
+  public showTryView: boolean;
+  public showTopbar: boolean;
+  public isAlwaysOn = true;
+  public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public topBarNotificationsStream = new ReplaySubject<TopBarNotification[]>(1);
+  public disabledMessage = new Subject<string>();
+  private _functionContainer: FunctionContainer;
+  private _appSettings: { [key: string]: string };
+  private _globalBusyStateComponent: BusyStateComponent;
+  private _shouldBeBusy: boolean;
+  private _token: string;
+  private _tryAppServicetoken: string;
+  private _globalDisabled = false;
+  private _trialExpired = false;
 
-    constructor(private _userService: UserService) {
-        this._appSettings = {};
+  constructor(private _userService: UserService) {
+    this._appSettings = {};
 
-        this._userService.getStartupInfo().subscribe(info => this._token = info.token);
-        this.enabledApiProxy.next(false);
-        this.showTryView = Url.getParameterByName(null, 'trial') === 'true';
+    this._userService.getStartupInfo().subscribe(info => (this._token = info.token));
+    this.enabledApiProxy.next(false);
+    this.showTryView = Url.getParameterByName(null, 'trial') === 'true';
+  }
+
+  get FunctionContainer(): FunctionContainer {
+    return this._functionContainer;
+  }
+
+  get DefaultStorageAccount(): string {
+    for (let key in this._appSettings) {
+      if (key.toString().endsWith('_STORAGE')) {
+        return key;
+      }
     }
+    return '';
+  }
 
-    get FunctionContainer(): FunctionContainer {
-        return this._functionContainer;
-    }
+  set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {
+    this._globalBusyStateComponent = busyStateComponent;
+    setTimeout(() => {
+      if (this._shouldBeBusy) {
+        this._globalBusyStateComponent.setBusyState();
+      } else {
+        this._globalBusyStateComponent.clearBusyState();
+      }
+    });
+  }
 
-    get DefaultStorageAccount(): string {
-        for (let key in this._appSettings) {
-            if (key.toString().endsWith('_STORAGE')) {
-                return key;
-            }
-        }
-        return '';
-    }
+  setBusyState(message?: string) {
+    this._shouldBeBusy = true;
 
-    set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {
-        this._globalBusyStateComponent = busyStateComponent;
-        setTimeout(() => {
-            if (this._shouldBeBusy) {
-                this._globalBusyStateComponent.setBusyState();
-            } else {
-                this._globalBusyStateComponent.clearBusyState();
-            }
-        });
+    if (this._globalBusyStateComponent) {
+      this._globalBusyStateComponent.message = message;
+      this._globalBusyStateComponent.setBusyState();
     }
+  }
 
-    setBusyState(message?: string) {
-        this._shouldBeBusy = true;
+  clearBusyState() {
+    this._shouldBeBusy = false;
+    if (this._globalBusyStateComponent) {
+      this._globalBusyStateComponent.clearBusyState();
+    }
+  }
 
-        if (this._globalBusyStateComponent) {
-            this._globalBusyStateComponent.message = message;
-            this._globalBusyStateComponent.setBusyState();
-        }
-    }
+  get IsBusy(): boolean {
+    return this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy ? true : false;
+  }
 
-    clearBusyState() {
-        this._shouldBeBusy = false;
-        if (this._globalBusyStateComponent) {
-            this._globalBusyStateComponent.clearBusyState();
-        }
-    }
+  setTopBarNotifications(items: TopBarNotification[]) {
+    this.topBarNotificationsStream.next(items);
+  }
 
-    get IsBusy(): boolean {
-        return (this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy) ? true : false;
-    }
+  setDisabledMessage(message: string) {
+    this.disabledMessage.next(message);
+  }
 
-    setTopBarNotifications(items: TopBarNotification[]) {
-        this.topBarNotificationsStream.next(items);
-    }
+  get CurrentToken(): string {
+    return this._token;
+  }
 
-    setDisabledMessage(message: string) {
-        this.disabledMessage.next(message);
-    }
+  get TryAppServiceToken(): string {
+    return this._tryAppServicetoken;
+  }
 
-    get CurrentToken(): string {
-        return this._token;
-    }
+  set TryAppServiceToken(tryAppServiceToken: string) {
+    this._tryAppServicetoken = tryAppServiceToken;
+  }
 
-    get TryAppServiceToken(): string {
-        return this._tryAppServicetoken;
-    }
+  get GlobalDisabled(): boolean {
+    return this._globalDisabled;
+  }
 
-    set TryAppServiceToken(tryAppServiceToken: string) {
-        this._tryAppServicetoken = tryAppServiceToken;
-    }
+  set GlobalDisabled(value: boolean) {
+    this._globalDisabled = value;
+  }
 
-    get GlobalDisabled(): boolean {
-        return this._globalDisabled;
-    }
-
-    set GlobalDisabled(value: boolean) {
-        this._globalDisabled = value;
-    }
-
-    set TrialExpired(value: boolean) {
-        this._trialExpired = value;
-    }
-    get TrialExpired(): boolean {
-        return this._trialExpired;
-    }
+  set TrialExpired(value: boolean) {
+    this._trialExpired = value;
+  }
+  get TrialExpired(): boolean {
+    return this._trialExpired;
+  }
 }

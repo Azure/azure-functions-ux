@@ -8,211 +8,212 @@ import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 
 export class UrlTemplates {
-    private configService: ConfigService;
-    private portalService: PortalService;
-    private armService: ArmService;
-    private scmUrl: string;
-    private mainSiteUrl: string;
-    private useNewUrls: boolean;
-    private isEmbeddedFunctions: boolean;
+  private configService: ConfigService;
+  private portalService: PortalService;
+  private armService: ArmService;
+  private scmUrl: string;
+  private mainSiteUrl: string;
+  private useNewUrls: boolean;
+  private isEmbeddedFunctions: boolean;
 
-    constructor(private site: ArmObj<Site>, injector: Injector) {
+  constructor(private site: ArmObj<Site>, injector: Injector) {
+    this.portalService = injector.get(PortalService);
+    this.configService = injector.get(ConfigService);
+    this.armService = injector.get(ArmService);
 
-        this.portalService = injector.get(PortalService);
-        this.configService = injector.get(ConfigService);
-        this.armService = injector.get(ArmService);
+    this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
+    this.scmUrl = this.isEmbeddedFunctions ? null : this.getScmUrl();
+    this.mainSiteUrl = this.isEmbeddedFunctions ? null : this.getMainUrl();
 
-        this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
-        this.scmUrl = this.isEmbeddedFunctions ? null : this.getScmUrl();
-        this.mainSiteUrl = this.isEmbeddedFunctions ? null : this.getMainUrl();
+    this.useNewUrls = ArmUtil.isLinuxApp(this.site);
+  }
 
-        this.useNewUrls = ArmUtil.isLinuxApp(this.site);
+  public getScmUrl() {
+    if (this.configService.isStandalone()) {
+      return this.getMainUrl();
+    } else if (this.isEmbeddedFunctions) {
+      return null;
+    } else {
+      const scmHostName = this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
+      return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
+    }
+  }
+
+  public getMainUrl() {
+    if (this.configService.isStandalone()) {
+      return `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`;
+    } else if (this.isEmbeddedFunctions) {
+      return null;
+    } else {
+      return `https://${this.site.properties.defaultHostName}`;
+    }
+  }
+
+  get functionsUrl(): string {
+    if (this.isEmbeddedFunctions) {
+      const parts = this.site.id.split('/').filter(part => !!part);
+
+      if (parts.length === 6) {
+        // url to get all functions for the environment: removes "/scopes/cds"
+        const smallerSiteId = this.site.id
+          .split('/')
+          .filter(part => !!part)
+          .slice(0, 4)
+          .join('/');
+        return `${ArmEmbeddedService.url}/${smallerSiteId}/functions?api-version=${this.armService.websiteApiVersion}`;
+      }
+      // url to get all functions for the entity
+      return `${ArmEmbeddedService.url}${this.site.id}/functions?api-version=${this.armService.websiteApiVersion}`;
     }
 
-    public getScmUrl() {
-        if (this.configService.isStandalone()) {
-            return this.getMainUrl();
-        } else if (this.isEmbeddedFunctions) {
-            return null;
-        } else {
-            const scmHostName = this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
-            return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
-        }
+    return this.useNewUrls ? `${this.mainSiteUrl}/admin/functions` : `${this.scmUrl}/api/functions`;
+  }
+
+  get proxiesJsonUrl(): string {
+    return this.useNewUrls ? `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json` : `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+  }
+
+  getFunctionUrl(functionName: string, functionEntity?: string): string {
+    if (this.isEmbeddedFunctions) {
+      if (!!functionEntity) {
+        const smallerSiteId = this.site.id
+          .split('/')
+          .filter(part => !!part)
+          .slice(0, 6)
+          .join('/');
+        return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}?api-version=${
+          this.armService.websiteApiVersion
+        }`;
+      }
+      return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
     }
 
-    public getMainUrl() {
-        if (this.configService.isStandalone()) {
-            return `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`;
-        } else if (this.isEmbeddedFunctions) {
-            return null;
-        } else {
-            return `https://${this.site.properties.defaultHostName}`;
-        }
-    }
+    return this.useNewUrls ? `${this.mainSiteUrl}/admin/functions/${functionName}` : `${this.scmUrl}/api/functions/${functionName}`;
+  }
 
-    get functionsUrl(): string {
-        if (this.isEmbeddedFunctions) {
-            const parts = this.site.id.split('/').filter(part => !!part);
+  get scmSettingsUrl(): string {
+    return `${this.scmUrl}/api/settings`;
+  }
 
-            if (parts.length === 6) {
-                // url to get all functions for the environment: removes "/scopes/cds"
-                const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
-                return `${ArmEmbeddedService.url}/${smallerSiteId}/functions?api-version=${this.armService.websiteApiVersion}`;
-            }
-            // url to get all functions for the entity
-            return `${ArmEmbeddedService.url}${this.site.id}/functions?api-version=${this.armService.websiteApiVersion}`;
-        }
+  getRunFunctionUrl(functionName: string): string {
+    return `${this.mainSiteUrl}/admin/functions/${functionName.toLocaleLowerCase()}`;
+  }
 
-        return this.useNewUrls
-            ? `${this.mainSiteUrl}/admin/functions`
-            : `${this.scmUrl}/api/functions`;
-    }
+  get pingUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/ping`;
+  }
 
-    get proxiesJsonUrl(): string {
-        return this.useNewUrls
-            ? `${this.mainSiteUrl}/admin/vfs/site/wwwroot/proxies.json`
-            : `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
-    }
+  get hostJsonUrl(): string {
+    return this.useNewUrls ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/host.json` : `${this.scmUrl}/api/functions/config`;
+  }
 
-    getFunctionUrl(functionName: string, functionEntity?: string): string {
-        if (this.isEmbeddedFunctions) {
-            if (!!functionEntity) {
-                const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 6).join('/');
-                return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
-            }
-            return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
-        }
+  get scmTokenUrl(): string {
+    return `${this.scmUrl}/api/functions/admin/token`;
+  }
 
-        return this.useNewUrls
-            ? `${this.mainSiteUrl}/admin/functions/${functionName}`
-            : `${this.scmUrl}/api/functions/${functionName}`;
-    }
+  get masterKeyUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/systemkeys/_master`;
+  }
 
-    get scmSettingsUrl(): string {
-        return `${this.scmUrl}/api/settings`;
-    }
+  get deprecatedKuduMasterKeyUrl(): string {
+    return `${this.scmUrl}/api/functions/admin/masterKey`;
+  }
 
-    getRunFunctionUrl(functionName: string): string {
-        return `${this.mainSiteUrl}/admin/functions/${functionName.toLocaleLowerCase()}`;
-    }
+  get runtimeStatusUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/status`;
+  }
 
-    get pingUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/ping`;
-    }
+  get legacyGetHostSecretsUrl(): string {
+    return `${this.scmUrl}/api/vfs/data/functions/secrets/host.json`;
+  }
 
-    get hostJsonUrl(): string {
-        return this.useNewUrls
-            ? `${this.mainSiteUrl}/admin/vfs/home/site/wwwroot/host.json`
-            : `${this.scmUrl}/api/functions/config`;
-    }
+  get adminKeysUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/keys`;
+  }
 
-    get scmTokenUrl(): string {
-        return `${this.scmUrl}/api/functions/admin/token`;
-    }
+  getFunctionRuntimeErrorsUrl(functionName: string): string {
+    return `${this.mainSiteUrl}/admin/functions/${functionName}/status`;
+  }
 
-    get masterKeyUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/systemkeys/_master`;
-    }
+  getFunctionLogUrl(functionName: string): string {
+    return ArmUtil.isLinuxDynamic(this.site)
+      ? `${this.mainSiteUrl}/admin/vfs/tmp/Functions/Function/${functionName}/`
+      : `${this.scmUrl}/api/vfs/logfiles/application/functions/function/${functionName}/`;
+  }
 
-    get deprecatedKuduMasterKeyUrl(): string {
-        return `${this.scmUrl}/api/functions/admin/masterKey`;
-    }
+  getFunctionKeysUrl(functionName: string): string {
+    return `${this.mainSiteUrl}/admin/functions/${functionName}/keys`;
+  }
 
-    get runtimeStatusUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/status`;
-    }
+  getFunctionKeyUrl(functionName: string, keyName: string): string {
+    return `${this.mainSiteUrl}/admin/functions/${functionName}/keys/${keyName}`;
+  }
 
-    get legacyGetHostSecretsUrl(): string {
-        return `${this.scmUrl}/api/vfs/data/functions/secrets/host.json`;
-    }
+  getAdminKeyUrl(keyName: string): string {
+    return `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
+  }
 
-    get adminKeysUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/keys`;
-    }
+  get syncTriggersUrl(): string {
+    return `${this.scmUrl}/api/functions/synctriggers`;
+  }
 
-    getFunctionRuntimeErrorsUrl(functionName: string): string {
-        return `${this.mainSiteUrl}/admin/functions/${functionName}/status`;
-    }
+  get pingScmSiteUrl(): string {
+    return this.scmUrl;
+  }
 
-    getFunctionLogUrl(functionName: string): string {
-        return ArmUtil.isLinuxDynamic(this.site)
-            ? `${this.mainSiteUrl}/admin/vfs/tmp/Functions/Function/${functionName}/`
-            : `${this.scmUrl}/api/vfs/logfiles/application/functions/function/${functionName}/`;
-    }
+  get systemKeysUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/systemkeys`;
+  }
 
-    getFunctionKeysUrl(functionName: string): string {
-        return `${this.mainSiteUrl}/admin/functions/${functionName}/keys`;
-    }
+  getSystemKeyUrl(keyName: string): string {
+    return `${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`;
+  }
 
-    getFunctionKeyUrl(functionName: string, keyName: string): string {
-        return `${this.mainSiteUrl}/admin/functions/${functionName}/keys/${keyName}`;
-    }
+  get runtimeHostExtensionsUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/extensions`;
+  }
 
-    getAdminKeyUrl(keyName: string): string {
-        return `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
-    }
+  get runtimeHostExtensionsJobsUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/extensions/jobs`;
+  }
 
-    get syncTriggersUrl(): string {
-        return `${this.scmUrl}/api/functions/synctriggers`;
-    }
+  getRuntimeHostExtensionsJobStatusUrl(jobId: string): string {
+    return `${this.mainSiteUrl}/admin/host/extensions/jobs/${jobId}`;
+  }
 
-    get pingScmSiteUrl(): string {
-        return this.scmUrl;
-    }
+  getRuntimeHostExentensionsJobUrl(jobId: string): string {
+    return `${this.scmUrl}/api/vfs/data/Functions/extensions/${jobId}.json`;
+  }
 
-    get systemKeysUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/systemkeys`;
-    }
+  getRuntimeHostExtensionsIdUrl(extensionId: string): string {
+    return `${this.mainSiteUrl}/admin/host/extensions/${extensionId}`;
+  }
 
-    getSystemKeyUrl(keyName: string): string {
-        return `${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`;
-    }
+  get scmSiteUrl(): string {
+    return this.scmUrl;
+  }
 
-    get runtimeHostExtensionsUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/extensions`;
-    }
+  get runtimeSiteUrl(): string {
+    return this.mainSiteUrl;
+  }
 
-    get runtimeHostExtensionsJobsUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/extensions/jobs`;
-    }
+  get getGeneratedSwaggerDataUrl(): string {
+    return `${this.mainSiteUrl}/admin/host/swagger/default`;
+  }
 
-    getRuntimeHostExtensionsJobStatusUrl(jobId: string): string {
-        return `${this.mainSiteUrl}/admin/host/extensions/jobs/${jobId}`;
-    }
+  get getSwaggerDocumentUrl() {
+    return `${this.mainSiteUrl}/admin/host/swagger`;
+  }
 
-    getRuntimeHostExentensionsJobUrl(jobId: string): string {
-        return `${this.scmUrl}/api/vfs/data/Functions/extensions/${jobId}.json`;
-    }
+  get restartHostUrl() {
+    return `${this.mainSiteUrl}/admin/host/restart`;
+  }
 
-    getRuntimeHostExtensionsIdUrl(extensionId: string): string {
-        return `${this.mainSiteUrl}/admin/host/extensions/${extensionId}`;
-    }
+  get extensionJsonUrl() {
+    return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
+  }
 
-    get scmSiteUrl(): string {
-        return this.scmUrl;
-    }
-
-    get runtimeSiteUrl(): string {
-        return this.mainSiteUrl;
-    }
-
-    get getGeneratedSwaggerDataUrl(): string {
-        return `${this.mainSiteUrl}/admin/host/swagger/default`;
-    }
-
-    get getSwaggerDocumentUrl() {
-        return `${this.mainSiteUrl}/admin/host/swagger`;
-    }
-
-    get restartHostUrl() {
-        return `${this.mainSiteUrl}/admin/host/restart`;
-    }
-
-    get extensionJsonUrl() {
-        return `${this.scmUrl}/api/vfs/site/wwwroot/bin/extensions.json`;
-    }
-
-    get updateHostStateUrl() {
-        return `${this.mainSiteUrl}/admin/host/state`;
-    }
+  get updateHostStateUrl() {
+    return `${this.mainSiteUrl}/admin/host/state`;
+  }
 }

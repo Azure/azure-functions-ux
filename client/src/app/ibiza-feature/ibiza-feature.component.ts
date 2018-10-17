@@ -7,38 +7,38 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { FunctionInfo } from 'app/shared/models/function-info';
 
 @Component({
-    selector: 'app-ibiza-feature',
-    templateUrl: './ibiza-feature.component.html',
-    styleUrls: ['./ibiza-feature.component.scss']
+  selector: 'app-ibiza-feature',
+  templateUrl: './ibiza-feature.component.html',
+  styleUrls: ['./ibiza-feature.component.scss'],
 })
 export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
-    public ready = false;
-    public resourceId: string;
-    public viewInfo: TreeViewInfo<any>;
-    public dashboardType: string;
-    public inIFrame: boolean;
-    public inTab: boolean;
-    public selectedFunction: FunctionInfo;
+  public ready = false;
+  public resourceId: string;
+  public viewInfo: TreeViewInfo<any>;
+  public dashboardType: string;
+  public inIFrame: boolean;
+  public inTab: boolean;
+  public selectedFunction: FunctionInfo;
 
-    @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
+  @ViewChild(BusyStateComponent)
+  busyStateComponent: BusyStateComponent;
 
-    private _ngUnsubscribe = new Subject();
-    private _busyManager: BusyStateScopeManager;
+  private _ngUnsubscribe = new Subject();
+  private _busyManager: BusyStateScopeManager;
 
-    constructor(private _userService: UserService) {
-    }
+  constructor(private _userService: UserService) {}
 
-    ngAfterViewInit() {
-        this._userService
-            .getStartupInfo()
-            .first()
-            .subscribe(info => {
-                this.ready = true;
-            });
-    }
+  ngAfterViewInit() {
+    this._userService
+      .getStartupInfo()
+      .first()
+      .subscribe(info => {
+        this.ready = true;
+      });
+  }
 
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
-        this._busyManager.clearBusy();
-    }
+  ngOnDestroy() {
+    this._ngUnsubscribe.next();
+    this._busyManager.clearBusy();
+  }
 }

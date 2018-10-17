@@ -8,11 +8,9 @@ import { SpecPickerShellComponent } from './spec-picker-shell.component';
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SpecPickerShellComponent }]);
 
 @NgModule({
-    entryComponents: [],
-    imports: [TranslateModule.forChild(), SharedModule, SpecPickerModule, routing],
-    declarations: [
-        SpecPickerShellComponent
-    ],
-    providers: []
+  entryComponents: [],
+  imports: [TranslateModule.forChild(), SharedModule, SpecPickerModule, routing],
+  declarations: [SpecPickerShellComponent],
+  providers: [],
 })
-export class SpecPickerShellModule { }
+export class SpecPickerShellModule {}

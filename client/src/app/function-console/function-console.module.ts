@@ -9,26 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConsoleService } from '../site/console/shared/services/console.service';
 
 @NgModule({
-    entryComponents: [
-      FunctionConsoleComponent,
-      PromptComponent,
-      MessageComponent,
-      ErrorComponent
-    ],
-    imports: [
-      TranslateModule.forChild(), CommonModule, SharedModule
-    ],
-    declarations: [
-        FunctionConsoleComponent,
-        PromptComponent,
-        MessageComponent,
-        ErrorComponent
-    ],
-    providers: [
-      ConsoleService
-    ],
-    exports: [
-      FunctionConsoleComponent
-    ]
-  })
-export class FunctionConsoleModule { }
+  entryComponents: [FunctionConsoleComponent, PromptComponent, MessageComponent, ErrorComponent],
+  imports: [TranslateModule.forChild(), CommonModule, SharedModule],
+  declarations: [FunctionConsoleComponent, PromptComponent, MessageComponent, ErrorComponent],
+  providers: [ConsoleService],
+  exports: [FunctionConsoleComponent],
+})
+export class FunctionConsoleModule {}

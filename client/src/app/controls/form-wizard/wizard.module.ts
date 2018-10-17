@@ -46,44 +46,43 @@ SOFTWARE.
  * @author Marc Arndt
  */
 @NgModule({
-    declarations: [
-        WizardComponent,
-        WizardStepComponent,
-        WizardNavigationBarComponent,
-        WizardCompletionStepComponent,
-        ProgressBarComponent,
-        GoToStepDirective,
-        NextStepDirective,
-        PreviousStepDirective,
-        OptionalStepDirective,
-        WizardStepTitleDirective,
-        EnableBackLinksDirective,
-        WizardStepDirective,
-        WizardCompletionStepDirective,
-        StepNumberDirective,
-
-    ],
-    imports: [CommonModule],
-    exports: [
-        WizardComponent,
-        WizardStepComponent,
-        WizardNavigationBarComponent,
-        WizardCompletionStepComponent,
-        ProgressBarComponent,
-        GoToStepDirective,
-        NextStepDirective,
-        PreviousStepDirective,
-        OptionalStepDirective,
-        WizardStepTitleDirective,
-        EnableBackLinksDirective,
-        WizardStepDirective,
-        WizardCompletionStepDirective,
-        StepNumberDirective
-    ]
+  declarations: [
+    WizardComponent,
+    WizardStepComponent,
+    WizardNavigationBarComponent,
+    WizardCompletionStepComponent,
+    ProgressBarComponent,
+    GoToStepDirective,
+    NextStepDirective,
+    PreviousStepDirective,
+    OptionalStepDirective,
+    WizardStepTitleDirective,
+    EnableBackLinksDirective,
+    WizardStepDirective,
+    WizardCompletionStepDirective,
+    StepNumberDirective,
+  ],
+  imports: [CommonModule],
+  exports: [
+    WizardComponent,
+    WizardStepComponent,
+    WizardNavigationBarComponent,
+    WizardCompletionStepComponent,
+    ProgressBarComponent,
+    GoToStepDirective,
+    NextStepDirective,
+    PreviousStepDirective,
+    OptionalStepDirective,
+    WizardStepTitleDirective,
+    EnableBackLinksDirective,
+    WizardStepDirective,
+    WizardCompletionStepDirective,
+    StepNumberDirective,
+  ],
 })
 export class WizardModule {
-    /* istanbul ignore next */
-    static forRoot(): ModuleWithProviders {
-        return { ngModule: WizardModule, providers: [] };
-    }
+  /* istanbul ignore next */
+  static forRoot(): ModuleWithProviders {
+    return { ngModule: WizardModule, providers: [] };
+  }
 }

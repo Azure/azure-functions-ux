@@ -30,227 +30,231 @@ import { SiteService } from '../shared/services/site.service';
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
 @Component({
-    selector: 'function-quickstart',
-    templateUrl: './function-quickstart.component.html',
-    styleUrls: ['./function-quickstart.component.scss'],
+  selector: 'function-quickstart',
+  templateUrl: './function-quickstart.component.html',
+  styleUrls: ['./function-quickstart.component.scss'],
 })
 export class FunctionQuickstartComponent extends FunctionAppContextComponent {
-    @Input() functionsInfo: FunctionInfo[];
+  @Input()
+  functionsInfo: FunctionInfo[];
 
-    selectedFunction: string;
-    selectedLanguage: string;
-    bc: BindingManager = new BindingManager();
-    showJavaSplashPage = false;
-    setShowJavaSplashPage = new Subject<boolean>();
-    templateTypeOptions: TemplateType[];
-    runtimeVersion: string;
-    public appSettingsArm: ArmObj<ApplicationSettings>;
-    functionAppLanguage: string;
+  selectedFunction: string;
+  selectedLanguage: string;
+  bc: BindingManager = new BindingManager();
+  showJavaSplashPage = false;
+  setShowJavaSplashPage = new Subject<boolean>();
+  templateTypeOptions: TemplateType[];
+  runtimeVersion: string;
+  public appSettingsArm: ArmObj<ApplicationSettings>;
+  functionAppLanguage: string;
 
-    private functionsNode: FunctionsNode;
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+  private functionsNode: FunctionsNode;
+  private _viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-    @ViewChild('http') httpTemplate: ElementRef;
-    @ViewChild('timer') timerTemplate: ElementRef;
-    @ViewChild('queue') queueTemplate: ElementRef;
+  @ViewChild('http')
+  httpTemplate: ElementRef;
+  @ViewChild('timer')
+  timerTemplate: ElementRef;
+  @ViewChild('queue')
+  queueTemplate: ElementRef;
 
-    constructor(broadcastService: BroadcastService,
-        private _portalService: PortalService,
-        private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _functionAppService: FunctionAppService,
-        private _siteService: SiteService) {
-        super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
+  constructor(
+    broadcastService: BroadcastService,
+    private _portalService: PortalService,
+    private _globalStateService: GlobalStateService,
+    private _translateService: TranslateService,
+    private _aiService: AiService,
+    private _functionAppService: FunctionAppService,
+    private _siteService: SiteService
+  ) {
+    super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
-        this.selectedFunction = 'HttpTrigger';
-        this.selectedLanguage = 'CSharp';
+    this.selectedFunction = 'HttpTrigger';
+    this.selectedLanguage = 'CSharp';
 
-        this.setShowJavaSplashPage.subscribe(show => {
-            this.showJavaSplashPage = show;
-        });
-    }
+    this.setShowJavaSplashPage.subscribe(show => {
+      this.showJavaSplashPage = show;
+    });
+  }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .switchMap(r => {
-                this.functionsNode = r.node as FunctionsNode;
-                return Observable.zip(
-                    this._functionAppService.getFunctions(this.context),
-                    this._functionAppService.getRuntimeGeneration(this.context),
-                    this._siteService.getAppSettings(this.context.site.id));
-            })
-            .do(null, e => {
-                this._aiService.trackException(e, '/errors/function-quickstart');
-                console.error(e);
-            })
-            .subscribe(tuple => {
-                this.functionsInfo = tuple[0].result;
-                this.runtimeVersion = tuple[1];
-                this.appSettingsArm = tuple[2].result;
+  setup(): Subscription {
+    return this.viewInfoEvents
+      .switchMap(r => {
+        this.functionsNode = r.node as FunctionsNode;
+        return Observable.zip(
+          this._functionAppService.getFunctions(this.context),
+          this._functionAppService.getRuntimeGeneration(this.context),
+          this._siteService.getAppSettings(this.context.site.id)
+        );
+      })
+      .do(null, e => {
+        this._aiService.trackException(e, '/errors/function-quickstart');
+        console.error(e);
+      })
+      .subscribe(tuple => {
+        this.functionsInfo = tuple[0].result;
+        this.runtimeVersion = tuple[1];
+        this.appSettingsArm = tuple[2].result;
 
-                if (this.runtimeVersion === 'V1') {
-                    this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
-                } else {
-                    this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger'];
-                }
-
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
-                    const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
-                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[workerRuntime];
-                    this.selectedLanguage = this.functionAppLanguage;
-                }
-
-                this._globalStateService.clearBusyState();
-            });
-    }
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
-
-    }
-
-    onFunctionClicked(selectedFunction: string) {
-        if (!this._broadcastService.getDirtyState('function_disabled')) {
-            this.selectedFunction = selectedFunction;
-        }
-    }
-
-    onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
-        const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
-        let nextIndex: number;
-
-        if (event.keyCode === KeyCodes.arrowRight) {
-            nextIndex = currentIndex + 1;
-            nextIndex = nextIndex > this.templateTypeOptions.length - 1 ? 0 : nextIndex;
-        } else if (event.keyCode === KeyCodes.arrowLeft) {
-            nextIndex = currentIndex - 1;
-            nextIndex = nextIndex < 0 ? this.templateTypeOptions.length - 1 : nextIndex;
+        if (this.runtimeVersion === 'V1') {
+          this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
         } else {
-            return;
+          this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger'];
         }
 
-        const nextFunction = this.templateTypeOptions[nextIndex];
-        switch (nextFunction) {
-            case 'HttpTrigger':
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-                    break;
-                }
-            case 'TimerTrigger':
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-                    break;
-                }
-            case 'QueueTrigger':
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-                    break;
-                }
+        if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+          const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+          this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime] === 'C#' ? 'CSharp' : WorkerRuntimeLanguages[workerRuntime];
+          this.selectedLanguage = this.functionAppLanguage;
         }
-        this.onFunctionClicked(nextFunction);
+
+        this._globalStateService.clearBusyState();
+      });
+  }
+
+  set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
+    this._viewInfoStream.next(viewInfoInput);
+  }
+
+  onFunctionClicked(selectedFunction: string) {
+    if (!this._broadcastService.getDirtyState('function_disabled')) {
+      this.selectedFunction = selectedFunction;
+    }
+  }
+
+  onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
+    const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
+    let nextIndex: number;
+
+    if (event.keyCode === KeyCodes.arrowRight) {
+      nextIndex = currentIndex + 1;
+      nextIndex = nextIndex > this.templateTypeOptions.length - 1 ? 0 : nextIndex;
+    } else if (event.keyCode === KeyCodes.arrowLeft) {
+      nextIndex = currentIndex - 1;
+      nextIndex = nextIndex < 0 ? this.templateTypeOptions.length - 1 : nextIndex;
+    } else {
+      return;
     }
 
-    onLanguageClicked(selectedLanguage: string) {
-        if (!this._broadcastService.getDirtyState('function_disabled')) {
-            this.selectedLanguage = selectedLanguage;
-        }
+    const nextFunction = this.templateTypeOptions[nextIndex];
+    switch (nextFunction) {
+      case 'HttpTrigger': {
+        Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+        break;
+      }
+      case 'TimerTrigger': {
+        Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+        break;
+      }
+      case 'QueueTrigger': {
+        Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+        break;
+      }
+    }
+    this.onFunctionClicked(nextFunction);
+  }
+
+  onLanguageClicked(selectedLanguage: string) {
+    if (!this._broadcastService.getDirtyState('function_disabled')) {
+      this.selectedLanguage = selectedLanguage;
+    }
+  }
+
+  onCreateNewFunction() {
+    if (this._globalStateService.IsBusy) {
+      return;
     }
 
-    onCreateNewFunction() {
-        if (this._globalStateService.IsBusy) {
-            return;
-        }
+    this._globalStateService.setBusyState();
 
-        this._globalStateService.setBusyState();
+    if (this.selectedLanguage === 'Java') {
+      this.setShowJavaSplashPage.next(true);
+    }
+    this._functionAppService.getTemplates(this.context).subscribe(templates => {
+      if (templates.isSuccessful) {
+        const selectedTemplate: FunctionTemplate = templates.result.find(t => {
+          return t.id === this.selectedFunction + '-' + this.selectedLanguage;
+        });
 
-        if (this.selectedLanguage === 'Java') {
-            this.setShowJavaSplashPage.next(true);
-        }
-        this._functionAppService.getTemplates(this.context)
-            .subscribe((templates) => {
-                if (templates.isSuccessful) {
-                    const selectedTemplate: FunctionTemplate = templates.result.find((t) => {
-                        return t.id === this.selectedFunction + '-' + this.selectedLanguage;
+        if (selectedTemplate) {
+          try {
+            const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+            this._portalService.logAction('intro-create-from-template', 'creating', {
+              template: selectedTemplate.id,
+              name: functionName,
+              appResourceId: this.context.site.id,
+            });
+
+            this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
+
+            this._functionAppService
+              .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
+              .subscribe(
+                res => {
+                  if (res.isSuccessful) {
+                    this._portalService.logAction('intro-create-from-template', 'success', {
+                      template: selectedTemplate.id,
+                      name: functionName,
+                      appResourceId: this.context.site.id,
                     });
 
-                    if (selectedTemplate) {
-                        try {
-                            const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                            this._portalService.logAction('intro-create-from-template', 'creating', {
-                                template: selectedTemplate.id,
-                                name: functionName,
-                                appResourceId: this.context.site.id
-                            });
-
-                            this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-
-                            this._functionAppService.createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
-                                .subscribe(res => {
-                                    if (res.isSuccessful) {
-                                        this._portalService.logAction('intro-create-from-template', 'success', {
-                                            template: selectedTemplate.id,
-                                            name: functionName,
-                                            appResourceId: this.context.site.id
-                                        });
-
-                                        this.functionsNode.addChild(res.result);
-                                    }
-                                    this._globalStateService.clearBusyState();
-                                },
-                                    () => {
-                                        this._globalStateService.clearBusyState();
-                                    });
-                        } catch (e) {
-                            this.showComponentError({
-                                message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
-                                errorId: errorIds.unableToCreateFunction,
-                                resourceId: this.context.site.id
-                            });
-
-                            this._aiService.trackEvent(errorIds.unableToCreateFunction, {
-                                exception: e
-                            });
-                            throw e;
-                        }
-                    } else {
-                        this._globalStateService.clearBusyState();
-                    }
+                    this.functionsNode.addChild(res.result);
+                  }
+                  this._globalStateService.clearBusyState();
+                },
+                () => {
+                  this._globalStateService.clearBusyState();
                 }
+              );
+          } catch (e) {
+            this.showComponentError({
+              message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
+              errorId: errorIds.unableToCreateFunction,
+              resourceId: this.context.site.id,
             });
-    }
 
-    createFromScratch() {
-        const functionsNode = this.functionsNode;
-        functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
-    }
-
-    startFromSC() {
-        this._portalService.openBladeDeprecated({
-            detailBlade: 'ContinuousDeploymentListBlade',
-            detailBladeInputs: {
-                id: this.context.site.id,
-                ResourceId: this.context.site.id
-            }
-        },
-            'intro');
-    }
-
-    onKeyDown(event: KeyboardEvent, command: string) {
-        if (event.keyCode === KeyCodes.enter) {
-            switch (command) {
-                case 'scratch':
-                    {
-                        this.createFromScratch();
-                        break;
-                    }
-                case 'SC':
-                    {
-                        this.startFromSC();
-                        break;
-                    }
-            }
+            this._aiService.trackEvent(errorIds.unableToCreateFunction, {
+              exception: e,
+            });
+            throw e;
+          }
+        } else {
+          this._globalStateService.clearBusyState();
         }
-    }
+      }
+    });
+  }
 
+  createFromScratch() {
+    const functionsNode = this.functionsNode;
+    functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
+  }
+
+  startFromSC() {
+    this._portalService.openBladeDeprecated(
+      {
+        detailBlade: 'ContinuousDeploymentListBlade',
+        detailBladeInputs: {
+          id: this.context.site.id,
+          ResourceId: this.context.site.id,
+        },
+      },
+      'intro'
+    );
+  }
+
+  onKeyDown(event: KeyboardEvent, command: string) {
+    if (event.keyCode === KeyCodes.enter) {
+      switch (command) {
+        case 'scratch': {
+          this.createFromScratch();
+          break;
+        }
+        case 'SC': {
+          this.startFromSC();
+          break;
+        }
+      }
+    }
+  }
 }

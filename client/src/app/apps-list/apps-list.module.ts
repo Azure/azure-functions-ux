@@ -6,20 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
-    { path: '', component: AppsListComponent, pathMatch: 'full' },
-    { path: 'new/app', component: CreateAppComponent}
+  { path: '', component: AppsListComponent, pathMatch: 'full' },
+  { path: 'new/app', component: CreateAppComponent },
 ]);
 
 @NgModule({
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        routing
-    ],
-    declarations: [
-        AppsListComponent,
-        CreateAppComponent
-    ],
-    providers: []
+  imports: [TranslateModule.forChild(), SharedModule, routing],
+  declarations: [AppsListComponent, CreateAppComponent],
+  providers: [],
 })
-export class AppsListModule { }
+export class AppsListModule {}

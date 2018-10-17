@@ -4,19 +4,11 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
-const routing: ModuleWithProviders = RouterModule.forChild([
-    { path: '', component: TryLandingComponent }
-]);
+const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: TryLandingComponent }]);
 
 @NgModule({
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        routing
-    ],
-    declarations: [
-        TryLandingComponent
-    ],
-    providers: []
+  imports: [TranslateModule.forChild(), SharedModule, routing],
+  declarations: [TryLandingComponent],
+  providers: [],
 })
-export class TryLandingModule { }
+export class TryLandingModule {}

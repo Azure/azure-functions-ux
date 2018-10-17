@@ -11,9 +11,9 @@ import 'rxjs/add/operator/takeUntil';
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: DeploymentSlotsShellComponent }]);
 
 @NgModule({
-    entryComponents: [DeploymentSlotsComponent],
-    imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, DeploymentSlotsModule, routing],
-    declarations: [],
-    providers: []
+  entryComponents: [DeploymentSlotsComponent],
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, DeploymentSlotsModule, routing],
+  declarations: [],
+  providers: [],
 })
-export class DeploymentSlotsShellModule { }
+export class DeploymentSlotsShellModule {}

@@ -8,88 +8,81 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { ArmSiteDescriptor, ArmFunctionDescriptor } from '../shared/resourceDescriptors';
 
 @Component({
-    selector: 'top-bar',
-    templateUrl: './top-bar.component.html',
-    styleUrls: ['./top-bar.component.scss'],
-    inputs: ['isFunctionSelected']
+  selector: 'top-bar',
+  templateUrl: './top-bar.component.html',
+  styleUrls: ['./top-bar.component.scss'],
+  inputs: ['isFunctionSelected'],
 })
 export class TopBarComponent implements OnInit {
-    @Input() gettingStarted: boolean;
-    public user: User;
-    public tenants: TenantInfo[];
-    public currentTenant: TenantInfo;
-    public inIFrame: boolean;
-    public inTab: boolean;
-    public isStandalone: boolean;
+  @Input()
+  gettingStarted: boolean;
+  public user: User;
+  public tenants: TenantInfo[];
+  public currentTenant: TenantInfo;
+  public inIFrame: boolean;
+  public inTab: boolean;
+  public isStandalone: boolean;
 
-    public visible = false;
+  public visible = false;
 
-    public resourceId: string;
-    public appName: string;
-    public fnName: string;
+  public resourceId: string;
+  public appName: string;
+  public fnName: string;
 
-    constructor(private _userService: UserService,
-        private _globalStateService: GlobalStateService,
-        private _configService: ConfigService
-    ) {
-        this.inIFrame = this._userService.inIFrame;
-        this.inTab = this._userService.inTab;
-        this.isStandalone = this._configService.isStandalone();
+  constructor(private _userService: UserService, private _globalStateService: GlobalStateService, private _configService: ConfigService) {
+    this.inIFrame = this._userService.inIFrame;
+    this.inTab = this._userService.inTab;
+    this.isStandalone = this._configService.isStandalone();
 
-        if (this.inTab) {
-            _userService.getStartupInfo()
-                .first()
-                .subscribe(info => {
-                    this.resourceId = info.resourceId;
-                    const descriptor = new ArmSiteDescriptor(this.resourceId);
-                    this.appName = descriptor.site;
-                    const fnDescriptor = new ArmFunctionDescriptor(this.resourceId);
-                    this.fnName = fnDescriptor.name;
-                });
-        }
-
-        this._setVisible();
-
+    if (this.inTab) {
+      _userService
+        .getStartupInfo()
+        .first()
+        .subscribe(info => {
+          this.resourceId = info.resourceId;
+          const descriptor = new ArmSiteDescriptor(this.resourceId);
+          this.appName = descriptor.site;
+          const fnDescriptor = new ArmFunctionDescriptor(this.resourceId);
+          this.fnName = fnDescriptor.name;
+        });
     }
 
-    public get showTryView() {
-        return this._globalStateService.showTryView;
+    this._setVisible();
+  }
+
+  public get showTryView() {
+    return this._globalStateService.showTryView;
+  }
+
+  private _setVisible() {
+    if (this.inIFrame) {
+      this.visible = false;
+    } else if (!this._globalStateService.showTryView) {
+      this.visible = true;
     }
+  }
 
-    private _setVisible() {
-        if (this.inIFrame) {
-            this.visible = false;
-        } else if (!this._globalStateService.showTryView) {
-            this.visible = true;
-        }
+  ngOnInit() {
+    if (!this.showTryView) {
+      // nothing to do if we're running in an iframe
+      if (this.inIFrame) return;
+
+      this._userService.getUser().subscribe(u => {
+        this.user = u;
+        // this.setVisible();
+      });
+
+      this._userService.getTenants().subscribe(t => {
+        this.tenants = t;
+        this.currentTenant = this.tenants.find(e => e.Current);
+        // this.setVisible();
+      });
+    } else {
+      // this.setVisible();
     }
+  }
 
-    ngOnInit() {
-        if (!this.showTryView) {
-
-            // nothing to do if we're running in an iframe
-            if (this.inIFrame) return;
-
-            this._userService.getUser()
-                .subscribe((u) => {
-                    this.user = u;
-                    // this.setVisible();
-                });
-
-            this._userService.getTenants()
-                .subscribe(t => {
-                    this.tenants = t;
-                    this.currentTenant = this.tenants.find(e => e.Current);
-                    // this.setVisible();
-                });
-        } else {
-            // this.setVisible();
-        }
-
-    }
-
-    selectTenant(tenant: TenantInfo) {
-        window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
-    }
-
+  selectTenant(tenant: TenantInfo) {
+    window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
+  }
 }

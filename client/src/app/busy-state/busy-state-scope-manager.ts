@@ -5,12 +5,9 @@ import { Guid } from './../shared/Utilities/Guid';
 import { BusyStateName } from './busy-state.component';
 
 export class BusyStateScopeManager {
-
   private _busyStateKey: string | undefined;
 
-  constructor(
-    private _broadcastService: BroadcastService,
-    private _name: BusyStateName) {
+  constructor(private _broadcastService: BroadcastService, private _name: BusyStateName) {
     this._busyStateKey = Guid.newGuid();
   }
 
@@ -18,7 +15,7 @@ export class BusyStateScopeManager {
     this._broadcastService.broadcastEvent<BusyStateEvent>(BroadcastEvent.UpdateBusyState, {
       busyComponentName: this._name,
       action: 'setBusyState',
-      busyStateKey: this._busyStateKey
+      busyStateKey: this._busyStateKey,
     });
   }
 
@@ -26,7 +23,7 @@ export class BusyStateScopeManager {
     this._broadcastService.broadcastEvent<BusyStateEvent>(BroadcastEvent.UpdateBusyState, {
       busyComponentName: this._name,
       action: 'clearBusyState',
-      busyStateKey: this._busyStateKey
+      busyStateKey: this._busyStateKey,
     });
   }
 }

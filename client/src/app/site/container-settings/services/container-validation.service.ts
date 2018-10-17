@@ -8,45 +8,48 @@ import { Headers } from '@angular/http';
 
 @Injectable()
 export class ContainerValidationService {
-    private readonly _client: ConditionalHttpClient;
+  private readonly _client: ConditionalHttpClient;
 
-    constructor(
-        private _cacheService: CacheService,
-        private _userService: UserService,
-        injector: Injector) {
-        this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
-    }
+  constructor(private _cacheService: CacheService, private _userService: UserService, injector: Injector) {
+    this._client = new ConditionalHttpClient(injector, _ => this._userService.getStartupInfo().map(i => i.token));
+  }
 
-    public validateContainerImage(resourceId: string, baseUrl: string, platform: string, repository: string, tag: string, username: string, password: string): Result<any> {
-        const proxyRequestBody: GetRepositoryTagRequest = {
-            baseUrl,
-            platform,
-            repository,
-            tag,
-            username,
-            password,
-        };
+  public validateContainerImage(
+    resourceId: string,
+    baseUrl: string,
+    platform: string,
+    repository: string,
+    tag: string,
+    username: string,
+    password: string
+  ): Result<any> {
+    const proxyRequestBody: GetRepositoryTagRequest = {
+      baseUrl,
+      platform,
+      repository,
+      tag,
+      username,
+      password,
+    };
 
-        const proxyRequest: ProxyRequest<GetRepositoryTagRequest> = {
-            method: 'POST',
-            url: `${Constants.webAppsHostName}/api/Websites/GetRepositoryTagAsync`,
-            body: proxyRequestBody,
-            headers: {},
-        };
+    const proxyRequest: ProxyRequest<GetRepositoryTagRequest> = {
+      method: 'POST',
+      url: `${Constants.webAppsHostName}/api/Websites/GetRepositoryTagAsync`,
+      body: proxyRequestBody,
+      headers: {},
+    };
 
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-        const validateImage = this._userService
-            .getStartupInfo()
-            .first()
-            .switchMap(i => {
-                proxyRequest.headers['Authorization'] = `Bearer ${i.token}`;
-                return this._cacheService
-                    .post('/api/validateContainerImage', true, headers, proxyRequest)
-                    .map(r => r.json());
-            });
+    const validateImage = this._userService
+      .getStartupInfo()
+      .first()
+      .switchMap(i => {
+        proxyRequest.headers['Authorization'] = `Bearer ${i.token}`;
+        return this._cacheService.post('/api/validateContainerImage', true, headers, proxyRequest).map(r => r.json());
+      });
 
-        return this._client.execute({ resourceId: resourceId }, t => validateImage);
-    }
+    return this._client.execute({ resourceId: resourceId }, t => validateImage);
+  }
 }

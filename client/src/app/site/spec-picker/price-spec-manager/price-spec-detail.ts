@@ -1,6 +1,6 @@
 export interface PriceSpecDetail {
-    iconUrl: string;
-    title: string;
-    description: string;
-    learnMoreUrl?: string;
+  iconUrl: string;
+  title: string;
+  description: string;
+  learnMoreUrl?: string;
 }

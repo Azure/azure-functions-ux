@@ -4,7 +4,7 @@ import { IBillingService } from '../../shared/services/billing.service';
 
 @Injectable()
 export class MockBillingService implements IBillingService {
-    checkIfSubscriptionHasQuotaId(subscriptionId: string, quotaId: string) {
-        return Observable.of(false);
-    }
+  checkIfSubscriptionHasQuotaId(subscriptionId: string, quotaId: string) {
+    return Observable.of(false);
+  }
 }

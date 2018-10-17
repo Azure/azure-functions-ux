@@ -7,24 +7,24 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class MockAseService implements IAseService {
-    aseToReturn: ArmObj<HostingEnvironment> = {
-        id: `/subscriptions/mysub/resourcegroups/myrg/providers/microsoft.web/hostingenvironment/myase`,
-        name: 'myase',
-        type: 'microsoft.web/hostingenvironments',
-        kind: '',
-        location: 'West US',
-        properties: {
-            name: 'myase',
-            internalLoadBalancingMode: null,
-            vnetName: null
-        }
-    };
+  aseToReturn: ArmObj<HostingEnvironment> = {
+    id: `/subscriptions/mysub/resourcegroups/myrg/providers/microsoft.web/hostingenvironment/myase`,
+    name: 'myase',
+    type: 'microsoft.web/hostingenvironments',
+    kind: '',
+    location: 'West US',
+    properties: {
+      name: 'myase',
+      internalLoadBalancingMode: null,
+      vnetName: null,
+    },
+  };
 
-    getAse(resourceId: ResourceId): Result<ArmObj<HostingEnvironment>> {
-        return Observable.of({
-            isSuccessful: true,
-            error: null,
-            result: this.aseToReturn
-        });
-    }
+  getAse(resourceId: ResourceId): Result<ArmObj<HostingEnvironment>> {
+    return Observable.of({
+      isSuccessful: true,
+      error: null,
+      result: this.aseToReturn,
+    });
+  }
 }

@@ -1,12 +1,12 @@
 ﻿export interface Host {
-    swagger: Swagger;
-    http: Http;
+  swagger: Swagger;
+  http: Http;
 }
 
 export interface Swagger {
-    enabled?: boolean;
+  enabled?: boolean;
 }
 
 export interface Http {
-    routePrefix?: string;
+  routePrefix?: string;
 }

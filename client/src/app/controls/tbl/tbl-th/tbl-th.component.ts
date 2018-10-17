@@ -9,27 +9,21 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
       <i class="fa chevron"
           [class.fa-chevron-up]="table?.sortedColName === name && table?.sortAscending"
           [class.fa-chevron-down]="table?.sortedColName !== name || (table?.sortedColName === name && !table?.sortAscending)"></i>
-    </div>`
+    </div>`,
 })
 export class TblThComponent implements OnInit {
-
-  @Input() name: string;
+  @Input()
+  name: string;
 
   public table: TblComponent;
 
-  constructor(
-    private _el: ElementRef) {
-  }
+  constructor(private _el: ElementRef) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterContentInit() {
     const element = <HTMLElement>this._el.nativeElement;
-    if (element.parentElement
-      && element.parentElement.parentElement
-      && element.parentElement.parentElement.tagName === 'TR') {
-
+    if (element.parentElement && element.parentElement.parentElement && element.parentElement.parentElement.tagName === 'TR') {
       element.parentElement.parentElement.classList.add('header-row');
     }
   }
@@ -59,7 +53,6 @@ export class TblThComponent implements OnInit {
     if (table.groupedBy === 'none') {
       table.items.sort((a: TableItem, b: TableItem) => this._evaluateOrder(a[this.name], b[this.name], table.sortAscending));
     } else {
-
       if (!table.groupColName) {
         throw new Error('Cannot sort within groups');
       }
@@ -116,13 +109,9 @@ export class TblThComponent implements OnInit {
     }
 
     if (typeOfA === 'number') {
-      return sortAscending
-        ? aCol - bCol
-        : bCol - aCol;
+      return sortAscending ? aCol - bCol : bCol - aCol;
     } else {
-      return sortAscending
-        ? aCol.toString().localeCompare(bCol.toString())
-        : bCol.toString().localeCompare(aCol.toString());
+      return sortAscending ? aCol.toString().localeCompare(bCol.toString()) : bCol.toString().localeCompare(aCol.toString());
     }
   }
 }

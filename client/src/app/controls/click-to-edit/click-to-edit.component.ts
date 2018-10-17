@@ -7,10 +7,8 @@ import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
 import { PortalResources } from './../../shared/models/portal-resources';
 
-
 // Used to communicate between click-to-edit components
 export class CustomFormGroup extends FormGroup {
-
   // Tells other ClickToEdit components when we're in "edit" mode for the form group.
   public msShowTextbox: Subject<boolean>;
 
@@ -37,34 +35,47 @@ export class CustomFormControl extends FormControl {
   styleUrls: ['./click-to-edit.component.scss'],
 })
 export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
-
   public showTextbox = false;
   public group: CustomFormGroup;
-  @Input('group') set origGroup(group: FormGroup) {
+  @Input('group')
+  set origGroup(group: FormGroup) {
     this.group = group as CustomFormGroup;
   }
-  @Input() name: string;
-  @Input() placeholder: string;
-  @Input() hiddenText: boolean;
-  @Input() maskText: string;
+  @Input()
+  name: string;
+  @Input()
+  placeholder: string;
+  @Input()
+  hiddenText: boolean;
+  @Input()
+  maskText: string;
 
   // This allows for a given control to affect the state of other controls in the group while not actually being "click-to-edit-able" itself.
   // (i.e. The control's own editable/non-editable state is not affected by the extended fields in the CustomFormGroup its associated with.)
-  @Input() alwaysShow: boolean;
+  @Input()
+  alwaysShow: boolean;
 
-  @ViewChild('container') container: ElementRef;
+  @ViewChild('container')
+  container: ElementRef;
 
-  @ViewChild('target') target: ElementRef;
+  @ViewChild('target')
+  target: ElementRef;
 
-  @ContentChild(TextboxComponent) textbox: TextboxComponent;
-  @ContentChild(DropDownComponent) dropdown: DropDownComponent<any>;
+  @ContentChild(TextboxComponent)
+  textbox: TextboxComponent;
+  @ContentChild(DropDownComponent)
+  dropdown: DropDownComponent<any>;
 
   public control: CustomFormControl;
   private _sub: Subscription;
 
   private _targetFocusState: 'focused' | 'blurring' | 'blurred';
-  private _focusFunc = (e: FocusEvent) => { this._targetFocusListener(e); };
-  private _blurFunc = (e: FocusEvent) => { this._targetBlurListener(e); };
+  private _focusFunc = (e: FocusEvent) => {
+    this._targetFocusListener(e);
+  };
+  private _blurFunc = (e: FocusEvent) => {
+    this._targetBlurListener(e);
+  };
 
   constructor(translateService: TranslateService) {
     this.maskText = translateService.instant(PortalResources.hiddenValueClickToShow);
@@ -159,7 +170,6 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.group.valid) {
-
       // Blur happens before click.  So if you're switching between
       // click-to-edit-textbox components in the same form group,
       // you want to make sure the click event on the target component
@@ -183,9 +193,11 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     const group = this.group as CustomFormGroup;
     const name = this.name + (this.alwaysShow ? alwaysShowSuffix : '');
 
-    if (show) { //gained focus
+    if (show) {
+      //gained focus
       group.msFocusedControl = name;
-    } else if (group.msFocusedControl === name) { //lost focus
+    } else if (group.msFocusedControl === name) {
+      //lost focus
       group.msFocusedControl = '';
     }
 
@@ -217,7 +229,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let newEvent: MouseEvent;
-    if (typeof (Event) === 'function') {
+    if (typeof Event === 'function') {
       // This isn't IE, so we can use MouseEvent()
       newEvent = new MouseEvent(eventTypes[0], { bubbles: true, cancelable: true });
     } else {
@@ -233,5 +245,4 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
       this._simulateMouseEvents(target, eventTypes);
     });
   }
-
 }

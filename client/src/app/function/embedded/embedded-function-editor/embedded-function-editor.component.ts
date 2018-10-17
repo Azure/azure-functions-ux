@@ -22,11 +22,11 @@ import { EmbeddedService } from 'app/shared/services/embedded.service';
 @Component({
   selector: 'embedded-function-editor',
   templateUrl: './embedded-function-editor.component.html',
-  styleUrls: ['./embedded-function-editor.component.scss']
+  styleUrls: ['./embedded-function-editor.component.scss'],
 })
 export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit, OnDestroy {
-
-  @ViewChild(TextEditorComponent) codeEditor: TextEditorComponent;
+  @ViewChild(TextEditorComponent)
+  codeEditor: TextEditorComponent;
 
   public resourceId: string;
   public initialEditorContent = '';
@@ -45,11 +45,12 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     private _broadcastService: BroadcastService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
-    private _embeddedService: EmbeddedService) {
-
+    private _embeddedService: EmbeddedService
+  ) {
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
-    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+    this._broadcastService
+      .getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
       .distinctUntilChanged()
       .filter(info => info.dashboardType === DashboardType.FunctionDashboard)
       .takeUntil(this._ngUnsubscribe)
@@ -58,14 +59,12 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       })
       .retry()
       .subscribe(r => {
-
         this._busyManager.clearBusy();
 
         if (r.isSuccessful) {
           this.initialEditorContent = r.result;
           this._updatedEditorContent = this.initialEditorContent;
         } else {
-
           this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
             message: r.error.message,
             errorId: r.error.errorId,
@@ -74,7 +73,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
         }
       });
 
-    this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
+    this._broadcastService
+      .getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
       .filter(e => e.type === 'isExpanded')
       .takeUntil(this._ngUnsubscribe)
       .subscribe(e => {
@@ -86,7 +86,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     this._busyManager.setBusy();
     this.resourceId = resourceId;
 
-    return this._cacheService.getArm(resourceId, true)
+    return this._cacheService
+      .getArm(resourceId, true)
       .switchMap(r => {
         this._functionInfo = r.json();
 
@@ -101,7 +102,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
         return <HttpResult<string>>{
           isSuccessful: true,
           error: null,
-          result: r.text()
+          result: r.text(),
         };
       })
       .catch(e => {
@@ -110,17 +111,15 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,
-            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name)
-          }
+            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name),
+          },
         });
       });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngAfterContentInit() {
-  }
+  ngAfterContentInit() {}
 
   ngOnDestroy() {
     this._ngUnsubscribe.next();
@@ -144,19 +143,21 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
   saveEditorContent() {
     this._busyManager.setBusy();
-    this._cacheService.putArm(this._functionInfo.script_href, null, this._updatedEditorContent)
-      .subscribe(r => {
+    this._cacheService.putArm(this._functionInfo.script_href, null, this._updatedEditorContent).subscribe(
+      r => {
         this._busyManager.clearBusy();
         this.initialEditorContent = r.text();
         this._updatedEditorContent = this.initialEditorContent;
-      }, err => {
+      },
+      err => {
         this._busyManager.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToSaveFunction).format(this._functionInfo.name),
           errorId: errorIds.embeddedEditorSaveError,
           resourceId: this.resourceId,
         });
-      });
+      }
+    );
   }
 
   editorContentChanged(content: string) {
@@ -167,23 +168,22 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
     if (result) {
       this._busyManager.setBusy();
-      this._embeddedService.deleteFunction(this.resourceId)
-        .subscribe(r => {
-          if (r.isSuccessful) {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-              resourceId: this.resourceId,
-              operation: 'remove'
-            });
-          } else {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-              message: r.error.message,
-              errorId: r.error.errorId,
-              resourceId: this.resourceId,
-            });
-          }
-        });
+      this._embeddedService.deleteFunction(this.resourceId).subscribe(r => {
+        if (r.isSuccessful) {
+          this._busyManager.clearBusy();
+          this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+            resourceId: this.resourceId,
+            operation: 'remove',
+          });
+        } else {
+          this._busyManager.clearBusy();
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: r.error.message,
+            errorId: r.error.errorId,
+            resourceId: this.resourceId,
+          });
+        }
+      });
     }
   }
 }

@@ -12,55 +12,64 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 type DownloadOption = 'siteContent' | 'vsProject';
 
 @Component({
-    selector: 'download-function-app-content',
-    templateUrl: './download-function-app-content.component.html',
-    styleUrls: ['./download-function-app-content.component.scss']
+  selector: 'download-function-app-content',
+  templateUrl: './download-function-app-content.component.html',
+  styleUrls: ['./download-function-app-content.component.scss'],
 })
 export class DownloadFunctionAppContentComponent {
-    @Input() public context: FunctionAppContext;
-    @Output() public close: Subject<boolean>;
+  @Input()
+  public context: FunctionAppContext;
+  @Output()
+  public close: Subject<boolean>;
 
-    public downloadOptions: SelectOption<DownloadOption>[];
-    public currentDownloadOption: DownloadOption;
-    public includeAppSettings: boolean;
+  public downloadOptions: SelectOption<DownloadOption>[];
+  public currentDownloadOption: DownloadOption;
+  public includeAppSettings: boolean;
 
-    constructor(private _translateService: TranslateService,
-        private _functionAppService: FunctionAppService,
-        private _globalStateService: GlobalStateService) {
-        this.close = new Subject<boolean>();
-        this.downloadOptions = [{
-            displayLabel: this._translateService.instant(PortalResources.downloadFunctionAppContent_siteContent),
-            value: 'siteContent'
-        }, {
-            displayLabel: this._translateService.instant(PortalResources.downloadFunctionAppContent_vsProject),
-            value: 'vsProject'
-        }];
-        this.includeAppSettings = false;
-        this.currentDownloadOption = 'siteContent';
+  constructor(
+    private _translateService: TranslateService,
+    private _functionAppService: FunctionAppService,
+    private _globalStateService: GlobalStateService
+  ) {
+    this.close = new Subject<boolean>();
+    this.downloadOptions = [
+      {
+        displayLabel: this._translateService.instant(PortalResources.downloadFunctionAppContent_siteContent),
+        value: 'siteContent',
+      },
+      {
+        displayLabel: this._translateService.instant(PortalResources.downloadFunctionAppContent_vsProject),
+        value: 'vsProject',
+      },
+    ];
+    this.includeAppSettings = false;
+    this.currentDownloadOption = 'siteContent';
+  }
+
+  downloadFunctionAppContent() {
+    if (this.context) {
+      const includeCsProj = this.currentDownloadOption === 'siteContent' ? false : true;
+      this._globalStateService.setBusyState();
+      this.closeModal();
+      this._functionAppService.getAppContentAsZip(this.context, includeCsProj, this.includeAppSettings).subscribe(
+        data => {
+          if (data.isSuccessful) {
+            FileUtilities.saveFile(data.result, `${this.context.site.name}.zip`);
+          }
+          this._globalStateService.clearBusyState();
+        },
+        () => this._globalStateService.clearBusyState()
+      );
     }
+  }
 
-    downloadFunctionAppContent() {
-        if (this.context) {
-            const includeCsProj = this.currentDownloadOption === 'siteContent' ? false : true;
-            this._globalStateService.setBusyState();
-            this.closeModal();
-            this._functionAppService.getAppContentAsZip(this.context, includeCsProj, this.includeAppSettings)
-                .subscribe(data => {
-                    if (data.isSuccessful) {
-                        FileUtilities.saveFile(data.result, `${this.context.site.name}.zip`);
-                    }
-                    this._globalStateService.clearBusyState();
-                }, () => this._globalStateService.clearBusyState());
-        }
-    }
+  closeModal() {
+    this.close.next();
+  }
 
-    closeModal() {
-        this.close.next();
+  onKeyDown(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.closeModal();
     }
-
-    onKeyDown(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.escape) {
-            this.closeModal();
-        }
-    }
+  }
 }

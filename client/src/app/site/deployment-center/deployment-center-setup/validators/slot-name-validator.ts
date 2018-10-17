@@ -6,48 +6,44 @@ import { Observable } from 'rxjs/Observable';
 import { SiteService } from '../../../../shared/services/site.service';
 
 export class SlotNameValidator {
+  static createValidator(translateService: TranslateService, siteService: SiteService, siteId: string) {
+    return (control: AbstractControl) => {
+      if (control.value.length < Validations.websiteNameMinLength) {
+        return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMinChars) });
+      } else if (control.value.length > Validations.websiteNameMaxLength) {
+        return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMaxChars) });
+      }
 
-    static createValidator(translateService: TranslateService,
-        siteService: SiteService,
-        siteId: string) {
-        return (control: AbstractControl) => {
-            if (control.value.length < Validations.websiteNameMinLength) {
-                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMinChars) });
-            } else if (control.value.length > Validations.websiteNameMaxLength) {
-                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMaxChars) });
-            }
+      const matchingChar = control.value.match(Regex.invalidEntityName);
+      if (matchingChar) {
+        return Observable.of({
+          invalidSiteName: translateService.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]),
+        });
+      }
 
-            const matchingChar = control.value.match(Regex.invalidEntityName);
-            if (matchingChar) {
-                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
-            }
-
-            return siteService.getSlots(siteId)
-                .map(r => {
-                    if (!r.isSuccessful) {
-                        return null;
-                    }
-                    const slots = r.result.value;
-                    let existingSlot = null;
-                    const name = control.value;
-                    if (slots && name) {
-                        existingSlot = slots.find((s) => {
-                            // name is returned as FunctionName/SlotName
-                            const parsedName = s.name.split('/');
-                            const slotName = parsedName[parsedName.length - 1];
-                            return slotName.toLowerCase() === name.toLowerCase();
-                        });
-                    }
-                    if (!existingSlot) {
-                        return null;
-                    } else {
-                        return {
-                            invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value)
-                        };
-                    }
-
-                });
-
-        };
-    }
+      return siteService.getSlots(siteId).map(r => {
+        if (!r.isSuccessful) {
+          return null;
+        }
+        const slots = r.result.value;
+        let existingSlot = null;
+        const name = control.value;
+        if (slots && name) {
+          existingSlot = slots.find(s => {
+            // name is returned as FunctionName/SlotName
+            const parsedName = s.name.split('/');
+            const slotName = parsedName[parsedName.length - 1];
+            return slotName.toLowerCase() === name.toLowerCase();
+          });
+        }
+        if (!existingSlot) {
+          return null;
+        } else {
+          return {
+            invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value),
+          };
+        }
+      });
+    };
+  }
 }

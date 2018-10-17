@@ -31,21 +31,9 @@ import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  entryComponents: [
-    DeploymentSlotsComponent
-  ],
-  imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule, WizardModule, NgSelectModule
-  ],
-  declarations: [
-    DeploymentSlotsComponent,
-    SwapSlotsComponent,
-    SwapDiffTableComponent,
-    AddSlotComponent,
-    DeploymentSlotsShellComponent
-  ],
-  exports: [
-    DeploymentSlotsComponent
-  ]
+  entryComponents: [DeploymentSlotsComponent],
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule, WizardModule, NgSelectModule],
+  declarations: [DeploymentSlotsComponent, SwapSlotsComponent, SwapDiffTableComponent, AddSlotComponent, DeploymentSlotsShellComponent],
+  exports: [DeploymentSlotsComponent],
 })
-export class DeploymentSlotsModule { }
+export class DeploymentSlotsModule {}

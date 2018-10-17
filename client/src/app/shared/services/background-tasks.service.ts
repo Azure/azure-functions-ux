@@ -11,35 +11,32 @@ import { GlobalStateService } from './global-state.service';
 
 @Injectable()
 export class BackgroundTasksService {
+  private _preIFrameTasks: RxSubscription;
+  constructor(private _userService: UserService, private _globalStateService: GlobalStateService, private _applicationRef: ApplicationRef) {
+    // background tasks should not be run for a tabbed function
+    // it recieves token updates from the parent window
+    if (!this._userService.inIFrame && !this._userService.inTab) {
+      this.runNonIFrameTasks();
+    }
+    if (this.isIE()) {
+      console.log('Detected IE, running zone.js workaround');
+      setInterval(() => this._applicationRef.tick(), 1000);
+    }
+  }
 
-    private _preIFrameTasks: RxSubscription;
-    constructor(private _userService: UserService,
-        private _globalStateService: GlobalStateService,
-        private _applicationRef: ApplicationRef) {
-        // background tasks should not be run for a tabbed function
-        // it recieves token updates from the parent window
-        if (!this._userService.inIFrame && !this._userService.inTab) {
-            this.runNonIFrameTasks();
-        }
-        if (this.isIE()) {
-            console.log('Detected IE, running zone.js workaround');
-            setInterval(() => this._applicationRef.tick(), 1000);
-        }
+  runNonIFrameTasks() {
+    if (this._preIFrameTasks && this._preIFrameTasks.closed) {
+      this._preIFrameTasks.unsubscribe();
     }
 
-    runNonIFrameTasks() {
-        if (this._preIFrameTasks && this._preIFrameTasks.closed) {
-            this._preIFrameTasks.unsubscribe();
-        }
-
-        if (!this._globalStateService.showTryView) {
-            this._preIFrameTasks = Observable.timer(1, 60000)
-                .concatMap(() => this._userService.getAndUpdateToken().retry(5))
-                .subscribe(() => { });
-        }
+    if (!this._globalStateService.showTryView) {
+      this._preIFrameTasks = Observable.timer(1, 60000)
+        .concatMap(() => this._userService.getAndUpdateToken().retry(5))
+        .subscribe(() => {});
     }
+  }
 
-    private isIE(): boolean {
-        return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
-    }
+  private isIE(): boolean {
+    return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
+  }
 }

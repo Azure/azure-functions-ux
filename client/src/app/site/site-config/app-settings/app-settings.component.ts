@@ -23,11 +23,13 @@ import { LogCategories } from 'app/shared/models/constants';
 @Component({
   selector: 'app-settings',
   templateUrl: './app-settings.component.html',
-  styleUrls: ['./../site-config.component.scss']
+  styleUrls: ['./../site-config.component.scss'],
 })
 export class AppSettingsComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
-  @Input() mainForm: FormGroup;
-  @Input() resourceId: ResourceId;
+  @Input()
+  mainForm: FormGroup;
+  @Input()
+  resourceId: ResourceId;
 
   public Resources = PortalResources;
   public groupArray: FormArray;
@@ -83,24 +85,22 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
         this.newItem = null;
         this.originalItemsDeleted = 0;
         this._resetPermissionsAndLoadingState();
-        this._slotConfigNamesArmPath =
-          `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+        this._slotConfigNamesArmPath = `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
 
         return Observable.zip(
           this._siteService.getSite(this.resourceId),
           this._siteService.getAppSettings(this.resourceId, true),
-          this._siteService.getSlotConfigNames(this.resourceId, true));
+          this._siteService.getSlotConfigNames(this.resourceId, true)
+        );
       })
       .do(results => {
         const siteResult = results[0];
         const asResult = results[1];
         const slotNamesResult = results[2];
 
-        const noWritePermission = !asResult.isSuccessful
-          && asResult.error.errorId === errorIds.armErrors.noAccess;
+        const noWritePermission = !asResult.isSuccessful && asResult.error.errorId === errorIds.armErrors.noAccess;
 
-        const hasReadonlyLock = !asResult.isSuccessful
-          && asResult.error.errorId === errorIds.armErrors.scopeLocked;
+        const hasReadonlyLock = !asResult.isSuccessful && asResult.error.errorId === errorIds.armErrors.scopeLocked;
 
         this._setPermissions(!noWritePermission, hasReadonlyLock);
 
@@ -176,31 +176,27 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
         this._uniqueAppSettingValidator = new UniqueValidator(
           'name',
           this.groupArray,
-          this._translateService.instant(PortalResources.validation_duplicateError));
+          this._translateService.instant(PortalResources.validation_duplicateError)
+        );
 
         this._validatorFns = [
           this._requiredValidator.validate.bind(this._requiredValidator),
-          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)
+          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator),
         ];
 
         if (this._isLinux) {
           this._linuxAppSettingNameValidator = new LinuxAppSettingNameValidator(this._translateService);
-          this._validatorFns.push(
-            this._linuxAppSettingNameValidator.validate.bind(this._linuxAppSettingNameValidator)
-          );
+          this._validatorFns.push(this._linuxAppSettingNameValidator.validate.bind(this._linuxAppSettingNameValidator));
         }
 
         const stickyAppSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
         for (const name in appSettingsArm.properties) {
-
           if (appSettingsArm.properties.hasOwnProperty(name)) {
             const group = this._fb.group({
-              name: [
-                { value: name, disabled: !this.hasWritePermissions },
-                Validators.compose(this._validatorFns)],
+              name: [{ value: name, disabled: !this.hasWritePermissions }, Validators.compose(this._validatorFns)],
               value: [{ value: appSettingsArm.properties[name], disabled: !this.hasWritePermissions }],
-              isSlotSetting: [{ value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions }]
+              isSlotSetting: [{ value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions }],
             }) as CustomFormGroup;
 
             group.msExistenceState = 'original';
@@ -208,8 +204,9 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
           }
         }
 
-        const sortedGroupControls = (this.groupArray.controls as CustomFormGroup[])
-          .sort((a, b) => a.controls['name'].value.localeCompare(b.controls['name'].value));
+        const sortedGroupControls = (this.groupArray.controls as CustomFormGroup[]).sort((a, b) =>
+          a.controls['name'].value.localeCompare(b.controls['name'].value)
+        );
         this._validateAllControls(sortedGroupControls);
       }
 
@@ -260,15 +257,17 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
   }
 
   protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
-    const appSettingsArm: ArmObj<ApplicationSettings> = (saveConfigs && saveConfigs.appSettingsArm) ?
-      JSON.parse(JSON.stringify(saveConfigs.appSettingsArm)) : // TODO: [andimarc] not valid scenario - should never be already set
-      JSON.parse(JSON.stringify(this.appSettingsArm));
+    const appSettingsArm: ArmObj<ApplicationSettings> =
+      saveConfigs && saveConfigs.appSettingsArm
+        ? JSON.parse(JSON.stringify(saveConfigs.appSettingsArm)) // TODO: [andimarc] not valid scenario - should never be already set
+        : JSON.parse(JSON.stringify(this.appSettingsArm));
     appSettingsArm.id = `${this.resourceId}/config/appSettings`;
     appSettingsArm.properties = {};
 
-    const slotConfigNamesArm: ArmObj<SlotConfigNames> = (saveConfigs && saveConfigs.slotConfigNamesArm) ?
-      JSON.parse(JSON.stringify(saveConfigs.slotConfigNamesArm)) :
-      JSON.parse(JSON.stringify(this.slotConfigNamesArm));
+    const slotConfigNamesArm: ArmObj<SlotConfigNames> =
+      saveConfigs && saveConfigs.slotConfigNamesArm
+        ? JSON.parse(JSON.stringify(saveConfigs.slotConfigNamesArm))
+        : JSON.parse(JSON.stringify(this.slotConfigNamesArm));
     slotConfigNamesArm.id = this._slotConfigNamesArmPath;
     slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
@@ -302,15 +301,14 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
             appSettingNamesPristine = false;
           }
         }
-      }
-      else {
+      } else {
         appSettingsPristine = false;
       }
     });
 
     return {
       appSettingsArm: appSettingsPristine ? null : appSettingsArm,
-      slotConfigNamesArm: appSettingNamesPristine ? null : slotConfigNamesArm
+      slotConfigNamesArm: appSettingNamesPristine ? null : slotConfigNamesArm,
     };
   }
 
@@ -374,11 +372,9 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
     const groups = this.groupArray;
 
     this.newItem = this._fb.group({
-      name: [
-        null,
-        Validators.compose(this._validatorFns)],
+      name: [null, Validators.compose(this._validatorFns)],
       value: [null],
-      isSlotSetting: [false]
+      isSlotSetting: [false],
     }) as CustomFormGroup;
 
     this.newItem.msExistenceState = 'new';

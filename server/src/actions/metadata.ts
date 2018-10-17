@@ -11,7 +11,7 @@ const _languageMap: { [key: string]: string } = {
   'zh-hans': 'zh-CN',
   'zh-hant': 'zh-TW',
   'en-us': 'en',
-  'en-gb': 'en'
+  'en-gb': 'en',
 };
 
 const versionList: string[] = require('./data/supportedFunctionsFxVersions.json').sort(versionCompare);
@@ -111,7 +111,6 @@ export async function getQuickstart(req: Request, res: Response) {
     res.sendFile(path.join(folder, defaultFallbackFile));
   }
 }
-
 
 export function getRuntimeVersion(_: Request, res: Response) {
   res.json('~1');

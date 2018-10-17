@@ -24,7 +24,7 @@ import { MockTelemetryService } from '../../../../test/mocks/telemetry.service.m
 describe('FtpDashboardComponent', () => {
   @Component({
     selector: `app-host-component`,
-    template: `<app-ftp-dashboard resourceId="/subscriptions/sub/resourcegroups/rg/providers/microsoft.web/sites/sitename"></app-ftp-dashboard>`
+    template: `<app-ftp-dashboard resourceId="/subscriptions/sub/resourcegroups/rg/providers/microsoft.web/sites/sitename"></app-ftp-dashboard>`,
   })
   class TestHostComponent {
     @ViewChild(FtpDashboardComponent)
@@ -36,7 +36,8 @@ describe('FtpDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent,
+      declarations: [
+        TestHostComponent,
         FtpDashboardComponent,
         MockComponent(CommandBarComponent),
         MockComponent(CommandComponent),
@@ -44,17 +45,16 @@ describe('FtpDashboardComponent', () => {
         MockComponent(RadioSelectorComponent),
         MockComponent(InfoBoxComponent),
         MockComponent(CardInfoControlComponent),
-        MockComponent(DeploymentCredentialsComponent)
+        MockComponent(DeploymentCredentialsComponent),
       ],
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: LogService, useClass: MockLogService },
         { provide: TelemetryService, useClass: MockTelemetryService },
-        BroadcastService
+        BroadcastService,
       ],
-      imports: [SidebarModule, CommonModule, TranslateModule.forRoot()]
-    })
-      .compileComponents();
+      imports: [SidebarModule, CommonModule, TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -71,14 +71,12 @@ describe('FtpDashboardComponent', () => {
     it('should load publishing profile data on init', () => {
       expect(component.ftpsEndpoint).toBe('publishftpurl');
     });
-
   });
   describe('Publishing Profile Download', () => {
-
     it('download profile should trigger profile download', fakeAsync(() => {
       let alinkClicked = false;
       const aLinkMock = {
-        click: () => alinkClicked = true
+        click: () => (alinkClicked = true),
       };
       spyOn(window.URL, 'createObjectURL').and.callFake(() => 'objecturl');
       spyOn(document, 'getElementById').and.callFake(() => aLinkMock);
@@ -91,7 +89,7 @@ describe('FtpDashboardComponent', () => {
     it('triggering when there is already a blobUrl will revoke Old BlobUrl', fakeAsync(() => {
       let alinkClicked = false;
       const aLinkMock = {
-        click: () => alinkClicked = true
+        click: () => (alinkClicked = true),
       };
       spyOn(window.URL, 'createObjectURL').and.callFake(() => 'objecturl');
       spyOn(document, 'getElementById').and.callFake(() => aLinkMock);
@@ -101,7 +99,6 @@ describe('FtpDashboardComponent', () => {
       component.downloadPublishProfile();
       tick();
       expect(window.URL.revokeObjectURL).toHaveBeenCalled();
-
     }));
     it('hits the right download path for edge', fakeAsync(() => {
       window.navigator.msSaveOrOpenBlob = (blob: any, name: string) => true;
@@ -132,15 +129,15 @@ class MockSiteService {
       isSuccessful: true,
       result: {
         properties: {
-          ftpsState: this.ftpsState
-        }
-      }
+          ftpsState: this.ftpsState,
+        },
+      },
     });
   }
 
   getPublishingProfile(resourceId: string): any {
     return of({
-      result: this.mockPublishProfile
+      result: this.mockPublishProfile,
     });
   }
 }

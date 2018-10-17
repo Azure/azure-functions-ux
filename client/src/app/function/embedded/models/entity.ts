@@ -1,4 +1,4 @@
 export interface Entity {
-    name: string;
-    displayName: string;
+  name: string;
+  displayName: string;
 }

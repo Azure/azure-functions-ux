@@ -23,105 +23,104 @@ import { SiteService } from '../../shared/services/site.service';
 import { ProviderDashboardType } from './Models/deployment-enums';
 
 @Component({
-    selector: 'app-deployment-center',
-    templateUrl: './deployment-center.component.html',
-    styleUrls: ['./deployment-center.component.scss']
+  selector: 'app-deployment-center',
+  templateUrl: './deployment-center.component.html',
+  styleUrls: ['./deployment-center.component.scss'],
 })
 export class DeploymentCenterComponent implements OnDestroy {
-    public resourceIdStream: Subject<string>;
-    public resourceId: string;
-    public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-    public viewInfo: TreeViewInfo<SiteData>;
-    public dashboardProviderType: ProviderDashboardType = '';
-    @Input()
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
-        this.viewInfo = viewInfo;
-        this.viewInfoStream.next(viewInfo);
-    }
+  public resourceIdStream: Subject<string>;
+  public resourceId: string;
+  public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
+  public viewInfo: TreeViewInfo<SiteData>;
+  public dashboardProviderType: ProviderDashboardType = '';
+  @Input()
+  set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    this.viewInfo = viewInfo;
+    this.viewInfoStream.next(viewInfo);
+  }
 
-    public hasWritePermissions = true;
+  public hasWritePermissions = true;
 
-    private _ngUnsubscribe$ = new Subject();
-    private _siteConfigObject: ArmObj<SiteConfig>;
-    private _busyManager: BusyStateScopeManager;
+  private _ngUnsubscribe$ = new Subject();
+  private _siteConfigObject: ArmObj<SiteConfig>;
+  private _busyManager: BusyStateScopeManager;
 
-    public showFTPDashboard = false;
-    public showWebDeployDashboard = false;
-    sidePanelOpened = false;
-    constructor(
-        private _cacheService: CacheService,
-        private _siteService: SiteService,
-        private _logService: LogService,
-        broadcastService: BroadcastService
-    ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
+  public showFTPDashboard = false;
+  public showWebDeployDashboard = false;
+  sidePanelOpened = false;
+  constructor(
+    private _cacheService: CacheService,
+    private _siteService: SiteService,
+    private _logService: LogService,
+    broadcastService: BroadcastService
+  ) {
+    this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
 
-        this.viewInfoStream
-            .takeUntil(this._ngUnsubscribe$)
-            .switchMap(view => {
-                this._busyManager.setBusy();
-                this.resourceId = view.resourceId;
-                this._siteConfigObject = null;
-                return Observable.zip(
-                    this._siteService.getSiteConfig(this.resourceId),
-                    this._siteService.getAppSettings(this.resourceId),
-                    (sc, as) => ({
-                        siteConfig: sc.result,
-                        appSettings: as.result,
-                    }),
-                );
-            })
-            .subscribe(
-                r => {
-                    this._siteConfigObject = r.siteConfig;
-                    if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
-                        this.dashboardProviderType = 'zip';
-                    }
-                    this._busyManager.clearBusy();
-                },
-                err => {
-                    this._siteConfigObject = null;
-                    this._logService.error(LogCategories.cicd, '/load-deployment-center', err);
-                    this._busyManager.clearBusy();
-                }
-            );
-        broadcastService
-            .getEvents<string>(BroadcastEvent.ReloadDeploymentCenter)
-            .takeUntil(this._ngUnsubscribe$)
-            .subscribe(this.refreshedSCMType.bind(this));
-    }
-
-    refreshedSCMType(provider: ProviderDashboardType) {
-        if (provider) {
-            if (provider === 'reset') {
-                this.dashboardProviderType = '';
-            } else {
-                this.dashboardProviderType = provider;
-                this.sidePanelOpened = true;
-            }
-
-        } else {
-            this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
-            this.viewInfoStream.next(this.viewInfo);
+    this.viewInfoStream
+      .takeUntil(this._ngUnsubscribe$)
+      .switchMap(view => {
+        this._busyManager.setBusy();
+        this.resourceId = view.resourceId;
+        this._siteConfigObject = null;
+        return Observable.zip(
+          this._siteService.getSiteConfig(this.resourceId),
+          this._siteService.getAppSettings(this.resourceId),
+          (sc, as) => ({
+            siteConfig: sc.result,
+            appSettings: as.result,
+          })
+        );
+      })
+      .subscribe(
+        r => {
+          this._siteConfigObject = r.siteConfig;
+          if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
+            this.dashboardProviderType = 'zip';
+          }
+          this._busyManager.clearBusy();
+        },
+        err => {
+          this._siteConfigObject = null;
+          this._logService.error(LogCategories.cicd, '/load-deployment-center', err);
+          this._busyManager.clearBusy();
         }
-    }
+      );
+    broadcastService
+      .getEvents<string>(BroadcastEvent.ReloadDeploymentCenter)
+      .takeUntil(this._ngUnsubscribe$)
+      .subscribe(this.refreshedSCMType.bind(this));
+  }
 
-    get kuduDeploymentSetup() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
+  refreshedSCMType(provider: ProviderDashboardType) {
+    if (provider) {
+      if (provider === 'reset') {
+        this.dashboardProviderType = '';
+      } else {
+        this.dashboardProviderType = provider;
+        this.sidePanelOpened = true;
+      }
+    } else {
+      this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+      this.viewInfoStream.next(this.viewInfo);
     }
+  }
 
-    get vstsDeploymentSetup() {
-        return this.scmType === 'VSTSRM';
-    }
+  get kuduDeploymentSetup() {
+    return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
+  }
 
-    get noDeploymentSetup() {
-        return this.scmType === 'None';
-    }
-    get scmType() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType;
-    }
+  get vstsDeploymentSetup() {
+    return this.scmType === 'VSTSRM';
+  }
 
-    ngOnDestroy() {
-        this._ngUnsubscribe$.next();
-    }
+  get noDeploymentSetup() {
+    return this.scmType === 'None';
+  }
+  get scmType() {
+    return this._siteConfigObject && this._siteConfigObject.properties.scmType;
+  }
+
+  ngOnDestroy() {
+    this._ngUnsubscribe$.next();
+  }
 }

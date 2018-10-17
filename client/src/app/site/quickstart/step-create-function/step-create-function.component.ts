@@ -5,28 +5,24 @@ import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickst
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-    selector: 'step-create-function',
-    templateUrl: './step-create-function.component.html',
-    styleUrls: ['./step-create-function.component.scss', '../quickstart.component.scss'],
+  selector: 'step-create-function',
+  templateUrl: './step-create-function.component.html',
+  styleUrls: ['./step-create-function.component.scss', '../quickstart.component.scss'],
 })
 export class StepCreateFunctionComponent implements OnDestroy {
+  public devEnvironment: devEnvironmentOptions;
+  public showPortalFunctions: boolean;
 
-    public devEnvironment: devEnvironmentOptions;
-    public showPortalFunctions: boolean;
+  private _ngUnsubscribe = new Subject();
 
-    private _ngUnsubscribe = new Subject();
+  constructor(private _wizardService: QuickstartStateManager) {
+    this._wizardService.devEnvironment.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
+      this.devEnvironment = this._wizardService.devEnvironment.value;
+      this.showPortalFunctions = this.devEnvironment === 'portal';
+    });
+  }
 
-    constructor(private _wizardService: QuickstartStateManager) {
-
-        this._wizardService.devEnvironment.statusChanges
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(() => {
-                this.devEnvironment = this._wizardService.devEnvironment.value;
-                this.showPortalFunctions = this.devEnvironment === 'portal';
-            });
-    }
-
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
-    }
+  ngOnDestroy() {
+    this._ngUnsubscribe.next();
+  }
 }

@@ -1,5 +1,5 @@
 export interface SiteExtension {
-    id: string;
-    title: string;
-    type: string;
+  id: string;
+  title: string;
+  type: string;
 }

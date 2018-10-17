@@ -1,8 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
-import {WizardComponent} from '../components/wizard.component';
-import {ComponentFixture, TestBed, async} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {WizardModule} from '../wizard.module';
+import { Component, ViewChild } from '@angular/core';
+import { WizardComponent } from '../components/wizard.component';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { WizardModule } from '../wizard.module';
 
 @Component({
   selector: 'test-wizard',
@@ -18,7 +18,7 @@ import {WizardModule} from '../wizard.module';
         Step 3
       </wizard-step>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -32,7 +32,7 @@ describe('OptionalStepDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 

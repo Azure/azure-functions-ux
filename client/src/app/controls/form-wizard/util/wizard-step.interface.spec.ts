@@ -1,15 +1,15 @@
 /**
  * Created by marc on 29.06.17.
  */
-import {Component, ViewChild} from '@angular/core';
-import {WizardComponent} from '../components/wizard.component';
-import {ComponentFixture, async, TestBed} from '@angular/core/testing';
-import {WizardStepComponent} from '../components/wizard-step.component';
-import {WizardCompletionStepComponent} from '../components/wizard-completion-step.component';
-import {WizardModule} from '../wizard.module';
-import {WizardStep} from './wizard-step.interface';
-import {WizardCompletionStepDirective} from '../directives/wizard-completion-step.directive';
-import {WizardStepDirective} from '../directives/wizard-step.directive';
+import { Component, ViewChild } from '@angular/core';
+import { WizardComponent } from '../components/wizard.component';
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { WizardStepComponent } from '../components/wizard-step.component';
+import { WizardCompletionStepComponent } from '../components/wizard-completion-step.component';
+import { WizardModule } from '../wizard.module';
+import { WizardStep } from './wizard-step.interface';
+import { WizardCompletionStepDirective } from '../directives/wizard-completion-step.directive';
+import { WizardStepDirective } from '../directives/wizard-step.directive';
 
 @Component({
   selector: 'test-wizard',
@@ -37,7 +37,7 @@ import {WizardStepDirective} from '../directives/wizard-step.directive';
         Step 6
       </div>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -52,13 +52,13 @@ class WizardTestComponent {
   @ViewChild('step3')
   public step3: WizardStepComponent;
 
-  @ViewChild('step4', {read: WizardStepDirective})
+  @ViewChild('step4', { read: WizardStepDirective })
   public step4: WizardStepDirective;
 
   @ViewChild('step5')
   public step5: WizardCompletionStepComponent;
 
-  @ViewChild('step6', {read: WizardCompletionStepDirective})
+  @ViewChild('step6', { read: WizardCompletionStepDirective })
   public step6: WizardCompletionStepDirective;
 }
 
@@ -69,7 +69,7 @@ describe('WizardStep', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 
@@ -91,16 +91,16 @@ describe('WizardStep', () => {
   });
 
   it('should be a WizardStep', () => {
-    expect(wizardTest.step1 instanceof WizardStep).toBe(true, 'Step 1 couldn\'t be identified as a WizardStep');
-    expect(wizardTest.step2 instanceof WizardStep).toBe(true, 'Step 2 couldn\'t be identified as a WizardStep');
-    expect(wizardTest.step3 instanceof WizardStep).toBe(true, 'Step 3 couldn\'t be identified as a WizardStep');
-    expect(wizardTest.step4 instanceof WizardStep).toBe(true, 'Step 4 couldn\'t be identified as a WizardStep');
-    expect(wizardTest.step5 instanceof WizardStep).toBe(true, 'Step 5 couldn\'t be identified as a WizardStep');
-    expect(wizardTest.step6 instanceof WizardStep).toBe(true, 'Step 6 couldn\'t be identified as a WizardStep');
+    expect(wizardTest.step1 instanceof WizardStep).toBe(true, "Step 1 couldn't be identified as a WizardStep");
+    expect(wizardTest.step2 instanceof WizardStep).toBe(true, "Step 2 couldn't be identified as a WizardStep");
+    expect(wizardTest.step3 instanceof WizardStep).toBe(true, "Step 3 couldn't be identified as a WizardStep");
+    expect(wizardTest.step4 instanceof WizardStep).toBe(true, "Step 4 couldn't be identified as a WizardStep");
+    expect(wizardTest.step5 instanceof WizardStep).toBe(true, "Step 5 couldn't be identified as a WizardStep");
+    expect(wizardTest.step6 instanceof WizardStep).toBe(true, "Step 6 couldn't be identified as a WizardStep");
   });
 
   it('should not be a WizardStep', () => {
-    expect({stepOffset: 1} instanceof WizardStep).toBe(false);
-    expect({title: 'Test title'} instanceof WizardStep).toBe(false);
+    expect({ stepOffset: 1 } instanceof WizardStep).toBe(false);
+    expect({ title: 'Test title' } instanceof WizardStep).toBe(false);
   });
 });

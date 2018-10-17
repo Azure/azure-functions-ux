@@ -7,45 +7,42 @@ import { LoadImageDirective } from '../load-image/load-image.directive';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: `app-card-info-host-component`,
-    template: `<app-card-info-control [image]="image" [header]="header" [description]="description" [learnMoreLink]="learnMoreLink"></app-card-info-control>`
+  selector: `app-card-info-host-component`,
+  template: `<app-card-info-control [image]="image" [header]="header" [description]="description" [learnMoreLink]="learnMoreLink"></app-card-info-control>`,
 })
 class TestCardInfoHostComponent {
-    @ViewChild(CardInfoControlComponent)
-    public cardDashbaordComponent: CardInfoControlComponent;
+  @ViewChild(CardInfoControlComponent)
+  public cardDashbaordComponent: CardInfoControlComponent;
 
-    public image = '';
-    public header = '';
-    public description = '';
-    public learnMoreLink = '';
+  public image = '';
+  public header = '';
+  public description = '';
+  public learnMoreLink = '';
 }
 
 describe('CardInfoControl', () => {
-    let cardInfoComponent: CardInfoControlComponent;
-    let hostComponent: TestCardInfoHostComponent;
-    let testFixture: ComponentFixture<TestCardInfoHostComponent>;
+  let cardInfoComponent: CardInfoControlComponent;
+  let hostComponent: TestCardInfoHostComponent;
+  let testFixture: ComponentFixture<TestCardInfoHostComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [CardInfoControlComponent, TestCardInfoHostComponent, MockDirective(LoadImageDirective)],
-            providers: [
-            ],
-            imports: [TranslateModule.forRoot()]
-        })
-            .compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [CardInfoControlComponent, TestCardInfoHostComponent, MockDirective(LoadImageDirective)],
+      providers: [],
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
+  }));
 
-    }));
+  beforeEach(() => {
+    testFixture = TestBed.createComponent(TestCardInfoHostComponent);
+    hostComponent = testFixture.componentInstance;
+    cardInfoComponent = hostComponent.cardDashbaordComponent;
+    testFixture.detectChanges();
+  });
 
-    beforeEach(() => {
-        testFixture = TestBed.createComponent(TestCardInfoHostComponent);
-        hostComponent = testFixture.componentInstance;
-        cardInfoComponent = hostComponent.cardDashbaordComponent;
-        testFixture.detectChanges();
+  describe('init', () => {
+    it('control initiates', () => {
+      expect(cardInfoComponent).toBeTruthy();
     });
-
-    describe('init', () => {
-        it('control initiates', () => {
-            expect(cardInfoComponent).toBeTruthy();
-        });
-    });
+  });
 });

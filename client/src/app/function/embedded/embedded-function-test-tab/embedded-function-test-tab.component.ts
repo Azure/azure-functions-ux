@@ -22,14 +22,18 @@ import { Headers } from '@angular/http';
 @Component({
   selector: 'embedded-function-test-tab',
   templateUrl: './embedded-function-test-tab.component.html',
-  styleUrls: ['./embedded-function-test-tab.component.scss']
+  styleUrls: ['./embedded-function-test-tab.component.scss'],
 })
 export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() resourceId: string;
-  @Output() onExpanded = new Subject<boolean>();
-  @ViewChild(TextEditorComponent) textEditor: TextEditorComponent;
+  @Input()
+  resourceId: string;
+  @Output()
+  onExpanded = new Subject<boolean>();
+  @ViewChild(TextEditorComponent)
+  textEditor: TextEditorComponent;
 
-  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
+  @ContentChildren(TabComponent)
+  tabs: QueryList<TabComponent>;
 
   public expanded = false;
 
@@ -45,8 +49,8 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   constructor(
     private _cacheService: CacheService,
     private _broadcastService: BroadcastService,
-    private _translateService: TranslateService) {
-
+    private _translateService: TranslateService
+  ) {
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
     this._resourceIdStream
@@ -82,7 +86,8 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
         this._updatedEditorContent = this.initialEditorContent;
       });
 
-    this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
+    this._broadcastService
+      .getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
       .filter(e => e.type === 'isExpanded')
       .takeUntil(this._ngUnsubscribe)
       .subscribe(e => {
@@ -91,12 +96,13 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   }
 
   private _getFunction(resourceId: string) {
-    return this._cacheService.getArm(resourceId, true)
+    return this._cacheService
+      .getArm(resourceId, true)
       .map(r => {
         return <HttpResult<FunctionInfo>>{
           isSuccessful: true,
           error: null,
-          result: r.json()
+          result: r.json(),
         };
       })
       .catch(e => {
@@ -105,14 +111,13 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,
-            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name)
-          }
+            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name),
+          },
         });
       });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this._ngUnsubscribe.next();
@@ -131,13 +136,13 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   runTest() {
     this._broadcastService.broadcastEvent<BottomTabEvent<boolean>>(BroadcastEvent.BottomTabsEvent, {
       type: 'isExpanded',
-      value: true
+      value: true,
     });
 
     setTimeout(() => {
       this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
         type: 'runTest',
-        value: null
+        value: null,
       });
     });
 
@@ -145,7 +150,7 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
 
     const content = {
       body: this._updatedEditorContent,
-      url: this._functionInfo.trigger_url
+      url: this._functionInfo.trigger_url,
     };
 
     const headers = new Headers();
@@ -153,11 +158,12 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
     headers.append('Accept', 'application/json');
     headers.append('Cache-Control', 'no-cache');
 
-    this._cacheService.post('/api/triggerFunctionAPIM', true, headers, content)
-      .subscribe(r => {
+    this._cacheService.post('/api/triggerFunctionAPIM', true, headers, content).subscribe(
+      r => {
         this._busyManager.clearBusy();
         this.responseOutputText = r.text();
-      }, err => {
+      },
+      err => {
         this._busyManager.clearBusy();
 
         try {
@@ -165,7 +171,8 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
         } catch (e) {
           this.responseOutputText = 'Failed to execute';
         }
-      });
+      }
+    );
   }
 
   editorContentChanged(content: string) {

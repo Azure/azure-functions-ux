@@ -1,6 +1,6 @@
 ﻿import { HostingEnvironmentProfile } from './arm/hosting-environment';
 export interface ServerFarm {
-    hostingEnvironmentProfile?: HostingEnvironmentProfile;
-    provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
-    isXenon?: boolean;
+  hostingEnvironmentProfile?: HostingEnvironmentProfile;
+  provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
+  isXenon?: boolean;
 }
