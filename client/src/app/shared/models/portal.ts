@@ -157,10 +157,9 @@ export interface SubscriptionRequest {
     subscriptionId: string;
 }
 
-export interface BroadcastMessage<T> {
+export interface BroadcastMessage {
     id: BroadcastMessageId;
     resourceId: string;
-    data?: T;
 }
 
 export enum PartSize {

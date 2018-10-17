@@ -42,7 +42,7 @@ export interface IPortalService {
     updateDirtyState(dirty: boolean, message?: string);
     logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]);
     returnPcv3Results<T>(results: T);
-    broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, data?: T);
+    broadcastMessage(id: BroadcastMessageId, resourceId: string);
 
 }
 
@@ -343,11 +343,10 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.updateDirtyState, JSON.stringify(info));
     }
 
-    broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, data?: T): void {
-        const info: BroadcastMessage<T> = {
+    broadcastMessage(id: BroadcastMessageId, resourceId: string): void {
+        const info: BroadcastMessage = {
             id,
             resourceId,
-            data,
         };
 
         this.postMessage(Verbs.broadcastMessage, JSON.stringify(info));
