@@ -104,6 +104,9 @@ export class PortalService implements IPortalService {
     return Url.getParameterByName(null, 'tabbed') === 'true';
   }
 
+  private get frameId() {
+      return Url.getParameterByName(null, 'frameId');
+  }
   constructor(private _broadcastService: BroadcastService, private _aiService: AiService, private _configService: ConfigService) {
     this.startupInfoObservable = new ReplaySubject<StartupInfo<void>>(1);
     this.notificationStartStream = new Subject<NotificationStartedInfo>();
@@ -393,6 +396,8 @@ export class PortalService implements IPortalService {
   private iframeReceivedMsg(event: Event): void {
     if (!event || !event.data) {
       return;
+    } else if (event.data.data && event.data.data.frameId && event.data.data.frameId !== this.frameId) {
+        return;
     } else if (
       !this._configService.isOnPrem() &&
       !this._configService.isStandalone() &&
