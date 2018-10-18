@@ -130,4 +130,16 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
 
     window.open(url, '_blank');
   }
+
+  public openDiagnoseAndSolveProblemsBlade() {
+    this._portalService.openBlade(
+      {
+        detailBlade: 'SCIFrameBlade',
+        detailBladeInputs: {
+          id: this.functionMonitorInfo.functionAppContext.site.id,
+        },
+      },
+      ComponentNames.functionMonitor
+    );
+  }
 }
