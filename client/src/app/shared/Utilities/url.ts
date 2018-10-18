@@ -7,8 +7,9 @@ export class Url {
     }
 
     name = name.replace(/[\[\]]/g, '\\$&');
-    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i');
-    let results = regex.exec(url);
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i');
+
+    const results = regex.exec(url);
 
     if (!results) {
       return null;
