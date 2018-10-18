@@ -351,7 +351,7 @@ export class PortalService implements IPortalService {
 
   // Deprecated
   setDirtyState(dirty: boolean): void {
-    this.postMessage(Verbs.setDirtyState, this._packageData(dirty));
+    this.updateDirtyState(dirty);
   }
 
   updateDirtyState(dirty: boolean, message?: string): void {
