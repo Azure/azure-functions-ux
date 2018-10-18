@@ -1371,4 +1371,6 @@ export class PortalResources {
   public static team = 'team';
   public static personal = 'personal';
   public static swaggerDefinitionReadOnly = 'swaggerDefinitionReadOnly';
+  public static troubleshootYourApp = 'troubleshootYourApp';
+  public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
 }

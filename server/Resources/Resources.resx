@@ -4252,4 +4252,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
     <value>API definition (Swagger) is not available for Function Apps in readonly mode.</value>
   </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Troubleshoot your app</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Diagnose and solve problmes</value>
+  </data>
 </root>
