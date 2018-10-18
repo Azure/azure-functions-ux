@@ -104,13 +104,11 @@ export class PortalService implements IPortalService {
     return Url.getParameterByName(null, 'tabbed') === 'true';
   }
 
-  private get frameId() {
-      return Url.getParameterByName(null, 'frameId');
-  }
+  private frameId;
   constructor(private _broadcastService: BroadcastService, private _aiService: AiService, private _configService: ConfigService) {
     this.startupInfoObservable = new ReplaySubject<StartupInfo<void>>(1);
     this.notificationStartStream = new Subject<NotificationStartedInfo>();
-
+    this.frameId = Url.getParameterByName(null, 'frameId');
     if (PortalService.inIFrame()) {
       this.initializeIframe();
     }
@@ -132,7 +130,7 @@ export class PortalService implements IPortalService {
 
     // This is a required message. It tells the shell that your iframe is ready to receive messages.
     this.postMessage(Verbs.ready, null);
-    this.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
+    this.postMessage(Verbs.getStartupInfo, this._packageData(getStartupInfoObj));
 
     this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
       if (error.message) {
@@ -142,7 +140,7 @@ export class PortalService implements IPortalService {
   }
 
   sendTimerEvent(evt: TimerEvent) {
-    this.postMessage(Verbs.logTimerEvent, JSON.stringify(evt));
+    this.postMessage(Verbs.logTimerEvent, this._packageData(evt));
   }
 
   // Deprecated
@@ -154,7 +152,7 @@ export class PortalService implements IPortalService {
       source: source,
     });
 
-    this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
+    this.postMessage(Verbs.openBlade, this._packageData(bladeInfo));
   }
 
   // Returns an Observable which resolves when blade is close.
@@ -165,7 +163,7 @@ export class PortalService implements IPortalService {
       data: bladeInfo,
     };
 
-    this.postMessage(Verbs.openBlade2, JSON.stringify(payload));
+    this.postMessage(Verbs.openBlade2, this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === payload.operationId)
       .first()
@@ -187,7 +185,7 @@ export class PortalService implements IPortalService {
       bladeName: name,
     };
 
-    this.postMessage(Verbs.openBladeCollector, JSON.stringify(payload));
+    this.postMessage(Verbs.openBladeCollector, this._packageData(payload));
   }
 
   openCollectorBladeWithInputs(
@@ -215,7 +213,7 @@ export class PortalService implements IPortalService {
       operationId: operationId,
     };
 
-    this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
+    this.postMessage(Verbs.openBladeCollectorInputs, this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === operationId)
       .first()
@@ -241,7 +239,7 @@ export class PortalService implements IPortalService {
       },
     };
 
-    this.postMessage('get-ad-token', JSON.stringify(payload));
+    this.postMessage('get-ad-token', this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === operationId)
       .first()
@@ -262,7 +260,7 @@ export class PortalService implements IPortalService {
       data: query,
     };
 
-    this.postMessage(Verbs.getSpecCosts, JSON.stringify(payload));
+    this.postMessage(Verbs.getSpecCosts, this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === payload.operationId)
       .first()
@@ -279,7 +277,7 @@ export class PortalService implements IPortalService {
       },
     };
 
-    this.postMessage(Verbs.getSubscriptionInfo, JSON.stringify(payload));
+    this.postMessage(Verbs.getSubscriptionInfo, this._packageData(payload));
     return this.operationStream
       .filter(o => o.operationId === payload.operationId)
       .first()
@@ -289,7 +287,7 @@ export class PortalService implements IPortalService {
   }
 
   closeBlades() {
-    this.postMessage(Verbs.closeBlades, '');
+    this.postMessage(Verbs.closeBlades, this._packageData({}));
   }
 
   updateBladeInfo(title: string, subtitle: string) {
@@ -298,11 +296,11 @@ export class PortalService implements IPortalService {
       subtitle: subtitle,
     };
 
-    this.postMessage(Verbs.updateBladeInfo, JSON.stringify(payload));
+    this.postMessage(Verbs.updateBladeInfo, this._packageData(payload));
   }
 
   pinPart(pinPartInfo: PinPartInfo) {
-    this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
+    this.postMessage(Verbs.pinPart, this._packageData(pinPartInfo));
   }
 
   startNotification(title: string, description: string): Subject<NotificationStartedInfo> {
@@ -313,7 +311,7 @@ export class PortalService implements IPortalService {
         description: description,
       };
 
-      this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+      this.postMessage(Verbs.setNotification, this._packageData(payload));
     } else {
       setTimeout(() => {
         this.notificationStartStream.next({ id: 'id' });
@@ -336,11 +334,11 @@ export class PortalService implements IPortalService {
       description: description,
     };
 
-    this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+    this.postMessage(Verbs.setNotification, this._packageData(payload));
   }
 
   logAction(subcomponent: string, action: string, data?: { [name: string]: string }): void {
-    const actionStr = JSON.stringify(<Action>{
+    const actionStr = this._packageData(<Action>{
       subcomponent: subcomponent,
       action: action,
       data: data,
@@ -353,7 +351,7 @@ export class PortalService implements IPortalService {
 
   // Deprecated
   setDirtyState(dirty: boolean): void {
-    this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
+    this.postMessage(Verbs.setDirtyState, this._packageData(dirty));
   }
 
   updateDirtyState(dirty: boolean, message?: string): void {
@@ -362,7 +360,7 @@ export class PortalService implements IPortalService {
       message: message,
     };
 
-    this.postMessage(Verbs.updateDirtyState, JSON.stringify(info));
+    this.postMessage(Verbs.updateDirtyState, this._packageData(info));
   }
 
   broadcastMessage(id: BroadcastMessageId, resourceId: string): void {
@@ -371,11 +369,11 @@ export class PortalService implements IPortalService {
       resourceId,
     };
 
-    this.postMessage(Verbs.broadcastMessage, JSON.stringify(info));
+    this.postMessage(Verbs.broadcastMessage, this._packageData(info));
   }
 
   logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
-    const messageStr = JSON.stringify(<Message>{
+    const messageStr = this._packageData(<Message>{
       level: level,
       message: message,
       restArgs: restArgs,
@@ -390,14 +388,14 @@ export class PortalService implements IPortalService {
       data: results,
     };
 
-    this.postMessage(Verbs.returnPCV3Results, JSON.stringify(payload));
+    this.postMessage(Verbs.returnPCV3Results, this._packageData(payload));
   }
 
   private iframeReceivedMsg(event: Event): void {
     if (!event || !event.data) {
       return;
     } else if (event.data.data && event.data.data.frameId && event.data.data.frameId !== this.frameId) {
-        return;
+      return;
     } else if (
       !this._configService.isOnPrem() &&
       !this._configService.isStandalone() &&
@@ -411,7 +409,7 @@ export class PortalService implements IPortalService {
     const data = event.data.data;
     const methodName = event.data.kind;
 
-    console.log('[iFrame] Received mesg: ' + methodName);
+    console.log(`[iFrame-${this.frameId}] Received mesg: ${methodName}  for frameId: ${event.data.data && event.data.data.frameId}`);
 
     if (methodName === Verbs.sendStartupInfo) {
       this.startupInfo = <StartupInfo<void>>data;
@@ -454,6 +452,11 @@ export class PortalService implements IPortalService {
     this._aiService.trackEvent(eventId, {
       expire: jwt ? new Date(jwt.exp).toISOString() : '',
     });
+  }
+
+  private _packageData(data: any) {
+    data.frameId = this.frameId;
+    return JSON.stringify(data);
   }
 
   private postMessage(verb: string, data: string) {
