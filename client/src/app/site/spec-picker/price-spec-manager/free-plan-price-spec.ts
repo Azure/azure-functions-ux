@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs/Observable';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export class FreePlanPriceSpec extends PriceSpec {
   tier = ServerFarmSku.free;
-  skuCode = 'F1';
+  skuCode = SkuCode.Free.F1;
   legacySkuName = 'free';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_sharedInfrastructure),

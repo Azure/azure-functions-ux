@@ -299,6 +299,58 @@ export class ServerFarmSku {
   public static readonly elasticIsolated = 'ElasticIsolated';
 }
 
+export class SkuCode {
+  public static Basic = {
+    B1: 'B1',
+    B2: 'B2',
+    B3: 'B3',
+  };
+
+  public static Free = {
+    F1: 'F1',
+  };
+
+  public static Shared = {
+    D1: 'D1',
+  };
+
+  public static Standard = {
+    S1: 'S1',
+    S2: 'S2',
+    S3: 'S3',
+  };
+
+  public static Premium = {
+    P1: 'P1',
+    P2: 'P2',
+    P3: 'P3',
+  };
+
+  public static PremiumContainer = {
+    PC2: 'PC2',
+    PC3: 'PC3',
+    PC4: 'PC4',
+  };
+
+  public static PremiumV2 = {
+    P1V2: 'P1V2',
+    P2V2: 'P2V2',
+    P3V2: 'P3V2',
+  };
+
+  public static Isolated = {
+    I1: 'I1',
+    I2: 'I2',
+    I3: 'I3',
+  };
+
+  public static ElasticPremium = {
+    EP1: 'EP1',
+    EP2: 'EP2',
+    EP3: 'EP3',
+  };
+}
+
 export class NationalCloudArmUris {
   public static readonly fairfax = 'https://management.usgovcloudapi.net';
   public static readonly blackforest = 'https://management.microsoftazure.de';

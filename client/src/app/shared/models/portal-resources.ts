@@ -990,6 +990,7 @@ export class PortalResources {
   public static pricing_notAvailableConsumption = 'pricing_notAvailableConsumption';
   public static pricing_noWritePermissionsOnPlan = 'pricing_noWritePermissionsOnPlan';
   public static pricing_noWritePermissionsOnPlanFormat = 'pricing_noWritePermissionsOnPlanFormat';
+  public static pricing_upsellToPremiumV2Message = 'pricing_upsellToPremiumV2Message';
   public static pricing_planReadonlyLockFormat = 'pricing_planReadonlyLockFormat';
   public static pricing_planUpdateTitle = 'pricing_planUpdateTitle';
   public static pricing_planUpdateDesc = 'pricing_planUpdateDesc';

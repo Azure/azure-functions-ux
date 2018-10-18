@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
@@ -77,7 +77,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
 }
 
 export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
-  skuCode = 'P1v2';
+  skuCode = SkuCode.PremiumV2.P1V2;
   legacySkuName = 'D1_premiumV2';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('210'),
@@ -99,7 +99,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
 }
 
 export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
-  skuCode = 'P2v2';
+  skuCode = SkuCode.PremiumV2.P2V2;
   legacySkuName = 'D2_premiumV2';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('420'),
@@ -121,7 +121,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
 }
 
 export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
-  skuCode = 'P3v2';
+  skuCode = SkuCode.PremiumV2.P3V2;
   legacySkuName = 'D3_premiumV2';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('840'),

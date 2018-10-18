@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -85,7 +85,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
 }
 
 export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P1';
+  skuCode = SkuCode.Premium.P1;
   legacySkuName = 'small_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('100'),
@@ -107,7 +107,7 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
 }
 
 export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P2';
+  skuCode = SkuCode.Premium.P2;
   legacySkuName = 'medium_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('200'),
@@ -129,7 +129,7 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
 }
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P3';
+  skuCode = SkuCode.Premium.P3;
   legacySkuName = 'large_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('400'),

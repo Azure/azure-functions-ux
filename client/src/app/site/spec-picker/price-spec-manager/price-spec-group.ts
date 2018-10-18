@@ -1,5 +1,4 @@
 import { Links } from 'app/shared/models/constants';
-import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -23,6 +22,15 @@ import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 
+export interface BannerMessage {
+  message: string;
+  level: 'error' | 'success' | 'warning' | 'info' | 'upsell';
+  infoLink?: string;
+  infoActionIcon?: string;
+  infoActionFn?: () => void;
+  dismissable?: boolean;
+}
+
 export abstract class PriceSpecGroup {
   abstract iconUrl: string;
   abstract recommendedSpecs: PriceSpec[];
@@ -33,7 +41,7 @@ export abstract class PriceSpecGroup {
   abstract emptyMessage: string;
   abstract emptyInfoLink: string;
 
-  bannerMessage: StatusMessage;
+  bannerMessage: BannerMessage;
   selectedSpec: PriceSpec = null;
   isExpanded = false;
 

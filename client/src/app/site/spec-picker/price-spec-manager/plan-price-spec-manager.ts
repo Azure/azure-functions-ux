@@ -2,9 +2,9 @@ import { Observable } from 'rxjs/Observable';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
+import { SpecPickerComponent } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
-import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
+import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup, BannerMessage } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
@@ -15,7 +15,7 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, ServerFarmSku, Links } from '../../../shared/models/constants';
+import { LogCategories, ServerFarmSku, Links, SkuCode } from '../../../shared/models/constants';
 import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
@@ -188,6 +188,10 @@ export class PlanPriceSpecManager {
               this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
             );
           }
+
+          if (this._plan.sku.tier === ServerFarmSku.premiumV2) {
+            this._cleanUpUpsellBanner();
+          }
         } else {
           this._portalService.stopNotification(
             notificationId,
@@ -329,6 +333,77 @@ export class PlanPriceSpecManager {
     });
   }
 
+  setBanner() {
+    const prodSpecGroup = this._getSpecGroupById('prod');
+    const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
+    const upsellEnableSkuCodes = [SkuCode.Standard.S2, SkuCode.Standard.S3, SkuCode.Premium.P1, SkuCode.Premium.P2, SkuCode.Premium.P3];
+
+    if (currentSkuCode && upsellEnableSkuCodes.some(name => name.toLowerCase() === currentSkuCode)) {
+      if (this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
+        const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
+        const currentSpecCost = currentSpec.price;
+        const newSpec = this._getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode, prodSpecGroup);
+        const newSpecCost = newSpec.price;
+
+        if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
+          prodSpecGroup.bannerMessage = {
+            message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
+            level: 'upsell',
+            infoActionFn: () => {
+              this.setSelectedSpec(newSpec);
+            },
+          };
+        }
+      }
+    }
+  }
+
+  private _cleanUpUpsellBanner(): void {
+    const prodSpecGroup = this._getSpecGroupById('prod');
+    if (!!prodSpecGroup.bannerMessage && prodSpecGroup.bannerMessage.level === 'upsell') {
+      prodSpecGroup.bannerMessage = null;
+    }
+  }
+
+  private _shouldShowUpsellRecommendation(currentSpecCost: number, newSpecCost: number): boolean {
+    const costBuffer = 0.1 * currentSpecCost;
+    const maxCost = costBuffer + currentSpecCost;
+    const minCost = currentSpecCost - costBuffer;
+
+    return newSpecCost >= minCost && newSpecCost <= maxCost;
+  }
+
+  private _getSpecGroupById(id: string): PriceSpecGroup {
+    return this.specGroups.find(specGroup => specGroup.id === id);
+  }
+
+  private _getSpecBySkuCodeInSpecGroup(skuCode: string, specGroup: PriceSpecGroup): PriceSpec {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.find(spec => spec.skuCode.toLowerCase() === skuCode.toLowerCase());
+  }
+
+  private _hasPremiumV2SkusEnabled(specGroup: PriceSpecGroup): boolean {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.some(spec => spec.tier === ServerFarmSku.premiumV2 && spec.state === 'enabled');
+  }
+
+  private _getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode: string, specGroup: PriceSpecGroup): PriceSpec {
+    switch (currentSkuCode.toLowerCase()) {
+      case SkuCode.Standard.S2.toLowerCase():
+        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P1V2, specGroup);
+      case SkuCode.Standard.S3.toLowerCase():
+        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P2V2, specGroup);
+      case SkuCode.Premium.P1.toLowerCase():
+        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P1V2, specGroup);
+      case SkuCode.Premium.P2.toLowerCase():
+        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P2V2, specGroup);
+      case SkuCode.Premium.P3.toLowerCase():
+        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P3V2, specGroup);
+      default:
+        throw new Error(`Not part of upsell enable sku code: ${currentSkuCode}`);
+    }
+  }
+
   private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       return this._planService.getPlan(inputs.id, true).map(r => {
@@ -367,7 +442,7 @@ export class PlanPriceSpecManager {
     const stopPolling$ = new Subject();
     const descriptor = new ArmResourceDescriptor(resourceId);
 
-    const curBannerMessages: StatusMessage[] = [];
+    const curBannerMessages: BannerMessage[] = [];
 
     this.specGroups.forEach(g => {
       curBannerMessages.push(g.bannerMessage);
@@ -437,11 +512,14 @@ export class PlanPriceSpecManager {
       if (!costResult) {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
         spec.priceString = ' ';
+        spec.price = -1;
       } else if (costResult.amount === 0.0) {
         spec.priceString = this._ts.instant(PortalResources.free);
+        spec.price = 0;
       } else {
         const meter = costResult.firstParty[0].meters[0];
-        const rate = (meter.perUnitAmount * 744).toFixed(2); // 744 hours in a month
+        spec.price = meter.perUnitAmount * 744;
+        const rate = spec.price.toFixed(2); // 744 hours in a month
         spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
       }
     });

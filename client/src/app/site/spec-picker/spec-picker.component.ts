@@ -126,7 +126,9 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
         return Observable.zip(this.specManager.getSpecCosts(), this.specManager.checkAccess());
       })
-      .do(r => {});
+      .do(r => {
+        this.specManager.setBanner();
+      });
   }
 
   selectGroup(groupId: string) {
