@@ -31,12 +31,18 @@ export interface BannerMessage {
   dismissable?: boolean;
 }
 
+export enum PriceSpecGroupType {
+  DEV_TEST = 'devtest',
+  PROD = 'prod',
+  ISOLATED = 'isolated',
+}
+
 export abstract class PriceSpecGroup {
   abstract iconUrl: string;
   abstract recommendedSpecs: PriceSpec[];
   abstract additionalSpecs: PriceSpec[];
   abstract title: string;
-  abstract id: string;
+  abstract id: PriceSpecGroupType;
   abstract description: string;
   abstract emptyMessage: string;
   abstract emptyInfoLink: string;
@@ -66,7 +72,7 @@ export class DevSpecGroup extends PriceSpecGroup {
   selectedSpec = null;
   iconUrl = 'image/tools.svg';
   title = this.ts.instant(PortalResources.pricing_devTestTitle);
-  id = 'devtest';
+  id = PriceSpecGroupType.DEV_TEST;
   description = this.ts.instant(PortalResources.pricing_devTestDesc);
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
   emptyInfoLink = Links.appServicePricing;
@@ -117,7 +123,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
   selectedSpec = null;
   iconUrl = 'image/app-service-plan.svg';
   title = this.ts.instant(PortalResources.pricing_productionTitle);
-  id = 'prod';
+  id = PriceSpecGroupType.PROD;
   description = this.ts.instant(PortalResources.pricing_productionDesc);
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
   emptyInfoLink = Links.appServicePricing;
@@ -163,7 +169,7 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
   selectedSpec = null;
   iconUrl = 'image/app-service-environment.svg';
   title = this.ts.instant(PortalResources.pricing_isolatedTitle);
-  id = 'isolated';
+  id = PriceSpecGroupType.ISOLATED;
   description = this.ts.instant(PortalResources.pricing_isolatedDesc);
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
   emptyInfoLink = Links.appServicePricing;

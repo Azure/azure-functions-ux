@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
-import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup, BannerMessage } from './price-spec-group';
+import { PriceSpecGroup, PriceSpecGroupType, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup, BannerMessage } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
@@ -190,7 +190,7 @@ export class PlanPriceSpecManager {
           }
 
           if (this._plan.sku.tier === ServerFarmSku.premiumV2) {
-            this._cleanUpUpsellBanner();
+            this._removeUpsellBanner();
           }
         } else {
           this._portalService.stopNotification(
@@ -334,32 +334,29 @@ export class PlanPriceSpecManager {
   }
 
   setBanner() {
-    const prodSpecGroup = this._getSpecGroupById('prod');
+    const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
     const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
-    const upsellEnableSkuCodes = [SkuCode.Standard.S2, SkuCode.Standard.S3, SkuCode.Premium.P1, SkuCode.Premium.P2, SkuCode.Premium.P3];
 
-    if (currentSkuCode && upsellEnableSkuCodes.some(name => name.toLowerCase() === currentSkuCode)) {
-      if (this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
-        const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
-        const currentSpecCost = currentSpec.price;
-        const newSpec = this._getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode, prodSpecGroup);
-        const newSpecCost = newSpec.price;
+    if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
+      const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
+      const currentSpecCost = currentSpec.price;
+      const newSpec = this._getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode, prodSpecGroup);
+      const newSpecCost = newSpec.price;
 
-        if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
-          prodSpecGroup.bannerMessage = {
-            message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
-            level: 'upsell',
-            infoActionFn: () => {
-              this.setSelectedSpec(newSpec);
-            },
-          };
-        }
+      if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
+        prodSpecGroup.bannerMessage = {
+          message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
+          level: 'upsell',
+          infoActionFn: () => {
+            this.setSelectedSpec(newSpec);
+          },
+        };
       }
     }
   }
 
-  private _cleanUpUpsellBanner(): void {
-    const prodSpecGroup = this._getSpecGroupById('prod');
+  private _removeUpsellBanner(): void {
+    const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
     if (!!prodSpecGroup.bannerMessage && prodSpecGroup.bannerMessage.level === 'upsell') {
       prodSpecGroup.bannerMessage = null;
     }
@@ -373,7 +370,7 @@ export class PlanPriceSpecManager {
     return newSpecCost >= minCost && newSpecCost <= maxCost;
   }
 
-  private _getSpecGroupById(id: string): PriceSpecGroup {
+  private _getSpecGroupById(id: PriceSpecGroupType): PriceSpecGroup {
     return this.specGroups.find(specGroup => specGroup.id === id);
   }
 
@@ -385,6 +382,11 @@ export class PlanPriceSpecManager {
   private _hasPremiumV2SkusEnabled(specGroup: PriceSpecGroup): boolean {
     const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
     return allSpecsInGroup.some(spec => spec.tier === ServerFarmSku.premiumV2 && spec.state === 'enabled');
+  }
+
+  private _hasUpsellEnableSkuCode(currentSkuCode: string): boolean {
+    const upsellEnableSkuCodes = [SkuCode.Standard.S2, SkuCode.Standard.S3, SkuCode.Premium.P1, SkuCode.Premium.P2, SkuCode.Premium.P3];
+    return upsellEnableSkuCodes.some(skuCode => skuCode.toLowerCase() === currentSkuCode);
   }
 
   private _getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode: string, specGroup: PriceSpecGroup): PriceSpec {
@@ -512,14 +514,13 @@ export class PlanPriceSpecManager {
       if (!costResult) {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
         spec.priceString = ' ';
-        spec.price = -1;
       } else if (costResult.amount === 0.0) {
         spec.priceString = this._ts.instant(PortalResources.free);
         spec.price = 0;
       } else {
         const meter = costResult.firstParty[0].meters[0];
-        spec.price = meter.perUnitAmount * 744;
-        const rate = spec.price.toFixed(2); // 744 hours in a month
+        spec.price = meter.perUnitAmount * 744; // 744 hours in a month
+        const rate = spec.price.toFixed(2);
         spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
       }
     });
