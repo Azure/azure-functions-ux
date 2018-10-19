@@ -22,7 +22,6 @@
 
   .info-text-container {
     display: table-cell;
-    width: 100%;
     vertical-align: middle;
     padding: 10px;
     color: $body-bg-color-dark;
@@ -31,7 +30,7 @@
   .info-link-container {
     display: table-cell;
     vertical-align: top;
-    padding-top: 10px;
+    padding-top: 11px;
     padding-right: 5px;
   }
 
@@ -41,6 +40,11 @@
     padding-top: 10px;
     padding-right: 10px;
   }
+}
+
+.info-box-arrow-icon {
+  height: 12px;
+  width: 12px;
 }
 
 /* INFO */
@@ -101,6 +105,10 @@
   &.clickable:hover {
     background-color: $upsell-box-color-hover;
   }
+}
+
+.upsell-arrow-color {
+  fill: $upsell-color;
 }
 
 /* Safari */
