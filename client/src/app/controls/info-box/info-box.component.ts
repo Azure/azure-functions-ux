@@ -15,7 +15,7 @@ export class InfoBoxComponent {
   public typeClass = 'info';
   public iconPath = 'image/info.svg';
   public dismissed = false;
-  public typeIconClass = 'icon-small info-box-arrow-icon';
+  public actionIconClass = 'icon-small info-box-action-icon';
 
   @Input()
   infoText: string = null;
@@ -54,7 +54,7 @@ export class InfoBoxComponent {
       case 'upsell':
         this.typeClass = 'upsell';
         this.iconPath = 'image/upsell.svg';
-        this.typeIconClass = 'icon-small info-box-arrow-icon upsell-arrow-color';
+        this.actionIconClass = 'icon-small info-box-action-icon upsell-arrow-color';
         break;
     }
   }

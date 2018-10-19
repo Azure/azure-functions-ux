@@ -21,10 +21,19 @@ import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
+import { PlanPriceSpecManager } from './plan-price-spec-manager';
+
+export enum BannerMessageLevel {
+  ERROR = 'error',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  INFO = 'info',
+  UPSELL = 'upsell',
+}
 
 export interface BannerMessage {
   message: string;
-  level: 'error' | 'success' | 'warning' | 'info' | 'upsell';
+  level: BannerMessageLevel;
   infoLink?: string;
   infoActionIcon?: string;
   infoActionFn?: () => void;
@@ -53,7 +62,7 @@ export abstract class PriceSpecGroup {
 
   protected ts: TranslateService;
 
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
   }
 
@@ -77,8 +86,8 @@ export class DevSpecGroup extends PriceSpecGroup {
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
   emptyInfoLink = Links.appServicePricing;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, specManager: PlanPriceSpecManager) {
+    super(injector, specManager);
   }
 
   initialize(input: PriceSpecInput) {
@@ -86,12 +95,12 @@ export class DevSpecGroup extends PriceSpecGroup {
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
-          level: 'info',
+          level: BannerMessageLevel.INFO,
         };
       } else if (input.specPickerInput.data.isXenon) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: 'info',
+          level: BannerMessageLevel.INFO,
           infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
@@ -101,9 +110,9 @@ export class DevSpecGroup extends PriceSpecGroup {
 
 export class ProdSpecGroup extends PriceSpecGroup {
   recommendedSpecs = [
-    new PremiumV2SmallPlanPriceSpec(this.injector),
-    new PremiumV2MediumPlanPriceSpec(this.injector),
-    new PremiumV2LargePlanPriceSpec(this.injector),
+    new PremiumV2SmallPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV2MediumPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV2LargePlanPriceSpec(this.injector, this.specManager),
     new PremiumContainerSmallPriceSpec(this.injector),
     new PremiumContainerMediumPriceSpec(this.injector),
     new PremiumContainerLargePriceSpec(this.injector),
@@ -128,8 +137,8 @@ export class ProdSpecGroup extends PriceSpecGroup {
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
   emptyInfoLink = Links.appServicePricing;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, specManager: PlanPriceSpecManager) {
+    super(injector, specManager);
   }
 
   initialize(input: PriceSpecInput) {
@@ -137,12 +146,12 @@ export class ProdSpecGroup extends PriceSpecGroup {
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_linuxTrial),
-          level: 'info',
+          level: BannerMessageLevel.INFO,
         };
       } else if (input.specPickerInput.data.isXenon) {
         this.bannerMessage = {
           message: this.ts.instant(PortalResources.pricing_windowsContainers),
-          level: 'info',
+          level: BannerMessageLevel.INFO,
           infoLink: 'https://go.microsoft.com/fwlink/?linkid=2009013',
         };
       }
@@ -174,8 +183,8 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
   emptyInfoLink = Links.appServicePricing;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, specManager: PlanPriceSpecManager) {
+    super(injector, specManager);
   }
 
   initialize(input: PriceSpecInput) {}

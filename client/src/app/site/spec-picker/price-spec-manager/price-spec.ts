@@ -36,6 +36,7 @@ export abstract class PriceSpec {
 
   allowZeroCost = false;
   state: 'enabled' | 'disabled' | 'hidden' = 'enabled';
+  shouldEnableUpsell = false;
   disabledMessage: string;
   disabledInfoLink: string;
   priceString: string;
@@ -73,4 +74,10 @@ export abstract class PriceSpec {
 
     return Observable.of(null);
   }
+
+  public getUpsellSpecSkuCode(): string {
+    return null;
+  }
+
+  public removeUpsellBanner(): void {}
 }

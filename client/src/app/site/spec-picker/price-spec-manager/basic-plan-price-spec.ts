@@ -1,10 +1,11 @@
-import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.basic;
+  tier = Tier.basic;
 
   featureItems = [
     {

@@ -1,14 +1,15 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV2SeriesPriceSpec } from './dV2series-price-spec';
-import { PlanSpecPickerData } from './plan-price-spec-manager';
+import { PlanSpecPickerData, PlanPriceSpecManager } from './plan-price-spec-manager';
 
 export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
-  tier = ServerFarmSku.premiumV2;
+  tier = Tier.premiumV2;
 
   featureItems = [
     {
@@ -59,8 +60,8 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
 
   cssClass = 'spec premium-spec';
 
-  constructor(injector: Injector) {
-    super(injector, ServerFarmSku.premiumV2, PortalResources.pricing_pv2NotAvailable, Links.premiumV2NotAvailableLearnMore);
+  constructor(injector: Injector, public specManager: PlanPriceSpecManager) {
+    super(injector, Tier.premiumV2, PortalResources.pricing_pv2NotAvailable, Links.premiumV2NotAvailableLearnMore);
   }
 
   protected _matchSku(sku: Sku): boolean {
@@ -73,6 +74,10 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
     return !!plan.properties.hostingEnvironmentProfile || plan.properties.isXenon || AppKind.hasAnyKind(plan, [Kinds.elastic]);
+  }
+
+  public removeUpsellBanner(): void {
+    this.specManager.selectedSpecGroup.bannerMessage = null;
   }
 }
 

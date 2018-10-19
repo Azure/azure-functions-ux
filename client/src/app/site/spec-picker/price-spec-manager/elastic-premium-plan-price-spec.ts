@@ -1,5 +1,6 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
@@ -8,7 +9,7 @@ import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { PlanSpecPickerData } from './plan-price-spec-manager';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
-  tier = ServerFarmSku.elasticPremium;
+  tier = Tier.elasticPremium;
 
   featureItems = [
     {
@@ -57,7 +58,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   constructor(injector: Injector) {
     super(
       injector,
-      ServerFarmSku.elasticPremium,
+      Tier.elasticPremium,
       PortalResources.pricing_epNotAvailable,
       Links.premiumV2NotAvailableLearnMore // TODO (andimarc): need a link for ElasticPremium
     );

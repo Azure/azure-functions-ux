@@ -1,10 +1,11 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { Links, ServerFarmSku, SkuCode } from '../../../shared/models/constants';
+import { Links } from '../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.premiumContainer;
+  tier = Tier.premiumContainer;
 
   featureItems = [
     {

@@ -4,7 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
-import { PriceSpecGroup, PriceSpecGroupType, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup, BannerMessage } from './price-spec-group';
+import {
+  PriceSpecGroup,
+  PriceSpecGroupType,
+  DevSpecGroup,
+  ProdSpecGroup,
+  IsolatedSpecGroup,
+  BannerMessage,
+  BannerMessageLevel,
+} from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
@@ -15,7 +23,8 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, ServerFarmSku, Links, SkuCode } from '../../../shared/models/constants';
+import { LogCategories, Links } from '../../../shared/models/constants';
+import { Tier } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
@@ -70,7 +79,11 @@ export class PlanPriceSpecManager {
   ) {}
 
   resetGroups() {
-    this.specGroups = [new DevSpecGroup(this._injector), new ProdSpecGroup(this._injector), new IsolatedSpecGroup(this._injector)];
+    this.specGroups = [
+      new DevSpecGroup(this._injector, this),
+      new ProdSpecGroup(this._injector, this),
+      new IsolatedSpecGroup(this._injector, this),
+    ];
   }
 
   initialize(inputs: SpecPickerInput<PlanSpecPickerData>) {
@@ -189,9 +202,7 @@ export class PlanPriceSpecManager {
             );
           }
 
-          if (this._plan.sku.tier === ServerFarmSku.premiumV2) {
-            this._removeUpsellBanner();
-          }
+          this.selectedSpecGroup.selectedSpec.removeUpsellBanner();
         } else {
           this._portalService.stopNotification(
             notificationId,
@@ -290,10 +301,7 @@ export class PlanPriceSpecManager {
     // plan is null for new plans
     if (this._plan) {
       const tier = this._plan.sku.tier;
-      if (
-        (tier === ServerFarmSku.premiumV2 && spec.tier !== ServerFarmSku.premiumV2) ||
-        (tier !== ServerFarmSku.premiumV2 && spec.tier === ServerFarmSku.premiumV2)
-      ) {
+      if ((tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) || (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)) {
         // show message when upgrading to PV2 or downgrading from PV2.
         this._specPicker.statusMessage = {
           message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
@@ -337,28 +345,21 @@ export class PlanPriceSpecManager {
     const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
     const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
 
-    if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
+    if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode, prodSpecGroup) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
       const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
       const currentSpecCost = currentSpec.price;
-      const newSpec = this._getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode, prodSpecGroup);
-      const newSpecCost = newSpec.price;
+      const newSpec = this._getSpecBySkuCodeInSpecGroup(currentSpec.getUpsellSpecSkuCode(), prodSpecGroup);
+      const newSpecCost = !!newSpec ? newSpec.price : 0;
 
       if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
         prodSpecGroup.bannerMessage = {
           message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
-          level: 'upsell',
+          level: BannerMessageLevel.UPSELL,
           infoActionFn: () => {
             this.setSelectedSpec(newSpec);
           },
         };
       }
-    }
-  }
-
-  private _removeUpsellBanner(): void {
-    const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
-    if (!!prodSpecGroup.bannerMessage && prodSpecGroup.bannerMessage.level === 'upsell') {
-      prodSpecGroup.bannerMessage = null;
     }
   }
 
@@ -381,29 +382,16 @@ export class PlanPriceSpecManager {
 
   private _hasPremiumV2SkusEnabled(specGroup: PriceSpecGroup): boolean {
     const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
-    return allSpecsInGroup.some(spec => spec.tier === ServerFarmSku.premiumV2 && spec.state === 'enabled');
+    return allSpecsInGroup.some(spec => spec.tier === Tier.premiumV2 && spec.state === 'enabled');
   }
 
-  private _hasUpsellEnableSkuCode(currentSkuCode: string): boolean {
-    const upsellEnableSkuCodes = [SkuCode.Standard.S2, SkuCode.Standard.S3, SkuCode.Premium.P1, SkuCode.Premium.P2, SkuCode.Premium.P3];
-    return upsellEnableSkuCodes.some(skuCode => skuCode.toLowerCase() === currentSkuCode);
+  private _hasUpsellEnableSkuCode(currentSkuCode: string, specGroup: PriceSpecGroup): boolean {
+    return this._getUpsellEnabledSkuCodesInSpecGroup(specGroup).some(skuCode => skuCode.toLowerCase() === currentSkuCode);
   }
 
-  private _getUpsellSpecBasedOnCurrentSkuCode(currentSkuCode: string, specGroup: PriceSpecGroup): PriceSpec {
-    switch (currentSkuCode.toLowerCase()) {
-      case SkuCode.Standard.S2.toLowerCase():
-        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P1V2, specGroup);
-      case SkuCode.Standard.S3.toLowerCase():
-        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P2V2, specGroup);
-      case SkuCode.Premium.P1.toLowerCase():
-        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P1V2, specGroup);
-      case SkuCode.Premium.P2.toLowerCase():
-        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P2V2, specGroup);
-      case SkuCode.Premium.P3.toLowerCase():
-        return this._getSpecBySkuCodeInSpecGroup(SkuCode.PremiumV2.P3V2, specGroup);
-      default:
-        throw new Error(`Not part of upsell enable sku code: ${currentSkuCode}`);
-    }
+  private _getUpsellEnabledSkuCodesInSpecGroup(specGroup: PriceSpecGroup): string[] {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.filter(spec => spec.shouldEnableUpsell).map(spec => spec.skuCode);
   }
 
   private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {
@@ -450,7 +438,7 @@ export class PlanPriceSpecManager {
       curBannerMessages.push(g.bannerMessage);
       g.bannerMessage = {
         message: this._ts.instant(PortalResources.pricing_planScaleInProgress).format(descriptor.resourceName),
-        level: 'warning',
+        level: BannerMessageLevel.WARNING,
       };
     });
 

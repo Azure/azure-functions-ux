@@ -1,11 +1,13 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku, SkuCode } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.premium;
+  tier = Tier.premium;
+  shouldEnableUpsell = true;
 
   featureItems = [
     {
@@ -104,6 +106,10 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P1V2;
+  }
 }
 
 export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
@@ -126,6 +132,10 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P2V2;
+  }
 }
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
@@ -148,4 +158,8 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P3V2;
+  }
 }
