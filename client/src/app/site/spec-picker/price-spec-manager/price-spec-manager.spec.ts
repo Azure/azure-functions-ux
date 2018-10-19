@@ -12,7 +12,7 @@ import { PlanService } from '../../../shared/services/plan.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { MockBillingService } from '../../../test/mocks/billing.service.mock';
 import { AseService } from '../../../shared/services/ase.service';
-import { PriceSpecGroup } from './price-spec-group';
+import { PriceSpecGroup, PriceSpecGroupType } from './price-spec-group';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { Injector } from '@angular/core';
@@ -191,6 +191,7 @@ describe('Price Spec Manager', () => {
   function _getMockGroup(groupNumber: number, injector: Injector) {
     return new MockSpecGroup(
       injector,
+      specManager,
       [
         new MockPriceSpec(injector, `Group${groupNumber}-Recommended1`, 'Recommended1'),
         new MockPriceSpec(injector, `Group${groupNumber}-Recommended2`, 'Recommended2'),
@@ -265,13 +266,13 @@ class MockSpecGroup extends PriceSpecGroup {
   selectedSpec = null;
   iconUrl = 'image/tools.svg';
   title = this.ts.instant(PortalResources.pricing_devTestTitle);
-  id = 'devtest';
+  id = PriceSpecGroupType.DEV_TEST;
   description = this.ts.instant(PortalResources.pricing_devTestDesc);
   emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
   emptyInfoLink = '';
 
-  constructor(injector: Injector, recommendedSpecs: PriceSpec[], additionalSpecs: PriceSpec[]) {
-    super(injector);
+  constructor(injector: Injector, specManager: PlanPriceSpecManager, recommendedSpecs: PriceSpec[], additionalSpecs: PriceSpec[]) {
+    super(injector, specManager);
     this.recommendedSpecs = recommendedSpecs;
     this.additionalSpecs = additionalSpecs;
   }
