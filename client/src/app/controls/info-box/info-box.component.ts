@@ -1,7 +1,7 @@
 import { KeyCodes } from './../../shared/models/constants';
 import { Component, Input } from '@angular/core';
 
-export type InfoBoxType = 'info' | 'warning' | 'error' | 'success' | 'spinner';
+export type InfoBoxType = 'info' | 'warning' | 'error' | 'success' | 'spinner' | 'upsell';
 
 @Component({
   selector: 'info-box',
@@ -15,6 +15,7 @@ export class InfoBoxComponent {
   public typeClass = 'info';
   public iconPath = 'image/info.svg';
   public dismissed = false;
+  public actionIconClass = 'icon-small info-box-action-icon';
 
   @Input()
   infoText: string = null;
@@ -49,6 +50,11 @@ export class InfoBoxComponent {
       case 'spinner':
         this.typeClass = 'spinner';
         this.iconPath = 'image/spinner.svg';
+        break;
+      case 'upsell':
+        this.typeClass = 'upsell';
+        this.iconPath = 'image/upsell.svg';
+        this.actionIconClass = 'icon-small info-box-action-icon upsell-arrow-color';
         break;
     }
   }

@@ -3100,6 +3100,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>You must have write permissions on the plan '{0}' to update it</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Better performance and more features are available for the same price! Check out Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
   </data>

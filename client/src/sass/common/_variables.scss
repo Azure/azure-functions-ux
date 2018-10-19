@@ -1,4 +1,3 @@
-
 // Font colors:
 $default-text-color: #000;
 $default-text-color-dark: #e0e0e0;
@@ -25,7 +24,7 @@ $chrome-color-dark: $body-bg-color-dark;
 
 $back-bar-color: #e8ebed;
 
-$border-selection-color: #419BF3;
+$border-selection-color: #419bf3;
 $border-focus-color: #00bcf2;
 $border-focus: $border-focus-color dashed 1px;
 
@@ -37,15 +36,15 @@ $border-focus-dirty: $border-focus-dirty-color dashed 1px;
 $sidenav-width: 250px;
 $top-bar-height: 40px;
 
-$disabled-color: rgba(#7f7f7f, .7);
+$disabled-color: rgba(#7f7f7f, 0.7);
 $disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
-$border-color: #CCC;
+$border-color: #ccc;
 
-$item-selected-color: rgba(85,179,255,.2);
+$item-selected-color: rgba(85, 179, 255, 0.2);
 $item-selected-color-dark: lighten($body-bg-color-dark, 20%);
 
-$item-hover-color: rgba(85,179,255,.1);
+$item-hover-color: rgba(85, 179, 255, 0.1);
 $item-hover-color-dark: lighten($body-bg-color-dark, 10%);
 
 $border: 1px $border-color solid;
@@ -54,7 +53,7 @@ $border-selected: 1px solid $border-selection-color;
 $success-color: #5db300;
 $success-color-faded: rgba($success-color, 0.18);
 
-$usermenu-back-color:$body-bg-color;
+$usermenu-back-color: $body-bg-color;
 
 $error-color: #e81123;
 $error-color-faded: rgba($error-color, 0.18);
@@ -68,6 +67,12 @@ $warning-color-faded: rgba($warning-color, 0.18);
 $warning-box-color: lighten($warning-color, 40%);
 $warning-box-color-hover: darken($warning-box-color, 5%);
 
+$upsell-color: #8a2da5;
+$upsell-color-faded: rgba($upsell-color, 0.18);
+
+$upsell-box-color: lighten($upsell-color, 50%);
+$upsell-box-color-hover: darken($upsell-box-color, 5%);
+
 $primary-color: #015cda;
 $primary-color-faded: rgba($primary-color, 0.18);
 $primary-color-hover: lighten($primary-color, 10%);
@@ -80,14 +85,14 @@ $alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: rgba(127, 127, 127, 0.5);
-$translucent-shield-color: rgba($body-bg-color, 0.40);
-$translucent-shield-color-dark: rgba($body-bg-color-dark, 0.50);
+$translucent-shield-color: rgba($body-bg-color, 0.4);
+$translucent-shield-color-dark: rgba($body-bg-color-dark, 0.5);
 
 $grey-color: #f5f5f5;
 $grey-color-dark: #3d3d3d;
 
-$command-color-hover: rgba(85,179,255,.1);
-$command-color-hover-dark: rgba(128,128,128,.3);
+$command-color-hover: rgba(85, 179, 255, 0.1);
+$command-color-hover-dark: rgba(128, 128, 128, 0.3);
 $heading-text-color: #252525;
 
 $info-box-color: #d1e7f8;
@@ -109,11 +114,11 @@ $custom-sq-picker-header-bg-color: rgb(217, 217, 217);
 
 $errors-warnings-table-background-color: whitesmoke;
 $errors-warnings-table-background-color-dark: #323232;
-$errors-warnings-table-header-background-color: #C6C6C6;
+$errors-warnings-table-header-background-color: #c6c6c6;
 $errors-warnings-table-header-background-color-dark: darken($errors-warnings-table-background-color-dark, 10%);
 
 $errors-warnings-table-border-color: lightgray;
-$errors-warnings-table-border-hover-color: #C6C6C6;
+$errors-warnings-table-border-hover-color: #c6c6c6;
 $errors-warnings-table-row-hover-color: lightgray;
 $errors-warnings-table-row-hover-color-dark: darken($errors-warnings-table-background-color-dark, 5%);
 
@@ -141,19 +146,19 @@ $row-hover-color: rgba(0, 137, 250, 0.08);
 $row-selected-color: #e5f8fd;
 $row-selected-color-dark: #1c1c1c;
 
-$summary-header-color:  rgb(0, 88, 173);
+$summary-header-color: rgb(0, 88, 173);
 
 $console-text-color: white;
 $console-background-color: black;
 $powershell-background-color: #002456;
-$console-error-color: #FF6161;
+$console-error-color: #ff6161;
 $console-default-msg-color: rgb(197, 195, 195);
 $bash-cursor-text-color: black;
 $bash-cursor-background-color: white;
 
-$log-info: #00BFFF;
+$log-info: #00bfff;
 $log-warning: orange;
-$log-error: #FF6161;
+$log-error: #ff6161;
 $log-console-connector: #898787;
 
 // Slots colors:
@@ -175,14 +180,14 @@ $card-position: relative;
 
 // Card hover
 $card-cursor-hover: pointer;
-$card-box-shadow-hover: 0px 4px 8px rgba(0, 0, 0, .14);
+$card-box-shadow-hover: 0px 4px 8px rgba(0, 0, 0, 0.14);
 
 // Card hover disabled
 $card-cursor-hover-disabled: not-allowed;
 
 // Card selected
 $card-border-color-selected: rgba(65, 155, 243, 0.5);
-$card-transition-selected: box-shadow 0.10s cubic-bezier(0.4, 0, 0.2, 1);
+$card-transition-selected: box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Card focus
 $card-outline-color: rgba(65, 155, 243, 0.5);
@@ -221,11 +226,10 @@ $card-footer-border-top-width: 1px;
 $card-footer-border-color: rgba(204, 204, 204, 0.5);
 
 // Card dark mode
-$card-box-shadow-hover-dark: 0px 4px 8px rgba(255, 255, 255, .14);
-
+$card-box-shadow-hover-dark: 0px 4px 8px rgba(255, 255, 255, 0.14);
 
 //sidebar
-$sidebar-backdrop-color-light: rgba(255, 255, 255, 0.80);
-$sidebar-backdrop-color-dark: rgba(0, 0, 0, 0.80);
+$sidebar-backdrop-color-light: rgba(255, 255, 255, 0.8);
+$sidebar-backdrop-color-dark: rgba(0, 0, 0, 0.8);
 $sidebar-flyout-border-shadow-light: rgba(0, 0, 0, 0.16) 0px 8px 16px 0px;
 $sidebar-flyout-border-shadow-dark: rgba(255, 255, 255, 0.16) 0px 8px 16px 0px;

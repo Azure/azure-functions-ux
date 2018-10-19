@@ -1,10 +1,11 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Injector } from '@angular/core';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { Links, ServerFarmSku } from '../../../shared/models/constants';
+import { Links } from '../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.premiumContainer;
+  tier = Tier.premiumContainer;
 
   featureItems = [
     {
@@ -67,7 +68,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
 }
 
 export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpec {
-  skuCode = 'PC2';
+  skuCode = SkuCode.PremiumContainer.PC2;
   legacySkuName = 'small_premium_container';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('320'),
@@ -89,7 +90,7 @@ export class PremiumContainerSmallPriceSpec extends PremiumContainerPlanPriceSpe
 }
 
 export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSpec {
-  skuCode = 'PC3';
+  skuCode = SkuCode.PremiumContainer.PC3;
   legacySkuName = 'medium_premium_container';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('640'),
@@ -111,7 +112,7 @@ export class PremiumContainerMediumPriceSpec extends PremiumContainerPlanPriceSp
 }
 
 export class PremiumContainerLargePriceSpec extends PremiumContainerPlanPriceSpec {
-  skuCode = 'PC4';
+  skuCode = SkuCode.PremiumContainer.PC4;
   legacySkuName = 'large_premium_container';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('1280'),

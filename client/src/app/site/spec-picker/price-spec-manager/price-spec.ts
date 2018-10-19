@@ -36,9 +36,11 @@ export abstract class PriceSpec {
 
   allowZeroCost = false;
   state: 'enabled' | 'disabled' | 'hidden' = 'enabled';
+  upsellEnabled = false;
   disabledMessage: string;
   disabledInfoLink: string;
   priceString: string;
+  price: number;
 
   protected _billingService: BillingService;
   protected _logService: LogService;
@@ -72,4 +74,11 @@ export abstract class PriceSpec {
 
     return Observable.of(null);
   }
+
+  // NOTE(shimedh): This should return the target spec for upsell.
+  public getUpsellSpecSkuCode(): string {
+    return null;
+  }
+
+  public updateUpsellBanner(): void {}
 }

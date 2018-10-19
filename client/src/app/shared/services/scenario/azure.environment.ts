@@ -1,4 +1,5 @@
-import { ScenarioIds, ServerFarmSku } from './../../models/constants';
+import { ScenarioIds } from './../../models/constants';
+import { Tier } from './../../models/serverFarmSku';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
@@ -112,10 +113,10 @@ export class AzureEnvironment extends Environment {
         const enabled =
           input &&
           input.site &&
-          (input.site.properties.sku === ServerFarmSku.free ||
-            input.site.properties.sku === ServerFarmSku.shared ||
-            input.site.properties.sku === ServerFarmSku.basic ||
-            input.site.properties.sku === ServerFarmSku.standard);
+          (input.site.properties.sku === Tier.free ||
+            input.site.properties.sku === Tier.shared ||
+            input.site.properties.sku === Tier.basic ||
+            input.site.properties.sku === Tier.standard);
         return { status: enabled ? 'enabled' : 'disabled' };
       },
     };
@@ -126,8 +127,7 @@ export class AzureEnvironment extends Environment {
   }
 
   private _enableIfBasicOrHigher(input: ScenarioCheckInput) {
-    const disabled =
-      input && input.site && (input.site.properties.sku === ServerFarmSku.free || input.site.properties.sku === ServerFarmSku.shared);
+    const disabled = input && input.site && (input.site.properties.sku === Tier.free || input.site.properties.sku === Tier.shared);
 
     return <ScenarioResult>{
       status: disabled ? 'disabled' : 'enabled',
@@ -139,9 +139,7 @@ export class AzureEnvironment extends Environment {
     const disabled =
       input &&
       input.site &&
-      (input.site.properties.sku === ServerFarmSku.free ||
-        input.site.properties.sku === ServerFarmSku.shared ||
-        input.site.properties.sku === ServerFarmSku.basic);
+      (input.site.properties.sku === Tier.free || input.site.properties.sku === Tier.shared || input.site.properties.sku === Tier.basic);
 
     return <ScenarioResult>{
       status: disabled ? 'disabled' : 'enabled',
@@ -156,7 +154,7 @@ export class AzureEnvironment extends Environment {
       throw Error('No site input specified');
     }
 
-    const showQuotas = input.site.properties.sku === ServerFarmSku.free || input.site.properties.sku === ServerFarmSku.shared;
+    const showQuotas = input.site.properties.sku === Tier.free || input.site.properties.sku === Tier.shared;
 
     return <ScenarioResult>{
       status: showQuotas ? 'enabled' : 'disabled',
@@ -171,7 +169,7 @@ export class AzureEnvironment extends Environment {
       throw Error('No site input specified');
     }
 
-    const showFileStorage = input.site.properties.sku !== ServerFarmSku.free && input.site.properties.sku !== ServerFarmSku.shared;
+    const showFileStorage = input.site.properties.sku !== Tier.free && input.site.properties.sku !== Tier.shared;
 
     return <ScenarioResult>{
       status: showFileStorage ? 'enabled' : 'disabled',
@@ -188,22 +186,22 @@ export class AzureEnvironment extends Environment {
     let limit: number;
 
     switch (site.properties.sku) {
-      case ServerFarmSku.free:
-      case ServerFarmSku.basic:
+      case Tier.free:
+      case Tier.basic:
         limit = 0;
         break;
-      case ServerFarmSku.dynamic:
+      case Tier.dynamic:
         limit = 1;
         break;
-      case ServerFarmSku.standard:
+      case Tier.standard:
         limit = 5;
         break;
-      case ServerFarmSku.premium:
-      case ServerFarmSku.premiumV2:
-      case ServerFarmSku.isolated:
-      case ServerFarmSku.premiumContainer:
-      case ServerFarmSku.elasticPremium:
-      case ServerFarmSku.elasticIsolated:
+      case Tier.premium:
+      case Tier.premiumV2:
+      case Tier.isolated:
+      case Tier.premiumContainer:
+      case Tier.elasticPremium:
+      case Tier.elasticIsolated:
         limit = 20;
         break;
       default:

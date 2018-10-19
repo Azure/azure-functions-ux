@@ -1,11 +1,13 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.premium;
+  tier = Tier.premium;
+  upsellEnabled = true;
 
   featureItems = [
     {
@@ -85,7 +87,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
 }
 
 export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P1';
+  skuCode = SkuCode.Premium.P1;
   legacySkuName = 'small_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('100'),
@@ -104,10 +106,14 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P1V2;
+  }
 }
 
 export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P2';
+  skuCode = SkuCode.Premium.P2;
   legacySkuName = 'medium_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('200'),
@@ -126,10 +132,14 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P2V2;
+  }
 }
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
-  skuCode = 'P3';
+  skuCode = SkuCode.Premium.P3;
   legacySkuName = 'large_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('400'),
@@ -148,4 +158,8 @@ export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P3V2;
+  }
 }

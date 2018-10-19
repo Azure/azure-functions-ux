@@ -1,11 +1,12 @@
-import { Kinds, Links, ServerFarmSku } from '../../../shared/models/constants';
+import { Kinds, Links } from '../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export class SharedPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.shared;
-  skuCode = 'D1';
+  tier = Tier.shared;
+  skuCode = SkuCode.Shared.D1;
   legacySkuName = 'shared';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_sharedInfrastructure),

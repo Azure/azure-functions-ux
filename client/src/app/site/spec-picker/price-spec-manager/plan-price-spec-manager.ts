@@ -2,9 +2,17 @@ import { Observable } from 'rxjs/Observable';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
+import { SpecPickerComponent } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
-import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
+import {
+  PriceSpecGroup,
+  PriceSpecGroupType,
+  DevSpecGroup,
+  ProdSpecGroup,
+  IsolatedSpecGroup,
+  BannerMessage,
+  BannerMessageLevel,
+} from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector, Injectable } from '@angular/core';
@@ -15,7 +23,8 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, ServerFarmSku, Links } from '../../../shared/models/constants';
+import { LogCategories, Links } from '../../../shared/models/constants';
+import { Tier } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 
 export interface SpecPickerInput<T> {
@@ -70,7 +79,11 @@ export class PlanPriceSpecManager {
   ) {}
 
   resetGroups() {
-    this.specGroups = [new DevSpecGroup(this._injector), new ProdSpecGroup(this._injector), new IsolatedSpecGroup(this._injector)];
+    this.specGroups = [
+      new DevSpecGroup(this._injector, this),
+      new ProdSpecGroup(this._injector, this),
+      new IsolatedSpecGroup(this._injector, this),
+    ];
   }
 
   initialize(inputs: SpecPickerInput<PlanSpecPickerData>) {
@@ -188,6 +201,8 @@ export class PlanPriceSpecManager {
               this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
             );
           }
+
+          this.selectedSpecGroup.selectedSpec.updateUpsellBanner();
         } else {
           this._portalService.stopNotification(
             notificationId,
@@ -286,10 +301,7 @@ export class PlanPriceSpecManager {
     // plan is null for new plans
     if (this._plan) {
       const tier = this._plan.sku.tier;
-      if (
-        (tier === ServerFarmSku.premiumV2 && spec.tier !== ServerFarmSku.premiumV2) ||
-        (tier !== ServerFarmSku.premiumV2 && spec.tier === ServerFarmSku.premiumV2)
-      ) {
+      if ((tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) || (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)) {
         // show message when upgrading to PV2 or downgrading from PV2.
         this._specPicker.statusMessage = {
           message: this._ts.instant(PortalResources.pricing_pv2UpsellInfoMessage),
@@ -327,6 +339,62 @@ export class PlanPriceSpecManager {
         }
       }
     });
+  }
+
+  updateUpsellBanner() {
+    const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
+
+    if (!prodSpecGroup.bannerMessage) {
+      const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
+
+      if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode, prodSpecGroup) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
+        const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
+        const currentSpecCost = currentSpec.price;
+        const newSpec = this._getSpecBySkuCodeInSpecGroup(currentSpec.getUpsellSpecSkuCode(), prodSpecGroup);
+        const newSpecCost = !!newSpec ? newSpec.price : 0;
+
+        if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
+          prodSpecGroup.bannerMessage = {
+            message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
+            level: BannerMessageLevel.UPSELL,
+            infoActionFn: () => {
+              this.setSelectedSpec(newSpec);
+            },
+          };
+        }
+      }
+    }
+  }
+
+  private _shouldShowUpsellRecommendation(currentSpecCost: number, newSpecCost: number): boolean {
+    const costBuffer = 0.1 * currentSpecCost;
+    const maxCost = costBuffer + currentSpecCost;
+    const minCost = currentSpecCost - costBuffer;
+
+    return newSpecCost >= minCost && newSpecCost <= maxCost;
+  }
+
+  private _getSpecGroupById(id: PriceSpecGroupType): PriceSpecGroup {
+    return this.specGroups.find(specGroup => specGroup.id === id);
+  }
+
+  private _getSpecBySkuCodeInSpecGroup(skuCode: string, specGroup: PriceSpecGroup): PriceSpec {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.find(spec => spec.skuCode.toLowerCase() === skuCode.toLowerCase());
+  }
+
+  private _hasPremiumV2SkusEnabled(specGroup: PriceSpecGroup): boolean {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.some(spec => spec.tier === Tier.premiumV2 && spec.state === 'enabled');
+  }
+
+  private _hasUpsellEnableSkuCode(currentSkuCode: string, specGroup: PriceSpecGroup): boolean {
+    return this._getUpsellEnabledSkuCodesInSpecGroup(specGroup).some(skuCode => skuCode.toLowerCase() === currentSkuCode);
+  }
+
+  private _getUpsellEnabledSkuCodesInSpecGroup(specGroup: PriceSpecGroup): string[] {
+    const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
+    return allSpecsInGroup.filter(spec => spec.upsellEnabled).map(spec => spec.skuCode);
   }
 
   private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {
@@ -367,13 +435,13 @@ export class PlanPriceSpecManager {
     const stopPolling$ = new Subject();
     const descriptor = new ArmResourceDescriptor(resourceId);
 
-    const curBannerMessages: StatusMessage[] = [];
+    const curBannerMessages: BannerMessage[] = [];
 
     this.specGroups.forEach(g => {
       curBannerMessages.push(g.bannerMessage);
       g.bannerMessage = {
         message: this._ts.instant(PortalResources.pricing_planScaleInProgress).format(descriptor.resourceName),
-        level: 'warning',
+        level: BannerMessageLevel.WARNING,
       };
     });
 
@@ -439,9 +507,11 @@ export class PlanPriceSpecManager {
         spec.priceString = ' ';
       } else if (costResult.amount === 0.0) {
         spec.priceString = this._ts.instant(PortalResources.free);
+        spec.price = 0;
       } else {
         const meter = costResult.firstParty[0].meters[0];
-        const rate = (meter.perUnitAmount * 744).toFixed(2); // 744 hours in a month
+        spec.price = meter.perUnitAmount * 744; // 744 hours in a month
+        const rate = spec.price.toFixed(2);
         spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
       }
     });

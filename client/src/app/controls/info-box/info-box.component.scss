@@ -1,4 +1,4 @@
-@import "../../../sass/common/variables";
+@import '../../../sass/common/variables';
 
 .info-box {
   margin-bottom: 10px;
@@ -22,7 +22,6 @@
 
   .info-text-container {
     display: table-cell;
-    width: 100%;
     vertical-align: middle;
     padding: 10px;
     color: $body-bg-color-dark;
@@ -31,7 +30,7 @@
   .info-link-container {
     display: table-cell;
     vertical-align: top;
-    padding-top: 5px;
+    padding-top: 11px;
     padding-right: 5px;
   }
 
@@ -41,6 +40,11 @@
     padding-top: 10px;
     padding-right: 10px;
   }
+}
+
+.info-box-action-icon {
+  height: 12px;
+  width: 12px;
 }
 
 /* INFO */
@@ -94,13 +98,34 @@
   animation: spin 2s linear infinite;
 }
 
-/* Safari */
-@-webkit-keyframes spin{
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+/* UPSELL */
+.info-box.upsell {
+  background-color: $upsell-box-color;
+
+  &.clickable:hover {
+    background-color: $upsell-box-color-hover;
+  }
 }
 
-@keyframes spin{
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.upsell-arrow-color {
+  fill: $upsell-color;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -1,10 +1,11 @@
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.basic;
+  tier = Tier.basic;
 
   featureItems = [
     {
@@ -60,7 +61,7 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
 }
 
 export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
-  skuCode = 'B1';
+  skuCode = SkuCode.Basic.B1;
   legacySkuName = 'small_basic';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('100'),
@@ -82,7 +83,7 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
 }
 
 export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
-  skuCode = 'B2';
+  skuCode = SkuCode.Basic.B2;
   legacySkuName = 'medium_basic';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('200'),
@@ -104,7 +105,7 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
 }
 
 export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
-  skuCode = 'B3';
+  skuCode = SkuCode.Basic.B3;
   legacySkuName = 'large_basic';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('400'),

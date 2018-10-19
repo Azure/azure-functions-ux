@@ -1,11 +1,13 @@
 import { Injector } from '@angular/core/src/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class StandardPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.standard;
+  tier = Tier.standard;
+  upsellEnabled = true;
 
   featureItems = [
     {
@@ -80,7 +82,7 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
 }
 
 export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
-  skuCode = 'S1';
+  skuCode = SkuCode.Standard.S1;
   legacySkuName = 'small_standard';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('100'),
@@ -102,7 +104,7 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
 }
 
 export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
-  skuCode = 'S2';
+  skuCode = SkuCode.Standard.S2;
   legacySkuName = 'medium_standard';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('200'),
@@ -121,10 +123,14 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P1V2;
+  }
 }
 
 export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
-  skuCode = 'S3';
+  skuCode = SkuCode.Standard.S3;
   legacySkuName = 'large_standard';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('400'),
@@ -143,4 +149,8 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
       },
     ],
   };
+
+  getUpsellSpecSkuCode(): string {
+    return SkuCode.PremiumV2.P2V2;
+  }
 }

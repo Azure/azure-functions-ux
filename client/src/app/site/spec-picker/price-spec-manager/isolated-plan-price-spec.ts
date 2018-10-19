@@ -1,5 +1,6 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links, ServerFarmSku } from './../../../shared/models/constants';
+import { Kinds, Links } from './../../../shared/models/constants';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
 import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
@@ -7,7 +8,7 @@ import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
-  tier = ServerFarmSku.isolated;
+  tier = Tier.isolated;
 
   featureItems = [
     {
@@ -99,7 +100,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 }
 
 export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
-  skuCode = 'I1';
+  skuCode = SkuCode.Isolated.I1;
   legacySkuName = 'small_isolated';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('210'),
@@ -121,7 +122,7 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
 }
 
 export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
-  skuCode = 'I2';
+  skuCode = SkuCode.Isolated.I2;
   legacySkuName = 'medium_isolated';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('420'),
@@ -143,7 +144,7 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
 }
 
 export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
-  skuCode = 'I3';
+  skuCode = SkuCode.Isolated.I3;
   legacySkuName = 'large_isolated';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('840'),

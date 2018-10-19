@@ -1,4 +1,5 @@
-import { ScenarioIds, ServerFarmSku } from './../../models/constants';
+import { ScenarioIds } from './../../models/constants';
+import { Tier } from './../../models/serverFarmSku';
 import { PortalResources } from './../../models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
@@ -115,9 +116,7 @@ export class XenonSiteEnvironment extends Environment {
     const disabled =
       input &&
       input.site &&
-      (input.site.properties.sku === ServerFarmSku.free ||
-        input.site.properties.sku === ServerFarmSku.shared ||
-        input.site.properties.sku === ServerFarmSku.basic);
+      (input.site.properties.sku === Tier.free || input.site.properties.sku === Tier.shared || input.site.properties.sku === Tier.basic);
 
     return <ScenarioResult>{
       status: disabled ? 'disabled' : 'enabled',
