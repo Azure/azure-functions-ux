@@ -8,6 +8,7 @@ export interface GroupTab {
   title: string;
   id: string;
   iconUrl: string;
+  description: string;
 }
 
 @Component({

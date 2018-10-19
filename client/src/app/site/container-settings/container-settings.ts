@@ -62,7 +62,6 @@ export abstract class Container {
   abstract title: string;
   abstract id: ContainerType;
   abstract description: string;
-  abstract detailedDescription: string;
   abstract disableMessage: string;
 
   protected ts: TranslateService;
@@ -76,8 +75,7 @@ export class SingleContainer extends Container {
   iconUrl = 'image/singlecontainer.svg';
   title = this.ts.instant(PortalResources.singleContainerTitle);
   id: ContainerType = 'single';
-  description = this.ts.instant(PortalResources.singleContainerDescription);
-  detailedDescription = this.ts.instant(PortalResources.singleContainerDetailedDescription);
+  description = '';
   disableMessage = '';
 
   constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
@@ -93,8 +91,7 @@ export class DockerComposeContainer extends Container {
   iconUrl = 'image/dockercompose.svg';
   title = this.ts.instant(PortalResources.dockerComposeContainerTitle);
   id: ContainerType = 'dockerCompose';
-  description = this.ts.instant(PortalResources.dockerComposeContainerDescription);
-  detailedDescription = this.ts.instant(PortalResources.dockerComposeContainerDetailedDescription);
+  description = '';
   disableMessage = '';
 
   constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
@@ -112,8 +109,7 @@ export class KubernetesContainer extends Container {
   iconUrl = 'image/kubernetes.svg';
   title = this.ts.instant(PortalResources.kubernetesContainerTitle);
   id: ContainerType = 'kubernetes';
-  description = this.ts.instant(PortalResources.kubernetesContainerDescription);
-  detailedDescription = this.ts.instant(PortalResources.kubernetesContainerDetailedDescription);
+  description = '';
   disableMessage = '';
 
   constructor(injector: Injector, containerSettingsData: ContainerSettingsData) {
