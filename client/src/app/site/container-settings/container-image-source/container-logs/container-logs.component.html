@@ -1,6 +1,6 @@
 <div>
     <h4>{{ 'logStreaming_logs' | translate }}</h4>
-    <textarea class="logs" disabled>{{log}}</textarea>
+    <textarea class="logs" readonly>{{log}}</textarea>
 
     <div class="actionButtons">
         <button class="custom-button" (click)="clickDownload()">{{'download' | translate}}</button>
