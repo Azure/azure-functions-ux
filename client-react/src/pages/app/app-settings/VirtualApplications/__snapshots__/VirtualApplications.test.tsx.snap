@@ -1,0 +1,515 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Virtual Applications Table Shallow Testing render matches snapshot: DefaultSnapshot 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <VirtualApplications
+    values={
+      Object {
+        "virtualApplications": Array [],
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "children": Array [
+        <CustomizedActionButton
+          iconProps={
+            Object {
+              "iconName": "Add",
+            }
+          }
+          onClick={[Function]}
+          styles={
+            Object {
+              "root": Object {
+                "marginTop": "5px",
+              },
+            }
+          }
+        >
+          New Directory/Application
+        </CustomizedActionButton>,
+        <StyledPanelBase
+          closeButtonAriaLabel="Close"
+          headerText="New App "
+          isOpen={false}
+          onDismiss={[Function]}
+          onRenderFooterContent={[Function]}
+          type={3}
+        >
+          <VirtualApplicationsAddEdit
+            updateVirtualApplication={[Function]}
+          />
+        </StyledPanelBase>,
+        <StyledWithViewportComponent
+          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+          ariaLabelForSelectionColumn="Toggle selection"
+          columns={
+            Array [
+              Object {
+                "ariaLabel": "Operations for value",
+                "data": "string",
+                "fieldName": "virtualPath",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "virtualPath",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Virtual Path",
+              },
+              Object {
+                "ariaLabel": "Operations for name",
+                "data": "string",
+                "fieldName": "physicalPath",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "physicalPath",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Physic Path",
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "data": "string",
+                "fieldName": "virtualDirectory",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "type",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Type",
+                "onRender": [Function],
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "isCollapsable": false,
+                "isResizable": true,
+                "key": "delete",
+                "maxWidth": 16,
+                "minWidth": 16,
+                "name": "",
+                "onRender": [Function],
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "isCollapsable": false,
+                "isResizable": true,
+                "key": "edit",
+                "maxWidth": 16,
+                "minWidth": 16,
+                "name": "",
+                "onRender": [Function],
+              },
+            ]
+          }
+          isHeaderVisible={true}
+          items={Array []}
+          layoutMode={1}
+          selectionMode={0}
+          selectionPreservedOnEmptyClick={true}
+        />,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "children": "New Directory/Application",
+          "iconProps": Object {
+            "iconName": "Add",
+          },
+          "onClick": [Function],
+          "styles": Object {
+            "root": Object {
+              "marginTop": "5px",
+            },
+          },
+        },
+        "ref": null,
+        "rendered": "New Directory/Application",
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "children": <VirtualApplicationsAddEdit
+            updateVirtualApplication={[Function]}
+          />,
+          "closeButtonAriaLabel": "Close",
+          "headerText": "New App ",
+          "isOpen": false,
+          "onDismiss": [Function],
+          "onRenderFooterContent": [Function],
+          "type": 3,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "updateVirtualApplication": [Function],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "ariaLabelForSelectAllCheckbox": "Toggle selection for all items",
+          "ariaLabelForSelectionColumn": "Toggle selection",
+          "columns": Array [
+            Object {
+              "ariaLabel": "Operations for value",
+              "data": "string",
+              "fieldName": "virtualPath",
+              "isPadded": true,
+              "isResizable": true,
+              "isRowHeader": true,
+              "key": "virtualPath",
+              "maxWidth": 350,
+              "minWidth": 210,
+              "name": "Virtual Path",
+            },
+            Object {
+              "ariaLabel": "Operations for name",
+              "data": "string",
+              "fieldName": "physicalPath",
+              "isPadded": true,
+              "isResizable": true,
+              "isRowHeader": true,
+              "key": "physicalPath",
+              "maxWidth": 350,
+              "minWidth": 210,
+              "name": "Physic Path",
+            },
+            Object {
+              "ariaLabel": "Operations for value",
+              "data": "string",
+              "fieldName": "virtualDirectory",
+              "isPadded": true,
+              "isResizable": true,
+              "isRowHeader": true,
+              "key": "type",
+              "maxWidth": 350,
+              "minWidth": 210,
+              "name": "Type",
+              "onRender": [Function],
+            },
+            Object {
+              "ariaLabel": "Operations for value",
+              "isCollapsable": false,
+              "isResizable": true,
+              "key": "delete",
+              "maxWidth": 16,
+              "minWidth": 16,
+              "name": "",
+              "onRender": [Function],
+            },
+            Object {
+              "ariaLabel": "Operations for value",
+              "isCollapsable": false,
+              "isResizable": true,
+              "key": "edit",
+              "maxWidth": 16,
+              "minWidth": 16,
+              "name": "",
+              "onRender": [Function],
+            },
+          ],
+          "isHeaderVisible": true,
+          "items": Array [],
+          "layoutMode": 1,
+          "selectionMode": 0,
+          "selectionPreservedOnEmptyClick": true,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": Symbol(react.fragment),
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <CustomizedActionButton
+            iconProps={
+              Object {
+                "iconName": "Add",
+              }
+            }
+            onClick={[Function]}
+            styles={
+              Object {
+                "root": Object {
+                  "marginTop": "5px",
+                },
+              }
+            }
+          >
+            New Directory/Application
+          </CustomizedActionButton>,
+          <StyledPanelBase
+            closeButtonAriaLabel="Close"
+            headerText="New App "
+            isOpen={false}
+            onDismiss={[Function]}
+            onRenderFooterContent={[Function]}
+            type={3}
+          >
+            <VirtualApplicationsAddEdit
+              updateVirtualApplication={[Function]}
+            />
+          </StyledPanelBase>,
+          <StyledWithViewportComponent
+            ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+            ariaLabelForSelectionColumn="Toggle selection"
+            columns={
+              Array [
+                Object {
+                  "ariaLabel": "Operations for value",
+                  "data": "string",
+                  "fieldName": "virtualPath",
+                  "isPadded": true,
+                  "isResizable": true,
+                  "isRowHeader": true,
+                  "key": "virtualPath",
+                  "maxWidth": 350,
+                  "minWidth": 210,
+                  "name": "Virtual Path",
+                },
+                Object {
+                  "ariaLabel": "Operations for name",
+                  "data": "string",
+                  "fieldName": "physicalPath",
+                  "isPadded": true,
+                  "isResizable": true,
+                  "isRowHeader": true,
+                  "key": "physicalPath",
+                  "maxWidth": 350,
+                  "minWidth": 210,
+                  "name": "Physic Path",
+                },
+                Object {
+                  "ariaLabel": "Operations for value",
+                  "data": "string",
+                  "fieldName": "virtualDirectory",
+                  "isPadded": true,
+                  "isResizable": true,
+                  "isRowHeader": true,
+                  "key": "type",
+                  "maxWidth": 350,
+                  "minWidth": 210,
+                  "name": "Type",
+                  "onRender": [Function],
+                },
+                Object {
+                  "ariaLabel": "Operations for value",
+                  "isCollapsable": false,
+                  "isResizable": true,
+                  "key": "delete",
+                  "maxWidth": 16,
+                  "minWidth": 16,
+                  "name": "",
+                  "onRender": [Function],
+                },
+                Object {
+                  "ariaLabel": "Operations for value",
+                  "isCollapsable": false,
+                  "isResizable": true,
+                  "key": "edit",
+                  "maxWidth": 16,
+                  "minWidth": 16,
+                  "name": "",
+                  "onRender": [Function],
+                },
+              ]
+            }
+            isHeaderVisible={true}
+            items={Array []}
+            layoutMode={1}
+            selectionMode={0}
+            selectionPreservedOnEmptyClick={true}
+          />,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": "New Directory/Application",
+            "iconProps": Object {
+              "iconName": "Add",
+            },
+            "onClick": [Function],
+            "styles": Object {
+              "root": Object {
+                "marginTop": "5px",
+              },
+            },
+          },
+          "ref": null,
+          "rendered": "New Directory/Application",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": <VirtualApplicationsAddEdit
+              updateVirtualApplication={[Function]}
+            />,
+            "closeButtonAriaLabel": "Close",
+            "headerText": "New App ",
+            "isOpen": false,
+            "onDismiss": [Function],
+            "onRenderFooterContent": [Function],
+            "type": 3,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "updateVirtualApplication": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "ariaLabelForSelectAllCheckbox": "Toggle selection for all items",
+            "ariaLabelForSelectionColumn": "Toggle selection",
+            "columns": Array [
+              Object {
+                "ariaLabel": "Operations for value",
+                "data": "string",
+                "fieldName": "virtualPath",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "virtualPath",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Virtual Path",
+              },
+              Object {
+                "ariaLabel": "Operations for name",
+                "data": "string",
+                "fieldName": "physicalPath",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "physicalPath",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Physic Path",
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "data": "string",
+                "fieldName": "virtualDirectory",
+                "isPadded": true,
+                "isResizable": true,
+                "isRowHeader": true,
+                "key": "type",
+                "maxWidth": 350,
+                "minWidth": 210,
+                "name": "Type",
+                "onRender": [Function],
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "isCollapsable": false,
+                "isResizable": true,
+                "key": "delete",
+                "maxWidth": 16,
+                "minWidth": 16,
+                "name": "",
+                "onRender": [Function],
+              },
+              Object {
+                "ariaLabel": "Operations for value",
+                "isCollapsable": false,
+                "isResizable": true,
+                "key": "edit",
+                "maxWidth": 16,
+                "minWidth": 16,
+                "name": "",
+                "onRender": [Function],
+              },
+            ],
+            "isHeaderVisible": true,
+            "items": Array [],
+            "layoutMode": 1,
+            "selectionMode": 0,
+            "selectionPreservedOnEmptyClick": true,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": Symbol(react.fragment),
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
