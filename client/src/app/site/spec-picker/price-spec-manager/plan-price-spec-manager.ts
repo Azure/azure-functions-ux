@@ -202,7 +202,7 @@ export class PlanPriceSpecManager {
             );
           }
 
-          this.selectedSpecGroup.selectedSpec.removeUpsellBanner();
+          this.selectedSpecGroup.selectedSpec.updateUpsellBanner();
         } else {
           this._portalService.stopNotification(
             notificationId,
@@ -341,24 +341,27 @@ export class PlanPriceSpecManager {
     });
   }
 
-  setBanner() {
+  updateUpsellBanner() {
     const prodSpecGroup = this._getSpecGroupById(PriceSpecGroupType.PROD);
-    const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
 
-    if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode, prodSpecGroup) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
-      const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
-      const currentSpecCost = currentSpec.price;
-      const newSpec = this._getSpecBySkuCodeInSpecGroup(currentSpec.getUpsellSpecSkuCode(), prodSpecGroup);
-      const newSpecCost = !!newSpec ? newSpec.price : 0;
+    if (!prodSpecGroup.bannerMessage) {
+      const currentSkuCode = this._plan && this._plan.sku.name.toLowerCase();
 
-      if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
-        prodSpecGroup.bannerMessage = {
-          message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
-          level: BannerMessageLevel.UPSELL,
-          infoActionFn: () => {
-            this.setSelectedSpec(newSpec);
-          },
-        };
+      if (currentSkuCode && this._hasUpsellEnableSkuCode(currentSkuCode, prodSpecGroup) && this._hasPremiumV2SkusEnabled(prodSpecGroup)) {
+        const currentSpec = this._getSpecBySkuCodeInSpecGroup(currentSkuCode, prodSpecGroup);
+        const currentSpecCost = currentSpec.price;
+        const newSpec = this._getSpecBySkuCodeInSpecGroup(currentSpec.getUpsellSpecSkuCode(), prodSpecGroup);
+        const newSpecCost = !!newSpec ? newSpec.price : 0;
+
+        if (this._shouldShowUpsellRecommendation(currentSpecCost, newSpecCost)) {
+          prodSpecGroup.bannerMessage = {
+            message: this._ts.instant(PortalResources.pricing_upsellToPremiumV2Message),
+            level: BannerMessageLevel.UPSELL,
+            infoActionFn: () => {
+              this.setSelectedSpec(newSpec);
+            },
+          };
+        }
       }
     }
   }
@@ -391,7 +394,7 @@ export class PlanPriceSpecManager {
 
   private _getUpsellEnabledSkuCodesInSpecGroup(specGroup: PriceSpecGroup): string[] {
     const allSpecsInGroup = [...specGroup.recommendedSpecs, ...specGroup.additionalSpecs];
-    return allSpecsInGroup.filter(spec => spec.shouldEnableUpsell).map(spec => spec.skuCode);
+    return allSpecsInGroup.filter(spec => spec.upsellEnabled).map(spec => spec.skuCode);
   }
 
   private _getPlan(inputs: SpecPickerInput<PlanSpecPickerData>) {

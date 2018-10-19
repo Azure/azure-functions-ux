@@ -76,7 +76,7 @@ export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
     return !!plan.properties.hostingEnvironmentProfile || plan.properties.isXenon || AppKind.hasAnyKind(plan, [Kinds.elastic]);
   }
 
-  public removeUpsellBanner(): void {
+  public updateUpsellBanner(): void {
     this.specManager.selectedSpecGroup.bannerMessage = null;
   }
 }

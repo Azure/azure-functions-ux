@@ -7,7 +7,7 @@ import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class StandardPlanPriceSpec extends PriceSpec {
   tier = Tier.standard;
-  shouldEnableUpsell = true;
+  upsellEnabled = true;
 
   featureItems = [
     {
