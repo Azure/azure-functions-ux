@@ -1,0 +1,15 @@
+{
+	"en": {
+		"eventHubOut_connection_help": "The name of the app setting containing your Event Hub connection string. The connection string must have Send permissions.",
+		"eventHubOut_connection_label": "Event Hub connection",
+		"eventHubOut_displayName": "Azure Event Hubs",
+		"eventHubOut_name_help": "The name used to identify this binding in your code",
+		"eventHubOut_name_label": "Event parameter name",
+		"eventHubOut_path_errorText": "The event hub name must start and end with a letter or number, and it can contain only letters, numbers, the hyphen, the period, and the underscore. The name must be 1 to 50 characters.",
+		"eventHubOut_path_help": "The name of the event hub to which the event will be sent.",
+		"eventHubOut_path_label": "Event Hub name",
+		"eventHubTrigger_connection_help": "The name of the app setting containing your your Event Hub connection string. The connection string must have Receive permissions.",
+		"eventHubTrigger_connection_label": "Event Hub connection",
+		"eventHubTrigger_consumerGroup_help": "Event Hub consumer group from which to receive events"
+	}
+}
