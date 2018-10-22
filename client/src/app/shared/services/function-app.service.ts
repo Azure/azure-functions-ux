@@ -489,7 +489,7 @@ export class FunctionAppService {
   updateDisabledAppSettings(context: FunctionAppContext, infos: FunctionInfo[]): Observable<any> {
     if (infos.length > 0) {
       return this._siteService.getAppSettings(context.site.id, true).switchMap(r => {
-        const appSettings: ArmObj<{ [key: string]: string }> = r.result;
+        const appSettings = r.result;
         let needToUpdate = false;
         infos.forEach(info => {
           const appSettingName = `AzureWebJobs.${info.name}.Disabled`;
