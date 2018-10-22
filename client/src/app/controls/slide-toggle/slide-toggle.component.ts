@@ -32,11 +32,11 @@ export class SlideToggleComponent implements OnChanges {
     //  --------- if 'this.stateNames' defined ---------
     //   stateName        -> this.on ? this.stateNames.on : this.stateNames.off
     //   nameAndStateName -> this.name + ": " (this.on ? this.stateNames.on : this.stateNames.off)
-    //   mergedStateNames -> this.stateNames.off + "/" + this.stateNames.on [when applied to aria-lable, ' toggle' is appended]
+    //   mergedStateNames -> this.stateNames.off + "/" + this.stateNames.on [when applied to aria-label, ' toggle' is appended]
     //  ------ if 'this.stateNames' not defined ------
     //   stateName        -> this.on ? this.stateNames.on : this.stateNames.off
     //   nameAndStateName -> this.name + ": " (this.on ? this.stateNames.on : this.stateNames.off)
-    //   mergedStateNames -> this.stateNames.off + "/" + this.stateNames.on [when applied to aria-lable, ' toggle' is appended]
+    //   mergedStateNames -> this.stateNames.off + "/" + this.stateNames.on [when applied to aria-label, ' toggle' is appended]
 
     @Input() displayLabelFormat: LabelFormt;
 
