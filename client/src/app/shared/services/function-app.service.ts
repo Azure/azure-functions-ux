@@ -112,8 +112,11 @@ export class FunctionAppService {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       Observable.zip(
         this._cacheService.get(context.urlTemplates.getFunctionUrl(name), false, this.headers(t)),
-        this._cacheService.postArm(`${context.site.id}/config/appsettings/list`),
-        (functions, appSettings) => ({ function: functions.json() as FunctionInfo, appSettings: appSettings.json() })
+        this._siteService.getAppSettings(context.site.id, true),
+        (functions, appSettings) => ({
+          function: functions.json() as FunctionInfo,
+          appSettings: appSettings.result,
+        })
       ).map(result => {
         // For runtime 2.0 we use settings for disabling functions
         const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
@@ -485,8 +488,8 @@ export class FunctionAppService {
   // TODO: [ahmels] change to Result<T>
   updateDisabledAppSettings(context: FunctionAppContext, infos: FunctionInfo[]): Observable<any> {
     if (infos.length > 0) {
-      return this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true).flatMap(r => {
-        const appSettings: ArmObj<any> = r.json();
+      return this._siteService.getAppSettings(context.site.id, true).switchMap(r => {
+        const appSettings = r.result;
         let needToUpdate = false;
         infos.forEach(info => {
           const appSettingName = `AzureWebJobs.${info.name}.Disabled`;
@@ -499,7 +502,7 @@ export class FunctionAppService {
           }
         });
 
-        return needToUpdate ? this._cacheService.putArm(appSettings.id, null, appSettings) : Observable.of(null);
+        return needToUpdate ? this._siteService.updateAppSettings(context.site.id, appSettings) : Observable.of(null);
       });
     } else {
       return Observable.of(null);

@@ -55,6 +55,7 @@ export class FunctionManageComponent extends NavigableComponent {
     this.functionStateValueChange = new Subject<boolean>();
     this.functionStateValueChange
       .switchMap(state => {
+        this.setBusy();
         this.functionInfo.config.disabled = state;
         this.functionInfo.config.disabled
           ? this._portalService.logAction('function-manage', 'disable')
