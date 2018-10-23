@@ -414,6 +414,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
           {
             detailBlade: 'MSIBlade',
             detailBladeInputs: { resourceUri: site.id },
+            openAsContextBlade: true,
           },
           this._portalService,
           null,
@@ -519,6 +520,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         {
           detailBlade: 'ApiCors',
           detailBladeInputs: { resourceUri: site.id },
+          openAsContextBlade: true,
         },
         this._portalService
       ),
