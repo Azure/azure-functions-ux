@@ -14,12 +14,14 @@ import { GeoRegion } from '../models/arm/georegion';
 import { Subject } from 'rxjs/Subject';
 import { SpecCostQueryInput } from '../../site/spec-picker/price-spec-manager/billing-models';
 
+type OSType = 'windows' | 'linux';
+
 export interface IPlanService {
   getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>>;
   updatePlan(plan: ArmObj<ServerFarm>);
   getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]>;
   getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean);
-  getBillingMeters(subscriptionId: string, osType?: 'windows' | 'linux', location?: string): Observable<ArmObj<BillingMeter>[]>;
+  getBillingMeters(subscriptionId: string, osType: OSType, location?: string): Observable<ArmObj<BillingMeter>[]>;
 }
 
 @Injectable()
@@ -97,7 +99,7 @@ export class PlanService implements IPlanService {
     });
   }
 
-  getBillingMeters(subscriptionId: string, osType?: 'windows' | 'linux', location?: string): Observable<ArmObj<BillingMeter>[]> {
+  getBillingMeters(subscriptionId: string, osType: OSType, location?: string): Observable<ArmObj<BillingMeter>[]> {
     let url = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/billingMeters?api-version=${
       this._armService.websiteApiVersion
     }`;
