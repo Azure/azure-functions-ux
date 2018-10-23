@@ -120,6 +120,8 @@ export interface OpenBladeInfo {
   detailBlade: string;
   detailBladeInputs: any;
   extension?: string;
+  openAsContextBlade?: boolean;
+  openAsSubJourney?: boolean;
 }
 
 export interface TimerEvent {

@@ -97,7 +97,7 @@ export class DisableableBladeFeature extends DisableableFeature {
   }
 
   click() {
-    this._portalService.openBladeDeprecated(this._bladeInfo, 'site-manage');
+    this._portalService.openBlade(this._bladeInfo, 'site-manage');
   }
 }
 
@@ -114,7 +114,7 @@ export class BladeFeature extends FeatureItem {
   }
 
   click() {
-    this._portalService.openBladeDeprecated(this.bladeInfo, 'site-manage');
+    this._portalService.openBlade(this.bladeInfo, 'site-manage');
   }
 }
 
