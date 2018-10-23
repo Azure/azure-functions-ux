@@ -8,6 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTrace } from '../../shared/models/application-insights';
 import { PortalService } from '../../shared/services/portal.service';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: ComponentNames.monitorApplicationInsights,
@@ -60,12 +62,12 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
           Observable.of(functionMonitorInfo),
           this._applicationInsightsService.getLast30DaysSummary(
             functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-            functionMonitorInfo.functionAppContext.site.name,
+            this._getFunctionAppName(functionMonitorInfo.functionAppContext),
             functionMonitorInfo.functionInfo.name
           ),
           this._applicationInsightsService.getInvocationTraces(
             functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
-            functionMonitorInfo.functionAppContext.site.name,
+            this._getFunctionAppName(functionMonitorInfo.functionAppContext),
             functionMonitorInfo.functionInfo.name
           )
         )
@@ -124,7 +126,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   public openAppInsightsQueryEditor() {
     const url = this._applicationInsightsService.getInvocationTracesDirectUrl(
       this.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
-      this.functionMonitorInfo.functionAppContext.site.name,
+      this._getFunctionAppName(this.functionMonitorInfo.functionAppContext),
       this.functionMonitorInfo.functionInfo.name
     );
 
@@ -141,5 +143,13 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       },
       ComponentNames.functionMonitor
     );
+  }
+
+  private _getFunctionAppName(functionAppContext: FunctionAppContext): string {
+    const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(functionAppContext.site.id);
+
+    return siteDescriptor.slot
+      ? `${siteDescriptor.site}-${siteDescriptor.slot}`
+      : siteDescriptor.site;
   }
 }
