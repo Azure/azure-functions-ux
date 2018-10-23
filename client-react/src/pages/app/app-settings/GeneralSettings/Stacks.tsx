@@ -1,19 +1,16 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { fetchStacks } from '../../../../modules/service/available-stacks/thunks';
 import DotNetStack from './Stacks/DotNetStack';
 import PhpStack from './Stacks/PhpStack';
 import PythonStack from './Stacks/PythonStack';
-import { StacksProps } from '../AppSettings.Types';
+import { AppSettingsFormValues } from '../AppSettings.Types';
 import JavaStack from './Stacks/JavaStack';
-import IState from '../../../../modules/types';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
-
+import { translate, InjectedTranslateProps } from 'react-i18next';
 interface StacksState {
   currentStack: string;
 }
-class Stacks extends React.Component<StacksProps, StacksState> {
+class Stacks extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, StacksState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +18,7 @@ class Stacks extends React.Component<StacksProps, StacksState> {
     };
   }
   public render() {
+    const { t } = this.props;
     return (
       <>
         <Field
@@ -44,8 +42,8 @@ class Stacks extends React.Component<StacksProps, StacksState> {
               text: 'Java',
             },
           ]}
-          label="Stack"
-          id="stack-dropdown"
+          label={t('stack')}
+          id="app-settings-stack-dropdown"
         />
         {this.props.values.currentlySelectedStack === 'dotnet' ? <DotNetStack {...this.props} /> : null}
         {this.props.values.currentlySelectedStack === 'php' ? <PhpStack {...this.props} /> : null}
@@ -56,18 +54,4 @@ class Stacks extends React.Component<StacksProps, StacksState> {
   }
 }
 
-const mapStateToProps = (state: IState) => {
-  return {
-    stacks: state.stacks.stacks.value,
-    currentlySelectedStack: state.webConfig.currentlySelectedStack,
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchStacks: () => dispatch(fetchStacks()),
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Stacks);
+export default translate()(Stacks);

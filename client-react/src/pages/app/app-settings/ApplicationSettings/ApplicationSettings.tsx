@@ -7,6 +7,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 interface ApplicationSettingsState {
   showPanel: boolean;
@@ -15,7 +16,10 @@ interface ApplicationSettingsState {
   createNewItem: boolean;
 }
 
-export default class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues>, ApplicationSettingsState> {
+export class ApplicationSettings extends React.Component<
+  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
+  ApplicationSettingsState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,32 +31,31 @@ export default class ApplicationSettings extends React.Component<FormikProps<App
   }
 
   public render() {
+    const { t } = this.props;
     if (!this.props.values.appSettings) {
       return null;
     }
     return (
       <>
         <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
-          New App Setting
+          {t('addEditApplicationSetting')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
           onDismiss={this._onClosePanel}
-          headerText="New App Setting"
-          closeButtonAriaLabel="Close"
+          headerText={t('newApplicationSetting')}
+          closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
           <AppSettingAddEdit {...this.state.currentAppSetting!} updateAppSetting={this.updateCurrentItem.bind(this)} />
         </Panel>
         <DetailsList
           items={this.props.values.appSettings}
-          columns={this._columns}
+          columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          ariaLabelForSelectionColumn="Toggle selection"
-          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
         />
       </>
     );
@@ -117,79 +120,82 @@ export default class ApplicationSettings extends React.Component<FormikProps<App
   }
 
   private onRenderItemColumn = (item: AppSetting, index: number, column: IColumn) => {
+    const { t } = this.props;
     if (!column || !item) {
       return null;
     }
 
     if (column.key === 'delete') {
-      return <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" onClick={() => this.removeItem(index)} />;
+      return <IconButton iconProps={{ iconName: 'Delete' }} title={t('delete')} onClick={() => this.removeItem(index)} />;
     }
     if (column.key === 'edit') {
-      return <IconButton iconProps={{ iconName: 'Edit' }} title="Edit" onClick={() => this._onShowPanel(item, index)} />;
+      return <IconButton iconProps={{ iconName: 'Edit' }} title={t('edit')} onClick={() => this._onShowPanel(item, index)} />;
     }
     if (column.key === 'sticky') {
-      return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title="Sticky" /> : null;
+      return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} /> : null;
     }
     return <span>{item[column.fieldName!]}</span>;
   };
 
   // tslint:disable-next-line:member-ordering
-  private _columns: IColumn[] = [
-    {
-      key: 'name',
-      name: 'Name',
-      fieldName: 'name',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for name',
-    },
-    {
-      key: 'value',
-      name: 'Value',
-      fieldName: 'value',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'sticky',
-      name: 'Slot Setting',
-      fieldName: 'sticky',
-      minWidth: 20,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'delete',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'edit',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-  ];
+  private _getColumns = () => {
+    const { t } = this.props;
+    return [
+      {
+        key: 'name',
+        name: t('name'),
+        fieldName: 'name',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'value',
+        name: t('value'),
+        fieldName: 'value',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'sticky',
+        name: t('sticky'),
+        fieldName: 'sticky',
+        minWidth: 20,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: this.onRenderItemColumn,
+      },
+      {
+        key: 'delete',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('delete'),
+      },
+      {
+        key: 'edit',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('edit'),
+      },
+    ];
+  };
 }
+
+export default translate()(ApplicationSettings);

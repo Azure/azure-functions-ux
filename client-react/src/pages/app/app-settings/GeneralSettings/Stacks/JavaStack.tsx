@@ -7,13 +7,14 @@ import { AvailableStack } from '../../../../../models/available-stacks';
 import IState from '../../../../../modules/types';
 import { FormikProps, Field } from 'formik';
 import { AppSettingsFormValues } from '../../AppSettings.Types';
+import { InjectedTranslateProps } from 'react-i18next';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
   stacksLoading: boolean;
 }
 
-type Props = StateProps & FormikProps<AppSettingsFormValues>;
+type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
 interface JavaStackState {
   currentJavaMajorVersion: string;
   initialized: boolean;
@@ -57,7 +58,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
   }
 
   public render() {
-    const { stacks, values } = this.props;
+    const { stacks, values, t } = this.props;
     const javaStack = stacks.find(x => x.name === 'java');
     const javaContainers = stacks.find(x => x.name === 'javaContainers');
     if (!javaStack || !javaContainers) {
@@ -78,9 +79,10 @@ class JavaStack extends React.Component<Props, JavaStackState> {
     let javaMinorVersionOptions: IDropdownOption[] = [];
     if (currentJavaMajorVersionOption) {
       javaMinorVersionOptions = currentJavaMajorVersionOption.minorVersions.map(val => {
+        const newest = val.isDefault ? ` (${t('newest')})` : '';
         return {
           key: val.runtimeVersion,
-          text: `${val.displayVersion}${val.isDefault ? ' (newest)' : ''}`,
+          text: `${val.displayVersion}${newest}`,
         };
       });
     }
@@ -98,11 +100,11 @@ class JavaStack extends React.Component<Props, JavaStackState> {
       javaContainers.properties.frameworks.find(x => x.name.toLowerCase() === values.config.properties.javaContainer.toLowerCase());
     let javaFrameworkVersionOptions: IDropdownOption[] = [];
     if (currentFramework) {
-      const t = currentFramework.majorVersions.map(val => {
+      const majorVersions = currentFramework.majorVersions.map(val => {
         const version = [
           {
             key: val.runtimeVersion,
-            text: `${val.displayVersion} (Use latest minor version)`,
+            text: `${val.displayVersion} (${t('latestMinorVersion')})`,
           },
         ];
         return version.concat(
@@ -114,7 +116,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
           })
         );
       });
-      t.forEach(x => {
+      majorVersions.forEach(x => {
         javaFrameworkVersionOptions = javaFrameworkVersionOptions.concat(x);
       });
     }
@@ -122,31 +124,31 @@ class JavaStack extends React.Component<Props, JavaStackState> {
     return (
       <div>
         <OfficeDropdown
-          label="Java Version"
+          label={t('javaVersion')}
           selectedKey={this.state.currentJavaMajorVersion}
-          id="javaContainer"
+          id="app-settings-java-container"
           options={javaVersions}
           onChange={this.onMajorVersionChange}
         />
         <Field
           name="config.properties.javaVersion"
           component={Dropdown}
-          label="Java Minor Version"
-          id="javaContainer"
+          label={t('javaMinorVersion')}
+          id="app-settings-java-container"
           options={javaMinorVersionOptions}
         />
         <Field
           name="config.properties.javaContainer"
           component={Dropdown}
-          label="Java Container"
-          id="javaContainerVersion"
+          label={t('javaContainer')}
+          id="app-settings-java-container-version"
           options={frameworks}
         />
         <Field
           name="config.properties.javaContainerVersion"
           component={Dropdown}
-          label="Java Container Version"
-          id="javaContainerVersion"
+          label={t('javaContainerVersion')}
+          id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}
         />
       </div>

@@ -2,12 +2,13 @@ import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
 import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 export interface ConnectionStringAddEditProps extends IConnectionString {
   updateConnectionString: (item: IConnectionString) => any;
 }
 
-const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props => {
-  const { updateConnectionString, children, ...connectionString } = props;
+const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
+  const { updateConnectionString, children, t, ...connectionString } = props;
   const updateConnectionStringName = (name: string) => {
     updateConnectionString({ ...connectionString, name });
   };
@@ -25,19 +26,29 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   };
   return (
     <div>
-      <TextField label="Name" id="name" value={connectionString.name} onChanged={updateConnectionStringName} />
-      <TextField label="Value" id="value" value={connectionString.value} onChanged={updateConnectionStringValue} />
-      <TextField label="Type" id="type" value={connectionString.type.toString()} onChanged={updateConnectionStringType} />
+      <TextField label={t('name')} id="connection-strings-form-name" value={connectionString.name} onChanged={updateConnectionStringName} />
+      <TextField
+        label={t('value')}
+        id="connection-strings-form-value"
+        value={connectionString.value}
+        onChanged={updateConnectionStringValue}
+      />
+      <TextField
+        label={t('type')}
+        id="connection-strings-form-type"
+        value={connectionString.type.toString()}
+        onChanged={updateConnectionStringType}
+      />
       <Toggle
-        label="Sticky"
-        id="sticky"
+        label={t('sticky')}
+        id="connection-strings-form-sticky"
         defaultChecked={connectionString.sticky}
         onChanged={updateConnectionStringSticky}
-        onText="On"
-        offText="Off"
+        onText={t('on')}
+        offText={t('off')}
       />
     </div>
   );
 };
 
-export default ConnectionStringsAddEdit;
+export default translate()(ConnectionStringsAddEdit);

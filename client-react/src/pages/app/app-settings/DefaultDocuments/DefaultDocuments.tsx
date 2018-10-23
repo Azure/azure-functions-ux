@@ -3,10 +3,10 @@ import { IconButton, ActionButton } from 'office-ui-fabric-react/lib-commonjs/Bu
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import TextField from '../../../../components/form-controls/TextField';
 import { FormikProps, Field } from 'formik';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
-const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
-  const { values, setValues, errors } = props;
-
+const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
+  const { values, setValues, errors, t } = props;
   const duplicateValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? 'This field must be unique.' : null;
   };
@@ -47,7 +47,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues>> = props =>
   return (
     <>
       <ActionButton onClick={createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
-        New Document
+        {t('newDocument')}
       </ActionButton>
       {values.config.properties.defaultDocuments.map((value, index) => (
         <div key={index} style={{ marginBottom: '5px' }}>
@@ -60,7 +60,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues>> = props =>
                 width: 'calc(100% - 20px)',
               },
             }}
-            id="documentText"
+            id={`app-settings-document-text-${index}`}
             underlined
             errorMessage={
               errors &&
@@ -75,7 +75,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues>> = props =>
           <IconButton
             style={{ display: 'inline-block', width: '16px' }}
             iconProps={{ iconName: 'Delete' }}
-            title="Delete"
+            title={t('delete')}
             onClick={() => removeItem(index)}
           />
         </div>
@@ -84,4 +84,4 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues>> = props =>
   );
 };
 
-export default DefaultDocuments;
+export default translate()(DefaultDocuments);

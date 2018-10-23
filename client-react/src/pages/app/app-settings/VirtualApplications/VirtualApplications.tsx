@@ -6,6 +6,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
 import { VirtualApplication } from '../../../../models/WebAppModels';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { FormikProps } from 'formik';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -13,7 +14,10 @@ export interface VirtualApplicationsState {
   currentItemIndex: number | null;
   createNewItem: boolean;
 }
-export default class VirtualApplications extends React.Component<FormikProps<AppSettingsFormValues>, VirtualApplicationsState> {
+export class VirtualApplications extends React.Component<
+  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
+  VirtualApplicationsState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +29,7 @@ export default class VirtualApplications extends React.Component<FormikProps<App
   }
 
   public render() {
-    const { values } = this.props;
+    const { values, t } = this.props;
     if (!values.virtualApplications) {
       return null;
     }
@@ -38,20 +42,18 @@ export default class VirtualApplications extends React.Component<FormikProps<App
           isOpen={this.state.showPanel}
           type={PanelType.medium}
           onDismiss={this._onClosePanel}
-          headerText="New App "
-          closeButtonAriaLabel="Close"
+          headerText={t('newApp')}
+          closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
           <VirtualApplicationsAddEdit {...this.state.currentVirtualApplication!} updateVirtualApplication={this.updateCurrentItem} />
         </Panel>
         <DetailsList
           items={values.virtualApplications}
-          columns={this._columns}
+          columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          ariaLabelForSelectionColumn="Toggle selection"
-          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
         />
       </>
     );
@@ -96,9 +98,9 @@ export default class VirtualApplications extends React.Component<FormikProps<App
     return (
       <div>
         <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
-          Save
+          {this.props.t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={this._onClosePanel}>Cancel</DefaultButton>
+        <DefaultButton onClick={this._onClosePanel}>{this.props.t('cancel')}</DefaultButton>
       </div>
     );
   };
@@ -142,64 +144,66 @@ export default class VirtualApplications extends React.Component<FormikProps<App
   };
 
   // tslint:disable-next-line:member-ordering
-  private _columns: IColumn[] = [
-    {
-      key: 'virtualPath',
-      name: 'Virtual Path',
-      fieldName: 'virtualPath',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'physicalPath',
-      name: 'Physic Path',
-      fieldName: 'physicalPath',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for name',
-    },
+  private _getColumns = () => {
+    const { t } = this.props;
+    return [
+      {
+        key: 'virtualPath',
+        name: t('virtualPath'),
+        fieldName: 'virtualPath',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'physicalPath',
+        name: t('physicalPath'),
+        fieldName: 'physicalPath',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
 
-    {
-      key: 'type',
-      name: 'Type',
-      fieldName: 'virtualDirectory',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-      onRender: this.onRenderItemColumn,
-    },
-    {
-      key: 'delete',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'edit',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-  ];
+      {
+        key: 'type',
+        name: t('type'),
+        fieldName: 'virtualDirectory',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: this.onRenderItemColumn,
+      },
+      {
+        key: 'delete',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('delete'),
+      },
+      {
+        key: 'edit',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('edit'),
+      },
+    ];
+  };
 }
+
+export default translate()(VirtualApplications);

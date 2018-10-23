@@ -9,6 +9,8 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
 import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
 import { settingsWrapper } from '../AppSettingsForm';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { compose } from 'redux';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 interface SlotAutoSwapPropsStateMap {
   slots: ArmArray<Partial<Site>>;
@@ -20,41 +22,43 @@ interface SlotAutoSwapPropsDispatchMap {
 }
 
 export class SlotAutoSwap extends React.Component<
-  FormikProps<AppSettingsFormValues> & SlotAutoSwapPropsStateMap & SlotAutoSwapPropsDispatchMap,
+  FormikProps<AppSettingsFormValues> & SlotAutoSwapPropsStateMap & SlotAutoSwapPropsDispatchMap & InjectedTranslateProps,
   any
 > {
   public componentWillMount() {
     this.props.fetchSlotList();
   }
   public render() {
-    if (!this.props.slots) {
+    const { slots, t } = this.props;
+    if (!slots) {
       return null;
     }
-    if (this.props.slots.value.length < 1) {
+    if (slots.value.length < 1) {
       return null;
     }
     const slotDropDownItems = this.getSlotNameList().map<IDropdownOption>(val => ({
       key: val,
       text: val,
     }));
+
     return (
       <>
         {this.getCurrentSlotName() !== 'production' && (
           <>
-            <h3>Slot swapping</h3>
+            <h3>{t('slots')}</h3>
             <div className={settingsWrapper}>
               <Toggle
-                label="Auto Swap Enabled"
+                label={t('autoSwapEnabled')}
+                id="app-settings-auto-swap-enabled"
                 checked={!!this.props.values.config.properties.autoSwapSlotName}
-                tabIndex={0}
                 onChange={this.onToggleChange}
               />
               {!!this.props.values.config.properties.autoSwapSlotName && (
                 <Field
                   name="config.properties.autoSwapSlotName"
                   component={Dropdown}
-                  label="Auto Swap Slot"
-                  id="autoSwapSlotName"
+                  label={t('autoSwapSlot')}
+                  id="app-settings-auto-swap-slot-name"
                   options={slotDropDownItems}
                 />
               )}
@@ -98,7 +102,10 @@ const mapDispatchToProps = dispatch => {
     fetchSlotList: () => dispatch(fetchSlotList()),
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  translate()
 )(SlotAutoSwap);

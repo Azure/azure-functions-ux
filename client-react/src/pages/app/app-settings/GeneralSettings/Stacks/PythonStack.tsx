@@ -6,6 +6,8 @@ import IState from '../../../../../modules/types';
 import { ArmObj } from '../../../../../models/WebAppModels';
 import { AvailableStack } from '../../../../../models/available-stacks';
 import { Field, FormikProps } from 'formik';
+import { compose } from 'recompose';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -17,10 +19,10 @@ export interface OwnProps {
   formApi: FormApi;
 }
 
-type Props = StateProps & FormikProps<AppSettingsFormValues>;
+type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
 
-const PythonStack: React.StatelessComponent<Props> = (props: Props) => {
-  const { stacks } = props;
+const PythonStack: React.StatelessComponent<Props> = props => {
+  const { stacks, t } = props;
   const pythonStack = stacks.find(x => x.name === 'python');
   if (!pythonStack) {
     return null;
@@ -32,9 +34,15 @@ const PythonStack: React.StatelessComponent<Props> = (props: Props) => {
     key: x.runtimeVersion,
     text: x.displayVersion,
   }));
-  pythonVersions.push({ key: '', text: 'Off' });
+  pythonVersions.push({ key: '', text: t('off') });
   return (
-    <Field name="config.properties.pythonVersion" component={Dropdown} label="Python Version" id="pythonVersion" options={pythonVersions} />
+    <Field
+      name="config.properties.pythonVersion"
+      component={Dropdown}
+      label={t('pythonVersion')}
+      id="pythonVersion"
+      options={pythonVersions}
+    />
   );
 };
 
@@ -44,7 +52,10 @@ const mapStateToProps = (state: IState): StateProps => {
     stacksLoading: state.stacks.loading,
   };
 };
-export default connect(
-  mapStateToProps,
-  null
+export default compose(
+  connect(
+    mapStateToProps,
+    null
+  ),
+  translate()
 )(PythonStack);

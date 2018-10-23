@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
 import { HandlerMapping } from '../../../../models/WebAppModels';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 export interface HandlerMappingAddEditProps extends HandlerMapping {
   updateHandlerMapping: (item: HandlerMapping) => any;
 }
 
-const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
-  const { updateHandlerMapping, children, ...handlerMapping } = props;
+const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
+  const { updateHandlerMapping, children, t, ...handlerMapping } = props;
   const updateHandlerMappingExtension = (extension: string) => {
     updateHandlerMapping({ ...handlerMapping, extension });
   };
@@ -23,15 +24,25 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
   };
   return (
     <div>
-      <TextField label="Extension" id="extension" value={handlerMapping.extension} onChanged={updateHandlerMappingExtension} />
       <TextField
-        label="Script Processor"
-        id="value"
+        label={t('extension')}
+        id="handler-mappings-table-extension"
+        value={handlerMapping.extension}
+        onChanged={updateHandlerMappingExtension}
+      />
+      <TextField
+        label={t('scriptProcessor')}
+        id="handler-mappings-table-script-processor"
         value={handlerMapping.scriptProcessor}
         onChanged={updateHandlerMappingScriptProccessor}
       />
-      <TextField label="Arguments" id="type" value={handlerMapping.arguments} onChanged={updateHandlerMappingArguments} />
+      <TextField
+        label={t('arguments')}
+        id="handler-mappings-table-arguments"
+        value={handlerMapping.arguments}
+        onChanged={updateHandlerMappingArguments}
+      />
     </div>
   );
 };
-export default HandlerMappingsAddEdit;
+export default translate()(HandlerMappingsAddEdit);

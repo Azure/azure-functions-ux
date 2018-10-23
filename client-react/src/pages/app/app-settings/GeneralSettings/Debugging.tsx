@@ -3,17 +3,19 @@ import { FormikProps, Field } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import Toggle from '../../../../components/form-controls/Toggle';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 
-const Debug: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
+const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
+  const { t } = props;
   return (
     <>
       <Field
         name="config.properties.remoteDebuggingEnabled"
         component={Toggle}
-        label="Remote Debugging"
+        label={t('remoteDebuggingEnabledLabel')}
         id="remote-debugging-switch"
-        onText="On"
-        offText="Off"
+        onText={t('on')}
+        offText={t('off')}
       />
       {props.values.config.properties.remoteDebuggingEnabled && (
         <Field
@@ -33,7 +35,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
               text: '2017',
             },
           ]}
-          label="Remote Debugging Version"
+          label={t('remoteDebuggingVersionLabel')}
           id="remote-debugging-version"
         />
       )}
@@ -41,4 +43,4 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues>> = props => {
   );
 };
 
-export default Debug;
+export default translate()(Debug);

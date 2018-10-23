@@ -2,15 +2,17 @@ import * as React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field, FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 
-const Platform: React.SFC<FormikProps<AppSettingsFormValues>> = (props: FormikProps<AppSettingsFormValues>) => {
+const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
+  const { t } = props;
   return (
     <div>
       <Field
         name="config.properties.use32BitWorkerProcess"
         component={Dropdown}
-        label="Platform"
-        id="use32BitWorkerProcess"
+        label={t('platform')}
+        id="app-settings-worker-process"
         options={[
           {
             key: true,
@@ -25,16 +27,16 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues>> = (props: FormikPr
       <Field
         name="config.properties.managedPipelineMode"
         component={Dropdown}
-        label="Managed Pipeline Version"
-        id="managedPipelineMode"
+        label={t('managedPipelineVersion')}
+        id="app-settings-managed-pipeline-mode"
         options={[
           {
             key: 0,
-            text: 'Integrated',
+            text: t('integrated'),
           },
           {
             key: 1,
-            text: 'Classic',
+            text: t('classic'),
           },
         ]}
       />
@@ -42,76 +44,76 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues>> = (props: FormikPr
       <Field
         name="config.properties.ftpsState"
         component={Dropdown}
-        label="FTP State"
-        id="ftpsState"
+        label={t('ftpState')}
+        id="app-settings-ftps-state"
         options={[
           {
             key: 'AllAllowed',
-            text: 'All Allowed',
+            text: t('allAllowed'),
           },
           {
             key: 'FtpsOnly',
-            text: 'Ftps Only',
+            text: t('fptsOnly'),
           },
           {
             key: 'Disabled',
-            text: 'Disabled',
+            text: t('disabled'),
           },
         ]}
       />
       <Field
         name="config.properties.alwaysOn"
         component={Dropdown}
-        label="Always On"
-        id="alwaysOn"
+        label={t('alwaysOn')}
+        id="app-settings-always-on"
         options={[
           {
             key: true,
-            text: 'On',
+            text: t('on'),
           },
           {
             key: false,
-            text: 'Off',
+            text: t('Off'),
           },
         ]}
       />
       <Field
         name="config.properties.webSocketsEnabled"
         component={Dropdown}
-        label="Web Sockets"
-        id="webSocketsEnabled"
+        label={t('webSockets')}
+        id="app-settings-web-sockets-enabled"
         options={[
           {
             key: true,
-            text: 'On',
+            text: t('on'),
           },
           {
             key: false,
-            text: 'Off',
+            text: t('Off'),
           },
         ]}
       />
       <Field
         name="site.properties.clientAffinityEnabled"
         component={Dropdown}
-        label="ARR Affinity"
-        id="clientAffinityEnabled"
+        label={t('arrAffinity')}
+        id="app-settings-clientAffinityEnabled"
         options={[
           {
             key: true,
-            text: 'On',
+            text: t('on'),
           },
           {
             key: false,
-            text: 'Off',
+            text: t('Off'),
           },
         ]}
       />
       <Field
         name="config.properties.http20Enabled"
         component={Dropdown}
-        label="Http 2.0 Enabled"
-        id="http20Enabled"
+        label={t('http20Enabled')}
+        id="app-settings-http-enabled"
         options={[
           {
             key: true,
@@ -126,4 +128,4 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues>> = (props: FormikPr
     </div>
   );
 };
-export default Platform;
+export default translate()(Platform);

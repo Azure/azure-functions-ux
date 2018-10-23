@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from 'react-i18next';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 import { style } from 'typestyle';
 import Stacks from './GeneralSettings/Stacks';
@@ -24,41 +24,42 @@ export const settingsWrapper = style({
 const defaultDocumentsWrapper = style({
   width: '565px',
 });
-class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>, any> {
+class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, any> {
   public render() {
+    const { t } = this.props;
     return (
       <Pivot>
-        <PivotItem linkText="General Settings">
-          <h3>Stack Settings</h3>
+        <PivotItem linkText={t('generalSettings')}>
+          <h3>{t('stackSettings')}</h3>
           <div className={settingsWrapper}>
             <Stacks {...this.props} />
           </div>
-          <h3>Platform Settings</h3>
+          <h3>{t('platformSettings')}</h3>
           <div className={settingsWrapper}>
             <Platform {...this.props} />
           </div>
-          <h3>Debugging</h3>
+          <h3>{t('debugging')}</h3>
           <div className={settingsWrapper}>
             <Debug {...this.props} />
           </div>
           <SlotAutoSwap {...this.props} />
         </PivotItem>
-        <PivotItem linkText="Application Settings">
-          <h3>Application Settings</h3>
+        <PivotItem linkText={t('applicationSettings')}>
+          <h3>{t('applicationSettings')}</h3>
           <ApplicationSettings {...this.props} />
-          <h3>Connection Strings</h3>
+          <h3>{t('connectionStrings')}</h3>
           <ConnectionStrings {...this.props} />
         </PivotItem>
-        <PivotItem linkText="Default Documents">
-          <h3>Default Documents</h3>
+        <PivotItem linkText={t('defaultDocuments')}>
+          <h3>{t('defaultDocuments')}</h3>
           <div className={defaultDocumentsWrapper}>
             <DefaultDocuments {...this.props} />
           </div>
         </PivotItem>
-        <PivotItem linkText="Path Mappings">
-          <h3>Handler Mappings</h3>
+        <PivotItem linkText={t('pathMappings')}>
+          <h3>{t('handlerMappings')}</h3>
           <HandlerMappings {...this.props} />
-          <h3>Virtual applications and directories</h3>
+          <h3>{t('virtualApplications')}</h3>
           <VirtualApplications {...this.props} />
         </PivotItem>
       </Pivot>

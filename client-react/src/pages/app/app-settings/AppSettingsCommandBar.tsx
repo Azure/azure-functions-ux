@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib-commonjs/CommandBar';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 
 // tslint:disable-next-line:member-ordering
 const customButton = (props: IButtonProps) => {
@@ -16,16 +17,16 @@ const customButton = (props: IButtonProps) => {
 };
 
 // Data for CommandBar
-const getItems = (saveFunction: any, discardFunction: any, dirty: boolean): ICommandBarItemProps[] => {
+const getItems = (saveFunction: any, discardFunction: any, dirty: boolean, t: (string) => string): ICommandBarItemProps[] => {
   return [
     {
       key: 'save',
-      name: 'Save',
+      name: t('save'),
       iconProps: {
         iconName: 'Save',
       },
       disabled: !dirty,
-      ariaLabel: 'New. Use left and right arrow keys to navigate',
+      ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: saveFunction,
     },
     {
@@ -34,6 +35,7 @@ const getItems = (saveFunction: any, discardFunction: any, dirty: boolean): ICom
       iconProps: {
         iconName: 'StatusCircleErrorX',
       },
+      ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: discardFunction,
     },
   ];
@@ -44,11 +46,11 @@ interface AppSettingsCommandBarProps {
   dirty: boolean;
 }
 
-const AppSettingsCommandBar: React.SFC<AppSettingsCommandBarProps> = props => {
+const AppSettingsCommandBar: React.SFC<AppSettingsCommandBarProps & InjectedTranslateProps> = props => {
   return (
     <CommandBar
-      items={getItems(props.submitForm, () => props.resetForm(), props.dirty)}
-      ariaLabel={'Use left and right arrow keys to navigate between commands'}
+      items={getItems(props.submitForm, () => props.resetForm(), props.dirty, props.t)}
+      ariaLabel={props.t('appSettingsCommandBarAriaLabel')}
       buttonAs={customButton}
       styles={{
         root: {
@@ -60,4 +62,4 @@ const AppSettingsCommandBar: React.SFC<AppSettingsCommandBarProps> = props => {
   );
 };
 
-export default AppSettingsCommandBar;
+export default translate()(AppSettingsCommandBar);

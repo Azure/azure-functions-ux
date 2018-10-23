@@ -6,8 +6,12 @@
   "scripts": {
     "start:ci": "serve -s ../client-react/build",
     "cy:verify": "cypress verify",
+    "e2e:runlocal": "cypress run --config baseUrl=http://localhost:5000,projectId=rwcr7y",
     "e2e:record": "cypress run --reporter junit --config baseUrl=http://localhost:5000,projectId=rwcr7y --record",
-    "test:ci:record": "run-p --race start:ci e2e:record"
+    "cypress:open": "cypress open",
+    "test:run": "run-p --race start:ci e2e:runlocal",
+    "test:ci:record": "run-p --race start:ci e2e:record",
+    "test:dev": "run-p --race start:ci cypress:open"
   },
   "devDependencies": {
     "cypress": "^3.1.0",

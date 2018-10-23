@@ -1,38 +1,49 @@
 # Azure Functions UX
 
-## Getting started
+## Getting Started
 
-1. **Install Prerequisites**
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-   - [Node 8.\*](https://nodejs.org/en/download/)
-   - [yarn](https://yarnpkg.com/en/docs/install)
+### Prerequisites
 
-2. **Clone and Build Angular App with Server**
+What things you need to install the software and how to install them
 
-```bash
-git clone git@github.com:Azure/azure-functions-ux.git
-# there is a gulp process to build and run everything
-yarn install
-yarn run gulp run-dev
+- [Node 8.\*](https://nodejs.org/en/download/)
+- [yarn](https://yarnpkg.com/en/docs/install)
+- Angular CLI
+
+```
+npm i -g @angular/cli
 ```
 
-3. **Alternitive: Run React app**
+### Project Structure and Important Places
 
-```bash
-git clone git@github.com:Azure/azure-functions-ux.git
-# there is a gulp process to build and run everything
-cd client-react
-yarn start
+```
+root
+│   gulpfile.js - gulp file that gives commands to run most things
+│
+└───client
+│   │   this is the angular client code
+│   │
+│   └───src
+│       │   this is where the non scaffolding angular app code live
+│
+└───server
+│   │   basic server written in nodeJs
+│   └───Resources
+│   │   │ Resources.Resx is the file we keep all strings, these will get localized and be available in the app by key value
+│   │
+│   └───src
+│       │ server.ts - server entry point
+│
+└───client-react
+│   │   react app
+│
+└───tests
+│   │   E2E tests for the react app writen with cypress
 ```
 
-4. **Allow SSL Connections**
-   Go to `https://localhost:44300` and proceed to website in advanced section
-
-5. Visit `https://portal.azure.com?websitesextension_ext=appsvc.env=local` and load up Function Apps from browse
-
-## Code and branches
-
-#### Branches
+### Branches
 
 **master**: (https://functions-staging.azure.com)
 
@@ -42,32 +53,82 @@ yarn start
 gulp swap-production-slots
 ```
 
-**dev**: (https://functions-next.azure.com)
+**dev**: (https://functions-next.azure.com) Make Pull Requests against this branch
 
 > This is the next environment. This is never swapped, instead changes from dev get merged into master.
 
 For control and styling samples go to [https://functions.azure.com?appsvc.devguide=true](https://functions.azure.com?appsvc.devguide=true)
 
-[Angular 2 coding style](https://angular.io/styleguide)
+### Installing
 
-## Code layout
+A step by step series of examples that tell you how to get a development env running
 
-The API surface is very limited:
+#### Angular Application
 
-```bash
-# resource apis
-api/resources
-api/templates
-api/bindingconfig
+from root
 
-# health pings by traffic manager and monitoring
-api/health
+```
+yarn install
+gulp run-dev
 ```
 
-#### AzureFunctions.Client
+#### react application
 
-**Language**: TypeScript
+```
+cd client-react
+yarn start
+```
 
-**Framework**: angular2, react
+#### server only
 
-Check out https://angular.io and https://reactjs.org/
+from root
+
+```
+yarn install
+gulp run-server
+```
+
+## Running the tests
+
+###Angular Unit Tests
+
+```
+cd client
+ng test
+```
+
+### React Unit Tests
+
+```
+cd client-react
+yarn test
+```
+
+### React E2E Tests
+
+single run
+
+```
+cd client-react
+yarn build
+cd ../tests
+yarn test:run
+```
+
+development mode
+
+```
+cd client-react
+yarn start
+```
+
+plus in another terminal
+
+```
+cd tests
+npx cypress open
+```
+
+## License
+
+This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details

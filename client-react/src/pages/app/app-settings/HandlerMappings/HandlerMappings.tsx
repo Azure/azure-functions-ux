@@ -6,6 +6,7 @@ import { HandlerMapping } from '../../../../models/WebAppModels';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
+import { translate, InjectedTranslateProps } from 'react-i18next';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -14,7 +15,7 @@ export interface HandlerMappingState {
   createNewItem: boolean;
 }
 
-export default class HandlerMappings extends React.Component<FormikProps<AppSettingsFormValues>, HandlerMappingState> {
+export class HandlerMappings extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, HandlerMappingState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +27,7 @@ export default class HandlerMappings extends React.Component<FormikProps<AppSett
   }
 
   public render() {
-    const { values } = this.props;
+    const { values, t } = this.props;
     if (!values.config) {
       return null;
     }
@@ -39,20 +40,18 @@ export default class HandlerMappings extends React.Component<FormikProps<AppSett
           isOpen={this.state.showPanel}
           type={PanelType.medium}
           onDismiss={this._onClosePanel}
-          headerText=""
-          closeButtonAriaLabel="Close"
+          headerText={t('newHandlerMapping')}
+          closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
           <HandlerMappingsAddEdit {...this.state.currentHandlerMapping!} updateHandlerMapping={this.updateCurrentItem.bind(this)} />
         </Panel>
         <DetailsList
           items={values.config.properties.handlerMappings || []}
-          columns={this._columns}
+          columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          ariaLabelForSelectionColumn="Toggle selection"
-          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
         />
       </>
     );
@@ -162,62 +161,64 @@ export default class HandlerMappings extends React.Component<FormikProps<AppSett
   };
 
   // tslint:disable-next-line:member-ordering
-  private _columns: IColumn[] = [
-    {
-      key: 'name',
-      name: 'Extension',
-      fieldName: 'extension',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for name',
-    },
-    {
-      key: 'value',
-      name: 'Script Processor',
-      fieldName: 'scriptProcessor',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'type',
-      name: 'Arguments',
-      fieldName: 'arguments',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'delete',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'edit',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-  ];
+  private _getColumns = () => {
+    const { t } = this.props;
+    return [
+      {
+        key: 'extension',
+        name: t('extension'),
+        fieldName: 'extension',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'scriptProcessor',
+        name: t('scriptProcessor'),
+        fieldName: 'scriptProcessor',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'arguments',
+        name: t('arguments'),
+        fieldName: 'arguments',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'delete',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('delete'),
+      },
+      {
+        key: 'edit',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('edit'),
+      },
+    ];
+  };
 }
+
+export default translate()(HandlerMappings);

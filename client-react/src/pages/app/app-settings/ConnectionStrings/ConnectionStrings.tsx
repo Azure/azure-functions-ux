@@ -6,6 +6,7 @@ import { IConnectionString } from '../../../../modules/site/config/connectionstr
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { FormikProps } from 'formik';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 
 interface ConnectionStringsState {
   showPanel: boolean;
@@ -14,7 +15,10 @@ interface ConnectionStringsState {
   createNewItem: boolean;
 }
 
-export default class ConnectionStrings extends React.Component<FormikProps<AppSettingsFormValues>, ConnectionStringsState> {
+export class ConnectionStrings extends React.Component<
+  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
+  ConnectionStringsState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,33 +30,31 @@ export default class ConnectionStrings extends React.Component<FormikProps<AppSe
   }
 
   public render() {
-    const { values } = this.props;
+    const { values, t } = this.props;
     if (!values.connectionStrings) {
       return null;
     }
     return (
       <>
         <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
-          New Connection String
+          {t('newConnectionString')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
           onDismiss={this._onClosePanel}
-          headerText=""
-          closeButtonAriaLabel="Close"
+          headerText={t('addEditConnectionStringHeader')}
+          closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
           <ConnectionStringsAddEdit {...this.state.currentConnectionString!} updateConnectionString={this.updateCurrentItem.bind(this)} />
         </Panel>
         <DetailsList
           items={values.connectionStrings}
-          columns={this._columns}
+          columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
-          ariaLabelForSelectionColumn="Toggle selection"
-          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
         />
       </>
     );
@@ -134,74 +136,75 @@ export default class ConnectionStrings extends React.Component<FormikProps<AppSe
   };
 
   // tslint:disable-next-line:member-ordering
-  private _columns: IColumn[] = [
-    {
-      key: 'name',
-      name: 'Name',
-      fieldName: 'name',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for name',
-    },
-    {
-      key: 'value',
-      name: 'Value',
-      fieldName: 'value',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'type',
-      name: 'Type',
-      fieldName: 'type',
-      minWidth: 210,
-      maxWidth: 350,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'sticky',
-      name: 'Slot Setting',
-      fieldName: 'sticky',
-      minWidth: 20,
-      isRowHeader: true,
-      data: 'string',
-      isPadded: true,
-      isResizable: true,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'delete',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-    {
-      key: 'edit',
-      name: '',
-      minWidth: 16,
-      maxWidth: 16,
-      isResizable: true,
-      isCollapsable: false,
-      onRender: this.onRenderItemColumn,
-      ariaLabel: 'Operations for value',
-    },
-  ];
+  private _getColumns = () => {
+    const { t } = this.props;
+    return [
+      {
+        key: 'name',
+        name: t('name'),
+        fieldName: 'name',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'value',
+        name: t('value'),
+        fieldName: 'value',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'type',
+        name: t('type'),
+        fieldName: 'type',
+        minWidth: 210,
+        maxWidth: 350,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+      },
+      {
+        key: 'sticky',
+        name: t('sticky'),
+        fieldName: 'sticky',
+        minWidth: 20,
+        isRowHeader: true,
+        data: 'string',
+        isPadded: true,
+        isResizable: true,
+        onRender: this.onRenderItemColumn,
+      },
+      {
+        key: 'delete',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('delete'),
+      },
+      {
+        key: 'edit',
+        name: '',
+        minWidth: 16,
+        maxWidth: 16,
+        isResizable: true,
+        isCollapsable: false,
+        onRender: this.onRenderItemColumn,
+        ariaLabel: t('edit'),
+      },
+    ];
+  };
 }
+
+export default translate()(ConnectionStrings);
