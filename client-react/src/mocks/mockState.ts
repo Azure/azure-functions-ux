@@ -55,48 +55,42 @@ const mockState = {
       },
       fonts: {
         tiny: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '10px',
           fontWeight: 600,
         },
         xSmall: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '11px',
           fontWeight: 400,
         },
         small: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '12px',
           fontWeight: 400,
         },
         smallPlus: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '13px',
           fontWeight: 400,
         },
         medium: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '14px',
           fontWeight: 400,
         },
         mediumPlus: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '15px',
@@ -111,32 +105,28 @@ const mockState = {
           fontWeight: 300,
         },
         xLarge: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '21px',
           fontWeight: 100,
         },
         xxLarge: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '28px',
           fontWeight: 100,
         },
         superLarge: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '42px',
           fontWeight: 100,
         },
         mega: {
-          fontFamily:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily: '',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
           fontSize: '72px',
@@ -217,8 +207,7 @@ const mockState = {
       disableGlobalClassNames: false,
       typography: {
         families: {
-          default:
-            "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+          default: "'Segoe UI'",
           monospace: 'Menlo, Monaco, "Courier New", monospace',
         },
         sizes: {
@@ -242,50 +231,42 @@ const mockState = {
         },
         variants: {
           default: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '14px',
             weight: 400,
           },
           caption: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '11px',
             weight: 400,
           },
           h1: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '72px',
             weight: 100,
           },
           h2: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '28px',
             weight: 100,
           },
           h3: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '21px',
             weight: 100,
           },
           h4: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '17px',
             weight: 100,
           },
           h5: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '15px',
             weight: 100,
           },
           link: {
-            family:
-              "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
+            family: '',
             size: '14px',
             weight: 400,
             color: 'link',
@@ -342,8 +323,7 @@ const mockState = {
         state: 'Running',
         hostNames: ['siteName.azurewebsites.net'],
         webSpace: '',
-        selfLink:
-          'https://waws-prod-bay-061.api.azurewebsites.windows.net:454/subscriptions/subid/webspaces/ZUMO-Not-Delete-WestUSwebspace/sites/siteName',
+        selfLink: '',
         repositorySiteName: 'siteName',
         usageState: 0,
         enabled: true,
