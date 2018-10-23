@@ -1368,6 +1368,7 @@ export class PortalResources {
   public static swaggerDefinitionReadOnly = 'swaggerDefinitionReadOnly';
   public static troubleshootYourApp = 'troubleshootYourApp';
   public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
+  public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';

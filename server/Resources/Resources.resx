@@ -4399,4 +4399,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
   </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>The selected registry does not exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
+  </data>
 </root>

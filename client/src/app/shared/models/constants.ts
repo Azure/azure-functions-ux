@@ -532,6 +532,7 @@ export class ContainerConstants {
   public static readonly dockerHubUrl = 'https://index.docker.io';
   public static readonly microsoftMcrUrl = 'https://mcr.microsoft.com';
   public static readonly acrUriBody = 'azurecr';
+  public static readonly acrUriHost = 'azurecr.io';
   public static readonly imageNameSetting = 'DOCKER_CUSTOM_IMAGE_NAME';
   public static readonly serverUrlSetting = 'DOCKER_REGISTRY_SERVER_URL';
   public static readonly usernameSetting = 'DOCKER_REGISTRY_SERVER_USERNAME';
