@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
 import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
+import { ContainerConstants } from 'app/shared/models/constants';
 
 @Component({
   selector: 'container-image-source-acr',
@@ -37,6 +38,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
   public selectedRepository: string;
   public selectedTag: string;
   public imageSourceForm: FormGroup;
+  public cotainsCrossSubscriptionRegistry = false;
 
   constructor(private _acrService: ContainerACRService, private _multiConfigService: ContainerMultiConfigService, injector: Injector) {
     super('ContainerImageSourceACRComponent', injector, 'dashboard');
@@ -58,7 +60,13 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
         return this._acrService.getRegistries(this.containerImageSourceInfo.subscriptionId);
       })
       .do(registryResources => {
-        if (registryResources.isSuccessful && registryResources.result.value && registryResources.result.value.length > 0) {
+        if (
+          registryResources.isSuccessful &&
+          registryResources.result.value &&
+          registryResources.result.value.length > 0 &&
+          (!this.selectedRegistry ||
+            registryResources.result.value.find(resource => resource.properties.loginServer === this.selectedRegistry))
+        ) {
           this.registryItems = registryResources.result.value.map(registryResource => ({
             ...registryResource.properties,
             resourceId: registryResource.id,
@@ -71,10 +79,28 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
           this.loadingRegistries = false;
           this.registriesMissing = false;
+          this.cotainsCrossSubscriptionRegistry = false;
 
           if (this.selectedRegistry) {
             this._loadRepositories();
           }
+        } else if (this.selectedRegistry) {
+          // NOTE(michinoy): This means the user is referencing ACR from cross subscription using private registry.
+          this.cotainsCrossSubscriptionRegistry = true;
+          const selectedRegitryName = this.selectedRegistry.toLowerCase().replace(`.${ContainerConstants.acrUriHost}`, '');
+          this.registryDropdownItems = [
+            {
+              displayLabel: selectedRegitryName,
+              value: this.selectedRegistry,
+            },
+          ];
+
+          this.imageSourceForm.controls.registry.disable();
+
+          this.loadingRegistries = false;
+          this.registriesMissing = false;
+
+          this._loadRepositories();
         } else {
           this.registriesMissing = true;
         }

@@ -4,6 +4,11 @@
         [infoText]="'containerACRMissingErrorMessage' | translate">
     </info-box>
 
+    <info-box *ngIf="cotainsCrossSubscriptionRegistry"
+        typeClass="info"
+        [infoText]="'containerACRCrossSubscriptionRegistry' | translate">
+    </info-box>
+
     <div *ngIf = "!registriesMissing">
         <div class="container-setting-property">
             <label>{{ 'containerACRRegistry' | translate }}</label>

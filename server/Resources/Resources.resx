@@ -4243,4 +4243,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="diagnoseAndSolveProblems" xml:space="preserve">
     <value>Diagnose and solve problmes</value>
   </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>The selected registry does exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
+  </data>
 </root>
