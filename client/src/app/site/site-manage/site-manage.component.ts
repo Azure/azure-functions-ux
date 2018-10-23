@@ -150,7 +150,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     });
   }
 
-  //Bug 10307095:[RTM] [BugBash] Use Environment Switcher to properly enable and disable feature in OnPrem
+  // Bug 10307095:[RTM] [BugBash] Use Environment Switcher to properly enable and disable feature in OnPrem
   private _isOnprem(): boolean {
     return window.appsvc.env.runtimeType === 'OnPrem';
   }
@@ -272,6 +272,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
           detailBladeInputs: {
             resourceId: this._descriptor.resourceId,
           },
+          openAsSubJourney: true,
         },
         this._portalService
       ),
@@ -291,16 +292,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._hasSiteWritePermissionStream,
         this._scenarioService.checkScenario(ScenarioIds.enableBackups, { site: site })
       ),
-
-      // need to show only in V2
-      // new TabFeature(
-      //     this._translateService.instant(PortalResources.quickstart),
-      //     this._translateService.instant(PortalResources.quickstart),
-      //     this._translateService.instant(PortalResources.quickstartDescription),
-      //     'image/quickstart.svg',
-      //     SiteTabIds.quickstart,
-      //     this._broadcastService
-      // ),
 
       new BladeFeature(
         this._translateService.instant(PortalResources.feature_allSettingsName),
@@ -324,7 +315,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     // Instead of setting null in Features array, We are removing it here to minimize merge conflict
     // PLease remove it after merge from dev and fix properly with environmentswicther
     if (this._isOnprem()) {
-      developmentToolFeatures.splice(3, 1); //removing ResourceExplorer
+      developmentToolFeatures.splice(3, 1); // removing ResourceExplorer
     }
 
     this.groups1 = [
@@ -724,7 +715,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     // Instead of setting null in Features array, We are removing it here to minimize merge conflict
     // PLease remove it after merge from dev and fix properly with environmentswicther
     if (this._isOnprem()) {
-      resourceManagementFeatures.splice(4, 1); //Automation script
+      resourceManagementFeatures.splice(4, 1); // Automation script
     }
     this.groups3 = [
       new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
