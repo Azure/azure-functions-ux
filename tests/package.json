@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start:ci": "serve -s ../client-react/build",
+    "cy:verify": "cypress verify",
+    "e2e:record": "cypress run --config baseUrl=http://localhost:5000,projectId=rwcr7y --record",
+    "test:ci:record": "run-p --race start:ci e2e:record"
+  },
   "devDependencies": {
-    "cypress": "^3.1.0"
+    "cypress": "^3.1.0",
+    "serve": "^10.0.2",
+    "npm-run-all": "^4.1.3"
   }
 }
