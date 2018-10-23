@@ -24,8 +24,16 @@ phases:
       - script: |
           cd client-react
           yarn install
+        displayName: 'yarn install react app'
+      - script: |
+          cd client-react
+          yarn test
+        displayName: 'run unit tests'
+
+      - script: |
+          cd client-react
           yarn build
-        displayName: 'yarn install and build'
+        displayName: 'create production build'
 
       - script: |
           cd tests
@@ -39,3 +47,15 @@ phases:
         displayName: 'Run Cypress tests'
         env:
           CYPRESS_RECORD_KEY: $(cypresskey)
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'tests/test-results.xml'
+          testRunTitle: 'E2E Tests'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'client-react/junit.xml'
+          testRunTitle: 'Unit Tests'
