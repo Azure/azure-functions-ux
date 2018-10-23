@@ -1,0 +1,7 @@
+{
+  "id": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/sites/azure-functions-react-test/config/connectionstrings",
+  "name": "connectionstrings",
+  "type": "Microsoft.Web/sites/config",
+  "location": "Central US",
+  "properties": {}
+}

@@ -1,0 +1,4 @@
+{
+  "recommendations": ["github.vscode-pull-request-github", "eg2.tslint", "esbenp.prettier-vscode"],
+  "unwantedRecommendations": []
+}

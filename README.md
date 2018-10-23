@@ -1,78 +1,134 @@
 # Azure Functions UX
-[![Build Status](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)&emsp;[![Coverage Status](https://coveralls.io/repos/github/Azure/azure-functions-ux/badge.svg?branch=dev)](https://coveralls.io/github/Azure/azure-functions-ux?branch=dev)
-## Getting started
 
-1. **Install Prerequisites**
-    * [Node 8.*](https://nodejs.org/en/download/)
-    * [yarn](https://yarnpkg.com/en/docs/install)
+## Getting Started
 
-2. **Clone and Build**
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
- ``` bash
-git clone git@github.com:Azure/azure-functions-ux.git
-# there is a gulp process to build and run everything
-yarn install
-yarn run gulp run-dev
- ```
-3. **Allow SSL Connections**
-Go to `https://localhost:44300` and proceed to website in advanced section
+### Prerequisites
 
-4. Visit `https://portal.azure.com?websitesextension_ext=appsvc.env=local` and load up Function Apps from browse
+What things you need to install the software and how to install them
 
-## Code and branches
+- [Node 8.\*](https://nodejs.org/en/download/)
+- [yarn](https://yarnpkg.com/en/docs/install)
+- Angular CLI
 
-#### Branches
-**master**: (https://functions-staging.azure.com)
-> This is connected to staging. After all scenarios are validated on staging we swap by running  tools\SwapWithStagingSlots.ps1
-
-**dev**: (https://functions-next.azure.com)
-> This is the next environment. This is never swapped, instead changes from dev get merged into master.
-
-#### Development workflow
-
-``` bash
-# make sure you're working on the dev branch
-> git checkout dev
-
-# create your own personal branch based on dev
-> git checkout -b ahmels-work
-
-# make all your changes in your branch
-# commit and push these changes to github
-> git push origin ahmels-work -u
-
-# open a pull request.
-# once everything is good, merge, rebase and push
-> git checkout dev
-> git merge ahmels-work
-> git pull --rebase
-
-# fix any conflicts
-> git push origin dev
 ```
+npm i -g @angular/cli
+```
+
+### Project Structure and Important Places
+
+```
+root
+│   gulpfile.js - gulp file that gives commands to run most things
+│
+└───client
+│   │   this is the angular client code
+│   │
+│   └───src
+│       │   this is where the non scaffolding angular app code live
+│
+└───server
+│   │   basic server written in nodeJs
+│   └───Resources
+│   │   │ Resources.Resx is the file we keep all strings, these will get localized and be available in the app by key value
+│   │
+│   └───src
+│       │ server.ts - server entry point
+│
+└───client-react
+│   │   react app
+│
+└───tests
+│   │   E2E tests for the react app writen with cypress
+```
+
+### Branches
+
+**master**: (https://functions-staging.azure.com)
+
+> This is connected to staging. After all scenarios are validated on staging we swap by running the following gulp command from the root of the project
+
+```bash
+gulp swap-production-slots
+```
+
+**dev**: (https://functions-next.azure.com) Make Pull Requests against this branch
+
+> This is the next environment. This is never swapped, instead changes from dev get merged into master.
 
 For control and styling samples go to [https://functions.azure.com?appsvc.devguide=true](https://functions.azure.com?appsvc.devguide=true)
 
-[Angular 2 coding style](https://angular.io/styleguide)
+### Installing
 
-## Code layout
+A step by step series of examples that tell you how to get a development env running
 
-The API surface is very limited:
+#### Angular Application
 
-``` bash
-# resource apis
-api/resources
-api/templates
-api/bindingconfig
+from root
 
-# health pings by traffic manager and monitoring
-api/health
+```
+yarn install
+gulp run-dev
 ```
 
-#### AzureFunctions.Client
+#### react application
 
-**Language**: TypeScript
+```
+cd client-react
+yarn start
+```
 
-**Framework**: angular2
+#### server only
 
-Check out https://angular.io
+from root
+
+```
+yarn install
+gulp run-server
+```
+
+## Running the tests
+
+###Angular Unit Tests
+
+```
+cd client
+ng test
+```
+
+### React Unit Tests
+
+```
+cd client-react
+yarn test
+```
+
+### React E2E Tests
+
+single run
+
+```
+cd client-react
+yarn build
+cd ../tests
+yarn test:run
+```
+
+development mode
+
+```
+cd client-react
+yarn start
+```
+
+plus in another terminal
+
+```
+cd tests
+npx cypress open
+```
+
+## License
+
+This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details

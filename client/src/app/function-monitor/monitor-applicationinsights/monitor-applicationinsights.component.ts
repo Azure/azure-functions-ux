@@ -148,8 +148,6 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   private _getFunctionAppName(functionAppContext: FunctionAppContext): string {
     const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(functionAppContext.site.id);
 
-    return siteDescriptor.slot
-      ? `${siteDescriptor.site}-${siteDescriptor.slot}`
-      : siteDescriptor.site;
+    return siteDescriptor.slot ? `${siteDescriptor.site}-${siteDescriptor.slot}` : siteDescriptor.site;
   }
 }
