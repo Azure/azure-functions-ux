@@ -1,3 +1,4 @@
+import { OsType } from './../../../shared/models/arm/stacks';
 import { Observable } from 'rxjs/Observable';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +27,7 @@ import { BillingMeter } from '../../../shared/models/arm/billingMeter';
 import { LogCategories, Links } from '../../../shared/models/constants';
 import { Tier } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
+import { AppKind } from 'app/shared/Utilities/app-kind';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -473,11 +475,13 @@ export class PlanPriceSpecManager {
   private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       // If we're getting meters for an existing plan
-      return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
+      const osType = AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
+      return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
     }
 
     // We're getting meters for a new plan
-    return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
+    const osType = inputs.data.isLinux ? OsType.Linux : OsType.Windows;
+    return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
   }
 
   private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
@@ -489,7 +493,7 @@ export class PlanPriceSpecManager {
       throw Error('Spec must contain a specResourceSet with one firstParty item defined');
     }
 
-    const billingMeter = billingMeters.find(m => m.properties.friendlyName === spec.meterFriendlyName);
+    const billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
 
     if (!billingMeter) {
       this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.meterFriendlyName}`);
