@@ -1,3 +1,4 @@
+import { OsType } from './../../../shared/models/arm/stacks';
 import { Observable } from 'rxjs/Observable';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -474,12 +475,12 @@ export class PlanPriceSpecManager {
   private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
     if (this._isUpdateScenario(inputs)) {
       // If we're getting meters for an existing plan
-      const osType = AppKind.hasKinds(this._plan, ['linux']) ? 'linux' : 'windows';
+      const osType = AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
       return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
     }
 
     // We're getting meters for a new plan
-    const osType = inputs.data.isLinux ? 'linux' : 'windows';
+    const osType = inputs.data.isLinux ? OsType.Linux : OsType.Windows;
     return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
   }
 

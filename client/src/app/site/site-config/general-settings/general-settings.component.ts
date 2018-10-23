@@ -1,3 +1,4 @@
+import { OsType } from './../../../shared/models/arm/stacks';
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { Links, LogCategories, SiteTabIds, ScenarioIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { AvailableStack, AvailableStackNames, AvailableStacksOsType, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
+import { AvailableStack, AvailableStackNames, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
 import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
@@ -144,8 +145,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
           this._siteService.getSite(this.resourceId),
           this._siteService.getSlots(this.resourceId),
           this._siteService.getSiteConfig(this.resourceId, true),
-          this._siteService.getAvailableStacks(AvailableStacksOsType.Windows),
-          this._siteService.getAvailableStacks(AvailableStacksOsType.Linux),
+          this._siteService.getAvailableStacks(OsType.Windows),
+          this._siteService.getAvailableStacks(OsType.Linux),
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(this.resourceId),
           this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, { site: this.siteArm }),

@@ -14,7 +14,7 @@ import { SiteConfig } from './../models/arm/site-config';
 import { SiteExtension } from './../models/arm/site-extension';
 import { SlotConfigNames } from './../models/arm/slot-config-names';
 import { SlotsDiff } from './../models/arm//slots-diff';
-import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
+import { AvailableStack, OsType } from './../models/arm/stacks';
 import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
@@ -67,7 +67,7 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => getSlotConfigNames);
   }
 
-  getAvailableStacks(osType?: AvailableStacksOsType): Result<ArmArrayResult<AvailableStack>> {
+  getAvailableStacks(osType?: OsType): Result<ArmArrayResult<AvailableStack>> {
     const queryString = !osType ? '' : `?osTypeSelected=${osType}`;
     const getAvailableStacks = this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks${queryString}`).map(r => r.json());
     return this._client.execute({ resourceId: null }, t => getAvailableStacks);

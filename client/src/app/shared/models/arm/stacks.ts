@@ -18,11 +18,9 @@ export interface AvailableStack extends Framework {
   frameworks: Framework[];
 }
 
-export type AvailableStacksOsType = 'Linux' | 'Windows';
-
-export namespace AvailableStacksOsType {
-  export const Linux: AvailableStacksOsType = 'Linux';
-  export const Windows: AvailableStacksOsType = 'Windows';
+export enum OsType {
+  Linux = 'Linux',
+  Windows = 'Windows',
 }
 
 export class AvailableStackNames {
