@@ -10,6 +10,7 @@ import { DashboardType } from './models/dashboard-type';
 import { ProxyNode } from './proxy-node';
 import { BroadcastEvent } from './../shared/models/broadcast-event';
 import { ErrorEvent } from './../shared/models/error-event';
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 
 export class ProxiesNode extends BaseFunctionsProxiesNode {
   public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
@@ -23,6 +24,21 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
     this.nodeClass += ' collection-node';
     this.iconClass = 'tree-node-collection-icon';
     this.iconUrl = 'image/BulletList.svg';
+
+    this._functionAppService
+      .getFunctionAppEditMode(context)
+      .map(r => (r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false))
+      .subscribe(isReadOnly => {
+        if (isReadOnly) {
+          this.title = `${this.sideNav.translateService.instant(
+            PortalResources.appFunctionSettings_apiProxies
+          )} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
+          this.newDashboardType = DashboardType.none;
+        } else if (!this.disabled) {
+          this.title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
+          this.newDashboardType = DashboardType.CreateProxyDashboard;
+        }
+      });
   }
 
   public loadChildren() {
