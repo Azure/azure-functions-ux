@@ -1,0 +1,11 @@
+{
+  "id": null,
+  "name": "azure-functions-react-test",
+  "type": "Microsoft.Web/sites",
+  "location": "Central US",
+  "properties": {
+    "connectionStringNames": null,
+    "appSettingNames": null,
+    "azureStorageConfigNames": null
+  }
+}

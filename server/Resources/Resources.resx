@@ -4241,7 +4241,163 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Troubleshoot your app</value>
   </data>
   <data name="diagnoseAndSolveProblems" xml:space="preserve">
-    <value>Diagnose and solve problmes</value>
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Stack settings</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Platform settings</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Debugging</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Connection strings</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Default documents</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Path mappings</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Handler mappings</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Virtual applications and directories</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Save all settings for your web application</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Discard all changes to web application settings</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Use left and right arrow keys to navigate between commands</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>New application or directory</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Virtual path</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Physical Path</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Directory or Application</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Preload enabled</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Script processor</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>New handler mapping</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Slots</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Auto swap enabled</value>
+  </data>
+   <data name="autoSwapSlot" xml:space="preserve">
+    <value>Auto swap slot</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Managed pipeline version</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Integrated</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP state</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>All allowed</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Ftps only</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Always on</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Use latest minor version</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP version</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java minor version</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java container</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java container version</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>New document</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Slot setting</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Add/Edit connection string</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>New connection string</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Add/Edit application setting</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
     <value>The selected registry does not exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
