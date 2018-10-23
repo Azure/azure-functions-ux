@@ -29,6 +29,7 @@ phases:
 
       - script: |
           cd tests
+          yarn install
           npm run cy:verify
         displayName: 'Cypress verify'
 
@@ -36,3 +37,5 @@ phases:
           cd tests
           npm run test:ci:record
         displayName: 'Run Cypress tests'
+        env:
+          CYPRESS_RECORD_KEY: $(cypresskey)
