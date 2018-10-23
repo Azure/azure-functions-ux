@@ -37,7 +37,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
         onChanged={updateHandlerMappingScriptProccessor}
       />
       <TextField
-        label={t('arguments')}
+        label={t('argumentsRes')}
         id="handler-mappings-table-arguments"
         value={handlerMapping.arguments}
         onChanged={updateHandlerMappingArguments}

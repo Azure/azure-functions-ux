@@ -21,7 +21,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   };
   return (
     <div>
-      <TextField label={t('name')} id="app-settings-edit-name" value={props.name} onChanged={updateAppSettingName} />
+      <TextField label={t('nameRes')} id="app-settings-edit-name" value={props.name} onChanged={updateAppSettingName} />
       <TextField label={t('value')} id="app-settings-edit-value" value={props.value} onChanged={updateAppSettingValue} />
       <Toggle
         label={t('sticky')}

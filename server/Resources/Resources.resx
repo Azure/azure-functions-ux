@@ -4318,7 +4318,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="scriptProcessor" xml:space="preserve">
     <value>Script processor</value>
   </data>
-  <data name="arguments" xml:space="preserve">
+  <data name="argumentsRes" xml:space="preserve">
     <value>Arguments</value>
   </data>
   <data name="newHandlerMapping" xml:space="preserve">
@@ -4378,7 +4378,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="newDocument" xml:space="preserve">
     <value>New document</value>
   </data>
-  <data name="name" xml:space="preserve">
+  <data name="nameRes" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="value" xml:space="preserve">

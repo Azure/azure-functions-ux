@@ -26,7 +26,12 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   };
   return (
     <div>
-      <TextField label={t('name')} id="connection-strings-form-name" value={connectionString.name} onChanged={updateConnectionStringName} />
+      <TextField
+        label={t('nameRes')}
+        id="connection-strings-form-name"
+        value={connectionString.name}
+        onChanged={updateConnectionStringName}
+      />
       <TextField
         label={t('value')}
         id="connection-strings-form-value"

@@ -143,7 +143,7 @@ export class ApplicationSettings extends React.Component<
     return [
       {
         key: 'name',
-        name: t('name'),
+        name: t('nameRes'),
         fieldName: 'name',
         minWidth: 210,
         maxWidth: 350,

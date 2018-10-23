@@ -188,7 +188,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       },
       {
         key: 'arguments',
-        name: t('arguments'),
+        name: t('argumentsRes'),
         fieldName: 'arguments',
         minWidth: 210,
         maxWidth: 350,
