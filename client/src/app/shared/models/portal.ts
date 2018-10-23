@@ -121,6 +121,7 @@ export interface OpenBladeInfo {
   detailBladeInputs: any;
   extension?: string;
   openAsContextBlade?: boolean;
+  openAsSubJourney?: boolean;
 }
 
 export interface TimerEvent {

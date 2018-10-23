@@ -684,6 +684,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             resourceId: site.id,
           },
           extension: 'HubsExtension',
+          openAsSubJourney: true,
         },
         this._portalService
       )
