@@ -27,7 +27,7 @@ phases:
         displayName: 'yarn install react app'
       - script: |
           cd client-react
-          yarn test
+          yarn test --coverage
         displayName: 'run unit tests'
         env:
           CI: true
