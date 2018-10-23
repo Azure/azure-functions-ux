@@ -29,6 +29,8 @@ phases:
           cd client-react
           yarn test
         displayName: 'run unit tests'
+        env:
+          CI: true
 
       - script: |
           cd client-react
