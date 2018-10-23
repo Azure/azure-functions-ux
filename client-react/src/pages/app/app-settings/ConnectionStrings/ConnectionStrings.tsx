@@ -207,4 +207,4 @@ export class ConnectionStrings extends React.Component<
   };
 }
 
-export default translate()(ConnectionStrings);
+export default translate('translation')(ConnectionStrings);

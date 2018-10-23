@@ -62,4 +62,4 @@ const AppSettingsCommandBar: React.SFC<AppSettingsCommandBarProps & InjectedTran
   );
 };
 
-export default translate()(AppSettingsCommandBar);
+export default translate('translation')(AppSettingsCommandBar);

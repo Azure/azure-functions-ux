@@ -54,4 +54,4 @@ class Stacks extends React.Component<FormikProps<AppSettingsFormValues> & Inject
   }
 }
 
-export default translate()(Stacks);
+export default translate('translation')(Stacks);

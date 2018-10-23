@@ -48,5 +48,5 @@ export default compose(
     mapStateToProps,
     null
   ),
-  translate()
+  translate('translation')
 )(PhpStack);

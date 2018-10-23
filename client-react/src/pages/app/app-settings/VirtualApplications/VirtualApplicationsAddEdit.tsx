@@ -59,4 +59,4 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   );
 };
 
-export default translate()(VirtualApplicationsAddEdit);
+export default translate('translation')(VirtualApplicationsAddEdit);

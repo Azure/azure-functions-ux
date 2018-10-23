@@ -107,5 +107,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  translate()
+  translate('translation')
 )(SlotAutoSwap);

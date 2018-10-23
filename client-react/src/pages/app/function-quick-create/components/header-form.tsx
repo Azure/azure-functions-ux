@@ -67,7 +67,7 @@
 // };
 // export default compose<any, any>(
 //   connect(mapStateToProps),
-//   translate(),
+//   translate('translation'),
 // )(HeaderForm);
 
 // const javascriptCode = `module.exports = function (context, req) {

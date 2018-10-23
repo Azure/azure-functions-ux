@@ -84,4 +84,4 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
   );
 };
 
-export default translate()(DefaultDocuments);
+export default translate('translation')(DefaultDocuments);

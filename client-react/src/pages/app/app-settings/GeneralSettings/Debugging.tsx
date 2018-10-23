@@ -43,4 +43,4 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
   );
 };
 
-export default translate()(Debug);
+export default translate('translation')(Debug);

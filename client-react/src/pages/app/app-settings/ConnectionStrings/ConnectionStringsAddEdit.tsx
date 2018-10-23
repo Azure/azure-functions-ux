@@ -51,4 +51,4 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   );
 };
 
-export default translate()(ConnectionStringsAddEdit);
+export default translate('translation')(ConnectionStringsAddEdit);

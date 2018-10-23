@@ -206,4 +206,4 @@ export class VirtualApplications extends React.Component<
   };
 }
 
-export default translate()(VirtualApplications);
+export default translate('translation')(VirtualApplications);

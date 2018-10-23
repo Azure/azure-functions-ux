@@ -35,4 +35,4 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   );
 };
 
-export default translate()(AppSettingAddEdit);
+export default translate('translation')(AppSettingAddEdit);

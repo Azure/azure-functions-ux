@@ -45,4 +45,4 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
     </div>
   );
 };
-export default translate()(HandlerMappingsAddEdit);
+export default translate('translation')(HandlerMappingsAddEdit);

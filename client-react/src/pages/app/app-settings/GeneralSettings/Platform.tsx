@@ -128,4 +128,4 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
     </div>
   );
 };
-export default translate()(Platform);
+export default translate('translation')(Platform);

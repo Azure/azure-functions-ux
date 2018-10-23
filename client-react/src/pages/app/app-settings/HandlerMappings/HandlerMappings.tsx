@@ -221,4 +221,4 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
   };
 }
 
-export default translate()(HandlerMappings);
+export default translate('translation')(HandlerMappings);

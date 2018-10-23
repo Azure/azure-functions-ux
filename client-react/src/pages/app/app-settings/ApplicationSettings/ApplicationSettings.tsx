@@ -198,4 +198,4 @@ export class ApplicationSettings extends React.Component<
   };
 }
 
-export default translate()(ApplicationSettings);
+export default translate('translation')(ApplicationSettings);
