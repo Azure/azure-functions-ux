@@ -14,10 +14,6 @@ describe('Top Level App', () => {
     it('renders without crashing', () => {
       expect(container.length).toEqual(1);
     });
-
-    it('should render correctly', () => {
-      expect(container).toMatchSnapshot('DefaultSnapshot');
-    });
   });
   describe('Maps State To Props', () => {
     it('passes correct theme when theme is there', () => {

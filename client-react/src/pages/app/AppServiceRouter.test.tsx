@@ -22,10 +22,6 @@ describe('App Service Router', () => {
       expect(container.length).toEqual(1);
     });
 
-    it('should render correctly', () => {
-      expect(container).toMatchSnapshot('site-name-only');
-    });
-
     it('calls update resourceId', () => {
       expect(mockUpdateResourceIdCall).toHaveBeenCalledWith(
         `/subscriptions/${subId}/resourcegroups/${rg}/providers/Microsoft.Web/sites/${site}`
@@ -51,10 +47,6 @@ describe('App Service Router', () => {
     });
     it('renders without crashing', () => {
       expect(container.length).toEqual(1);
-    });
-
-    it('should render correctly', () => {
-      expect(container).toMatchSnapshot('site-and-slot-only');
     });
 
     it('calls update resourceId', () => {

@@ -13,9 +13,5 @@ describe('Virtual Applications Table', () => {
     it('renders without crashing', () => {
       expect(container.length).toBe(1);
     });
-
-    it('render matches snapshot', () => {
-      expect(container).toMatchSnapshot('DefaultSnapshot');
-    });
   });
 });

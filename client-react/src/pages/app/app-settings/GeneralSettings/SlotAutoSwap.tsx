@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { FormikProps, Field } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
-import IState from 'src/modules/types';
+import IState from '../../../../modules/types';
 import { connect } from 'react-redux';
-import { ArmArray, Site, ArmObj } from 'src/models/WebAppModels';
-import { fetchSlotList } from 'src/modules/site/slots/thunks';
+import { ArmArray, Site, ArmObj } from '../../../../models/WebAppModels';
+import { fetchSlotList } from '../../../../modules/site/slots/thunks';
 import { IDropdownOption } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
 import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
 import { settingsWrapper } from '../AppSettingsForm';
-import Dropdown from 'src/components/form-controls/DropDown';
+import Dropdown from '../../../../components/form-controls/DropDown';
 
 interface SlotAutoSwapPropsStateMap {
   slots: ArmArray<Partial<Site>>;

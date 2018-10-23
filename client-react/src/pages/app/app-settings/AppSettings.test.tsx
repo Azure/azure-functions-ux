@@ -41,9 +41,6 @@ describe('App Settings', () => {
       expect(container.length).toEqual(1);
     });
 
-    it('renders correctly', () => {
-      expect(container).toMatchSnapshot('app-settings-form');
-    });
     it('dispatches fetch calls on load', () => {
       expect(fetchSite).toBeCalled();
       expect(fetchSettings).toBeCalled();
