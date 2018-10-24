@@ -349,9 +349,13 @@ export class PortalResources {
   public static sideNav_FunctionsNoAccess = 'sideNav_FunctionsNoAccess';
   public static sideNav_FunctionsReadOnlyLock = 'sideNav_FunctionsReadOnlyLock';
   public static sideNav_FunctionsStopped = 'sideNav_FunctionsStopped';
+  public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
+  public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
   public static sideNav_ProxiesNoAccess = 'sideNav_ProxiesNoAccess';
   public static sideNav_ProxiesStopped = 'sideNav_ProxiesStopped';
   public static sideNav_ProxiesReadOnlyLock = 'sideNav_ProxiesReadOnlyLock';
+  public static sideNav_ProxiesReadOnly = 'sideNav_ProxiesReadOnly';
+  public static sideNav_ProxiesInaccessible = 'sideNav_ProxiesInaccessible';
   public static functions = 'functions';
   public static newFunction = 'newFunction';
   public static functionApps = 'functionApps';
@@ -1368,7 +1372,6 @@ export class PortalResources {
   public static swaggerDefinitionReadOnly = 'swaggerDefinitionReadOnly';
   public static troubleshootYourApp = 'troubleshootYourApp';
   public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
-  public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
@@ -1419,4 +1422,5 @@ export class PortalResources {
   public static newConnectionString = 'newConnectionString';
   public static addEditApplicationSetting = 'addEditApplicationSetting';
   public static newApplicationSetting = 'newApplicationSetting';
+  public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
 }

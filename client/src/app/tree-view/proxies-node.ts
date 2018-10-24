@@ -30,9 +30,7 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
       .map(r => (r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false))
       .subscribe(isReadOnly => {
         if (isReadOnly) {
-          this.title = `${this.sideNav.translateService.instant(
-            PortalResources.appFunctionSettings_apiProxies
-          )} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
+          this.title = this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnly);
           this.newDashboardType = DashboardType.none;
         } else if (!this.disabled) {
           this.title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
@@ -49,16 +47,14 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
           newDashboard: DashboardType.CreateProxyDashboard,
         },
         readOnly: {
-          title: `${this.sideNav.translateService.instant(
-            PortalResources.appFunctionSettings_apiProxies
-          )} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`,
+          title: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnly),
           newDashboard: DashboardType.none,
         },
       },
       {
         stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesStopped),
         noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesNoAccess),
-        nonReachableTitle: this.sideNav.translateService.instant('Proxies (Inaccessible)'),
+        nonReachableTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesInaccessible),
         readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnlyLock),
       }
     );

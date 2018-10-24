@@ -1156,6 +1156,12 @@
   <data name="sideNav_FunctionsStopped" xml:space="preserve">
     <value>Functions (Stopped)</value>
   </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Functions (Read Only)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Functions (Inaccessible)</value>
+  </data>
   <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
     <value>Proxies (No access)</value>
   </data>
@@ -1164,6 +1170,12 @@
   </data>
   <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
     <value>Proxies (ReadOnly lock)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxies (Read Only)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxies (Inaccessible)</value>
   </data>
   <data name="functions" xml:space="preserve">
     <value>Functions</value>

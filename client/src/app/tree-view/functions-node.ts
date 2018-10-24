@@ -43,9 +43,7 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
       .map(r => (r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false))
       .subscribe(isReadOnly => {
         if (isReadOnly) {
-          this.title = `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(
-            PortalResources.appFunctionSettings_readOnlyMode
-          )})`;
+          this.title = this.sideNav.translateService.instant(PortalResources.sideNav_Functions_ReadOnly);
           this.newDashboardType = DashboardType.none;
         } else if (!this.disabled) {
           this.title = this.sideNav.translateService.instant(PortalResources.functions);
@@ -83,16 +81,14 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
           newDashboard: DashboardType.CreateFunctionAutoDetectDashboard,
         },
         readOnly: {
-          title: `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(
-            PortalResources.appFunctionSettings_readOnlyMode
-          )})`,
+          title: this.sideNav.translateService.instant(PortalResources.sideNav_Functions_ReadOnly),
           newDashboard: DashboardType.none,
         },
       },
       {
         stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped),
         noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess),
-        nonReachableTitle: this.sideNav.translateService.instant('Functions (Inaccessible)'),
+        nonReachableTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsInaccessible),
         readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock),
       }
     );
