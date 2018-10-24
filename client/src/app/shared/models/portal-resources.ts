@@ -1368,7 +1368,6 @@ export class PortalResources {
   public static swaggerDefinitionReadOnly = 'swaggerDefinitionReadOnly';
   public static troubleshootYourApp = 'troubleshootYourApp';
   public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
-  public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
@@ -1419,4 +1418,9 @@ export class PortalResources {
   public static newConnectionString = 'newConnectionString';
   public static addEditApplicationSetting = 'addEditApplicationSetting';
   public static newApplicationSetting = 'newApplicationSetting';
+  public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
+  public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
+  public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
+  public static sideNav_ProxiesReadOnly = 'sideNav_ProxiesReadOnly';
+  public static sideNav_ProxiesInaccessible = 'sideNav_ProxiesInaccessible';
 }
