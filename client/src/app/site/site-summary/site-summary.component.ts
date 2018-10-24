@@ -543,10 +543,12 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       this.deleteAppDirectly();
       return;
     }
-    this._portalService.openBladeDeprecated(
+
+    this._portalService.openBlade(
       {
         detailBlade: 'AppDeleteBlade',
         detailBladeInputs: { resourceUri: this.context.site.id },
+        openAsContextBlade: true,
       },
       'site-summary'
     );
