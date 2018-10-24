@@ -8,8 +8,8 @@ import AppSettingAddEdit from './AppSettingAddEdit';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-
 interface ApplicationSettingsState {
+  hideValues: boolean;
   showPanel: boolean;
   currentAppSetting: AppSetting | null;
   currentItemIndex: number;
@@ -23,6 +23,7 @@ export class ApplicationSettings extends React.Component<
   constructor(props) {
     super(props);
     this.state = {
+      hideValues: true,
       showPanel: false,
       currentAppSetting: null,
       currentItemIndex: -1,
@@ -40,10 +41,16 @@ export class ApplicationSettings extends React.Component<
         <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
           {t('addEditApplicationSetting')}
         </ActionButton>
+        <ActionButton
+          onClick={this.flipHideSwitch}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
+          {this.state.hideValues ? 'Show Values' : 'Hide Values'}
+        </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this._onCancel}
           headerText={t('newApplicationSetting')}
           closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
@@ -61,6 +68,9 @@ export class ApplicationSettings extends React.Component<
     );
   }
 
+  private flipHideSwitch = () => {
+    this.setState({ hideValues: !this.state.hideValues });
+  };
   private updateCurrentItem = (item: AppSetting) => {
     this.setState({ currentAppSetting: item });
   };
@@ -80,12 +90,11 @@ export class ApplicationSettings extends React.Component<
   };
 
   private _onClosePanel = (): void => {
+    const appSettings: AppSetting[] = [...this.props.values.appSettings];
     if (!this.state.createNewItem) {
-      const appSettings: AppSetting[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
       appSettings[this.state.currentItemIndex] = this.state.currentAppSetting!;
       this.props.setFieldValue('appSettings', appSettings);
     } else {
-      const appSettings: AppSetting[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
       appSettings.push(this.state.currentAppSetting!);
       this.props.setFieldValue('appSettings', appSettings);
     }
@@ -114,7 +123,7 @@ export class ApplicationSettings extends React.Component<
   };
 
   private removeItem(index: number) {
-    const appSettings: ApplicationSettings[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
+    const appSettings: AppSetting[] = [...this.props.values.appSettings];
     appSettings.splice(index, 1);
     this.props.setFieldValue('appSettings', appSettings);
   }
@@ -133,6 +142,9 @@ export class ApplicationSettings extends React.Component<
     }
     if (column.key === 'sticky') {
       return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} /> : null;
+    }
+    if (column.key === 'value') {
+      return this.state.hideValues ? 'Hidden value. Click show values button above to view' : <span>{item[column.fieldName!]}</span>;
     }
     return <span>{item[column.fieldName!]}</span>;
   };
@@ -157,17 +169,18 @@ export class ApplicationSettings extends React.Component<
         name: t('value'),
         fieldName: 'value',
         minWidth: 210,
-        maxWidth: 350,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'sticky',
         name: t('sticky'),
         fieldName: 'sticky',
-        minWidth: 20,
+        minWidth: 50,
+        maxWidth: 100,
         isRowHeader: true,
         data: 'string',
         isPadded: true,

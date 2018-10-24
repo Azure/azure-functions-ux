@@ -77,7 +77,7 @@ export function updateSite(
       const connectionStringsClean = connectionStrings.map(x => ({
         name: x.name,
         connectionString: x.value,
-        type: 0,
+        type: +x.type,
       }));
       value.properties.siteConfig.connectionStrings = connectionStringsClean;
     }

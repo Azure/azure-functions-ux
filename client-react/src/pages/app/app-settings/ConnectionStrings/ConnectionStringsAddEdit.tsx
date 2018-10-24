@@ -2,7 +2,9 @@ import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
 import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
+import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
 import { translate, InjectedTranslateProps } from 'react-i18next';
+import { typeValueToString, DatabaseType } from './connectionStringTypes';
 export interface ConnectionStringAddEditProps extends IConnectionString {
   updateConnectionString: (item: IConnectionString) => any;
 }
@@ -17,8 +19,8 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
     updateConnectionString({ ...connectionString, value });
   };
 
-  const updateConnectionStringType = (type: number) => {
-    updateConnectionString({ ...connectionString, type });
+  const updateConnectionStringType = (event: any, typeOption: IDropdownOption) => {
+    updateConnectionString({ ...connectionString, type: typeOption.key as number });
   };
 
   const updateConnectionStringSticky = (sticky: boolean) => {
@@ -38,11 +40,25 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         value={connectionString.value}
         onChanged={updateConnectionStringValue}
       />
-      <TextField
+      <Dropdown
         label={t('type')}
         id="connection-strings-form-type"
-        value={connectionString.type.toString()}
-        onChanged={updateConnectionStringType}
+        selectedKey={connectionString.type}
+        options={[
+          {
+            key: DatabaseType.MySql,
+            text: typeValueToString(DatabaseType.MySql),
+          },
+          {
+            key: DatabaseType.SQLServer,
+            text: typeValueToString(DatabaseType.SQLServer),
+          },
+          {
+            key: DatabaseType.SQLAzure,
+            text: typeValueToString(DatabaseType.SQLAzure),
+          },
+        ]}
+        onChange={updateConnectionStringType}
       />
       <Toggle
         label={t('sticky')}

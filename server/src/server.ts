@@ -153,5 +153,5 @@ if (process.env.FUNCTIONS_SLOT_NAME) {
 
   const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
 
-  httpsServer.listen(44300);
+  httpsServer.listen(3000);
 }

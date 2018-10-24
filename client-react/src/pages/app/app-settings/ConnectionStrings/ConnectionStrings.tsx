@@ -7,8 +7,10 @@ import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { FormikProps } from 'formik';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { typeValueToString } from './connectionStringTypes';
 
 interface ConnectionStringsState {
+  hideValues: boolean;
   showPanel: boolean;
   currentConnectionString: IConnectionString | null;
   currentItemIndex: number;
@@ -22,6 +24,7 @@ export class ConnectionStrings extends React.Component<
   constructor(props) {
     super(props);
     this.state = {
+      hideValues: true,
       showPanel: false,
       currentConnectionString: null,
       currentItemIndex: -1,
@@ -38,6 +41,12 @@ export class ConnectionStrings extends React.Component<
       <>
         <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
           {t('newConnectionString')}
+        </ActionButton>
+        <ActionButton
+          onClick={this.flipHideSwitch}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
+          {this.state.hideValues ? 'Show Values' : 'Hide Values'}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
@@ -60,6 +69,10 @@ export class ConnectionStrings extends React.Component<
     );
   }
 
+  private flipHideSwitch = () => {
+    this.setState({ hideValues: !this.state.hideValues });
+  };
+
   private updateCurrentItem = (item: IConnectionString) => {
     this.setState({ currentConnectionString: item });
   };
@@ -81,7 +94,7 @@ export class ConnectionStrings extends React.Component<
 
   private _onClosePanel = (): void => {
     const { values, setFieldValue } = this.props;
-    const connectionStrings: IConnectionString[] = JSON.parse(JSON.stringify(values.connectionStrings));
+    const connectionStrings: IConnectionString[] = [...values.connectionStrings];
     if (!this.state.createNewItem) {
       connectionStrings[this.state.currentItemIndex] = this.state.currentConnectionString!;
     } else {
@@ -113,7 +126,7 @@ export class ConnectionStrings extends React.Component<
 
   private removeItem(index: number) {
     const { values, setFieldValue } = this.props;
-    const connectionStrings: IConnectionString[] = JSON.parse(JSON.stringify(values.connectionStrings));
+    const connectionStrings: IConnectionString[] = [...values.connectionStrings];
     connectionStrings.splice(index, 1);
     setFieldValue('connectionStrings', connectionStrings);
   }
@@ -132,10 +145,15 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'sticky') {
       return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title="Sticky" /> : null;
     }
+    if (column.key === 'value') {
+      return this.state.hideValues ? 'Hidden value. Click show values button above to view' : <span>{item[column.fieldName!]}</span>;
+    }
+    if (column.key === 'type') {
+      return <span>{typeValueToString(item[column.fieldName!])}</span>;
+    }
     return <span>{item[column.fieldName!]}</span>;
   };
 
-  // tslint:disable-next-line:member-ordering
   private _getColumns = () => {
     const { t } = this.props;
     return [
@@ -155,28 +173,30 @@ export class ConnectionStrings extends React.Component<
         name: t('value'),
         fieldName: 'value',
         minWidth: 210,
-        maxWidth: 350,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'type',
         name: t('type'),
         fieldName: 'type',
-        minWidth: 210,
-        maxWidth: 350,
+        minWidth: 200,
+        maxWidth: 250,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'sticky',
         name: t('sticky'),
         fieldName: 'sticky',
-        minWidth: 20,
+        minWidth: 50,
+        maxWidth: 100,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
