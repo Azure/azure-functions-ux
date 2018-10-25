@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib-commonjs/DetailsList';
-import { IconButton, PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
@@ -8,6 +8,7 @@ import { AppSettingsFormValues } from '../AppSettings.Types';
 import { FormikProps } from 'formik';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { typeValueToString } from './connectionStringTypes';
+import IconButton from '../../../../components/IconButton/IconButton';
 
 interface ConnectionStringsState {
   hideValues: boolean;
