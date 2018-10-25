@@ -12,7 +12,7 @@ const download = require('gulp-download');
 const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
 var string_replace = require('gulp-string-replace');
-/********
+/******** 
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
 gulp.task('build-all', function(cb) {
