@@ -382,9 +382,9 @@ gulp.task('build-bindings', function(cb) {
 const templateVersionMap = {
   default: '1.0.3.10182',
   '1': '1.0.3.10182',
-  beta: '2.0.0-10296',
+  beta: '2.0.0-10305',
   '2.0.11961.0': '2.0.0-beta-10224',
-  '2': '2.0.0-10296',
+  '2': '2.0.0-10305',
 };
 /*****
  * Download and unzip nuget packages with templates
