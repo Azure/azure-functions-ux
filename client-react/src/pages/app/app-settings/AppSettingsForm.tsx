@@ -27,40 +27,38 @@ const defaultDocumentsWrapper = style({
 class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, any> {
   public render() {
     const { t } = this.props;
+    const props = this.props;
     return (
       <Pivot>
         <PivotItem linkText={t('generalSettings')}>
-          <h3>{t('stackSettings')}</h3>
-          <div className={settingsWrapper}>
-            <Stacks {...this.props} />
-          </div>
+          <Stacks {...props} />
           <h3>{t('platformSettings')}</h3>
           <div className={settingsWrapper}>
-            <Platform {...this.props} />
+            <Platform {...props} />
           </div>
           <h3>{t('debugging')}</h3>
           <div className={settingsWrapper}>
-            <Debug {...this.props} />
+            <Debug {...props} />
           </div>
-          <SlotAutoSwap {...this.props} />
+          <SlotAutoSwap {...props} />
         </PivotItem>
         <PivotItem linkText={t('applicationSettings')}>
           <h3>{t('applicationSettings')}</h3>
-          <ApplicationSettings {...this.props} />
+          <ApplicationSettings {...props} />
           <h3>{t('connectionStrings')}</h3>
-          <ConnectionStrings {...this.props} />
+          <ConnectionStrings {...props} />
         </PivotItem>
         <PivotItem linkText={t('defaultDocuments')}>
           <h3>{t('defaultDocuments')}</h3>
           <div className={defaultDocumentsWrapper}>
-            <DefaultDocuments {...this.props} />
+            <DefaultDocuments {...props} />
           </div>
         </PivotItem>
         <PivotItem linkText={t('pathMappings')}>
           <h3>{t('handlerMappings')}</h3>
-          <HandlerMappings {...this.props} />
+          <HandlerMappings {...props} />
           <h3>{t('virtualApplications')}</h3>
-          <VirtualApplications {...this.props} />
+          <VirtualApplications {...props} />
         </PivotItem>
       </Pivot>
     );

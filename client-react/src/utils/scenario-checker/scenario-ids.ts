@@ -9,6 +9,8 @@ export class ScenarioIds {
   public static readonly addTinfoil = 'AddTinfoil';
   public static readonly addSiteQuotas = 'ShowSiteQuotas';
   public static readonly addConsole = 'AddConsole';
+  public static readonly windowsAppStack = 'WindowsAppStack';
+  public static readonly linuxAppStack = 'LinuxAppStack';
   public static readonly addSsh = 'AddSsh';
   public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
   public static readonly addLogicApps = 'AddLogicApps';

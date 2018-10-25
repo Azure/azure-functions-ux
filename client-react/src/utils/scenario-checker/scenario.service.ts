@@ -7,6 +7,7 @@ import { LinuxSiteEnvironment } from './linux-site.environment';
 import { XenonSiteEnvironment } from './xenon-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
+import { WindowsCode } from './windows-code.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -22,6 +23,7 @@ export class ScenarioService {
     new EmbeddedFunctionsEnvironment(),
     new DynamicLinuxEnvironment(),
     new FunctionAppEnvironment(),
+    new WindowsCode(),
   ];
 
   constructor() {

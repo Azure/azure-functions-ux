@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSku } from './ServerFarmSku';
-import { ScenarioCheckInput, ScenarioResult, Environment, ScenarioCheckResult } from './scenario.models';
+import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import i18n from '../../utils/i18n';
 
 export class AzureEnvironment extends Environment {
@@ -18,16 +18,6 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.addSiteFileStorage,
       runCheck: (input: ScenarioCheckInput) => {
         return this.showSiteFileStorage(input);
-      },
-    };
-
-    this.scenarioChecks['test-scenario'] = {
-      id: 'test-scenario',
-      runCheckAsync: async (input: ScenarioCheckInput) => {
-        await new Promise(res => setTimeout(res, 3000));
-        return {
-          id: 'test-scenario',
-        } as ScenarioCheckResult;
       },
     };
 

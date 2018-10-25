@@ -4,6 +4,7 @@ import * as Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import LoadingComponent from '../../components/loading/loading-component';
 import { updateResourceId } from '../../modules/site/thunks';
+import { ScenarioContext } from '../App';
 
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;
@@ -18,6 +19,8 @@ const AppSettingsLoadable: any = Loadable({
 });
 
 export class AppServiceRouter extends React.Component<RouteComponentProps<AppSeriviceRouterProps>, any> {
+  public static contextType = ScenarioContext;
+
   public componentWillMount() {
     let resourceId = `/subscriptions/${this.props.subscriptionId}/resourcegroups/${
       this.props.resourcegroup
