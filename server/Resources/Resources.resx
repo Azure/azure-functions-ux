@@ -4402,4 +4402,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
     <value>The selected registry does not exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
   </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
+  </data>
 </root>

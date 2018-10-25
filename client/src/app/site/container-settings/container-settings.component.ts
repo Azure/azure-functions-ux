@@ -223,7 +223,7 @@ export class ContainerSettingsComponent extends FeatureComponent<TreeViewInfo<Co
       for (let i = 0; i < keys.length; i++) {
         const control = formGroup.controls[keys[i]];
         if (control.enabled) {
-          if (control instanceof FormControl) {
+          if (control instanceof FormControl && !control.touched && !control.value) {
             control.markAsDirty();
             control.updateValueAndValidity();
           } else if (control instanceof FormGroup) {
