@@ -1419,5 +1419,9 @@ export class PortalResources {
   public static addEditApplicationSetting = 'addEditApplicationSetting';
   public static newApplicationSetting = 'newApplicationSetting';
   public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
+  public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
+  public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
+  public static sideNav_ProxiesReadOnly = 'sideNav_ProxiesReadOnly';
+  public static sideNav_ProxiesInaccessible = 'sideNav_ProxiesInaccessible';
   public static configYamlInvalid = 'configYamlInvalid';
 }

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib-commonjs/DetailsList';
-import { IconButton, PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
 import { VirtualApplication } from '../../../../models/WebAppModels';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { FormikProps } from 'formik';
 import { translate, InjectedTranslateProps } from 'react-i18next';
+import IconButton from '../../../../components/IconButton/IconButton';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;

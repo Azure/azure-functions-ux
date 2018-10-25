@@ -4402,6 +4402,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
     <value>The selected registry does not exist in same subscription as the current app. Please use the private registry tab to switch registries.</value>
   </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Functions (Read Only)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Functions (Inaccessible)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxies (Read Only)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxies (Inaccessible)</value>
+  </data>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Invalid YML format. Error: '{0}'.</value>
   </data>
