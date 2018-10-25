@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { IconButton, ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import TextField from '../../../../components/form-controls/TextField';
 import { FormikProps, Field } from 'formik';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-
+import IconButton from '../../../../components/IconButton/IconButton';
 const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { values, setValues, errors, t } = props;
   const duplicateValidation = (value: string) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib-commonjs/DetailsList';
-import { IconButton, PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
 
 import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
@@ -8,6 +8,7 @@ import AppSettingAddEdit from './AppSettingAddEdit';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { translate, InjectedTranslateProps } from 'react-i18next';
+import IconButton from '../../../../components/IconButton/IconButton';
 
 interface ApplicationSettingsState {
   showPanel: boolean;

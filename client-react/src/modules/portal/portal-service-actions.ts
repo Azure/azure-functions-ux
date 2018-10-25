@@ -27,5 +27,5 @@ export const getStartupInfoAction = (startupInfo: IStartupInfo): IAction<IGetSta
 export const UPDATE_THEME = 'UPDATE_THEME';
 export const updateTheme = (theme: ITheme): IAction<ITheme> => ({
   payload: theme,
-  type: GET_STARTUP_INFO,
+  type: UPDATE_THEME,
 });
