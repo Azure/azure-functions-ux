@@ -2,6 +2,7 @@
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 declare var System: any;
+declare module 'yaml-lint';
 
 /* SystemJS module definition */
 declare var module: NodeModule;

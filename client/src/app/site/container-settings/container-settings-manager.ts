@@ -37,6 +37,7 @@ import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { HttpResult } from '../../shared/models/http-result';
 import { ContainerValidationService } from './services/container-validation.service';
+import { YAMLValidator } from 'app/shared/validators/yamlValidator';
 
 @Injectable()
 export class ContainerSettingsManager {
@@ -49,6 +50,7 @@ export class ContainerSettingsManager {
   form: FormGroup;
   requiredValidator: RequiredValidator;
   urlValidator: URLValidator;
+  yamlValidator: YAMLValidator;
 
   constructor(
     private _injector: Injector,
@@ -61,6 +63,7 @@ export class ContainerSettingsManager {
   ) {
     this.requiredValidator = new RequiredValidator(this._ts);
     this.urlValidator = new URLValidator(this._ts);
+    this.yamlValidator = new YAMLValidator(this._ts);
   }
 
   get containerFormData(): ContainerFormData {
@@ -602,7 +605,11 @@ export class ContainerSettingsManager {
         registry: [this._getAcrRegistry(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
         login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
         password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-        config: [this._getAcrConfig(fxVersion, appSettings, siteConfig), this.requiredValidator.validate.bind(this.requiredValidator)],
+        config: [
+          this._getAcrConfig(fxVersion, appSettings, siteConfig),
+          this.requiredValidator.validate.bind(this.requiredValidator),
+          this.yamlValidator.validate.bind(this.yamlValidator),
+        ],
       });
     }
   }
@@ -701,7 +708,11 @@ export class ContainerSettingsManager {
     } else {
       return this._fb.group({
         serverUrl: [ContainerConstants.dockerHubUrl],
-        config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
+        config: [
+          this._getConfigFromFxVersion(fxVersion),
+          this.requiredValidator.validate.bind(this.requiredValidator),
+          this.yamlValidator.validate.bind(this.yamlValidator),
+        ],
       });
     }
   }
@@ -725,7 +736,11 @@ export class ContainerSettingsManager {
         serverUrl: [ContainerConstants.dockerHubUrl],
         login: [this._getAppSettingsUsername(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
         password: [this._getAppSettingsPassword(appSettings), this.requiredValidator.validate.bind(this.requiredValidator)],
-        config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
+        config: [
+          this._getConfigFromFxVersion(fxVersion),
+          this.requiredValidator.validate.bind(this.requiredValidator),
+          this.yamlValidator.validate.bind(this.yamlValidator),
+        ],
       });
     }
   }
@@ -755,7 +770,11 @@ export class ContainerSettingsManager {
         ],
         login: [this._getAppSettingsUsername(appSettings)],
         password: [this._getAppSettingsPassword(appSettings)],
-        config: [this._getConfigFromFxVersion(fxVersion), this.requiredValidator.validate.bind(this.requiredValidator)],
+        config: [
+          this._getConfigFromFxVersion(fxVersion),
+          this.requiredValidator.validate.bind(this.requiredValidator),
+          this.yamlValidator.validate.bind(this.yamlValidator),
+        ],
       });
     }
   }
