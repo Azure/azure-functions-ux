@@ -324,13 +324,16 @@ export class ContainerSettingsManager {
     // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
     // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
     // Requirements - only alpha numeric characters, length between 5 - 50 characters.
-    let resourceName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+    const acrWebhookNameRegex = /[^a-zA-Z0-9]/g;
+    const acrWebhookNameMaxLength = 50;
+
+    let resourceName = siteDescriptor.site.replace(acrWebhookNameRegex, '');
 
     if (siteDescriptor.slot) {
-      resourceName += siteDescriptor.slot.replace(/[^a-zA-Z0-9]/g, '');
+      resourceName += siteDescriptor.slot.replace(acrWebhookNameRegex, '');
     }
 
-    const webhookName = `webapp${resourceName}`.substring(0, 50);
+    const webhookName = `webapp${resourceName}`.substring(0, acrWebhookNameMaxLength);
 
     return webhookName;
   }
