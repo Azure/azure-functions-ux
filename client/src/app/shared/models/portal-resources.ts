@@ -1423,4 +1423,5 @@ export class PortalResources {
   public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
   public static sideNav_ProxiesReadOnly = 'sideNav_ProxiesReadOnly';
   public static sideNav_ProxiesInaccessible = 'sideNav_ProxiesInaccessible';
+  public static configYamlInvalid = 'configYamlInvalid';
 }

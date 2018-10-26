@@ -4414,4 +4414,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
     <value>Proxies (Inaccessible)</value>
   </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
+  </data>
 </root>
