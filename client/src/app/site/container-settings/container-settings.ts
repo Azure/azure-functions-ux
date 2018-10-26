@@ -43,7 +43,8 @@ export interface ContainerImageSourceData extends ContainerConfigureData {
 }
 
 export interface ContainerFormData {
-  imageSource: ImageSourceType;
+  containerType: ContainerType;
+  imageSourceType: ImageSourceType;
   siteConfig: ContainerSiteConfigFormData;
   appSettings: ContainerAppSettingsFormData;
 }
