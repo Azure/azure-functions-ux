@@ -19,11 +19,11 @@ import IState from '../../../modules/types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 
 export interface AppSettingsProps {
-  fetchSite: () => void;
+  fetchSite: () => Promise<ArmObj<Site>>;
   fetchSettings: () => void;
   fetchConfig: () => void;
   fetchConnStrings: () => void;
-  fetchStacks: () => void;
+  fetchStacks: (osType: string) => void;
   updateSite: (site: any, appSettings: any, connectionStrings: any) => void;
   updateConfig: (config: any, stack: string, virtualApplications: any) => void;
   site: ArmObj<Partial<Site>>;
@@ -51,11 +51,18 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
     };
   }
   public componentWillMount() {
-    this.props.fetchSite();
     this.props.fetchSettings();
     this.props.fetchConfig();
     this.props.fetchConnStrings();
-    this.props.fetchStacks();
+    this.props.fetchSite().then(value => {
+      if (value && value.kind) {
+        if (value.kind.includes('linux')) {
+          this.props.fetchStacks('Linux');
+        } else {
+          this.props.fetchStacks('Windows');
+        }
+      }
+    });
   }
 
   public onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
@@ -126,7 +133,7 @@ const mapDispatchToProps = dispatch => {
     fetchSettings: () => dispatch(fetchAppSettings()),
     fetchConnStrings: () => dispatch(fetchConnectionStrings()),
     fetchConfig: () => dispatch(fetchConfig()),
-    fetchStacks: () => dispatch(fetchStacks()),
+    fetchStacks: (osType: string) => dispatch(fetchStacks(osType)),
     updateSite: (value, appSettings, connectionStrings) => dispatch(updateSite(value, appSettings, connectionStrings)),
     updateConfig: (value, stack, virtualApplications) => dispatch(updateConfig(value, stack, virtualApplications)),
   };

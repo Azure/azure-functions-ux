@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArmArray } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 
-export function fetchStacks() {
+export function fetchStacks(osType = 'Windows') {
   return async (dispatch: any, getState: any) => {
     const startupInfo = getState().portalService.startupInfo;
     const armToken = startupInfo.token;
@@ -16,9 +16,10 @@ export function fetchStacks() {
     }
 
     dispatch(updateStacksLoading(true));
+
     try {
       const stacksFetch = await axios.get<ArmArray<AvailableStack>>(
-        `${armEndpoint}/providers/Microsoft.Web/availableStacks?api-version=2018-02-01`,
+        `${armEndpoint}/providers/Microsoft.Web/availableStacks?osTypeSelected=${osType}&api-version=2018-02-01`,
         {
           headers: {
             Authorization: `Bearer ${armToken}`,

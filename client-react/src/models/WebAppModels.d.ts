@@ -752,6 +752,8 @@ export interface SiteConfig {
   pythonVersion: string;
   nodeVersion: string;
   linuxFxVersion: string;
+  linuxFxVersionType: string;
+  linuxFxVersionValue: string;
   minTlsVersion: string;
   requestTracingEnabled: boolean;
   requestTracingExpirationTime: Date;

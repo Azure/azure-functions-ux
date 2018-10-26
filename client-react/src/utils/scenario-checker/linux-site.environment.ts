@@ -48,6 +48,11 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => ({ status: 'enabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
+      id: ScenarioIds.linuxAppStack,
+      runCheck: () => ({ status: 'enabled' }),
+    };
+
     this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {
       id: ScenarioIds.enableAppServiceEditor,
       runCheck: () => disabledResult,
