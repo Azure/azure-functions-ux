@@ -1,6 +1,5 @@
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
-
+import { ScenarioCheckInput, Environment } from './scenario.models';
 export class EmbeddedFunctionsEnvironment extends Environment {
   public name = 'Embedded';
 

@@ -1,7 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import i18n from '../../utils/i18n';
-
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
 
@@ -45,12 +44,9 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.addSsh] = {
       id: ScenarioIds.addSsh,
-      runCheck: () => ({ status: 'enabled' }),
-    };
-
-    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
-      id: ScenarioIds.linuxAppStack,
-      runCheck: () => ({ status: 'enabled' }),
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
     };
 
     this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {
@@ -79,8 +75,10 @@ export class LinuxSiteEnvironment extends Environment {
     };
 
     this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
-      id: ScenarioIds.onedriveSource,
-      runCheck: () => ({ status: 'disabled' }),
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: () => ({
+        status: 'disabled',
+      }),
     };
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {
@@ -97,11 +95,25 @@ export class LinuxSiteEnvironment extends Environment {
       id: ScenarioIds.externalSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.addWebServerLogging] = {
+      id: ScenarioIds.addWebServerLogging,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
+      id: ScenarioIds.linuxAppStack,
+      runCheck: () => {
+        return {
+          status: 'enabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site) {
-      return !!input.site.kind && input.site.kind.toLowerCase().indexOf('linux') > -1;
+    if (input && input.site && input.site.kind) {
+      return input.site.kind.toLowerCase().indexOf('linux') > -1;
     }
 
     return false;

@@ -1,5 +1,5 @@
 import { ScenarioIds } from './scenario-ids';
-import { ServerFarmSku } from './ServerFarmSku';
+import { ServerFarmSkuConstants } from './ServerFarmSku';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import i18n from '../../utils/i18n';
 
@@ -74,6 +74,29 @@ export class XenonSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
+    this.scenarioChecks[ScenarioIds.autoSwapSupported] = {
+      id: ScenarioIds.autoSwapSupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        let winFxVersionStartsWithDocker = false;
+        if (
+          input &&
+          input.site &&
+          input.site.properties &&
+          input.site.properties.siteProperties &&
+          input.site.properties.siteProperties.properties
+        ) {
+          const winFxVersion = input.site.properties.siteProperties.properties.find(prop => prop.name.toLowerCase() === 'windowsfxversion');
+          if (winFxVersion && winFxVersion.value && winFxVersion.value.toLowerCase().startsWith('docker|')) {
+            winFxVersionStartsWithDocker = true;
+          }
+        }
+        return {
+          status: winFxVersionStartsWithDocker ? 'disabled' : 'enabled',
+          data: null,
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
       id: ScenarioIds.enableAutoSwap,
       runCheck: (input: ScenarioCheckInput) => {
@@ -86,7 +109,7 @@ export class XenonSiteEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site) {
-      return !!input.site.properties && input.site.properties.isXenon;
+      return input.site.properties && input.site.properties.isXenon;
     }
 
     return false;
@@ -96,9 +119,9 @@ export class XenonSiteEnvironment extends Environment {
     const disabled =
       input &&
       input.site &&
-      (input.site.properties.sku === ServerFarmSku.free ||
-        input.site.properties.sku === ServerFarmSku.shared ||
-        input.site.properties.sku === ServerFarmSku.basic);
+      (input.site.properties.sku === ServerFarmSkuConstants.Tier.free ||
+        input.site.properties.sku === ServerFarmSkuConstants.Tier.shared ||
+        input.site.properties.sku === ServerFarmSkuConstants.Tier.basic);
 
     return {
       status: disabled ? 'disabled' : 'enabled',

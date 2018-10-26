@@ -10,3 +10,7 @@ export function isLinuxApp(obj: ArmObj<any>): boolean {
 export function isLinuxDynamic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === 'dynamic';
 }
+
+export function isContainerApp(obj: ArmObj<Site>): boolean {
+  return !!obj && !!obj.kind && obj.kind.toLocaleLowerCase().includes('container');
+}

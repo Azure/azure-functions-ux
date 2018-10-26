@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
+import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
-import { ScenarioCheckInput } from './scenario.models';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
@@ -8,18 +8,19 @@ export class NationalCloudEnvironment extends AzureEnvironment {
   }
 
   public static isFairFax() {
-    return false;
+    return process.env.REACT_APP_RUNETIME_TYPE === 'fairfax';
   }
 
   public static isMooncake() {
-    return false;
+    return process.env.REACT_APP_RUNETIME_TYPE === 'mooncake';
   }
 
   public static isBlackforest() {
-    return false;
+    return process.env.REACT_APP_RUNETIME_TYPE === 'blackforest';
   }
 
   public name = 'NationalCloud';
+  public disabledBindings: string[] = ['apiHubFile', 'apiHubTable', 'apiHubFileTrigger', 'eventGridTrigger'];
 
   constructor() {
     super();
@@ -51,6 +52,16 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+      id: ScenarioIds.appInsightsConfigurable,
+      runCheckAsync: (input: ScenarioCheckInput) => {
+        return Promise.resolve<ScenarioResult>({
+          status: 'disabled',
+          data: null,
+        });
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.addMsi] = {
       id: ScenarioIds.addMsi,
       runCheck: () => {
@@ -69,6 +80,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.enableExportToPowerApps,
       runCheck: () => {
         return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.disabledBindings] = {
+      id: ScenarioIds.disabledBindings,
+      runCheck: () => {
+        return this.getDisabledBindings();
       },
     };
 
@@ -124,5 +142,12 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     return NationalCloudEnvironment.isNationalCloud();
+  }
+
+  private getDisabledBindings(): ScenarioResult {
+    return {
+      status: 'enabled',
+      data: this.disabledBindings,
+    };
   }
 }

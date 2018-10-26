@@ -1,6 +1,6 @@
-import i18n from '../../utils/i18n';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
+import { ScenarioCheckInput, Environment } from './scenario.models';
+import i18n from '../../utils/i18n';
 
 export class DynamicSiteEnvironment extends Environment {
   public name = 'DynamicSite';

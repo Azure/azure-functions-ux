@@ -9,8 +9,6 @@ export class ScenarioIds {
   public static readonly addTinfoil = 'AddTinfoil';
   public static readonly addSiteQuotas = 'ShowSiteQuotas';
   public static readonly addConsole = 'AddConsole';
-  public static readonly windowsAppStack = 'WindowsAppStack';
-  public static readonly linuxAppStack = 'LinuxAppStack';
   public static readonly addSsh = 'AddSsh';
   public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
   public static readonly addLogicApps = 'AddLogicApps';
@@ -18,6 +16,7 @@ export class ScenarioIds {
   public static readonly addScaleUp = 'AddScaleUp';
   public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
   public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
+  public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
   public static readonly enableAuth = 'EnableAuth';
   public static readonly enableMsi = 'EnableMsi';
@@ -38,7 +37,7 @@ export class ScenarioIds {
   public static readonly pythonSupported = 'PythonSupported';
   public static readonly javaSupported = 'JavaSupported';
   public static readonly defaultDocumentsSupported = 'DefaultDocumentsSupported';
-  public static readonly autoSwapSuuported = 'AutoSwapSuuported';
+  public static readonly autoSwapSupported = 'AutoSwapSupported';
   public static readonly handlerMappingsSupported = 'HandlerMappingsSupported';
   public static readonly virtualDirectoriesSupported = 'VirtualDirectoriesSupported';
   public static readonly enableDiagnoseAndSolve = 'EnableDiagnoseAndSolve';
@@ -84,4 +83,6 @@ export class ScenarioIds {
   public static readonly externalSource = 'externalSource';
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';
+  public static readonly windowsAppStack = 'windowsAppStack';
+  public static readonly linuxAppStack = 'linuxAppStack';
 }

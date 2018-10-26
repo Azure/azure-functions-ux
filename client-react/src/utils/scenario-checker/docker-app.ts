@@ -1,18 +1,12 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isLinuxDynamic } from '../arm-utils';
+import { isContainerApp } from '../arm-utils';
 
 export class DynamicLinuxEnvironment extends Environment {
   public name = 'DynamicLinux';
 
   constructor() {
     super();
-    this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
-      id: ScenarioIds.listExtensionsArm,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
 
     this.scenarioChecks[ScenarioIds.deploymentCenter] = {
       id: ScenarioIds.deploymentCenter,
@@ -24,7 +18,7 @@ export class DynamicLinuxEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site) {
-      return isLinuxDynamic(input.site);
+      return isContainerApp(input.site);
     }
 
     return false;
