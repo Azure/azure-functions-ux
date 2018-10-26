@@ -3,15 +3,14 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field, FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ScenarioContext } from 'src/pages/App';
 import { ScenarioIds } from 'src/utils/scenario-checker/scenario-ids';
+import { ScenarioService } from 'src/utils/scenario-checker/scenario.service';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
   const { site } = values;
-  return (
-    <ScenarioContext.Consumer>
-      {scenarioChecker => {
+  const scenarioChecker = new ScenarioService();
+
         return (
           <div>
             {scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status !== 'disabled' && (
@@ -135,8 +134,6 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             />
           </div>
         );
-      }}
-    </ScenarioContext.Consumer>
-  );
+     
 };
 export default translate('translation')(Platform);

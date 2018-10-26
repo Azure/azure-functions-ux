@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
-import { ScenarioContext } from 'src/pages/App';
 import { ScenarioIds } from 'src/utils/scenario-checker/scenario-ids';
 import WindowsStacks from './WindowsStacks/WindowsStacks';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { settingsWrapper } from '../AppSettingsForm';
 import LinuxStacks from './LinuxStacks/LinuxStacks';
+import { ScenarioService } from 'src/utils/scenario-checker/scenario.service';
 
 const Stacks: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
   const { site } = values;
-  return (
-    <ScenarioContext.Consumer>
-      {scenarioService => {
+  const scenarioService = new ScenarioService();
+
         if (scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status === 'enabled') {
           return (
             <>
@@ -35,9 +34,7 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePr
           );
         }
         return null;
-      }}
-    </ScenarioContext.Consumer>
-  );
+      
 };
 
 export default translate('translation')(Stacks);
