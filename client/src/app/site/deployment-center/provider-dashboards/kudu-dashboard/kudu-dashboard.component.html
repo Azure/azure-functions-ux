@@ -1,10 +1,10 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
-      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/restart.svg" (click)="refresh()"></command>
+      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/refresh.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
       <command displayText="{{ 'sync' | translate }}" iconUrl="image/swap.svg" (click)="syncScm()"></command>
-      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/reset.svg" (click)="showDeploymentCredentials()"></command>
+      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/key.svg" (click)="showDeploymentCredentials()"></command>
     </command-bar>
 
     <div id="essentials-container">
@@ -43,9 +43,7 @@
         </div>
       </div>
 
-
       <div class="essentials-col" *ngIf="sourceLocation === 'Local Git'">
-
         <div>
           <label id="siteStatusLabel">{{'gitCloneUri' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
@@ -131,7 +129,7 @@
         <ngx-datatable-column name="{{'logs' | translate}}" prop="" editable="false"  [resizeable]="true" [flexGrow]="1">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" 
               let-group="group">
-                  <span [load-image]="'image/generic-template.svg'" class="command-icon" (click)="details(row)" role="button" (keyup)="onLogsKeyUp($event.target.value, row)"></span>
+                  <span [load-image]="'image/logs.svg'" class="command-icon" (click)="details(row)" role="button" (keyup)="onLogsKeyUp($event.target.value, row)"></span>
             </ng-template>
           </ngx-datatable-column>
       </ngx-datatable>
