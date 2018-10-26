@@ -67,6 +67,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   public alwaysOnSupported = false;
   public classicPipelineModeSupported = false;
   public remoteDebuggingSupported = false;
+  public pcv3Supported = false;
   public clientAffinitySupported = false;
   public FTPAccessSupported = false;
 
@@ -223,23 +224,42 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
   scaleUp() {
     this.setBusy();
-
-    this._portalService
-      .openBlade(
-        {
-          detailBlade: 'SpecPickerFrameBlade',
-          detailBladeInputs: {
-            id: this.siteArm.properties.serverFarmId,
-            feature: 'scaleup',
-            data: null,
+    if (this.pcv3Supported) {
+      this._portalService
+        .openBlade(
+          {
+            detailBlade: 'SpecPickerFrameBlade',
+            detailBladeInputs: {
+              id: this.siteArm.properties.serverFarmId,
+              feature: 'scaleup',
+              data: null,
+            },
           },
+          this.componentName
+        )
+        .subscribe(r => {
+          this.clearBusy();
+          this._logService.debug(LogCategories.siteConfig, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
+        });
+    } else {
+      const inputs = {
+        aspResourceId: this.siteArm.properties.serverFarmId,
+        aseResourceId: this.siteArm.properties.hostingEnvironmentProfile && this.siteArm.properties.hostingEnvironmentProfile.id,
+      };
+
+      const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs('', inputs, 'site-manage', null, 'WebsiteSpecPickerV3');
+
+      openScaleUpBlade.first().subscribe(
+        r => {
+          this.clearBusy();
+          this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
         },
-        this.componentName
-      )
-      .subscribe(r => {
-        this.clearBusy();
-        this._logService.debug(LogCategories.siteConfig, `Scale up ${r.reason === 'childClosedSelf' ? 'succeeded' : 'cancelled'}`);
-      });
+        e => {
+          this.clearBusy();
+          this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
+        }
+      );
+    }
   }
 
   private _resetSlotsInfo() {
@@ -282,6 +302,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this.alwaysOnSupported = false;
     this.classicPipelineModeSupported = false;
     this.remoteDebuggingSupported = false;
+    this.pcv3Supported = false;
     this.clientAffinitySupported = false;
     this.autoSwapSupported = false;
     this.linuxRuntimeSupported = false;
@@ -300,6 +321,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       let alwaysOnSupported = true;
       let classicPipelineModeSupported = true;
       let remoteDebuggingSupported = true;
+      let pcv3Supported = true;
       let clientAffinitySupported = true;
       let autoSwapSupported = true;
       let linuxRuntimeSupported = false;
@@ -372,6 +394,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         remoteDebuggingSupported = false;
       }
 
+      if (this._scenarioService.checkScenario(ScenarioIds.pcv3Supported, { site: siteArm }).status === 'disabled') {
+        pcv3Supported = false;
+      }
+
       if (this._scenarioService.checkScenario(ScenarioIds.phpSupported, { site: siteArm }).status === 'disabled') {
         phpSupported = false;
       }
@@ -397,6 +423,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       this.alwaysOnSupported = alwaysOnSupported;
       this.classicPipelineModeSupported = classicPipelineModeSupported;
       this.remoteDebuggingSupported = remoteDebuggingSupported;
+      this.pcv3Supported = pcv3Supported;
       this.clientAffinitySupported = clientAffinitySupported;
       this.autoSwapSupported = autoSwapSupported;
       this.linuxRuntimeSupported = linuxRuntimeSupported;

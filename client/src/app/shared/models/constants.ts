@@ -233,6 +233,7 @@ export class ScenarioIds {
   public static readonly webSocketsSupported = 'WebSocketsSupported';
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
+  public static readonly pcv3Supported = 'Pcv3Supported';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
   public static readonly javaSupported = 'JavaSupported';
