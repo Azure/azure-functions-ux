@@ -71,7 +71,8 @@ export class ContainerSettingsManager {
     const containerForm = this.getContainerForm(form, form.controls.containerType.value);
 
     const data: ContainerFormData = {
-      imageSource: containerForm.controls.imageSource.value,
+      containerType: form.controls.containerType.value,
+      imageSourceType: containerForm.controls.imageSource.value,
       siteConfig: this._getSiteConfigFormData(form),
       appSettings: this._getAppSettingsFormData(form),
     };
@@ -191,7 +192,7 @@ export class ContainerSettingsManager {
         const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
 
         if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
-          if (formData.imageSource === 'azureContainerRegistry') {
+          if (formData.imageSourceType === 'azureContainerRegistry') {
             return this._manageAcrWebhook(resourceId, os, formData);
           } else {
             return Observable.of(true);
@@ -285,9 +286,13 @@ export class ContainerSettingsManager {
   }
 
   private _updateAcrWebhook(siteDescriptor: ArmSiteDescriptor, registry: ArmObj<ACRRegistry>, formData: ContainerFormData) {
-    const acrRespository = this._getAcrRepository(formData.siteConfig.fxVersion, formData.appSettings);
-    const acrTag = this._getAcrTag(formData.siteConfig.fxVersion, formData.appSettings);
     const webhookName = this._getAcrWebhookName(siteDescriptor);
+
+    // NOTE(michinoy): In a multi-container configuration there is no way to detect the repository and tag as there are multiple configurations.
+    // In this case the scope should be set to an empty string
+    const acrTag = formData.containerType === 'single' ? this._getAcrTag(formData.siteConfig.fxVersion, formData.appSettings) : '';
+    const acrRespository =
+      formData.containerType === 'single' ? this._getAcrRepository(formData.siteConfig.fxVersion, formData.appSettings) : '';
 
     let scope = '';
     if (acrRespository) {
@@ -318,11 +323,17 @@ export class ContainerSettingsManager {
   private _getAcrWebhookName(siteDescriptor: ArmSiteDescriptor) {
     // NOTE(michinoy): The name has to follow a certain pattern expected by the ACR webhook API contract
     // https://docs.microsoft.com/en-us/rest/api/containerregistry/webhooks/update
-    let webhookName = siteDescriptor.site.replace(/[^a-zA-Z0-9]/g, '');
+    // Requirements - only alpha numeric characters, length between 5 - 50 characters.
+    const acrWebhookNameRegex = /[^a-zA-Z0-9]/g;
+    const acrWebhookNameMaxLength = 50;
+
+    let resourceName = siteDescriptor.site.replace(acrWebhookNameRegex, '');
 
     if (siteDescriptor.slot) {
-      webhookName += siteDescriptor.slot.replace(/[^a-zA-Z0-9]/g, '');
+      resourceName += siteDescriptor.slot.replace(acrWebhookNameRegex, '');
     }
+
+    const webhookName = `webapp${resourceName}`.substring(0, acrWebhookNameMaxLength);
 
     return webhookName;
   }
