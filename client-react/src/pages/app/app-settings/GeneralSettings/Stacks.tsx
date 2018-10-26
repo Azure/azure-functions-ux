@@ -13,28 +13,27 @@ const Stacks: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePr
   const { site } = values;
   const scenarioService = new ScenarioService();
 
-        if (scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status === 'enabled') {
-          return (
-            <>
-              <h3>{t('stackSettings')}</h3>
-              <div className={settingsWrapper}>
-                <WindowsStacks {...props} />
-              </div>
-            </>
-          );
-        }
-        if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
-          return (
-            <>
-              <h3>{t('stackSettings')}</h3>
-              <div className={settingsWrapper}>
-                <LinuxStacks {...props} />
-              </div>
-            </>
-          );
-        }
-        return null;
-      
+  if (scenarioService.checkScenario(ScenarioIds.windowsAppStack, { site }).status === 'enabled') {
+    return (
+      <>
+        <h3>{t('stackSettings')}</h3>
+        <div className={settingsWrapper}>
+          <WindowsStacks {...props} />
+        </div>
+      </>
+    );
+  }
+  if (scenarioService.checkScenario(ScenarioIds.linuxAppStack, { site }).status === 'enabled') {
+    return (
+      <>
+        <h3>{t('stackSettings')}</h3>
+        <div className={settingsWrapper}>
+          <LinuxStacks {...props} />
+        </div>
+      </>
+    );
+  }
+  return null;
 };
 
 export default translate('translation')(Stacks);
