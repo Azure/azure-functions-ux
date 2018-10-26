@@ -371,9 +371,8 @@ export class PlanPriceSpecManager {
   private _shouldShowUpsellRecommendation(currentSpecCost: number, newSpecCost: number): boolean {
     const costBuffer = 0.1 * currentSpecCost;
     const maxCost = costBuffer + currentSpecCost;
-    const minCost = currentSpecCost - costBuffer;
 
-    return newSpecCost >= minCost && newSpecCost <= maxCost;
+    return newSpecCost <= maxCost;
   }
 
   private _getSpecGroupById(id: PriceSpecGroupType): PriceSpecGroup {
