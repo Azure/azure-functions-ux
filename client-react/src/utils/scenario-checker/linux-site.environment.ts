@@ -109,6 +109,42 @@ export class LinuxSiteEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
+      id: ScenarioIds.remoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.defaultDocumentsSupported] = {
+      id: ScenarioIds.remoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.virtualDirectoriesSupported] = {
+      id: ScenarioIds.virtualDirectoriesSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

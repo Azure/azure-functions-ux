@@ -14,6 +14,8 @@ import HandlerMappings from './HandlerMappings/HandlerMappings';
 import VirtualApplications from './VirtualApplications/VirtualApplications';
 import Debug from './GeneralSettings/Debugging';
 import SlotAutoSwap from './GeneralSettings/SlotAutoSwap';
+import { ScenarioService } from 'src/utils/scenario-checker/scenario.service';
+import { ScenarioIds } from 'src/utils/scenario-checker/scenario-ids';
 
 export const settingsWrapper = style({
   paddingLeft: '15px',
@@ -25,6 +27,7 @@ const defaultDocumentsWrapper = style({
   width: '565px',
 });
 class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, any> {
+  private scenarioChecker = new ScenarioService();
   public render() {
     const { t } = this.props;
     const props = this.props;
@@ -36,33 +39,71 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
           <div className={settingsWrapper}>
             <Platform {...props} />
           </div>
-          <h3>{t('debugging')}</h3>
-          <div className={settingsWrapper}>
-            <Debug {...props} />
-          </div>
+          {this.getDebuggingRender()}
           <SlotAutoSwap {...props} />
         </PivotItem>
-        <PivotItem linkText={t('applicationSettings')}>
-          <h3>{t('applicationSettings')}</h3>
-          <ApplicationSettings {...props} />
-          <h3>{t('connectionStrings')}</h3>
-          <ConnectionStrings {...props} />
-        </PivotItem>
-        <PivotItem linkText={t('defaultDocuments')}>
-          <h3>{t('defaultDocuments')}</h3>
-          <div className={defaultDocumentsWrapper}>
-            <DefaultDocuments {...props} />
-          </div>
-        </PivotItem>
+        {this.getAppSettingsPivot()}
+        {this.getDefaultDocuments()}
+        {this.getPathMappings()}
+      </Pivot>
+    );
+  }
+
+  private getPathMappings = () => {
+    const { t, values } = this.props;
+    const props = this.props;
+    const { site } = values;
+    if (this.scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled') {
+      return (
         <PivotItem linkText={t('pathMappings')}>
           <h3>{t('handlerMappings')}</h3>
           <HandlerMappings {...props} />
           <h3>{t('virtualApplications')}</h3>
           <VirtualApplications {...props} />
         </PivotItem>
-      </Pivot>
+      );
+    }
+    return <></>;
+  };
+
+  private getDefaultDocuments = () => {
+    const { t, values } = this.props;
+    const props = this.props;
+    const { site } = values;
+    if (this.scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled') {
+      return (
+        <PivotItem linkText={t('defaultDocuments')}>
+          <h3>{t('defaultDocuments')}</h3>
+          <div className={defaultDocumentsWrapper}>
+            <DefaultDocuments {...props} />
+          </div>
+        </PivotItem>
+      );
+    }
+    return <></>;
+  };
+  private getDebuggingRender = () => {
+    const { values } = this.props;
+    const { site } = values;
+
+    if (this.scenarioChecker.checkScenario(ScenarioIds.remoteDebuggingSupported, { site }).status !== 'disabled') {
+      return <Debug {...this.props} />;
+    }
+    return null;
+  };
+
+  private getAppSettingsPivot = () => {
+    const { t } = this.props;
+    const props = this.props;
+    return (
+      <PivotItem linkText={t('applicationSettings')}>
+        <h3>{t('applicationSettings')}</h3>
+        <ApplicationSettings {...props} />
+        <h3>{t('connectionStrings')}</h3>
+        <ConnectionStrings {...props} />
+      </PivotItem>
     );
-  }
+  };
 }
 
 export default translate('translation')(AppSettingsForm);
