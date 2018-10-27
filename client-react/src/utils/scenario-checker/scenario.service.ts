@@ -18,7 +18,7 @@ export interface IScenarioService {
 export class ScenarioService {
   private _environments: Environment[];
 
-  constructor(private t: (string) => string) {
+  constructor(t: (string) => string) {
     this._environments = [
       new DynamicSiteEnvironment(t),
       new LinuxSiteEnvironment(t),
