@@ -28,12 +28,12 @@ context('Querying', () => {
         '@siteJSON'
       )
       .route({
-        url: 'https://management.azure.comresourceid/config/connectionStrings/list?api-version=2016-03-01',
+        url: '**/config/connectionStrings/list?api-version=2016-03-01',
         response: '@connectionstrings',
         method: 'POST',
       })
       .route({
-        url: 'https://management.azure.comresourceid/config/appsettings/list?api-version=2016-03-01',
+        url: '**/config/appsettings/list?api-version=2016-03-01',
         response: '@appsettings',
         method: 'POST',
       })
@@ -42,9 +42,9 @@ context('Querying', () => {
         response: '@metadata',
         method: 'POST',
       })
-      .route('https://management.azure.comresourceid/config/web?api-version=2016-03-01', '@webconfig')
-      .route('https://management.azure.comresourceid/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
-      .route('https://management.azure.com/providers/Microsoft.Web/availableStacks?api-version=2018-02-01', '@availableStacksJSON')
+      .route('**/config/web?api-version=2016-03-01', '@webconfig')
+      .route('**/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
+      .route('**/availableStacks?osTypeSelected=Windows&api-version=2018-02-01', '@availableStacksJSON')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=2016-03-01',
         '@slots'
@@ -71,5 +71,80 @@ context('Querying', () => {
 
   it('Remote Debugging being off should Hide VS Version Dropdown', () => {
     cy.get('#remote-debugging-version').should('not.exist');
+  });
+
+  it('default stack selection is .Net', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .should('contain', '.NET')
+      .should('not.contain', 'Python');
+  });
+
+  it('.NET stack should show .NET version dropdown', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list0')
+      .click()
+      .get('#netValidationVersion-option')
+      .should('exist');
+  });
+
+  it('PHP stack should show PHP version dropdown', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list1')
+      .click()
+      .get('#phpVersion-option')
+      .should('exist');
+  });
+
+  it('Python stack should show Python Versions', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list2')
+      .click()
+      .get('#pythonVersion-option')
+      .should('exist');
+  });
+
+  it('Java stack should show Java Versions, Containers and Container Versions', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list3')
+      .click()
+      .get('#app-settings-java-major-verison')
+      .should('exist')
+      .get('#app-settings-java-minor-verison')
+      .should('exist')
+      .get('#app-settings-java-container-runtime')
+      .should('exist')
+      .get('#app-settings-java-container-version')
+      .should('exist');
+  });
+
+  it('Java options are filled in from available stacks api', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list3')
+      .click()
+      .get('#app-settings-java-major-verison-option')
+      .click()
+      .get('#app-settings-java-major-verison-list1')
+      .should('contain', 'Java 8')
+      .click()
+      .get('#app-settings-java-minor-verison-option')
+      .click()
+      .get('#app-settings-java-minor-verison-list0')
+      .should('contain', '1.8.0_25')
+      .click()
+      .get('#app-settings-java-container-runtime-option')
+      .click()
+      .get('#app-settings-java-container-runtime-list0')
+      .should('contain', 'Tomcat')
+      .click()
+      .get('#app-settings-java-container-version-option')
+      .click()
+      .get('#app-settings-java-container-version-list1')
+      .should('contain', '7.0.50')
+      .click();
   });
 });

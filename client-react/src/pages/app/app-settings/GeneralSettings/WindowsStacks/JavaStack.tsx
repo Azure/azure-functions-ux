@@ -126,7 +126,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
         <OfficeDropdown
           label={t('javaVersion')}
           selectedKey={this.state.currentJavaMajorVersion}
-          id="app-settings-java-container"
+          id="app-settings-java-major-verison"
           options={javaVersions}
           onChange={this.onMajorVersionChange}
         />
@@ -134,14 +134,14 @@ class JavaStack extends React.Component<Props, JavaStackState> {
           name="config.properties.javaVersion"
           component={Dropdown}
           label={t('javaMinorVersion')}
-          id="app-settings-java-container"
+          id="app-settings-java-minor-verison"
           options={javaMinorVersionOptions}
         />
         <Field
           name="config.properties.javaContainer"
           component={Dropdown}
           label={t('javaContainer')}
-          id="app-settings-java-container-version"
+          id="app-settings-java-container-runtime"
           options={frameworks}
         />
         <Field
