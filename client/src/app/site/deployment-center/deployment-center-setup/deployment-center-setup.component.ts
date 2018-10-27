@@ -5,6 +5,8 @@ import { sourceControlProvider } from 'app/site/deployment-center/deployment-cen
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TranslateService } from '@ngx-translate/core';
 import { MovingDirection } from '../../../controls/form-wizard/util/moving-direction.enum';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { ScenarioIds } from 'app/shared/models/constants';
 
 @Component({
   selector: 'app-deployment-center-setup',
@@ -16,7 +18,12 @@ export class DeploymentCenterSetupComponent implements OnChanges {
   @Input()
   resourceId: string;
 
-  constructor(public wizard: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
+  constructor(
+    public wizard: DeploymentCenterStateManager,
+    private _fb: FormBuilder,
+    private scenarioService: ScenarioService,
+    translateService: TranslateService
+  ) {
     this.wizard.wizardForm = this._fb.group({
       sourceProvider: [null, []],
       buildProvider: ['kudu', []],
