@@ -16,23 +16,24 @@ export interface IScenarioService {
 }
 
 export class ScenarioService {
-  private _environments: Environment[] = [
-    new DynamicSiteEnvironment(),
-    new LinuxSiteEnvironment(),
-    new XenonSiteEnvironment(),
-    new EmbeddedFunctionsEnvironment(),
-    new DynamicLinuxEnvironment(),
-    new FunctionAppEnvironment(),
-    new WindowsCode(),
-  ];
+  private _environments: Environment[];
 
-  constructor() {
+  constructor(private t: (string) => string) {
+    this._environments = [
+      new DynamicSiteEnvironment(t),
+      new LinuxSiteEnvironment(t),
+      new XenonSiteEnvironment(t),
+      new EmbeddedFunctionsEnvironment(t),
+      new DynamicLinuxEnvironment(t),
+      new FunctionAppEnvironment(t),
+      new WindowsCode(t),
+    ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.
     if (NationalCloudEnvironment.isNationalCloud()) {
-      this._environments.splice(0, 0, new NationalCloudEnvironment());
+      this._environments.splice(0, 0, new NationalCloudEnvironment(t));
     } else {
-      this._environments.splice(0, 0, new AzureEnvironment());
+      this._environments.splice(0, 0, new AzureEnvironment(t));
     }
   }
 

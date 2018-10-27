@@ -7,7 +7,7 @@ describe('App Settings', () => {
     let container;
 
     beforeEach(() => {
-      container = shallow(<AppSettingsFormAny />);
+      container = shallow(<AppSettingsFormAny values={{ site: { kind: 'app' } }} />);
     });
 
     it('renders without crashing', () => {

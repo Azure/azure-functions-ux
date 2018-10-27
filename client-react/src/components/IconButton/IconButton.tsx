@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IconButton as OfficeIconButton, IButtonProps } from 'office-ui-fabric-react/lib-commonjs/Button';
 import { ITheme } from '@uifabric/styling';
-import IState from 'src/modules/types';
+import IState from '../../modules/types';
 import { connect } from 'react-redux';
 
 const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {

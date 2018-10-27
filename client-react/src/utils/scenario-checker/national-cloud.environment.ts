@@ -22,8 +22,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
   public name = 'NationalCloud';
   public disabledBindings: string[] = ['apiHubFile', 'apiHubTable', 'apiHubFileTrigger', 'eventGridTrigger'];
 
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.scenarioChecks[ScenarioIds.addResourceExplorer] = {
       id: ScenarioIds.addResourceExplorer,
       runCheck: () => {

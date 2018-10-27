@@ -1,15 +1,14 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import i18n from '../../utils/i18n';
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
 
     const disabledResult: ScenarioResult = {
       status: 'disabled',
-      data: i18n.t('featureNotSupportedForLinuxApps'),
+      data: t('featureNotSupportedForLinuxApps'),
     };
 
     this.scenarioChecks[ScenarioIds.enableAuth] = {

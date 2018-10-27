@@ -3,7 +3,7 @@ import { ScenarioCheckInput, Environment } from './scenario.models';
 export class FunctionAppEnvironment extends Environment {
   public name = 'DynamicSite';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
     this.scenarioChecks[ScenarioIds.vstsDeploymentHide] = {
       id: ScenarioIds.vstsDeploymentHide,

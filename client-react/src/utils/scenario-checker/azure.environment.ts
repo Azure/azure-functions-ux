@@ -1,12 +1,11 @@
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSkuConstants } from './ServerFarmSku';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import i18n from '../../utils/i18n';
 
 export class AzureEnvironment extends Environment {
   public name = 'Azure';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
     this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
       id: ScenarioIds.addSiteFeaturesTab,
@@ -40,7 +39,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enablePlatform64,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfBasicOrHigher(input);
-        scenarioResult.data = i18n.t('use32BitWorkerProcessUpsell');
+        scenarioResult.data = t('use32BitWorkerProcessUpsell');
         return scenarioResult;
       },
     };
@@ -49,7 +48,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enableAlwaysOn,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfBasicOrHigher(input);
-        scenarioResult.data = i18n.t('alwaysOnUpsell');
+        scenarioResult.data = t('alwaysOnUpsell');
         return scenarioResult;
       },
     };
@@ -72,7 +71,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enableAutoSwap,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfStandardOrHigher(input);
-        scenarioResult.data = i18n.t('autoSwapUpsell');
+        scenarioResult.data = t('autoSwapUpsell');
         return scenarioResult;
       },
     };

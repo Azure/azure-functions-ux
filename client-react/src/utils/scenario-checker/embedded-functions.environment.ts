@@ -3,7 +3,7 @@ import { ScenarioCheckInput, Environment } from './scenario.models';
 export class EmbeddedFunctionsEnvironment extends Environment {
   public name = 'Embedded';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
     this.scenarioChecks[ScenarioIds.showSideNavMenu] = {
       id: ScenarioIds.showSideNavMenu,

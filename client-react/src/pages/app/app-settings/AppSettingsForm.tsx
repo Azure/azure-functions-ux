@@ -14,8 +14,8 @@ import HandlerMappings from './HandlerMappings/HandlerMappings';
 import VirtualApplications from './VirtualApplications/VirtualApplications';
 import Debug from './GeneralSettings/Debugging';
 import SlotAutoSwap from './GeneralSettings/SlotAutoSwap';
-import { ScenarioService } from 'src/utils/scenario-checker/scenario.service';
-import { ScenarioIds } from 'src/utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 
 export const settingsWrapper = style({
   paddingLeft: '15px',
@@ -27,7 +27,11 @@ const defaultDocumentsWrapper = style({
   width: '565px',
 });
 class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, any> {
-  private scenarioChecker = new ScenarioService();
+  private scenarioChecker: ScenarioService;
+
+  public componentWillMount() {
+    this.scenarioChecker = new ScenarioService(this.props.t);
+  }
   public render() {
     const { t } = this.props;
     const props = this.props;

@@ -3,13 +3,13 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field, FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ScenarioIds } from 'src/utils/scenario-checker/scenario-ids';
-import { ScenarioService } from 'src/utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
   const { site } = values;
-  const scenarioChecker = new ScenarioService();
+  const scenarioChecker = new ScenarioService(t);
 
   return (
     <div>

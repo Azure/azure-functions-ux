@@ -5,7 +5,7 @@ import { isContainerApp } from '../arm-utils';
 export class DynamicLinuxEnvironment extends Environment {
   public name = 'DynamicLinux';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
 
     this.scenarioChecks[ScenarioIds.deploymentCenter] = {

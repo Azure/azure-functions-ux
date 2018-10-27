@@ -1,12 +1,11 @@
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSkuConstants } from './ServerFarmSku';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import i18n from '../../utils/i18n';
 
 export class XenonSiteEnvironment extends Environment {
   public name = 'XenonSite';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
 
     const disabledResult: ScenarioResult = {
@@ -101,7 +100,7 @@ export class XenonSiteEnvironment extends Environment {
       id: ScenarioIds.enableAutoSwap,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfStandardOrHigher(input);
-        scenarioResult.data = i18n.t('autoSwapUpsell');
+        scenarioResult.data = t('autoSwapUpsell');
         return scenarioResult;
       },
     };

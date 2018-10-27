@@ -12,11 +12,11 @@ export class App extends React.Component<AppProps, any> {
   public render() {
     return (
       <Fabric>
-          <Router>
-            <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-            <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-            <LandingPage path="/*" />
-          </Router>
+        <Router>
+          <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+          <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+          <LandingPage path="/*" />
+        </Router>
       </Fabric>
     );
   }
