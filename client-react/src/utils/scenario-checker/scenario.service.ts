@@ -8,6 +8,7 @@ import { XenonSiteEnvironment } from './xenon-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCode } from './windows-code.environment';
+import { ContainerApp } from './container.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -27,6 +28,7 @@ export class ScenarioService {
       new DynamicLinuxEnvironment(t),
       new FunctionAppEnvironment(t),
       new WindowsCode(t),
+      new ContainerApp(t),
     ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.

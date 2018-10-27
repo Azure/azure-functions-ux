@@ -2,8 +2,8 @@ import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isContainerApp } from '../arm-utils';
 
-export class DynamicLinuxEnvironment extends Environment {
-  public name = 'DynamicLinux';
+export class ContainerApp extends Environment {
+  public name = 'ContainerApp';
 
   constructor(t: (string) => string) {
     super();
@@ -12,6 +12,14 @@ export class DynamicLinuxEnvironment extends Environment {
       id: ScenarioIds.deploymentCenter,
       runCheck: () => {
         return { status: 'disabled' };
+      },
+    };
+    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
+      id: ScenarioIds.linuxAppStack,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
       },
     };
   }
