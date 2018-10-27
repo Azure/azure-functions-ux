@@ -67,7 +67,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   public alwaysOnSupported = false;
   public classicPipelineModeSupported = false;
   public remoteDebuggingSupported = false;
-  public pcv3Supported = false;
+  public useOldScaleUpBlade = false;
   public clientAffinitySupported = false;
   public FTPAccessSupported = false;
 
@@ -224,7 +224,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
   scaleUp() {
     this.setBusy();
-    if (this.pcv3Supported) {
+    if (!this.useOldScaleUpBlade) {
       this._portalService
         .openBlade(
           {
@@ -302,7 +302,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this.alwaysOnSupported = false;
     this.classicPipelineModeSupported = false;
     this.remoteDebuggingSupported = false;
-    this.pcv3Supported = false;
+    this.useOldScaleUpBlade = false;
     this.clientAffinitySupported = false;
     this.autoSwapSupported = false;
     this.linuxRuntimeSupported = false;
@@ -321,7 +321,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       let alwaysOnSupported = true;
       let classicPipelineModeSupported = true;
       let remoteDebuggingSupported = true;
-      let pcv3Supported = true;
+      let useOldScaleUpBlade = false;
       let clientAffinitySupported = true;
       let autoSwapSupported = true;
       let linuxRuntimeSupported = false;
@@ -394,8 +394,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         remoteDebuggingSupported = false;
       }
 
-      if (this._scenarioService.checkScenario(ScenarioIds.pcv3Supported, { site: siteArm }).status === 'disabled') {
-        pcv3Supported = false;
+      if (this._scenarioService.checkScenario(ScenarioIds.useOldScaleUpBlade, { site: siteArm }).status === 'enabled') {
+        useOldScaleUpBlade = true;
       }
 
       if (this._scenarioService.checkScenario(ScenarioIds.phpSupported, { site: siteArm }).status === 'disabled') {
@@ -423,7 +423,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       this.alwaysOnSupported = alwaysOnSupported;
       this.classicPipelineModeSupported = classicPipelineModeSupported;
       this.remoteDebuggingSupported = remoteDebuggingSupported;
-      this.pcv3Supported = pcv3Supported;
+      this.useOldScaleUpBlade = useOldScaleUpBlade;
       this.clientAffinitySupported = clientAffinitySupported;
       this.autoSwapSupported = autoSwapSupported;
       this.linuxRuntimeSupported = linuxRuntimeSupported;

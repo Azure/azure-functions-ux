@@ -52,10 +52,10 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.pcv3Supported] = {
-      id: ScenarioIds.pcv3Supported,
+    this.scenarioChecks[ScenarioIds.useOldScaleUpBlade] = {
+      id: ScenarioIds.useOldScaleUpBlade,
       runCheck: () => {
-        return { status: 'disabled' };
+        return { status: 'enabled' };
       },
     };
 
