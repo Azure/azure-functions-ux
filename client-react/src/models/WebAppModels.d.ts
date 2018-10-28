@@ -1460,3 +1460,18 @@ export interface ServiceBusNamespacesSku {
 export interface ServiceBusNamespacesTags {
   endpoint: string;
 }
+
+export interface Permissions {
+  actions: string[];
+  notActions: string[];
+}
+
+export interface PermissionsAsRegExp {
+  actions: RegExp[];
+  notActions: RegExp[];
+}
+
+export interface Lock {
+  level: string;
+  notes: string;
+}
