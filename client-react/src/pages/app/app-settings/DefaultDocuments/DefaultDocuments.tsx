@@ -61,6 +61,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
               },
             }}
             id={`app-settings-document-text-${index}`}
+            ariaLabel={t('defaultDocuments')}
             underlined
             errorMessage={
               errors &&

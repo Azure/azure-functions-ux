@@ -25,11 +25,18 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   };
   return (
     <div className={containerStyle}>
-      <Label required={true} htmlFor={rest.id} style={{ color: '#595959', marginBottom: '1px', paddingBottom: '0px' }}>
+      <Label
+        required={true}
+        id={`${rest.id}-label`}
+        htmlFor={rest.id}
+        style={{ color: '#595959', marginBottom: '1px', paddingBottom: '0px' }}>
         {label}
       </Label>
       {subLabel && (
-        <Label required={false} style={{ color: '#595959', fontSize: '12px', marginTop: '1px', paddingTop: '0px' }}>
+        <Label
+          id={`${rest.id}-sublabel`}
+          required={false}
+          style={{ color: '#595959', fontSize: '12px', marginTop: '1px', paddingTop: '0px' }}>
           {subLabel}
           {learnMore && (
             <Link href={learnMore.learnMoreLink} target="_blank">
@@ -40,6 +47,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
       )}
       <OfficeDropdown
         selectedKey={field.value === undefined ? 'null' : field.value}
+        ariaLabel={label}
         options={options}
         onChange={onChange}
         onBlur={field.onBlur}

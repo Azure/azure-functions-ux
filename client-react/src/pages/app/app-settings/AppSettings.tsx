@@ -88,12 +88,12 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
             return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
           }
           return (
-            <div>
+            <form>
               <AppSettingsCommandBar submitForm={props.submitForm} resetForm={props.resetForm} dirty={props.dirty} />
               <div className={formStyle}>
                 <AppSettingsForm {...props} />
               </div>
-            </div>
+            </form>
           );
         }}
       </Formik>

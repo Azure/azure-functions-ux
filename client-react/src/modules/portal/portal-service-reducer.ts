@@ -12,7 +12,7 @@ export interface IPortalServiceState {
 
 export const InitialState: IPortalServiceState = {
   shellSrc: '',
-  theme: lightTheme,
+  theme: lightTheme as ITheme,
   startupInfo: null,
 };
 

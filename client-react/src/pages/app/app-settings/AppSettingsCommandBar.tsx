@@ -49,6 +49,7 @@ class AppSettingsCommandBar extends React.Component<AppSettingsCommandBarPropsCo
     return (
       <CommandBar
         items={getItems(this.props.submitForm, () => this.props.resetForm(), this.props.dirty, this.props.t)}
+        aria-role="nav"
         ariaLabel={this.props.t('appSettingsCommandBarAriaLabel')}
         buttonAs={this.customButton}
         styles={{
