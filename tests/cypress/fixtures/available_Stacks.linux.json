@@ -1,0 +1,470 @@
+{
+  "value": [
+    {
+      "id": null,
+      "name": "ruby",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "ruby",
+        "display": "Ruby",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": "Ruby 2.3",
+            "runtimeVersion": "RUBY|2.3",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "2.3.3",
+                "runtimeVersion": "RUBY|2.3",
+                "isDefault": true
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    },
+    {
+      "id": null,
+      "name": "node",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "node",
+        "display": "Node.js",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": "Node.js 4.4",
+            "runtimeVersion": "NODE|4.4",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "4.4.7",
+                "runtimeVersion": "NODE|4.4",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 4.5",
+            "runtimeVersion": "NODE|4.5",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "4.5.0",
+                "runtimeVersion": "NODE|4.5",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 4.8",
+            "runtimeVersion": "NODE|4.8",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "4.8.3",
+                "runtimeVersion": "NODE|4.8.3",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "4.8.4",
+                "runtimeVersion": "NODE|4.8",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 6.2",
+            "runtimeVersion": "NODE|6.2",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "6.2.2",
+                "runtimeVersion": "NODE|6.2",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 6.6",
+            "runtimeVersion": "NODE|6.6",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "6.6.0",
+                "runtimeVersion": "NODE|6.6",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 6.9",
+            "runtimeVersion": "NODE|6.9",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "6.9.3",
+                "runtimeVersion": "NODE|6.9",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 6.10",
+            "runtimeVersion": "NODE|6.10",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "6.10.3",
+                "runtimeVersion": "NODE|6.10",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 6.11",
+            "runtimeVersion": "NODE|6.11",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "6.11.0",
+                "runtimeVersion": "NODE|6.11.0",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "6.11.1",
+                "runtimeVersion": "NODE|6.11.1",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "6.11.5",
+                "runtimeVersion": "NODE|6.11",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.0",
+            "runtimeVersion": "NODE|8.0",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.0.0",
+                "runtimeVersion": "NODE|8.0",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.1",
+            "runtimeVersion": "NODE|8.1",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.1.2",
+                "runtimeVersion": "NODE|8.1.2",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "8.1.3",
+                "runtimeVersion": "NODE|8.1.3",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "8.1.4",
+                "runtimeVersion": "NODE|8.1",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.2",
+            "runtimeVersion": "NODE|8.2",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.2.1",
+                "runtimeVersion": "NODE|8.2",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.8",
+            "runtimeVersion": "NODE|8.8",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.8.1",
+                "runtimeVersion": "NODE|8.8",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.9",
+            "runtimeVersion": "NODE|8.9",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.9.4",
+                "runtimeVersion": "NODE|8.9",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 8.11",
+            "runtimeVersion": "NODE|8.11",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "8.11.2",
+                "runtimeVersion": "NODE|8.11",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 9.4",
+            "runtimeVersion": "NODE|9.4",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "9.4.0",
+                "runtimeVersion": "NODE|9.4",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Node.js 10.1",
+            "runtimeVersion": "NODE|10.1",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "10.1.0",
+                "runtimeVersion": "NODE|10.1",
+                "isDefault": true
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    },
+    {
+      "id": null,
+      "name": "php",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "php",
+        "display": "PHP",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": "PHP 5.6",
+            "runtimeVersion": "PHP|5.6",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "5.6.36-apache",
+                "runtimeVersion": "PHP|5.6",
+                "isDefault": true
+              },
+              {
+                "displayVersion": "5.6.36-apache-xdebug",
+                "runtimeVersion": "PHP|5.6",
+                "isDefault": false
+              }
+            ]
+          },
+          {
+            "displayVersion": "PHP 7.0",
+            "runtimeVersion": "PHP|7.0",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "7.0.30-apache",
+                "runtimeVersion": "PHP|7.0",
+                "isDefault": true
+              },
+              {
+                "displayVersion": "7.0.30-apache-xdebug",
+                "runtimeVersion": "PHP|7.0",
+                "isDefault": false
+              }
+            ]
+          },
+          {
+            "displayVersion": "PHP 7.2",
+            "runtimeVersion": "PHP|7.2",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "7.2.5-apache",
+                "runtimeVersion": "PHP|7.2",
+                "isDefault": true
+              },
+              {
+                "displayVersion": "7.2.5-apache-xdebug",
+                "runtimeVersion": "PHP|7.2",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "7.2.5-apache",
+                "runtimeVersion": "PHP|7.2",
+                "isDefault": false
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    },
+    {
+      "id": null,
+      "name": "dotnetcore",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "dotnetcore",
+        "display": ".NET Core",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": ".NET Core 1.0",
+            "runtimeVersion": "DOTNETCORE|1.0",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "1.0.5",
+                "runtimeVersion": "DOTNETCORE|1.0",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": ".NET Core 1.1",
+            "runtimeVersion": "DOTNETCORE|1.1",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "1.1.2",
+                "runtimeVersion": "DOTNETCORE|1.1",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": ".NET Core 2.0",
+            "runtimeVersion": "DOTNETCORE|2.0",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "2.0.7",
+                "runtimeVersion": "DOTNETCORE|2.0",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": ".NET Core 2.1",
+            "runtimeVersion": "DOTNETCORE|2.1",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "2.1.1",
+                "runtimeVersion": "DOTNETCORE|2.1",
+                "isDefault": false
+              },
+              {
+                "displayVersion": "2.1.2",
+                "runtimeVersion": "DOTNETCORE|2.1",
+                "isDefault": true
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    },
+    {
+      "id": null,
+      "name": "java",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "java",
+        "display": "Java",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": "Tomcat 8.5 (JRE 8)",
+            "runtimeVersion": "TOMCAT|8.5-jre8",
+            "isDefault": false,
+            "minorVersions": [
+              {
+                "displayVersion": "8.5",
+                "runtimeVersion": "TOMCAT|8.5-jre8",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Tomcat 9.0 (JRE 8)",
+            "runtimeVersion": "TOMCAT|9.0-jre8",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "9.0",
+                "runtimeVersion": "TOMCAT|9.0-jre8",
+                "isDefault": true
+              }
+            ]
+          },
+          {
+            "displayVersion": "Java SE (JRE 8)",
+            "runtimeVersion": "JAVA|8-jre8",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "8",
+                "runtimeVersion": "JAVA|8-jre8",
+                "isDefault": true
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    },
+    {
+      "id": null,
+      "name": "python",
+      "type": "Microsoft.Web/availableStacks?osTypeSelected=Linux",
+      "properties": {
+        "name": "python",
+        "display": "Python (Preview)",
+        "dependency": null,
+        "majorVersions": [
+          {
+            "displayVersion": "Python 3.7",
+            "runtimeVersion": "PYTHON|3.7",
+            "isDefault": true,
+            "minorVersions": [
+              {
+                "displayVersion": "3.7.0",
+                "runtimeVersion": "PYTHON|3.7",
+                "isDefault": true
+              }
+            ]
+          }
+        ],
+        "frameworks": []
+      }
+    }
+  ],
+  "nextLink": null,
+  "id": null
+}

@@ -6,15 +6,15 @@ context('Querying', () => {
     cy.server()
       .fixture('resources.json')
       .as('resourcesJSON')
-      .fixture('available_Stacks.json')
+      .fixture('available_Stacks.windows.json')
       .as('availableStacksJSON')
-      .fixture('default/site.json')
+      .fixture('default/site.windows.json')
       .as('siteJSON')
       .fixture('default/connectionstrings.json')
       .as('connectionstrings')
       .fixture('default/appsettings.json')
       .as('appsettings')
-      .fixture('default/webconfig.json')
+      .fixture('default/webconfig.windows.json')
       .as('webconfig')
       .fixture('default/metadata.json')
       .as('metadata')
@@ -59,8 +59,16 @@ context('Querying', () => {
       );
   });
 
-  // The most commonly used query is 'cy.get()', you can
-  // think of this like the '$' in jQuery
+  it('Should contain all settings tabs for windows app settings', () => {
+    cy.get('#app-settings-general-settings-tab')
+      .should('exist')
+      .get('#app-settings-path-mappings-tab')
+      .should('exist')
+      .get('#app-settings-default-documents-tab')
+      .should('exist')
+      .get('#app-settings-application-settings-tab')
+      .should('exist');
+  });
 
   it('Turning on Remote Debug should Trigger showing VS Version Dropdown', () => {
     cy.get('#remote-debugging-switch')
@@ -128,23 +136,108 @@ context('Querying', () => {
       .click()
       .get('#app-settings-java-major-verison-option')
       .click()
+      .get('#app-settings-java-major-verison-list')
+      .find('button')
+      .should('have.length', 2)
       .get('#app-settings-java-major-verison-list1')
       .should('contain', 'Java 8')
       .click()
       .get('#app-settings-java-minor-verison-option')
       .click()
+      .get('#app-settings-java-minor-verison-list')
+      .find('button')
+      .should('have.length', 9)
       .get('#app-settings-java-minor-verison-list0')
       .should('contain', '1.8.0_25')
       .click()
       .get('#app-settings-java-container-runtime-option')
       .click()
+      .get('#app-settings-java-container-runtime-list')
+      .find('button')
+      .should('have.length', 2)
       .get('#app-settings-java-container-runtime-list0')
       .should('contain', 'Tomcat')
       .click()
       .get('#app-settings-java-container-version-option')
       .click()
+      .get('#app-settings-java-container-version-list')
+      .find('button')
+      .should('have.length', 14)
       .get('#app-settings-java-container-version-list1')
       .should('contain', '7.0.50')
       .click();
+  });
+
+  it('.NET options are filled in from available stacks api', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list0')
+      .click()
+      .get('#netValidationVersion-option')
+      .click()
+      .get('#netValidationVersion-list')
+      .find('button')
+      .should('have.length', 2)
+      .get('#netValidationVersion-list0')
+      .should('contain', 'v4.7');
+  });
+
+  it('PHP options are filled in from available stacks api', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list1')
+      .click()
+      .get('#phpVersion-option')
+      .click()
+      .get('#phpVersion-list')
+      .find('button')
+      .should('have.length', 4)
+      .get('#phpVersion-list0')
+      .should('contain', '5.6');
+  });
+
+  it('Python options are filled in from available stacks api', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list2')
+      .click()
+      .get('#pythonVersion-option')
+      .click()
+      .get('#pythonVersion-list')
+      .find('button')
+      .should('have.length', 3)
+      .get('#pythonVersion-list0')
+      .should('contain', '2.7');
+  });
+
+  it('Python options are filled in from available stacks api', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list2')
+      .click()
+      .get('#pythonVersion-option')
+      .click()
+      .get('#pythonVersion-list')
+      .find('button')
+      .should('have.length', 3)
+      .get('#pythonVersion-list0')
+      .should('contain', '2.7');
+  });
+
+  it('All Platform Options are present', () => {
+    cy.get('#app-settings-worker-process')
+      .should('exist')
+      .get('#app-settings-managed-pipeline-mode')
+      .should('exist')
+      .get('#app-settings-web-sockets-enabled')
+      .should('exist')
+      .get('#app-settings-ftps-state')
+      .should('exist')
+      .get('#app-settings-always-on')
+      .should('exist')
+      .get('#app-settings-clientAffinityEnabled')
+      .should('exist')
+      .get('#app-settings-http-enabled')
+      .should('exist');
   });
 });

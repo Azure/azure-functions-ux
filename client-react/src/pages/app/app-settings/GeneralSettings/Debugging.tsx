@@ -9,7 +9,7 @@ import { settingsWrapper } from '../AppSettingsForm';
 const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t } = props;
   return (
-    <>
+    <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
       <div className={settingsWrapper}>
         <Field
@@ -43,7 +43,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

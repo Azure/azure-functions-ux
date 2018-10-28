@@ -36,8 +36,8 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     const { t } = this.props;
     const props = this.props;
     return (
-      <Pivot>
-        <PivotItem linkText={t('generalSettings')}>
+      <Pivot getTabId={this.getPivotTabId}>
+        <PivotItem itemKey="generalSettings" linkText={t('generalSettings')}>
           <Stacks {...props} />
           <h3>{t('platformSettings')}</h3>
           <div className={settingsWrapper}>
@@ -53,13 +53,26 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     );
   }
 
+  private getPivotTabId = (itemKey: string, index: number) => {
+    switch (itemKey) {
+      case 'generalSettings':
+        return 'app-settings-general-settings-tab';
+      case 'pathMappings':
+        return 'app-settings-path-mappings-tab';
+      case 'defaultDocuments':
+        return 'app-settings-default-documents-tab';
+      case 'applicationSettings':
+        return 'app-settings-application-settings-tab';
+    }
+    return '';
+  };
   private getPathMappings = () => {
     const { t, values } = this.props;
     const props = this.props;
     const { site } = values;
     if (this.scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled') {
       return (
-        <PivotItem linkText={t('pathMappings')}>
+        <PivotItem itemKey="pathMappings" linkText={t('pathMappings')}>
           <h3>{t('handlerMappings')}</h3>
           <HandlerMappings {...props} />
           <h3>{t('virtualApplications')}</h3>
@@ -76,7 +89,7 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     const { site } = values;
     if (this.scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled') {
       return (
-        <PivotItem linkText={t('defaultDocuments')}>
+        <PivotItem itemKey="defaultDocuments" linkText={t('defaultDocuments')}>
           <h3>{t('defaultDocuments')}</h3>
           <div className={defaultDocumentsWrapper}>
             <DefaultDocuments {...props} />
@@ -100,7 +113,7 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     const { t } = this.props;
     const props = this.props;
     return (
-      <PivotItem linkText={t('applicationSettings')}>
+      <PivotItem itemKey="applicationSettings" linkText={t('applicationSettings')}>
         <h3>{t('applicationSettings')}</h3>
         <ApplicationSettings {...props} />
         <h3>{t('connectionStrings')}</h3>
