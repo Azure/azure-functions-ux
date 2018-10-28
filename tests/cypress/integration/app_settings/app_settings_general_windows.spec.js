@@ -22,7 +22,11 @@ context('Querying', () => {
       .as('slotconfigNames')
       .fixture('default/slots.json')
       .as('slots')
+      .fixture('default/rbaccheck.allow.json')
+      .as('rbacAllow')
       .route('**/api/resources**', '@resourcesJSON')
+      .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
+      .as('rbacCall')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=2016-03-01',
         '@siteJSON'
@@ -56,7 +60,8 @@ context('Querying', () => {
             setupWindow(win);
           },
         }
-      );
+      )
+      .wait('@rbacCall');
   });
 
   it('Should contain all settings tabs for windows app settings', () => {

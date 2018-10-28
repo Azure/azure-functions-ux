@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib-commonjs/MessageBar';
 import { style } from 'typestyle';
 import Stacks from './GeneralSettings/Stacks';
 import Platform from './GeneralSettings/Platform';
@@ -110,14 +110,30 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
   };
 
   private getAppSettingsPivot = () => {
-    const { t } = this.props;
+    const { t, values } = this.props;
     const props = this.props;
     return (
       <PivotItem itemKey="applicationSettings" linkText={t('applicationSettings')}>
         <h3>{t('applicationSettings')}</h3>
-        <ApplicationSettings {...props} />
+        {values.siteWritePermission ? (
+          <ApplicationSettings {...props} />
+        ) : (
+          <div id="app-settings-app-settings-rbac-message">
+            <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
+              You do not have permission to view application settings on this web app //TODO: GET BETTER STRING
+            </MessageBar>
+          </div>
+        )}
         <h3>{t('connectionStrings')}</h3>
-        <ConnectionStrings {...props} />
+        {values.siteWritePermission ? (
+          <ConnectionStrings {...props} />
+        ) : (
+          <div id="app-settings-connection-strings-rbac-message">
+            <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
+              You do not have permission to view connection strings on this web app //TODO: GET BETTER STRING
+            </MessageBar>
+          </div>
+        )}
       </PivotItem>
     );
   };

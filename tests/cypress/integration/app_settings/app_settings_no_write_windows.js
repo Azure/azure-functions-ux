@@ -6,15 +6,15 @@ context('Querying', () => {
     cy.server()
       .fixture('resources.json')
       .as('resourcesJSON')
-      .fixture('available_Stacks.linux.json')
+      .fixture('available_Stacks.windows.json')
       .as('availableStacksJSON')
-      .fixture('default/site.linux.json')
+      .fixture('default/site.windows.json')
       .as('siteJSON')
       .fixture('default/connectionstrings.json')
       .as('connectionstrings')
       .fixture('default/appsettings.json')
       .as('appsettings')
-      .fixture('default/webconfig.linux.json')
+      .fixture('default/webconfig.windows.json')
       .as('webconfig')
       .fixture('default/metadata.json')
       .as('metadata')
@@ -22,9 +22,11 @@ context('Querying', () => {
       .as('slotconfigNames')
       .fixture('default/slots.json')
       .as('slots')
-      .fixture('default/rbaccheck.allow.json')
+      .fixture('default/rbaccheck.denyWrite.json')
       .as('rbacAllow')
       .route('**/api/resources**', '@resourcesJSON')
+      .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
+      .as('rbacCall')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=2016-03-01',
         '@siteJSON'
@@ -46,10 +48,7 @@ context('Querying', () => {
       })
       .route('**/config/web?api-version=2016-03-01', '@webconfig')
       .route('**/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
-      .route('**/availableStacks?osTypeSelected=Linux&api-version=2018-02-01', '@availableStacksJSON')
-      .as('getAvailableStacks')
-      .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
-      .as('rbacCall')
+      .route('**/availableStacks?osTypeSelected=Windows&api-version=2018-02-01', '@availableStacksJSON')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=2016-03-01',
         '@slots'
@@ -62,42 +61,50 @@ context('Querying', () => {
           },
         }
       )
-      .wait(['@getAvailableStacks', '@rbacCall']);
+      .wait('@rbacCall');
   });
 
-  it('Should contain all settings tabs for linux app settings', () => {
-    cy.get('#app-settings-general-settings-tab')
+  it('general settings should all be disabled except stack list', () => {
+    cy.get('body')
+      .find('.ms-Dropdown')
+      .each(el => {
+        if (el[0].id === 'app-settings-stack-dropdown') {
+          expect(el[0].className).not.to.include('is-disabled');
+        } else {
+          expect(el[0].className).to.include('is-disabled');
+        }
+      })
+      .get('#remote-debugging-switch')
+      .should('be.disabled');
+  });
+
+  it('application settings and connection strings should be replaced by warning boxes', () => {
+    cy.get('#app-settings-application-settings-tab')
+      .click()
+      .get('#app-settings-app-settings-rbac-message')
       .should('exist')
-      .get('#app-settings-path-mappings-tab')
-      .should('not.exist')
-      .get('#app-settings-default-documents-tab')
-      .should('not.exist')
-      .get('#app-settings-application-settings-tab')
+      .get('#app-settings-connection-strings-rbac-message')
       .should('exist');
   });
 
-  it('Remote Debugging Section should not exist', () => {
-    cy.get('#app-settings-remote-debugging-section').should('not.exist');
+  it('Default documents should be visable but disabled', () => {
+    cy.get('#app-settings-default-documents-tab')
+      .click()
+      .get('#app-settings-new-default-document-button')
+      .should('be.disabled')
+      .get('body')
+      .find('input')
+      .each(el => {
+        expect(el).to.be.disabled;
+      });
   });
 
-  it('Stack Selection should match linuxFxVersion', () => {
-    cy.get('#linux-fx-version-runtime-option').should('contain', 'Tomcat 8.5 (JRE 8)');
-  });
-
-  it('Platform Options Available To Linux are Available', () => {
-    cy.get('#app-settings-worker-process')
-      .should('not.exist')
-      .get('#app-settings-managed-pipeline-mode')
-      .should('not.exist')
-      .get('#app-settings-web-sockets-enabled')
-      .should('not.exist')
-      .get('#app-settings-ftps-state')
-      .should('exist')
-      .get('#app-settings-always-on')
-      .should('exist')
-      .get('#app-settings-clientAffinityEnabled')
-      .should('exist')
-      .get('#app-settings-http-enabled')
-      .should('exist');
+  it('Path Mappings should be visable but disabled', () => {
+    cy.get('#app-settings-path-mappings-tab')
+      .click()
+      .get('#app-settings-new-handler-mappings-button')
+      .should('be.disabled')
+      .get('#app-settings-new-virtual-app-button')
+      .should('be.disabled');
   });
 });

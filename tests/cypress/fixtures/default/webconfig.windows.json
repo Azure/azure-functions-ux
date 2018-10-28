@@ -52,6 +52,12 @@
         "physicalPath": "site\\wwwroot",
         "preloadEnabled": false,
         "virtualDirectories": null
+      },
+      {
+        "virtualPath": "/test",
+        "physicalPath": "site\\test",
+        "preloadEnabled": false,
+        "virtualDirectories": null
       }
     ],
     "winAuthAdminState": 0,

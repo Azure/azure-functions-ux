@@ -22,7 +22,7 @@ export interface OwnProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
 
 const PythonStack: React.StatelessComponent<Props> = props => {
-  const { stacks, t } = props;
+  const { stacks, t, values } = props;
   const pythonStack = stacks.find(x => x.name === 'python');
   if (!pythonStack) {
     return null;
@@ -39,6 +39,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
     <Field
       name="config.properties.pythonVersion"
       component={Dropdown}
+      isDisabled={!values.siteWritePermission}
       label={t('pythonVersion')}
       id="pythonVersion"
       options={pythonVersions}

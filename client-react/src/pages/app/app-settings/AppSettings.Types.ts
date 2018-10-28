@@ -11,6 +11,7 @@ export interface AppSettingsFormValues {
   connectionStrings: IConnectionString[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
+  siteWritePermission: boolean;
 }
 
 export interface FormState {

@@ -16,7 +16,7 @@ export interface StateProps {
 type PropsType = FormikProps<AppSettingsFormValues> & InjectedTranslateProps & StateProps;
 export class LinuxStacks extends React.Component<PropsType, any> {
   public render() {
-    const { stacksLoading, stacks } = this.props;
+    const { stacksLoading, stacks, values } = this.props;
     if (stacksLoading) {
       return null;
     }
@@ -25,6 +25,7 @@ export class LinuxStacks extends React.Component<PropsType, any> {
       <Field
         name="config.properties.linuxFxVersion"
         component={Dropdown}
+        isDisabled={!values.siteWritePermission}
         label="Runtime Stack"
         id="linux-fx-version-runtime"
         options={options}

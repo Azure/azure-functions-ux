@@ -18,15 +18,16 @@ export class RbacHelper {
   public static _wildCardEscapeSequence = '\\*';
   public static armLocksApiVersion = '2015-01-01';
   public static async hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean> {
-    const authId = `${resourceId}${RbacHelper.permissionsSuffix}?api-version=2015-07-01`;
+    const authId = `${resourceId}${this.permissionsSuffix}?api-version=2015-07-01`;
     try {
+      const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
       const armToken = store.getState().portalService.startupInfo!.token;
-      const permissionsSetCall = await axios.get<Permissions[]>(authId, {
+      const permissionsSetCall = await axios.get<{ value: Permissions[] }>(`${armEnpoint}${authId}`, {
         headers: {
           Authorization: `Bearer ${armToken}`,
         },
       });
-      return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.data);
+      return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.data.value);
     } catch (e) {
       return false;
     }

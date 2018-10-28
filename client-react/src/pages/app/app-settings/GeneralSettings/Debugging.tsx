@@ -7,7 +7,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { settingsWrapper } from '../AppSettingsForm';
 
 const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t } = props;
+  const { t, values } = props;
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
@@ -16,6 +16,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           name="config.properties.remoteDebuggingEnabled"
           component={Toggle}
           label={t('remoteDebuggingEnabledLabel')}
+          disabled={!values.siteWritePermission}
           id="remote-debugging-switch"
           onText={t('on')}
           offText={t('off')}
@@ -24,6 +25,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           <Field
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
+            isDisabled={!values.siteWritePermission}
             options={[
               {
                 key: 'VS2012',

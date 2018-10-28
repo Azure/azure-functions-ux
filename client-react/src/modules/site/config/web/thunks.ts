@@ -53,7 +53,12 @@ export function updateConfig(value: ArmObj<SiteConfig>, currentlySelectedStack: 
         value.properties.virtualApplications = unFlattenVirtualApplicationsList(virtualApplications);
       }
       const { metadata } = getState().metadata;
-      if (metadata.properties.CURRENT_STACK !== currentlySelectedStack && currentlySelectedStack !== 'java') {
+      if (
+        metadata &&
+        metadata.properties &&
+        metadata.properties.CURRENT_STACK !== currentlySelectedStack &&
+        currentlySelectedStack !== 'java'
+      ) {
         metadata.properties.CURRENT_STACK = currentlySelectedStack;
         await dispatch(updateMetadata(metadata));
       }
@@ -126,7 +131,10 @@ function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmObj<{ [k
   if (!!config.properties.javaVersion) {
     return 'java';
   }
-  return metadata.properties.CURRENT_STACK || 'dotnet';
+  if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
+    return metadata.properties.CURRENT_STACK;
+  }
+  return 'dotnet';
 }
 
 function setStackData(currentlySelectedStack: string, config: ArmObj<SiteConfig>) {

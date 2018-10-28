@@ -18,7 +18,7 @@ describe('App Settings', () => {
     const fetchStacks = jest.fn();
     const updateConfig = jest.fn();
     const updateSite = jest.fn();
-
+    const fetchPermissions = jest.fn();
     beforeEach(() => {
       container = shallow(
         <AppSettings
@@ -27,6 +27,8 @@ describe('App Settings', () => {
           fetchConfig={fetchConfig}
           fetchConnStrings={fetchCNStrings}
           fetchStacks={fetchStacks}
+          fetchPermissions={fetchPermissions}
+          resourceId={mockState.site.resourceId}
           site={mockState.site.site}
           appSettings={mockState.appSettings.settings}
           virtualApplications={mockState.webConfig.virtualApplications}
@@ -35,6 +37,7 @@ describe('App Settings', () => {
           currentlySelectedStack={mockState.webConfig.currentlySelectedStack}
           updateConfig={updateConfig}
           updateSite={updateSite}
+          siteWritePermission={true}
         />
       );
     });

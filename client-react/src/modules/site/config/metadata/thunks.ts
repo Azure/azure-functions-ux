@@ -17,15 +17,19 @@ export function fetchMetadata() {
       return;
     }
     dispatch(updateSiteConfigMetadataLoading(true));
-    const siteFetch = await axios.post(`${armEndpoint}${resourceId}/list?api-version=2016-03-01`, null, {
-      headers: {
-        Authorization: `Bearer ${armToken}`,
-      },
-    });
-    const result = siteFetch.data;
-    dispatch(updateCurrentSiteMetadataConfig(result));
-    dispatch(updateSiteConfigMetadataLoading(false));
-    return result;
+    try {
+      const siteFetch = await axios.post(`${armEndpoint}${resourceId}/list?api-version=2016-03-01`, null, {
+        headers: {
+          Authorization: `Bearer ${armToken}`,
+        },
+      });
+      const result = siteFetch.data;
+      dispatch(updateCurrentSiteMetadataConfig(result));
+      dispatch(updateSiteConfigMetadataLoading(false));
+      return result;
+    } catch {
+      return null;
+    }
   };
 }
 

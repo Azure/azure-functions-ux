@@ -16,7 +16,7 @@ export interface StateProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
 
 const DotNetStack: React.SFC<Props> = props => {
-  const { stacks, stacksLoading, t } = props;
+  const { stacks, stacksLoading, values, t } = props;
   const aspNetStack = stacks.find(x => x.name === 'aspnet');
   if (!aspNetStack) {
     return null;
@@ -27,6 +27,7 @@ const DotNetStack: React.SFC<Props> = props => {
       component={Dropdown}
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
+      isDisabled={!values.siteWritePermission}
       Loading={stacksLoading}
       options={aspNetStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,

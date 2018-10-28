@@ -17,6 +17,7 @@ import { AppSettingsFormValues } from './AppSettings.Types';
 import { fetchStacks } from '../../../modules/service/available-stacks/thunks';
 import IState from '../../../modules/types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
+import { fetchPermissions } from '../../../modules/service/rbac/thunks';
 
 export interface AppSettingsProps {
   fetchSite: () => Promise<ArmObj<Site>>;
@@ -26,12 +27,15 @@ export interface AppSettingsProps {
   fetchStacks: (osType: string) => void;
   updateSite: (site: any, appSettings: any, connectionStrings: any) => void;
   updateConfig: (config: any, stack: string, virtualApplications: any) => void;
+  fetchPermissions: (resourceId, action) => void;
+  resourceId: string;
   site: ArmObj<Partial<Site>>;
   config: ArmObj<Partial<SiteConfig>>;
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   appSettings: AppSetting[];
   connectionStrings: IConnectionString[];
+  siteWritePermission: boolean;
 }
 
 export interface AppSettingsState {
@@ -63,6 +67,7 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
         }
       }
     });
+    this.props.fetchPermissions(this.props.resourceId, './write');
   }
 
   public onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
@@ -89,7 +94,12 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
           }
           return (
             <form>
-              <AppSettingsCommandBar submitForm={props.submitForm} resetForm={props.resetForm} dirty={props.dirty} />
+              <AppSettingsCommandBar
+                submitForm={props.submitForm}
+                resetForm={props.resetForm}
+                disabled={!props.values.siteWritePermission}
+                dirty={props.dirty}
+              />
               <div className={formStyle}>
                 <AppSettingsForm {...props} />
               </div>
@@ -107,6 +117,7 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
     connectionStrings,
     virtualApplications,
     currentlySelectedStack,
+    siteWritePermission,
   }): AppSettingsFormValues => ({
     site,
     config,
@@ -114,17 +125,21 @@ export class AppSettings extends React.Component<AppSettingsProps, AppSettingsSt
     appSettings,
     connectionStrings,
     currentlySelectedStack,
+    siteWritePermission,
   });
 }
 
 const mapStateToProps = (state: IState) => {
+  const siteWriteKey = `${state.site.resourceId}|./write`;
   return {
+    resourceId: state.site.resourceId,
     site: state.site.site,
     currentlySelectedStack: state.webConfig.currentlySelectedStack,
     config: state.webConfig.config,
     virtualApplications: state.webConfig.virtualApplications,
     appSettings: state.appSettings.settings,
     connectionStrings: state.connectionStrings.connectionStrings,
+    siteWritePermission: state.rbac.permissions[siteWriteKey],
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -136,6 +151,7 @@ const mapDispatchToProps = dispatch => {
     fetchStacks: (osType: string) => dispatch(fetchStacks(osType)),
     updateSite: (value, appSettings, connectionStrings) => dispatch(updateSite(value, appSettings, connectionStrings)),
     updateConfig: (value, stack, virtualApplications) => dispatch(updateConfig(value, stack, virtualApplications)),
+    fetchPermissions: (resourceId, action) => dispatch(fetchPermissions([{ resourceId, action }])),
   };
 };
 export default compose(

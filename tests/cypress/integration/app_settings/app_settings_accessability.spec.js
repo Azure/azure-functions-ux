@@ -22,6 +22,8 @@ context('Querying', () => {
       .as('slotconfigNames')
       .fixture('default/slots.json')
       .as('slots')
+      .fixture('default/rbaccheck.allow.json')
+      .as('rbacAllow')
       .route('**/api/resources**', '@resourcesJSON')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=2016-03-01',
@@ -45,6 +47,8 @@ context('Querying', () => {
       .route('**/config/web?api-version=2016-03-01', '@webconfig')
       .route('**/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
       .route('**/availableStacks?osTypeSelected=Windows&api-version=2018-02-01', '@availableStacksJSON')
+      .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
+      .as('rbacCall')
       .route(
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=2016-03-01',
         '@slots'
@@ -56,7 +60,8 @@ context('Querying', () => {
             setupWindow(win);
           },
         }
-      );
+      )
+      .wait('@rbacCall');
   });
 
   it('General Settings Accessability', function() {

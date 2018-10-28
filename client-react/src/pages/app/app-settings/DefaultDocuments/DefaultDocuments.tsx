@@ -46,7 +46,12 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
 
   return (
     <>
-      <ActionButton onClick={createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
+      <ActionButton
+        id="app-settings-new-default-document-button"
+        disabled={!values.siteWritePermission}
+        onClick={createNewItem}
+        styles={{ root: { marginTop: '5px' } }}
+        iconProps={{ iconName: 'Add' }}>
         {t('newDocument')}
       </ActionButton>
       {values.config.properties.defaultDocuments.map((value, index) => (
@@ -54,6 +59,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
           <Field
             name={`config.properties.defaultDocuments[${index}]`}
             component={TextField}
+            disabled={!values.siteWritePermission}
             styles={{
               root: {
                 display: 'inline-block',
@@ -74,6 +80,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
             {...props}
           />
           <IconButton
+            disabled={!values.siteWritePermission}
             style={{ display: 'inline-block', width: '16px' }}
             iconProps={{ iconName: 'Delete' }}
             title={t('delete')}
