@@ -52,6 +52,13 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.useOldScaleUpBlade] = {
+      id: ScenarioIds.useOldScaleUpBlade,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.functionBeta] = {
       id: ScenarioIds.functionBeta,
       runCheck: () => {
