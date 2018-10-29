@@ -1,30 +1,43 @@
-input[type=text], select{
-    border: $border;
-    position: relative;
-    vertical-align: middle;
-    height: 29px;
-    margin-right: 10px;
-    padding: 0 5px;
-    background-color: $body-bg-color;
-    color: inherit;
+input[type='text'],
+select {
+  border: $border;
+  position: relative;
+  vertical-align: middle;
+  height: 29px;
+  margin-right: 10px;
+  padding: 0 5px;
+  background-color: $body-bg-color;
+  color: inherit;
+
+  &[disabled] {
+    background-color: $background-color-disabled;
+  }
 }
 
-input[type=text]:focus, select:focus, textarea:focus {
-    border: 1px solid $primary-color;
-    outline: none;  
+input[type='text']:focus,
+select:focus,
+textarea:focus {
+  border: 1px solid $primary-color;
+  outline: none;
 }
 
-#app-root[theme=dark] {
-    input, select{
-        background-color: $body-bg-color-dark;
-    }
+#app-root[theme='dark'] {
+  input,
+  select {
+    background-color: $body-bg-color-dark;
 
-    option{
-        background-color: $body-bg-color-dark;
-        color: $default-text-color-dark;
+    &[disabled] {
+      background-color: $background-color-disabled-dark;
+      color: $default-text-color-dark;
     }
+  }
 
-    textarea{
-        background-color: lighten($body-bg-color-dark, 5%);
-    }
+  option {
+    background-color: $body-bg-color-dark;
+    color: $default-text-color-dark;
+  }
+
+  textarea {
+    background-color: lighten($body-bg-color-dark, 5%);
+  }
 }

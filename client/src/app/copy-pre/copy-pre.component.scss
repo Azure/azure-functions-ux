@@ -22,3 +22,9 @@ pre {
 .fix-font {
   font-family: 'Segoe UI', 'Segoe UI', 'Segoe', Tahoma, Helvetica, Arial, sans-serif;
 }
+
+:host-context(#app-root[theme='dark']) {
+  pre {
+    background-color: $background-color-disabled-dark;
+  }
+}

@@ -85,6 +85,7 @@ $alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: #e6e6e6;
+$background-color-disabled-dark: lighten($body-bg-color-dark, 30%);
 $translucent-shield-color: rgba($body-bg-color, 0.4);
 $translucent-shield-color-dark: rgba($body-bg-color-dark, 0.5);
 

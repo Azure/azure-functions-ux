@@ -11,10 +11,6 @@
     &.dirty {
       border-color: $alt1-color;
     }
-
-    &[disabled] {
-      background-color: $background-color-disabled;
-    }
   }
 
   .validation-error {
