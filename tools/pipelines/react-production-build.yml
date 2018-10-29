@@ -10,10 +10,6 @@ phases:
         displayName: 'Install Node.js'
 
       - script: |
-          apt-get update && apt-get install -y uuid-runtime
-        displayName: 'install dependencies'
-
-      - script: |
           npm install -g yarn
         displayName: 'install yarn'
 
@@ -21,10 +17,6 @@ phases:
           cd client-react
           yarn install
         displayName: 'yarn install react app'
-
-      - script: |
-          export REACT_APP_CACHE_KEY=$(uuidgen)
-        displayName: GenerateHashSalt
 
       - script: |
           echo $REACT_APP_CACHE_KEY
