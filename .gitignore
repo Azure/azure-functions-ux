@@ -60,8 +60,8 @@ npm-debug.log
 testem.log
 /typings
 **/TESTS.xml
-/video
-/videos
+**/video
+**/videos
 
 # e2e
 /e2e/*.js

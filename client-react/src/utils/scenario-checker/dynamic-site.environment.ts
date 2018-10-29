@@ -1,11 +1,9 @@
-import i18n from '../../utils/i18n';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
-
+import { ScenarioCheckInput, Environment } from './scenario.models';
 export class DynamicSiteEnvironment extends Environment {
   public name = 'DynamicSite';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
     this.scenarioChecks[ScenarioIds.showSiteAvailability] = {
       id: ScenarioIds.showSiteAvailability,
@@ -19,7 +17,7 @@ export class DynamicSiteEnvironment extends Environment {
       runCheck: () => {
         return {
           status: 'disabled',
-          data: i18n.t('featureNotSupportedConsumption'),
+          data: t('featureNotSupportedConsumption'),
         };
       },
     };
@@ -29,7 +27,7 @@ export class DynamicSiteEnvironment extends Environment {
       runCheck: () => {
         return {
           status: 'disabled',
-          data: i18n.t('featureNotSupportedConsumption'),
+          data: t('featureNotSupportedConsumption'),
         };
       },
     };
@@ -43,7 +41,7 @@ export class DynamicSiteEnvironment extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site) {
+    if (input && input.site && input.site.properties && input.site.properties.sku) {
       return input.site.properties.sku.toLowerCase() === 'dynamic';
     }
 

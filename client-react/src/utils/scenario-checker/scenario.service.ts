@@ -7,6 +7,8 @@ import { LinuxSiteEnvironment } from './linux-site.environment';
 import { XenonSiteEnvironment } from './xenon-site.environment';
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
+import { WindowsCode } from './windows-code.environment';
+import { ContainerApp } from './container.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -15,22 +17,25 @@ export interface IScenarioService {
 }
 
 export class ScenarioService {
-  private _environments: Environment[] = [
-    new DynamicSiteEnvironment(),
-    new LinuxSiteEnvironment(),
-    new XenonSiteEnvironment(),
-    new EmbeddedFunctionsEnvironment(),
-    new DynamicLinuxEnvironment(),
-    new FunctionAppEnvironment(),
-  ];
+  private _environments: Environment[];
 
-  constructor() {
+  constructor(t: (string) => string) {
+    this._environments = [
+      new DynamicSiteEnvironment(t),
+      new LinuxSiteEnvironment(t),
+      new XenonSiteEnvironment(t),
+      new EmbeddedFunctionsEnvironment(t),
+      new DynamicLinuxEnvironment(t),
+      new FunctionAppEnvironment(t),
+      new WindowsCode(t),
+      new ContainerApp(t),
+    ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.
     if (NationalCloudEnvironment.isNationalCloud()) {
-      this._environments.splice(0, 0, new NationalCloudEnvironment());
+      this._environments.splice(0, 0, new NationalCloudEnvironment(t));
     } else {
-      this._environments.splice(0, 0, new AzureEnvironment());
+      this._environments.splice(0, 0, new AzureEnvironment(t));
     }
   }
 

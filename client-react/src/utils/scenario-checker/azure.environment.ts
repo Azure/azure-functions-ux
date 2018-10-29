@@ -1,12 +1,19 @@
 import { ScenarioIds } from './scenario-ids';
-import { ServerFarmSku } from './ServerFarmSku';
-import { ScenarioCheckInput, ScenarioResult, Environment, ScenarioCheckResult } from './scenario.models';
-import i18n from '../../utils/i18n';
+import { ServerFarmSkuConstants } from './ServerFarmSku';
+import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 
 export class AzureEnvironment extends Environment {
   public name = 'Azure';
-  constructor() {
+
+  constructor(t: (string) => string) {
     super();
+    this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
+      id: ScenarioIds.addSiteFeaturesTab,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.addSiteQuotas] = {
       id: ScenarioIds.addSiteQuotas,
       runCheck: (input: ScenarioCheckInput) => {
@@ -21,13 +28,10 @@ export class AzureEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks['test-scenario'] = {
-      id: 'test-scenario',
-      runCheckAsync: async (input: ScenarioCheckInput) => {
-        await new Promise(res => setTimeout(res, 3000));
-        return {
-          id: 'test-scenario',
-        } as ScenarioCheckResult;
+    this.scenarioChecks[ScenarioIds.getSiteSlotLimits] = {
+      id: ScenarioIds.getSiteSlotLimits,
+      runCheckAsync: (input: ScenarioCheckInput) => {
+        return Promise.resolve(this.getSlotLimit(input));
       },
     };
 
@@ -35,7 +39,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enablePlatform64,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfBasicOrHigher(input);
-        scenarioResult.data = i18n.t('alwaysOnUpsell');
+        scenarioResult.data = t('use32BitWorkerProcessUpsell');
         return scenarioResult;
       },
     };
@@ -44,7 +48,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enableAlwaysOn,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfBasicOrHigher(input);
-        scenarioResult.data = i18n.t('alwaysOnUpsell');
+        scenarioResult.data = t('alwaysOnUpsell');
         return scenarioResult;
       },
     };
@@ -67,7 +71,7 @@ export class AzureEnvironment extends Environment {
       id: ScenarioIds.enableAutoSwap,
       runCheck: (input: ScenarioCheckInput) => {
         const scenarioResult = this.enableIfStandardOrHigher(input);
-        scenarioResult.data = i18n.t('autoSwapUpsell');
+        scenarioResult.data = t('autoSwapUpsell');
         return scenarioResult;
       },
     };
@@ -78,6 +82,20 @@ export class AzureEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.canScaleForSlots] = {
+      id: ScenarioIds.canScaleForSlots,
+      runCheck: (input: ScenarioCheckInput) => {
+        const enabled =
+          input &&
+          input.site &&
+          (input.site.properties.sku === ServerFarmSkuConstants.Tier.free ||
+            input.site.properties.sku === ServerFarmSkuConstants.Tier.shared ||
+            input.site.properties.sku === ServerFarmSkuConstants.Tier.basic ||
+            input.site.properties.sku === ServerFarmSkuConstants.Tier.standard);
+        return { status: enabled ? 'enabled' : 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -86,7 +104,9 @@ export class AzureEnvironment extends Environment {
 
   private enableIfBasicOrHigher(input: ScenarioCheckInput): ScenarioResult {
     const disabled =
-      input && input.site && (input.site.properties.sku === ServerFarmSku.free || input.site.properties.sku === ServerFarmSku.shared);
+      input &&
+      input.site &&
+      (input.site.properties.sku === ServerFarmSkuConstants.Tier.free || input.site.properties.sku === ServerFarmSkuConstants.Tier.shared);
 
     return {
       status: disabled ? 'disabled' : 'enabled',
@@ -98,9 +118,9 @@ export class AzureEnvironment extends Environment {
     const disabled =
       input &&
       input.site &&
-      (input.site.properties.sku === ServerFarmSku.free ||
-        input.site.properties.sku === ServerFarmSku.shared ||
-        input.site.properties.sku === ServerFarmSku.basic);
+      (input.site.properties.sku === ServerFarmSkuConstants.Tier.free ||
+        input.site.properties.sku === ServerFarmSkuConstants.Tier.shared ||
+        input.site.properties.sku === ServerFarmSkuConstants.Tier.basic);
 
     return {
       status: disabled ? 'disabled' : 'enabled',
@@ -116,8 +136,7 @@ export class AzureEnvironment extends Environment {
     }
 
     const showQuotas =
-      (input.site && input.site.properties.sku === ServerFarmSku.free) ||
-      (input.site && input.site.properties.sku === ServerFarmSku.shared);
+      input.site!.properties.sku === ServerFarmSkuConstants.Tier.free || input.site!.properties.sku === ServerFarmSkuConstants.Tier.shared;
 
     return {
       status: showQuotas ? 'enabled' : 'disabled',
@@ -133,11 +152,48 @@ export class AzureEnvironment extends Environment {
     }
 
     const showFileStorage =
-      input.site && input.site.properties.sku !== ServerFarmSku.free && input.site.properties.sku !== ServerFarmSku.shared;
+      input.site!.properties.sku !== ServerFarmSkuConstants.Tier.free && input.site!.properties.sku !== ServerFarmSkuConstants.Tier.shared;
 
     return {
       status: showFileStorage ? 'enabled' : 'disabled',
       data: null,
+    };
+  }
+
+  private getSlotLimit(input: ScenarioCheckInput): ScenarioResult {
+    const site = input && input.site;
+    if (!site) {
+      throw Error('No site input specified');
+    }
+
+    let limit: number;
+
+    switch (site.properties.sku) {
+      case ServerFarmSkuConstants.Tier.free:
+      case ServerFarmSkuConstants.Tier.basic:
+        limit = 0;
+        break;
+      case ServerFarmSkuConstants.Tier.dynamic:
+        limit = 1;
+        break;
+      case ServerFarmSkuConstants.Tier.standard:
+        limit = 5;
+        break;
+      case ServerFarmSkuConstants.Tier.premium:
+      case ServerFarmSkuConstants.Tier.premiumV2:
+      case ServerFarmSkuConstants.Tier.isolated:
+      case ServerFarmSkuConstants.Tier.premiumContainer:
+      case ServerFarmSkuConstants.Tier.elasticPremium:
+      case ServerFarmSkuConstants.Tier.elasticIsolated:
+        limit = 20;
+        break;
+      default:
+        limit = 0;
+    }
+
+    return {
+      status: 'enabled',
+      data: limit,
     };
   }
 }

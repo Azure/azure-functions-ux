@@ -1,8 +1,8 @@
-import IState from 'src/modules/types';
+import IState from '../../../modules/types';
 import { checkCacheValid } from 'redux-cache';
 import { updateSlotList, updateSlotListNoCache } from './actions';
 import axios from 'axios';
-import { ArmArray, Site } from 'src/models/WebAppModels';
+import { ArmArray, Site } from '../../../models/WebAppModels';
 export function fetchSlotList() {
   return async (dispatch: any, getState: () => IState) => {
     const startupInfo = getState().portalService.startupInfo;

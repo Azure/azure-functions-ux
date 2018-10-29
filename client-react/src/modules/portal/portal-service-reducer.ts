@@ -12,11 +12,11 @@ export interface IPortalServiceState {
 
 export const InitialState: IPortalServiceState = {
   shellSrc: '',
-  theme: lightTheme,
+  theme: lightTheme as ITheme,
   startupInfo: null,
 };
 
-const portalService = (state = InitialState, action: IAction<any>) => {
+const portalService = (state = InitialState, action: IAction<any>): IPortalServiceState => {
   switch (action.type) {
     case SETUP_IFRAME:
       return { ...state, shellSrc: action.payload.shellSrc };

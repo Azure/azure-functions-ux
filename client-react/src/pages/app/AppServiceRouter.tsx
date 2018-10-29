@@ -29,9 +29,11 @@ export class AppServiceRouter extends React.Component<RouteComponentProps<AppSer
   }
   public render() {
     return (
-      <Router>
-        <AppSettingsLoadable path="/settings" />
-      </Router>
+      <main>
+        <Router>
+          <AppSettingsLoadable path="/settings" />
+        </Router>
+      </main>
     );
   }
 }

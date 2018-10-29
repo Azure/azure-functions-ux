@@ -17,7 +17,7 @@ export interface StateProps {
 type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
 
 const PhpStack: React.SFC<Props> = props => {
-  const { stacks, stacksLoading, t } = props;
+  const { stacks, stacksLoading, values, t } = props;
   const phpStack = stacks.find(x => x.name === 'php');
   if (!phpStack) {
     return null;
@@ -28,6 +28,7 @@ const PhpStack: React.SFC<Props> = props => {
       component={Dropdown}
       label={t('phpVersion')}
       id="phpVersion"
+      disabled={!values.siteWritePermission}
       Loading={stacksLoading}
       options={phpStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,

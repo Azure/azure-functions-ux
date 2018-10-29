@@ -10,7 +10,13 @@ import { ITheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
 // tslint:disable-next-line:member-ordering
 
 // Data for CommandBar
-const getItems = (saveFunction: any, discardFunction: any, dirty: boolean, t: (string) => string): ICommandBarItemProps[] => {
+const getItems = (
+  saveFunction: any,
+  discardFunction: any,
+  dirty: boolean,
+  disabled: boolean,
+  t: (string) => string
+): ICommandBarItemProps[] => {
   return [
     {
       key: 'save',
@@ -18,7 +24,7 @@ const getItems = (saveFunction: any, discardFunction: any, dirty: boolean, t: (s
       iconProps: {
         iconName: 'Save',
       },
-      disabled: !dirty,
+      disabled: !dirty || disabled,
       ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: saveFunction,
     },
@@ -28,7 +34,7 @@ const getItems = (saveFunction: any, discardFunction: any, dirty: boolean, t: (s
       iconProps: {
         iconName: 'StatusCircleErrorX',
       },
-      disabled: !dirty,
+      disabled: !dirty || disabled,
       ariaLabel: t('appSettingsSaveAriaLabel'),
       onClick: discardFunction,
     },
@@ -38,6 +44,7 @@ interface AppSettingsCommandBarProps {
   submitForm: () => void;
   resetForm: () => void;
   dirty: boolean;
+  disabled: boolean;
 }
 
 interface IStateProps {
@@ -46,15 +53,17 @@ interface IStateProps {
 type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps & InjectedTranslateProps & IStateProps;
 class AppSettingsCommandBar extends React.Component<AppSettingsCommandBarPropsCombined, any> {
   public render() {
+    const { submitForm, resetForm, dirty, disabled, t, theme } = this.props;
     return (
       <CommandBar
-        items={getItems(this.props.submitForm, () => this.props.resetForm(), this.props.dirty, this.props.t)}
-        ariaLabel={this.props.t('appSettingsCommandBarAriaLabel')}
+        items={getItems(submitForm, () => resetForm(), dirty, disabled, t)}
+        aria-role="nav"
+        ariaLabel={t('appSettingsCommandBarAriaLabel')}
         buttonAs={this.customButton}
         styles={{
           root: {
             borderBottom: '1px solid rgba(204,204,204,.8)',
-            backgroundColor: this.props.theme.semanticColors.bodyBackground,
+            backgroundColor: theme.semanticColors.bodyBackground,
             width: '100%',
           },
         }}

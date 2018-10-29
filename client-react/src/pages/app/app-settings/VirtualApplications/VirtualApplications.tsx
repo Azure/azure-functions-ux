@@ -36,17 +36,26 @@ export class VirtualApplications extends React.Component<
     }
     return (
       <>
-        <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
+        <ActionButton
+          id="app-settings-new-virtual-app-button"
+          disabled={!values.siteWritePermission}
+          onClick={this.createNewItem}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: 'Add' }}>
           New Directory/Application
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this.onCancelPanel}
           headerText={t('newApp')}
           closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
-          <VirtualApplicationsAddEdit {...this.state.currentVirtualApplication!} updateVirtualApplication={this.updateCurrentItem} />
+          <VirtualApplicationsAddEdit
+            {...this.state.currentVirtualApplication!}
+            otherVirtualApplications={values.virtualApplications}
+            updateVirtualApplication={this.updateCurrentItem}
+          />
         </Panel>
         <DetailsList
           items={values.virtualApplications}
@@ -80,7 +89,10 @@ export class VirtualApplications extends React.Component<
     });
   };
 
-  private _onClosePanel = (): void => {
+  private onCancelPanel = () => {
+    this.setState({ createNewItem: false, showPanel: false });
+  };
+  private onClosePanel = () => {
     const { values, setValues } = this.props;
     const virtualApplications = [...values.virtualApplications];
     if (!this.state.createNewItem) {
@@ -98,10 +110,10 @@ export class VirtualApplications extends React.Component<
   private _onRenderFooterContent = (): JSX.Element => {
     return (
       <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
+        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
           {this.props.t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={this._onClosePanel}>{this.props.t('cancel')}</DefaultButton>
+        <DefaultButton onClick={this.onCancelPanel}>{this.props.t('cancel')}</DefaultButton>
       </div>
     );
   };
@@ -124,18 +136,29 @@ export class VirtualApplications extends React.Component<
   }
 
   private onRenderItemColumn = (item: VirtualApplication, index: number, column: IColumn) => {
+    const { values } = this.props;
     if (!column || !item) {
       return null;
     }
 
     if (column.key === 'delete') {
       return item.virtualPath === '/' ? null : (
-        <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" onClick={() => this.removeItem(index)} />
+        <IconButton
+          disabled={!values.siteWritePermission}
+          iconProps={{ iconName: 'Delete' }}
+          title="Delete"
+          onClick={() => this.removeItem(index)}
+        />
       );
     }
     if (column.key === 'edit') {
       return item.virtualPath === '/' ? null : (
-        <IconButton iconProps={{ iconName: 'Edit' }} title="Edit" onClick={() => this._onShowPanel(item, index)} />
+        <IconButton
+          disabled={!values.siteWritePermission}
+          iconProps={{ iconName: 'Edit' }}
+          title="Edit"
+          onClick={() => this._onShowPanel(item, index)}
+        />
       );
     }
     if (column.key === 'type') {

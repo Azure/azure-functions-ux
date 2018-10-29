@@ -11,6 +11,7 @@ import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
 
 interface ApplicationSettingsState {
+  hideValues: boolean;
   showPanel: boolean;
   currentAppSetting: AppSetting | null;
   currentItemIndex: number;
@@ -24,6 +25,7 @@ export class ApplicationSettings extends React.Component<
   constructor(props) {
     super(props);
     this.state = {
+      hideValues: true,
       showPanel: false,
       currentAppSetting: null,
       currentItemIndex: -1,
@@ -41,18 +43,28 @@ export class ApplicationSettings extends React.Component<
         <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
           {t('addEditApplicationSetting')}
         </ActionButton>
+        <ActionButton
+          onClick={this.flipHideSwitch}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
+          {this.state.hideValues ? 'Show Values' : 'Hide Values'}
+        </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
           closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this._onRenderFooterContent}>
-          <AppSettingAddEdit {...this.state.currentAppSetting!} updateAppSetting={this.updateCurrentItem.bind(this)} />
+          onRenderFooterContent={this.onRenderFooterContent}>
+          <AppSettingAddEdit
+            {...this.state.currentAppSetting!}
+            otherAppSettings={this.props.values.appSettings}
+            updateAppSetting={this.updateCurrentItem.bind(this)}
+          />
         </Panel>
         <DetailsList
           items={this.props.values.appSettings}
-          columns={this._getColumns()}
+          columns={this.getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
@@ -61,6 +73,10 @@ export class ApplicationSettings extends React.Component<
       </>
     );
   }
+
+  private flipHideSwitch = () => {
+    this.setState({ hideValues: !this.state.hideValues });
+  };
 
   private updateCurrentItem = (item: AppSetting) => {
     this.setState({ currentAppSetting: item });
@@ -80,33 +96,32 @@ export class ApplicationSettings extends React.Component<
     });
   };
 
-  private _onClosePanel = (): void => {
+  private onClosePanel = (): void => {
+    const appSettings: AppSetting[] = [...this.props.values.appSettings];
     if (!this.state.createNewItem) {
-      const appSettings: AppSetting[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
       appSettings[this.state.currentItemIndex] = this.state.currentAppSetting!;
       this.props.setFieldValue('appSettings', appSettings);
     } else {
-      const appSettings: AppSetting[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
       appSettings.push(this.state.currentAppSetting!);
       this.props.setFieldValue('appSettings', appSettings);
     }
     this.setState({ createNewItem: false, showPanel: false });
   };
 
-  private _onCancel = (): void => {
+  private onCancel = (): void => {
     this.setState({ createNewItem: false, showPanel: false });
   };
-  private _onRenderFooterContent = (): JSX.Element => {
+  private onRenderFooterContent = () => {
     return (
       <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
-          Save
+        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
+          {this.props.t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={this._onCancel}>Cancel</DefaultButton>
+        <DefaultButton onClick={this.onCancel}>{this.props.t('cancel')}</DefaultButton>
       </div>
     );
   };
-  private _onShowPanel = (item: AppSetting, index: number): void => {
+  private onShowPanel = (item: AppSetting, index: number): void => {
     this.setState({
       showPanel: true,
       currentAppSetting: item,
@@ -115,7 +130,7 @@ export class ApplicationSettings extends React.Component<
   };
 
   private removeItem(index: number) {
-    const appSettings: ApplicationSettings[] = JSON.parse(JSON.stringify(this.props.values.appSettings));
+    const appSettings: AppSetting[] = [...this.props.values.appSettings];
     appSettings.splice(index, 1);
     this.props.setFieldValue('appSettings', appSettings);
   }
@@ -130,16 +145,19 @@ export class ApplicationSettings extends React.Component<
       return <IconButton iconProps={{ iconName: 'Delete' }} title={t('delete')} onClick={() => this.removeItem(index)} />;
     }
     if (column.key === 'edit') {
-      return <IconButton iconProps={{ iconName: 'Edit' }} title={t('edit')} onClick={() => this._onShowPanel(item, index)} />;
+      return <IconButton iconProps={{ iconName: 'Edit' }} title={t('edit')} onClick={() => this.onShowPanel(item, index)} />;
     }
     if (column.key === 'sticky') {
       return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} /> : null;
+    }
+    if (column.key === 'value') {
+      return this.state.hideValues ? 'Hidden value. Click show values button above to view' : <span>{item[column.fieldName!]}</span>;
     }
     return <span>{item[column.fieldName!]}</span>;
   };
 
   // tslint:disable-next-line:member-ordering
-  private _getColumns = () => {
+  private getColumns = () => {
     const { t } = this.props;
     return [
       {
@@ -158,17 +176,18 @@ export class ApplicationSettings extends React.Component<
         name: t('value'),
         fieldName: 'value',
         minWidth: 210,
-        maxWidth: 350,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'sticky',
         name: t('sticky'),
         fieldName: 'sticky',
-        minWidth: 20,
+        minWidth: 50,
+        maxWidth: 100,
         isRowHeader: true,
         data: 'string',
         isPadded: true,

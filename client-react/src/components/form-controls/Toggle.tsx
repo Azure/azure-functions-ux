@@ -9,7 +9,7 @@ const Toggle = (props: FieldProps & IToggleProps) => {
     field.onChange(e);
   };
 
-  return <OfficeToggle checked={field.value} tabIndex={0} onChange={onChange} onBlur={field.onBlur} {...rest} />;
+  return <OfficeToggle checked={field.value} tabIndex={0} onChange={onChange} onBlur={field.onBlur} ariaLabel={rest.label} {...rest} />;
 };
 
 export default Toggle;

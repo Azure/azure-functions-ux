@@ -5,14 +5,20 @@ import mockState from '../../../mocks/mockState';
 describe('App Settings', () => {
   describe('Shallow Testing', () => {
     let container: ShallowWrapper<any, any, AppSettings>;
-    const fetchSite = jest.fn();
+    const fetchSite = jest.fn().mockImplementation(() => {
+      return Promise.resolve({
+        site: {
+          kind: 'app',
+        },
+      });
+    });
     const fetchSettings = jest.fn();
     const fetchConfig = jest.fn();
     const fetchCNStrings = jest.fn();
     const fetchStacks = jest.fn();
     const updateConfig = jest.fn();
     const updateSite = jest.fn();
-
+    const fetchPermissions = jest.fn();
     beforeEach(() => {
       container = shallow(
         <AppSettings
@@ -21,6 +27,8 @@ describe('App Settings', () => {
           fetchConfig={fetchConfig}
           fetchConnStrings={fetchCNStrings}
           fetchStacks={fetchStacks}
+          fetchPermissions={fetchPermissions}
+          resourceId={mockState.site.resourceId}
           site={mockState.site.site}
           appSettings={mockState.appSettings.settings}
           virtualApplications={mockState.webConfig.virtualApplications}
@@ -29,12 +37,12 @@ describe('App Settings', () => {
           currentlySelectedStack={mockState.webConfig.currentlySelectedStack}
           updateConfig={updateConfig}
           updateSite={updateSite}
+          siteWritePermission={true}
         />
       );
     });
 
     afterEach(() => {
-      updateSite.mockReset();
       updateConfig.mockReset();
     });
     it('renders without creashing', () => {
@@ -42,11 +50,9 @@ describe('App Settings', () => {
     });
 
     it('dispatches fetch calls on load', () => {
-      expect(fetchSite).toBeCalled();
       expect(fetchSettings).toBeCalled();
       expect(fetchConfig).toBeCalled();
       expect(fetchCNStrings).toBeCalled();
-      expect(fetchStacks).toBeCalled();
     });
 
     it('submit calls update site and update config', () => {
@@ -66,8 +72,6 @@ describe('App Settings', () => {
 
     it('isSubmitting is set to false when completed', async () => {
       const values = container.instance().initialValues(container.props());
-      updateSite.mockResolvedValue(null);
-      updateConfig.mockResolvedValue(null);
       await container.instance().onSubmit(values, { setSubmitting: jest.fn() } as any);
       expect(container.state('isSubmitting')).toBeFalsy();
     });

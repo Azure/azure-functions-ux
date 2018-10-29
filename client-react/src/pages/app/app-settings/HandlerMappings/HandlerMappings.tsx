@@ -34,7 +34,12 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     }
     return (
       <>
-        <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
+        <ActionButton
+          id="app-settings-new-handler-mappings-button"
+          disabled={!values.siteWritePermission}
+          onClick={this.createNewItem}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: 'Add' }}>
           New Handler
         </ActionButton>
         <Panel
@@ -148,15 +153,30 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
   }
 
   private onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
+    const { values } = this.props;
     if (!column || !item) {
       return null;
     }
 
     if (column.key === 'delete') {
-      return <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" onClick={() => this.removeItem(index)} />;
+      return (
+        <IconButton
+          disabled={!values.siteWritePermission}
+          iconProps={{ iconName: 'Delete' }}
+          title="Delete"
+          onClick={() => this.removeItem(index)}
+        />
+      );
     }
     if (column.key === 'edit') {
-      return <IconButton iconProps={{ iconName: 'Edit' }} title="Edit" onClick={() => this._onShowPanel(item, index)} />;
+      return (
+        <IconButton
+          disabled={!values.siteWritePermission}
+          iconProps={{ iconName: 'Edit' }}
+          title="Edit"
+          onClick={() => this._onShowPanel(item, index)}
+        />
+      );
     }
     return <span>{item[column.fieldName!]}</span>;
   };

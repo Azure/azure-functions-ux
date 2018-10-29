@@ -1,16 +1,14 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import i18n from '../../utils/i18n';
-
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
 
-  constructor() {
+  constructor(t: (string) => string) {
     super();
 
     const disabledResult: ScenarioResult = {
       status: 'disabled',
-      data: i18n.t('featureNotSupportedForLinuxApps'),
+      data: t('featureNotSupportedForLinuxApps'),
     };
 
     this.scenarioChecks[ScenarioIds.enableAuth] = {
@@ -45,7 +43,9 @@ export class LinuxSiteEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.addSsh] = {
       id: ScenarioIds.addSsh,
-      runCheck: () => ({ status: 'enabled' }),
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
     };
 
     this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {
@@ -74,8 +74,10 @@ export class LinuxSiteEnvironment extends Environment {
     };
 
     this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
-      id: ScenarioIds.onedriveSource,
-      runCheck: () => ({ status: 'disabled' }),
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: () => ({
+        status: 'disabled',
+      }),
     };
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {
@@ -92,11 +94,61 @@ export class LinuxSiteEnvironment extends Environment {
       id: ScenarioIds.externalSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.addWebServerLogging] = {
+      id: ScenarioIds.addWebServerLogging,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
+      id: ScenarioIds.linuxAppStack,
+      runCheck: () => {
+        return {
+          status: 'enabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
+      id: ScenarioIds.remoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.defaultDocumentsSupported] = {
+      id: ScenarioIds.remoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.virtualDirectoriesSupported] = {
+      id: ScenarioIds.virtualDirectoriesSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site) {
-      return !!input.site.kind && input.site.kind.toLowerCase().indexOf('linux') > -1;
+    if (input && input.site && input.site.kind) {
+      return input.site.kind.toLowerCase().indexOf('linux') > -1;
     }
 
     return false;
