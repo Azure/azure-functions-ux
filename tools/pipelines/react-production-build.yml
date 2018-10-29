@@ -19,10 +19,6 @@ phases:
         displayName: 'yarn install react app'
 
       - script: |
-          export REACT_APP_CACHE_KEY=$(uuidgen)
-        displayName: GenerateHashSalt
-
-      - script: |
           echo $REACT_APP_CACHE_KEY
           cd client-react
           yarn build
