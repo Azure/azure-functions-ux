@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArmArray } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 
-export function fetchStacks(osType = 'Windows') {
+export function fetchStacks(osType: 'Windows' | 'Linux' = 'Windows') {
   return async (dispatch: any, getState: any) => {
     const startupInfo = getState().portalService.startupInfo;
     const armToken = startupInfo.token;

@@ -24,7 +24,7 @@ export interface AppSettingsProps {
   fetchSettings: () => void;
   fetchConfig: () => void;
   fetchConnStrings: () => void;
-  fetchStacks: (osType: string) => void;
+  fetchStacks: (osType: 'Windows' | 'Linux') => void;
   updateSite: (site: any, appSettings: any, connectionStrings: any) => void;
   updateConfig: (config: any, stack: string, virtualApplications: any) => void;
   fetchPermissions: (resourceId, action) => void;
@@ -148,7 +148,7 @@ const mapDispatchToProps = dispatch => {
     fetchSettings: () => dispatch(fetchAppSettings()),
     fetchConnStrings: () => dispatch(fetchConnectionStrings()),
     fetchConfig: () => dispatch(fetchConfig()),
-    fetchStacks: (osType: string) => dispatch(fetchStacks(osType)),
+    fetchStacks: (osType: 'Windows' | 'Linux') => dispatch(fetchStacks(osType)),
     updateSite: (value, appSettings, connectionStrings) => dispatch(updateSite(value, appSettings, connectionStrings)),
     updateConfig: (value, stack, virtualApplications) => dispatch(updateConfig(value, stack, virtualApplications)),
     fetchPermissions: (resourceId, action) => dispatch(fetchPermissions([{ resourceId, action }])),

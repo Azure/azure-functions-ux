@@ -10,13 +10,10 @@ interface EventMsg {
 }
 class TextField extends React.Component<FieldProps & ITextFieldProps, any> {
   private inputDebouncer = new Subject<EventMsg>();
-
-  constructor(props) {
-    super(props);
-  }
+  private readonly DEBOUNCE_TIME = 300;
   public componentWillMount() {
     const { field, form } = this.props;
-    this.inputDebouncer.pipe(debounceTime(300)).subscribe(({ e, value }) => {
+    this.inputDebouncer.pipe(debounceTime(this.DEBOUNCE_TIME)).subscribe(({ e, value }) => {
       form.setFieldValue(field.name, value);
       field.onChange(e);
     });
