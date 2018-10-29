@@ -250,14 +250,16 @@ export class PlanPriceSpecManager {
         this.selectedSpecGroup = this.specGroups[i];
       }
 
-      // If we still haven't found a default spec in the group, pick the first recommended one
-      if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
-        g.selectedSpec = g.recommendedSpecs[0];
+      // If we still haven't found a default spec in the group, pick the first enabled recommended one
+      const firstEnabledRecommendedSpec = this._findFirstEnabledSpecIndex(g.recommendedSpecs);
+      if (!g.selectedSpec && g.recommendedSpecs.length > 0 && firstEnabledRecommendedSpec > -1) {
+        g.selectedSpec = g.recommendedSpecs[firstEnabledRecommendedSpec];
       }
 
-      // If we still haven't found a defautl spec in the group, pick the first additional one
-      if (!g.selectedSpec && g.additionalSpecs.length > 0) {
-        g.selectedSpec = g.additionalSpecs[0];
+      // If we still haven't found a defautl spec in the group, pick the first enabled additional one
+      const firstEnabledAdditionalSpec = this._findFirstEnabledSpecIndex(g.additionalSpecs);
+      if (!g.selectedSpec && g.additionalSpecs.length > 0 && firstEnabledAdditionalSpec > -1) {
+        g.selectedSpec = g.additionalSpecs[firstEnabledAdditionalSpec];
       }
 
       // Expand if selected spec is in the "all specs" list or all of the specs in the recommended list are disabled.
@@ -366,6 +368,10 @@ export class PlanPriceSpecManager {
         }
       }
     }
+  }
+
+  private _findFirstEnabledSpecIndex(specs: PriceSpec[]): number {
+    return specs.findIndex(spec => spec.state === 'enabled');
   }
 
   private _shouldShowUpsellRecommendation(currentSpecCost: number, newSpecCost: number): boolean {
