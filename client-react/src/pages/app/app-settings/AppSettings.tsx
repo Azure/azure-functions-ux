@@ -14,7 +14,7 @@ import { ArmObj, Site, SiteConfig, VirtualApplication } from '../../../models/We
 import { AppSetting } from '../../../modules/site/config/appsettings/appsettings.types';
 import { IConnectionString } from '../../../modules/site/config/connectionstrings/actions';
 import { AppSettingsFormValues } from './AppSettings.Types';
-import { fetchStacks } from '../../../modules/service/available-stacks/thunks';
+import { fetchStacks, StacksOS } from '../../../modules/service/available-stacks/thunks';
 import IState from '../../../modules/types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import { fetchPermissions } from '../../../modules/service/rbac/thunks';
@@ -24,7 +24,7 @@ export interface AppSettingsProps {
   fetchSettings: () => void;
   fetchConfig: () => void;
   fetchConnStrings: () => void;
-  fetchStacks: (osType: 'Windows' | 'Linux') => void;
+  fetchStacks: (osType: StacksOS) => void;
   updateSite: (site: any, appSettings: any, connectionStrings: any) => void;
   updateConfig: (config: any, stack: string, virtualApplications: any) => void;
   fetchPermissions: (resourceId, action) => void;
@@ -148,7 +148,7 @@ const mapDispatchToProps = dispatch => {
     fetchSettings: () => dispatch(fetchAppSettings()),
     fetchConnStrings: () => dispatch(fetchConnectionStrings()),
     fetchConfig: () => dispatch(fetchConfig()),
-    fetchStacks: (osType: 'Windows' | 'Linux') => dispatch(fetchStacks(osType)),
+    fetchStacks: (osType: StacksOS) => dispatch(fetchStacks(osType)),
     updateSite: (value, appSettings, connectionStrings) => dispatch(updateSite(value, appSettings, connectionStrings)),
     updateConfig: (value, stack, virtualApplications) => dispatch(updateConfig(value, stack, virtualApplications)),
     fetchPermissions: (resourceId, action) => dispatch(fetchPermissions([{ resourceId, action }])),
