@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Test, GitHub web kancası işlevleri için desteklenmiyor.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Çalışma zamanı sürümü</value>
   </data>
@@ -1367,7 +1370,7 @@
     <value>Yeni Pencerede Aç</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Uzantılar</value>
+    <value>Site Uzantıları</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Uzantılar, uygulamanızın tamamına yönelik işlevler ekler.</value>
@@ -1541,13 +1544,13 @@
     <value>Yığın</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Linux üzerinde Web Apps, bir yerleşik kapsayıcılar koleksiyonu aracılığıyla çalışma zamanı seçenekleri sunar. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+    <value>Linux üzerinde Web Apps, yerleşik bir kapsayıcı koleksiyonu aracılığıyla çalışma zamanı seçenekleri sunar. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Başlangıç Dosyası</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Kapsayıcı başlatmanın bir parçası olarak çalışan isteğe bağlı bir başlangıç komutu sağlayın. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+    <value>Kapsayıcı başlatmasının parçası olarak çalıştırılacak isteğe bağlı bir başlangıç komutu sağlayın. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Daha fazla bilgi&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>En Yeni</value>
@@ -1805,7 +1808,7 @@
     <value>ölçek</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Bağlantı dizeleri</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Hata Ayıkla</value>
@@ -2241,6 +2244,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Yeni Değer</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Geçerli Değer</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Geçici Değer</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Dağıtım yuvası eklemediniz. Başlamak için 'Yuva Ekle' seçeneğine tıklayın.</value>
@@ -2833,8 +2842,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="entityColon" xml:space="preserve">
     <value>Varlık:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>İşlev API'si tanımı (Swagger) özelliği şu anda beta çalışma zamanı için desteklenmiyor.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>İşlev API'si tanımı (Swagger) özelliği şu anda V2 çalışma zamanı için desteklenmiyor.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>{0} Üzerinde Başarıyla Dağıtıldı</value>
@@ -2846,7 +2855,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Önizleme ile değiştirme gerçekleştir</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>Çok aşamalı değiştirme eylemi, yuvaya özel yapılandırma öğelerini ilk yuvadan ikinci yuvaya uygular. Daha sonra kullanıcı değiştirmeyi tamamlayana veya iptal eder kadar duraklar. Değiştirme, tamamlanırsa ilk yuvanın trafiğini ikinci yuvaya yönlendirir.</value>
+    <value>Önizleme ile takas normal bir takası iki aşamaya böler. Birinci aşamada, hedefteki tüm yuvaya özgü uygulama ayarları ve bağlantı dizeleri kaynak yuvaya geçici olarak kopyalanır. Bu, yuvayı son yapılandırma değerleriyle test etmenize izin verir. Bu noktadan sonra normal yapılandırmanıza dönmek için birinci aşamayı iptal etmeyi veya geçici yapılandırma değişikliklerini kaldıracak ve kaynağı hedef yuvaya takas etmeyi tamamlayacak ikinci aşamaya geçmeyi seçebilirsiniz.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Değiştirmeyi başlat</value>
@@ -2999,7 +3008,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İçerikleri bir OneDrive bulut klasöründen eşitleyin.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Bir Github deposu ile sürekli tümleştirmeyi yapılandırın.</value>
+    <value>Bir GitHub deposu ile sürekli tümleştirmeyi yapılandırın.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Bir VSTS deposu ile sürekli tümleştirmeyi yapılandırın.</value>
@@ -3032,7 +3041,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlevler (Önizleme)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Run-From-Zip kullandığınız için uygulamanız şu anda salt okunur modunda. Run-From-Zip kullanırken, dosya sistemi salt okunur durumdadır ve dosyalarda değişiklik yapılamaz. Değişiklik yapmak için zip dosyanızın içeriğini ve WEBSITE_USE_ZIP uygulama ayarını güncelleştirin.</value>
+    <value>Paketten çalıştırdığınız için uygulamanız şu anda salt okunur modunda. Paketten çalıştırırken, dosya sistemi salt okunur durumdadır ve dosyalarda değişiklik yapılamaz. Değişiklik yapmak için zip dosyanızın içeriğini ve WEBSITE_RUN_FROM_PACKAGE uygulama ayarını güncelleştirin.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3088,6 +3097,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>'{0}' planını güncelleştirmek için plan üzerinde yazma izninizin olması gerekir</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Aynı fiyata daha iyi performans ve daha fazla özellikten yararlanabilirsiniz! Premium V2'ye göz atın.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>'{0}' planı üzerinde bir salt okunur kilidi var ve güncelleştirilemiyor</value>
   </data>
@@ -3121,11 +3133,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service planınızın her bir örneği aşağıdaki donanım yapılandırmasını içerecek:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure İşlem Birimleri (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux için ilk Temel (B1) çekirdek ilk 30 gündür ücretsizdir!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows kapsayıcıları ölçeklerini 2 örneğe genişletmekle sınırlanmıştır ve 13 Eylül 2018 tarihine kadar ücretsizdir.</value>
+    <value>Windows kapsayıcıları önizleme sırasında %50 indirimli faturalama avantajından yararlanır.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
@@ -3139,8 +3154,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Elastik Premium bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Ölçeği artır</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Uygulamanızın giden IP adresleri değişebilir.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Ücretsiz</value>
@@ -3163,11 +3184,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>App Service Planı'nda dağıtılan uygulamaları çalıştırmak için kullanılan paylaşılan işlem kaynakları.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış A serisi işlem kaynakları.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış Dv2 serisi işlem kaynakları.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış işlem kaynakları.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>App Service planında dağıtılan ve çalışan uygulamaları çalıştırmak için kullanılabilen bellek.</value>
@@ -3190,6 +3208,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_manualScale" xml:space="preserve">
     <value>El ile ölçekleme</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Hızlı ölçek</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Olay tetiği tabanlı işlev uygulamaların ölçeğini genişletin.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Otomatik ölçeklendir</value>
   </data>
@@ -3201,6 +3225,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>En çok {0} örnek.  Kullanılabilirliğe bağlıdır.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Yüksek Yoğunluk</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>App Service planını verimli bir şekilde birden fazla İşlev Uygulamasında paylaşın.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Hazırlama yuvası</value>
@@ -3232,6 +3262,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Yalıtılmış ağ</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Sanal Ağ Tümleştirmesi</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Kendi sanal ağınız içinde çalışır.</value>
   </data>
@@ -3250,11 +3283,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} çekirdek</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A Serisi işlem</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>A Serisi işlem eşdeğeri</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2 serisi işlem</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv2 Serisi işlem eşdeğeri</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Proxies.json geçerli değil. Hata: '{0}'.</value>
@@ -3311,7 +3344,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Günlük Düzeyi</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS Sürekli Teslim</value>
+    <value>VSTS Derlemesi (Önizleme)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services, uygulamanız için güçlü bir dağıtım işlem hattı ayarlar. Bu işlem hattı derlemeyi yapar, yük testleri çalıştırır ve ardından önce hazırlama yuvasına sonra da üretime dağıtır.</value>
@@ -3410,7 +3443,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Fiyatlandırma Katmanı</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Dağıtım Merkezi (Önizleme)</value>
+    <value>Dağıtım Merkezi</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service Dağıtım Merkezi, kodunuzun konumunu seçebilmenin yanı sıra derleme ve buluta dağıtım seçenekleri sunar.</value>
@@ -3575,7 +3608,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bağlantıyı Kes</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Düzenle</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Eşitle</value>
@@ -3583,11 +3616,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Dağıtım Kimlik Bilgileri</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3 Serisi işlem</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service Planında dağıtılan uygulamaları çalıştırmak için kullanılan adanmış Dv3 serisi işlem kaynakları.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv3 Serisi işlem eşdeğeri</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Bağlantı dizeleri, yalnızca Entity Framework kullanıyorsanız bir işlev uygulamasıyla kullanılmalıdır. Diğer senaryolar için Uygulama Ayarları'nı kullanın. Daha fazla bilgi için tıklayın.</value>
@@ -3658,32 +3688,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="enterPassword" xml:space="preserve">
     <value>parola girin</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>Kapsayıcı ayarlarını yapılandırmak için uygulamanızda yazma iznine sahip olmanız gerekir</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Uygulamanızdaki salt okunur kilidini kaldırmadığınız sürece kapsayıcı ayarlarınız yapılandırılamaz</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Tek Kapsayıcı</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Bu, Tek Kapsayıcı açıklamasıdır.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Bu, Tek Kapsayıcı için ayrıntılı açıklamadır.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Bu, Docker Oluşturma açıklamasıdır.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Bu, Docker Oluşturma için ayrıntılı açıklamadır.</value>
+    <value>Docker Oluşturma (Önizleme)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Bu, Kubernetes açıklamasıdır.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Bu, Kubernetes için ayrıntılı açıklamadır.</value>
+    <value>Kubernetes (Önizleme)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Çalışma zamanı uzantısını yükleyemedik. Daha fazla bilgi için lütfen </value>
@@ -3695,7 +3713,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Oturum kimliği: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>App Service Planında dağıtılan tüm uygulamalar tarafından paylaşılan kapsayıcıları isteğe bağlı {0} GB disk depolamayı barındırmak için yerel SSD tabanlı depolama.</value>
+    <value>App Service Planında dağıtılan tüm uygulamalar tarafından paylaşılan kapsayıcıları isteğe bağlı {0} disk depolamayı barındırmak için yerel SSD tabanlı depolama.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>İşlev uygulamasının adı</value>
@@ -3728,10 +3746,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtımınızın bağlantısının kesilmesini istediğinizden emin misiniz?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Topluluk Şablonları</value>
+    <value>Sunucusuz Topluluk Kitaplığı (Önizleme)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Aradığınızı bulamıyor musunuz? Topluluk tarafından oluşturulmuş şablonlardan oluşan Sunucusuz Kütüphane'mizi gezerek ilham alın!</value>
+    <value>Aradığınızı bulamıyor musunuz? Azure Sunucusuz Topluluk Kitaplığı'na bakın!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Scm sitesine ulaşılamıyor. İşlev Depolama hesabı bağlantınızı gözden geçirin.</value>
@@ -3745,6 +3763,150 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_ACU" xml:space="preserve">
     <value>Toplam {0} ACU</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Kapsayıcı ayarlarını güncelleştir</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Hızlı başlangıç</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Özel Kayıt Defteri</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Görüntü kaynağı</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Görüntü ve isteğe bağlı etiket (örn 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Başlamak için, ilk olarak bir Azure Kapsayıcı Kayıt Defteri oluşturun ve bir resim ekleyin.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Depo Erişimi</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Sunucu URL'si</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Oturum Aç</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Başlangıç Dosyası</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Yapılandırma Kaynağı</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>.NET için Azure İşlevleri - Kullanmaya başlayın</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>JavaScript için Azure İşlevleri - Kullanmaya başlayın</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Python için Azure İşlevleri - Kullanmaya başlayın</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Java için Azure İşlevleri - Kullanmaya başlayın</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>İşlevleri yazmak ve yayımlamak için Hızlı Başlangıç kılavuzumuzu izleyin</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Geliştirme ortamı seçin</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Dağıtım yöntemi seçin</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>İşlev oluştur</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Hızlı başlangıç</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Herhangi bir düzenleyici ve Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Herhangi bir düzenleyici ve Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>Portalda</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>.NET işlevleri yazmak, derlemek ve çalıştırmak için Visual Studio'yu kullanın</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>İşlevlerinizi yazmak için Visual Studio Code'u kullanın</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Sevdiğiniz düzenleyiciyi ve Azure İşlevleri Çekirdek Araçları'nı kullanarak işlev yazın</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>IntelliJ veya Eclipse ve Maven gibi sevdiğiniz düzenleyicileri kullanarak Java işlevleri yazın</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Portalda işlevleri hızlı bir şekilde yazın</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Dağıtım Merkezini Kullan</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Kodunuzu kaynak kontrolünde denetlemek ve devamlı bir dağıtım işlem hattında çalıştırmak için uygulamanızı yapılandırın</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Doğrudan yayımla</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Doğrudan Visual Studio'dan yayımla</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Doğrudan VS Code'dan yayımla</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Doğrudan Azure İşlevleri Core Tools'tan yayımla</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Doğrudan Maven'den yayımla</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Her HTTP isteği aldığında çalıştırılacak bir işlev</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Belirtilen bir zamanlamaya göre çalıştırılacak bir işlev</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Bir işlev uygulaması oluşturdunuz!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Şimdi kodunuzu ekleyebilirsiniz...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Eşitleme İsteği Gönderildi</value>
   </data>
@@ -3757,8 +3919,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS Sürekli Teslimi için Azure Active Directory'ye yazma ve hizmet ilkesi oluşturma izninizin olması gerekir.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Örnek seç</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>VSTS deponuz yok</value>
+    <value>VSTS Deponuz yok</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
     <value>Geçerli bir VSTS Hesabınız yok</value>
@@ -3791,10 +3959,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kaynak ve Hedef aynı yuva olamaz</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Aşağıdaki yuvaların kimlik doğrulaması etkin olduğundan çok aşamalı değiştirme gerçekleştirilemiyor: '{{slotNames}}'</value>
+    <value>Şu yuvalarda kimlik doğrulaması etkin olduğundan önizleme ile takas yapılamıyor: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Çok aşamalı takas yalnızca yuva ayarları etkinleştirilmiş sitelerle kullanılabilir</value>
+    <value>Önizleme ile takas yalnızca yuva ayarları etkinleştirilmiş sitelerle kullanılabilir</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Değişimi tamamlamadan önce ilk yuvanın uygulama davranışını ikinci yuvanın yapılandırmasıyla gözden geçirin</value>
@@ -3817,8 +3985,20 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Yükleme başarısız</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Değişiklikleri Önizle</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Aşama Bir Değişiklikleri</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Aşama İki Değişiklikleri</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Yapılandırma Değişiklikleri</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Bunlar, takasın ilk aşamasında geçici olarak kaynak yuvaya uygulanacak yuvaya özgü uygulama ayarları ve hedef yuvadan alınan bağlantı dizeleridir.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Bu, kaynak ve hedef yuvalardaki yapılandırma değişiklerinin takas tamamlandıktan sonraki özetidir.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Önizlemeyi yüklemek için lütfen yukarıdan geçerli bir seçim yapın</value>
@@ -3835,10 +4015,403 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="swapActionLabel" xml:space="preserve">
     <value>Değiştirme eylemi</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework sürümü</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Başlangıç komutu</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Kod yolu</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Önizleme</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Değişiklik Yok</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Ayarlanmamış</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Süresi dolan uzantılarınız kaldırılamadı</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (Önizleme)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>İşlev Uygulaması çalışma zamanı yığını</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>İşlev Uygulamaları v2 artık tek dilde. Uygulamanıza işlev eklemeden önce lütfen çalışma zamanı yığınını ayarlayın.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>İşlev Çalışma Zamanı yığını</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Git</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Kayıt Defteri</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Resim</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Etiket</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Başlangıç Dosyası</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Sürekli Dağıtım</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Web kancası URL'si</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Yapılandırma Dosyası</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose yalnızca Linux işletim sistemi tabanlı uygulamalarda desteklenir.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes yalnızca Linux işletim sistemi tabanlı uygulamalarda desteklenir.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose tabanlı işlevler şu anda desteklenmiyor.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes tabanlı işlevler şu anda desteklenmiyor.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Docker görüntüsü olarak dağıtılan işlev uygulamaları için işlevleri portalda düzenleme desteklenmiyor.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Kapsayıcı yapılandırması için veriler alınamadı.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Sağlanan URL geçerli değil. URL'nin bir protokol (https/http), etki alanı veya ana bilgisayar ve isteğe bağlı olarak da bir bağlantı noktası içermesi bekleniyor.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Kapsayıcı ayarları verileri güncelleştirilemedi.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Ayarlarda hatalar var.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Ayarlar başarıyla güncelleştirildi.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>URL'yi göster</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>URL'yi gizle</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux Tüketim İşlevleri bir önizleme teklifidir.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Bazı alanlar düzgün doldurulmadı veya zorunlu.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Bitir ve Dağıtım Merkezi'ne git</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Portalda işlev düzenleme Linux Tüketim İşlevi Uygulamaları (Önizleme) için desteklenmiyor.</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Tek Kapsayıcı (Önizleme)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Daha fazla şablon...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Bu işlev uygulamasında kullanılabilen tüm şablonları görüntüleyin</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Bitir ve şablonları görüntüle</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Resmi Nginx görüntüsünün kullanıldığı NGINX web sunucusu varsayılan sitesi.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Merhaba Dünya</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python “Merhaba Dünya” örnek uygulaması.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Statik site</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Nginx web sunucusundan sağlanan statik HTML web sayfası.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Windows Server Core 2016 LTSC Kapsayıcısı'nda dağıtılan Asp.Net Web Forms uygulaması.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Redis ile Python Flask</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Web sayfasındaki tıklamaları sayan ve verileri Redis Cache'de depolayan Python Flask örnek uygulaması.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>SQL Server ile ASP.NET Core</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>SQL Server ile ASP.NET Core kullanılan Docker Compose örneği.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Çok kapsayıcılı WordPress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>WordPress ve MySQL kullanılan Docker Compose örneği.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Redis ile Python Flask</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Web sayfasındaki tıklamaları sayan ve verileri Redis Cache'de depolayan Kubernetes örnek uygulaması.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Çok kapsayıcılı WordPress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>WordPress ve MySQL kullanılan Kubernetes örneği.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Kullanılabilir günlük yok.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Günlükler alınırken hata oluştu.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Yeni veya Mevcut Dağıtım Yuvası</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Yeni veya Mevcut VSTS Hesabı</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Yeni veya Mevcut VSTS Hesabı</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Dağıtım Ayrıntıları</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu sayfadan ayrılıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Değerleri Gizle</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Değerleri Göster</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Gizli değer. Düzenlemek için tıklayın.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Uygulama Ayarları bekleme durumunda şifrelenir ve şifrelenmiş bir kanal üzerinden aktarılır. Aşağıdaki denetimleri kullanarak bunları tarayıcınızda düz metin olarak göstermeyi seçebilirsiniz.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Bağlantı Dizeleri bekleme durumunda şifrelenir ve şifrelenmiş bir kanal üzerinden aktarılır. Aşağıdaki denetimleri kullanarak bunları tarayıcınızda düz metin olarak göstermeyi seçebilirsiniz.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Takım</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Kişisel</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>API tanımı (Swagger), İşlev Uygulamaları'nda salt okunur modda kullanılamaz.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Uygulamanızda sorun giderme</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Sorunları tanılayın ve çözün</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Yığın ayarları</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Platform ayarları</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Hata ayıklama</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Uygulama ayarları</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Bağlantı dizeleri</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Genel ayarlar</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Varsayılan belgeler</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Yol eşlemeleri</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>İşleyici eşlemeleri</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Sanal uygulamalar ve dizinler</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Web uygulamanız için tüm ayarları kaydedin</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Web uygulaması ayarları için tüm değişiklikleri at</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Komutlar arasında gezinmek için sol ve sağ ok tuşlarını kullanın</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Yeni uygulama veya dizin</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Sanal Yol</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Fiziksel Yol</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Dizin veya Uygulama</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Dizin</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Önyükleme etkin</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Uzantı</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Betik işleyici</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Bağımsız Değişkenler</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Yeni işleyici eşlemesi</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Yığın</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Yuvalar</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Otomatik değiştirme etkin</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Otomatik değiştirme yuvası</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Yönetilen işlem hattı sürümü</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Tümleşik</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Klasik</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP durumu</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Tüm izin verilenler</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Yalnızca FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Her zaman etkin</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>En son ikincil sürümü kullan</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP sürümü</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java ikincil sürümü</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java kapsayıcısı</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java kapsayıcı sürümü</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Yeni belge</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Değer</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Yuva ayarı</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Bağlantı dizesi ekle/düzenle</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Yeni bağlantı dizesi</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Uygulama ayarı ekle/düzenle</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Yeni uygulama ayarı</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>Seçilen kayıt defteri, geçerli uygulamayla aynı abonelikte değil. Lütfen kayıt defteri girdileri arasında geçiş yapmak için özel kayıt defteri sekmesini kullanın.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>İşlevler (Salt Okunur)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>İşlevler (Erişilemez)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Ara Sunucular (Salt Okunur)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Ara Sunucular (Erişilemez)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
   </data>
 </root>

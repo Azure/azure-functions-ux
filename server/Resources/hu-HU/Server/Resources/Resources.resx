@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Tesztelje</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>A tesztelés GitHub-webhookfüggvények esetében nem támogatott.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Futtatókörnyezet verziója</value>
   </data>
@@ -1367,7 +1370,7 @@
     <value>Megnyitás új ablakban</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Kiterjesztések</value>
+    <value>Webhelybővítmények</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>A bővítményekkel a alkalmazás funkcióit bővítheti.</value>
@@ -1541,13 +1544,13 @@
     <value>Verem</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>A linuxos Web Apps beépített tárolók egy gyűjteményével biztosít futásidejű beállításokat. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;További információ&lt;/a&gt;.</value>
+    <value>A linuxos Web Apps beépített tárolók egy gyűjteményével biztosít futásidejű beállításokat. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Indítási fájl</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;További információ&lt;/a&gt;.</value>
+    <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Legújabb</value>
@@ -1805,7 +1808,7 @@
     <value>méretezés</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Kapcsolati sztringek</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Hibakeresés</value>
@@ -2241,6 +2244,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Új érték</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Aktuális érték</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Ideiglenes érték</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Nem vett fel egyetlen üzembe helyezési tárhelyet sem. A „Tárhely felvétele” elemre kattintva beállíthat egyet.</value>
@@ -2711,7 +2720,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>A sablonfüggőségek telepítésekor, annak befejeztével létre tud majd hozni egy függvényt. A függőségek telepítése a háttérben történik és akár 2 percig is eltarthat. Ez idő alatt bezárhatja ezt a panelt, és tovább használhatja a portált.</value>
+    <value>Folyamatban van a sablonfüggőségek telepítése. Ennek befejezése után tud majd függvényt létrehozni. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt bezárhatja ezt a panelt, és tovább használhatja a portált.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -2833,8 +2842,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="entityColon" xml:space="preserve">
     <value>Entitás:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>A függvények API-definíciójának (Swagger) funkciója jelenleg nem támogatott a bétaverziójú futtatókörnyezetben.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>A függvények API-definíciójának (Swagger) funkciója jelenleg nem támogatott a V2-es futtatókörnyezetben.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Sikerült az üzembe helyezés itt: {0}</value>
@@ -2846,7 +2855,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Felcserélés végrehajtása előnézettel</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>A többfázisú csereművelet az első tárolóhely tárolóhelyspecifikus konfigurációs elemeit alkalmazza a második tárolóhelyre. Ezután szünetel, amíg a felhasználó be nem fejezi vagy meg nem szakítja a cserét. A befejezése esetén a csere a második tárhelyre irányítja az első tárhely forgalmát.</value>
+    <value>Az előnézettel végrehajtott felcserélés két fázisra bontja a normál felcserélést. Az első fázisban a rendszer ideiglenesen a forrástárolóhelyre másolja a célhely minden tárolóhely-specifikus alkalmazásbeállítását és kapcsolati sztringjét. Ezáltal tesztelheti a tárolóhelyet annak végső konfigurációs értékeivel. Ezen a ponton dönthet úgy, hogy az első fázis megszakításával visszatér a normál konfigurációhoz, vagy úgy, hogy továbblép a második fázisra, amely eltávolítja az ideiglenes konfigurációs módosításokat, és befejezi a forrás- és a céltárolóhely felcserélését.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>A felcserélés indítása</value>
@@ -3032,7 +3041,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Funkciók (előzetes verzió)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban fut, mert Ön a Run-From-Zip funkciót használja. A Run-From-Zip használatakor a fájlrendszer nem írható, tehát a fájlok nem módosíthatók. Ha módosításokat szeretne végrehajtani, frissítse a ZIP-fájl tartalmát és a WEBSITE_USE_ZIP alkalmazásbeállítást.</value>
+    <value>Az alkalmazás jelenleg írásvédett üzemmódban fut, mert Ön csomagfájlból futtatja. A csomagfájlból való futtatáskor a fájlrendszer nem írható, tehát a fájlok nem módosíthatók. Ha módosításokat szeretne végrehajtani, frissítse a ZIP-fájl tartalmát és a WEBSITE_RUN_FROM_PACKAGE alkalmazásbeállítást.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kód</value>
@@ -3088,6 +3097,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>A(z) {0} díjcsomag frissítéséhez írási jogosultsággal kell rendelkeznie</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Jobb teljesítmény és további szolgáltatások érhetők el ugyanazon az áron! Próbálja ki a Premium V2-t.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Az {0} írásvédett, ezért nem frissíthető</value>
   </data>
@@ -3121,11 +3133,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Az App Service-díjcsomag összes példánya a következő hardverkonfigurációt tartalmazza:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure Compute-egységek (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Az első linuxos Basic (B1) mag ingyenes az első 30 napban!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>A Windows-tárolók 2018. szeptember 13-ig két példány kiterjesztésére vannak korlátozva, és ingyenesek.</value>
+    <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Az App Service Environment (ASE) csomagbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
@@ -3139,8 +3154,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ez a skálázási egység nem támogatja a Premium V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Ez a skálázási egység nem támogatja a prémium szintű Elastic szolgáltatást. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Felskálázás</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Az alkalmazáshoz tartozó kimenő IP-cím módosulhat.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Ingyenes</value>
@@ -3163,11 +3184,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához felhasznált megosztott számítási erőforrások.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált A sorozatú számítási erőforrások.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatásához használt dedikált Dv2 sorozatú számítási erőforrások.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatására szolgáló dedikált számítási erőforrások.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Az App Service-csomagban üzembe helyezett és működő alkalmazások futtatása számára rendelkezésre álló memória.</value>
@@ -3190,6 +3208,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Manuális skálázás</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Gyors skálázás</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Eseménytriggerek alapján végezheti el függvényalkalmazások horizontális felskálázását.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatikus skálázás</value>
   </data>
@@ -3201,6 +3225,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Legfeljebb {0} példány, az elérhetőség függvényében.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Nagy kapacitású</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Hatékonyan oszthat meg egy App Service-csomagot több függvényalkalmazás között.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Előkészítési pontok</value>
@@ -3232,6 +3262,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Izolált hálózat</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Virtuális hálózat integrációja</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>A saját virtuális hálózaton belül fut.</value>
   </data>
@@ -3250,11 +3283,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} mag</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A sorozatú számítási erőforrás</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>A sorozatú számítási erőforrás egyenértéke</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2 sorozatú számítási erőforrás</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv2 sorozatú számítási erőforrás egyenértéke</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>A proxies.json fájl érvénytelen. A hiba: {0}.</value>
@@ -3311,7 +3344,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Naplózási szint</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS Continuous Delivery</value>
+    <value>VSTS-alapú buildelés (előzetes verzió)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>A Visual Studio Team Services beállít egy robusztus üzembe helyezési folyamatot az alkalmazás számára. A folyamat elkészíti a buildet, futtatja a terhelési teszteket, és üzembe helyezi az alkalmazást az előkészítési ponton, valamint az éles környezetben.</value>
@@ -3410,7 +3443,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Tarifacsomag</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Deployment Center (előzetes verzió)</value>
+    <value>Üzembe helyezési központ</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service Deployment Center lehetővé teszi, hogy megadja a programkód helyét, valamint a buildelési és a felhőben való üzembe helyezési beállításokat.</value>
@@ -3575,7 +3608,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Leválasztás</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Szerkesztés</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Szinkronizálás</value>
@@ -3583,11 +3616,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Központi telepítés hitelesítő adatai</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3 sorozatú számítási erőforrás</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Az App Service-csomagban üzembe helyezett alkalmazások futtatására szolgáló dedikált Dv3 sorozatú számítási erőforrások.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv3 sorozatú számítási erőforrás egyenértéke</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat. További információért kattintson ide.</value>
@@ -3658,32 +3688,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="enterPassword" xml:space="preserve">
     <value>adja meg a jelszót</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>A tárolóbeállítások konfigurálásához alkalmazásírási jogosultsággal kell rendelkeznie</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>A tároló beállításai csak akkor konfigurálhatók, ha eltávolítja az alkalmazás olvasási zárolását</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Egyetlen tároló</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Ez a Single Container leírása.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Single Container részletes leírása.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Ez a Docker Compose leírása.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Docker Compose részletes leírása.</value>
+    <value>Docker Compose (előzetes verzió)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Ez a Kubernetes leírása.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Ez a Kubernetes részletes leírása.</value>
+    <value>Kubernetes (előzetes verzió)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Nem sikerült telepíteni a futtatókörnyezeti bővítményt. További információért tekintse meg a következőt: </value>
@@ -3695,7 +3713,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Munkamenet-azonosító: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Helyi SSD-alapú tárolás tárolók üzemeltetéséhez, és {0} GB nem kötelező lemezterület, mely az App Service-csomagban üzembe helyezett összes alkalmazás között meg van osztva.</value>
+    <value>Helyi SSD-alapú tárolás tárolók üzemeltetéséhez, és {0} nem kötelező lemezterület, mely az App Service-csomagban üzembe helyezett összes alkalmazás között meg van osztva.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Függvényalkalmazás neve</value>
@@ -3728,10 +3746,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Biztosan leválasztja az üzemelő példányt?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Közösségi sablonok</value>
+    <value>Kiszolgáló nélküli közösségi erőforrástár (előzetes verzió)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Nem találja, amit keres? Merítsen ihletet a Serverless Libraryből, a közösség által létrehozott sablonokat tartalmazó gyűjteményünkből!</value>
+    <value>Nem találja, amit keres? Tekintse meg az Azure kiszolgáló nélküli közösségi erőforrástárát!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Az Azure Functions-futtatókörnyezet nem érhető el.</value>
@@ -3745,6 +3763,150 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU összesen</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Tárolóbeállítások frissítése</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Gyors üzembe helyezés</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Privát beállításjegyzék</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Egyéni</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Kép forrása</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Kép és nem kötelező címke (pl. kép:címke)</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>A kezdéshez először hozzon létre egy Azure Container Registry-adatbázist, és adjon hozzá egy lemezképet.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Adattárelérés</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Nyilvános</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Magánjellegű</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Kiszolgáló URL-címe</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Indítási fájl</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Beállítások forrása</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Konfiguráció</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Az Azure Functions használata a .NET-hez – első lépések</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Az Azure Functions használata a JavaScripthez – első lépések</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Az Azure Functions használata a Pythonhoz – első lépések</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Az Azure Functions használata a Javához – első lépések</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>A gyors üzembe helyezési útmutatót követve létrehozhat és közzétehet egy függvényt</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Válasszon fejlesztőkörnyezetet</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Válasszon telepítési módot</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Függvény létrehozása</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Első lépések</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Tetszőleges szerkesztő + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Tetszőleges szerkesztő + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>Portálba épített</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>.NET-függvények készítése, buildelése és futtatása a Visual Studióban</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Függvények készítése a Visual Studio Code-ban</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>A kedvenc szerkesztőjével és az Azure Functions Core Tools használatával írhat függvényeket</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>A kedvenc szerkesztőjével, például az IntelliJ-vel, az Eclipse-szel vagy a Mavennel írhat Java-függvényeket</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Gyorsan létrehozhat függvényeket a portálon</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Deployment Center használata</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Úgy konfigurálhatja az alkalmazást, hogy egy folyamatos üzembe helyezési folyamattal tudja beküldeni a kódot a verziókövetésbe és futtatni azt</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Közvetlen közzététel</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Közvetlen közzététel a Visual Studióból</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Közvetlen közzététel a VS Code-ból</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Közvetlen közzététel az Azure Functions Core Toolsból</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Közvetlen közzététel a Mavenből</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Függvény, amely akkor fut le, amikor HTTP-kérést kap</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Függvény, amely megadott ütemezés szerint fut</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Létrehozott egy függvényalkalmazást!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Itt az ideje, hogy hozzáadja a kódot...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Szinkronizálási kérés elküldve</value>
   </data>
@@ -3757,14 +3919,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>A VSTS-ben a folyamatos teljesítéshez az Azure Active Directory-be való írásra és szolgáltatásnevek létrehozására vonatkozó engedélyekre van szüksége.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Minta kiválasztása</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Leírás</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
+    <value>Nem rendelkezik VSTS-adattárral</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
+    <value>Nem rendelkezik érvényes VSTS-fiókokkal</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>Nem rendelkezik érvényes VSTS-fiókkal. Az App Service-beli Kudu-build használatához fióktulajdonosnak kell lennie</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Hozzon létre egyet most</value>
@@ -3791,10 +3959,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A forrás és a cél nem lehet ugyanaz a tárolóhely</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>A többfázisú csere nem hajtható végre, mert a következő tárolóhelyeken engedélyezve van a hitelesítés: {{slotNames}}</value>
+    <value>Az előnézettel végrehajtott felcserélés nem hajtható végre, mert a következő tárolóhelyeken engedélyezve van a hitelesítés: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Csak azokon a helyeken használható többfázisú csere, melyeken engedélyezve vannak a tárolóhely-beállítások</value>
+    <value>Az előnézettel végrehajtott felcserélés csak azokon a helyeken használható, melyeken engedélyezve vannak a tárolóhely-beállítások</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>A csere végrehajtása előtt ellenőrizze az első tárhelybeli alkalmazásműködést a második tárhely konfigurációjával</value>
@@ -3817,8 +3985,20 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>A betöltés nem sikerült</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Módosítások előnézetének megtekintése</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Az első fázis módosításai</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>A második fázis módosításai</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Konfigurációs módosítások</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Ezek a forrástárolóhelyről származó tárolóhely-specifikus alkalmazásbeállítások és kapcsolati sztringek, melyeket a rendszer ideiglenesen alkalmaz a forrástárolóhelyen a felcserélés első fázisában.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Ez a forrás- és a céltárolóhelyen alkalmazott konfigurációs módosítások végső készletének a felcserélés befejeződése utáni összegzése.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Az előnézet betöltéséhez érvényes kijelölést adjon meg fentebb</value>
@@ -3835,10 +4015,403 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapActionLabel" xml:space="preserve">
     <value>Felcserélési művelet</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Keretrendszer verziója</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Indítási parancs</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Kód elérési útja</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Előzetes verzió</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Nincs módosítás</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Nincs beállítva</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Nem sikerült eltávolítani az elavult bővítményeket</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (előzetes verzió)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Függvényalkalmazás futtatókörnyezeti verme</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>A v2 verziójú függvényalkalmazások mostantól egynyelvűek. A függvények alkalmazáshoz való hozzáadás előtt állítsa be a futtatókörnyezeti vermet.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Függvény futtatókörnyezeti verme</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Ugrás</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Beállításjegyzék</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Rendszerkép</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Címke</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Indítási fájl</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Folyamatos üzembe helyezés</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL-címe</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Konfiguráció</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Konfigurációs fájl</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>A Docker Compose használata csak Linux operációs rendszeren alapú alkalmazások esetében támogatott.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>A Kubernetes használata csak Linux operációs rendszeren alapú alkalmazások esetében támogatott.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>A Docker Compose-alapú függvények használata jelenleg nem támogatott.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>A Kubernetes-alapú függvények használata jelenleg nem támogatott.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>A függvények portálon való szerkesztése Docker-lemezképként üzembe helyezett függvényalkalmazások esetében nem támogatott.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Nem sikerült lekérni a tárolókonfiguráció adatait.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>A megadott URL-cím érvénytelen. A várt URL-címnek tartalmaznia kell protokollt (HTPPS vagy HTTP), tartományt vagy gazdagépet, illetve nem kötelezően egy portot.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Nem sikerült frissíteni a tárolókonfiguráció adatait.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>A beállítások hibákat tartalmaznak.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>A beállítások frissítése sikerült.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>URL megjelenítése</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>URL-cím elrejtése</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>A Linuxhoz készült használatalapú Functions egy előzetes verziójú ajánlat.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Bizonyos mezők nem megfelelően vannak kitöltve, vagy azokat kötelező megadni.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Befejezés és a Deployment Center megnyitása</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps (előzetes verzió) esetében.</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Single Container (Előzetes verzió)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>További sablonok...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>A függvényalkalmazás számára elérhető összes sablon megtekintése</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Befejezés és a sablonok megtekintése</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Az NGINX-webkiszolgáló alapértelmezett webhelye, a hivatalos Nginx-lemezkép használatával.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python „Helló világ!”</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>„Helló világ!” Python-mintaalkalmazás.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Statikus webhely</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Az Nginx-webkiszolgálóról kiszolgált statikus HTML-weblap.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Windows Server Core 2016 LTSC-tárolóban üzembe helyezett Asp.Net Web Forms-alkalmazás.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Redis Python Redis használatával</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>A weblapon szereplő találatokat megszámoló és az adatokat a Redis Cache-ben tároló Python Flask-mintaalkalmazás.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core SQL Serverrel</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Az ASP.NET Core-t SQL Serverrel hasznló Docker Compose-minta.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Többtárolós WordPress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>WordPresst és MySQL-t használó Docker Compose-minta.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Redis Python Redis használatával</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>A weblapon szereplő találatokat megszámoló és az adatokat a Redis Cache-ben tároló Kubernetes-mintaalkalmazás.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Többtárolós WordPress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>WordPresst és MySQL-t használó Kubernetes-minta.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Nincsenek elérhető naplók.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Hiba történt a naplók beolvasása során.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Új vagy meglévő üzembe helyezési pont</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Új vagy meglévő VSTS-fiók</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Új vagy meglévő VSTS-fiók</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Példány részletei</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Folyamatban van a sablonfüggőségek telepítése. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt elhagyhatja ezt a lapot, és tovább használhatja a portált.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Értékek elrejtése</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Értékek megjelenítése</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Rejtett érték. A szerkesztéshez kattintson ide.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Az alkalmazásbeállítások inaktív állapotban titkosítva vannak, és azokat titkosított csatornán továbbítja a rendszer. A lenti vezérlőkkel megjelenítheti azokat egyszerű szövegként a böngészőben.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>A kapcsolati sztringek inaktív állapotban titkosítva vannak, és azokat titkosított csatornán továbbítja a rendszer. A lenti vezérlőkkel megjelenítheti azokat egyszerű szövegként a böngészőben.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Csapat</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Személyes</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>Az API-definíció (Swagger) írásvédett módú függvényalkalmazások számára nem érhető el.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Az alkalmazás hibáinak elhárítása</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Problémák diagnosztizálása és megoldása</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Verembeállítások</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Platformbeállítások</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Hibakeresés</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Kapcsolati sztringek</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Általános beállítások</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Alapértelmezett dokumentumok</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Elérésiút-hozzárendelések</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Leírók leképezése</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Virtuális alkalmazások és könyvtárak</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>A webalkalmazás összes beállításának mentése</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>A webalkalmazás beállításai összes módosításának elvetése</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>A balra és jobbra mutató nyilakkal lépkedhet a parancsok között</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Új alkalmazás vagy címtár</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Virtuális elérési út</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Fizikai elérési út</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Típus</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Címtár vagy alkalmazás</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Címtár</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Előzetes betöltés engedélyezve</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Kiterjesztés</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Szkriptfeldolgozó</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Argumentumok</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Új kezelőtársítás</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Verem</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Tárolóhelyek</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Automatikus felcserélés engedélyezve</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Automatikus felcserélési tárolóhely</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Kezelt folyamatverzió</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Integrált</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Klasszikus</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP-állapot</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Minden engedélyezett</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Csak FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Mindig bekapcsolva</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>A legújabb alverzió használata</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP-verzió</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java-alverzió</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java-tároló</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java-tároló verziója</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Új dokumentum</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Érték</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Tárhelybeállítás</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Kapcsolati sztring hozzáadása vagy szerkesztése</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Új kapcsolati sztring</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Alkalmazásbeállítás hozzáadása vagy szerkesztése</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Új alkalmazásbeállítás</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>A kiválasztott beállításjegyzék nem ugyanabban az előfizetésben található, mint az aktuális alkalmazás. A Privát beállításjegyzék lapon válthat beállításjegyzéket.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Függvények (csak olvasható)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Függvények (nem elérhető)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxyk (csak olvasható)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxyk (nem elérhető)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
   </data>
 </root>

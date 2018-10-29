@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Testar</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Os testes não são suportados nas funções de webhook do GitHub.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Versão de runtime</value>
   </data>
@@ -1181,7 +1184,7 @@
     <value>Trocar</value>
   </data>
   <data name="startSwap" xml:space="preserve">
-    <value>Start Swap</value>
+    <value>Iniciar Troca</value>
   </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Concluir Troca</value>
@@ -1316,7 +1319,7 @@
     <value>Opções de implementação</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure e faça a gestão de opções de implementação para a aplicação, incluindo a implementação contínua a partir do VSTS, Github e Bitbucket, assim como o acionamento de implementações a partir do OneDrive, Dropbox, Git externo e mais.</value>
+    <value>Configure e faça a gestão das opções de implementação na sua aplicação, incluindo a implementação contínua a partir de VSTS, GitHub e Bitbucket, assim como o acionamento de implementações a partir de OneDrive, Dropbox, Git externo e mais.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Credenciais de implementação</value>
@@ -1367,7 +1370,7 @@
     <value>Abrir numa Janela Nova</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Extensões</value>
+    <value>Extensões de Site</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>As extensões adicionam funcionalidade à aplicação inteira.</value>
@@ -1541,13 +1544,13 @@
     <value>Pilha</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>As Aplicações Web no Linux fornecem opções de tempo de execução através de um conjunto de contentores incorporados. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Saiba mais&lt;/a&gt;.</value>
+    <value>As Aplicações Web no Linux fornecem opções de runtime através de uma coleção de contentores incorporados. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Ficheiro de Arranque</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Forneça um comando de arranque opcional que será executado como parte do arranque do contentor. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Saiba mais&lt;/a&gt;.</value>
+    <value>Forneça um comando de arranque opcional que será executado como parte do arranque do contentor. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Recentes</value>
@@ -1805,7 +1808,7 @@
     <value>dimensionamento</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Cadeias de ligação</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Depurar</value>
@@ -2192,10 +2195,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Nome</value>
   </data>
   <data name="slotNew_cloneConfigLabel" xml:space="preserve">
-    <value>Clone settings from:</value>
+    <value>Clonar definições de:</value>
   </data>
   <data name="slotNew_dontCloneConfig" xml:space="preserve">
-    <value>Do not clone settings</value>
+    <value>Não clonar definições</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Criar nova ranhura de implementação</value>
@@ -2241,6 +2244,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Novo Valor</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Valor Atual</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Valor Temporário</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Não adicionou ranhuras de implementação. Clique em "Adicionar Ranhura" para começar.</value>
@@ -2711,7 +2720,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Este modelo necessita as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Depois de instalar dependências de modelo, será possível criar uma função. A instalação de dependências acontece em segundo plano e pode demorar até 2 minutos. Pode fechar este painel e continuar a utilizar o portal durante este período de tempo.</value>
+    <value>A instalar dependências do modelo. Pode criar uma função após a instalação. A instalação de dependências acontece em segundo plano e pode demorar até dois minutos. Pode fechar este painel e continuar a utilizar o portal durante este período de tempo.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão do runtime. Instale o id {{installationId}}</value>
@@ -2833,8 +2842,8 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="entityColon" xml:space="preserve">
     <value>Entidade:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>A funcionalidade da definição de função da API (Swagger) não é suportada atualmente para o runtime beta.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>A funcionalidade da definição de função de API (Swagger) não é suportada atualmente para o runtime V2.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Implementação com êxito para {0}</value>
@@ -2846,7 +2855,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Realizar a troca com pré-visualização</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+    <value>A troca com pré-visualização reparte uma troca normal em duas fases. Na primeira fase, qualquer cadeia de ligação e definição de aplicação no destino será temporariamente copiada para o bloco de origem. Isto permite-lhe testar o bloco com os respetivos valores de configuração finais. A partir daqui, pode optar por cancelar a primeira fase para reverter para a configuração normal ou continuar para a segunda fase, que remove as alterações de configuração temporárias e conclui a troca da origem do bloco de destino.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Iniciar a troca</value>
@@ -2858,7 +2867,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Uma operação de troca está atualmente em progresso. Depois de navegar para fora, não vai poder verificar o estado de operação.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
+    <value>{{swapType}} entre a ranhura "{{srcSlot}}" e a ranhura "{{destSlot}}"</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>troca</value>
@@ -2999,7 +3008,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Sincronize o conteúdo de uma pasta de cloud do OneDrive.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Configure a integração contínua com um repositório do Github.</value>
+    <value>Configure a integração contínua com um repositório do GitHub.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Configure a integração contínua com um repositório de VSTS.</value>
@@ -3032,7 +3041,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Funções (Pré-visualização)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>A sua aplicação está atualmente em modo só de leitura porque está a utilizar o Run-From-Zip. Ao utilizar o Run-From-Zip, o sistema de ficheiros é só de leitura e não podem ser feitas alterações aos ficheiros. Para fazer algumas alterações, atualize o conteúdo no seu ficheiro zip e na definição de aplicação WEBSITE_USE_ZIP.</value>
+    <value>A sua aplicação está atualmente em modo só de leitura porque está a executar um ficheiro do pacote. Ao executar a partir de um pacote, o sistema de ficheiros é só de leitura e não podem ser feitas alterações aos ficheiros. Para fazer alterações, atualize o conteúdo no seu ficheiro zip e na definição de aplicação WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Código</value>
@@ -3088,6 +3097,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>Tem de ter permissões de escrita no plano "{0}" para atualizar</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Melhor desempenho e mais funcionalidades estão disponíveis pelo mesmo preço! Venha conhecer o Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>O plano "{0}" tem um bloqueio só de leitura e não pode ser atualizado</value>
   </data>
@@ -3121,11 +3133,14 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Todas as instâncias do seu plano do Serviço de Aplicações irão incluir a seguinte configuração de hardware:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Unidades de Computação do Azure (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>O primeiro núcleo Basic (B1) para Linux é gratuito durante os primeiros 30 dias!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Os contentores do Windows estão limitados ao aumento horizontal de 2 instâncias e são gratuitos até 13 de setembro de 2018.</value>
+    <value>Os contentores do Windows são faturados com 50% de desconto durante a pré-visualização.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Os escalões de preço isolados num Ambiente do Serviço de Aplicações (ASE) não estão disponíveis para a sua configuração. Um ASE é uma oferta poderosa do Serviço de Aplicações do Azure que proporciona isolamento de rede e capacidades de dimensionamento melhoradas.</value>
@@ -3139,8 +3154,14 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>O Premium V2 não é suportado por esta unidade de dimensionamento. Considere voltar a implementar ou clonar a aplicação.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>O Elastic Premium não é suportado nesta unidade de escala. Considere voltar a implementar ou a clonar a aplicação.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Aumentar verticalmente</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Os endereços IP enviados para a sua aplicação poderão ser alterados.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
@@ -3163,11 +3184,8 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Recursos de computação partilhados utilizados para executar aplicações implementadas no Plano do Serviço de Aplicações.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Recursos de computação série A dedicados utilizados para executar aplicações implementadas no Plano do Serviço de Aplicações.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Recursos de computação série Dv2 dedicados utilizados para executar aplicações implementadas no Plano do Serviço de Aplicações.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Recursos de computação dedicados utilizados para executar aplicações implementadas no Plano do Serviço de Aplicações.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>A memória disponível para executar aplicações implementadas e em execução no plano do Serviço de Aplicações.</value>
@@ -3190,6 +3208,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Dimensionamento manual</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Escala rápida</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Expandir as aplicações de função com base no acionador de eventos.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Dimensionamento automático</value>
   </data>
@@ -3201,6 +3225,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Até {0} instâncias. Sujeito a disponibilidade.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Alta Densidade</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Partilhe de forma eficiente um plano do Serviço de Aplicações em várias Aplicações de Função.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Ranhuras de teste</value>
@@ -3232,6 +3262,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Rede isolada</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Integração da Rede Virtual</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Executa na sua rede virtual.</value>
   </data>
@@ -3250,11 +3283,11 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} núcleos</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>Computação Série A</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>Equivalente de computação Série A</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Computação de série Dv2</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Equivalente de computação de série Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>O ficheiro proxies.json não é válido. Erro: "{0}".</value>
@@ -3311,7 +3344,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Nível de Registo</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Entrega Contínua do VSTS</value>
+    <value>Compilação VSTS (Pré-visualização)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>O Visual Studio Team Services configura um pipeline de implementação robusto para a aplicação. O pipeline cria, executa os testes de carga e implementa para o bloco de teste e, em seguida, à produção.</value>
@@ -3410,7 +3443,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Escalão de Preço</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Centro de Implementação (Pré-visualização)</value>
+    <value>Centro de Implementação</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>O Centro de Implementação do Serviço de Aplicações permite-lhe escolher a localização do código, bem como as opções para a compilação e implementação na cloud.</value>
@@ -3575,7 +3608,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Desligar</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Editar</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Sincronizar</value>
@@ -3583,11 +3616,8 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Credenciais de Implementação</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Série de computação Dv3</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Recursos de computação série Dv3 dedicados utilizados para executar aplicações implementadas no Plano do Serviço de Aplicações.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Equivalente de computação de série Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação. Clique para saber mais.</value>
@@ -3658,32 +3688,20 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="enterPassword" xml:space="preserve">
     <value>introduzir palavra-passe</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>Tem de ter acesso de escrita na sua aplicação para configurar as definições do contentor</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Não é possível configurar as definições do contentor, a menos que remova o bloqueio só de leitura na sua aplicação</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Contentor Único</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Esta é a descrição do Contentor Único.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Esta é a descrição detalhada do Contentor Único.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Esta é a descrição do Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Esta é a descrição detalhada do Docker Compose.</value>
+    <value>Docker Compose (Pré-visualização)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Esta é a descrição do Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Esta é a descrição detalhada do Kubernetes.</value>
+    <value>Kubernetes (Pré-visualização)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Não conseguimos instalar a extensão de runtime. Para saber mais, veja </value>
@@ -3695,7 +3713,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>ID de sessão: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Armazenamento baseado em SSD local para alojar contentores e armazenamento em disco de {0} GB opcional partilhado por todas as aplicações implementadas no Plano do Serviço de Aplicações.</value>
+    <value>Armazenamento baseado em SSD local para alojar contentores e armazenamento em disco {0} opcional partilhados por todas as aplicações implementadas no Plano do Serviço de Aplicações.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Nome da aplicação de função</value>
@@ -3728,10 +3746,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Tem a certeza de que pretende desligar a sua implementação?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Modelos de Comunidade</value>
+    <value>Biblioteca de Comunidade Sem Servidor (Pré-visualização)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Não encontra aquilo que procura? Consulte a Biblioteca Sem Servidor, a nossa galeria de modelos criados pela comunidade, para inspiração!</value>
+    <value>Não encontra aquilo que procura? Consulte a Biblioteca da Comunidade sem Servidor do Azure!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Runtime do Azure Functions inacessível.</value>
@@ -3745,6 +3763,150 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU total</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Atualize as definições do contentor</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Manual de Início Rápido</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Hub do Docker</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Registo Privado</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Origem da imagem</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Etiqueta de imagem ou opcional (por exemplo, "imagem:etiqueta")</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Para começar, crie primeiro um Azure Container Registry e adicione uma imagem.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Acesso ao Repositório</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Público</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Privado</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>URL de servidor</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Iniciar Sessão</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Palavra-passe</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Ficheiro de Arranque</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Origem da Configuração</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Configuração</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Funções do Azure para .NET - introdução</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Funções do Azure para JavaScript - introdução</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Funções do Azure para Python - introdução</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Funções do Azure para Java - introdução</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Siga as nossas orientações de Início rápido para criar e publicar uma função</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Escolher um ambiente de desenvolvimento</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Escolher um método de implementação</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Criar uma função</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Início Rápido</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Qualquer editor + Ferramentas Principais</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Qualquer editor + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>No portal</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Utilizar o Visual Studio para criar, compilar e executar funções .NET</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Utilizar o Visual Studio Code para criar as suas funções</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Escrever funções com o seu editor favorito e as Ferramentas Principais das Funções do Azure</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Escrever funções Java com o seu editor favorito, tais como IntelliJ ou Eclipse, e o Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>O autor funciona rapidamente no portal</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Utilizar o Centro de Implementação</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Configure a sua aplicação para que possa verificar o seu código no controlo de origem e executá-lo através do pipeline de implementação contínua</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Publicação direta</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicar diretamente a partir do Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicar diretamente a partir do VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicar diretamente a partir das Ferramentas Principais de Funções do Azure</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicar diretamente a partir do Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Uma função que vai ser executada sempre que receber um pedido HTTP</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Uma função que será executada numa agenda especificada</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Criou uma aplicação de função!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Está na altura de adicionar o seu código...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Pedido de Sincronização Submetido</value>
   </data>
@@ -3757,88 +3919,499 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>A entrega contínua VSTS requer que tenha permissões para escrever no Azure Active Directory e criar um princípio de serviço.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Selecionar exemplo</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
+    <value>Não possui nenhum Repositório de VSTS</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
+    <value>Não tem nenhuma Conta de VSTS válida</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>Não tem nenhuma Conta de VSTS válida. O Serviço de Aplicações Kudu Build também requer que seja um proprietário de conta</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Criar uma agora</value>
   </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-    <value>Your Function extensions need to be updated.</value>
+    <value>As extensões da Função têm de ser atualizadas.</value>
   </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
-    <value>Failed to retrieve source configuration</value>
+    <value>Falha ao obter a configuração de origem</value>
   </data>
   <data name="noCreateAccess" xml:space="preserve">
-    <value>You do not have create access</value>
+    <value>Não tem acesso de criação</value>
   </data>
   <data name="noSwapPermission" xml:space="preserve">
-    <value>You do not have swap permission</value>
+    <value>Não tem permissão de troca</value>
   </data>
   <data name="noWritePermission" xml:space="preserve">
-    <value>You do not have write permission</value>
+    <value>Não tem permissão de escrita</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The slot has a read-only lock</value>
+    <value>O bloco tem um bloqueio só de leitura</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
     <value>A Origem e o Destino não podem ser a mesma ranhura</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Não é possível realizar a troca com pré-visualização porque os blocos seguintes têm a autenticação ativada: "{{slotNames}}"</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+    <value>A troca com pré-visualização apenas pode ser utilizada com sites com definições de bloco ativadas</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+    <value>Antes de concluir a troca, reveja o comportamento da aplicação do primeiro bloco com a configuração do segundo bloco</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+    <value>Não tem permissão de escrita nas ranhuras seguintes: "{{slotNames}}"</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+    <value>Não tem permissão de troca nos blocos seguintes: "{{slotNames}}"</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+    <value>Existe um bloqueio só de leitura nas seguintes ranhuras: "{{slotNames}}"</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple slots</value>
+    <value>Só pode ser executada uma operação de troca se a aplicação tiver várias ranhuras</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap Slots</value>
+    <value>Trocar Ranhuras</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>O carregamento falhou</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Pré-visualizar Alterações</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Alterações da Fase Um</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Alterações da Fase Dois</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Alterações de Configuração</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Estas são as definições de aplicação e cadeias de ligação específicas do bloco de destino que serão temporariamente aplicadas ao bloco de origem na primeira fase da troca.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Este é um resumo do conjunto final de alterações de configuração nos blocos de origem e destino depois de concluída a troca.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
-    <value>Please make a valid selection above to load preview</value>
+    <value>Faça uma seleção válida acima para carregar a pré-visualização</value>
   </data>
   <data name="swapChangesLoadingFailed" xml:space="preserve">
-    <value>Failed to load preview</value>
+    <value>Falha ao carregar a pré-visualização</value>
   </data>
   <data name="swapSourceChangesHeading" xml:space="preserve">
-    <value>Source Changes</value>
+    <value>Alterações da Origem</value>
   </data>
   <data name="swapTargetChangesHeading" xml:space="preserve">
-    <value>Target Changes</value>
+    <value>Alterações de Destino</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Ação de troca</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Versão do Framework</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Comando de arranque</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Caminho para o código</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Pré-visualização</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Sem Alterações</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Não Definido</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Não foi possível desinstalar as extensões desatualizadas</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (Pré-visualização)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Pilha de runtime da Aplicação de Função</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>As Aplicações de Funções v2 estão agora em linguagem única. Defina a pilha de runtime antes de adicionar funções à aplicação.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Pilha de Runtime de Função</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Ir</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Registo</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Imagem</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Ficheiro de Arranque</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Implementação Contínua</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>URL de webhook</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Configuração</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Ficheiro de Configuração</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>O Docker Compose só é suportado em aplicações de sistema operativo baseado em Linux.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>O Kubernetes só é suportado nas aplicações de sistema operativo baseado em Linux.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>As funções do Docker Compose não são atualmente suportadas.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>As funções baseadas em Kubernetes não são atualmente suportadas.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Editar funções no portal não é suportado para aplicações de função implementadas como uma imagem de docker.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Falha ao obter os dados de configuração do contentor.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>O URL fornecido não é válido. O URL deve conter um protocolo (https/http), domínio ou anfitrião e, opcionalmente, uma porta.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Falha ao atualizar dados para as definições de contentor.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Erros nas definições.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Definições atualizadas com êxito.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>mostrar url</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>ocultar url</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>As Funções de Consumo do Linux são uma oferta de pré-visualização.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Alguns dos campos não estão preenchidos corretamente ou são necessários.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Terminar e ir para o Centro de Implementação</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Editar funções no portal não é suportado para Aplicações de Função de Consumo Linux (Pré-visualização).</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Contentor Único (Pré-visualização)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Mais modelos...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Ver todos os modelos disponíveis para esta função de aplicação</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Concluir e ver os modelos</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Site predefinido do servidor Web NGINX, utilizando a imagem Nginx oficial.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Aplicação de exemplo Python "Hello World".</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Site estático</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Página Web HTML estática servida a partir do servidor Web Nginx.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Formulários Web do Asp.Net</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Aplicação de formulários Asp.Net implementada no Windows Server Core 2016 LTSC Container.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask com Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Aplicação de exemplo de Python Flask que conta as visitas na página Web e guarda os dados na cache de Redis.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core com SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Exemplo do Docker Compose utilizando ASP.NET Core com SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Wordpress de vários contentores</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Exemplo de Docker Compose a utilizar Wordpress e MySQL.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask com Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>A aplicação de exemplo Kubernetes que conta as visitas na página Web e guarda os dados na cache de Redis.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Wordpress de vários contentores</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Exemplo do Kubernetes utilizando WordPress e MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Não existem registos disponíveis.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Erro ao obter registos.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Bloco de Implementação Novo ou Existente</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Conta VSTS Nova ou Existente</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Conta VSTS Nova ou Existente</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Detalhes da Implementação</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>A instalar dependências de modelo. A instalação de dependências acontece em segundo plano e pode demorar no máximo 2 minutos. Pode fechar esta página e continuar a utilizar o portal durante este tempo.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Ocultar Valores</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Mostrar Valores</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Valor oculto. Clique para editar.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>As Definições da Aplicação são encriptadas em repouso e transmitidas através de um canal encriptado. Pode optar por apresentá-las em texto simples no seu browser utilizando os controlos abaixo.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>As Cadeias de Ligação são encriptadas em repouso e transmitidas através de um canal encriptado. Pode optar por apresentá-las em texto simples no seu browser utilizando os controlos abaixo.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Equipa</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Pessoal</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>A definição da API (Swagger) não está disponível para a Função de Aplicações no modo só de leitura.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Resolver problemas da aplicação</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Diagnosticar e resolver problemas</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Definições de pilha</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Definições de plataforma</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>A depurar</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Definições da aplicação</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Cadeias de ligação</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Definições gerais</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Documentos predefinidos</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Mapeamentos de caminho</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Mapeamentos de processador</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Aplicações e diretórios e virtuais</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Guardar todas as definições da aplicação Web</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Eliminar todas as alterações às definições da aplicação Web</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Utilizar as teclas de seta para a esquerda e direita para navegar entre os comandos</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Novo diretório ou aplicação</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Caminho virtual</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Caminho Físico</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Diretório ou Aplicação</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Diretório</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplicação</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Pré-carregamento ativado</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Extensão</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Processador de scripts</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Argumentos</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Novo mapeamento do processador</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Pilha</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Ranhuras</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Troca automática ativada</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Bloco de troca automática</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Plataforma</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Versão de pipeline gerido</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Integrado</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Clássico</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>Estado FTP</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Todos permitidos</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Apenas FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Sempre ativado</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Utilizar versão secundária mais recente</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>Versão de PHP</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Versão secundária de Java</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Contentor Java</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Versão do contentor Java</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Novo documento</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Definição de bloco</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Adicionar/Editar cadeia de ligação</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Nova cadeia de ligação</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Adicionar/Editar definição da aplicação</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Nova definição da aplicação</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>O registo selecionado não existe na mesma subscrição que a aplicação atual. Utilize o separador de registo privado para trocar registos.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Funções (Só de Leitura)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Funções (Inacessível)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxies (Só de Leitura)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxies (Inacessível)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
   </data>
 </root>

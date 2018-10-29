@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Testen</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Testen wordt niet ondersteund voor GitHub-webhookfuncties.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime-versi</value>
   </data>
@@ -1367,7 +1370,7 @@
     <value>In nieuw venster openen</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Uitbreidingen</value>
+    <value>Site-extensies</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Met extensies voegt u functionaliteit toe aan uw app.</value>
@@ -1541,13 +1544,13 @@
     <value>Stack</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web-apps voor Linux bieden runtime-opties via een verzameling ingebouwde containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Meer informatie&lt;/a&gt;.</value>
+    <value>Web Apps voor Linux biedt runtimeopties via een verzameling ingebouwde containers. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Opstartbestand</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Geef een optionele opstartopdracht die wordt uitgevoerd als onderdeel van het opstarten van de container. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Meer informatie&lt;/a&gt;.</value>
+    <value>Een optionele opstartopdracht opgeven die wordt uitgevoerd als onderdeel van het opstarten van de container. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Nieuwste</value>
@@ -1805,7 +1808,7 @@
     <value>schalen</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Verbindingsreeksen</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Fouten opsporen</value>
@@ -2241,6 +2244,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Nieuwe waarde</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Huidige waarde</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Tijdelijke waarde</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>U hebt geen implementatiesleuven toegevoegd. Klik op Sleuf toevoegen om te beginnen.</value>
@@ -2711,7 +2720,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voor dit sjabloon zijn de volgende extensies vereist.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Wanneer u sjabloonafhankelijkheden installeert, kunt u een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze blade sluiten en tijdens deze bewerking de portal blijven gebruiken.</value>
+    <value>Sjabloonafhankelijkheden installeren. U kunt een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze blade sluiten en tijdens deze bewerking de portal blijven gebruiken.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>De runtime-extensie kan niet worden geïnstalleerd. Installatie-id {{installationId}}
@@ -2834,8 +2843,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="entityColon" xml:space="preserve">
     <value>Entiteit:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>Functie van API-definitie (Swagger) is momenteel niet ondersteund voor bèta-runtime.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>API-definitie voor functie (Swagger) wordt momenteel niet ondersteund voor de V2-runtime.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Geïmplementeerd naar {0}</value>
@@ -2847,7 +2856,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Wisseling met preview uitvoeren</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>De wisselactie in meerdere fasen past sleufspecifieke configuratie-elementen uit de eerste sleuf toe op de tweede sleuf. Vervolgens wordt de bewerking onderbroken tot de gebruiker de wisseling voltooit of annuleert. Als de wisseling is voltooid, leidt deze het verkeer van de eerste sleuf door naar de tweede sleuf.</value>
+    <value>Bij omwisselen met preview wordt een normale omwisseling opgedeeld in twee fasen. Tijdens de eerste fase worden de sitespecifieke toepassingsinstellingen en verbindingstekenreeksen van het doel tijdelijk gekopieerd naar de bronsite. Zo kunt u de site testen met de definitieve configuratiewaarden. Vervolgens kunt u ervoor kiezen om de eerste fase te annuleren en terug te keren naar de normale configuratie of door te gaan naar de tweede fase, waarin u de tijdelijke configuratiewijzigingen verwijdert en het omwisselen van de bronsite naar de doelsite voltooit.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Wisseling starten</value>
@@ -3000,7 +3009,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>De inhoud van een OneDrive-cloudmap synchroniseren.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Continue integratie configureren met een Github-opslagplaats.</value>
+    <value>Continue integratie configureren met een GitHub-opslagplaats.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Continue integratie configureren met een VSTS-opslagplaats.</value>
@@ -3033,7 +3042,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Functies (preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Uw app is momenteel in de modus alleen-lezen omdat u het programma Uitvoeren vanuit ZIP-bestand gebruikt. Bij gebruik van dit programma wordt het bestandssysteem alleen-lezen en kunnen geen wijzigingen aangebracht in de bestanden. Als u wijzigingen wilt aanbrengen, moet u de inhoud in uw ZIP-bestand en de app-instelling WEBSITE_USE_ZIP bijwerken.</value>
+    <value>Uw app bevindt zich momenteel in de modus alleen-lezen omdat u de app uitvoert vanuit een pakketbestand. Bij uitvoering vanuit een pakketbestand is het bestand alleen-lezen en kunnen er geen wijzigingen worden aangebracht in de bestanden. Als u wijzigingen wilt aanbrengen, moet u de inhoud in uw ZIP-bestand en de app-instelling WEBSITE_RUN_FROM_PACKAGE bijwerken.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
@@ -3089,6 +3098,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>U hebt schrijfmachtigingen voor het abonnement {0} nodig om het abonnement bij te werken</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Betere prestaties en meer functies zijn beschikbaar voor dezelfde prijs! Bekijk Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Het abonnement {0} bevat een alleen-lezenvergrendeling en kan niet worden bijgewerkt</value>
   </data>
@@ -3122,11 +3134,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Elke instantie van uw App Service-abonnement bevat de volgende hardwareconfiguratie:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure-rekeneenheden (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>De eerste Basic-kern (B1) voor Linux is de eerste dertig dagen gratis.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Uitschalen voor Windows-containers is beperkt tot twee instanties en is tot 13 september 2018 gratis.</value>
+    <value>Windows-containers worden tijdens de preview-fase gefactureerd met 50% korting.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Er zijn geen Isolated-prijscategorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie.  Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
@@ -3140,8 +3155,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Elastic Premium wordt niet ondersteund voor deze schaaleenheid. U kunt de app het beste opnieuw implementeren of klonen.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Omhoog schalen</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Uitgaande IP-adressen voor uw app kunnen worden gewijzigd.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
@@ -3164,11 +3185,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Gedeelde rekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>De toegewezen A-reeksrekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>De toegewezen Dv2-reeksrekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Toegewezen rekenresources voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Geheugen dat beschikbaar is om toepassingen uit te voeren die zijn geïmplementeerd en worden uitgevoerd in het App Service-plan.</value>
@@ -3191,6 +3209,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Handmatig schalen</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Snelle schaal</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Functie-apps op basis van een gebeurtenistrigger uitschalen.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatisch schalen</value>
   </data>
@@ -3202,6 +3226,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Maximaal {0} exemplaren. Afhankelijk van beschikbaarheid.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>High Density</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Een App Service-plan efficiënt delen in meerdere functie-apps.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Faseringssleuven</value>
@@ -3233,6 +3263,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Geïsoleerd netwerk</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Integratie van virtueel netwerk</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Wordt uitgevoerd binnen uw eigen virtuele netwerk.</value>
   </data>
@@ -3251,11 +3284,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} cores</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A-reeks berekenen</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>Rekenequivalent uit de A-serie</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2-reeks berekenen</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Rekenequivalent uit de Dv2-serie</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>De proxies.json is niet geldig. Fout: {0}.</value>
@@ -3312,7 +3345,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Logboekniveau</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS doorlopende levering</value>
+    <value>VSTS-build (preview-versie)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Met Visual Studio Team Services kunt u eenvoudig een robuuste implementatiepijplijn voor uw toepassing instellen. De pijplijn bouwt, voert belastingtests uit en implementeert naar de faseringssleuf en vervolgens naar productie.</value>
@@ -3411,7 +3444,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Prijscategorie</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Implementatiecenter (preview-versie)</value>
+    <value>Implementatiecenter</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Met de App Service-implementatiecenter kunt u niet alleen de locatie van uw code kiezen, maar ook opties voor build en implementatie naar de cloud.</value>
@@ -3576,7 +3609,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Verbinding verbreken</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Bewerken</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Synchroniseren</value>
@@ -3584,11 +3617,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Referenties implementatie</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-reeks voor Compute</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>De toegewezen Compute-resources uit de Dv3-reeks voor het uitvoeren van toepassingen die zijn geïmplementeerd in het App Service-plan.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Rekenequivalent uit de Dv3-serie</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Verbindingsreeksen mogen alleen met een functie-app worden gebruikt als u Entity Framework gebruikt. Gebruik App-instellingen voor andere scenario's. Klik voor meer informatie.</value>
@@ -3659,32 +3689,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="enterPassword" xml:space="preserve">
     <value>wachtwoord invoeren</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>U moet schrijftoegang hebben in uw app om containerinstellingen te configureren</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Uw containerinstellingen kunnen niet worden geconfigureerd, tenzij u de alleen-lezenvergrendeling in uw app verwijdert</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Enkele container</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Dit is de beschrijving voor Enkele container.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Dit is de gedetailleerde beschrijving voor Enkele container.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Dit is de beschrijving voor Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Dit is de gedetailleerde beschrijving voor Docker Compose.</value>
+    <value>Docker Compose (preview)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Dit is de beschrijving voor Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Dit is de gedetailleerde beschrijving voor Kubernetes.</value>
+    <value>Kubernetes (preview)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Kan de runtime-extensie niet installeren. Bekijk voor meer informatie </value>
@@ -3696,7 +3714,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Sessie-id: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Opslag op basis van lokale SSD voor het hosten van containers en {0} GB optionele schijfopslag gedeeld door alle apps die zijn geïmplementeerd in het App Service-plan.</value>
+    <value>De lokale opslag op basis van SSD voor het hosten van containers en optioneel {0} schijfopslag gedeeld door alle apps die zijn geïmplementeerd in het App Service-plan.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Naam van de functie-app</value>
@@ -3729,10 +3747,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Weet u zeker dat u de verbinding met uw implementatie wilt verbreken?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Community-sjablonen</value>
+    <value>Bibliotheek van Serverless-community (preview)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Hebt u niet gevonden wat u zoekt? Doe inspiratie op in de Serverless Library, onze galerie met sjablonen die door de community zijn gemaakt.</value>
+    <value>Niet gevonden wat u zoekt? Bekijk de bibliotheek van de Azure Serverless-community.</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Azure Functions-runtime is niet bereikbaar.</value>
@@ -3746,6 +3764,150 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} Azure Compute-eenheden in totaal</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Containerinstellingen bijwerken</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Snelstartgids</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker-hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Privéregister</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Aangepast</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Bron van installatiekopie</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Installatiekopie en optionele tag (bijvoorbeeld installatiekopie:tag)</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Maak eerst een Azure Container Registry en voeg een installatiekopie toe om aan de slag te gaan.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Opslagtoegang</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Openbaar</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Persoonlijk</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Server-URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Aanmelden</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Opstartbestand</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Configuratiebron</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Configuratie</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure-functies voor .NET - aan de slag</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure-functies voor JavaScript - aan de slag</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure-functies voor Python - aan de slag</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure-functies voor Java - aan de slag</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Volg de richtlijnen voor het schrijven en publiceren van een functie in de Snelstartgids</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Kies een implementatieomgeving</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Kies een implementatiemethode</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Een functie maken</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Quick Start</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Willekeurige editor en Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Willekeurige editor en Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>In de portal</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Gebruik Visual Studio om .NET-functies te schrijven, te bouwen en uit te voeren</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Gebruik Visual Studio Code om uw functies te schrijven</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Schrijf functies met uw favoriete editor en de Azure Functions Core Tools</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Schrijf Java-functies met uw favoriete editor, zoals IntelliJ of Eclips en Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Schrijf snel functies in de portal</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Implementatiecenter gebruiken</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Configureer uw app zodanig dat u uw code kunt controleren in broncodebeheer en u deze code kunt uitvoeren via een continue implementatiepijplijn</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Rechtstreeks publiceren</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publiceer rechtstreeks vanuit Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publiceer rechtstreeks vanuit VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publiceer rechtstreeks vanuit Azure Functions Core</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publiceer rechtstreeks vanuit Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Een functie die wordt uitgevoerd wanneer deze een HTTP-aanvraag ontvangt</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Een functie die wordt uitgevoerd volgens een opgegeven schema</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>U hebt een functie-app gemaakt.</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Nu is het tijd om uw code toe te voegen...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Synchronisatieaanvraag is ingediend</value>
   </data>
@@ -3758,6 +3920,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>De doorlopende VSTS-levering vereist dat u een machtiging hebt voor het schrijven naar Azure Active Directory en het maken van een service-principal.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Voorbeeld selecteren</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Beschrijving</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>U bent geen eigenaar van VSTS-opslagplaatsen</value>
   </data>
@@ -3765,7 +3933,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>U hebt geen geldige VSTS-accounts</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>U hebt geen geldige VSTS-accounts. App Service Kudu Build vereist ook dat u accounteigenaar bent.</value>
+    <value>U hebt geen geldige VSTS-accounts. App Service Kudu Build vereist ook dat u accounteigenaar bent</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Nu maken</value>
@@ -3792,10 +3960,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Bron en doel mogen niet dezelfde sleuf zijn</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Kan geen wisseling in meerdere fasen uitvoeren omdat voor de volgende sleuven verificatie is ingeschakeld: {{slotNames}}</value>
+    <value>Kan niet omwisselen met preview omdat verificatie is ingeschakeld voor de volgende sites: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Wisseling in meerdere fasen kan alleen worden gebruikt voor sites waarvoor sleufinstellingen zijn ingeschakeld</value>
+    <value>Omwisselen met preview kan alleen worden gebruikt voor sites waarvoor site-instellingen zijn ingeschakeld</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Voordat u de wisseling voltooit, evalueert u het app-gedrag van de eerste sleuf aan de hand van de configuratie van de tweede sleuf</value>
@@ -3818,8 +3986,20 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Kan niet laden</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Voorbeeld van wijzigingen</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Wijzigingen voor fase 1</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Wijzigingen voor fase 2</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Configuratiewijzigingen</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Dit zijn de sitespecifieke toepassingsinstellingen en verbindingsreeksen van de doelsite die tijdelijk worden toegepast op de bronsite tijdens de eerste fase van de omwisseling.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Dit is een overzicht van de definitieve set met configuratiewijzigingen voor de bron- en doelsites nadat de omwisseling is voltooid.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Maak hierboven een geldige selectie om de preview te laden</value>
@@ -3836,10 +4016,403 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="swapActionLabel" xml:space="preserve">
     <value>Wisselactie</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework-versie</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Opdracht voor opstarten</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Pad naar code</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Geen wijzigingen</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Niet ingesteld</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Uw verouderde extensies kunnen niet worden verwijderd</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (preview)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Runtimestack voor functie-app</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Functie-apps v2 gebruiken nu één taal. Stel de runtimestack in voordat u functies toevoegt aan uw app.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Runtimestack voor functie</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Installatiekopie</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Opstartbestand</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Continue implementatie</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook-URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Configuratie</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Configuratiebestand</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose wordt alleen ondersteund door Linux-toepassingen.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes wordt alleen ondersteund door Linux-toepassingen.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Op Docker Compose gebaseerde functies worden momenteel niet ondersteund.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Op Kubernetes gebaseerde functies worden momenteel niet ondersteund.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Het bewerken van functies in de portal wordt niet ondersteund voor functie-apps die zijn geïmplementeerd als docker-installatiekopie.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Kan geen gegevens ophalen voor containerconfiguratie.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>De opgegeven URL is ongeldig. Er wordt verwacht dat de URL een protocol (https/http), domein of host bevat en eventueel een poort.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Kan de gegevens voor de containerinstellingen niet bijwerken.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>De instellingen bevatten fouten.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>De instellingen zijn bijgewerkt.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>url weergeven</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>url verbergen</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Functies voor Linux-verbruik zijn een preview-aanbieding.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Sommige velden zijn niet correct ingevuld of zijn vereist.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Voltooien en naar Deployment Center</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Functies bewerken in de portal wordt niet ondersteund voor functie-apps voor Linux-verbruik (preview).</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Enkele container (preview)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Meer sjablonen...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Alle sjablonen weergeven die beschikbaar zijn voor deze functie-app</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Sjablonen voltooien en weergeven</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Standaardsite van de NGINX-webserver met de officiële Nginx-afbeelding.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hallo wereld</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python-voorbeeld-app Hallo wereld.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Statische site</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Statische HTML-webpagina afgehandeld met NGINX-webserver.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net-webformulieren</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>De ASP.NET-webformuliertoepassing geïmplementeerd in de LTSC-container van Windows Server Core 2016.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask met Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Een Python Flask-voorbeeld-app die het aantal treffers op de webpagina telt en de gegevens opslaat in Redis Cache.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core met SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose-voorbeeld met ASP.NET Core met SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>WordPress met meerdere containers</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose-voorbeeld met WordPress en MySQL.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask met Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Een Kubernetes-voorbeeld-app die het aantal treffers op de webpagina telt en de gegevens opslaat in Redis Cache.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>WordPress met meerdere containers</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes-voorbeeld met WordPress en MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Geen logboeken beschikbaar.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Fout bij het ophalen van logboeken.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Nieuwe of bestaande implementatiesite</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Nieuw of bestaand VSTS-account</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Nieuw of bestaand VSTS-account</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Implementatiedetails</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Sjabloonafhankelijkheden installeren. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze pagina verlaten en tijdens deze bewerking de portal blijven gebruiken.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Waarden verbergen</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Waarden weergeven</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Verborgen waarde. Klik om te bewerken.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>De toepassingsinstellingen zijn in rust versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze in uw browser weer te geven als tekst zonder opmaak door de onderstaande besturingselementen te gebruiken.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>De verbindingsreeksen zijn in rust versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze in uw browser weer te geven als tekst zonder opmaak door de onderstaande besturingselementen te gebruiken.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Persoonlijk</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>De API-definitie (Swagger) is niet beschikbaar voor functie-apps in de modus Alleen-lezen.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Problemen met uw app oplossen</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Problemen vaststellen en oplossen</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Stack-instellingen</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Platforminstellingen</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Foutopsporing</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Toepassingsinstellingen</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Verbindingsreeksen</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Algemene instellingen</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Standaarddocumenten</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Padtoewijzingen</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Handlertoewijzingen</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Virtuele toepassingen en mappen</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Alle instellingen voor uw webtoepassing opslaan</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Alle wijzigingen in de instellingen voor de webtoepassing verwijderen</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>De pijl-links en de pijl-rechts gebruiken om te navigeren tussen opdrachten</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Nieuwe toepassing of directory</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Virtueel pad</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Fysiek pad</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Directory of Toepassing</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Toepassing</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Vooraf laden ingeschakeld</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Extensie</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Scriptprocessor</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Argumenten</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Nieuwe handlertoewijzing</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Sleuven</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Automatisch wisselen ingeschakeld</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Sleuf voor automatisch wisselen</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Beheerde pipeline-versie</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Geïntegreerd</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Klassiek</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP-toestand</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Allemaal toegestaan</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Alleen FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>AlwaysOn</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Laatste secundaire versie gebruiken</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP-versie</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java Minor-versie</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java-container</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java-containerversie</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Nieuw document</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Instelling voor site</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Verbindingsreeks toevoegen/bewerken</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Nieuwe verbindingsreeks</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Toepassingsinstelling toevoegen/bewerken</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Nieuwe toepassingsinstelling</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>Het geselecteerde register bestaat niet in hetzelfde abonnement als de huidige app. Gebruik het tabblad privéregister om tussen de registers te wisselen.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Functies (alleen-lezen)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Functies (niet toegankelijk)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxy's (alleen-lezen)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxy's (niet toegankelijk)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Ongeldige YML-indeling. Fout: {0}.</value>
   </data>
 </root>

@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Pro funkce webhooků GitHubu se testování nepodporuje.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Verze modulu runtime</value>
   </data>
@@ -1367,7 +1370,7 @@
     <value>Otevřít v novém okně</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Rozšíření</value>
+    <value>Rozšíření webu</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Rozšíření obohacují celou aplikaci o další funkce.</value>
@@ -1541,13 +1544,13 @@
     <value>Zásobník</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Funkce Web Apps na Linuxu nabízí možnosti modulu runtime prostřednictvím kolekce integrovaných kontejnerů. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Další informace&lt;/a&gt;</value>
+    <value>Funkce Web Apps na Linuxu nabízí možnosti modulu runtime prostřednictvím kolekce integrovaných kontejnerů. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Spouštěcí soubor</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Zadejte nepovinný spouštěcí příkaz, který se spustí během spouštění kontejneru. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Další informace&lt;/a&gt;</value>
+    <value>Zadejte nepovinný spouštěcí příkaz, který se spustí během spouštění kontejneru. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Od nejnovějších</value>
@@ -1805,7 +1808,7 @@
     <value>škála</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Připojovací řetězce</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Ladit</value>
@@ -2241,6 +2244,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Nová hodnota</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Aktuální hodnota</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Dočasná hodnota</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Nepřidali jste žádné sloty nasazení. Začněte tak, že kliknete na Přidat slot.</value>
@@ -2833,8 +2842,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="entityColon" xml:space="preserve">
     <value>Entita:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>Funkce definice rozhraní API funkce (Swagger) se v aktuálním modulu runtime v beta verzi nepodporuje.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>Funkce definice rozhraní API funkce (Swagger) se v aktuálním modulu runtime ve verzi V2 nepodporuje.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Nasazení do {0} proběhlo úspěšně.</value>
@@ -2846,7 +2855,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Provést prohození s náhledem</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>Akce prohození s více fázemi zavádí elementy konfigurace specifické pro první slot na druhý slot. Pak se pozastaví, dokud uživatel prohození nedokončí nebo nezruší. Když ho dokončí, prohození přesměruje provoz prvního slotu na druhý slot.</value>
+    <value>Prohození s náhledem rozdělí běžné prohození na dvě fáze. V první fázi se do zdrojového slotu dočasně zkopírují všechna nastavení aplikací specifická pro slot a připojovací řetězce v cíli. To umožňuje otestovat slot s hodnotami konečné konfigurace. Pak si můžete zvolit, jestli se první fáze zruší a obnoví se normální konfigurace, nebo jestli budete pokračovat druhou fází, která odebere dočasné změny konfigurace a dokončí prohození zdrojového slotu na cílový.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Začít prohození</value>
@@ -2999,7 +3008,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Synchronizuje obsah z cloudové složky OneDrivu.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Nakonfiguruje kontinuální integraci s úložištěm Github.</value>
+    <value>Nakonfiguruje kontinuální integraci s úložištěm GitHub.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Nakonfiguruje kontinuální integraci s úložištěm VSTS.</value>
@@ -3032,7 +3041,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože používáte funkci Run-From-Zip. Když se tato funkce používá, systém souborů je určený jen pro čtení a soubory není možné měnit. Pokud chcete něco změnit, aktualizujte obsah souboru ZIP a nastavení aplikace WEBSITE_USE_ZIP.</value>
+    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože jste ji spustili ze souboru balíčku. Když se aplikace spustí ze souboru balíčku, systém souborů je určený jen pro čtení a soubory není možné měnit. Pokud chcete něco změnit, aktualizujte obsah souboru ZIP a nastavení aplikace WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kód</value>
@@ -3088,6 +3097,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>Pokud chcete aktualizovat plán {0}, musíte mít oprávnění do něj zapisovat.</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Za stejnou cenu je k dispozici vyšší výkon a více funkcí! Podívejte se na Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Plán {0} je uzamčený jen pro čtení a nedá se aktualizovat.</value>
   </data>
@@ -3121,11 +3133,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Všechny instance plánu služby App Service budou obsahovat následující hardwarovou konfiguraci:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Výpočetní jednotky Azure (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>První jádro Basic (B1) pro Linux je prvních 30 dní zdarma!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Kontejnery Windows jsou při horizontálním navýšení kapacity omezené na 2 instance a do 13. září 2018 jsou bez poplatku.</value>
+    <value>Kontejnery Windows se během verze Preview účtují s 50% slevou.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Izolované cenové úrovně ve službě App Service Environment (ASE) nejsou pro vaši konfiguraci k dispozici. ASE je výkonná funkce, která nabízí službu Azure App Service. Ta poskytuje funkce pro izolování sítě a vylepšené škálování.</value>
@@ -3139,8 +3154,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Elastic Premium se pro tuto jednotku škálování nepodporuje. Zvažte prosím možnost aplikaci znovu nasadit nebo klonovat.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Škálovat nahoru</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Odchozí IP adresy pro vaši aplikaci se můžou změnit.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Zdarma</value>
@@ -3163,11 +3184,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Sdílené výpočetní prostředky, které se používají ke spouštění aplikací v plánu služby App Service</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Vyhrazené výpočetní prostředky řady A, které se používají ke spouštění aplikací v plánu služby App Service</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Vyhrazené výpočetní prostředky řady Dv2, které se používají ke spouštění aplikací v plánu služby App Service</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Vyhrazené výpočetní prostředky, které se používají ke spouštění aplikací v plánu služby App Service</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Paměť, která je k dispozici ke spouštění aplikací nasazených a spuštěných v plánu služby App Service</value>
@@ -3190,6 +3208,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Ruční škálování</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Rychlé škálování</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Umožňuje horizontálně navýšit kapacitu aplikací funkcí podle triggeru události.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatické škálování</value>
   </data>
@@ -3201,6 +3225,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Až tento počet instancí: {0}. Záleží na dostupnosti.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Vysoká hustota</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Plán služby App Service můžete efektivně sdílet s několika aplikacemi Function App.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Přípravné sloty</value>
@@ -3232,6 +3262,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Izolovaná síť</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Integrace služby Virtual Network</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Spouští se ve vlastní virtuální síti.</value>
   </data>
@@ -3250,11 +3283,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_numCores" xml:space="preserve">
     <value>Počet jader: {0}</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>Výpočetní prostředky řady A</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>Ekvivalent k výpočetním prostředkům řady A</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Výpočetní prostředky řady Dv2</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Ekvivalent k výpočetním prostředkům řady Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Soubor proxies.json není platný. Chyba: {0}</value>
@@ -3311,7 +3344,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Úroveň protokolování</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Průběžné doručování VSTS</value>
+    <value>VSTS Build (Preview)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Služba Visual Studio Team Services nastavuje pro vaši aplikaci robustní nasazovací kanál. Kanál aplikaci sestavuje, spouští zátěžové testy a pak provádí nasazení do přípravného slotu a následně do produkce.</value>
@@ -3410,7 +3443,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Cenová úroveň</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Deployment Center (Preview)</value>
+    <value>Deployment Center</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service Deployment Center umožňuje zvolit umístění kódu i možnosti pro sestavování a nasazování do cloudu.</value>
@@ -3575,7 +3608,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Odpojit</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Upravit</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Synchronizace</value>
@@ -3583,11 +3616,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Pověření nasazení</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Výpočetní prostředky řady Dv3</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Vyhrazené výpočetní prostředky řady Dv3, které se používají ke spouštění aplikací v plánu služby App Service</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Ekvivalent k výpočetním prostředkům řady Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Připojovací řetězce by se spolu s aplikací funkcí měly používat jen v případě, že používáte Entity Framework. Pro ostatní scénáře použijte Nastavení aplikace. Kliknutím získáte další informace.</value>
@@ -3658,32 +3688,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="enterPassword" xml:space="preserve">
     <value>zadejte heslo</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>Pokud chcete nakonfigurovat nastavení kontejneru, musíte mít k aplikaci přístup pro zápis.</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Vaše nastavení kontejneru se nedají nakonfigurovat, dokud neodeberete zámek, který umožňuje vaši aplikaci jen číst.</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Jeden kontejner</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Single Container.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Single Container.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Docker Compose.</value>
+    <value>Docker Compose (Preview)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Toto je popis pro Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Toto je podrobný popis pro Kubernetes.</value>
+    <value>Kubernetes (Preview)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Nepovedlo se nám nainstalovat rozšíření modulu runtime. Pro další informace se prosím podívejte na </value>
@@ -3695,7 +3713,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>ID relace: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Místní úložiště založené na jednotkách SSD pro hostování kontejnerů a nepovinné diskové úložiště o velikosti {0} GB, které sdílejí všechny aplikace nasazené v plánu služby App Service</value>
+    <value>Místní úložiště založené na jednotkách SSD pro hostování kontejnerů a nepovinné diskové úložiště o velikosti {0}, které sdílejí všechny aplikace nasazené v plánu služby App Service</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Název aplikace funkcí</value>
@@ -3728,10 +3746,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Opravdu chcete odpojit své nasazení?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Šablony komunity</value>
+    <value>Serverless Community Library (Preview)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Nedaří se vám najít, co hledáte? Nechte se inspirovat v Serverless Library, naší galerii šablon vytvořených komunitou!</value>
+    <value>Nedaří se vám najít to, co hledáte? Podívejte se na knihovnu Azure Serverless Community Library!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Modul runtime služby Azure Functions není dostupný.</value>
@@ -3745,6 +3763,150 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_ACU" xml:space="preserve">
     <value>ACU celkem: {0}</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Aktualizovat nastavení kontejneru</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Rychlý start</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Registr kontejneru Azure</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Centrum Dockeru</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Privátní registr</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Vlastní</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Zdroj image</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Image a nepovinná značka (třeba image:tag)</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Pokud chcete začít, nejdříve vytvořte registr služby Azure Container Registry a přidejte image.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Přístup k úložišti</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Adresa URL serveru</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Spouštěcí soubor</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Zdroj konfigurace</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions pro .NET – Začínáme</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions pro JavaScript – Začínáme</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions pro Python – Začínáme</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions pro Javu – Začínáme</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Pokud chcete vytvořit a publikovat funkci, postupujte podle příručky Rychlý start.</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Zvolte vývojové prostředí.</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Zvolte metodu nasazení.</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Vytvořit funkci</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Rychlý start</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Jakýkoli editor + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Jakýkoli editor + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>Na portálu</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>K vytváření, sestavování a spouštění funkcí .NET můžete použít sadu Visual Studio.</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Své funkce můžete vytvářet pomocí nástroje Visual Studio Code.</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Funkce můžete psát pomocí svého oblíbeného editoru a nástrojů Azure Functions Core Tools.</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Funkce jazyka Java můžete psát pomocí svého oblíbeného editoru, třeba IntelliJ nebo Eclipse, a Mavenu.</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Funkce můžete vytvářet rychle na portálu.</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Použít Deployment Center</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Nakonfigurujte svoji aplikaci tak, abyste mohli odeslat svůj kód do správy zdrojového kódu a používat ho přes kanál průběžného nasazování.</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Publikovat napřímo</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publikovat můžete přímo ze sady Visual Studio.</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publikovat můžete přímo z VS Code.</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publikovat můžete přímo z Azure Functions Core Tools.</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publikovat můžete přímo z Mavenu.</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Funkce, která se spustí pokaždé, když přijme požadavek HTTP</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Funkce, která se bude spouštět podle zadaného plánu</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Vytvořili jste aplikaci funkcí!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Teď přišel čas přidat kód...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Žádost o synchronizaci se odeslala</value>
   </data>
@@ -3756,6 +3918,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>Průběžné doručování VSTS vyžaduje, abyste měli oprávnění zapisovat do Azure Active Directory a vytvořit instanční objekt.</value>
+  </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Zvolit vzorek</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Popis</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>Nevlastníte žádná úložiště VSTS.</value>
@@ -3791,10 +3959,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Zdroj a cíl nemůžou mít stejný slot.</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Prohození s více fázemi se nedá provést, protože následující sloty mají povolené ověřování: {{slotNames}}</value>
+    <value>Prohození s náhledem se nedá provést, protože následující sloty mají povolené ověřování: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Prohození s více fázemi se dá použít jen pro weby, které mají povolené nastavení slotů.</value>
+    <value>Prohození s náhledem se dá použít jen pro weby, které mají povolené nastavení slotů.</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Než prohození dokončíte, porovnejte chování aplikace v prvním slotu s konfigurací druhého slotu.</value>
@@ -3817,8 +3985,20 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Načítání se nezdařilo</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Náhled změn</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Změny v první fázi</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Změny v druhé fázi</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Změny konfigurace</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Toto jsou nastavení aplikace specifická pro daný slot a připojovací řetězce z cílového slotu, které se budou dočasně používat ve zdrojovém slotu v první fázi prohození.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Toto je shrnutí konečné sady změn konfigurace na zdrojových a cílových slotech poté, co se prohození dokončilo.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Pokud chcete načíst náhled, proveďte prosím výše platný výběr.</value>
@@ -3835,10 +4015,403 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="swapActionLabel" xml:space="preserve">
     <value>Akce prohození</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Verze architektury</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Spouštěcí příkaz</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Cesta ke kódu</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Beze změn</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Nenastaveno</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Nepovedlo se nám odinstalovat vaše zastaralá rozšíření.</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
     <value>~2 (Preview)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Zásobník modulu runtime aplikace Function App</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Function Apps v2 teď používají jeden jazyk. Než do své aplikace přidáte funkce, nastavte prosím zásobník modulu runtime.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Zásobník modulu runtime funkce</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Přejít</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Registr</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Značka</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Spouštěcí soubor</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Průběžné nasazování</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Adresa URL webhooku</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Konfigurační soubor</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose se podporuje jen v aplikacích pro operační systém Linux.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes se podporuje jen v aplikacích pro operační systém Linux.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Funkce založené na Docker Compose se v současné době nepodporují.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Funkce založené na Kubernetes se v současné době nepodporují.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Na portálu se úpravy aplikací funkcí nasazených jako image Dockeru nepodporují.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Nepovedlo se získat data pro konfiguraci kontejneru.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Poskytnutá adresa URL není platná. Očekává se, že adresa URL bude obsahovat protokol (https/http), doménu nebo hostitele a nepovinně port.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Nepovedlo se aktualizovat data pro nastavení kontejneru.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Chyba v nastaveních</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Nastavení se úspěšně aktualizovala.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>zobrazit adresu URL</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>skrýt adresu URL</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux Consumption Functions je nabídka ve verzi Preview.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Některá pole nejsou správně vyplněná, nebo jsou povinná.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Dokončit a přejít na Deployment Center</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Úprava funkcí na portálu se pro Linux Consumption Function Apps (Preview) nepodporuje.</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Single Container (Preview)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Další šablony...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Zobrazí všechny šablony, které jsou k dispozici této aplikaci funkcí.</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Dokončit a zobrazit šablony</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Výchozí web webového serveru NGINX, který používá oficiální obrázek Nginx</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Hello World v Pythonu</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Ukázková aplikace Hello World v Pythonu</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Statický web</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Statická webová stránka HTML načtená z webového serveru Nginx</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Webové formuláře ASP.NET</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Aplikace webových formulářů ASP.NET nasazená do kontejneru Windows Server Core 2016 LTSC</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask s Redisem</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Ukázková aplikace Python Flask, která spočítá přístupy na webové stránce a uloží data do mezipaměti Redis.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core s SQL Serverem</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Ukázka Docker Compose, která používá ASP.NET Core s SQL Serverem</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Vícekontejnerový WordPress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Ukázka Dockeru Compose, která používá WordPress a MySQL</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask s Redisem</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Ukázková aplikace Kubernetes, která spočítá přístupy na webové stránce a uloží data do mezipaměti Redis.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Vícekontejnerový WordPress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Ukázka Kubernetes, která používá WordPress a MySQL</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Nejsou k dispozici žádné protokoly.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Chyba při načítání protokolů</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Nový nebo existující slot nasazení</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Nový nebo existující účet VSTS</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Nový nebo existující účet VSTS</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Podrobnosti o nasazení</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Instalují se závislosti šablony. Instalace závislostí probíhá na pozadí a může trvat až 2 minuty. Během instalace můžete tuto stránku opustit a dále pracovat na portálu.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Skrýt hodnoty</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Zobrazit hodnoty</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Skrytá hodnota. Kliknutím ji můžete upravit.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Nastavení aplikace se šifrují při nečinnosti a odesílají přes šifrovaný kanál. Pomocí ovládacích prvků níže si je můžete zobrazit jako prostý text v prohlížeči.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Připojovací řetězce se šifrují při nečinnosti a odesílají přes šifrovaný kanál. Pomocí ovládacích prvků níže si je můžete zobrazit jako prostý text v prohlížeči.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Tým</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Osobní</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>Definice rozhraní API (Swagger) není k dispozici pro aplikace Function App v režimu jen pro čtení.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Řešit problémy s aplikací</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Diagnostikovat a řešit problémy</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Nastavení zásobníku</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Nastavení platformy</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Ladění</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Nastavení aplikace</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Připojovací řetězce</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Obecná nastavení</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Výchozí dokumenty</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Mapování cest</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Mapování obslužných rutin</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Virtuální aplikace a adresáře</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Uložit všechna nastavení pro webovou aplikaci</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Zahodit všechny změny nastavení webové aplikace</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Navigovat mezi příkazy můžete pomocí šipek doleva a doprava.</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Nová aplikace nebo adresář</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Virtuální cesta</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Fyzická cesta</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Adresář nebo aplikace</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Adresář</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Přednačtení je povolené.</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Rozšíření</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Procesor skriptů</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Argumenty</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Nové mapování obslužné rutiny</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Zásobník</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Přihrádky</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Automatické prohození je povolené.</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Slot automatického prohození</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platforma</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Verze spravovaného kanálu</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Integrované</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Klasicky</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>Stav FTP</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Vše povoleno</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Jen FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Stálé připojení</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Použít nejnovější podverzi</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>Verze PHP</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Podverze Javy</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Kontejner Java</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Verze kontejneru Java</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Nový dokument</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Nastavení slotu</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Přidat nebo upravit připojovací řetězec</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Nový připojovací řetězec</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Přidat nebo upravit nastavení aplikace</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Nové nastavení aplikace</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>Vybraný registr neexistuje ve stejném předplatném jako aktuální aplikace. Přepněte prosím registry pomocí karty privátního registru.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Functions (jen pro čtení)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Functions (nepřístupné)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxy (jen pro čtení)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxy (nepřístupné)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Neplatný formát YML. Chyba: {0}</value>
   </data>
 </root>
