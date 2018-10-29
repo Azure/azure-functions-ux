@@ -10,6 +10,10 @@ phases:
         displayName: 'Install Node.js'
 
       - script: |
+          apt-get update && apt-get install -y uuid-runtime
+        displayName: 'install dependencies'
+
+      - script: |
           npm install -g yarn
         displayName: 'install yarn'
 
