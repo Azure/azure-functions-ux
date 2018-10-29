@@ -49,6 +49,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
     .route('**/config/web?api-version=2016-03-01', '@webconfig')
     .route('**/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
     .route(`**/availableStacks?osTypeSelected=${os === 'windows' ? 'Windows' : 'Linux'}&api-version=2018-02-01`, '@availableStacksJSON')
+    .as('getAvailableStacks')
     .route(
       'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=2016-03-01',
       '@slots'
