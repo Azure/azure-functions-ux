@@ -21,8 +21,6 @@ phases:
       - script: |
           export REACT_APP_CACHE_KEY=$(uuidgen)
         displayName: GenerateHashSalt
-        inputs:
-          VariableName: REACT_APP_CACHE_KEY
 
       - script: |
           echo $REACT_APP_CACHE_KEY
