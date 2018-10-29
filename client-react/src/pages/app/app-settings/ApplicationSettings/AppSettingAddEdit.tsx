@@ -5,10 +5,14 @@ import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 export interface AppSettingAddEditProps extends AppSetting {
   updateAppSetting: (item: AppSetting) => any;
+  otherAppSettings: AppSetting[];
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateAppSetting, children, t, ...appSetting } = props;
+  const { updateAppSetting, children, t, otherAppSettings, ...appSetting } = props;
+  const [nameError, setNameError] = React.useState('');
   const updateAppSettingName = (name: string) => {
+    const error = validateAppSettingName(name);
+    setNameError(error);
     props.updateAppSetting({ ...appSetting, name });
   };
 
@@ -19,9 +23,20 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   const updateAppSettingSticky = (sticky: boolean) => {
     props.updateAppSetting({ ...appSetting, sticky });
   };
+
+  const validateAppSettingName = (value: string) => {
+    return otherAppSettings.filter(v => v.name === value).length >= 1 ? 'App setting names must be unique' : '';
+  };
+
   return (
-    <div>
-      <TextField label={t('nameRes')} id="app-settings-edit-name" value={props.name} onChanged={updateAppSettingName} />
+    <form>
+      <TextField
+        label={t('nameRes')}
+        id="app-settings-edit-name"
+        value={props.name}
+        errorMessage={nameError}
+        onChanged={updateAppSettingName}
+      />
       <TextField label={t('value')} id="app-settings-edit-value" value={props.value} onChanged={updateAppSettingValue} />
       <Toggle
         label={t('sticky')}
@@ -31,7 +46,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
         onText={t('on')}
         offText={t('off')}
       />
-    </div>
+    </form>
   );
 };
 

@@ -52,15 +52,19 @@ export class ApplicationSettings extends React.Component<
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onCancel}
+          onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
           closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this._onRenderFooterContent}>
-          <AppSettingAddEdit {...this.state.currentAppSetting!} updateAppSetting={this.updateCurrentItem.bind(this)} />
+          onRenderFooterContent={this.onRenderFooterContent}>
+          <AppSettingAddEdit
+            {...this.state.currentAppSetting!}
+            otherAppSettings={this.props.values.appSettings}
+            updateAppSetting={this.updateCurrentItem.bind(this)}
+          />
         </Panel>
         <DetailsList
           items={this.props.values.appSettings}
-          columns={this._getColumns()}
+          columns={this.getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
@@ -73,6 +77,7 @@ export class ApplicationSettings extends React.Component<
   private flipHideSwitch = () => {
     this.setState({ hideValues: !this.state.hideValues });
   };
+
   private updateCurrentItem = (item: AppSetting) => {
     this.setState({ currentAppSetting: item });
   };
@@ -91,7 +96,7 @@ export class ApplicationSettings extends React.Component<
     });
   };
 
-  private _onClosePanel = (): void => {
+  private onClosePanel = (): void => {
     const appSettings: AppSetting[] = [...this.props.values.appSettings];
     if (!this.state.createNewItem) {
       appSettings[this.state.currentItemIndex] = this.state.currentAppSetting!;
@@ -103,20 +108,20 @@ export class ApplicationSettings extends React.Component<
     this.setState({ createNewItem: false, showPanel: false });
   };
 
-  private _onCancel = (): void => {
+  private onCancel = (): void => {
     this.setState({ createNewItem: false, showPanel: false });
   };
-  private _onRenderFooterContent = (): JSX.Element => {
+  private onRenderFooterContent = () => {
     return (
       <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
-          Save
+        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
+          {this.props.t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={this._onCancel}>Cancel</DefaultButton>
+        <DefaultButton onClick={this.onCancel}>{this.props.t('cancel')}</DefaultButton>
       </div>
     );
   };
-  private _onShowPanel = (item: AppSetting, index: number): void => {
+  private onShowPanel = (item: AppSetting, index: number): void => {
     this.setState({
       showPanel: true,
       currentAppSetting: item,
@@ -140,7 +145,7 @@ export class ApplicationSettings extends React.Component<
       return <IconButton iconProps={{ iconName: 'Delete' }} title={t('delete')} onClick={() => this.removeItem(index)} />;
     }
     if (column.key === 'edit') {
-      return <IconButton iconProps={{ iconName: 'Edit' }} title={t('edit')} onClick={() => this._onShowPanel(item, index)} />;
+      return <IconButton iconProps={{ iconName: 'Edit' }} title={t('edit')} onClick={() => this.onShowPanel(item, index)} />;
     }
     if (column.key === 'sticky') {
       return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} /> : null;
@@ -152,7 +157,7 @@ export class ApplicationSettings extends React.Component<
   };
 
   // tslint:disable-next-line:member-ordering
-  private _getColumns = () => {
+  private getColumns = () => {
     const { t } = this.props;
     return [
       {

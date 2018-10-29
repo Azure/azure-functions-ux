@@ -47,11 +47,15 @@ export class VirtualApplications extends React.Component<
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this.onCancelPanel}
           headerText={t('newApp')}
           closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
-          <VirtualApplicationsAddEdit {...this.state.currentVirtualApplication!} updateVirtualApplication={this.updateCurrentItem} />
+          <VirtualApplicationsAddEdit
+            {...this.state.currentVirtualApplication!}
+            otherVirtualApplications={values.virtualApplications}
+            updateVirtualApplication={this.updateCurrentItem}
+          />
         </Panel>
         <DetailsList
           items={values.virtualApplications}
@@ -85,7 +89,10 @@ export class VirtualApplications extends React.Component<
     });
   };
 
-  private _onClosePanel = (): void => {
+  private onCancelPanel = () => {
+    this.setState({ createNewItem: false, showPanel: false });
+  };
+  private onClosePanel = () => {
     const { values, setValues } = this.props;
     const virtualApplications = [...values.virtualApplications];
     if (!this.state.createNewItem) {
@@ -103,10 +110,10 @@ export class VirtualApplications extends React.Component<
   private _onRenderFooterContent = (): JSX.Element => {
     return (
       <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
+        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
           {this.props.t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={this._onClosePanel}>{this.props.t('cancel')}</DefaultButton>
+        <DefaultButton onClick={this.onCancelPanel}>{this.props.t('cancel')}</DefaultButton>
       </div>
     );
   };

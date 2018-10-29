@@ -7,11 +7,18 @@ import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
 export interface ConnectionStringAddEditProps extends IConnectionString {
   updateConnectionString: (item: IConnectionString) => any;
+  otherConnectionStrings: IConnectionString[];
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, children, t, ...connectionString } = props;
+  const { updateConnectionString, children, otherConnectionStrings, t, ...connectionString } = props;
+  const [nameError, setNameError] = React.useState('');
+  const validateConnectionStringName = (value: string) => {
+    return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? 'Connection string names must be unique' : '';
+  };
   const updateConnectionStringName = (name: string) => {
+    const error = validateConnectionStringName(name);
+    setNameError(error);
     updateConnectionString({ ...connectionString, name });
   };
 
@@ -32,6 +39,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         label={t('nameRes')}
         id="connection-strings-form-name"
         value={connectionString.name}
+        errorMessage={nameError}
         onChanged={updateConnectionStringName}
       />
       <TextField

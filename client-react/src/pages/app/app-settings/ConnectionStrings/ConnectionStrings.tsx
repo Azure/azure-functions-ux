@@ -56,7 +56,11 @@ export class ConnectionStrings extends React.Component<
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}
           onRenderFooterContent={this._onRenderFooterContent}>
-          <ConnectionStringsAddEdit {...this.state.currentConnectionString!} updateConnectionString={this.updateCurrentItem.bind(this)} />
+          <ConnectionStringsAddEdit
+            {...this.state.currentConnectionString!}
+            otherConnectionStrings={values.connectionStrings}
+            updateConnectionString={this.updateCurrentItem.bind(this)}
+          />
         </Panel>
         <DetailsList
           items={values.connectionStrings}
