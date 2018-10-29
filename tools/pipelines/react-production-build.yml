@@ -9,14 +9,6 @@ phases:
           versionSpec: '8.x'
         displayName: 'Install Node.js'
 
-      # VSTS hosted Linux agents already have a LOT of dependencies preinstalled
-      # https://github.com/Microsoft/vsts-agent-docker
-      # so we don't have to install all recommended Cypress dependencies
-      # https://on.cypress.io/continuous-integration#Dependencies
-      - script: |
-          apt-get update && apt-get install -y libgconf-2-4
-        displayName: 'install dependencies'
-
       - script: |
           npm install -g yarn
         displayName: 'install yarn'
@@ -26,12 +18,14 @@ phases:
           yarn install
         displayName: 'yarn install react app'
 
-      - task: roshkovski.guid-generator.guid-generator.guid-generator@1
+      - script: |
+          export REACT_APP_CACHE_KEY=$(uuidgen)
         displayName: GenerateHashSalt
         inputs:
           VariableName: REACT_APP_CACHE_KEY
 
       - script: |
+          echo $REACT_APP_CACHE_KEY
           cd client-react
           yarn build
         displayName: 'create production build'
