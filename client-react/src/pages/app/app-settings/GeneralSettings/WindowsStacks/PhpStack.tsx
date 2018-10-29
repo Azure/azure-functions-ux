@@ -28,7 +28,7 @@ const PhpStack: React.SFC<Props> = props => {
       component={Dropdown}
       label={t('phpVersion')}
       id="phpVersion"
-      isDisabled={!values.siteWritePermission}
+      disabled={!values.siteWritePermission}
       Loading={stacksLoading}
       options={phpStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,

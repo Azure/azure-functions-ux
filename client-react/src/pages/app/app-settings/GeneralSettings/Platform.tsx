@@ -20,7 +20,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             component={Dropdown}
             label={t('platform')}
             id="app-settings-worker-process"
-            isDisabled={!values.siteWritePermission}
+            disabled={!values.siteWritePermission}
             options={[
               {
                 key: true,
@@ -37,7 +37,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             component={Dropdown}
             label={t('managedPipelineVersion')}
             id="app-settings-managed-pipeline-mode"
-            isDisabled={!values.siteWritePermission}
+            disabled={!values.siteWritePermission}
             options={[
               {
                 key: 0,
@@ -54,7 +54,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             component={Dropdown}
             label={t('webSockets')}
             id="app-settings-web-sockets-enabled"
-            isDisabled={!values.siteWritePermission}
+            disabled={!values.siteWritePermission}
             options={[
               {
                 key: true,
@@ -73,7 +73,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
         component={Dropdown}
         label={t('ftpState')}
         id="app-settings-ftps-state"
-        isDisabled={!values.siteWritePermission}
+        disabled={!values.siteWritePermission}
         options={[
           {
             key: 'AllAllowed',
@@ -94,7 +94,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
         component={Dropdown}
         label={t('alwaysOn')}
         id="app-settings-always-on"
-        isDisabled={!values.siteWritePermission}
+        disabled={!values.siteWritePermission}
         options={[
           {
             key: true,
@@ -111,7 +111,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
         component={Dropdown}
         label={t('arrAffinity')}
         id="app-settings-clientAffinityEnabled"
-        isDisabled={!values.siteWritePermission}
+        disabled={!values.siteWritePermission}
         options={[
           {
             key: true,
@@ -128,7 +128,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
         component={Dropdown}
         label={t('http20Enabled')}
         id="app-settings-http-enabled"
-        isDisabled={!values.siteWritePermission}
+        disabled={!values.siteWritePermission}
         options={[
           {
             key: true,

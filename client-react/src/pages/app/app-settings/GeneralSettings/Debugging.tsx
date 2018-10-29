@@ -25,7 +25,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           <Field
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
-            isDisabled={!values.siteWritePermission}
+            disabled={!values.siteWritePermission}
             options={[
               {
                 key: 'VS2012',

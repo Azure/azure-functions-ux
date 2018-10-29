@@ -127,14 +127,14 @@ class JavaStack extends React.Component<Props, JavaStackState> {
           label={t('javaVersion')}
           selectedKey={this.state.currentJavaMajorVersion}
           id="app-settings-java-major-verison"
-          isDisabled={!values.siteWritePermission}
+          disabled={!values.siteWritePermission}
           options={javaVersions}
           onChange={this.onMajorVersionChange}
         />
         <Field
           name="config.properties.javaVersion"
           component={Dropdown}
-          isDisabled={!values.siteWritePermission}
+          disabled={!values.siteWritePermission}
           label={t('javaMinorVersion')}
           id="app-settings-java-minor-verison"
           options={javaMinorVersionOptions}
@@ -143,14 +143,14 @@ class JavaStack extends React.Component<Props, JavaStackState> {
           name="config.properties.javaContainer"
           component={Dropdown}
           label={t('javaContainer')}
-          isDisabled={!values.siteWritePermission}
+          disabled={!values.siteWritePermission}
           id="app-settings-java-container-runtime"
           options={frameworks}
         />
         <Field
           name="config.properties.javaContainerVersion"
           component={Dropdown}
-          isDisabled={!values.siteWritePermission}
+          disabled={!values.siteWritePermission}
           label={t('javaContainerVersion')}
           id="app-settings-java-container-version"
           options={javaFrameworkVersionOptions}

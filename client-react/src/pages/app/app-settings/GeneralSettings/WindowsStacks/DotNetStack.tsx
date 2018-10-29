@@ -27,7 +27,7 @@ const DotNetStack: React.SFC<Props> = props => {
       component={Dropdown}
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
-      isDisabled={!values.siteWritePermission}
+      disabled={!values.siteWritePermission}
       Loading={stacksLoading}
       options={aspNetStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
