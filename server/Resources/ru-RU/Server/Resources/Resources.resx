@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Тест</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Тестирование для функций веб-перехватчика GitHub не поддерживается.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Версия среды выполнения</value>
   </data>
@@ -1316,7 +1319,7 @@
     <value>Параметры развертывания</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Вы можете настраивать параметры развертывания для приложения и управлять ими, включая непрерывное развертывание из VSTS, Github и Bitbucket, а также активацию развертывания из OneDrive, Dropbox, внешнего Git и не только.</value>
+    <value>Вы можете настраивать варианты развертывания своего приложения, включая непрерывное развертывание из VSTS, Github и Bitbucket, а также активировать развертывание из OneDrive, Dropbox, внешних Git-репозиториев и не только.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Учетные данные развертывания</value>
@@ -1367,7 +1370,7 @@
     <value>Открыть в новом окне</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Расширения</value>
+    <value>Расширения сайта</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Расширения дополняют функции всего приложения.</value>
@@ -1541,13 +1544,13 @@
     <value>Стек</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Веб-приложения на Linux поддерживают дополнительные возможности среды выполнения с использованием коллекции встроенных контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+    <value>Веб-приложения на базе Linux поддерживают возможности среды выполнения с помощью коллекции встроенных контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Загрузочный файл</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Самые новые</value>
@@ -1805,7 +1808,7 @@
     <value>изменить масштаб</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Строки подключения</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Отладка</value>
@@ -2241,6 +2244,12 @@
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Новое значение</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Текущее значение</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Временное значение</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Вы не добавляли слоты развертывания. Чтобы сделать это, шелкните "Добавить слот".</value>
@@ -2711,7 +2720,7 @@
     <value>Для шаблона требуются следующие расширения.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Установив зависимости шаблона, можно создать функцию. Установка происходит в фоновом режиме и может занять до 2 минут. В течение этого времени можно закрыть эту колонку и продолжать использовать портал.</value>
+    <value>Идет установка зависимостей шаблонов. По завершении вы сможете создать функцию. Установка происходит в фоновом режиме и может занять до 2 минут. В это время вы можете закрыть колонку и продолжить работу с порталом.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
@@ -2833,8 +2842,8 @@
   <data name="entityColon" xml:space="preserve">
     <value>Объект:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>Определение API функций (Swagger) сейчас не поддерживается для бета-версии среды выполнения.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>Определение API функций (Swagger) сейчас не поддерживается для версии V2 среды выполнения.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Успешное развертывание в {0}</value>
@@ -2846,7 +2855,7 @@
     <value>Переключение с предварительным просмотром</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>При многоэтапном переключении элементы конфигурации первого слота применяются ко второму. После этого пользователю нужно завершить или отменить переключение. При завершении переключение направляет трафик первого слота во второй.</value>
+    <value>Переключение с использованием предварительной версии разделяет обычное переключение на два этапа. На первом этапе все зависящие от слота параметры приложения и строки подключений в целевом слоте будут временно скопированы в исходный слот. Это позволит протестировать слот с использованием финальных значений конфигурации. Здесь вы можете отменить первый этап, чтобы вернуться к обычной конфигурации, или перейти ко второму этапу, на котором временные изменения конфигурации будут удалены и переключение с исходного в целевой слот завершено.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Запуск переключения</value>
@@ -3032,7 +3041,7 @@
     <value>Функции (предварительная версия)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете выполнение из ZIP-файла. В этом случае файловая система доступна только для чтения и не позволяет изменять файлы. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_USE_ZIP.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как выполняется из файла пакета. В этом случае файловая система доступна только для чтения и не позволяет изменять файлы. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Код</value>
@@ -3088,6 +3097,9 @@
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>Для обновления плана "{0}" необходимы разрешения на запись для этого плана</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Повышение производительности и дополнительные функции доступны по той же цене! Узнайте о Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>План "{0}" доступен только для чтения и не может быть обновлен</value>
   </data>
@@ -3121,11 +3133,14 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Каждый экземпляр вашего плана службы приложений будет включать следующую конфигурацию оборудования:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Единицы вычислений Azure (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Первое ядро категории "Базовый" (B1) для Linux предоставляется бесплатно в первые 30 дней.</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Горизонтальное масштабирование контейнеров Windows ограничено 2 экземплярами и является бесплатным до 13 сентября 2018 г.</value>
+    <value>Контейнеры для Windows предоставляются в предварительной версии с 50-процентной скидкой.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
@@ -3139,8 +3154,14 @@
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ценовая категория "Премиум V2" для этой единицы масштабирования не поддерживается. Разверните ваше приложение повторно или клонируйте его.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Ценовая категория "Премиум" для этой единицы масштабирования эластичной базы данных не поддерживается. Разверните ваше приложение повторно или клонируйте его.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Увеличить масштаб</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Исходящие IP-адреса для вашего приложения могут измениться.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
@@ -3163,11 +3184,8 @@
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Общие вычислительные ресурсы для запуска приложений, развернутых в плане службы приложений.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Выделенные вычислительные ресурсы серии A для запуска приложений, развернутых в плане службы приложений.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Выделенные вычислительные ресурсы серии Dv2 для запуска приложений, развернутых в плане службы приложений.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Выделенные вычислительные ресурсы для запуска приложений, развернутых в плане службы приложений.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Объем памяти для запуска приложений, развернутых и запущенных в плане службы приложений.</value>
@@ -3190,6 +3208,12 @@
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Ручное масштабирование</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Быстрое масштабирование</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Масштабирование приложений-функций на основе триггера событий.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Автомасштабирование</value>
   </data>
@@ -3201,6 +3225,12 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Максимум экземпляров: {0} (если это возможно).</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Высокая плотность</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Эффективное совместное использование плана службы приложений в нескольких приложениях-функциях.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Промежуточные слоты</value>
@@ -3232,6 +3262,9 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Изолированная сеть</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Интеграция виртуальной сети</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Запускается в вашей виртуальной сети.</value>
   </data>
@@ -3250,11 +3283,11 @@
   <data name="pricing_numCores" xml:space="preserve">
     <value>Ядер: {0}</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>Серия A, вычисления</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>Эквивалент вычислительных ресурсов серии A</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Серия Dv2, вычисления</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Эквивалент вычислительных ресурсов серии Dv2</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Файл proxies.json недопустим. Ошибка: "{0}".</value>
@@ -3311,7 +3344,7 @@
     <value>Уровень ведения журнала</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Непрерывная поставка VSTS</value>
+    <value>Сборка VSTS (предварительная версия)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services настраивает для вашего приложения надежный конвейер развертывания. Он отвечает за сборку, выполнение нагрузочных тестов, развертывание в промежуточный слот и затем в рабочую среду.</value>
@@ -3410,7 +3443,7 @@
     <value>Ценовая категория</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Центр развертывания (предварительная версия)</value>
+    <value>Центр развертывания</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>Центр развертывания службы приложений позволяет выбрать расположение кода, а также параметры сборки и развертывания в облаке.</value>
@@ -3575,7 +3608,7 @@
     <value>Отключить</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Изменить</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Синхронизация</value>
@@ -3583,11 +3616,8 @@
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Мандат на развертывание</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Вычисления серии Dv3</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Выделенные вычислительные ресурсы серии Dv3 для запуска приложений, развернутых в плане службы приложений.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Эквивалент вычислительных ресурсов серии Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
@@ -3658,32 +3688,20 @@
   <data name="enterPassword" xml:space="preserve">
     <value>введите пароль</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>Для настройки параметров контейнера нужен доступ для записи к приложению.</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Параметры контейнера невозможно настроить, пока с приложения не будет снята блокировка только для чтения.</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Один контейнер</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Это описание для одного контейнера.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Это подробное описание для одного контейнера.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Это описание для Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Это подробное описание для Docker Compose.</value>
+    <value>Docker Compose (предварительная версия)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Это описание для Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Это подробное описание для Kubernetes.</value>
+    <value>Kubernetes (предварительная версия)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Не удалось установить расширение среды выполнения. Дополнительные сведения: </value>
@@ -3695,7 +3713,7 @@
     <value>Идентификатор сеанса: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Локальное хранилище на основе SSD для размещения контейнеров и необязательное хранилище дисков размером {0} ГБ, общее для всех приложений, развернутых в рамках плана службы приложений.</value>
+    <value>Локальное хранилище на основе SSD для размещения контейнеров и необязательное хранилище дисков размером {0}, общее для всех приложений, развернутых в рамках плана службы приложений.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Имя приложения-функции</value>
@@ -3728,10 +3746,10 @@
     <value>Действительно отключить развертывание?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Шаблоны сообщества</value>
+    <value>Бессерверная библиотека сообщества (предварительная версия)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Не удалось найти, что искали? Посетите Serverless Library — нашу коллекцию шаблонов, созданных сообществом.</value>
+    <value>Не удается найти то, что ищете? Посмотрите в бессерверной библиотеке сообщества Azure.</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Среда выполнения Функций Azure недоступна.</value>
@@ -3745,6 +3763,150 @@
   <data name="pricing_ACU" xml:space="preserve">
     <value>Общее число ACU: {0}</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Обновить параметры контейнера</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Быстрый старт</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Реестр контейнеров Azure</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Центр Docker</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Частный реестр</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Настраиваемый</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Источник образа</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Образ и дополнительный тег (например, "image:tag")</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Чтобы начать, создайте реестр контейнеров Azure и добавьте образ.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Доступ к репозиторию</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Открытый</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Закрытый</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>URL-адрес сервера</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Вход в систему</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Загрузочный файл</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Источник конфигурации</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Функции Azure для .NET — начало работы</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Функции Azure для JavaScript — начало работы</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Функции Azure для Python — начало работы</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Функции Azure для Java — начало работы</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Следуйте инструкциям краткого руководства по разработке и публикации функций</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Выберите среду разработки</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Выберите метод развертывания</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Создание функции</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Быстрый старт</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Любой редактор + основные инструменты</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Любой редактор + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>На портале</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Использование Visual Studio для создания, сборки и выполнения функций .NET</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Использование Visual Studio Code для создания функций</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Написание функций с помощью удобного редактора и основных инструментов для Функций Azure</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Написание функций Java с помощью удобного редактора: IntelliJ, Eclipse или Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Быстрое создание функций на портале</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Использование центра развертывания</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Настройте приложение так, чтобы можно было проверить код в системе управления версиями и запустить его с помощью конвейера непрерывного развертывания</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Прямая публикация</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Публикация напрямую из Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Публикация напрямую из VS Code</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Публикация напрямую из основных инструментов для Функций Azure</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Публикация напрямую из Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>Функция, которая будет запускаться при каждом получении HTTP-запроса</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>Функция, которая будет запускаться по указанному расписанию</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Вы создали приложение-функцию.</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Теперь пора добавить код...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Запрос на синхронизацию отправлен</value>
   </data>
@@ -3757,14 +3919,20 @@
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>Непрерывная поставка VSTS требует, чтобы у вас были разрешения на запись в Azure Active Directory и создание субъекта-службы.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Выберите пример</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>Вы не являетесь владельцем репозитория VSTS.</value>
+    <value>Вы не являетесь владельцем репозиториев VSTS</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>У вас нет допустимых учетных записей VSTS.</value>
+    <value>У вас нет допустимых учетных записей VSTS</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>У вас нет допустимых учетных записей VSTS. Для сборки Kudu службы приложений также нужно, чтобы вы были владельцем учетной записи.</value>
+    <value>У вас нет допустимых учетных записей VSTS. Для сборки Kudu службы приложений вы также должны быть владельцем учетной записи</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Создать новый</value>
@@ -3791,10 +3959,10 @@
     <value>Слот не может быть одновременно исходным и целевым</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Невозможно выполнить многоэтапное переключение, так как в следующих слотах включена проверка подлинности: "{{slotNames}}".</value>
+    <value>Невозможно выполнить переключение с использованием предварительной версии, так как в следующих слотах включена проверка подлинности: "{{slotNames}}".</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Многоэтапное переключение можно использовать только с сайтами, на которых включены параметры слотов.</value>
+    <value>Переключение с использованием предварительной версии можно использовать только с сайтами, на которых включены параметры слотов.</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>Перед переключением проверьте поведение приложения первого слота с конфигурацией второго слота.</value>
@@ -3817,8 +3985,20 @@
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Ошибка загрузки</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Просмотреть изменения</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Изменения первого этапа</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Изменения второго этапа</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Изменения конфигурации</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Это зависящие от слота параметры приложения и строки подключений из целевого слота, которые будут временно применены к исходному слоту на первом этапе переключения.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Это сводка финального набора изменений конфигурации в исходном и целевом слотах после переключения.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Выберите допустимый вариант выше, чтобы загрузить предварительную версию.</value>
@@ -3835,10 +4015,403 @@
   <data name="swapActionLabel" xml:space="preserve">
     <value>Действие переключения</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Версия платформы</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Команда запуска</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Путь к коду</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Предварительная версия</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Изменений нет</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Не задано</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Не удалось удалить устаревшие расширения</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (предварительная версия)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Стек среды выполнения приложений-функций</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Приложения-функции v2 теперь поддерживают один язык. Задайте стек среды выполнения, прежде чем добавлять функции в приложение.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Стек среды выполнения функций</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Перейти</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Реестр</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Образ</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Тег</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Загрузочный файл</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Непрерывное развертывание</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>URL-адрес веб-перехватчика</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Файл конфигурации</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose поддерживается только для приложений на базе операционной системы Linux.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes поддерживается только для приложений на базе операционной системы Linux.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Функции на основе Docker Compose сейчас не поддерживаются.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Функции на основе Kubernetes сейчас не поддерживаются.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Изменение функций на портале не поддерживается для приложений-функций, развернутых как образы docker.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Не удалось получить данные для конфигурации контейнера.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Указанный URL-адрес недопустим. URL-адрес должен включать протокол (https или http), домен или узел и порт (необязательно).</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Не удалось обновить данные для параметров контейнеров.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Ошибки в параметрах.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Параметры успешно изменены.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>показать URL-адрес</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>скрыть URL-адрес</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Приложения-функции потребления Linux — это предложение на этапе предварительной версии.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Некоторые поля не заполнены должным образом или являются обязательными.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Завершить и перейти в центр развертывания</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Один контейнер (предварительная версия)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Другие шаблоны…</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Просмотреть все шаблоны, доступные этому приложению-функции</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Завершить и просмотреть шаблоны</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Сайт по умолчанию для веб-сервера NGINX, использующий официальный образ NGINX.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>"Hello World" на Python</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Пример приложения "Hello World" на Python.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Статический сайт</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Статическая веб-страница HTML, обслуживаемая с веб-сервера Nginx.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Веб-формы ASP.NET</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Приложение веб-форм Asp.Net развернуто в контейнере LTSC Windows Server Core 2016.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask с Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Пример приложения Python Flask, которое подсчитывает совпадения на веб-странице и сохраняет данные в кэше Redis.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core с SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Пример Docker Compose, использующий ASP.NET Core с SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>Wordpress с несколькими контейнерами</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Пример Docker Compose, использующий Wordpress и MySQL.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask с Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Пример приложения Kubernetes, которое подсчитывает совпадения на веб-странице и сохраняет данные в кэше Redis.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>Wordpress с несколькими контейнерами</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Пример Kubernetes, использующий WordPress и MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Журналы недоступны.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Произошла ошибка при получении журналов.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Новый или существующий слот развертывания</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Новая или существующая учетная запись VSTS</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Новая или существующая учетная запись VSTS</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Сведения о развертывании</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Установка зависимостей шаблонов... Установка происходит в фоновом режиме и может занять до 2 минут. В это время вы можете покинуть страницу и продолжить работу с порталом.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Скрыть значения</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Показать значения</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Скрытое значение. Щелкните, чтобы изменить.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Параметры приложения шифруются при хранении и передаются по защищенному каналу. Можно отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Строки подключения шифруются при хранении и передаются по защищенному каналу. Можно отобразить их в виде простого текста в браузере, используя элементы управления ниже.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Команда</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Личный</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>Определение API (Swagger) недоступно для приложений-функций в режиме только для чтения.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Устранение неполадок с приложением</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Диагностика и устранение проблем</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Параметры стека</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Параметры платформы</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Отладка</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Параметры приложения</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Строки подключения</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Общие параметры</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Документы по умолчанию</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Сопоставления путей</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Сопоставления обработчика</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Виртуальные приложения и каталоги</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Сохранить все параметры для веб-приложения</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Отклонить все изменения в параметрах веб-приложений</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Использовать клавиши со стрелками влево и вправо для навигации между командами.</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Новое приложение или каталог</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Виртуальный путь</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Физический путь</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Каталог или приложение</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Предварительная загрузка включена.</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Расширение</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Обработчик сценариев</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Аргументы</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Новое сопоставление обработчика</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Стек</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Слоты</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Автоматическое переключение включено.</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Слот автоматического переключения</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Платформа</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Версия управляемого конвейера</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Интегрированный</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Классический</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>Состояние FTP</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Все разрешены</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Только FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Всегда включено</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Использовать последний дополнительный номер версии</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>Версия PHP</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Дополнительный номер версии Java</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Контейнер Java</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Версия контейнера Java</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Новый документ</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Параметр слота</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Добавление или изменение строки подключения</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Новая строка подключения</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Добавить или изменить параметр приложения</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Новый параметр приложения</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>Выбранный реестр не находится в той же подписке, что и текущее приложение. Для переключения между реестрами используйте вкладку частного реестра.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Функции (только для чтения)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Функции (недоступны)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Прокси-серверы (только для чтения)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Прокси-серверы (недоступны)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
   </data>
 </root>

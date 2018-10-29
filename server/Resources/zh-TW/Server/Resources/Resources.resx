@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>測試</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>GitHub Webhook 函式不支援測試。</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Run-time 版本</value>
   </data>
@@ -1316,7 +1319,7 @@
     <value>部署選項</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>為您的應用程式設定及管理部署選項，包括從 VSTS、Github 及 Bitbucket 持續部署，以及從 OneDrive、Dropbox、外部 Git 等位置觸發部署。</value>
+    <value>為您的應用程式設定及管理部署選項，包括來自 VSTS、Github 及 Bitbucket 的連續部署，以及來自 OneDrive、Dropbox、外部 Git 等等的觸發部署。</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>部署認證</value>
@@ -1367,7 +1370,7 @@
     <value>在新視窗中開啟</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>擴充功能</value>
+    <value>網站延伸模組</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>整個應用程式的延伸模組與功能。</value>
@@ -1541,13 +1544,13 @@
     <value>堆疊</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Linux 上的 Web Apps 透過內建容器的集合提供執行階段選項。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;深入了解&lt;/a&gt;。</value>
+    <value>Linux 上的 Web 應用程式透過內建容器的集合提供執行階段選項。 &lt;a href="{{learnMoreLink}}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>啟動檔案</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>提供要在容器啟動過程中執行的選擇性啟動命令。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;深入了解&lt;/a&gt;。</value>
+    <value>提供要在容器啟動過程中執行的選擇性啟動命令。&lt;a href="{{learnMoreLink}}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>最新</value>
@@ -1805,7 +1808,7 @@
     <value>調整規模</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>連接字串</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>偵錯</value>
@@ -2241,6 +2244,12 @@
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>新值</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>目前的值</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>暫存值</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>您尚未新增任何部署位置。請按一下 [新增位置]，開始新增。</value>
@@ -2711,7 +2720,7 @@
     <value>此範本需要下列延伸模組。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>安裝範本相依性之後就能建立函式。相依性安裝會在背景執行，最長可能需要 2 分鐘的時間。您可以關閉此刀鋒視窗。在這段期間內，您可以繼續使用入口網站。</value>
+    <value>正在安裝範本相依性。安裝完成之後，就能建立函式。相依性安裝會在背景執行，最長不超過 2 分鐘。在這段期間內，您可以關閉此刀鋒視窗繼續使用入口網站。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>無法安裝執行階段延伸模組。安裝識別碼 {{installationId}}</value>
@@ -2833,8 +2842,8 @@
   <data name="entityColon" xml:space="preserve">
     <value>實體:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>搶鮮版 (Beta) 執行階段目前不支援函式 API 定義 (Swagger) 功能。</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>V2 執行階段目前不支援函式 API 定義 (Swagger) 功能。</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>已成功部署到 {0}</value>
@@ -2846,7 +2855,7 @@
     <value>執行 Swap with Preview</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>多階段交換動作會將第一個位置的位置相關設定項目套用到第二個位置。接著會暫停，直到使用者完成或取消交換。完成時，交換會將第一個位置的流量導向第二個位置。</value>
+    <value>提供預覽的交換將一般交換分成兩個階段。在第一階段，目的地的任何位置專屬應用程式設定及連接字串都會暫時複製到來源位置。這可讓您以位置的最終組態值加以測試。您可在此處選擇要取消第一階段以還原為一般組態，或繼續進行第二階段，移除暫時的組態變更並完成從來源到目的地位置的交換。</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>開始交換</value>
@@ -2999,7 +3008,7 @@
     <value>從 OneDrive 雲端資料夾同步內容。</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>設定與 Github 存放庫的持續整合。</value>
+    <value>使用 Github 存放庫設定持續整合。</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>設定與 VSTS 存放庫的持續整合。</value>
@@ -3032,7 +3041,7 @@
     <value>Functions (預覽)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>因為您正在使用「從 ZIP 執行」，所以應用程式目前處於唯讀模式。使用「從 ZIP 執行」時，檔案系統即為唯讀，無法對檔案進行任何變更。若要進行任何變更，請更新 ZIP 檔案中的內容及 WEBSITE_USE_ZIP 應用程式設定。</value>
+    <value>因為您正在從套件檔案執行，所以應用程式目前處於唯讀模式。從套件執行時，檔案系統即為唯讀，無法對檔案進行任何變更。若要進行任何變更，請更新 ZIP 檔案中的內容及 WEBSITE_RUN_FROM_PACKAGE 應用程式設定。</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>程式碼</value>
@@ -3088,6 +3097,9 @@
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>您必須具有方案 '{0}' 的寫入權限才能將其更新</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>以相同的價格享有更棒的效能與更多的功能! 了解進階 V2。</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>方案 '{0}' 具有唯讀鎖定，因此無法加以更新</value>
   </data>
@@ -3121,11 +3133,14 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service 方案的每個執行個體都將包含下列硬體組態:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure 計算單位 (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux 的第一個基本 (B1) 核心前 30 天免費!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows 容器僅限相應放大 2 個執行個體，且免費至 2018 年 9 月 13 日為止。</value>
+    <value>預覽期間，Windows 容器會以 50% 的折扣計費。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>您的設定不適用於 App Service 環境 (ASE) 中隔離式環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離式網路並提升調整的能力。</value>
@@ -3139,8 +3154,14 @@
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>此縮放單位不支援進階 V2。請考慮重新部署或複製您的應用程式。</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>此縮放單位不支援彈性進階。請考慮重新部署或複製您的應用程式。</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>相應增加</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>您應用程式的連出 IP 位址可能會變更。</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>免費</value>
@@ -3163,11 +3184,8 @@
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>用以執行部署在 App Service 方案中之應用程式的共用計算資源。</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>用來執行應用程式部署於 App Service 方案中之應用程式的專用 A 系列計算資源。</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>用來執行應用程式部署於 App Service 方案中之應用程式的專用 Dv2 系列計算資源。</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>用來執行部署於 App Service 方案中應用程式的專用計算資源。</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>App Service 方案中所部署用以執行應用程式的記憶體及正在使用的記憶體。</value>
@@ -3190,6 +3208,12 @@
   <data name="pricing_manualScale" xml:space="preserve">
     <value>手動調整規模</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>快速縮放</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>依事件觸發程序相應放大函數應用程式。</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>自動調整規模</value>
   </data>
@@ -3201,6 +3225,12 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>最多 {0} 個執行個體，視可用性而定。</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>高密度</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>多個函數應用程式有效率地在共用 App Service 方案。</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>預備位置</value>
@@ -3232,6 +3262,9 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>隔離式網路</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>虛擬網路整合</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>在您自己的虛擬網路中執行。</value>
   </data>
@@ -3250,11 +3283,11 @@
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} 個核心</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A 系列計算</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>價值等同 A 系列計算</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2 系列計算</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>價值等同 Dv2 系列計算</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json 無效。錯誤: '{0}'。</value>
@@ -3311,7 +3344,7 @@
     <value>記錄層級</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 持續傳遞</value>
+    <value>VSTS 組建 (預覽)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services 為您的應用程式設定了強固的部署管線。管線會建置、執行負載測試，再部署至預備位置，然後再部署至生產環境。</value>
@@ -3410,7 +3443,7 @@
     <value>定價層</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>部署中心 (預覽)</value>
+    <value>部署中心</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service 部署中心可讓您選擇程式碼位置，並提供建置及部署到雲端的選項。</value>
@@ -3575,7 +3608,7 @@
     <value>中斷連接</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>編輯</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>同步</value>
@@ -3583,11 +3616,8 @@
   <data name="deploymentCredentials" xml:space="preserve">
     <value>部署認證</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3 系列計算</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>用來執行部署於 App Service 方案中之應用程式的專用 Dv3 系列計算資源。</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>價值等同 Dv3 系列計算</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>連接字串只有在您使用 Entity Framework 時，才能搭配函數應用程式使用。在其他情況下則請使用應用程式設定。若要深入了解，請按一下。</value>
@@ -3658,32 +3688,20 @@
   <data name="enterPassword" xml:space="preserve">
     <value>輸入密碼</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>您必須擁有應用程式的寫入權限，才能進行容器設定</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>除非您移除應用程式的唯讀鎖定，否則無法進行容器設定</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>單一容器</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>這是單一容器的描述。</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>這是單一容器的詳細描述。</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>這是 Docker Compose 的描述。</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>這是 Docker Compose 的詳細描述。</value>
+    <value>Docker Compose (預覽)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>這是 Kubernetes 的描述。</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>這是 Kubernetes 的詳細描述。</value>
+    <value>Kubernetes (預覽)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>我們無法安裝執行階段延伸模組。若要深入了解，請檢視</value>
@@ -3695,7 +3713,7 @@
     <value>工作階段識別碼: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>用於裝載容器的本機 SSD 儲存體，以及額外 {0} GB 的磁碟儲存體，由 App Service 方案中部署的所有應用程式共用。</value>
+    <value>使用本機 SSD 來裝載容器的儲存體，以及 (選擇性) 可供 App Service 方案中部署之所有應用程式共用的 {0} 磁碟儲存體。</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>函數應用程式名稱</value>
@@ -3728,10 +3746,10 @@
     <value>確定要中斷部署的連線嗎?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>社群範本</value>
+    <value>無伺服器社群文件庫 (預覽)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>找不到您要找的內容嗎? 請前往無伺服器文件庫，這個資源庫集結了社群建立的範本，可以給您靈感!</value>
+    <value>沒有找到您要找的內容嗎? 請看看 Azure 無伺服器社群文件庫!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>無法連線至 Azure Functions 執行階段。</value>
@@ -3745,6 +3763,150 @@
   <data name="pricing_ACU" xml:space="preserve">
     <value>總共 {0} 個 ACU</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>更新容器設定</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>快速入門</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure 容器登錄</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub </value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>私人登錄</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>自訂</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>影像來源</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>影像及選擇性標籤 (例如 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>若要開始使用，請先建立 Azure Container Registry 並新增映像。</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>存放庫存取</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>公用</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>私人</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>伺服器 URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>啟動檔案</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>組態來源</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions for .NET - 快速入門</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions for JavaScript - 快速入門</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions for Python - 快速入門</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions for Java - 快速入門</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>請遵循我們的快速入門指導來撰寫及發佈函式</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>選擇開發環境</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>選擇部署方法</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>建立函式</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>快速入門</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>任何編輯器 + 核心工具</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>任何編輯器 + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>入口網站內</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>使用 Visual Studio 來撰寫、建置和執行 .NET 函式</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>使用 Visual Studio Code 來撰寫您的函式</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>使用您慣用的編輯器及 Azure Functions Core Tools 來撰寫函數</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>使用您慣用的編輯器 (例如 IntelliJ、Eclipse 或 Maven) 來撰寫 Java 函數</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>在入口網站中快速撰寫函式</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>使用部署中心</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>設定您的應用程式，以便將程式碼簽入原始檔控制，並透過持續部署管線加以執行</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>直接發佈</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>直接從 Visual Studio 發佈</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>直接從 VS Code 發佈</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>直接從 Azure Functions Core Tools 發佈</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>直接從 Maven 發佈</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>每當接收 HTTP 要求時就會執行的函式</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>於指定的排程執行之函式</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>您已建立函數應用程式!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>現在該新增您的程式碼了...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>已提交同步處理要求</value>
   </data>
@@ -3756,6 +3918,12 @@
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>您必須具有寫入 Azure Active Directory 和建立服務主體的權限，才可使用 VSTS 持續傳遞。</value>
+  </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>選取範例</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>描述</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
     <value>您沒有任何 VSTS 存放庫</value>
@@ -3791,10 +3959,10 @@
     <value>來源與目的地不可為相同位置</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>因為下列位置啟用了驗證，所以無法執行多階段交換: ' {{slotNames}}'</value>
+    <value>因為下列位置啟用了驗證，所以無法執行提供預覽的交換: ' {{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>只有啟用位置設定的網站，才能使用多階段交換</value>
+    <value>只有啟用位置設定的網站，才能使用提供預覽的交換</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
     <value>完成交換之前，請先對照第一個位置的應用程式行為與第二個位置的設定加以檢查</value>
@@ -3817,8 +3985,20 @@
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>載入失敗</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>預覽變更</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>第一階段變更</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>第二階段變更</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>組態變更</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>這些是來自目標位置的位置專屬應用程式設定及連接字串，會在交換的第一階段暫時套用到來源位置。</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>這是在交換完成之後，來源與目標位置上最終組態變更的摘要。</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>上列選擇必須有效，才能載入預覽</value>
@@ -3835,10 +4015,403 @@
   <data name="swapActionLabel" xml:space="preserve">
     <value>交換動作</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework 版本</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>啟動命令</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>程式碼路徑</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>預覽</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>無變更</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>未設定</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>無法將您已過期的延伸模組解除安裝</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (預覽)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>函數應用程式執行階段堆疊</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>函數應用程式 v2 現為單一語言。在將函數新增至應用程式之前，請先設定執行階段堆疊。</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>函數執行階段堆疊</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>執行</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>登錄</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>映像</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>標記</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>啟動檔案</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>連續部署</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>組態檔</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>僅以 Linux 作業系統為基礎的應用程式支援 Docker Compose。</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>僅以 Linux 作業系統為基礎的應用程式支援 Kubernetes。</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>目前不支援以 Docker Compose 為基礎的函式。</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>目前不支援以 Kubernetes 為基礎的函式。</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>部署為 Docker 映像的函數應用程式，不支援在入口網站中編輯函式。</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>無法取得容器設定的資料。</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>提供的 URL 無效。URL 必須包含通訊協定 (https/http)、網域或主機，以及選擇性地包含連接埠。</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>無法更新容器設定的資料。</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>設定發生錯誤。</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>已成功更新設定。</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>顯示 URL</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>隱藏 URL</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux 使用量函數是預覽供應項目。</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>某些欄位未正確填入或為必要項。</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>完成並前往部署中心</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Linux 使用量函數應用程式 (預覽) 不支援在入口網站中編輯函數。</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>單一容器 (預覽)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>更多範本...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>檢視此函數應用程式可用的所有範本</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>完成並檢視範本</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>NGINX 伺服器的預設網站，會使用官方的 Nginx 影像。</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python "Hello World" 範例應用程式。</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>靜態網站</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>由 Nginx 網頁伺服器服務的靜態 HTML 網頁。</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>在 Windows Server Core 2016 LTSC 容器中部署的 Asp.Net Web Forms 應用程式。</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask 與 Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Python Flask 範例應用程式會計算網頁的命中次數，並將該資料儲存在 Redis Cache 中。</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core 與 SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>搭配 SQL Server 使用 ASP.NET Core 的 Docker Compose 範例。</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>多容器 WordPress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>使用 WordPress 及 MySQL 的 Docker Compose 範例。</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask 與 Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes 範例應用程式會計算網頁的命中次數，並將該資料儲存在 Redis Cache 中。</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>多容器 WordPress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>使用 WordPress 和 MySQL 的 Kubernetes 範例。</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>沒有任何記錄。</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>擷取記錄時發生錯誤。</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>現有或新的部署位置</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>現有或新的 VSTS 帳戶</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>現有或新的 VSTS 帳戶</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>部署詳細資料</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>正在安裝範本相依性。相依性安裝會在背景執行，最長不超過 2 分鐘。在這段期間內，您可以不理會此頁面繼續使用入口網站。</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>隱藏值</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>顯示值 </value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>隱藏的值。按一下即可編輯。</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>應用程式設定會經過待用加密，且會透過加密通道傳輸。您可以使用以下控制項，來選擇在瀏覽器中以純文字顯示它們。</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>連接字串會經過待用加密，且會透過加密通道傳輸。您可以使用以下控制項，來選擇在瀏覽器中以純文字顯示它們。</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>小組</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>個人</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>在唯讀模式中，函式應用程式無法使用 API 定義 (Swagger)。</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>為您的應用程式進行疑難排解</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>診斷並解決問題</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>堆疊設定</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>平台設定</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>偵錯</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>應用程式設定</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>連接字串</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>預設文件</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>路徑對應</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>處理常式對應</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>虛擬應用程式和目錄</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>儲存您 Web 應用程式的所有設定</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>捨棄所有對 Web 應用程式設定所做的變更</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>使用向左鍵及向右鍵來瀏覽命令</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>新增應用程式或目錄</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>虛擬路徑</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>實體路徑</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>目錄或應用程式</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>目錄</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>預先載入已啟用</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>延伸模組</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>指令碼處理器</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>引數</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>新增處理常式對應</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>堆疊</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>插槽</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>已啟用自動交換</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>自動交換位置</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>受控管線版本</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>整合</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>傳統</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP 狀態</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>全部允許</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>僅 FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>永遠啟動</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>使用最新的次要版本</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP 版本</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java 次要版本</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>JAVA 容器</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>JAVA 容器版本</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>新增文件</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>位置設定</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>新增/編輯連接字串</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>新增連接字串</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>新增/編輯應用程式設定</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>新增應用程式設定</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>選取的登錄與目前的應用程式處於不同的訂用帳戶。若要切換登錄，請使用私人登錄索引標籤。</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>函式 (唯讀)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>函式 (無法存取)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxy (唯讀)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxy (無法存取)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>YML 格式無效。錯誤: '{0}'。</value>
   </data>
 </root>
