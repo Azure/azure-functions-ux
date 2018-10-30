@@ -31,7 +31,7 @@ const localStorageCacheOptions = {
   prefix: `i18next_res_${process.env.REACT_APP_CACHE_KEY}`,
 
   // expiration
-  expirationTime: 7 * 24 * 60 * 60 * 1000,
+  expirationTime: 60 * 60 * 1000,
 };
 i18n.use(Backend).init({
   backend: {

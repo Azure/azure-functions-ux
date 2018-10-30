@@ -109,7 +109,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="site.properties.clientAffinityEnabled"
         component={Dropdown}
-        label={t('arrAffinity')}
+        label={t('clientAffinityEnabledLabel')}
         id="app-settings-clientAffinityEnabled"
         disabled={!values.siteWritePermission}
         options={[
@@ -126,7 +126,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="config.properties.http20Enabled"
         component={Dropdown}
-        label={t('http20Enabled')}
+        label={t('httpVersion')}
         id="app-settings-http-enabled"
         disabled={!values.siteWritePermission}
         options={[

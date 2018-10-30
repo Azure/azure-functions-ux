@@ -70,7 +70,7 @@
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.0.3"
   },
-  "proxy": "https://localhost:3000",
+  "proxy": "https://localhost:44300",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",

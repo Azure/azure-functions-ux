@@ -14,6 +14,11 @@ phases:
         displayName: 'install yarn'
 
       - script: |
+          apt-get update && apt-get install -y uuid-runtime
+          sed -i '.original' s/cachekeyreplace/$(uuidgen)/g .env
+        displayName: 'Run Cypress tests'
+
+      - script: |
           cd client-react
           yarn install
         displayName: 'yarn install react app'
