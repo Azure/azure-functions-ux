@@ -17,6 +17,7 @@ phases:
           cd client-react
           yarn install
         displayName: 'yarn install react app'
+
       - script: |
           cd client-react
           yarn test --coverage --reporters="jest-junit"

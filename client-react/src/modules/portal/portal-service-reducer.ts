@@ -1,7 +1,7 @@
 import { IAction } from '../../models/action';
 import { IStartupInfo } from '../../models/portal-models';
 import { ITheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
-import { GET_STARTUP_INFO, SETUP_IFRAME, UPDATE_THEME } from './portal-service-actions';
+import { GET_STARTUP_INFO, SETUP_IFRAME, UPDATE_THEME, UPDATE_TOKEN } from './portal-service-actions';
 import lightTheme from '../../theme/light';
 
 export interface IPortalServiceState {
@@ -24,6 +24,8 @@ const portalService = (state = InitialState, action: IAction<any>): IPortalServi
       return { ...state, theme: action.payload };
     case GET_STARTUP_INFO:
       return { ...state, startupInfo: action.payload.startupInfo };
+    case UPDATE_TOKEN:
+      return { ...state, startupInfo: { ...state.startupInfo!, token: action.payload } };
     default:
       return state;
   }
