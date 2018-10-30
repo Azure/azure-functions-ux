@@ -81,7 +81,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           },
           {
             key: 'FtpsOnly',
-            text: t('fptsOnly'),
+            text: t('ftpsOnly'),
           },
           {
             key: 'Disabled',

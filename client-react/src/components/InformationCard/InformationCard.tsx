@@ -10,6 +10,7 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import { String } from '../../utils/string';
 
 interface InformationCardProps {
+  id: string;
   icon: string;
   title: string;
   description: string;
@@ -60,10 +61,12 @@ const learnMoreLinkStyle = style({
 });
 
 const InformationCard = (props: InformationCardPropsCombined) => {
-  const { icon, title, description, learnMore, t, theme } = props;
-  const titleHeaderId = String.removeSpaces(title);
+  const { id, icon, title, description, learnMore, t, theme } = props;
+  const titleHeaderId = `${id}-title`;
+  const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground });
+
   return (
-    <div style={{ backgroundColor: theme.semanticColors.defaultStateBackground }}>
+    <div className={informationCardDivStyle}>
       <div className={iconDivStyle}>
         <ReactSVG className={iconStyle} src={icon} />
       </div>
