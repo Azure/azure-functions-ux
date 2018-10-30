@@ -10,27 +10,24 @@ import { SiteService } from '../../../../shared/services/site.service';
 @Component({
   selector: 'app-step-deployment-slot',
   templateUrl: './step-deployment-slot.component.html',
-  styleUrls: ['./step-deployment-slot.component.scss', '../deployment-center-setup.component.scss']
+  styleUrls: ['./step-deployment-slot.component.scss', '../deployment-center-setup.component.scss'],
 })
 export class StepDeploymentSlotComponent implements OnDestroy {
+  deploymentSlotEnabledOptions = [
+    { displayLabel: this._translateService.instant(PortalResources.no), value: false },
+    { displayLabel: this._translateService.instant(PortalResources.yes), value: true },
+  ];
 
-  deploymentSlotEnabledOptions =
-    [{ displayLabel: this._translateService.instant(PortalResources.no), value: false },
-    { displayLabel: this._translateService.instant(PortalResources.yes), value: true }];
-
-  deploymentSlotNewOptions =
-    [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
-    { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
+  deploymentSlotNewOptions = [
+    { displayLabel: this._translateService.instant(PortalResources.new), value: true },
+    { displayLabel: this._translateService.instant(PortalResources.existing), value: false },
+  ];
   deploymentSlotsLoading = false;
   existingDeploymentSlotsList: DropDownElement<string>[] = [];
   selectedDeploymentSlot = '';
   private _resourceId: string;
   private _ngUnsubscribe$ = new Subject();
-  constructor(
-    public wizard: DeploymentCenterStateManager,
-    private _translateService: TranslateService,
-    private _siteService: SiteService
-  ) {
+  constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService, private _siteService: SiteService) {
     this.wizard.resourceIdStream$
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(r => {
@@ -43,7 +40,7 @@ export class StepDeploymentSlotComponent implements OnDestroy {
           const slotName: string = slot.name.split('/')[1];
           return {
             displayLabel: slotName,
-            value: slotName
+            value: slotName,
           };
         });
       });
@@ -54,7 +51,9 @@ export class StepDeploymentSlotComponent implements OnDestroy {
     const required = new RequiredValidator(this._translateService, false);
     if (deploymentSlotFormValues.newDeploymentSlot && deploymentSlotFormValues.deploymentSlotEnabled) {
       this.wizard.deploymentSlotSetting.get('deploymentSlot').setValidators([required.validate.bind(required)]);
-      this.wizard.deploymentSlotSetting.get('deploymentSlot').setAsyncValidators(SlotNameValidator.createValidator(this._translateService, this._siteService, this._resourceId).bind(this));
+      this.wizard.deploymentSlotSetting
+        .get('deploymentSlot')
+        .setAsyncValidators(SlotNameValidator.createValidator(this._translateService, this._siteService, this._resourceId).bind(this));
     } else {
       this.wizard.deploymentSlotSetting.get('deploymentSlot').setAsyncValidators([]);
       if (deploymentSlotFormValues.deploymentSlotEnabled) {
@@ -79,5 +78,4 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   ngOnDestroy() {
     this._ngUnsubscribe$.next();
   }
-
 }

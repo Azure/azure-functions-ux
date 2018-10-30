@@ -1,15 +1,15 @@
 export interface VSORepo {
-    remoteUrl: string;
-    name: string;
-    project: VsoProject;
-    id: string;
-    account: string;
+  remoteUrl: string;
+  name: string;
+  project: VsoProject;
+  id: string;
+  account: string;
 }
 
 export interface VSOAccount {
-    isAccountOwner: boolean;
-    accountName: string;
-    accountId: string;
+  isAccountOwner: boolean;
+  accountName: string;
+  accountId: string;
 }
 
 export interface VsoProject {

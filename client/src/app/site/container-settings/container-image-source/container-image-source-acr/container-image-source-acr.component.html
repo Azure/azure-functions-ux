@@ -4,6 +4,11 @@
         [infoText]="'containerACRMissingErrorMessage' | translate">
     </info-box>
 
+    <info-box *ngIf="cotainsCrossSubscriptionRegistry"
+        typeClass="info"
+        [infoText]="'containerACRCrossSubscriptionRegistry' | translate">
+    </info-box>
+
     <div *ngIf = "!registriesMissing">
         <div class="container-setting-property">
             <label>{{ 'containerACRRegistry' | translate }}</label>
@@ -72,7 +77,7 @@
 
             <div class="container-setting-property">
                 <label>{{ 'containerMultiConfiguration' | translate }}</label><br/>
-                <textarea class="config" formControlName="config" readonly></textarea>
+                <textarea class="config" formControlName="config"></textarea>
                 <div invalidmessage="config" id="containersettings-acr-config-error" role="alert"></div>
             </div>
         </div>

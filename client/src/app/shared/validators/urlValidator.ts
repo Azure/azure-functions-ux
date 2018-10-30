@@ -4,23 +4,22 @@ import { CustomFormControl } from '../../controls/click-to-edit/click-to-edit.co
 import { PortalResources } from '../models/portal-resources';
 
 export class URLValidator implements Validator {
-    private _errorMessage: string;
-    constructor(translateService: TranslateService) {
-        this._errorMessage = translateService.instant(PortalResources.invalidUrl);
-    }
+  private _errorMessage: string;
+  constructor(translateService: TranslateService) {
+    this._errorMessage = translateService.instant(PortalResources.invalidUrl);
+  }
 
-    validate(control: CustomFormControl) {
-        if ((control.touched || control.dirty) && control.value) {
-
-            try {
-                const url = new URL(control.value);
-                if (url.protocol !== 'https:' && url.protocol !== 'http:') {
-                    return { 'invalidUrl': this._errorMessage };
-                }
-            } catch (ex) {
-                return { 'invalidUrl': this._errorMessage };
-            }
+  validate(control: CustomFormControl) {
+    if ((control.touched || control.dirty) && control.value) {
+      try {
+        const url = new URL(control.value);
+        if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+          return { invalidUrl: this._errorMessage };
         }
-        return null;
+      } catch (ex) {
+        return { invalidUrl: this._errorMessage };
+      }
     }
+    return null;
+  }
 }

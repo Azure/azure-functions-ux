@@ -20,7 +20,6 @@ import { VstsValidators } from '../../validators/vsts-validators';
   styleUrls: ['./configure-vsts-build.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss'],
 })
 export class ConfigureVstsBuildComponent implements OnDestroy {
-
   public newVsoAccountOptions: SelectOption<boolean>[];
   private _ngUnsubscribe$ = new Subject();
 
@@ -40,12 +39,12 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _cacheService: CacheService,
     public wizard: DeploymentCenterStateManager,
-    private _logService: LogService,
+    private _logService: LogService
   ) {
-
-    this.newVsoAccountOptions =
-      [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
-      { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
+    this.newVsoAccountOptions = [
+      { displayLabel: this._translateService.instant(PortalResources.new), value: true },
+      { displayLabel: this._translateService.instant(PortalResources.existing), value: false },
+    ];
 
     this.setupSubscriptions();
     const val = this.wizard.wizardValues;
@@ -60,7 +59,11 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
       this.wizard.buildSettings.get('location').setValidators(required.validate.bind(required));
       this.wizard.buildSettings.get('vstsAccount').setValidators([required.validate.bind(required)]);
-      this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([VstsValidators.createVstsAccountNameValidator(this.wizard, this._translateService, this._cacheService).bind(this)]);
+      this.wizard.buildSettings
+        .get('vstsAccount')
+        .setAsyncValidators([
+          VstsValidators.createVstsAccountNameValidator(this.wizard, this._translateService, this._cacheService).bind(this),
+        ]);
       this.wizard.buildSettings.get('vstsProject').setValidators([]);
       this.wizard.buildSettings.setAsyncValidators([]);
     } else {
@@ -68,7 +71,16 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
       this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([]);
       this.wizard.buildSettings.get('vstsProject').setValidators(required.validate.bind(required));
-      this.wizard.buildSettings.get('vstsProject').setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService, this.wizard.buildSettings.get('vstsAccount')).bind(this));
+      this.wizard.buildSettings
+        .get('vstsProject')
+        .setAsyncValidators(
+          VstsValidators.createProjectPermissionsValidator(
+            this.wizard,
+            this._translateService,
+            this._cacheService,
+            this.wizard.buildSettings.get('vstsAccount')
+          ).bind(this)
+        );
     }
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
@@ -93,19 +105,19 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setupSubscriptions() {
     this.accountListLoading = true;
-    this.wizard.fetchVSTSProfile()
+    this.wizard
+      .fetchVSTSProfile()
       .map(r => r.json())
       .switchMap(r => this.fetchAccounts(r.id))
-      .do(() => this.accountListLoading = false)
+      .do(() => (this.accountListLoading = false))
       .switchMap(r => {
-        this.accountList =
-          r.map(account => {
-            return {
-              displayLabel: account.accountName,
-              value: account.accountName,
-            };
-          });
-        const projectCalls: Observable<{ account: string, projects: VsoProject[] }>[] = [];
+        this.accountList = r.map(account => {
+          return {
+            displayLabel: account.accountName,
+            value: account.accountName,
+          };
+        });
+        const projectCalls: Observable<{ account: string; projects: VsoProject[] }>[] = [];
         r.forEach(account => {
           projectCalls.push(
             this._cacheService
@@ -115,7 +127,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
                   account: account.accountName,
                   projects: res.json().value,
                 };
-              }));
+              })
+          );
         });
         return forkJoin(projectCalls);
       })
@@ -130,16 +143,15 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
               };
             });
           });
-
         },
         err => {
           this.accountListLoading = false;
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
-        },
+        }
       );
 
-    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders())
-      .subscribe(r => {
+    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders()).subscribe(
+      r => {
         const locationArray: any[] = r.json().value;
         this.locationList = locationArray.map(v => {
           return {
@@ -148,9 +160,10 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
           };
         });
       },
-        err => {
-          this._logService.error(LogCategories.cicd, '/fetch-vso-available-locations', err);
-        });
+      err => {
+        this._logService.error(LogCategories.cicd, '/fetch-vso-available-locations', err);
+      }
+    );
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {

@@ -22,28 +22,30 @@ describe('BashComponent', () => {
   let fixture: ComponentFixture<BashComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(), HttpModule, CommonModule
-      ],
+      imports: [TranslateModule.forRoot(), HttpModule, CommonModule],
       providers: [
-        BroadcastService, Injector,
-        {provide: TelemetryService, useClass: MockTelemetryService},
+        BroadcastService,
+        Injector,
+        { provide: TelemetryService, useClass: MockTelemetryService },
         { provide: ConsoleService, useClass: MockConsoleService },
         { provide: SiteService, useClass: MockSiteService },
         { provide: CacheService, useClass: MockCacheService },
         { provide: LogService, useClass: MockLogService },
       ],
-      declarations: [BashComponent, MessageComponent, PromptComponent]
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [MessageComponent, PromptComponent]
-      }
-    }).compileComponents().then(() => {
+      declarations: [BashComponent, MessageComponent, PromptComponent],
+    })
+      .overrideModule(BrowserDynamicTestingModule, {
+        set: {
+          entryComponents: [MessageComponent, PromptComponent],
+        },
+      })
+      .compileComponents()
+      .then(() => {
         fixture = TestBed.createComponent(BashComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });
-    }));
+  }));
 
   describe('init', () => {
     it('should create', async(() => {
@@ -96,35 +98,35 @@ describe('BashComponent', () => {
     }));
 
     it('Ctrl + V', fakeAsync(() => {
-      component.handlePaste({clipboardData: new TestClipboard()});
+      component.handlePaste({ clipboardData: new TestClipboard() });
       expect(component.commandInParts.leftCmd).toEqual('paste');
     }));
 
     it('alphanumeric-key', fakeAsync(() => {
-      component.keyEvent({which: 67, key: 'c'});
+      component.keyEvent({ which: 67, key: 'c' });
       expect(component.commandInParts.leftCmd).toEqual('c');
     }));
 
     it('down-arrow-press', fakeAsync(() => {
-      component.keyEvent({which: 67, key: 'c'});
+      component.keyEvent({ which: 67, key: 'c' });
       expect(component.commandInParts.leftCmd).toEqual('c');
-      component.keyEvent({which: 38, key: 'left'});
+      component.keyEvent({ which: 38, key: 'left' });
       expect(component.commandInParts.leftCmd).toEqual('');
     }));
 
     it('backspace-press', fakeAsync(() => {
-      component.keyEvent({which: 67, key: 'c'});
-      component.keyEvent({which: 86, key: 'v'});
+      component.keyEvent({ which: 67, key: 'c' });
+      component.keyEvent({ which: 86, key: 'v' });
       expect(component.commandInParts.leftCmd).toEqual('cv');
-      component.keyEvent({which: 8, key: 'backspace'});
+      component.keyEvent({ which: 8, key: 'backspace' });
       expect(component.commandInParts.leftCmd).toEqual('c');
     }));
 
     it('esc-key-press', fakeAsync(() => {
-      component.keyEvent({which: 86, key: 'v'});
-      component.keyEvent({which: 86, key: 'v'});
+      component.keyEvent({ which: 86, key: 'v' });
+      component.keyEvent({ which: 86, key: 'v' });
       expect(component.commandInParts.leftCmd).toEqual('vv');
-      component.keyEvent({which: 27, key: 'esc'});
+      component.keyEvent({ which: 27, key: 'esc' });
       expect(component.commandInParts.leftCmd).toEqual('');
     }));
   });

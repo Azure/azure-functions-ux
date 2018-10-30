@@ -6,33 +6,29 @@ import { Component, OnInit, AfterContentInit, ContentChildren, QueryList } from 
 
 @Component({
   selector: 'right-tabs',
-  templateUrl: './right-tabs.component.html'
+  templateUrl: './right-tabs.component.html',
 })
 export class RightTabsComponent implements OnInit, AfterContentInit {
-
-  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
+  @ContentChildren(TabComponent)
+  tabs: QueryList<TabComponent>;
   public expanded = false;
 
-  constructor(private _broadcastService: BroadcastService) {
+  constructor(private _broadcastService: BroadcastService) {}
 
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   toggleExpanded() {
     const tabs = this.tabs.toArray();
     if (tabs.length > 0) {
-      tabs[0].active = !tabs[0].active;  // For now we only have one tab so just hardcoding
+      tabs[0].active = !tabs[0].active; // For now we only have one tab so just hardcoding
     }
 
     this.expanded = !this.expanded;
     this._broadcastService.broadcastEvent<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent, {
       type: 'isExpanded',
-      value: this.expanded
+      value: this.expanded,
     });
   }
 
-  ngAfterContentInit() {
-  }
+  ngAfterContentInit() {}
 }

@@ -8,12 +8,9 @@ import { LogStreamShellComponent } from './log-stream-shell.component';
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: LogStreamShellComponent }]);
 
 @NgModule({
-    entryComponents: [],
-    imports: [TranslateModule.forChild(), SharedModule, LogStreamModule, routing],
-    declarations: [
-        LogStreamShellComponent,
-    ],
-    providers: [
-    ],
+  entryComponents: [],
+  imports: [TranslateModule.forChild(), SharedModule, LogStreamModule, routing],
+  declarations: [LogStreamShellComponent],
+  providers: [],
 })
-export class LogStreamShellModule { }
+export class LogStreamShellModule {}

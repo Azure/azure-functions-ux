@@ -13,12 +13,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 
 @NgModule({
-  entryComponents: [
-    SiteConfigStandaloneComponent
-  ],
-  imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule
-  ],
+  entryComponents: [SiteConfigStandaloneComponent],
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule],
   declarations: [
     SiteConfigComponent,
     SiteConfigStandaloneComponent,
@@ -28,11 +24,8 @@ import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
     AppSettingsShellComponent,
     DefaultDocumentsComponent,
     HandlerMappingsComponent,
-    VirtualDirectoriesComponent
+    VirtualDirectoriesComponent,
   ],
-  exports: [
-    SiteConfigComponent,
-    SiteConfigStandaloneComponent
-  ]
+  exports: [SiteConfigComponent, SiteConfigStandaloneComponent],
 })
-export class SiteConfigModule { }
+export class SiteConfigModule {}

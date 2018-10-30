@@ -2,11 +2,11 @@
  * Created by marc on 09.01.17.
  */
 
-import {Directive, Output, HostListener, EventEmitter, Input, Optional} from '@angular/core';
-import {WizardComponent} from '../components/wizard.component';
-import {isStepOffset, StepOffset} from '../util/step-offset.interface';
-import {isNumber, isString} from 'util';
-import {WizardStep} from '../util/wizard-step.interface';
+import { Directive, Output, HostListener, EventEmitter, Input, Optional } from '@angular/core';
+import { WizardComponent } from '../components/wizard.component';
+import { isStepOffset, StepOffset } from '../util/step-offset.interface';
+import { isNumber, isString } from 'util';
+import { WizardStep } from '../util/wizard-step.interface';
 
 /**
  * The `goToStep` directive can be used to navigate to a given step.
@@ -35,7 +35,7 @@ import {WizardStep} from '../util/wizard-step.interface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[goToStep]'
+  selector: '[goToStep]',
 })
 export class GoToStepDirective {
   /**
@@ -62,7 +62,7 @@ export class GoToStepDirective {
    * @param wizard The wizard, which contains this [[GoToStepDirective]]
    * @param wizardStep The wizard step, which contains this [[GoToStepDirective]]
    */
-  constructor(private wizard: WizardComponent, @Optional() private wizardStep: WizardStep) { }
+  constructor(private wizard: WizardComponent, @Optional() private wizardStep: WizardStep) {}
 
   /**
    * Returns the destination step of this directive as an absolute step index inside the wizard
@@ -92,7 +92,8 @@ export class GoToStepDirective {
    * Listener method for `click` events on the component with this directive.
    * After this method is called the wizard will try to transition to the `destinationStep`
    */
-  @HostListener('click', ['$event']) onClick(): void {
+  @HostListener('click', ['$event'])
+  onClick(): void {
     if (this.wizard.canGoToStep(this.destinationStep)) {
       this.finalize.emit();
 

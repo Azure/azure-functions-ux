@@ -14,45 +14,45 @@ import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-ed
  * value or not
  */
 export class UniqueValidator implements Validator {
-    constructor(
-        private _controlName: string,
-        private _controlsArray: FormArray,
-        private _error,
-        private _stringTransform?: (s: string) => string) {
+  constructor(
+    private _controlName: string,
+    private _controlsArray: FormArray,
+    private _error,
+    private _stringTransform?: (s: string) => string
+  ) {}
+
+  validate(control: CustomFormControl) {
+    if (control.pristine) {
+      return null;
     }
 
-    validate(control: CustomFormControl) {
-        if (control.pristine) {
-            return null;
-        }
+    let controlVal = this._normalizeValue(control.value);
 
-        let controlVal = this._normalizeValue(control.value);
+    let match = this._controlsArray.controls.find(group => {
+      let customFormGroup = group as CustomFormGroup;
+      if (customFormGroup.msExistenceState === 'deleted') {
+        return null;
+      }
 
-        let match = this._controlsArray.controls.find(group => {
-            let customFormGroup = group as CustomFormGroup;
-            if (customFormGroup.msExistenceState === 'deleted') {
-                return null;
-            }
+      let cs = (group as FormGroup).controls;
+      if (!cs) {
+        throw 'Validator requires hierarchy of FormArray -> FormGroup -> FormControl';
+      }
 
-            let cs = (group as FormGroup).controls;
-            if (!cs) {
-                throw "Validator requires hierarchy of FormArray -> FormGroup -> FormControl";
-            }
+      let c = cs[this._controlName];
+      let cVal = this._normalizeValue(c.value);
 
-            let c = cs[this._controlName];
-            let cVal = this._normalizeValue(c.value);
+      return c !== control && cVal === controlVal;
+    });
 
-            return c !== control && cVal === controlVal;
-        });
+    return !!match ? { notUnique: this._error } : null;
+  }
 
-        return !!match ? { "notUnique": this._error } : null;
+  private _normalizeValue(value) {
+    let valueString = value ? value.toString().toLowerCase() : null;
+    if (this._stringTransform) {
+      valueString = this._stringTransform(valueString);
     }
-
-    private _normalizeValue(value) {
-        let valueString = value ? value.toString().toLowerCase() : null;
-        if (this._stringTransform) {
-            valueString = this._stringTransform(valueString);
-        }
-        return valueString;
-    }
+    return valueString;
+  }
 }

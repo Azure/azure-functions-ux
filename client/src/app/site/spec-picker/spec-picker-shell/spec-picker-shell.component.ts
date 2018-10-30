@@ -10,24 +10,23 @@ import { StartupInfo } from '../../../shared/models/portal';
 @Component({
   selector: 'spec-picker-shell',
   templateUrl: './spec-picker-shell.component.html',
-  styleUrls: ['./spec-picker-shell.component.scss']
+  styleUrls: ['./spec-picker-shell.component.scss'],
 })
 export class SpecPickerShellComponent {
   viewInfo: TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>;
 
   constructor(translateService: TranslateService, userService: UserService) {
-    userService.getStartupInfo()
+    userService
+      .getStartupInfo()
       .first()
       .subscribe((info: StartupInfo<SpecPickerInput<PlanSpecPickerData>>) => {
-
         if (info.featureInfo && info.featureInfo.id) {
           this.viewInfo = {
             resourceId: info.featureInfo.id,
             dashboardType: DashboardType.none,
             node: null,
-            data: info.featureInfo
+            data: info.featureInfo,
           };
-
         }
       });
   }

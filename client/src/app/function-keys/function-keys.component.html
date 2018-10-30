@@ -13,26 +13,12 @@
             <tr class="not-clickable" *ngFor="let key of keys; let i = index;">
                 <td><label id="{{ keyNameIdPrefix + i }}">{{key.name}}</label></td>
                 <td>
-                    <a *ngIf="key.show"
-                        id="clickToHide"
-                        role="button"
-                        (click)="key.show=!key.show" 
-                        (keydown)="keyDown($event, 'showKey', key)"
-                        class="operation" 
-                        tabindex="0"
-                        [attr.aria-expanded]="key.show"
-                        [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToHide'">
+                    <a *ngIf="key.show" id="clickToHide" role="button" (click)="key.show=!key.show" (keydown)="keyDown($event, 'showKey', key)"
+                        class="operation" tabindex="0" [attr.aria-expanded]="key.show" [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToHide'">
                         {{'functionKeys_clickToHide' | translate}}
                     </a>
-                    <a *ngIf="!key.show"
-                        id="clickToShow"
-                        role="button"
-                        (click)="key.show=!key.show" 
-                        (keydown)="keyDown($event, 'showKey', key)"
-                        class="operation" 
-                        tabindex="0"
-                        [attr.aria-expanded]="key.show"
-                        [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToShow'">
+                    <a *ngIf="!key.show" id="clickToShow" role="button" (click)="key.show=!key.show" (keydown)="keyDown($event, 'showKey', key)"
+                        class="operation" tabindex="0" [attr.aria-expanded]="key.show" [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToShow'">
                         {{'functionKeys_clickToShow' | translate}}
                     </a>
                     <span *ngIf="key.show" [attr.aria-label]="key.value" tabindex="0">{{ key.value }}</span>
@@ -40,29 +26,17 @@
                 <td>
                     <div id="operations-bar">
                         <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
-                            <span class="operation" 
-                                (click)="copyKey(key)" 
-                                (keydown)="keyDown($event, 'copyKey', key)">
+                            <span class="operation" (click)="copyKey(key)" (keydown)="keyDown($event, 'copyKey', key)">
                                 <i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}
                             </span>
                         </pop-over>
-                        <a class="operation"
-                            role="link"
-                            (click)="renewKey(key)"
-                            (keydown)="keyDown($event, 'renewKey', key)"
-                            tabindex="0"
-                            id="renewKeyAction"
-                            [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' renewKeyAction'">
+                        <a class="operation" role="link" (click)="renewKey(key)" (keydown)="keyDown($event, 'renewKey', key)"
+                            tabindex="0" id="renewKeyAction" [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' renewKeyAction'">
                             <i class="fa fa-refresh"></i>
                             {{'functionKeys_renew' | translate}}
                         </a>
-                        <a class="operation"
-                            role="link"
-                            *ngIf="key.name !== '_master'"
-                            (click)="revokeKey(key)"
-                            (keydown)="keyDown($event, 'revokeKey', key)"
-                            tabindex="0"
-                            id="revokeKeyAction"
+                        <a class="operation" role="link" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"
+                            (keydown)="keyDown($event, 'revokeKey', key)" tabindex="0" id="revokeKeyAction"
                             [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' revokeKeyAction'">
                             <i class="fa fa-times"></i>
                             {{'functionKeys_revoke' | translate}}
@@ -72,29 +46,16 @@
             </tr>
             <tr *ngIf="addingNew" class="not-clickable">
                 <td>
-                    <input [autofocus]="true"
-                        type="text"
-                        id="newKeyName"
-                        (keyup)="checkValidName($event)"
-                        [(ngModel)]="newKeyName"
-                        placeholder="{{'functionKeys_enterKeyName' | translate}}" />
+                    <input [autofocus]="true" type="text" id="newKeyName" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName"
+                        placeholder="{{'functionKeys_enterKeyName' | translate}}" maxlength="64" />
                 </td>
                 <td>
-                    <input
-                        type="text"
-                        id="newKeyValue"
-                        (keyup)="checkValidName($event)"
-                        [(ngModel)]="newKeyValue"
+                    <input type="text" id="newKeyValue" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue"
                         placeholder="{{'functionKeys_enterKeyValue' | translate}}" />
                 </td>
                 <td>
-                    <button 
-                        class="custom-button" 
-                        [ngClass]="validKey ? '' : 'disabled'" 
-                        (click)="saveNewKey()" 
-                        tabindex="0"
-                        id="saveNewKeyButton"
-                        aria-labelledby="newKeyName newKeyValue saveNewKeyButton">
+                    <button class="custom-button" [ngClass]="validKey ? '' : 'disabled'" (click)="saveNewKey()"
+                        tabindex="0" id="saveNewKeyButton" aria-labelledby="newKeyName newKeyValue saveNewKeyButton">
                         {{'save' | translate}}
                     </button>
                 </td>

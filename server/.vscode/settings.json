@@ -1,8 +1,11 @@
 {
-    "prettier.jsxBracketSameLine": true,
-    "prettier.printWidth": 140,
-    "prettier.singleQuote": true,
-    "prettier.tabWidth": 2,
-    "prettier.trailingComma": "es5",
-    "editor.formatOnSave": true
+  "prettier.jsxBracketSameLine": true,
+  "prettier.printWidth": 140,
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "prettier.trailingComma": "es5",
+  "editor.formatOnSave": true,
+  "[html]": {
+    "editor.formatOnSave": false
+  }
 }

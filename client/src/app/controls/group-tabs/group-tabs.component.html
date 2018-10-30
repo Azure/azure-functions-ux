@@ -16,5 +16,6 @@
 
         <div [load-image]="tabItem.iconUrl" class="icon-medium"></div>
         <h3>{{tabItem.title}}</h3>
+        <h4 *ngIf="tabItem.description">{{tabItem.description}}</h4>
     </div>
 </nav>

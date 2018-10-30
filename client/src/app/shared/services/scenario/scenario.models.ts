@@ -4,32 +4,31 @@ import { Site } from './../../models/arm/site';
 import { ArmObj } from './../../models/arm/arm-obj';
 
 export interface ScenarioCheckInput {
-    site?: ArmObj<Site>;
-    appNodeChildren?: TreeNode[];
+  site?: ArmObj<Site>;
+  appNodeChildren?: TreeNode[];
 }
 
 export type ScenarioStatus = 'enabled' | 'disabled' | null;
 
 export interface ScenarioResult {
-    status: ScenarioStatus;
-    data?: any;
+  status: ScenarioStatus;
+  data?: any;
 }
 
 export interface ScenarioCheckResult extends ScenarioResult {
-    id: string;
-    environmentName: string;
+  id: string;
+  environmentName: string;
 }
 
 interface ScenarioCheck {
-    id: string;
-    runCheck?: (input?: ScenarioCheckInput) => ScenarioResult;
-    runCheckAsync?: (input?: ScenarioCheckInput) => Observable<ScenarioResult>;
+  id: string;
+  runCheck?: (input?: ScenarioCheckInput) => ScenarioResult;
+  runCheckAsync?: (input?: ScenarioCheckInput) => Observable<ScenarioResult>;
 }
 
 export abstract class Environment {
-    scenarioChecks: { [key: string]: ScenarioCheck } = {};
+  scenarioChecks: { [key: string]: ScenarioCheck } = {};
 
-    abstract name: string;
-    abstract isCurrentEnvironment(input?: ScenarioCheckInput): boolean;
-
+  abstract name: string;
+  abstract isCurrentEnvironment(input?: ScenarioCheckInput): boolean;
 }

@@ -1,3 +1,3 @@
 export class AuthSettings {
-    enabled: boolean;
+  enabled: boolean;
 }

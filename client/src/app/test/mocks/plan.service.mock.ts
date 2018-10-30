@@ -9,43 +9,43 @@ import { SpecCostQueryInput } from '../../site/spec-picker/price-spec-manager/bi
 
 @Injectable()
 export class MockPlanService implements IPlanService {
-    planToReturn: ArmObj<ServerFarm> = {
-        id: `/subscriptions/mysub/resourcegroups/myrg/providers/microsoft.web/serverfarms/myplan`,
-        name: 'myplan',
-        type: 'microsoft.web/serverfarms',
-        kind: '',
-        location: 'West US',
-        properties: {},
-        sku: {
-            name: 'S1'
-        }
-    };
+  planToReturn: ArmObj<ServerFarm> = {
+    id: `/subscriptions/mysub/resourcegroups/myrg/providers/microsoft.web/serverfarms/myplan`,
+    name: 'myplan',
+    type: 'microsoft.web/serverfarms',
+    kind: '',
+    location: 'West US',
+    properties: {},
+    sku: {
+      name: 'S1',
+    },
+  };
 
-    getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>> {
-        return Observable.of({
-            isSuccessful: true,
-            error: null,
-            result: this.planToReturn
-        });
-    }
+  getPlan(resourceId: ResourceId, force?: boolean): Result<ArmObj<ServerFarm>> {
+    return Observable.of({
+      isSuccessful: true,
+      error: null,
+      result: this.planToReturn,
+    });
+  }
 
-    updatePlan(plan: ArmObj<ServerFarm>): Result<ArmObj<ServerFarm>> {
-        return null;
-    }
+  updatePlan(plan: ArmObj<ServerFarm>): Result<ArmObj<ServerFarm>> {
+    return null;
+  }
 
-    getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]> {
-        return null;
-    }
+  getAvailableSkusForPlan(resourceId: ResourceId): Observable<AvailableSku[]> {
+    return null;
+  }
 
-    getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
-        return null;
-    }
+  getAvailableGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean) {
+    return null;
+  }
 
-    getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]> {
-        return null;
-    }
+  getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]> {
+    return null;
+  }
 
-    getSpecCosts(query: SpecCostQueryInput) {
-        return null;
-    }
+  getSpecCosts(query: SpecCostQueryInput) {
+    return null;
+  }
 }

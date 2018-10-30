@@ -1,0 +1,101 @@
+{
+  "id": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/sites/azure-functions-react-test",
+  "name": "azure-functions-react-test",
+  "type": "Microsoft.Web/sites",
+  "kind": "app",
+  "location": "Central US",
+  "properties": {
+    "name": "azure-functions-react-test",
+    "state": "Running",
+    "hostNames": ["azure-functions-react-test.azurewebsites.net"],
+    "webSpace": "azure-functions-react-test-CentralUSwebspace",
+    "selfLink": "https://waws-prod-dm1-027.api.azurewebsites.windows.net:454/subscriptions/sub/webspaces/azure-functions-react-test-CentralUSwebspace/sites/azure-functions-react-test",
+    "repositorySiteName": "azure-functions-react-test",
+    "owner": null,
+    "usageState": "Normal",
+    "enabled": true,
+    "adminEnabled": true,
+    "enabledHostNames": ["azure-functions-react-test.azurewebsites.net", "azure-functions-react-test.scm.azurewebsites.net"],
+    "siteProperties": {
+      "metadata": null,
+      "properties": [
+        {
+          "name": "LinuxFxVersion",
+          "value": ""
+        },
+        {
+          "name": "WindowsFxVersion",
+          "value": null
+        }
+      ],
+      "appSettings": null
+    },
+    "availabilityState": "Normal",
+    "sslCertificates": null,
+    "csrs": [],
+    "cers": null,
+    "siteMode": null,
+    "hostNameSslStates": [
+      {
+        "name": "azure-functions-react-test.azurewebsites.net",
+        "sslState": "Disabled",
+        "ipBasedSslResult": null,
+        "virtualIP": null,
+        "thumbprint": null,
+        "toUpdate": null,
+        "toUpdateIpBasedSsl": null,
+        "ipBasedSslState": "NotConfigured",
+        "hostType": "Standard"
+      },
+      {
+        "name": "azure-functions-react-test.scm.azurewebsites.net",
+        "sslState": "Disabled",
+        "ipBasedSslResult": null,
+        "virtualIP": null,
+        "thumbprint": null,
+        "toUpdate": null,
+        "toUpdateIpBasedSsl": null,
+        "ipBasedSslState": "NotConfigured",
+        "hostType": "Repository"
+      }
+    ],
+    "computeMode": null,
+    "serverFarm": null,
+    "serverFarmId": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/serverfarms/ServicePlan9131048f-9b79",
+    "reserved": false,
+    "isXenon": false,
+    "lastModifiedTimeUtc": "2018-10-17T17:34:08.6533333",
+    "storageRecoveryDefaultState": "Running",
+    "contentAvailabilityState": "Normal",
+    "runtimeAvailabilityState": "Normal",
+    "siteConfig": null,
+    "deploymentId": "azure-functions-react-test",
+    "trafficManagerHostNames": null,
+    "sku": "Standard",
+    "scmSiteAlsoStopped": false,
+    "targetSwapSlot": null,
+    "hostingEnvironment": null,
+    "hostingEnvironmentProfile": null,
+    "clientAffinityEnabled": true,
+    "clientCertEnabled": false,
+    "hostNamesDisabled": false,
+    "domainVerificationIdentifiers": null,
+    "kind": "app",
+    "outboundIpAddresses": "52.173.249.137,52.176.59.177,52.173.201.190,52.173.203.66,52.173.251.28",
+    "possibleOutboundIpAddresses": "52.173.249.137,52.176.59.177,52.173.201.190,52.173.203.66,52.173.251.28,52.173.202.202,52.173.200.111",
+    "containerSize": 0,
+    "dailyMemoryTimeQuota": 0,
+    "suspendedTill": null,
+    "siteDisabledReason": 0,
+    "functionExecutionUnitsCache": null,
+    "maxNumberOfWorkers": null,
+    "homeStamp": "waws-prod-dm1-027",
+    "cloningInfo": null,
+    "hostingEnvironmentId": null,
+    "tags": null,
+    "resourceGroup": "azure-functions-react-test",
+    "defaultHostName": "azure-functions-react-test.azurewebsites.net",
+    "slotSwapStatus": null,
+    "httpsOnly": false
+  }
+}

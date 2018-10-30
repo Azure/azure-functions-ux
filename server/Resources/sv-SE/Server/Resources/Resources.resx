@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>Testa</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>Testning stöds inte för GitHub-webhooksfunktioner.</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Körningsversion</value>
   </data>
@@ -1181,7 +1184,7 @@
     <value>Växla</value>
   </data>
   <data name="startSwap" xml:space="preserve">
-    <value>Start Swap</value>
+    <value>Börja växla</value>
   </data>
   <data name="completeSwap" xml:space="preserve">
     <value>Fullständig växling</value>
@@ -1316,7 +1319,7 @@
     <value>Distributionsalternativ</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Konfigurera och hantera distributionsalternativ för appen, till exempel fortlöpande distribution från VSTS, Github och Bitbucket och aktiveringsdistributioner från OneDrive, DropBox, extern Git och mycket mer.</value>
+    <value>Konfigurera och hantera distributionsalternativ för din app, t.ex. kontinuerlig distribution från VSTS, GitHub och Bitbucket, och utlös distributioner från OneDrive, DropBox, extern Git och mycket mer.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Autentiseringsuppgifter för distribution</value>
@@ -1367,7 +1370,7 @@
     <value>Öppna i nytt fönster</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>Tillägg</value>
+    <value>Webbplatstillägg</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Med tillägg får du fler funktioner i hela appen.</value>
@@ -1541,13 +1544,13 @@
     <value>Stack</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web Apps på Linux ger körningsalternativ genom en samling med inbyggda containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
+    <value>Web Apps på Linux ger CLR-alternativ genom en mängd av inbyggda containrar. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startfil</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>Ange ett valfritt startkommando som ska köras som en del av containerstarten. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
+    <value>Ange ett valfritt startkommando som ska köras som en del av containerstarten. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Nyast</value>
@@ -1805,7 +1808,7 @@
     <value>skala</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>Anslutningssträngar</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>Felsök</value>
@@ -2192,10 +2195,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Namn</value>
   </data>
   <data name="slotNew_cloneConfigLabel" xml:space="preserve">
-    <value>Clone settings from:</value>
+    <value>Klona inställningar från:</value>
   </data>
   <data name="slotNew_dontCloneConfig" xml:space="preserve">
-    <value>Do not clone settings</value>
+    <value>Klona inte inställningarna</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>Skapa en ny distributionsplats</value>
@@ -2241,6 +2244,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>Nytt värde</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>Aktuellt värde</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>Temporärt värde</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>Du har inte lagt till några distributionsplatser. Klicka på Lägg till plats för att komma igång.</value>
@@ -2833,8 +2842,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="entityColon" xml:space="preserve">
     <value>Entitet:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>API-definitionsfunktionen (Swagger) stöds för närvarande inte för beta-runtime.</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>Funktionen funktions-API-definition (Swagger) stöds för närvarande inte för V2-runtime.</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>Har distribuerats till {0}</value>
@@ -2846,7 +2855,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Växla med förhandsgranskning</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+    <value>Växling med förhandsversion bryts ned i två faser. I den första fasen kopieras alla fackspecifika programinställningar och anslutningssträngar för målet tillfälligt till källfacket. Detta innebär att du kan testa facket med dess slutliga konfigurationsvärden. Härifrån kan du välja att antingen avbryta fas ett och återgå till din normala konfiguration, eller fortsätta till fas två, vilket skulle ta bort de temporära konfigurationsändringarna och slutföra växlingen av källan till målfacket.</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>Starta växling</value>
@@ -2858,7 +2867,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>En växlingsåtgärd pågår. När du har lämnat sidan kan du inte längre kontrollera åtgärdens status.</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
+    <value>{{swapType}} mellan distributionsfack {{srcSlot}} och distributionsfack {{destSlot}}</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>växling</value>
@@ -2999,7 +3008,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Synkronisera innehåll från en OneDrive-molnmapp.</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Konfigurera kontinuerlig integrering med en Github-lagringsplats.</value>
+    <value>Konfigurera kontinuerlig integration med en GitHub-lagringsplats.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>Konfigurera kontinuerlig integrering med en VSTS-lagringsplats.</value>
@@ -3032,7 +3041,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Functions (förhandsversion)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Appen är för närvarande i skrivskyddat läge eftersom du använder Kör från zip. När du använder Kör från zip är filsystemet är skrivskyddat och det går inte att göra ändringar i filerna. Om du vill göra ändringar uppdaterar du innehållet i zip-filen och appinställningen WEBSITE_USE_ZIP.</value>
+    <value>Appen är för närvarande i skrivskyddat läge eftersom du kör från en paketfil. När du kör från ett paket är filsystemet skrivskyddat och det går inte att göra ändringar i filerna. Om du vill göra ändringar måste du uppdatera innehållet i zip-filen och appinställningen WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3088,6 +3097,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>Du måste ha skrivbehörighet för planen {0} för att kunna uppdatera den</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>Bättre prestanda och fler funktioner finns tillgängliga för samma pris! Kolla in Premium V2.</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>Planen {0} är skrivskyddad och kan inte uppdateras</value>
   </data>
@@ -3121,11 +3133,14 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>Varje instans av din App Service-plan omfattar följande maskinvarukonfiguration:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>ACU (Azure Compute Units)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Den första Basic-kärnan (B1) för Linux är kostnadsfri de första 30 dagarna!</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows-containers är begränsade till att skala ut från 2 instanser och är kostnadsfria tills 13 September 2018.</value>
+    <value>Windows-containers debiteras med 50 % rabatt under förhandsversionen.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolerad-prisnivåer inom en App Service-miljö (ASE) finns inte tillgängliga för din konfiguration. En ASE är ett kraftfullt funktionserbjudande i Azure App Service som erbjuder nätverksisolering och förbättrade skalningsfunktioner.</value>
@@ -3139,8 +3154,14 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 stöds inte för den här skalningsenheten. Distribuera om eller klona din app.</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>Elastic Premium stöds inte för den här skalningsenheten. Distribuera om eller klona din app.</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>Skala upp</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>Din apps utgående IP-adresser kan ändras.</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
@@ -3163,11 +3184,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Delade compute-resurser som används för att köra program som distribuerats i App Service-prenumerationsavtalet.</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedikerade A-serieberäkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedikerade Dv2-serieberäkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>Dedikerade beräkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Minne som finns tillgängligt för att köra program som distribuerats och körs i App Service-prenumerationsavtalet.</value>
@@ -3190,6 +3208,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Manuell skala</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>Snabb skala</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>Skala upp funktionsappar baserat på händelseutlösare.</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoskala</value>
   </data>
@@ -3201,6 +3225,12 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Upp till {0} instanser. I mån av tillgänglighet.</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>Hög densitet</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>Dela en App Service-plan effektivt över flera funktionsappar.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>Mellanlagringsplatser</value>
@@ -3232,6 +3262,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Isolerat nätverk</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Virtual Network-integration</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>Körs inom ditt eget virtuella nätverk.</value>
   </data>
@@ -3250,11 +3283,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} kärnor</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>Serie A-beräkning</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>Motsvarande A-serieberäkning</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Beräkna Dv2-serie</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Motsvarande Dv2-serieberäkning</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>Proxies.json är inte giltig. Fel: {0}.</value>
@@ -3311,7 +3344,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Loggningsnivå</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-kontinuerlig leverans</value>
+    <value>VSTS-version (förhandsversion)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services konfigurerar en robust distributionspipeline för ditt program. Pipelinen skapar, kör inläsningstester och distribuerar till mellanlagringsplatsen och därefter till produktionen.</value>
@@ -3410,7 +3443,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Prisnivå</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>Distributionscenter (förhandsversion)</value>
+    <value>Distributionscenter</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service-distributionscenter låter dig välja platsen för din kod samt alternativ för att skapa och distribuera till molnet.</value>
@@ -3575,7 +3608,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Koppla från</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Redigera</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>Synkronisera</value>
@@ -3583,11 +3616,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="deploymentCredentials" xml:space="preserve">
     <value>Autentiseringsuppgifter för distributions</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3-serieberäkning</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>Dedikerade Dv3-serieberäkningsresurser som används för att köra program som distribuerats i App Service plan.</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Motsvarande Dv3-serieberäkning</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Anslutningssträngar ska endast användas med en funktionsapp om du använder Entity Framework. Använd appinställningar för andra scenarier. Klicka för att läsa mer.</value>
@@ -3658,32 +3688,20 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="enterPassword" xml:space="preserve">
     <value>ange lösenord</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>Du måste ha skrivbehörighet på din app för att kunna konfigurera containerinställningarna</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>Dina containerinställningar kan inte konfigureras såvida du inte tar bort appens skrivskyddslås</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Enskild container</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>Det här är beskrivningen för enskild container.</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>Detta är en detaljerad beskrivning för enskild container.</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>Det här är beskrivningen för Docker Compose.</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>Detta är en detaljerad beskrivning för Docker Compose.</value>
+    <value>Docker Compose (förhandsgranskning)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>Detta är beskrivningen för Kubernetes.</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>Detta är en detaljerad beskrivning för Kubernetes.</value>
+    <value>Kubernetes (förhandsversion)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>Det gick inte att installera CLR-tillägget. Om du vill veta se mer</value>
@@ -3695,7 +3713,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Sessions-ID: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>Lokalt SSD-baserat minne för containervärd och valfria {0} GB disklagring som delas av alla appar som distribueras i App Service-planen.</value>
+    <value>Lokalt SSD-baserat minne för containervärd och valfri {0}-disklagring som delas av alla appar som distribueras i App Service-planen.</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Funktionsappens namn</value>
@@ -3728,10 +3746,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Vill du koppla ifrån din distribution?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Community-mallar</value>
+    <value>Serverlöst Community-bibliotek (förhandsversion)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Hittar du inte vad du söker? Gå till det serverlösa biblioteket, vårt galleri med communityskapade mallar, och få inspiration!</value>
+    <value>Hittar du inte det du letar efter? Testa Azures serverlösa Community-bibliotek!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Det går inte att nå Körmiljö för Azure Functions.</value>
@@ -3745,6 +3763,150 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_ACU" xml:space="preserve">
     <value>Totalt {0} ACU</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>Uppdatera containerinställningar</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>Snabbstart</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure Container Registry</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker-hubb</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>Privat register</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>Anpassade</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>Bildkälla</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>Bild och valfri tagg (t.ex. bild:tagg)</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>Kom igång genom att först skapa ett register med Azure Container Registry och sedan lägga till en avbildning.</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>Åtkomst till lagringsplats</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Offentliga</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>Privata</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>Server-URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>Inloggning</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>Startfil</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>Konfigurationskälla</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>Azure Functions för .NET – komma igång</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>Azure Functions för JavaScript – komma igång</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Azure Functions för Python – komma igång</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Azure Functions för Java – komma igång</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>Följ våra riktlinjer för Snabbstart när det gäller att redigera och publicera en funktion</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>Välj en utvecklingsmiljö</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>Välj en annan distributionsmetod</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>Skapa en funktion</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>Snabbstart</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS-kod</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>Valfritt redigeringsprogram + kärnverktyg</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>Valfritt redigeringsprogram + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>I portalen</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Använd Visual Studio när du vill utforma, skapa och köra .NET-funktioner</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Använd Visual Studio Code när du skapar dina funktioner</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>Skriv funktioner med hjälp av ditt favoritredigeringsprogram och Azure Functions kärnverktyg</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>Skriv Java-funktioner med hjälp av ditt favoritredigeringsprogram, t.ex. IntelliJ, Eclipse eller Maven</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>Skapa funktioner snabbt i portalen</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>Använd distributionscentret</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>Konfigurera appen så att du kan kontrollera koden i källkontrollen och köra den via en kontinuerlig distributionspipeline</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>Direktpublicera</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicera direkt från Visual Studio</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicera direkt från VS-kod</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicera direkt från Azure Functions-kärnverktyg</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Publicera direkt från Maven</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>En funktion som körs när den får en HTTP-begäran</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>En funktion som ska köras enligt ett angivet schema</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>Du har skapat en funktionsapp!</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>Nu är det tid att lägga till din kod...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>Synkroniseringsförfrågan har skickats</value>
   </data>
@@ -3757,88 +3919,499 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>Kontinuerlig VSTS-leverans kräver att du har behörigheter att skriva till Azure Active Directory och skapa en princip för tjänsten.</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>Välj exempel</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>Beskrivning</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
+    <value>Du äger inte några VSTS-lagringsplatser</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
+    <value>Du har inte några giltiga VSTS-konton</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>Du har inte några giltiga VSTS-konton. App Service Kudu Build kräver också att du är kontoinnehavare</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Skapa en nu</value>
   </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-    <value>Your Function extensions need to be updated.</value>
+    <value>Funktionstilläggen måste uppdateras.</value>
   </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
-    <value>Failed to retrieve source configuration</value>
+    <value>Det gick inte att hämta källkonfigurationen</value>
   </data>
   <data name="noCreateAccess" xml:space="preserve">
-    <value>You do not have create access</value>
+    <value>Du saknar åtkomst att skapa</value>
   </data>
   <data name="noSwapPermission" xml:space="preserve">
-    <value>You do not have swap permission</value>
+    <value>Du har inte växlingsbehörighet</value>
   </data>
   <data name="noWritePermission" xml:space="preserve">
-    <value>You do not have write permission</value>
+    <value>Du saknar skrivbehörighet</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The slot has a read-only lock</value>
+    <value>Distributionsfacket har ett skrivskyddad lås</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
     <value>Samma plats kan inte vara både källa och mål</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Växling med förhandsversion kan inte utföras eftersom följande fack har aktiverat autentisering: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+    <value>Växling med förhandsversion kan bara användas med webbplatser som har aktiverade facksinställningar</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+    <value>Innan du slutför växlingen så kontrollera att det första distributionsfackets appbeteende med det andra distributionsfackets konfiguration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+    <value>Du saknar skrivbehörighet för följande distributiosfack: {{slotNames}}</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+    <value>Du saknar växlingsbehörighet för följande distributionsfack: {{slotNames}}</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+    <value>Det finns ett skrivskyddat lås på följande distributionsfack: {{slotNames}}</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple slots</value>
+    <value>En växlingsåtgärd kan endast utföras om appen har flera distributionsfack</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap Slots</value>
+    <value>Växla distributionsfack</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Inläsningen misslyckades</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>Förhandsgranska ändringar</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>Ändringar i fas ett</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>Ändringar i fas två</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>Konfigurationsändringar</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>Dessa är de fackspecifika programinställningar och anslutningssträngar från målfacket som kommer att tillämpas temporärt på källfacket i växlingens första fas.</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>Detta är en sammanfattning av den slutliga uppsättningen av konfigurationsändringar för käll- och målfacken efter det att växlingen har slutförts.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
-    <value>Please make a valid selection above to load preview</value>
+    <value>Gör ett giltigt val ovan för att kunna läsa in förhandsversionen</value>
   </data>
   <data name="swapChangesLoadingFailed" xml:space="preserve">
-    <value>Failed to load preview</value>
+    <value>Det gick inte att läsa in förhandsversionen</value>
   </data>
   <data name="swapSourceChangesHeading" xml:space="preserve">
-    <value>Source Changes</value>
+    <value>Ändringar i källan</value>
   </data>
   <data name="swapTargetChangesHeading" xml:space="preserve">
-    <value>Target Changes</value>
+    <value>Måländringar</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>Växlingsåtgärd</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework-version</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>Startkommando</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>Sökväg till kod</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Förhandsgranskning</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>Inga ändringar</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>Inte angiven</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>Det gick inte att avinstallera dina inaktuella tillägg</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (förhandsversion)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Funktionsapp-körningsstack</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Funktionsappar v2 finns nu med ett språk. Konfigurera körningsstacken innan du lägger till funktioner i appen.</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>Funktionskörningsstack</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Gå till</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>Avbildning</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>Tagg</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>Startfil</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>Kontinuerlig distribution</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook-URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>Konfigurationsfil</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker-skapande stöds bara för Linux-operativsystemsbaserade program.</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes stöds endast för Linux-operativsystemsbaserade program.</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker-skrivbaserade funktioner stöds inte för närvarande.</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes-baserade funktioner stöds inte för närvarande.</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>Redigeringsfunktionerna i portalen stöds inte för funktionsappar som distribueras som en dockeravbildning.</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>Det gick inte att hämta data för containerkonfigurationen.</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>Den tillhandahållna URL:en är inte giltig. URL-en förväntas innehålla protokoll (http/https), domän och eventuellt en port.</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>Det gick inte att uppdatera data för containerinställningarna.</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>Fel i inställningarna.</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>Inställningarna har uppdaterats.</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>visa URL</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>dölj URL</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux Consumption Functions finns nu som förhandsversionserbjudande.</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>Vissa fält har inte fyllts i korrekt eller är obligatoriska.</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>Slutför och gå till Distributionscenter</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar (förhandsversion).</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>Enskild container (förhandsversion)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>Fler mallar...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>Visa alla mallar som är tillgängliga för den här funktionsappen</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>Slutför och visa mallar</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>Standardwebbplats för NGINX-webbserver, som använder den officiella Nginx-avbildningen.</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python-exempelappen ”Hello World”.</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>Statisk webbplats</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Statisk HTML-webbsida som servas från Nginx-webbservern.</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>Asp.Net-webbformulär</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>Asp.Net Web Forms-programmet distribueras i Windows Server Core 2016 LTSC-container.</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask med Redis</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Python Flask-exempelappen som räknar träffar på webbsidan och lagrar data i Redis Cache.</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>ASP.NET Core med SQL Server</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>Docker-skapade exempel använder ASP.NET Core med SQL Server.</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>WordPress med flera containrar</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>Docker Compose-exempel som använder WordPress och MySQL.</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Python Flask med Redis</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes-exempelapp som räknar träffar på den webbsida som lagrar data i Redis Cache.</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>WordPress med flera containrar</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>Kubernetes-exempel som använder WordPress och MySQL.</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>Inga loggar är tillgängliga.</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>Det uppstod ett fel vid hämtning av loggar.</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>Nytt eller befintligt distributionsfack</value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>Nytt eller befintligt VSTS-konto</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>Nytt eller befintligt VSTS-konto</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>Distributionsinformation</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>Installera mallberoenden. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga den här sidan och fortsätta använda portalen under tiden.</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>Dölj värden</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>Visa värden</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>Dolt värde. Redigera genom att klicka.</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>Programinställningarna krypteras i vila och överförs via en krypterad kanal. Du kan välja att visa dem i oformaterad text i webbläsaren genom att använda kontrollerna nedan.</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>Anslutningssträngarna krypteras i vila och överförs via en krypterad kanal. Du kan välja att visa dem i oformaterad text i webbläsaren genom att använda kontrollerna nedan.</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>Grupp</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>Personlig</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>API-definition (Swagger) är inte tillgänglig för funktionsappar i skrivskyddat läge.</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>Felsök din app</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>Diagnostisera och lösa problem</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>Stackinställningar</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>Plattformsinställningar</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>Felsökning</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>Programinställningar</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Anslutningssträngar</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>Allmänna ändringar</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>Standarddokument</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>Sökvägsmappningar</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>Hanterarmappningar</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>Virtuella program och kataloger</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Spara alla inställningar för ditt webbprogram</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Ignorera alla ändringar av webbprogramsinställningarna</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>Använd vänster och höger piltangenter för att navigera mellan kommandon</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>Nytt program eller katalog</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Virtuell sökväg</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>Fysisk sökväg</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Redigera</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>Katalog eller program</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>Förhandsinläsning aktiverad</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>Filtillägg</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>Skriptprocessor</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>Ny hanterarmappning</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>Fack</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>Autoväxling aktiverat</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>Autoväxlingsfack</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>Plattform</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>Hanterad pipeline-version</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>Integrerad</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>Klassisk</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP-tillstånd</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>Alla tillåts</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>Endast FTPS</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>Alltid på</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>Använd den senaste lägre versionen</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP-version</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java minor-version</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java-container</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java-containerversion</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>Nytt dokument</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>Namn</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Värde</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>Platsinställning</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>Lägg till/redigera anslutningssträng</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>Ny anslutningssträng</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>Lägg till/redigera programinställning</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>Ny programinställning</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>Det markerade registret finns inte i samma prenumeration som den aktuella appen. Använd fliken privat register för att växla register.</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>Funktioner (skrivskyddade)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>Funktioner (otillgängliga)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>Proxyservrar (skrivskyddade)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>Proxyservrar (otillgängliga)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Ogiltigt YML-format. Fel: {0}.</value>
   </data>
 </root>

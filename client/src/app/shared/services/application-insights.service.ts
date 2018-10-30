@@ -26,7 +26,7 @@ export class ApplicationInsightsService {
     private _cacheService: CacheService,
     private _localStorage: LocalStorageService,
     userService: UserService,
-    injector: Injector,
+    injector: Injector
   ) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
@@ -35,27 +35,42 @@ export class ApplicationInsightsService {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForLast30DaysSummary(functionAppName, functionName),
+      query: this._getQueryForLast30DaysSummary(functionAppName, functionName),
     };
 
-    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_30DaysSummary');
+    const armResponse = this._cacheService.postArm(
+      `/${aiResourceId}/api/query`,
+      true,
+      this._apiVersion,
+      body,
+      'applicationInsights_30DaysSummary'
+    );
 
-    return this._client
-      .execute({ resourceId: aiResourceId}, t => armResponse)
-      .map(response => this._extractSummaryFromResponse(response));
+    return this._client.execute({ resourceId: aiResourceId }, t => armResponse).map(response => this._extractSummaryFromResponse(response));
   }
 
-  public getInvocationTraces(aiResourceId: string, functionAppName: string, functionName: string, top: number = 20): Observable<AIInvocationTrace[]> {
+  public getInvocationTraces(
+    aiResourceId: string,
+    functionAppName: string,
+    functionName: string,
+    top: number = 20
+  ): Observable<AIInvocationTrace[]> {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForInvocationTraces(functionAppName, functionName, top),
+      query: this._getQueryForInvocationTraces(functionAppName, functionName, top),
     };
 
-    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraces');
+    const armResponse = this._cacheService.postArm(
+      `/${aiResourceId}/api/query`,
+      true,
+      this._apiVersion,
+      body,
+      'applicationInsights_invocationTraces'
+    );
 
     return this._client
-      .execute({resourceId: aiResourceId}, t => armResponse)
+      .execute({ resourceId: aiResourceId }, t => armResponse)
       .map(response => this._extractInvocationTracesFromResponse(response));
   }
 
@@ -63,19 +78,27 @@ export class ApplicationInsightsService {
     this._validateAiResourceid(aiResourceId);
 
     const body = {
-      'query': this._getQueryForInvocationTraceHistory(operationId),
+      query: this._getQueryForInvocationTraceHistory(operationId),
     };
 
-    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraceHistory');
+    const armResponse = this._cacheService.postArm(
+      `/${aiResourceId}/api/query`,
+      true,
+      this._apiVersion,
+      body,
+      'applicationInsights_invocationTraceHistory'
+    );
 
     return this._client
-      .execute({resourceId: aiResourceId}, t => armResponse)
+      .execute({ resourceId: aiResourceId }, t => armResponse)
       .map(response => this._extractInvocationTraceHistoryFromResponse(response));
   }
 
   public getInvocationTracesDirectUrl(aiDirectResourceId: string, functionAppName: string, functionName: string, top: number = 20): string {
     const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
-    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraces(functionAppName, functionName, top));
+    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(
+      this._getQueryForInvocationTraces(functionAppName, functionName, top)
+    );
     return baseUrl + query;
   }
 
@@ -86,81 +109,87 @@ export class ApplicationInsightsService {
   }
 
   public getApplicationInsightsId(siteId: string): Observable<string> {
-      const descriptor = new ArmSiteDescriptor(siteId);
-      return Observable.zip(
-          this._cacheService.postArm(`${siteId}/config/appsettings/list`),
-          this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-          (as, ai) => ({ appSettings: as, appInsights: ai }))
-          .map(r => {
-              const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
-              let result = null;
-              if (ikey) {
-                  const aiResources = r.appInsights.json();
+    const descriptor = new ArmSiteDescriptor(siteId);
+    return Observable.zip(
+      this._cacheService.postArm(`${siteId}/config/appsettings/list`),
+      this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
+      (as, ai) => ({ appSettings: as, appInsights: ai })
+    ).map(r => {
+      const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+      let result = null;
+      if (ikey) {
+        const aiResources = r.appInsights.json();
 
-                  // AI RP has an issue where they return an array instead of a JSON response if empty
-                  if (aiResources && !Array.isArray(aiResources)) {
-                      aiResources.value.forEach((ai) => {
-                          if (ai.properties.InstrumentationKey === ikey) {
-                              result = ai.id;
-                          }
-                      });
-                  }
-              }
-              return result;
+        // AI RP has an issue where they return an array instead of a JSON response if empty
+        if (aiResources && !Array.isArray(aiResources)) {
+          aiResources.value.forEach(ai => {
+            if (ai.properties.InstrumentationKey === ikey) {
+              result = ai.id;
+            }
           });
+        }
+      }
+      return result;
+    });
   }
 
   public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
-      const key = `${functionAppResourceId}/monitor/view`;
-      const item: MonitorViewItem = {
-        id: functionAppResourceId,
-        value: value,
-      };
+    const key = `${functionAppResourceId}/monitor/view`;
+    const item: MonitorViewItem = {
+      id: functionAppResourceId,
+      value: value,
+    };
 
-      this._localStorage.setItem(key, item);
+    this._localStorage.setItem(key, item);
   }
 
   public getFunctionMonitorClassicViewPreference(functionAppResourceId: string): string {
-      const key = `${functionAppResourceId}/monitor/view`;
-      const item = <MonitorViewItem>this._localStorage.getItem(key);
+    const key = `${functionAppResourceId}/monitor/view`;
+    const item = <MonitorViewItem>this._localStorage.getItem(key);
 
-      return item && item.value ? item.value : null;
+    return item && item.value ? item.value : null;
   }
 
   public removeFunctionMonitorClassicViewPreference(functionAppResourceId: string): void {
-      const key = `${functionAppResourceId}/monitor/view`;
+    const key = `${functionAppResourceId}/monitor/view`;
 
-      this._localStorage.removeItem(key);
+    this._localStorage.removeItem(key);
   }
 
   private _getQueryForLast30DaysSummary(functionAppName: string, functionName: string): string {
     this._validateFunctionAppName(functionAppName);
     this._validateFunctionName(functionName);
-    return `requests ` +
-    `| where timestamp >= ago(30d) ` +
-    `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
-    `| summarize count=count() by success`;
+    return (
+      `requests ` +
+      `| where timestamp >= ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
+      `| summarize count=count() by success`
+    );
   }
 
   private _getQueryForInvocationTraces(functionAppName: string, functionName: string, top: number): string {
     this._validateFunctionAppName(functionAppName);
     this._validateFunctionName(functionName);
-    return `requests ` +
-    `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
-    `| where timestamp > ago(30d) ` +
-    `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
-    `| order by timestamp desc | take ${top}`;
+    return (
+      `requests ` +
+      `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
+      `| where timestamp > ago(30d) ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
+      `| order by timestamp desc | take ${top}`
+    );
   }
 
   private _getQueryForInvocationTraceHistory(operationId: string): string {
     this._validateOperationId(operationId);
 
-    return `union traces` +
-    `| union exceptions` +
-    `| where timestamp > ago(30d)` +
-    `| where operation_Id == '${operationId}'` +
-    `| order by timestamp asc` +
-    `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`;
+    return (
+      `union traces` +
+      `| union exceptions` +
+      `| where timestamp > ago(30d)` +
+      `| where operation_Id == '${operationId}'` +
+      `| order by timestamp asc` +
+      `| project timestamp, message = iff(message != '', message, iff(innermostMessage != '', innermostMessage, customDimensions.["prop__{OriginalFormat}"])), logLevel = customDimensions.["LogLevel"]`
+    );
   }
 
   private _validateAiResourceid(aiResourceId: string): void {
@@ -274,105 +303,92 @@ export class ApplicationInsightsService {
 
     return history;
   }
-
 }
 
 class ApplicationInsightsQueryUtil {
   public static compressAndEncodeBase64AndUri(str) {
-      const compressedBase64 = ApplicationInsightsQueryUtil._compressAndEncodeBase64(str);
-      return encodeURIComponent(compressedBase64);
+    const compressedBase64 = ApplicationInsightsQueryUtil._compressAndEncodeBase64(str);
+    return encodeURIComponent(compressedBase64);
   }
 
   public static decompressBase64UriComponent(compressedBase64UriComponent) {
-      const compressedBase64 = decodeURIComponent(compressedBase64UriComponent);
+    const compressedBase64 = decodeURIComponent(compressedBase64UriComponent);
 
-      return ApplicationInsightsQueryUtil._decompressBase64(compressedBase64);
+    return ApplicationInsightsQueryUtil._decompressBase64(compressedBase64);
   }
 
   private static _compressAndEncodeBase64(str) {
-      const compressed = ApplicationInsightsQueryUtil._compressString(str);
-      return btoa(compressed);
+    const compressed = ApplicationInsightsQueryUtil._compressString(str);
+    return btoa(compressed);
   }
 
   private static _compressString(str) {
-      const byteArray = ApplicationInsightsQueryUtil._toUTF8Array(str);
-      const compressedByteArray = pako.gzip(byteArray);
-      const compressed = String.fromCharCode.apply(null, compressedByteArray);
+    const byteArray = ApplicationInsightsQueryUtil._toUTF8Array(str);
+    const compressedByteArray = pako.gzip(byteArray);
+    const compressed = String.fromCharCode.apply(null, compressedByteArray);
 
-      return compressed;
+    return compressed;
   }
 
   private static _decompressBase64(compressedBase64) {
-      const compressed = atob(compressedBase64);
+    const compressed = atob(compressedBase64);
 
-      return ApplicationInsightsQueryUtil._decompressString(compressed);
+    return ApplicationInsightsQueryUtil._decompressString(compressed);
   }
 
   private static _decompressString(compressed) {
-      const compressedByteArray = compressed.split('').map(function (e) {
-          return e.charCodeAt(0);
-      });
-      const decompressedByteArray = pako.inflate(compressedByteArray);
-      const decompressed = ApplicationInsightsQueryUtil._fromUTF8Array(decompressedByteArray);
+    const compressedByteArray = compressed.split('').map(function(e) {
+      return e.charCodeAt(0);
+    });
+    const decompressedByteArray = pako.inflate(compressedByteArray);
+    const decompressed = ApplicationInsightsQueryUtil._fromUTF8Array(decompressedByteArray);
 
-      return decompressed;
+    return decompressed;
   }
 
   private static _toUTF8Array(str) {
-      const utf8 = [];
-      for (let i=0; i < str.length; i++) {
-          let charcode = str.charCodeAt(i);
-          if (charcode < 0x80) utf8.push(charcode);
-          else if (charcode < 0x800) {
-              utf8.push(0xc0 | (charcode >> 6),
-                      0x80 | (charcode & 0x3f));
-          }
-          else if (charcode < 0xd800 || charcode >= 0xe000) {
-              utf8.push(0xe0 | (charcode >> 12),
-                      0x80 | ((charcode>>6) & 0x3f),
-                      0x80 | (charcode & 0x3f));
-          }
-          else {
-              i++;
-              charcode = 0x10000 + (((charcode & 0x3ff)<<10)
-                      | (str.charCodeAt(i) & 0x3ff));
-              utf8.push(0xf0 | (charcode >>18),
-                      0x80 | ((charcode>>12) & 0x3f),
-                      0x80 | ((charcode>>6) & 0x3f),
-                      0x80 | (charcode & 0x3f));
-          }
+    const utf8 = [];
+    for (let i = 0; i < str.length; i++) {
+      let charcode = str.charCodeAt(i);
+      if (charcode < 0x80) utf8.push(charcode);
+      else if (charcode < 0x800) {
+        utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
+      } else if (charcode < 0xd800 || charcode >= 0xe000) {
+        utf8.push(0xe0 | (charcode >> 12), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
+      } else {
+        i++;
+        charcode = 0x10000 + (((charcode & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
+        utf8.push(0xf0 | (charcode >> 18), 0x80 | ((charcode >> 12) & 0x3f), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
       }
-      return utf8;
+    }
+    return utf8;
   }
 
   private static _fromUTF8Array(utf8) {
-      const charsArray = [];
-      for (let i = 0; i < utf8.length; i++) {
-          let charCode, firstByte, secondByte, thirdByte, fourthByte;
-          if ((utf8[i] & 0x80) === 0) {
-              charCode = utf8[i];
-          }
-          else if ((utf8[i] & 0xE0) === 0xC0) {
-              firstByte = utf8[i] & 0x1F;
-              secondByte = utf8[++i] & 0x3F;
-              charCode = (firstByte << 6) + secondByte;
-          }
-          else if ((utf8[i] & 0xF0) === 0xE0) {
-              firstByte = utf8[i] & 0x0F;
-              secondByte = utf8[++i] & 0x3F;
-              thirdByte = utf8[++i] & 0x3F;
-              charCode = (firstByte << 12) + (secondByte << 6) + thirdByte;
-          }
-          else if ((utf8[i] & 0xF8) === 0xF0) {
-              firstByte = utf8[i] & 0x07;
-              secondByte = utf8[++i] & 0x3F;
-              thirdByte = utf8[++i] & 0x3F;
-              fourthByte = utf8[++i] & 0x3F;
-              charCode = (firstByte << 18) + (secondByte << 12) + (thirdByte << 6) + fourthByte;
-          }
-
-          charsArray.push(charCode);
+    const charsArray = [];
+    for (let i = 0; i < utf8.length; i++) {
+      let charCode, firstByte, secondByte, thirdByte, fourthByte;
+      if ((utf8[i] & 0x80) === 0) {
+        charCode = utf8[i];
+      } else if ((utf8[i] & 0xe0) === 0xc0) {
+        firstByte = utf8[i] & 0x1f;
+        secondByte = utf8[++i] & 0x3f;
+        charCode = (firstByte << 6) + secondByte;
+      } else if ((utf8[i] & 0xf0) === 0xe0) {
+        firstByte = utf8[i] & 0x0f;
+        secondByte = utf8[++i] & 0x3f;
+        thirdByte = utf8[++i] & 0x3f;
+        charCode = (firstByte << 12) + (secondByte << 6) + thirdByte;
+      } else if ((utf8[i] & 0xf8) === 0xf0) {
+        firstByte = utf8[i] & 0x07;
+        secondByte = utf8[++i] & 0x3f;
+        thirdByte = utf8[++i] & 0x3f;
+        fourthByte = utf8[++i] & 0x3f;
+        charCode = (firstByte << 18) + (secondByte << 12) + (thirdByte << 6) + fourthByte;
       }
-      return String.fromCharCode.apply(null, charsArray);
+
+      charsArray.push(charCode);
+    }
+    return String.fromCharCode.apply(null, charsArray);
   }
 }

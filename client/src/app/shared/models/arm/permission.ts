@@ -1,9 +1,9 @@
 export interface Permissions {
-    actions: string[];
-    notActions: string[];
+  actions: string[];
+  notActions: string[];
 }
 
 export interface PermissionsAsRegExp {
-    actions: RegExp[];
-    notActions: RegExp[];
+  actions: RegExp[];
+  notActions: RegExp[];
 }

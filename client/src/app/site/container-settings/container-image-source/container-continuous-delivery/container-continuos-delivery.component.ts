@@ -6,43 +6,39 @@ import { FeatureComponent } from '../../../../shared/components/feature-componen
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    selector: 'container-continuous-delivery',
-    templateUrl: './container-continuos-delivery.component.html',
-    styleUrls: [
-        './../../container-settings.component.scss',
-        './../container-image-source.component.scss',
-        './container-continuos-delivery.component.scss',
-    ],
+  selector: 'container-continuous-delivery',
+  templateUrl: './container-continuos-delivery.component.html',
+  styleUrls: [
+    './../../container-settings.component.scss',
+    './../container-image-source.component.scss',
+    './container-continuos-delivery.component.scss',
+  ],
 })
 export class ContainerContinuousDeliveryComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
+  @Input()
+  set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+    this.urlVisible = false;
+    this.setInput(containerConfigureInfo);
+  }
 
-    @Input() set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-        this.urlVisible = false;
-        this.setInput(containerConfigureInfo);
-    }
+  public containerConfigureInfo: ContainerConfigureData;
+  public selectedDeploymentOption: ContinuousDeploymentOption;
+  public form: FormGroup;
+  public urlVisible = false;
 
-    public containerConfigureInfo: ContainerConfigureData;
-    public selectedDeploymentOption: ContinuousDeploymentOption;
-    public form: FormGroup;
-    public urlVisible = false;
+  constructor(public containerSettingsManager: ContainerSettingsManager, injector: Injector) {
+    super('ContainerContinuousDeliveryComponent', injector, 'dashboard');
+    this.featureName = 'ContainerSettings';
+  }
 
-    constructor(
-        public containerSettingsManager: ContainerSettingsManager,
-        injector: Injector) {
-        super('ContainerContinuousDeliveryComponent', injector, 'dashboard');
-        this.featureName = 'ContainerSettings';
-    }
+  protected setup(inputEvents: Observable<ContainerConfigureData>) {
+    return inputEvents.distinctUntilChanged().do(containerConfigureInfo => {
+      this.containerConfigureInfo = containerConfigureInfo;
+      this.form = containerConfigureInfo.form;
+    });
+  }
 
-    protected setup(inputEvents: Observable<ContainerConfigureData>) {
-        return inputEvents
-            .distinctUntilChanged()
-            .do(containerConfigureInfo => {
-                this.containerConfigureInfo = containerConfigureInfo;
-                this.form = containerConfigureInfo.form;
-            });
-    }
-
-    public toggleUrl() {
-        this.urlVisible = !this.urlVisible;
-    }
+  public toggleUrl() {
+    this.urlVisible = !this.urlVisible;
+  }
 }

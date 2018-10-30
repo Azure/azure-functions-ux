@@ -1,13 +1,12 @@
 /**
  * Created by marc on 02.06.17.
  */
-import {ViewChild, Component} from '@angular/core';
-import {TestBed, async, ComponentFixture} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import { ViewChild, Component } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
-import {WizardComponent} from '../components/wizard.component';
-import {WizardModule} from '../wizard.module';
-
+import { WizardComponent } from '../components/wizard.component';
+import { WizardModule } from '../wizard.module';
 
 @Component({
   selector: 'test-wizard',
@@ -26,7 +25,7 @@ import {WizardModule} from '../wizard.module';
         Step 2
       </wizard-completion-step>
     </wizard>
-  `
+  `,
 })
 class WizardTestComponent {
   @ViewChild(WizardComponent)
@@ -40,7 +39,7 @@ describe('PreviousStepDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WizardTestComponent],
-      imports: [WizardModule]
+      imports: [WizardModule],
     }).compileComponents();
   }));
 

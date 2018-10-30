@@ -6,45 +6,45 @@ import { ScenarioCheckInput } from './scenario.models';
 import { Environment, ScenarioResult } from 'app/shared/services/scenario/scenario.models';
 
 export class SiteSlotEnvironment extends Environment {
-    name = 'SiteSlot';
+  name = 'SiteSlot';
 
-    constructor(translateService: TranslateService) {
-        super();
-        this.scenarioChecks[ScenarioIds.showSiteAvailability] = {
-            id: ScenarioIds.showSiteAvailability,
-            runCheck: () => {
-                return { status: 'disabled' };
-            }
-        };
+  constructor(translateService: TranslateService) {
+    super();
+    this.scenarioChecks[ScenarioIds.showSiteAvailability] = {
+      id: ScenarioIds.showSiteAvailability,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
 
-        this.scenarioChecks[ScenarioIds.filterAppNodeChildren] = {
-            id: ScenarioIds.filterAppNodeChildren,
-            runCheck: (input: ScenarioCheckInput) => {
-                return this._filterAppNodeChildren(input);
-            }
-        };
+    this.scenarioChecks[ScenarioIds.filterAppNodeChildren] = {
+      id: ScenarioIds.filterAppNodeChildren,
+      runCheck: (input: ScenarioCheckInput) => {
+        return this._filterAppNodeChildren(input);
+      },
+    };
+  }
+
+  public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
+    if (input && input.site) {
+      const descriptor = new ArmSiteDescriptor(input.site.id);
+      return !!descriptor.slot;
     }
 
-    public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-        if (input && input.site) {
-            const descriptor = new ArmSiteDescriptor(input.site.id);
-            return !!descriptor.slot;
-        }
+    return false;
+  }
 
-        return false;
+  private _filterAppNodeChildren(input: ScenarioCheckInput) {
+    const descriptor = new ArmSiteDescriptor(input.site.id);
+    let data = input.appNodeChildren;
+
+    if (descriptor.slot) {
+      data = input.appNodeChildren.filter(c => c.dashboardType !== DashboardType.SlotsDashboard);
     }
 
-    private _filterAppNodeChildren(input: ScenarioCheckInput) {
-        const descriptor = new ArmSiteDescriptor(input.site.id);
-        let data = input.appNodeChildren;
-
-        if (descriptor.slot) {
-            data = input.appNodeChildren.filter(c => c.dashboardType !== DashboardType.SlotsDashboard);
-        }
-
-        return <ScenarioResult>{
-            status: 'enabled',
-            data: data
-        };
-    }
+    return <ScenarioResult>{
+      status: 'enabled',
+      data: data,
+    };
+  }
 }

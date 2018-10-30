@@ -19,35 +19,27 @@ import { ContainerMultiConfigService } from './services/container-multiconfig.se
 import { ContainerValidationService } from './services/container-validation.service';
 
 @NgModule({
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        NgSelectModule,
-    ],
-    entryComponents: [
-        ContainerSettingsComponent,
-    ],
-    declarations: [
-        ContainerSettingsComponent,
-        ContainerConfigureComponent,
-        ContainerImageSourceComponent,
-        ContainerImageSourceQuickstartComponent,
-        ContainerImageSourceACRComponent,
-        ContainerImageSourceDockerHubComponent,
-        ContainerImageSourcePrivateRegistryComponent,
-        ContainerLogsComponent,
-        ContainerContinuousDeliveryComponent,
-    ],
-    providers: [
-        ContainerSettingsManager,
-        ContainerSamplesService,
-        ContainerACRService,
-        ContainerLogsService,
-        ContainerMultiConfigService,
-        ContainerValidationService,
-    ],
-    exports: [
-        ContainerSettingsComponent,
-    ],
+  imports: [TranslateModule.forChild(), SharedModule, NgSelectModule],
+  entryComponents: [ContainerSettingsComponent],
+  declarations: [
+    ContainerSettingsComponent,
+    ContainerConfigureComponent,
+    ContainerImageSourceComponent,
+    ContainerImageSourceQuickstartComponent,
+    ContainerImageSourceACRComponent,
+    ContainerImageSourceDockerHubComponent,
+    ContainerImageSourcePrivateRegistryComponent,
+    ContainerLogsComponent,
+    ContainerContinuousDeliveryComponent,
+  ],
+  providers: [
+    ContainerSettingsManager,
+    ContainerSamplesService,
+    ContainerACRService,
+    ContainerLogsService,
+    ContainerMultiConfigService,
+    ContainerValidationService,
+  ],
+  exports: [ContainerSettingsComponent],
 })
-export class ContainerSettingsModule { }
+export class ContainerSettingsModule {}

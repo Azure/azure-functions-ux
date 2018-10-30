@@ -11,11 +11,12 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-ftp-dashboard',
   templateUrl: './ftp-dashboard.component.html',
-  styleUrls: ['./ftp-dashboard.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss']
+  styleUrls: ['./ftp-dashboard.component.scss', '../../deployment-center-setup/deployment-center-setup.component.scss'],
 })
 export class FtpDashboardComponent extends FeatureComponent<string> implements OnInit, OnDestroy {
   public FwLinks = Links;
-  @Input() resourceId;
+  @Input()
+  resourceId;
 
   public ftpsEndpoint = '';
 
@@ -23,10 +24,7 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
   private _blobUrl: string;
   public publishProfileLink: SafeUrl;
   public siteName: string;
-  constructor(
-    private _siteService: SiteService,
-    private _domSanitizer: DomSanitizer,
-    injector: Injector) {
+  constructor(private _siteService: SiteService, private _domSanitizer: DomSanitizer, injector: Injector) {
     super('FtpDashboardComponent', injector);
   }
 
@@ -53,31 +51,30 @@ export class FtpDashboardComponent extends FeatureComponent<string> implements O
   }
 
   downloadPublishProfile() {
-    this._siteService.getPublishingProfile(this.resourceId)
-      .subscribe(response => {
-        const publishXml = response.result;
+    this._siteService.getPublishingProfile(this.resourceId).subscribe(response => {
+      const publishXml = response.result;
 
-        // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
-        const windowUrl = window.URL || (<any>window).webkitURL;
-        const blob = new Blob([publishXml], { type: 'application/octet-stream' });
-        this._cleanupBlob();
+      // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
+      const windowUrl = window.URL || (<any>window).webkitURL;
+      const blob = new Blob([publishXml], { type: 'application/octet-stream' });
+      this._cleanupBlob();
 
-        if (window.navigator.msSaveOrOpenBlob) {
-          // Currently, Edge doesn' respect the "download" attribute to name the file from blob
-          // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
-          window.navigator.msSaveOrOpenBlob(blob, `${this.siteName}.PublishSettings`);
-        } else {
-          // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
-          this._blobUrl = windowUrl.createObjectURL(blob);
-          this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
+      if (window.navigator.msSaveOrOpenBlob) {
+        // Currently, Edge doesn' respect the "download" attribute to name the file from blob
+        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
+        window.navigator.msSaveOrOpenBlob(blob, `${this.siteName}.PublishSettings`);
+      } else {
+        // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
+        this._blobUrl = windowUrl.createObjectURL(blob);
+        this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
-          setTimeout(() => {
-            const hiddenLink = document.getElementById('hidden-publish-profile-link-ftp');
-            hiddenLink.click();
-            this.publishProfileLink = null;
-          });
-        }
-      });
+        setTimeout(() => {
+          const hiddenLink = document.getElementById('hidden-publish-profile-link-ftp');
+          hiddenLink.click();
+          this.publishProfileLink = null;
+        });
+      }
+    });
   }
 
   private _cleanupBlob() {

@@ -10,10 +10,8 @@ describe('CommandBar', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommandBarComponent],
-      imports: [CommonModule]
-    })
-      .compileComponents();
-
+      imports: [CommonModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

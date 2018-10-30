@@ -1,4 +1,5 @@
-export type DiffRule = 'SlotSettingsMissing'
+export type DiffRule =
+  | 'SlotSettingsMissing'
   | 'SettingsNotInSource'
   | 'SlotSettingsSameValue'
   | 'SettingsWillBeModifiedInDestination'

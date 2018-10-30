@@ -988,6 +988,9 @@
   <data name="test" xml:space="preserve">
     <value>テスト</value>
   </data>
+  <data name="testFunctionNotSupportedForGitHubWebhook" xml:space="preserve">
+    <value>テストは GitHub webhook 関数でサポートされていません。</value>
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>ランタイム バージョン</value>
   </data>
@@ -1163,7 +1166,7 @@
     <value>関数</value>
   </data>
   <data name="newFunction" xml:space="preserve">
-    <value>新しい機能</value>
+    <value>新しい関数</value>
   </data>
   <data name="functionApps" xml:space="preserve">
     <value>Function App</value>
@@ -1181,7 +1184,7 @@
     <value>スワップ</value>
   </data>
   <data name="startSwap" xml:space="preserve">
-    <value>Start Swap</value>
+    <value>スワップの開始</value>
   </data>
   <data name="completeSwap" xml:space="preserve">
     <value>スワップの完了</value>
@@ -1367,7 +1370,7 @@
     <value>新しいウィンドウで開く</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
-    <value>拡張機能</value>
+    <value>サイト拡張機能</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>拡張機能では、アプリ全体に機能を追加できます。</value>
@@ -1541,13 +1544,13 @@
     <value>スタック</value>
   </data>
   <data name="linuxFxVersionLabelHelp" xml:space="preserve">
-    <value>Web Apps on Linux では、組み込みコンテナーのコレクションで実行時のオプションが提供されます。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
+    <value>Web Apps on Linux では、組み込みコンテナーのコレクションでランタイム オプションが提供されます。&lt;a href="{{learnMoreLink}}" target="_blank"&gt;詳細情報&lt;/a&gt;。</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>スタートアップ ファイル</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
-    <value>コンテナーのスタートアップの一環として実行される、オプションのスタートアップ コマンドを提供します。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
+    <value>コンテナーのスタートアップの一環として実行される、オプションのスタートアップ コマンドを提供します。&lt;a href="{{learnMoreLink}}" target="_blank"&gt;詳細情報&lt;/a&gt;。</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>新しい順</value>
@@ -1805,7 +1808,7 @@
     <value>スケール</value>
   </data>
   <data name="connectionStrings" xml:space="preserve">
-    <value>接続文字列</value>
+    <value>Connection strings</value>
   </data>
   <data name="debug" xml:space="preserve">
     <value>デバッグ</value>
@@ -2192,10 +2195,10 @@
     <value>名前</value>
   </data>
   <data name="slotNew_cloneConfigLabel" xml:space="preserve">
-    <value>Clone settings from:</value>
+    <value>次から設定を複製:</value>
   </data>
   <data name="slotNew_dontCloneConfig" xml:space="preserve">
-    <value>Do not clone settings</value>
+    <value>設定を複製しない</value>
   </data>
   <data name="slotNew_heading" xml:space="preserve">
     <value>新しいデプロイ スロットの作成</value>
@@ -2241,6 +2244,12 @@
   </data>
   <data name="slotsDiff_newValueHeader" xml:space="preserve">
     <value>新しい値</value>
+  </data>
+  <data name="slotsDiff_currentValueHeader" xml:space="preserve">
+    <value>現在の値</value>
+  </data>
+  <data name="slotsDiff_tempValueHeader" xml:space="preserve">
+    <value>一時的な値</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
     <value>デプロイ スロットが追加されていません。開始するには、[スロットの追加] をクリックしてください。</value>
@@ -2711,7 +2720,7 @@
     <value>このテンプレートには次の拡張機能が必要です。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>テンプレート依存関係をインストールすると、インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このブレードを閉じて、ポータルを引き続き使用できます。</value>
+    <value>テンプレート依存関係をインストールしています。インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このブレードを閉じて、ポータルを引き続き使用できます。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>ランタイム拡張機能をインストールできません。インストール ID: {{installationId}}</value>
@@ -2833,8 +2842,8 @@
   <data name="entityColon" xml:space="preserve">
     <value>エンティティ:</value>
   </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>現在、関数 API の定義 (Swagger) 機能は、ベータ版のランタイムではサポートされません。</value>
+  <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
+    <value>現在、関数 API の定義 (Swagger) 機能は、V2 ランタイムではサポートされていません。</value>
   </data>
   <data name="deployedSuccessfullyTo" xml:space="preserve">
     <value>{0} に正常にデプロイされました</value>
@@ -2846,7 +2855,7 @@
     <value>プレビューでスワップを実行</value>
   </data>
   <data name="swapWithPreviewInfoText" xml:space="preserve">
-    <value>The multiphase swap action applies slot-specific configuration elements from the first slot to the second slot. Then it pauses until the user completes or cancels the swap. If completed, the swap directs the first slot’s traffic to the second slot.</value>
+    <value>プレビュー付きのスワップでは、通常のスワップが 2 つのフェーズに分割されます。フェーズ 1 では、宛先側のスロット固有のアプリケーション設定と接続文字列が一時的にソース スロットにコピーされます。これによって最終的な構成値でスロットをテストできます。ここで、フェーズ 1 をキャンセルして通常の構成に戻すか、それともフェーズ 2 に進んで一時的な構成の変更を削除し、ソースから宛先スロットへのスワップを完了させるかを選択できます。</value>
   </data>
   <data name="swapPhaseOneLabel" xml:space="preserve">
     <value>スワップの開始</value>
@@ -2858,7 +2867,7 @@
     <value>スワップ操作が現在進行中です。ここから移動すると、操作の状態を確認できなくなります。</value>
   </data>
   <data name="swapOperation" xml:space="preserve">
-    <value>{{swapType}} between slot '{{srcSlot}}' and slot '{{destSlot}}'</value>
+    <value>スロット '{{srcSlot}}' とスロット '{{destSlot}}' 間の {{swapType}}</value>
   </data>
   <data name="swapFull" xml:space="preserve">
     <value>スワップ</value>
@@ -2999,7 +3008,7 @@
     <value>OneDrive クラウド フォルダーからコンテンツを同期します。</value>
   </data>
   <data name="githubDesc" xml:space="preserve">
-    <value>Github リポジトリを使用して継続的インテグレーションを構成します。</value>
+    <value>GitHub リポジトリを使用して継続的インテグレーションを構成します。</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
     <value>VSTS リポジトリを使用して継続的インテグレーションを構成します。</value>
@@ -3032,7 +3041,7 @@
     <value>Functions (プレビュー)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Run-From-Zip を使用しているため、アプリは現在読み取り専用モードです。Run-From-Zip を使用する際、ファイル システムは読み取り専用であり、ファイルに変更を加えることはできません。変更を加えるには、Zip ファイルと WEBSITE_USE_ZIP アプリ設定で内容を更新します。</value>
+    <value>パッケージ ファイルから実行しているため、アプリは現在読み取り専用モードです。パッケージから実行する際、ファイル システムは読み取り専用であり、ファイルに変更を加えることはできません。変更を加えるには、Zip ファイルの内容と WEBSITE_RUN_FROM_PACKAGE アプリ設定を更新します。</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>コード</value>
@@ -3088,6 +3097,9 @@
   <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
     <value>更新するにはプラン '{0}' での書き込みアクセス許可が必要です</value>
   </data>
+  <data name="pricing_upsellToPremiumV2Message" xml:space="preserve">
+    <value>同じ価格でパフォーマンスの向上と機能の追加が可能です。Premium V2 を確認してください。</value>
+  </data>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>プラン '{0}' に読み取り専用ロックがあるため、更新できません</value>
   </data>
@@ -3121,11 +3133,14 @@
   <data name="pricing_includedHardwareDesc" xml:space="preserve">
     <value>App Service プランのすべてのインスタンスには、次のハードウェア構成が含まれます:</value>
   </data>
+  <data name="pricing_includedHardware_azureComputeUnits" xml:space="preserve">
+    <value>Azure コンピューティング ユニット (ACU)</value>
+  </data>
   <data name="pricing_linuxTrial" xml:space="preserve">
     <value>Linux の最初の Basic (B1) コアは、最初の 30 日間無料です。</value>
   </data>
   <data name="pricing_windowsContainers" xml:space="preserve">
-    <value>Windows コンテナーは 2 つのインスタンスのスケールアウトに制限されており、2018 年 9 月 13 日まで無料です。</value>
+    <value>Windows コンテナーはプレビュー期間中は 50% 割引で課金されます。</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
@@ -3139,8 +3154,14 @@
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>このスケール ユニットでは Premium V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
   </data>
+  <data name="pricing_epNotAvailable" xml:space="preserve">
+    <value>このスケール ユニットではエラスティック Premium はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
+  </data>
   <data name="pricing_scaleUp" xml:space="preserve">
     <value>スケール アップ</value>
+  </data>
+  <data name="pricing_pv2UpsellInfoMessage" xml:space="preserve">
+    <value>アプリの送信 IP アドレスは変更される可能性があります。</value>
   </data>
   <data name="free" xml:space="preserve">
     <value>無料</value>
@@ -3163,11 +3184,8 @@
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される共有コンピューティング リソースです。</value>
   </data>
-  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 A シリーズの計算リソースです。</value>
-  </data>
-  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 Dv2 シリーズの計算リソースです。</value>
+  <data name="pricing_computeDedicatedAcu" xml:space="preserve">
+    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用のコンピューティング リソースです。</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>App Service プランでデプロイされ実行されているアプリケーションの実行に利用できるメモリー。</value>
@@ -3190,6 +3208,12 @@
   <data name="pricing_manualScale" xml:space="preserve">
     <value>手動スケール</value>
   </data>
+  <data name="pricing_rapidScale" xml:space="preserve">
+    <value>高速スケール</value>
+  </data>
+  <data name="pricing_rapidScaleDesc" xml:space="preserve">
+    <value>イベント トリガーに基づいて関数アプリをスケール アウトします。</value>
+  </data>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>自動スケール</value>
   </data>
@@ -3201,6 +3225,12 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>最大 {0} 個のインスタンス。可用性に応じて異なります。</value>
+  </data>
+  <data name="pricing_highDensity" xml:space="preserve">
+    <value>高密度</value>
+  </data>
+  <data name="pricing_highDensityDesc" xml:space="preserve">
+    <value>複数の関数アプリ間で App Service プランを効率的に共有します。</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>ステージング スロット</value>
@@ -3232,6 +3262,9 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>分離ネットワーク</value>
   </data>
+  <data name="pricing_virtualNetwork" xml:space="preserve">
+    <value>Virtual Network 統合</value>
+  </data>
   <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
     <value>自分の仮想ネットワーク内で実行します。</value>
   </data>
@@ -3250,11 +3283,11 @@
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} コア</value>
   </data>
-  <data name="pricing_aSeriesCompute" xml:space="preserve">
-    <value>A シリーズ計算</value>
+  <data name="pricing_aSeriesComputeEquivalent" xml:space="preserve">
+    <value>A シリーズ計算と同等</value>
   </data>
-  <data name="pricing_dSeriesCompute" xml:space="preserve">
-    <value>Dv2 シリーズ計算</value>
+  <data name="pricing_dSeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv2 シリーズ計算と同等 </value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>proxies.json が無効です。エラー: '{0}'。</value>
@@ -3311,7 +3344,7 @@
     <value>ログ レベル</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS による継続的デリバリー</value>
+    <value>VSTS ビルド (プレビュー)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
     <value>Visual Studio Team Services は、アプリケーションの堅牢なデプロイ パイプラインを設定します。このパイプラインではロード テストをビルドして実行し、ステージング スロットにデプロイしてから運用環境にデプロイします。</value>
@@ -3410,7 +3443,7 @@
     <value>価格レベル</value>
   </data>
   <data name="deploymentCenterTitle" xml:space="preserve">
-    <value>デプロイ センター (プレビュー)</value>
+    <value>デプロイ センター</value>
   </data>
   <data name="deploymentCenterDesc" xml:space="preserve">
     <value>App Service デプロイ センターを使用すると、コードの場所や、クラウドへのビルド &amp; デプロイのオプションを選択できます。</value>
@@ -3575,7 +3608,7 @@
     <value>切断</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>編集</value>
+    <value>Edit</value>
   </data>
   <data name="sync" xml:space="preserve">
     <value>同期</value>
@@ -3583,11 +3616,8 @@
   <data name="deploymentCredentials" xml:space="preserve">
     <value>展開の資格情報</value>
   </data>
-  <data name="pricing_dv3SeriesCompute" xml:space="preserve">
-    <value>Dv3 シリーズの計算</value>
-  </data>
-  <data name="pricing_dv3SeriesDedicatedCpu" xml:space="preserve">
-    <value>App Service プラン内でデプロイされているアプリケーションの実行に使用される専用 Dv3 シリーズの計算リソースです。</value>
+  <data name="pricing_dv3SeriesComputeEquivalent" xml:space="preserve">
+    <value>Dv3 シリーズ計算と同等 </value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
     <value>Entity Framework を使用している場合、接続文字列は関数アプリでのみご使用ください。他のシナリオではアプリ設定を使用します。詳細についてはクリックしてください。</value>
@@ -3658,32 +3688,20 @@
   <data name="enterPassword" xml:space="preserve">
     <value>パスワードを入力</value>
   </data>
+  <data name="containerWriteAccessError" xml:space="preserve">
+    <value>コンテナーの設定を構成するアプリの書き込みアクセス権が必要です</value>
+  </data>
+  <data name="containerReadLockError" xml:space="preserve">
+    <value>アプリで読み取り専用のロックを削除しない限り、コンテナーの設定を構成できません</value>
+  </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>単一コンテナー</value>
   </data>
-  <data name="singleContainerDescription" xml:space="preserve">
-    <value>これは、単一コンテナーの説明です。</value>
-  </data>
-  <data name="singleContainerDetailedDescription" xml:space="preserve">
-    <value>これは、単一コンテナーの詳細な説明です。</value>
-  </data>
   <data name="dockerComposeContainerTitle" xml:space="preserve">
-    <value>Docker Compose</value>
-  </data>
-  <data name="dockerComposeContainerDescription" xml:space="preserve">
-    <value>これは、Docker Compose の説明です。</value>
-  </data>
-  <data name="dockerComposeContainerDetailedDescription" xml:space="preserve">
-    <value>これは、Docker Compose の詳細な説明です。</value>
+    <value>Docker Compose (プレビュー)</value>
   </data>
   <data name="kubernetesContainerTitle" xml:space="preserve">
-    <value>Kubernetes</value>
-  </data>
-  <data name="kubernetesContainerDescription" xml:space="preserve">
-    <value>これは、Kubernetes の説明です。</value>
-  </data>
-  <data name="kubernetesContainerDetailedDescription" xml:space="preserve">
-    <value>これは、Kubernetes の詳細な説明です。</value>
+    <value>Kubernetes (プレビュー)</value>
   </data>
   <data name="failedToInstallExtensionUrl" xml:space="preserve">
     <value>ランタイム拡張機能をインストールできませんでした。表示して詳細をご確認ください </value>
@@ -3695,7 +3713,7 @@
     <value>セッション ID: {{sessionId}}</value>
   </data>
   <data name="pricing_premiumContainerSharedDisk" xml:space="preserve">
-    <value>コンテナーをホストするためのローカル SSD ベースのストレージと、App Service プランでデプロイされているすべてのアプリで共有されるオプションの {0} GB のディスク ストレージ。</value>
+    <value>コンテナーをホストするためのローカル SSD ベースのストレージと、App Service プランでデプロイされているすべてのアプリで共有されるオプションの {0} ディスク ストレージ。</value>
   </data>
   <data name="functionAppName" xml:space="preserve">
     <value>Function App 名</value>
@@ -3728,10 +3746,10 @@
     <value>デプロイとの接続を切断しますか?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>コミュニティのテンプレート</value>
+    <value>サーバーレス コミュニティ ライブラリ (プレビュー)</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>お探しのものが見つかりませんか? Serverless Library (コミュニティが作成したテンプレートのギャラリー) をご覧になれば、何かひらめくかもしれません!</value>
+    <value>検索しているものが見つからない場合は Azure サーバーレス コミュニティ ライブラリをご確認ください。</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Azure Functions ランタイムに到達できません。</value>
@@ -3745,6 +3763,150 @@
   <data name="pricing_ACU" xml:space="preserve">
     <value>ACU 合計 {0}</value>
   </data>
+  <data name="containerSettingsApplyLabel" xml:space="preserve">
+    <value>コンテナーの設定を更新する</value>
+  </data>
+  <data name="containerQuickstart" xml:space="preserve">
+    <value>クイック スタート</value>
+  </data>
+  <data name="containerACR" xml:space="preserve">
+    <value>Azure コンテナー レジストリ</value>
+  </data>
+  <data name="containerDockerHub" xml:space="preserve">
+    <value>Docker Hub</value>
+  </data>
+  <data name="containerPrivateRegistry" xml:space="preserve">
+    <value>プライベート レジストリ</value>
+  </data>
+  <data name="containerCustom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="containerImageSource" xml:space="preserve">
+    <value>イメージのソース</value>
+  </data>
+  <data name="containerImageAndTag" xml:space="preserve">
+    <value>イメージとオプションのタグ (例: 'image:tag')</value>
+  </data>
+  <data name="containerACRMissingErrorMessage" xml:space="preserve">
+    <value>使用を開始するには、まず Azure Container Registry を作成してイメージを追加する必要があります。</value>
+  </data>
+  <data name="containerRepositoryAccess" xml:space="preserve">
+    <value>リポジトリ アクセス</value>
+  </data>
+  <data name="containerRepositoryPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="containerRepositoryPrivate" xml:space="preserve">
+    <value>プライベート</value>
+  </data>
+  <data name="containerServerURL" xml:space="preserve">
+    <value>サーバーの URL</value>
+  </data>
+  <data name="containerLogin" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="containerPassword" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="containerStartupFile" xml:space="preserve">
+    <value>スタートアップ ファイル</value>
+  </data>
+  <data name="containerConfigurationSource" xml:space="preserve">
+    <value>構成のソース</value>
+  </data>
+  <data name="containerConfiguration" xml:space="preserve">
+    <value>構成</value>
+  </data>
+  <data name="quickstartDotnetTitle" xml:space="preserve">
+    <value>.NET 用の Azure Functions - 作業の開始</value>
+  </data>
+  <data name="quickstartNodeTitle" xml:space="preserve">
+    <value>JavaScript 用の Azure Functions - 作業の開始</value>
+  </data>
+  <data name="quickstartPythonTitle" xml:space="preserve">
+    <value>Python 用の Azure Functions - 作業の開始</value>
+  </data>
+  <data name="quickstartJavaTitle" xml:space="preserve">
+    <value>Java 用の Azure Functions - 作業の開始</value>
+  </data>
+  <data name="quickstartDescription" xml:space="preserve">
+    <value>クイックスタートのガイダンスに従って関数を作成し、発行します</value>
+  </data>
+  <data name="chooseDevEnvironment" xml:space="preserve">
+    <value>開発環境を選択する</value>
+  </data>
+  <data name="chooseDeploymentMethod" xml:space="preserve">
+    <value>デプロイ方法を選択する</value>
+  </data>
+  <data name="createFunction" xml:space="preserve">
+    <value>関数の作成</value>
+  </data>
+  <data name="quickstart" xml:space="preserve">
+    <value>クイック スタート</value>
+  </data>
+  <data name="vsCardTitle" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="vscodeCardTitle" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="coretoolsCardTitle" xml:space="preserve">
+    <value>任意のエディター + Core Tools</value>
+  </data>
+  <data name="mavenCardTitle" xml:space="preserve">
+    <value>任意のエディター + Maven</value>
+  </data>
+  <data name="portalCardTitle" xml:space="preserve">
+    <value>ポータル内</value>
+  </data>
+  <data name="vsCardDescription" xml:space="preserve">
+    <value>Visual Studio を使用して .NET 関数を作成、ビルド、実行します</value>
+  </data>
+  <data name="vscodeCardDescription" xml:space="preserve">
+    <value>Visual Studio Code を使用して関数を作成します</value>
+  </data>
+  <data name="coretoolsCardDescription" xml:space="preserve">
+    <value>お気に入りのエディターと Azure Functions Core Tools を使って関数を作成します</value>
+  </data>
+  <data name="mavenCardDescription" xml:space="preserve">
+    <value>IntelliJ、Eclipse、Maven などのお気に入りのエディターを使用して Java 関数を作成します</value>
+  </data>
+  <data name="portalCardDescription" xml:space="preserve">
+    <value>ポータルで関数を簡単に作成します</value>
+  </data>
+  <data name="deploymentCenterCardTitle" xml:space="preserve">
+    <value>デプロイ センターの使用</value>
+  </data>
+  <data name="deploymentCenterCardDescription" xml:space="preserve">
+    <value>コードをソース管理にチェックインして、継続的配置パイプラインに従って処理できるようアプリを構成します</value>
+  </data>
+  <data name="directPublishCardTitle" xml:space="preserve">
+    <value>直接発行</value>
+  </data>
+  <data name="vsDirectPublishCardDescription" xml:space="preserve">
+    <value>Visual Studio から直接発行します</value>
+  </data>
+  <data name="vscodeDirectPublishCardDescription" xml:space="preserve">
+    <value>VS Code から直接発行します</value>
+  </data>
+  <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
+    <value>Azure Functions Core Tools から直接発行します</value>
+  </data>
+  <data name="mavenDirectPublishCardDescription" xml:space="preserve">
+    <value>Maven から直接発行します</value>
+  </data>
+  <data name="httpCardDescription" xml:space="preserve">
+    <value>HTTP 要求を受信するたびに実行される関数</value>
+  </data>
+  <data name="timerCardDescription" xml:space="preserve">
+    <value>指定したスケジュールで実行される関数</value>
+  </data>
+  <data name="quickstartMessage1" xml:space="preserve">
+    <value>関数アプリが作成されました。</value>
+  </data>
+  <data name="quickstartMessage2" xml:space="preserve">
+    <value>次に、コードを追加します...</value>
+  </data>
   <data name="syncRequestSubmitted" xml:space="preserve">
     <value>同期要求を送信しました</value>
   </data>
@@ -3757,88 +3919,499 @@
   <data name="vsts_permissions_error" xml:space="preserve">
     <value>VSTS 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
   </data>
+  <data name="quickstartSelectSample" xml:space="preserve">
+    <value>サンプルの選択</value>
+  </data>
+  <data name="quickStartSampleDescription" xml:space="preserve">
+    <value>説明</value>
+  </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You don not own any VSTS Repositories</value>
+    <value>VSTS リポジトリを所有していません</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts</value>
+    <value>有効な VSTS アカウントがありません</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You don not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>有効な VSTS アカウントがありません。App Service Kudu ビルドを使用するには、アカウント所有者であることも必要です</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>今すぐ作成します</value>
   </data>
   <data name="topBar_updateExtensions" xml:space="preserve">
-    <value>Your Function extensions need to be updated.</value>
+    <value>お使いの関数の拡張機能を更新する必要があります。</value>
   </data>
   <data name="cloneConfigLoadFailure" xml:space="preserve">
-    <value>Failed to retrieve source configuration</value>
+    <value>ソースの構成を取得できませんでした</value>
   </data>
   <data name="noCreateAccess" xml:space="preserve">
-    <value>You do not have create access</value>
+    <value>作成アクセス権がありません</value>
   </data>
   <data name="noSwapPermission" xml:space="preserve">
-    <value>You do not have swap permission</value>
+    <value>スワップのアクセス許可がありません</value>
   </data>
   <data name="noWritePermission" xml:space="preserve">
-    <value>You do not have write permission</value>
+    <value>書き込みアクセス許可がありません</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The slot has a read-only lock</value>
+    <value>スロットには読み取り専用のロックがある</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
     <value>展開元と展開先に同じスロットを指定できません</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Multi-phase swap cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>次のスロットで認証が有効になっているため、プレビュー付きのスワップを実行できません: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Multi-phase swap can only be used with sites that have slot settings enabled</value>
+    <value>プレビュー付きのスワップは、スロット設定が有効になっているサイトでのみ使用できます</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+    <value>スワップを完了する前に、2 番目のスロットの構成での最初のスロットのアプリの動作を確認してください</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+    <value>次のスロットに対する書き込みアクセス許可がありません: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+    <value>次のスロットをスワップするアクセス許可がありません: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+    <value>次のスロットに対する読み取り専用のロックがあります: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple slots</value>
+    <value>スワップ操作は、アプリに複数のスロットがある場合にのみ実行できます</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap Slots</value>
+    <value>スロットのスワップ</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>読み込みに失敗しました</value>
   </data>
-  <data name="swapPreviewChangesHeading" xml:space="preserve">
-    <value>変更のプレビュー</value>
+  <data name="phaseOneChangesHeading" xml:space="preserve">
+    <value>フェーズ 1 の変更</value>
+  </data>
+  <data name="phaseTwoChangesHeading" xml:space="preserve">
+    <value>フェーズ 2 の変更</value>
+  </data>
+  <data name="swapDiffHeading" xml:space="preserve">
+    <value>構成変更</value>
+  </data>
+  <data name="phaseOneChangesInfoText" xml:space="preserve">
+    <value>これらは、スワップの最初のフェーズでソース スロットに適用される、ターゲット スロット側のスロット特有のアプリケーション設定および接続文字列です。</value>
+  </data>
+  <data name="swapChangesInfoText" xml:space="preserve">
+    <value>これは、スワップが完了した後、ソース スロットとターゲット スロットに対して加えられる最終的な構成変更一式の概要です。</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
-    <value>Please make a valid selection above to load preview</value>
+    <value>プレビューを読み込むには、上で有効な選択を行ってください</value>
   </data>
   <data name="swapChangesLoadingFailed" xml:space="preserve">
-    <value>Failed to load preview</value>
+    <value>プレビューを読み込めませんでした</value>
   </data>
   <data name="swapSourceChangesHeading" xml:space="preserve">
-    <value>Source Changes</value>
+    <value>ソースの変更</value>
   </data>
   <data name="swapTargetChangesHeading" xml:space="preserve">
-    <value>Target Changes</value>
+    <value>ターゲットの変更</value>
   </data>
   <data name="swapActionLabel" xml:space="preserve">
     <value>スワップ アクション</value>
   </data>
+  <data name="frameworkVersion" xml:space="preserve">
+    <value>Framework のバージョン</value>
+  </data>
+  <data name="startupCommand" xml:space="preserve">
+    <value>スタートアップ コマンド</value>
+  </data>
+  <data name="pathToApplicationCode" xml:space="preserve">
+    <value>コードへのパス</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>プレビュー</value>
+  </data>
+  <data name="swapDiffsNoChange" xml:space="preserve">
+    <value>変更なし</value>
+  </data>
+  <data name="swapDiffNotSet" xml:space="preserve">
+    <value>設定なし</value>
+  </data>
   <data name="extensionUninstallError" xml:space="preserve">
-    <value>We were not able to uninstall your outdated extensions</value>
+    <value>古い拡張機能をアンインストールできませんでした</value>
   </data>
   <data name="v2_preview_label" xml:space="preserve">
-    <value>~2 (Preview)</value>
+    <value>~2 (プレビュー)</value>
+  </data>
+  <data name="functionAppRuntimeStackTitle" xml:space="preserve">
+    <value>Function App ランタイム スタック</value>
+  </data>
+  <data name="functionAppRuntimeStackDescription" xml:space="preserve">
+    <value>Function App v2 は単一の言語になりました。アプリに関数を追加する前に、ランタイム スタックを設定してください。</value>
+  </data>
+  <data name="functionRuntimeStackLabel" xml:space="preserve">
+    <value>関数ランタイム スタック</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="containerACRRegistry" xml:space="preserve">
+    <value>レジストリ</value>
+  </data>
+  <data name="containerACRImage" xml:space="preserve">
+    <value>イメージ</value>
+  </data>
+  <data name="containerACRTag" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="containerACRStartupFile" xml:space="preserve">
+    <value>スタートアップ ファイル</value>
+  </data>
+  <data name="containerContinuousDeployment" xml:space="preserve">
+    <value>継続的なデプロイ</value>
+  </data>
+  <data name="containerWebhookUrl" xml:space="preserve">
+    <value>Webhook URL</value>
+  </data>
+  <data name="containerMultiConfiguration" xml:space="preserve">
+    <value>構成</value>
+  </data>
+  <data name="containerMultiConfigurationFile" xml:space="preserve">
+    <value>構成ファイル</value>
+  </data>
+  <data name="windowsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose は Linux オペレーティング システムに基づくアプリケーションでのみサポートされます。</value>
+  </data>
+  <data name="windowsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes は Linux オペレーティング システムに基づくアプリケーションでのみサポートされます。</value>
+  </data>
+  <data name="functionsDockerComposeDisableMessage" xml:space="preserve">
+    <value>Docker Compose に基づく関数は現在サポートされていません。</value>
+  </data>
+  <data name="functionsKubernetesDisableMessage" xml:space="preserve">
+    <value>Kubernetes に基づく関数は現在サポートされていません。</value>
+  </data>
+  <data name="readOnlyBYOC" xml:space="preserve">
+    <value>ポータルの編集機能は、Docker イメージとしてデプロイされた関数アプリではサポートされていません。</value>
+  </data>
+  <data name="failedToGetContainerConfigData" xml:space="preserve">
+    <value>コンテナーの構成データを取得できませんでした。</value>
+  </data>
+  <data name="invalidUrl" xml:space="preserve">
+    <value>指定された URL が無効です。URL には、プロトコル (http または https) と、ドメインまたはホスト、必要に応じてポートを含めることが必要です。</value>
+  </data>
+  <data name="failedToUpdateContainerConfigData" xml:space="preserve">
+    <value>コンテナーの設定のデータを更新できませんでした。</value>
+  </data>
+  <data name="errorsInContainerSettings" xml:space="preserve">
+    <value>設定でエラーが発生しています。</value>
+  </data>
+  <data name="containerSettingsUpdateSuccess" xml:space="preserve">
+    <value>設定が正常に更新されました。</value>
+  </data>
+  <data name="showUrl" xml:space="preserve">
+    <value>URL を表示</value>
+  </data>
+  <data name="hideUrl" xml:space="preserve">
+    <value>URL を非表示にする</value>
+  </data>
+  <data name="dynamicLinuxPreview" xml:space="preserve">
+    <value>Linux Consumption Functions はプレビュー オファーです。</value>
+  </data>
+  <data name="formIsInvalid" xml:space="preserve">
+    <value>一部のフィールドが正しく入力されていないか、入力が必要です。</value>
+  </data>
+  <data name="finishAndDeploy" xml:space="preserve">
+    <value>終了して、デプロイ センターに移動する</value>
+  </data>
+  <data name="readOnlyLinuxDynamic" xml:space="preserve">
+    <value>ポータルでの関数の編集は、Linux Consumption Function Apps (プレビュー) ではサポートされていません。</value>
+  </data>
+  <data name="singleContainerPreviewTitle" xml:space="preserve">
+    <value>単一コンテナー (プレビュー)</value>
+  </data>
+  <data name="moreTemplatesTitle" xml:space="preserve">
+    <value>その他のテンプレート...</value>
+  </data>
+  <data name="moreTemplatesDescription" xml:space="preserve">
+    <value>この関数アプリで使用可能なすべてのテンプレートを表示します</value>
+  </data>
+  <data name="moreTemplatesButton" xml:space="preserve">
+    <value>テンプレートの完了と表示</value>
+  </data>
+  <data name="singleContainerSample1TitleLinux" xml:space="preserve">
+    <value>NGINX</value>
+  </data>
+  <data name="singleContainerSample1DescriptionLinux" xml:space="preserve">
+    <value>公式 Nginx イメージを使用する NGINX Web サーバー既定サイト。</value>
+  </data>
+  <data name="singleContainerSample2TitleLinux" xml:space="preserve">
+    <value>Python の Hello World</value>
+  </data>
+  <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
+    <value>Python の "Hello World" のサンプル アプリです。</value>
+  </data>
+  <data name="singleContainerSample3TitleLinux" xml:space="preserve">
+    <value>静的なサイト</value>
+  </data>
+  <data name="singleContainerSample3DescriptionLinux" xml:space="preserve">
+    <value>Nginx Web サーバーから提供される静的 HTML Web ページ。</value>
+  </data>
+  <data name="singleContainerSample1TitleWindows" xml:space="preserve">
+    <value>ASP.NET Web フォーム</value>
+  </data>
+  <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
+    <value>ASP.Net Web フォーム アプリケーションを Windows Server Core 2016 LTSC コンテナーにデプロイします。</value>
+  </data>
+  <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
+    <value>Redis による Python Flask</value>
+  </data>
+  <data name="dockerComposeSample1DescriptionLinux" xml:space="preserve">
+    <value>Web ページのヒット数をカウントし、そのデータを Redis Cache に保存する Python Flask サンプル アプリ。</value>
+  </data>
+  <data name="dockerComposeSample2TitleLinux" xml:space="preserve">
+    <value>SQL Server での ASP.NET Core</value>
+  </data>
+  <data name="dockerComposeSample2DescriptionLinux" xml:space="preserve">
+    <value>SQL Server で ASP.NET コアを使用する Docker Compose サンプルです。</value>
+  </data>
+  <data name="dockerComposeSample3TitleLinux" xml:space="preserve">
+    <value>複数コンテナーの WordPress</value>
+  </data>
+  <data name="dockerComposeSample3DescriptionLinux" xml:space="preserve">
+    <value>WordPress と MySQL を使用した Docker Compose のサンプル。</value>
+  </data>
+  <data name="kubernetesSample1TitleLinux" xml:space="preserve">
+    <value>Redis による Python Flask</value>
+  </data>
+  <data name="kubernetesSample1DescriptionLinux" xml:space="preserve">
+    <value>Web ページのヒット数をカウントし、そのデータを Redis Cache に保存する Kubernetes サンプル アプリ。</value>
+  </data>
+  <data name="kubernetesSample2TitleLinux" xml:space="preserve">
+    <value>複数コンテナーの WordPress</value>
+  </data>
+  <data name="kubernetesSample2DescriptionLinux" xml:space="preserve">
+    <value>WordPress と MySQL を使用した Kubernetes のサンプル。</value>
+  </data>
+  <data name="noLogsAvailable" xml:space="preserve">
+    <value>利用できるログはありません。</value>
+  </data>
+  <data name="errorRetrievingLogs" xml:space="preserve">
+    <value>ログの取得中にエラーが発生しました。</value>
+  </data>
+  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+    <value>新規または既存のデプロイ スロット </value>
+  </data>
+  <data name="newOrExistingVstsAccount" xml:space="preserve">
+    <value>新規または既存の VSTS アカウント</value>
+  </data>
+  <data name="newOrExistingWebApp" xml:space="preserve">
+    <value>新規または既存の VSTS アカウント</value>
+    </data>
+  <data name="deploymentDetails" xml:space="preserve">
+    <value>デプロイの詳細</value>
+  </data>
+  <data name="installingExtensionIntegrate" xml:space="preserve">
+    <value>テンプレート依存関係をインストールしています。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このページはそのままにして、ポータルを引き続き使用できます。</value>
+  </data>
+  <data name="hideValues" xml:space="preserve">
+    <value>値を非表示にします</value>
+  </data>
+  <data name="showValues" xml:space="preserve">
+    <value>値を表示する</value>
+  </data>
+  <data name="hiddenValueClickToEdit" xml:space="preserve">
+    <value>非表示の値です。編集するには、クリックしてください。</value>
+  </data>
+  <data name="appSettingsEncryptedInfoText" xml:space="preserve">
+    <value>アプリケーションの設定は保存時に暗号化され、暗号化されたチャネルで送信されます。以下のコントロールを使用して、お使いのブラウザーにプレーン テキストで表示するよう選択することができます。</value>
+  </data>
+  <data name="connectionStringsEncryptedInfoText" xml:space="preserve">
+    <value>接続文字列は保存時に暗号化され、暗号化されたチャネルで送信されます。以下のコントロールを使用して、お使いのブラウザーにプレーン テキストで表示するよう選択することができます。</value>
+  </data>
+  <data name="team" xml:space="preserve">
+    <value>チーム</value>
+  </data>
+  <data name="personal" xml:space="preserve">
+    <value>個人</value>
+  </data>
+  <data name="swaggerDefinitionReadOnly" xml:space="preserve">
+    <value>API 定義 (Swagger) は、読み取り専用モードの関数アプリでは使用できません。</value>
+  </data>
+  <data name="troubleshootYourApp" xml:space="preserve">
+    <value>アプリのトラブルシューティング</value>
+  </data>
+  <data name="diagnoseAndSolveProblems" xml:space="preserve">
+    <value>問題の診断と解決</value>
+  </data>
+  <data name="stackSettings" xml:space="preserve">
+    <value>スタックの設定</value>
+  </data>
+  <data name="platformSettings" xml:space="preserve">
+    <value>プラットフォームの設定</value>
+  </data>
+  <data name="debugging" xml:space="preserve">
+    <value>デバッグ</value>
+  </data>
+  <data name="applicationSettings" xml:space="preserve">
+    <value>アプリケーション設定</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>接続文字列</value>
+  </data>
+  <data name="generalSettings" xml:space="preserve">
+    <value>全般設定</value>
+  </data>
+  <data name="defaultDocuments" xml:space="preserve">
+    <value>既定のドキュメント</value>
+  </data>
+  <data name="pathMappings" xml:space="preserve">
+    <value>パスのマッピング</value>
+  </data>
+  <data name="handlerMappings" xml:space="preserve">
+    <value>ハンドラー マッピング</value>
+  </data>
+  <data name="virtualApplications" xml:space="preserve">
+    <value>仮想アプリケーションとディレクトリ</value>
+  </data>
+  <data name="appSettingsSaveAriaLabel" xml:space="preserve">
+    <value>Web アプリケーションのすべての設定を保存します</value>
+  </data>
+  <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
+    <value>Web アプリケーションの設定に対する変更をすべて破棄します</value>
+  </data>
+  <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
+    <value>左右の矢印キーを使用してコマンド間を移動します</value>
+  </data>
+  <data name="newApp" xml:space="preserve">
+    <value>新しいアプリケーションまたはディレクトリ</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>仮想パス</value>
+  </data>
+  <data name="physicalPath" xml:space="preserve">
+    <value>物理パス</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="directoryOrApplciation" xml:space="preserve">
+    <value>ディレクトリまたはアプリケーション</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>ディレクトリ</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>アプリケーション</value>
+  </data>
+  <data name="preloadEnabled" xml:space="preserve">
+    <value>プリロードが有効</value>
+  </data>
+  <data name="extension" xml:space="preserve">
+    <value>拡張子</value>
+  </data>
+  <data name="scriptProcessor" xml:space="preserve">
+    <value>スクリプト プロセッサ</value>
+  </data>
+  <data name="argumentsRes" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="newHandlerMapping" xml:space="preserve">
+    <value>新しいハンドラー マッピング</value>
+  </data>
+  <data name="stack" xml:space="preserve">
+    <value>スタック</value>
+  </data>
+  <data name="slots" xml:space="preserve">
+    <value>スロット</value>
+  </data>
+  <data name="autoSwapEnabled" xml:space="preserve">
+    <value>自動スワップが有効</value>
+  </data>
+  <data name="autoSwapSlot" xml:space="preserve">
+    <value>自動スワップ スロット</value>
+  </data>
+  <data name="platform" xml:space="preserve">
+    <value>プラットフォーム</value>
+  </data>
+  <data name="managedPipelineVersion" xml:space="preserve">
+    <value>マネージド パイプライン バージョン</value>
+  </data>
+  <data name="integrated" xml:space="preserve">
+    <value>統合</value>
+  </data>
+  <data name="classic" xml:space="preserve">
+    <value>クラシック</value>
+  </data>
+  <data name="ftpState" xml:space="preserve">
+    <value>FTP の状態</value>
+  </data>
+  <data name="allAllowed" xml:space="preserve">
+    <value>すべて許可</value>
+  </data>
+  <data name="ftpsOnly" xml:space="preserve">
+    <value>FTPS のみ</value>
+  </data>
+  <data name="alwaysOn" xml:space="preserve">
+    <value>常時接続</value>
+  </data>
+  <data name="latestMinorVersion" xml:space="preserve">
+    <value>最新のマイナー バージョンを使用します</value>
+  </data>
+  <data name="phpVersion" xml:space="preserve">
+    <value>PHP のバージョン</value>
+  </data>
+  <data name="javaMinorVersion" xml:space="preserve">
+    <value>Java マイナー バージョン</value>
+  </data>
+  <data name="javaContainer" xml:space="preserve">
+    <value>Java コンテナー</value>
+  </data>
+  <data name="javaContainerVersion" xml:space="preserve">
+    <value>Java コンテナー バージョン</value>
+  </data>
+  <data name="newDocument" xml:space="preserve">
+    <value>新規ドキュメント</value>
+  </data>
+  <data name="nameRes" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="sticky" xml:space="preserve">
+    <value>スロットの設定</value>
+  </data>
+  <data name="addEditConnectionStringHeader" xml:space="preserve">
+    <value>接続文字列の追加/編集</value>
+  </data>
+  <data name="newConnectionString" xml:space="preserve">
+    <value>新しい接続文字列</value>
+  </data>
+  <data name="addEditApplicationSetting" xml:space="preserve">
+    <value>アプリケーション設定の追加/編集</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>新しいアプリケーション設定</value>
+  </data>
+  <data name="containerACRCrossSubscriptionRegistry" xml:space="preserve">
+    <value>選択したレジストリが現在のアプリと同じサブスクリプションにありません。プライベート レジストリ タブを使用してレジストリを切り替えてください。</value>
+  </data>
+  <data name="sideNav_Functions_ReadOnly" xml:space="preserve">
+    <value>関数 (読み取り専用)</value>
+  </data>
+  <data name="sideNav_FunctionsInaccessible" xml:space="preserve">
+    <value>関数 (アクセス不可)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnly" xml:space="preserve">
+    <value>プロキシ (読み取り専用)</value>
+  </data>
+  <data name="sideNav_ProxiesInaccessible" xml:space="preserve">
+    <value>プロキシ (アクセス不可)</value>
+  </data>
+  <data name="configYamlInvalid" xml:space="preserve">
+    <value>Invalid YML format. Error: '{0}'.</value>
   </data>
 </root>

@@ -16,33 +16,33 @@ import { WizardStep } from '../util/wizard-step.interface';
  * @author Marc Arndt
  */
 @Component({
-    selector: 'wizard-navigation-bar',
-    templateUrl: 'wizard-navigation-bar.component.html',
-    styleUrls: ['wizard-navigation-bar.component.scss']
+  selector: 'wizard-navigation-bar',
+  templateUrl: 'wizard-navigation-bar.component.html',
+  styleUrls: ['wizard-navigation-bar.component.scss'],
 })
 export class WizardNavigationBarComponent {
-    /**
+  /**
    * Constructor
    *
    * @param wizard The wizard, which includes this navigation bar
    */
-    constructor(private wizard: WizardComponent) {}
+  constructor(private wizard: WizardComponent) {}
 
-    /**
+  /**
    * Returns all [[WizardStep]]s contained in the wizard
    *
    * @returns {Array<WizardStep>} An array containing all [[WizardStep]]s
    */
-    get wizardSteps(): Array<WizardStep> {
-        return this.wizard.wizardSteps.toArray();
-    }
+  get wizardSteps(): Array<WizardStep> {
+    return this.wizard.wizardSteps.toArray();
+  }
 
-    /**
+  /**
    * Returns the number of wizard steps, that need to be displaced in the navigation bar
    *
    * @returns {number} The number of wizard steps to be displayed
    */
-    get numberOfWizardSteps(): number {
-        return this.wizard.wizardSteps.length;
-    }
+  get numberOfWizardSteps(): number {
+    return this.wizard.wizardSteps.length;
+  }
 }

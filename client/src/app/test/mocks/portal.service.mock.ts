@@ -7,79 +7,61 @@ import { Subscription } from '../../shared/models/subscription';
 
 @Injectable()
 export class MockPortalService {
+  public operationStream = new Subject<DataMessage<any>>();
 
-    public operationStream = new Subject<DataMessage<any>>();
-    
-    constructor() {
-    }
+  constructor() {}
 
-    getStartupInfo() {
-    }
+  getStartupInfo() {}
 
-    sendTimerEvent(evt: TimerEvent) {
-    }
+  sendTimerEvent(evt: TimerEvent) {}
 
-    openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string) {
-    }
+  openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string) {}
 
-    // Returns an Observable which resolves when blade is close.
-    // Optionally may also return a value
-    openBlade(bladeInfo: OpenBladeInfo, source: string) {
-    }
+  // Returns an Observable which resolves when blade is close.
+  // Optionally may also return a value
+  openBlade(bladeInfo: OpenBladeInfo, source: string) {}
 
-    openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-    }
+  openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {}
 
-    openCollectorBladeWithInputs(
-        resourceId: string,
-        obj: any,
-        source: string,
-        getAppSettingCallback: (appSettingName: string) => void,
-        bladeName?: string) {
-    }
+  openCollectorBladeWithInputs(
+    resourceId: string,
+    obj: any,
+    source: string,
+    getAppSettingCallback: (appSettingName: string) => void,
+    bladeName?: string
+  ) {}
 
-    getAdToken(tokenType: 'graph' | 'azureTfsApi') {
-    }
+  getAdToken(tokenType: 'graph' | 'azureTfsApi') {}
 
-    getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
-        return null;
-    }
+  getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
+    return null;
+  }
 
-    getSubscription(subscriptionId: string): Observable<Subscription> {
-        return null;
-    }
+  getSubscription(subscriptionId: string): Observable<Subscription> {
+    return null;
+  }
 
-    closeBlades() {
-    }
+  closeBlades() {}
 
-    updateBladeInfo(title: string, subtitle: string) {
-    }
+  updateBladeInfo(title: string, subtitle: string) {}
 
-    pinPart(pinPartInfo: PinPartInfo) {
-    }
+  pinPart(pinPartInfo: PinPartInfo) {}
 
-    startNotification(title: string, description: string): Observable<NotificationStartedInfo> {
-        return Observable.of({
-            id: 'notid'
-        });
-    }
+  startNotification(title: string, description: string): Observable<NotificationStartedInfo> {
+    return Observable.of({
+      id: 'notid',
+    });
+  }
 
-    stopNotification(id: string, success: boolean, description: string) {
-    }
+  stopNotification(id: string, success: boolean, description: string) {}
 
-    logAction(subcomponent: string, action: string, data?: any): void {
-    }
+  logAction(subcomponent: string, action: string, data?: any): void {}
 
-    setDirtyState(dirty: boolean): void {
-    }
+  setDirtyState(dirty: boolean): void {}
 
-    updateDirtyState(dirty: boolean, message?: string): void {
-    }
+  updateDirtyState(dirty: boolean, message?: string): void {}
 
-    logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
-    }
+  logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {}
 
-    returnPcv3Results<T>(results: T) {
-    }
-
+  returnPcv3Results<T>(results: T) {}
 }

@@ -1,6 +1,6 @@
-import {Directive, EventEmitter, Host, OnInit, Output} from '@angular/core';
-import {MovingDirection} from '../util/moving-direction.enum';
-import {WizardCompletionStep} from '../util/wizard-completion-step.inferface';
+import { Directive, EventEmitter, Host, OnInit, Output } from '@angular/core';
+import { MovingDirection } from '../util/moving-direction.enum';
+import { WizardCompletionStep } from '../util/wizard-completion-step.inferface';
 
 /**
  * The `enableBackLinks` directive can be used to allow the user to leave a [[WizardCompletionStep]] after is has been entered.
@@ -24,7 +24,7 @@ import {WizardCompletionStep} from '../util/wizard-completion-step.inferface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[enableBackLinks]'
+  selector: '[enableBackLinks]',
 })
 export class EnableBackLinksDirective implements OnInit {
   /**
@@ -41,7 +41,7 @@ export class EnableBackLinksDirective implements OnInit {
    *
    * @param completionStep The wizard completion step, which should be exitable
    */
-  constructor(@Host() private completionStep: WizardCompletionStep) { }
+  constructor(@Host() private completionStep: WizardCompletionStep) {}
 
   /**
    * Initialization work

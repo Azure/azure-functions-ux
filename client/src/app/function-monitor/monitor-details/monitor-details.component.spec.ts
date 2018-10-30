@@ -1,3 +1,1 @@
-describe('MonitorDetailsComponent', () => {
-
-});
+describe('MonitorDetailsComponent', () => {});

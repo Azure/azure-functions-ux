@@ -1,0 +1,110 @@
+<div class="wrapper"
+    [is-dirty]="isCreating || (addForm?.dirty)"
+    [is-dirty-message]="isCreating ? operationInProgressWarning : (addForm?.dirty) ? unsavedChangesWarning : null">
+
+    <div *ngIf="showHeader" class="header">
+        <div class="header-icon-container">
+            <span class="header-icon" load-image="image/add.svg"></span>
+        </div>
+
+        {{ 'slotNew' | translate }}
+
+        <div class="header-close-button"
+            role="button"
+            [attr.title]="'close' | translate"
+            [attr.aria-label]="'close' | translate"
+            tabindex="0"
+            (click)="closePanel()"
+            [activate-with-keys]>
+            <span class="header-close-button-icon" load-image="image/close.svg"></span>
+        </div>
+    </div>
+
+    <div class="body" [formGroup]="addForm" novalidate>
+        <div class="body-liner">
+
+            <div class="controls-container">
+                <info-box *ngIf="slotsQuotaMessage"
+                    typeClass="info"
+                    [infoText]="slotsQuotaMessage">
+                </info-box>
+
+                <info-box *ngIf="!isLoading && !hasCreateAcess"
+                    typeClass="error"
+                    [infoText]="'noCreateAccess' | translate">
+                </info-box>
+
+                <info-box *ngIf="loadingFailed"
+                    typeClass="error"
+                    [infoText]="'error_unableToLoadSlotsList' | translate">
+                </info-box>
+            </div>
+
+            <div class="controls-container">
+                <div class="control-container">
+                    <div class="control-label">
+                        {{ 'slotNew_nameLabel' | translate }}
+                    </div>
+                    <div>
+                        <textbox
+                            class="name-textbox"
+                            [placeholder]="'enterName' | translate"
+                            [disablePopOverError]="true"
+                            [control]="addForm ? addForm.controls['name'] : null">
+                        </textbox>
+                    </div>
+                    <div invalidmessage="name"></div>
+                </div>
+            </div>
+
+            <div class="controls-container">
+                <div class="control-container">
+                    <div class="control-label">
+                        {{ 'slotNew_cloneConfigLabel' | translate }}
+                    </div>
+                    <div>
+                        <ng-select
+                            [loading]="false"
+                            [clearable]="false"
+                            [items]="cloneSrcIdDropDownOptions"
+                            bindLabel="displayLabel"
+                            bindValue="value"
+                            class="custom-select"
+                            formControlName="cloneSrcId">
+                        </ng-select>
+                        <div invalidmessage="cloneSrcId"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+
+        <div *ngIf="progressMessage"
+            class="progress-container">
+            <info-box
+                [typeClass]="progressMessageClass"
+                [infoText]="progressMessage">
+            </info-box>
+        </div>
+
+        <div class="buttons-container">
+            <button
+                class="custom-button"
+                [disabled]="executeButtonDisabled || addForm?.invalid || addForm?.pristine || !hasCreateAcess || !!slotsQuotaMessage"
+                (click)="createSlot()">
+                {{ 'add' | translate }}
+            </button>
+            <button
+                class="custom-button"
+                [disabled]="isCreating"
+                (click)="closePanel()">
+                {{ 'close' | translate }}
+            </button>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,36 @@
+# run the same job on 2 CI machines in parallel
+# https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
+phases:
+  - phase: Test
+    queue: 'Hosted Linux Preview'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          cd client-react
+          yarn install
+        displayName: 'yarn install react app'
+
+      - script: |
+          echo $REACT_APP_CACHE_KEY
+          cd client-react
+          yarn build
+        displayName: 'create production build'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client-react/build
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: dest'
+        inputs:
+          ArtifactName: dest

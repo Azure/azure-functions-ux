@@ -30,37 +30,37 @@ import { WindowsFramworksComponent } from './deployment-center-setup/step-config
 import { NgxDatatableModule } from 'ngx-datatable-accessable';
 
 @NgModule({
-    entryComponents: [DeploymentCenterComponent],
-    declarations: [
-        DeploymentCenterComponent,
-        KuduDashboardComponent,
-        VsoDashboardComponent,
-        DeploymentCenterSetupComponent,
-        StepSourceControlComponent,
-        StepDeploymentSlotComponent,
-        StepConfigureComponent,
-        StepCompleteComponent,
-        StepBuildProviderComponent,
-        DeploymentDetailComponent,
-        StepTestComponent,
-        ConfigureDropboxComponent,
-        ConfigureOnedriveComponent,
-        ConfigureGithubComponent,
-        ConfigureVstsSourceComponent,
-        ConfigureVstsBuildComponent,
-        ConfigureExternalComponent,
-        ConfigureBitbucketComponent,
-        ConfigureLocalGitComponent,
-        FtpDashboardComponent,
-        DeploymentCredentialsComponent,
-        LinuxFramworksComponent,
-        WindowsFramworksComponent,
-    ],
-    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
-    exports: [DeploymentCenterComponent],
+  entryComponents: [DeploymentCenterComponent],
+  declarations: [
+    DeploymentCenterComponent,
+    KuduDashboardComponent,
+    VsoDashboardComponent,
+    DeploymentCenterSetupComponent,
+    StepSourceControlComponent,
+    StepDeploymentSlotComponent,
+    StepConfigureComponent,
+    StepCompleteComponent,
+    StepBuildProviderComponent,
+    DeploymentDetailComponent,
+    StepTestComponent,
+    ConfigureDropboxComponent,
+    ConfigureOnedriveComponent,
+    ConfigureGithubComponent,
+    ConfigureVstsSourceComponent,
+    ConfigureVstsBuildComponent,
+    ConfigureExternalComponent,
+    ConfigureBitbucketComponent,
+    ConfigureLocalGitComponent,
+    FtpDashboardComponent,
+    DeploymentCredentialsComponent,
+    LinuxFramworksComponent,
+    WindowsFramworksComponent,
+  ],
+  imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
+  exports: [DeploymentCenterComponent],
 })
 export class DeploymentCenterModule {
-    static forRoot(): ModuleWithProviders {
-        return { ngModule: DeploymentCenterModule, providers: [] };
-    }
+  static forRoot(): ModuleWithProviders {
+    return { ngModule: DeploymentCenterModule, providers: [] };
+  }
 }

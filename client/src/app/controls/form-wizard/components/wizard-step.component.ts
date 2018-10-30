@@ -1,7 +1,7 @@
-import {Component, ContentChild, EventEmitter, forwardRef, HostBinding, Input, Output} from '@angular/core';
-import {MovingDirection} from '../util/moving-direction.enum';
-import {WizardStep} from '../util/wizard-step.interface';
-import {WizardStepTitleDirective} from '../directives/wizard-step-title.directive';
+import { Component, ContentChild, EventEmitter, forwardRef, HostBinding, Input, Output } from '@angular/core';
+import { MovingDirection } from '../util/moving-direction.enum';
+import { WizardStep } from '../util/wizard-step.interface';
+import { WizardStepTitleDirective } from '../directives/wizard-step-title.directive';
 
 /**
  * The `wizard-step` component is used to define a normal step inside a wizard.
@@ -55,9 +55,7 @@ import {WizardStepTitleDirective} from '../directives/wizard-step-title.directiv
   selector: 'wizard-step',
   templateUrl: 'wizard-step.component.html',
   styleUrls: ['wizard-step.component.css'],
-  providers: [
-    { provide: WizardStep, useExisting: forwardRef(() => WizardStepComponent) }
-  ]
+  providers: [{ provide: WizardStep, useExisting: forwardRef(() => WizardStepComponent) }],
 })
 export class WizardStepComponent extends WizardStep {
   /**

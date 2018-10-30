@@ -7,28 +7,26 @@ import { MockComponent } from 'ng-mocks';
 import { PopOverComponent } from '../../pop-over/pop-over.component';
 
 describe('CopyPreComponent', () => {
-    let textbox: TextboxComponent;
-    let testFixture: ComponentFixture<TextboxComponent>;
+  let textbox: TextboxComponent;
+  let testFixture: ComponentFixture<TextboxComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [TextboxComponent, MockComponent(PopOverComponent)],
-            providers: [],
-            imports: [CommonModule, ReactiveFormsModule, FormsModule]
-        })
-            .compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [TextboxComponent, MockComponent(PopOverComponent)],
+      providers: [],
+      imports: [CommonModule, ReactiveFormsModule, FormsModule],
+    }).compileComponents();
+  }));
 
-    }));
+  beforeEach(() => {
+    testFixture = TestBed.createComponent(TextboxComponent);
+    textbox = testFixture.componentInstance;
+    testFixture.detectChanges();
+  });
 
-    beforeEach(() => {
-        testFixture = TestBed.createComponent(TextboxComponent);
-        textbox = testFixture.componentInstance;
-        testFixture.detectChanges();
+  describe('init', () => {
+    it('should init control', () => {
+      expect(textbox).toBeTruthy();
     });
-
-    describe('init', () => {
-        it('should init control', () => {
-            expect(textbox).toBeTruthy();
-        });
-    });
+  });
 });

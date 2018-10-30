@@ -12,26 +12,21 @@ import { MarkdownModule } from 'ngx-markdown';
 import { QuickstartService } from './quickstart.service';
 
 @NgModule({
-    entryComponents: [QuickstartComponent],
-    declarations: [
-        StepChooseDevEnvironmentComponent,
-        StepCreateFunctionComponent,
-        StepCreatePortalFunctionComponent,
-        StepCreateFunctionInstructionsComponent,
-        StepChooseDeploymentMethodComponent,
-        QuickstartComponent,
-    ],
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        WizardModule,
-        MarkdownModule.forChild(),
-    ],
-    providers: [QuickstartService],
-    exports: [QuickstartComponent],
+  entryComponents: [QuickstartComponent],
+  declarations: [
+    StepChooseDevEnvironmentComponent,
+    StepCreateFunctionComponent,
+    StepCreatePortalFunctionComponent,
+    StepCreateFunctionInstructionsComponent,
+    StepChooseDeploymentMethodComponent,
+    QuickstartComponent,
+  ],
+  imports: [TranslateModule.forChild(), SharedModule, WizardModule, MarkdownModule.forChild()],
+  providers: [QuickstartService],
+  exports: [QuickstartComponent],
 })
 export class QuickstartModule {
-    static forRoot(): ModuleWithProviders {
-        return { ngModule: QuickstartModule, providers: [] };
-    }
+  static forRoot(): ModuleWithProviders {
+    return { ngModule: QuickstartModule, providers: [] };
+  }
 }

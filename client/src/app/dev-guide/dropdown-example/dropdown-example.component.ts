@@ -4,11 +4,10 @@ import { RequiredValidator } from '../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { HighlightService } from '../highlight.service';
 
-
 @Component({
   selector: 'app-dropdown-example',
   templateUrl: './dropdown-example.component.html',
-  styleUrls: ['./dropdown-example.component.scss']
+  styleUrls: ['./dropdown-example.component.scss'],
 })
 export class DropdownExampleComponent {
   highlighted = false;
@@ -16,34 +15,31 @@ export class DropdownExampleComponent {
   public items = [
     {
       displayLabel: 'Github',
-      value: 'github'
+      value: 'github',
     },
     {
       displayLabel: 'Visual Studio Online',
-      value: 'vso'
+      value: 'vso',
     },
     {
       displayLabel: 'Bitbucket',
-      value: 'bitbucket'
+      value: 'bitbucket',
     },
     {
       displayLabel: 'FTP',
-      value: 'ftp'
-    }];
+      value: 'ftp',
+    },
+  ];
   public chosenValue;
-  constructor(
-    private _fb: FormBuilder,
-    private _translateService: TranslateService,
-    highlightService: HighlightService
-  ) {
+  constructor(private _fb: FormBuilder, private _translateService: TranslateService, highlightService: HighlightService) {
     this.htmlCode = highlightService.highlightString(this.htmlCode, 'html');
     this.typescriptCode = highlightService.highlightString(this.typescriptCode, 'typescript');
 
     const required = new RequiredValidator(this._translateService);
     this.FormGroupExample = this._fb.group({
-      sourceProvider: [this.chosenValue, [required.validate.bind(required)]]
+      sourceProvider: [this.chosenValue, [required.validate.bind(required)]],
     });
-   }
+  }
 
   // tslint:disable-next-line:member-ordering
   public htmlCode = `

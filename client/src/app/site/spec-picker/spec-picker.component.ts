@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { BroadcastMessageId } from '../../shared/models/portal';
 
 export interface StatusMessage {
   message: string;
@@ -20,16 +21,18 @@ export interface StatusMessage {
   selector: 'spec-picker',
   templateUrl: './spec-picker.component.html',
   styleUrls: ['./spec-picker.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>> implements OnDestroy {
-
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>) {
+  @Input()
+  set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<PlanSpecPickerData>>) {
     this.setInput(viewInfo);
   }
 
-  @Input() isOpenedFromMenu: boolean;
-  @ViewChild('specGroupTabs') groupElements: ElementRef;
+  @Input()
+  isOpenedFromMenu: boolean;
+  @ViewChild('specGroupTabs')
+  groupElements: ElementRef;
 
   statusMessage: StatusMessage = null;
   isInitializing = false;
@@ -44,10 +47,11 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       return false;
     } else if (!this.specManager.selectedSpecGroup.selectedSpec) {
       return false;
-    } else if (this.specManager
-      && this.specManager.selectedSpecGroup.selectedSpec
-      && this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode) {
-
+    } else if (
+      this.specManager &&
+      this.specManager.selectedSpecGroup.selectedSpec &&
+      this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode
+    ) {
       return false;
     } else if (this.isUpdating || this.isInitializing || this.disableUpdates) {
       return false;
@@ -75,7 +79,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     public specManager: PlanPriceSpecManager,
     private _ts: TranslateService,
     private _portalService: PortalService,
-    injector: Injector) {
+    injector: Injector
+  ) {
     super('SpecPickerComponent', injector, SiteTabIds.scaleUp);
 
     this.isParentComponent = true;
@@ -119,11 +124,10 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         this.isInitializing = false;
         this.clearBusyEarly();
 
-        return Observable.zip(
-          this.specManager.getSpecCosts(),
-          this.specManager.checkAccess());
+        return Observable.zip(this.specManager.getSpecCosts(), this.specManager.checkAccess());
       })
       .do(r => {
+        this.specManager.updateUpsellBanner();
       });
   }
 
@@ -149,18 +153,18 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.statusMessage = null;
 
     // This is an existing plan, so just upgrade in-place
-    if (!this._input.data) {
+    if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode)) {
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
       this.isUpdating = true;
       this.disableUpdates = true;
 
-      this.specManager.applySelectedSpec()
-        .subscribe(applyButtonState => {
-          this.isUpdating = false;
+      this.specManager.applySelectedSpec().subscribe(applyButtonState => {
+        this.isUpdating = false;
 
-          this.disableUpdates = applyButtonState === 'disabled' ? true : false;
-          this._portalService.updateDirtyState(false);
-        });
+        this.disableUpdates = applyButtonState === 'disabled' ? true : false;
+        this._portalService.updateDirtyState(false);
+        this._portalService.broadcastMessage(BroadcastMessageId.planUpdated, this._input.id);
+      });
     } else {
       // This is a new plan, so return plan information to parent blade
       this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
@@ -175,17 +179,19 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   }
 
   get isEmpty() {
-    return this.specManager.selectedSpecGroup.recommendedSpecs.length === 0
-      && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
+    return (
+      this.specManager.selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0
+    );
   }
 
   get showExpander() {
-    return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0
-      && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0 && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
   }
 
   get showAllSpecs() {
-    return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
-      || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
+    return (
+      (this.showExpander && this.specManager.selectedSpecGroup.isExpanded) ||
+      (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0)
+    );
   }
 }

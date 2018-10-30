@@ -5,20 +5,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { LogEntryComponent } from './log-entry.component';
 
 @NgModule({
-    imports: [TranslateModule.forChild(), SharedModule],
-    entryComponents: [
-        AppLogStreamComponent,
-        LogEntryComponent,
-    ],
-    declarations: [
-        AppLogStreamComponent,
-        LogEntryComponent,
-    ],
-    providers: [
-    ],
-    exports: [
-        AppLogStreamComponent,
-        LogEntryComponent,
-    ],
+  imports: [TranslateModule.forChild(), SharedModule],
+  entryComponents: [AppLogStreamComponent, LogEntryComponent],
+  declarations: [AppLogStreamComponent, LogEntryComponent],
+  providers: [],
+  exports: [AppLogStreamComponent, LogEntryComponent],
 })
-export class LogStreamModule { }
+export class LogStreamModule {}

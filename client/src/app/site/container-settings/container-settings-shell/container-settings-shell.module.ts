@@ -9,11 +9,9 @@ import { SharedFunctionsModule } from '../../../shared/shared-functions.module';
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: ContainerSettingsShellComponent }]);
 
 @NgModule({
-    entryComponents: [],
-    imports: [TranslateModule.forChild(),  SharedModule, SharedFunctionsModule, ContainerSettingsModule, routing],
-    declarations: [
-        ContainerSettingsShellComponent,
-    ],
-    providers: [],
+  entryComponents: [],
+  imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, ContainerSettingsModule, routing],
+  declarations: [ContainerSettingsShellComponent],
+  providers: [],
 })
-export class ContainerSettingsShellModule { }
+export class ContainerSettingsShellModule {}

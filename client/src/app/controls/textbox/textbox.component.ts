@@ -3,67 +3,77 @@ import { Component, Input, OnInit, Output, ViewChild, SimpleChanges, OnChanges }
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-    selector: 'textbox',
-    templateUrl: './textbox.component.html',
-    styleUrls: ['./textbox.component.scss'],
+  selector: 'textbox',
+  templateUrl: './textbox.component.html',
+  styleUrls: ['./textbox.component.scss'],
 })
 export class TextboxComponent implements OnInit, OnChanges {
+  @Input()
+  control: FormControl;
+  @Input()
+  ariaLabel = '';
+  @Input()
+  ariaErrorId = '';
+  @Input()
+  placeholder = '';
+  @Input()
+  highlightDirty: boolean;
+  @Input()
+  readonly: boolean;
+  @Input()
+  disabled: boolean;
+  @Input()
+  type: 'text' | 'password' = 'text';
+  @Input()
+  disablePopOverError: boolean;
+  @Output()
+  change: Subject<string>;
+  @Output()
+  value: Subject<string>;
 
-    @Input() control: FormControl;
-    @Input() ariaLabel = '';
-    @Input() ariaErrorId = '';
-    @Input() placeholder = '';
-    @Input() highlightDirty: boolean;
-    @Input() readonly: boolean;
-    @Input() disabled: boolean;
-    @Input() type: 'text' | 'password' = 'text';
-    @Input() disablePopOverError: boolean;
-    @Output() change: Subject<string>;
-    @Output() value: Subject<string>;
+  @ViewChild('textboxInput')
+  textboxInput: any;
 
-    @ViewChild('textboxInput') textboxInput: any;
+  public Obj = Object;
 
-    public Obj = Object;
+  private _originalValue = null;
 
-    private _originalValue = null;
+  constructor() {
+    this.change = new Subject<string>();
+    this.value = new Subject<string>();
+  }
 
-    constructor() {
-        this.change = new Subject<string>();
-        this.value = new Subject<string>();
+  ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['control']) {
+      this._originalValue = this.control && this.control.value;
     }
+  }
 
-    ngOnInit() {
+  focus() {
+    if (this.textboxInput) {
+      this.textboxInput.nativeElement.focus();
     }
+  }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['control']) {
-            this._originalValue = this.control.value;
-        }
-    }
+  onChange(value: string) {
+    this.change.next(value);
+    this._setControlState(value);
+  }
 
-    focus() {
-        if (this.textboxInput) {
-            this.textboxInput.nativeElement.focus();
-        }
-    }
+  onKeyUp(value: string) {
+    this.value.next(value);
+    this._setControlState(value);
+  }
 
-    onChange(value: string) {
-        this.change.next(value);
-        this._setControlState(value);
+  private _setControlState(value: string) {
+    if (this.control) {
+      if (value !== this._originalValue) {
+        this.control.markAsDirty();
+      } else {
+        this.control.markAsPristine();
+      }
     }
-
-    onKeyUp(value: string) {
-        this.value.next(value);
-        this._setControlState(value);
-    }
-
-    private _setControlState(value: string) {
-        if (this.control) {
-            if (value !== this._originalValue) {
-                this.control.markAsDirty();
-            } else {
-                this.control.markAsPristine();
-            }
-        }
-    }
+  }
 }

@@ -1,9 +1,9 @@
-import {ContentChild, Directive, EventEmitter, forwardRef, HostBinding, Inject, Input, Output} from '@angular/core';
-import {MovingDirection} from '../util/moving-direction.enum';
-import {WizardComponent} from '../components/wizard.component';
-import {WizardStep} from '../util/wizard-step.interface';
-import {WizardStepTitleDirective} from './wizard-step-title.directive';
-import {WizardCompletionStep} from '../util/wizard-completion-step.inferface';
+import { ContentChild, Directive, EventEmitter, forwardRef, HostBinding, Inject, Input, Output } from '@angular/core';
+import { MovingDirection } from '../util/moving-direction.enum';
+import { WizardComponent } from '../components/wizard.component';
+import { WizardStep } from '../util/wizard-step.interface';
+import { WizardStepTitleDirective } from './wizard-step-title.directive';
+import { WizardCompletionStep } from '../util/wizard-completion-step.inferface';
 
 /**
  * The `wizardCompletionStep` directive can be used to define a completion/success step at the end of your wizard
@@ -45,8 +45,8 @@ import {WizardCompletionStep} from '../util/wizard-completion-step.inferface';
   selector: '[wizardCompletionStep]',
   providers: [
     { provide: WizardStep, useExisting: forwardRef(() => WizardCompletionStepDirective) },
-    { provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepDirective) }
-  ]
+    { provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepDirective) },
+  ],
 })
 export class WizardCompletionStepDirective extends WizardCompletionStep {
   /**

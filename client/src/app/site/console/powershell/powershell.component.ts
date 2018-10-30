@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver} from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 
@@ -6,17 +6,13 @@ import { AbstractWindowsComponent } from '../shared/components/abstract.windows.
   selector: 'app-powershell',
   templateUrl: './powershell.component.html',
   styleUrls: ['./../console.component.scss', './powershell.component.scss'],
-  providers: []
+  providers: [],
 })
-export class PowershellComponent  extends AbstractWindowsComponent {
-
-  constructor(
-    componentFactoryResolver: ComponentFactoryResolver,
-    public consoleService: ConsoleService,
-    ) {
-      super(componentFactoryResolver, consoleService);
-      this.consoleType = ConsoleTypes.PS;
-    }
+export class PowershellComponent extends AbstractWindowsComponent {
+  constructor(componentFactoryResolver: ComponentFactoryResolver, public consoleService: ConsoleService) {
+    super(componentFactoryResolver, consoleService);
+    this.consoleType = ConsoleTypes.PS;
+  }
 
   protected getTabKeyCommand(): string {
     return 'Get-ChildItem -name';

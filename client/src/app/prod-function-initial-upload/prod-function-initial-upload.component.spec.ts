@@ -19,22 +19,14 @@ describe('ProdFunctionInitialUploadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProdFunctionInitialUploadComponent,
-        MockComponent(CardInfoControlComponent)
-      ],
+      declarations: [ProdFunctionInitialUploadComponent, MockComponent(CardInfoControlComponent)],
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: CacheService, useClass: MockCacheService },
-        { provide: BroadcastService, useClass: MockBroadcastService }
-
+        { provide: BroadcastService, useClass: MockBroadcastService },
       ],
-      imports: [
-        MockModule(NgUploaderModule),
-        TranslateModule.forRoot()
-      ]
-    })
-      .compileComponents();
+      imports: [MockModule(NgUploaderModule), TranslateModule.forRoot()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -122,11 +114,10 @@ describe('ProdFunctionInitialUploadComponent', () => {
     size: 512,
     type: 'application/zip',
     form: null,
-    progress: null
+    progress: null,
   };
   describe('Upload Actions', () => {
-
-    it('should start upload when allAddedToQueue', (done) => {
+    it('should start upload when allAddedToQueue', done => {
       component.uploadInput.subscribe((item: UploadInput) => {
         expect(item.type).toBe('uploadFile');
         done();
@@ -134,7 +125,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const uploadEvent: UploadOutput = {
         type: 'allAddedToQueue',
         file: uploadFile,
-        nativeFile: null
+        nativeFile: null,
       };
       component.onUploadOutput(uploadEvent);
     });
@@ -144,7 +135,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const uploadEvent: UploadOutput = {
         type: 'addedToQueue',
         file: uploadFile,
-        nativeFile: null
+        nativeFile: null,
       };
       component.onUploadOutput(uploadEvent);
       expect(component.file).toBe(uploadEvent.file);
@@ -155,7 +146,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const uploadEvent: UploadOutput = {
         type: 'addedToQueue',
         file: undefined,
-        nativeFile: null
+        nativeFile: null,
       };
       component.onUploadOutput(uploadEvent);
       expect(component.file).toBeNull();
@@ -165,14 +156,15 @@ describe('ProdFunctionInitialUploadComponent', () => {
       expect(component.file).toBeNull();
       component.file = uploadFile;
       const f = {
-        ...uploadFile, progress: {
-          status: UploadStatus.Uploading
-        }
+        ...uploadFile,
+        progress: {
+          status: UploadStatus.Uploading,
+        },
       };
       const uploadEvent: UploadOutput = {
         type: 'uploading',
         file: f,
-        nativeFile: null
+        nativeFile: null,
       };
       component.onUploadOutput(uploadEvent);
       expect(component.file.progress).not.toBeNull();
@@ -186,11 +178,13 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const uploadEvent: UploadOutput = {
         type: 'done',
         file: null,
-        nativeFile: null
+        nativeFile: null,
       };
 
       component.onUploadOutput(uploadEvent);
-      expect(mockCacheService.putArmResourceId).toBe('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue/config/appSettings');
+      expect(mockCacheService.putArmResourceId).toBe(
+        '/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue/config/appSettings'
+      );
       expect(mockCacheService.putArmContent.properties.WEBSITE_USE_ZIP).toBe(component.blobSasUrl);
       expect(mockCacheService.putArmContent.properties.AzureWebJobsStorage).toBe('testval');
       expect(mockCacheService.putArmContent.properties.NEW_PROD_FUNCTION).toBeUndefined();
@@ -198,21 +192,19 @@ describe('ProdFunctionInitialUploadComponent', () => {
   });
 });
 
-
 @Injectable()
 class MockBroadcastService {
   public resourceId$ = new ReplaySubject<string>();
   public dashboardType = DashboardType.AppDashboard;
   getEvents<T>(eventType: BroadcastEvent): Observable<T> {
     if (eventType === BroadcastEvent.TreeNavigation) {
-      return this.resourceId$
-        .map(e => {
-          const ret: any = {
-            dashboardType: this.dashboardType,
-            resourceId: e
-          };
-          return ret as T;
-        });
+      return this.resourceId$.map(e => {
+        const ret: any = {
+          dashboardType: this.dashboardType,
+          resourceId: e,
+        };
+        return ret as T;
+      });
     } else {
       return Observable.of(null);
     }
@@ -226,9 +218,9 @@ class MockCacheService {
     return Observable.of({
       json: () => {
         return {
-          sasUrl: 'sasUrl'
+          sasUrl: 'sasUrl',
         };
-      }
+      },
     });
   }
   putArm(resourceId: string, apiVersion?: string, content?: any) {
@@ -251,9 +243,9 @@ class MockSiteService {
         properties: {
           AzureWebJobsStorage: this.validAzureWebjobsStorageValue ? 'testval' : undefined,
           WEBSITE_USE_ZIP: this.includeRunFromZip ? 'testval' : undefined,
-          NEW_PROD_FUNCTION: this.newProdFunction ? 'true' : undefined
-        }
-      }
+          NEW_PROD_FUNCTION: this.newProdFunction ? 'true' : undefined,
+        },
+      },
     });
   }
 }

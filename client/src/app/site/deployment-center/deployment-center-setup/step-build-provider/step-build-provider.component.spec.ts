@@ -11,87 +11,86 @@ import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 
 describe('StepBuildProviderComponent', () => {
-    let buildStepTest: StepBuildProviderComponent;
-    let testFixture: ComponentFixture<StepBuildProviderComponent>;
+  let buildStepTest: StepBuildProviderComponent;
+  let testFixture: ComponentFixture<StepBuildProviderComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [StepBuildProviderComponent],
-            providers: [DeploymentCenterStateManager],
-            imports: [TranslateModule.forRoot()],
-        })
-            .overrideComponent(StepBuildProviderComponent, {
-                set: {
-                    providers: [
-                        { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
-                        { provide: ScenarioService, useClass: MockScenarioService },
-                        { provide: CacheService, useClass: MockCacheService },
-                    ],
-                },
-            }).compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [StepBuildProviderComponent],
+      providers: [DeploymentCenterStateManager],
+      imports: [TranslateModule.forRoot()],
+    })
+      .overrideComponent(StepBuildProviderComponent, {
+        set: {
+          providers: [
+            { provide: DeploymentCenterStateManager, useClass: MockDeploymentCenterStateManager },
+            { provide: ScenarioService, useClass: MockScenarioService },
+            { provide: CacheService, useClass: MockCacheService },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    testFixture = TestBed.createComponent(StepBuildProviderComponent);
+    buildStepTest = testFixture.componentInstance;
+    testFixture.detectChanges();
+  });
+
+  describe('init', () => {
+    it('should create', fakeAsync(() => {
+      expect(buildStepTest).toBeTruthy();
     }));
 
-    beforeEach(() => {
-        testFixture = TestBed.createComponent(StepBuildProviderComponent);
-        buildStepTest = testFixture.componentInstance;
-        testFixture.detectChanges();
-    });
+    it('should start with kudu', fakeAsync(() => {
+      expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('kudu');
+    }));
 
-    describe('init', () => {
-        it('should create', fakeAsync(() => {
-            expect(buildStepTest).toBeTruthy();
-        }));
-
-        it('should start with kudu', fakeAsync(() => {
-            expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('kudu');
-        }));
-
-        it('should change to vsts', fakeAsync(() => {
-            const vstsCard = testFixture.debugElement.query(By.css('#vsts')).nativeElement;
-            vstsCard.click();
-            tick();
-            expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('vsts');
-        }));
-    });
+    it('should change to vsts', fakeAsync(() => {
+      const vstsCard = testFixture.debugElement.query(By.css('#vsts')).nativeElement;
+      vstsCard.click();
+      tick();
+      expect(buildStepTest.wizard.wizardValues.buildProvider).toBe('vsts');
+    }));
+  });
 });
 
-class MockCacheService {
-
-}
+class MockCacheService {}
 class MockScenarioService {
-    checkScenario(id: string) {
-        return {
-            status: 'enabled',
-            environmentName: 'any',
-            id: id,
-        };
-    }
-    checkScenarioAsync(id: string) {
-        const result = {
-            status: 'enabled',
-            environmentName: 'any',
-            id: id,
-        };
+  checkScenario(id: string) {
+    return {
+      status: 'enabled',
+      environmentName: 'any',
+      id: id,
+    };
+  }
+  checkScenarioAsync(id: string) {
+    const result = {
+      status: 'enabled',
+      environmentName: 'any',
+      id: id,
+    };
 
-        return of(result);
-    }
+    return of(result);
+  }
 }
 
 @Injectable()
 class MockDeploymentCenterStateManager {
-    public wizardValues = {
-        buildProvider: 'kudu',
-    };
+  public wizardValues = {
+    buildProvider: 'kudu',
+  };
 
-    wizardForm = {
-        controls: {
-            sourceProvider: {
-                valueChanges: new Subject(),
-            },
-        },
-    };
-    public siteArmObj$ = new ReplaySubject<any>();
-    constructor() {
-        this.siteArmObj$.next({});
-    }
+  wizardForm = {
+    controls: {
+      sourceProvider: {
+        valueChanges: new Subject(),
+      },
+    },
+  };
+  public siteArmObj$ = new ReplaySubject<any>();
+  constructor() {
+    this.siteArmObj$.next({});
+  }
 }

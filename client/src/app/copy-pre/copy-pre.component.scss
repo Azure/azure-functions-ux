@@ -1,23 +1,30 @@
 @import '../../sass/common/variables';
 
 .wrapper {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .wrapper > div:nth-child(2) {
-    flex-grow: 1;
-    overflow-x: hidden;
+  flex-grow: 1;
+  overflow-x: hidden;
 }
 
 i {
-    padding-left: 5px;    
- }
+  padding-left: 5px;
+}
 
 pre {
-    white-space: normal;
+  white-space: normal;
+  background-color: $background-color-disabled;
 }
 
 .fix-font {
-    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;   
+  font-family: 'Segoe UI', 'Segoe UI', 'Segoe', Tahoma, Helvetica, Arial, sans-serif;
+}
+
+:host-context(#app-root[theme='dark']) {
+  pre {
+    background-color: $background-color-disabled-dark;
+  }
 }

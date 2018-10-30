@@ -1,8 +1,8 @@
 export interface ExtensionsJson {
-    extensions: ExtensionInfo[];
+  extensions: ExtensionInfo[];
 }
 
 export interface ExtensionInfo {
-    name: string;
-    typeName: string;
+  name: string;
+  typeName: string;
 }
