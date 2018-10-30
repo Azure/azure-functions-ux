@@ -14,6 +14,7 @@ phases:
         displayName: 'install yarn'
 
       - bash: |
+          cd client-react
           sed -i '.original' s/cachekeyreplace/$(uuidgen)/g .env
         displayName: 'Cache Breaker'
 
