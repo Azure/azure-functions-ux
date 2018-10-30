@@ -12,6 +12,9 @@ export interface AppProps {
 
 export class App extends React.Component<AppProps, any> {
   public render() {
+    if (!this.props.theme) {
+      return 'loading';
+    }
     return (
       <Fabric>
         <ErrorLogger>
