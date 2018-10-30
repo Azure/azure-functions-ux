@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib-commonjs/DetailsList';
-import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
+import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { AppSettingsFormValues } from '../AppSettings.Types';

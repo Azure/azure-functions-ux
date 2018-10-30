@@ -1,4 +1,4 @@
-import { ITheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 
 const themePalette = {
   themePrimary: '#41a5f1',

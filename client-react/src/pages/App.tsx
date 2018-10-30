@@ -1,10 +1,10 @@
 import { Router } from '@reach/router';
-import { Fabric } from 'office-ui-fabric-react/lib-commonjs/Fabric';
+import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
-import ErrorLogger from 'src/components/ErrorBoundry';
+import ErrorLogger from '../components/ErrorBoundry';
 
 export interface AppProps {
   theme: string;

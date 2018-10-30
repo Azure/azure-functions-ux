@@ -1,4 +1,4 @@
-import { loadTheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import {
   IEvent,
   IStartupInfo,
@@ -15,7 +15,6 @@ import {
 } from './models/portal-models';
 import { getStartupInfoAction, setupIFrameAction, updateTheme, updateToken } from './modules/portal/portal-service-actions';
 import { store } from './store';
-import i18n from './utils/i18n';
 import { Url } from './utils/url';
 import darkModeTheme from './theme/dark';
 import lightTheme from './theme/light';
@@ -57,10 +56,12 @@ export class PortalCommunicator {
   private operationStream = new Subject<IDataMessage<any>>();
   private notificationStartStream = new Subject<INotificationStartedInfo>();
   private frameId;
-
-  constructor() {
+  private i18n: any;
+  constructor(i18n: any = null) {
     this.frameId = Url.getParameterByName(null, 'frameId');
+    this.i18n = i18n;
   }
+
   public initializeIframe(): void {
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
     const shellUrl = decodeURI(window.location.href);
@@ -212,7 +213,7 @@ export class PortalCommunicator {
         store.dispatch(updateTheme(newTheme as any));
         this.currentTheme = startupInfo.theme;
       }
-      i18n.changeLanguage(startupInfo.acceptLanguage);
+      this.i18n.changeLanguage(startupInfo.acceptLanguage);
       store.dispatch(getStartupInfoAction(startupInfo));
     } else if (methodName === Verbs.sendToken) {
       store.dispatch(updateToken(data));

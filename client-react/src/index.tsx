@@ -8,12 +8,12 @@ import LoadingComponent from './components/loading/loading-component';
 import { PortalCommunicator } from './portal-communicator';
 import { store } from './store';
 import i18n from './utils/i18n';
+import { PortalContext } from './PortalContext';
 
 initializeIcons();
-const portalCommunicator = new PortalCommunicator();
+const portalCommunicator = new PortalCommunicator(i18n);
 portalCommunicator.initializeIframe();
 
-export const PortalContext = React.createContext(portalCommunicator);
 const LoadableComponent = Loadable({
   loader: () => import('./pages/App'),
   loading: LoadingComponent,

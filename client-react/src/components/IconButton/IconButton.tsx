@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IconButton as OfficeIconButton, IButtonProps } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { IconButton as OfficeIconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { ITheme } from '@uifabric/styling';
 import IState from '../../modules/types';
 import { connect } from 'react-redux';

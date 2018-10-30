@@ -1,6 +1,6 @@
 import { IAction } from '../../models/action';
 import { IStartupInfo } from '../../models/portal-models';
-import { ITheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { GET_STARTUP_INFO, SETUP_IFRAME, UPDATE_THEME, UPDATE_TOKEN } from './portal-service-actions';
 import lightTheme from '../../theme/light';
 
