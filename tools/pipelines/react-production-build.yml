@@ -13,10 +13,10 @@ phases:
           npm install -g yarn
         displayName: 'install yarn'
 
-      - script: |
+      - bash: |
           apt-get update && apt-get install -y uuid-runtime
           sed -i '.original' s/cachekeyreplace/$(uuidgen)/g .env
-        displayName: 'Run Cypress tests'
+        displayName: 'Cache Breaker'
 
       - script: |
           cd client-react
