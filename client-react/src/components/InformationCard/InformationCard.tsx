@@ -7,16 +7,15 @@ import { ITheme } from '@uifabric/styling';
 import IState from '../../modules/types';
 import { style } from 'typestyle';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { String } from '../../utils/string';
 
 interface InformationCardProps {
   id: string;
   icon: string;
   title: string;
   description: string;
-  learnMore?: {
-    learnMoreLink: string;
-    learnMoreText: string;
+  additionalInfoLink?: {
+    url: string;
+    text: string;
   };
 }
 
@@ -56,12 +55,12 @@ const descriptionDivStyle = style({
   overflow: 'hidden',
 });
 
-const learnMoreLinkStyle = style({
+const additionalInfoLinkStyle = style({
   marginLeft: '5px',
 });
 
 const InformationCard = (props: InformationCardPropsCombined) => {
-  const { id, icon, title, description, learnMore, t, theme } = props;
+  const { id, icon, title, description, additionalInfoLink, t, theme } = props;
   const titleHeaderId = `${id}-title`;
   const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground });
 
@@ -76,9 +75,9 @@ const InformationCard = (props: InformationCardPropsCombined) => {
         </h4>
         <div className={descriptionDivStyle}>
           {t(description)}
-          {learnMore && (
-            <Link href={learnMore.learnMoreLink} target="_blank" className={learnMoreLinkStyle} aria-describedby={titleHeaderId}>
-              {t(learnMore.learnMoreText)}
+          {additionalInfoLink && (
+            <Link href={additionalInfoLink.url} target="_blank" className={additionalInfoLinkStyle} aria-describedby={titleHeaderId}>
+              {t(additionalInfoLink.text)}
             </Link>
           )}
         </div>
