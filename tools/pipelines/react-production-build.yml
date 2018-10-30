@@ -14,7 +14,6 @@ phases:
         displayName: 'install yarn'
 
       - bash: |
-          apt-get update && apt-get install -y uuid-runtime
           sed -i '.original' s/cachekeyreplace/$(uuidgen)/g .env
         displayName: 'Cache Breaker'
 
