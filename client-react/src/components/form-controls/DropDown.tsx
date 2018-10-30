@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Link } from 'office-ui-fabric-react/lib-commonjs/Link';
-import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
-import { Label } from 'office-ui-fabric-react/lib-commonjs/Label';
+import { Link } from 'office-ui-fabric-react/lib/Link';
+import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 import { style } from 'typestyle';
 import { FieldProps } from 'formik';
 

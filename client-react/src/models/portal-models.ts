@@ -95,6 +95,7 @@ export class Verbs {
   public static returnPCV3Results = 'return-pcv3-results';
 
   public static closeBlades = 'close-blades';
+  public static closeSelf = 'close-self';
   public static logAction = 'log-action';
   public static logMessage = 'log-message';
   public static logTimerEvent = 'log-timer-event';

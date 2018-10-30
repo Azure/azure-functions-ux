@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib-commonjs/Button';
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib-commonjs/CommandBar';
+import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
+import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'recompose';
 import IState from '../../../modules/types';
 import { connect } from 'react-redux';
-import { ITheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 
 // tslint:disable-next-line:member-ordering
 

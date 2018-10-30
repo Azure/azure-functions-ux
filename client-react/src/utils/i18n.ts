@@ -28,10 +28,31 @@ const backendOptions: XHR.BackendOptions = {
 
 const localStorageCacheOptions = {
   // prefix for stored languages
-  prefix: `i18next_res_${process.env.REACT_APP_CACHE_KEY}`,
+  prefix: `i18next_res`,
 
   // expiration
   expirationTime: 7 * 24 * 60 * 60 * 1000,
+  versions: {
+    en: process.env.REACT_APP_CACHE_KEY,
+    es: process.env.REACT_APP_CACHE_KEY,
+    ko: process.env.REACT_APP_CACHE_KEY,
+    ja: process.env.REACT_APP_CACHE_KEY,
+    sv: process.env.REACT_APP_CACHE_KEY,
+    cs: process.env.REACT_APP_CACHE_KEY,
+    'zh-hans': process.env.REACT_APP_CACHE_KEY,
+    'zh-hant': process.env.REACT_APP_CACHE_KEY,
+    'en-us': process.env.REACT_APP_CACHE_KEY,
+    'en-gb': process.env.REACT_APP_CACHE_KEY,
+    de: process.env.REACT_APP_CACHE_KEY,
+    fr: process.env.REACT_APP_CACHE_KEY,
+    hu: process.env.REACT_APP_CACHE_KEY,
+    it: process.env.REACT_APP_CACHE_KEY,
+    nl: process.env.REACT_APP_CACHE_KEY,
+    pl: process.env.REACT_APP_CACHE_KEY,
+    pt: process.env.REACT_APP_CACHE_KEY,
+    ru: process.env.REACT_APP_CACHE_KEY,
+    tr: process.env.REACT_APP_CACHE_KEY,
+  },
 };
 i18n.use(Backend).init({
   backend: {

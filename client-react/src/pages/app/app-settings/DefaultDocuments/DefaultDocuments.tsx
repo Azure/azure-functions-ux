@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import TextField from '../../../../components/form-controls/TextField';
 import { FormikProps, Field } from 'formik';

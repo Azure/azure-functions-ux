@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib-commonjs/MessageBar';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { style } from 'typestyle';
 import Stacks from './GeneralSettings/Stacks';
 import Platform from './GeneralSettings/Platform';
-import { Pivot, PivotItem } from 'office-ui-fabric-react/lib-commonjs/Pivot';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import ApplicationSettings from './ApplicationSettings/ApplicationSettings';
 import { AppSettingsFormValues } from './AppSettings.Types';
 import { FormikProps } from 'formik';

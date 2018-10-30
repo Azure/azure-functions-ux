@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
-import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
-import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 export interface AppSettingAddEditProps extends AppSetting {
   updateAppSetting: (item: AppSetting) => any;

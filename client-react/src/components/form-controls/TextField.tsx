@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib-commonjs/TextField';
+import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';

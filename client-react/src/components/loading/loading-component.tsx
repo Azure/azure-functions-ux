@@ -1,5 +1,5 @@
-import { DefaultButton } from 'office-ui-fabric-react/lib-commonjs/Button';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib-commonjs/Spinner';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import { translate } from 'react-i18next';
 import { style } from 'typestyle/lib';

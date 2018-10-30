@@ -1,4 +1,4 @@
-import { ITheme, IPalette } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import { ITheme, IPalette } from 'office-ui-fabric-react/lib/Styling';
 
 const themePalette: IPalette = {
   themeDarker: '#004578',

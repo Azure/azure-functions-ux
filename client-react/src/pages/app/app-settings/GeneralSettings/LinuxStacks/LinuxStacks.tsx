@@ -8,7 +8,7 @@ import { ArmObj } from '../../../../../models/WebAppModels';
 import { AvailableStack } from '../../../../../models/available-stacks';
 import { connect } from 'react-redux';
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { IDropdownOption, DropdownMenuItemType } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
+import { IDropdownOption, DropdownMenuItemType } from 'office-ui-fabric-react/lib/Dropdown';
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
   stacksLoading: boolean;

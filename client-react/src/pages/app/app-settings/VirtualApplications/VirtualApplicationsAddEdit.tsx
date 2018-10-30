@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { VirtualApplication } from '../../../../models/WebAppModels';
-import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
 export interface HandlerMappingAddEditProps extends VirtualApplication {

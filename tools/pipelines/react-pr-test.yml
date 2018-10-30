@@ -2,20 +2,12 @@
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
 phases:
   - phase: Test
-    queue: 'Hosted Linux Preview'
+    queue: 'Hosted macOS'
     steps:
       - task: NodeTool@0
         inputs:
           versionSpec: '8.x'
         displayName: 'Install Node.js'
-
-      # VSTS hosted Linux agents already have a LOT of dependencies preinstalled
-      # https://github.com/Microsoft/vsts-agent-docker
-      # so we don't have to install all recommended Cypress dependencies
-      # https://on.cypress.io/continuous-integration#Dependencies
-      - script: |
-          apt-get update && apt-get install -y libgconf-2-4
-        displayName: 'install dependencies'
 
       - script: |
           npm install -g yarn
@@ -25,6 +17,7 @@ phases:
           cd client-react
           yarn install
         displayName: 'yarn install react app'
+
       - script: |
           cd client-react
           yarn test --coverage --reporters="jest-junit"
