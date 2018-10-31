@@ -72,7 +72,7 @@ export class ContainerSettingsManager {
 
     const data: ContainerFormData = {
       containerType: form.controls.containerType.value,
-      imageSourceType: containerForm.controls.imageSource.value,
+      imageSource: containerForm.controls.imageSource.value,
       siteConfig: this._getSiteConfigFormData(form),
       appSettings: this._getAppSettingsFormData(form),
     };
@@ -192,7 +192,7 @@ export class ContainerSettingsManager {
         const [appSettingsUpdateResponse, siteConfigUpdateResponse] = responses;
 
         if (appSettingsUpdateResponse.isSuccessful && siteConfigUpdateResponse.isSuccessful) {
-          if (formData.imageSourceType === 'azureContainerRegistry') {
+          if (formData.imageSource === 'azureContainerRegistry') {
             return this._manageAcrWebhook(resourceId, os, formData);
           } else {
             return Observable.of(true);
