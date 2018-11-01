@@ -8,6 +8,7 @@ import {
   WorkerRuntimeLanguages,
   Links,
   SiteTabIds,
+  SubscriptionQuotaIds,
 } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
@@ -37,6 +38,8 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 import { SiteService } from '../../shared/services/site.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BillingService } from './../../shared/services/billing.service';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 
 interface CategoryOrder {
   name: string;
@@ -89,6 +92,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   public templates: FunctionTemplate[];
   public needsWorkerRuntime: boolean;
   public runtime: string;
+  public isDreamspark: boolean;
 
   public possibleRuntimes: DropDownElement<string>[] = [
     {
@@ -174,7 +178,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     private _translateService: TranslateService,
     private _logService: LogService,
     private _functionAppService: FunctionAppService,
-    private _siteService: SiteService
+    private _siteService: SiteService,
+    private _billingService: BillingService
   ) {
     super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
@@ -189,6 +194,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         this._globalStateService.setBusyState();
         this.functionsNode = <FunctionsNode>viewInfo.node;
         this.appNode = <AppNode>viewInfo.node.parent;
+        const subscriptionId = new ArmSiteDescriptor(viewInfo.context.site.id).subscription;
 
         if (this.functionsNode.action) {
           this.action = Object.create(this.functionsNode.action);
@@ -201,7 +207,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
           this._siteService.getAppSettings(this.context.site.id),
           this._functionAppService.getBindingConfig(this.context),
           this._functionAppService.getTemplates(this.context),
-          this._functionAppService.getWorkerRuntimeRequired(this.context)
+          this._functionAppService.getWorkerRuntimeRequired(this.context),
+          this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId)
         );
       })
       .do(null, e => {
@@ -214,6 +221,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         this.bindings = tuple[3].result.bindings;
         this.templates = tuple[4].result;
         this.needsWorkerRuntime = tuple[5];
+        this.isDreamspark = tuple[6];
 
         if (this.action && this.functionsInfo && !this.selectedTemplate) {
           this.selectedTemplateId = this.action.templateId;
@@ -264,6 +272,10 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
       }
 
       if (template.function.bindings.find(b => this.bindingDisabled(b.type))) {
+        return;
+      }
+
+      if (this.isDreamspark && !template.metadata.name.toUpperCase().includes('HTTP')) {
         return;
       }
 
@@ -635,7 +647,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   }
 
   private _appendCommunityTemplatesCard() {
-    if (this.cards.length === 0 || this.cards[this.cards.length - 1].value !== this.communityTemplatesCard.value) {
+    if (!this.isDreamspark && (this.cards.length === 0 || this.cards[this.cards.length - 1].value !== this.communityTemplatesCard.value)) {
       this.cards.push(this.communityTemplatesCard);
     }
   }
