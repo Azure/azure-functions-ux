@@ -1,4 +1,4 @@
-# Azure Functions UX Coding Style Guide
+# Antares UX Coding Style Guide
 
 *Inspired by the [AirBNB Style Guide](https://github.com/airbnb/javascript/blob/master/README.md)*
 
