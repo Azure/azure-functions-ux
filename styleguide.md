@@ -675,6 +675,8 @@ A style guide helps maintain consistency and readability throughout the codebase
       baz,
     );
     ```
+<a name="functions--length"></a><a name="7.13"></a>
+  - [7.13](#functions--length) We should try our best to keep the number of lines in a given function to less 100. Modularize as much as possible to improve redability and reusability.  
 
 **[⬆ back to top](#table-of-contents)**
 
