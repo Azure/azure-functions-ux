@@ -10,6 +10,7 @@ export class WizardForm {
   public isLinux: boolean;
   public isLinuxConsumption: boolean;
   public subscriptionName: string;
+  public isDreamspark: boolean;
 }
 
 export type devEnvironmentOptions = 'vs' | 'vscode' | 'coretools' | 'maven' | 'portal';

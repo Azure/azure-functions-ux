@@ -57,6 +57,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
   public templates: FunctionTemplate[];
   public functionsInfo: FunctionInfo[];
   public finishButtonText: string;
+  public isDreamspark: boolean;
 
   private _ngUnsubscribe = new Subject();
 
@@ -70,6 +71,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
     this.context = this._wizardService.context.value;
     this.isLinux = this._wizardService.isLinux.value;
     this.workerRuntime = this._wizardService.workerRuntime.value;
+    this.isDreamspark = this._wizardService.isDreamspark.value;
     this.language = this._getLanguage();
     this.portalTemplateCards = this._getPortalTemplateCards();
 
@@ -84,6 +86,11 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
 
     this._wizardService.isLinux.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
       this.isLinux = this._wizardService.isLinux.value;
+      this.portalTemplateCards = this._getPortalTemplateCards();
+    });
+
+    this._wizardService.isDreamspark.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
+      this.isDreamspark = this._wizardService.isDreamspark.value;
       this.portalTemplateCards = this._getPortalTemplateCards();
     });
   }
@@ -149,7 +156,9 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
   }
 
   private _getPortalTemplateCards(): PortalTemplateCard[] {
-    if (this.isLinux) {
+    if (this.isDreamspark) {
+      return [this.httpTriggerCard];
+    } else if (this.isLinux) {
       return [this.httpTriggerCard, this.timerTriggerCard];
     }
     return [this.httpTriggerCard, this.timerTriggerCard, this.moreTemplatesCard];
