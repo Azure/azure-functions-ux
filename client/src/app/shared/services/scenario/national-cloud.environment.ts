@@ -123,11 +123,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
-    this.scenarioChecks[ScenarioIds.externalSource] = {
-      id: ScenarioIds.externalSource,
-      runCheck: () => ({ status: 'disabled' }),
-    };
-
     this.scenarioChecks[ScenarioIds.githubSource] = {
       id: ScenarioIds.githubSource,
       runCheck: () => ({ status: 'disabled' }),
