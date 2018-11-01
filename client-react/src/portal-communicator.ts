@@ -12,6 +12,9 @@ import {
   INotificationInfo,
   IDirtyStateInfo,
   LogEntryLevel,
+  BroadcastMessage,
+  BroadcastMessageId,
+  ISubscriptionRequest,
 } from './models/portal-models';
 import { getStartupInfoAction, setupIFrameAction, updateTheme, updateToken } from './modules/portal/portal-service-actions';
 import { store } from './store';
@@ -22,6 +25,7 @@ import { Subject, Observable } from 'rxjs';
 import { Guid } from './utils/Guid';
 import { filter, first, map } from 'rxjs/operators';
 import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
+import { ISubscription } from './models/subscription';
 import { updateResourceId } from './modules/site/thunks';
 
 export class PortalCommunicator {
@@ -109,6 +113,24 @@ export class PortalCommunicator {
     );
   }
 
+  public getSubscription(subscriptionId: string): Observable<ISubscription> {
+    const payload: IDataMessage<ISubscriptionRequest> = {
+      operationId: Guid.newGuid(),
+      data: {
+        subscriptionId,
+      },
+    };
+
+    PortalCommunicator.postMessage(Verbs.getSubscriptionInfo, this.packageData(payload));
+    return this.operationStream.pipe(
+      filter(o => o.operationId === payload.operationId),
+      first(),
+      map((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
+        return r.data.result;
+      })
+    );
+  }
+
   public closeBlades() {
     PortalCommunicator.postMessage(Verbs.closeBlades, this.packageData({}));
   }
@@ -189,6 +211,17 @@ export class PortalCommunicator {
 
     PortalCommunicator.postMessage(Verbs.returnPCV3Results, this.packageData(payload));
   }
+
+  public broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T): void {
+    const info: BroadcastMessage<T> = {
+      id,
+      resourceId,
+      metadata,
+    };
+
+    PortalCommunicator.postMessage(Verbs.broadcastMessage, this.packageData(info));
+  }
+
   private iframeReceivedMsg(event: IEvent): void {
     if (!event || !event.data) {
       return;
