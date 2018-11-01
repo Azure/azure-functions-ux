@@ -28,11 +28,7 @@ A style guide helps maintain consistency and readability throughout the codebase
   10. [Semicolons](#semicolons)
   21. [Naming Conventions](#naming-conventions)
   22. [Accessors](#accessors)
-  23. [RX/Js](#rxjs)
-  24. [Resource Strings](#resource-strings)
-  25. [Services](#services)
-  26. [Html](#html)
-  27. [CSS](#css)
+  23. [React](#react)
 
 
 ## Types
@@ -2522,41 +2518,6 @@ A style guide helps maintain consistency and readability throughout the codebase
 
 **[⬆ back to top](#table-of-contents)**
 
-## rxjs
-
-TODO: Add RX/JS sections
-
-**[⬆ back to top](#table-of-contents)**
-
-## Resource Strings
-
-TODO: Add resource string sections
-
-**[⬆ back to top](#table-of-contents)**
-
-## Services
-
-TODO: Add services sections
-
-**[⬆ back to top](#table-of-contents)**
-
-## Html
-
-TODO: Add html sections
-
-conditionals using ngIf
-
-using function bindings.. its a no no. This causes perf issue as re-render is required. instead of using a function, the preference is to use a pipe.
-
-
-**[⬆ back to top](#table-of-contents)**
-
-## CSS
-
-TODO: Add css sections
-
-**[⬆ back to top](#table-of-contents)**
-
 
 ## React (TSX/JSX)
 
@@ -2635,7 +2596,7 @@ TODO: Add css sections
     // good
     <MyComponent variant="fancy" />
     ```
-
+**[⬆ back to top](#table-of-contents)**
 
 ### Props
 
@@ -2778,7 +2739,7 @@ TODO: Add css sections
     children: null,
   };
   ```
-
+**[⬆ back to top](#table-of-contents)**
 ### Refs
 
   - Always use ref callbacks. eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)
@@ -2794,3 +2755,4 @@ TODO: Add css sections
       ref={(ref) => { this.myRef = ref; }}
     />
     ```
+**[⬆ back to top](#table-of-contents)**
