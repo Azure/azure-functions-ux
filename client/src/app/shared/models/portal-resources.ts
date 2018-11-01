@@ -1435,4 +1435,9 @@ export class PortalResources {
   public static savingCredentialsFail = 'savingCredentialsFail';
   public static savingCredentialsSucccess = 'savingCredentialsSucccess';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
+  public static notSelected = 'notSelected';
+  public static latest = 'latest';
+  public static versionLatest = 'versionLatest';
+  public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
+  public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
 }

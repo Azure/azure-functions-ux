@@ -4450,4 +4450,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
     <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
   </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Not Selected</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (latest)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Choosing specific minor version that is not the latest may result in longer cold start times.</value>
+  </data>
 </root>
