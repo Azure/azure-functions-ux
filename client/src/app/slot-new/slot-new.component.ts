@@ -32,6 +32,7 @@ export class SlotNewComponent extends NavigableComponent {
   public slotNamePlaceholder: string;
   public hasReachedDynamicQuotaLimit: boolean;
   public isLoading = true;
+  public runtimeVersion: string;
 
   private _slotsNode: SlotsNode;
   private _siteId: string;
@@ -77,7 +78,8 @@ export class SlotNewComponent extends NavigableComponent {
           this.authZService.hasReadOnlyLock(this._siteId),
           this._siteService.getSite(this._siteId),
           this._functionAppService.getSlotsList(viewInfo.context),
-          this._siteService.getAppSettings(this._siteId)
+          this._siteService.getAppSettings(this._siteId),
+          this._functionAppService.getRuntimeGeneration(viewInfo.context)
         );
       })
       .do(r => {
@@ -86,10 +88,12 @@ export class SlotNewComponent extends NavigableComponent {
         this._siteObj = r[2].result;
         this._slotsList = r[3].result;
         const as = r[4];
+        this.runtimeVersion = r[5];
 
         this.hasCreatePermissions = writePermission && !readOnlyLock;
 
         this.slotOptinEnabled =
+          this.runtimeVersion === 'V2' ||
           this._slotsList.length > 0 ||
           (as.isSuccessful && as.result.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue);
 

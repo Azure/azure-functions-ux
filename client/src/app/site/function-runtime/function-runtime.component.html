@@ -162,7 +162,8 @@
         </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div *ngIf="!exactExtensionVersion.startsWith('2.')"
+        class="setting-wrapper">
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
         <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
         <div class="alert alert-warning">
