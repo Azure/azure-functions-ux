@@ -106,6 +106,7 @@ export class Verbs {
   public static setNotification = 'set-notification';
   public static getSubscriptionInfo = 'get-subscription-info';
   public static getSpecCosts = 'get-spec-costs';
+  public static broadcastMessage = 'broadcast-message';
 
   // Requests from Ibiza
   public static sendStartupInfo = 'send-startup-info';
@@ -237,4 +238,17 @@ export interface ITokenResponse {
 export interface IBladeResult<T> {
   reason: 'userNavigation' | 'childClosedSelf';
   data: T;
+}
+
+export enum BroadcastMessageId {
+  planUpdated = 'PLAN_UPDATED',
+  siteUpdated = 'SITE_UPDATED',
+  slotSwap = 'SLOT_SWAP',
+  slotNew = 'SLOT_NEW',
+}
+
+export interface BroadcastMessage<T> {
+  id: BroadcastMessageId;
+  resourceId: string;
+  metadata?: T;
 }
