@@ -22,7 +22,7 @@ export class LogService {
     this._categories = Url.getParameterArrayByName(null, 'appsvc.log.category');
   }
 
-  public error(category: string, id: string | undefined, data: any) {
+  public error(category: string, data: any, id?: string) {
     this._validateCategory(category);
     this._validateId(id);
     this._validateData(data);
@@ -37,17 +37,17 @@ export class LogService {
     }
   }
 
-  public warn(category: string, id: string | undefined, data: any) {
-    this.validateCategory(category);
-    this.validateId(id);
-    this.validateData(data);
+  public warn(category: string, data: any, id?: string) {
+    this._validateCategory(category);
+    this._validateId(id);
+    this._validateData(data);
 
     const warningId = `/warnings/${category}/${id}`;
 
     // Always log warnings to Ibiza logs
     this._portalCommunicator.logMessage(LogEntryLevel.Warning, warningId, data);
 
-    if (this.shouldLog(category, LogEntryLevel.Warning)) {
+    if (this._shouldLog(category, LogEntryLevel.Warning)) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
     }
   }
@@ -72,9 +72,9 @@ export class LogService {
 
   public log(level: LogEntryLevel, category: string, data: any, id?: string) {
     if (level === LogEntryLevel.Error) {
-      this.error(category, id, data);
+      this.error(category, data, id);
     } else if (level === LogEntryLevel.Warning) {
-      this.warn(category, id, data);
+      this.warn(category, data, id);
     } else if (level === LogEntryLevel.Debug) {
       this.debug(category, data);
     } else {
@@ -107,21 +107,21 @@ export class LogService {
     return now.toISOString();
   }
 
-  private _validateCategory(category: string) {
+  private _validateCategory(category?: string) {
     if (!category) {
       throw Error('You must provide a category');
     }
   }
 
-  private _validateId(id: string | undefined) {
+  private _validateId(id?: string) {
     if (!id) {
-      throw Error('You must provide a id');
+      throw Error('You must provide an id');
     }
   }
 
-  private _validateData(data: any) {
+  private _validateData(data?: any) {
     if (!data) {
-      throw Error('You must provide a data');
+      throw Error('You must provide data');
     }
   }
 }
