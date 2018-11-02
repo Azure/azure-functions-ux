@@ -5,5 +5,10 @@
     <div class="actionButtons">
         <button class="custom-button" (click)="clickDownload()">{{'download' | translate}}</button>
         <button class="custom-button" (click)="clickRefresh()">{{'refresh' | translate}}</button>
+        <div>
+            <span *ngIf="hasLogFetchForDownloadFailed" class="message-text" [class.message-error]="true">
+                {{'logFetchFailed' | translate}}
+            </span>
+        </div>
     </div>
 </div>

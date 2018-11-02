@@ -16,6 +16,7 @@ import { FileUtilities } from 'app/shared/Utilities/file';
 export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
   @Input()
   set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
+    this.hasLogFetchForDownloadFailed = false;
     this.setInput(containerConfigureInfo);
   }
 
@@ -23,6 +24,7 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   public containerConfigureInfo: ContainerConfigureData;
   public log: string;
   public loadingMessage: string;
+  public hasLogFetchForDownloadFailed = false;
 
   constructor(private _containerLogsService: ContainerLogsService, private _ts: TranslateService, injector: Injector) {
     super('ContainerLogsComponent', injector, 'dashboard');
@@ -46,10 +48,13 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   }
 
   public clickDownload() {
+    this.hasLogFetchForDownloadFailed = false;
     this._containerLogsService.getContainerLogsAsZip(this.containerConfigureInfo.resourceId).subscribe(data => {
       if (data.isSuccessful) {
         FileUtilities.saveFile(data.result, `logs.zip`);
       }
+
+      this.hasLogFetchForDownloadFailed = !data.isSuccessful;
     });
   }
 

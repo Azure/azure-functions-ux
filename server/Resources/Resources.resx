@@ -4417,4 +4417,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Invalid YML format. Error: '{0}'.</value>
   </data>
+  <data name="logFetchFailed" xml:space="preserve">
+    <value>Failed to fetch logs, please retry.</value>
+  </data>
 </root>
