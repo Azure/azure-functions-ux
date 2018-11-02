@@ -21,7 +21,7 @@ export class Url {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
-  public static getParameterArrayByName(url: string, name: string) {
+  public static getParameterArrayByName(url: string | null, name: string) {
     const value = Url.getParameterByName(url, name);
     if (value) {
       return value.split(',');
