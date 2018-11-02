@@ -13,12 +13,8 @@ export class LogService {
     this._portalCommunicator = portalCommunicator;
     const levelStr = Url.getParameterByName(null, 'appsvc.log.level');
 
-    if (levelStr) {
-      try {
-        this._logLevel = LogEntryLevel[levelStr];
-      } catch (e) {
-        this._logLevel = LogEntryLevel.Warning;
-      }
+    if (levelStr && LogEntryLevel[levelStr]) {
+      this._logLevel = LogEntryLevel[levelStr];
     } else {
       this._logLevel = LogEntryLevel.Warning;
     }
@@ -27,9 +23,9 @@ export class LogService {
   }
 
   public error(category: string, id: string | undefined, data: any) {
-    if (!category || !id || !data) {
-      throw Error('You must provide a category, id, and data');
-    }
+    this.validateCategory(category);
+    this.validateId(id);
+    this.validateData(data);
 
     const errorId = `/errors/${category}/${id}`;
 
@@ -42,14 +38,14 @@ export class LogService {
   }
 
   public warn(category: string, id: string | undefined, data: any) {
-    if (!category || !id || !data) {
-      throw Error('You must provide a category, id, and data');
-    }
+    this.validateCategory(category);
+    this.validateId(id);
+    this.validateData(data);
 
     const warningId = `/warnings/${category}/${id}`;
 
     // Always log warnings to Ibiza logs
-    this._portalCommunicator.logMessage(LogEntryLevel.Error, warningId, data);
+    this._portalCommunicator.logMessage(LogEntryLevel.Warning, warningId, data);
 
     if (this.shouldLog(category, LogEntryLevel.Warning)) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
@@ -57,9 +53,8 @@ export class LogService {
   }
 
   public debug(category: string, data: any) {
-    if (!category || !data) {
-      throw Error('You must provide a category and data');
-    }
+    this.validateCategory(category);
+    this.validateData(data);
 
     if (this.shouldLog(category, LogEntryLevel.Debug)) {
       console.log(`${this.getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
@@ -67,9 +62,8 @@ export class LogService {
   }
 
   public verbose(category: string, data: any) {
-    if (!category || !data) {
-      throw Error('You must provide a category and data');
-    }
+    this.validateCategory(category);
+    this.validateData(data);
 
     if (this.shouldLog(category, LogEntryLevel.Verbose)) {
       console.log(`${this.getTime()} [${category}] - ${data}`);
@@ -77,10 +71,6 @@ export class LogService {
   }
 
   public log(level: LogEntryLevel, category: string, data: any, id?: string) {
-    if (!id && (level === LogEntryLevel.Error || level === LogEntryLevel.Warning)) {
-      throw Error('Error and Warning log levels require an id');
-    }
-
     if (level === LogEntryLevel.Error) {
       this.error(category, id, data);
     } else if (level === LogEntryLevel.Warning) {
@@ -115,5 +105,23 @@ export class LogService {
   private getTime() {
     const now = new Date();
     return now.toISOString();
+  }
+
+  private validateCategory(category: string) {
+    if (!category) {
+      throw Error('You must provide a category');
+    }
+  }
+
+  private validateId(id: string | undefined) {
+    if (!id) {
+      throw Error('You must provide a id');
+    }
+  }
+
+  private validateData(data: any) {
+    if (!data) {
+      throw Error('You must provide a data');
+    }
   }
 }
