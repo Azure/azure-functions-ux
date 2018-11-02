@@ -13,7 +13,8 @@
     "import-name": false,
     "ordered-imports": false,
     "interface-name": false,
-    "array-type": false
+    "array-type": false,
+    "function-name": false
   },
   "linterOptions": {
     "exclude": ["config/**/*.js", "node_modules/**/*.ts", "node_modules/**/*.js"]

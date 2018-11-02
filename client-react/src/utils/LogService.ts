@@ -23,16 +23,16 @@ export class LogService {
   }
 
   public error(category: string, id: string | undefined, data: any) {
-    this.validateCategory(category);
-    this.validateId(id);
-    this.validateData(data);
+    this._validateCategory(category);
+    this._validateId(id);
+    this._validateData(data);
 
     const errorId = `/errors/${category}/${id}`;
 
     // Always log errors to Ibiza logs
     this._portalCommunicator.logMessage(LogEntryLevel.Error, errorId, data);
 
-    if (this.shouldLog(category, LogEntryLevel.Error)) {
+    if (this._shouldLog(category, LogEntryLevel.Error)) {
       console.error(`[${category}] - ${data}`);
     }
   }
@@ -53,20 +53,20 @@ export class LogService {
   }
 
   public debug(category: string, data: any) {
-    this.validateCategory(category);
-    this.validateData(data);
+    this._validateCategory(category);
+    this._validateData(data);
 
-    if (this.shouldLog(category, LogEntryLevel.Debug)) {
-      console.log(`${this.getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
+    if (this._shouldLog(category, LogEntryLevel.Debug)) {
+      console.log(`${this._getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
     }
   }
 
   public verbose(category: string, data: any) {
-    this.validateCategory(category);
-    this.validateData(data);
+    this._validateCategory(category);
+    this._validateData(data);
 
-    if (this.shouldLog(category, LogEntryLevel.Verbose)) {
-      console.log(`${this.getTime()} [${category}] - ${data}`);
+    if (this._shouldLog(category, LogEntryLevel.Verbose)) {
+      console.log(`${this._getTime()} [${category}] - ${data}`);
     }
   }
 
@@ -82,7 +82,7 @@ export class LogService {
     }
   }
 
-  private shouldLog(category: string, logLevel: LogEntryLevel) {
+  private _shouldLog(category: string, logLevel: LogEntryLevel) {
     if (logLevel <= this._logLevel) {
       if (logLevel === LogEntryLevel.Error || logLevel === LogEntryLevel.Warning) {
         return true;
@@ -102,24 +102,24 @@ export class LogService {
     return false;
   }
 
-  private getTime() {
+  private _getTime() {
     const now = new Date();
     return now.toISOString();
   }
 
-  private validateCategory(category: string) {
+  private _validateCategory(category: string) {
     if (!category) {
       throw Error('You must provide a category');
     }
   }
 
-  private validateId(id: string | undefined) {
+  private _validateId(id: string | undefined) {
     if (!id) {
       throw Error('You must provide a id');
     }
   }
 
-  private validateData(data: any) {
+  private _validateData(data: any) {
     if (!data) {
       throw Error('You must provide a data');
     }
