@@ -5,8 +5,8 @@ import { FeatureComponent } from '../../../../shared/components/feature-componen
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpResult } from '../../../../shared/models/http-result';
+import { FileUtilities } from 'app/shared/Utilities/file';
 
 @Component({
   selector: 'container-logs',
@@ -23,15 +23,8 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   public containerConfigureInfo: ContainerConfigureData;
   public log: string;
   public loadingMessage: string;
-  public logLink: SafeUrl;
-  private _blobUrl: string;
 
-  constructor(
-    private _containerLogsService: ContainerLogsService,
-    private _domSanitizer: DomSanitizer,
-    private _ts: TranslateService,
-    injector: Injector
-  ) {
+  constructor(private _containerLogsService: ContainerLogsService, private _ts: TranslateService, injector: Injector) {
     super('ContainerLogsComponent', injector, 'dashboard');
     this.featureName = 'ContainerSettings';
     this.loadingMessage = this._ts.instant(PortalResources.loading);
@@ -53,26 +46,11 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   }
 
   public clickDownload() {
-    // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
-    const windowUrl = window.URL || (<any>window).webkitURL;
-    const blob = new Blob([this.log], { type: 'application/octet-stream' });
-    this._cleanupBlob();
-
-    if (window.navigator.msSaveOrOpenBlob) {
-      // Currently, Edge doesn' respect the "download" attribute to name the file from blob
-      // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
-      window.navigator.msSaveOrOpenBlob(blob, `container.log`);
-    } else {
-      // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
-      this._blobUrl = windowUrl.createObjectURL(blob);
-      this.logLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
-
-      setTimeout(() => {
-        const hiddenLink = document.getElementById('hidden-log-link');
-        hiddenLink.click();
-        this.logLink = null;
-      });
-    }
+    this._containerLogsService.getContainerLogsAsZip(this.containerConfigureInfo.resourceId).subscribe(data => {
+      if (data.isSuccessful) {
+        FileUtilities.saveFile(data.result, `logs.zip`);
+      }
+    });
   }
 
   public clickRefresh() {
@@ -91,14 +69,6 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
       }
     } else {
       this.log = this._ts.instant(PortalResources.errorRetrievingLogs);
-    }
-  }
-
-  private _cleanupBlob() {
-    const windowUrl = window.URL || (<any>window).webkitURL;
-    if (this._blobUrl) {
-      windowUrl.revokeObjectURL(this._blobUrl);
-      this._blobUrl = null;
     }
   }
 }
