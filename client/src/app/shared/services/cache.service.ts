@@ -61,9 +61,16 @@ export class CacheService {
     return this.send(url, 'DELETE', true, null, null, invokeApi);
   }
 
-  postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<Response> {
+  postArm(
+    resourceId: string,
+    force?: boolean,
+    apiVersion?: string,
+    content?: any,
+    cacheKeyPrefix?: string,
+    responseContentType?: ResponseContentType
+  ): Observable<Response> {
     const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
-    return this.send(url, 'POST', force, null, content, null, cacheKeyPrefix);
+    return this.send(url, 'POST', force, null, content, null, cacheKeyPrefix, responseContentType);
   }
 
   putArm(resourceId: string, apiVersion?: string, content?: any) {
