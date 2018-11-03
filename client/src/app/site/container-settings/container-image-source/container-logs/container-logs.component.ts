@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { HttpResult } from '../../../../shared/models/http-result';
 import { FileUtilities } from 'app/shared/Utilities/file';
+import { PortalService } from 'app/shared/services/portal.service';
 
 @Component({
   selector: 'container-logs',
@@ -16,7 +17,6 @@ import { FileUtilities } from 'app/shared/Utilities/file';
 export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureData> implements OnDestroy {
   @Input()
   set containerConfigureInfoInput(containerConfigureInfo: ContainerConfigureData) {
-    this.hasLogFetchForDownloadFailed = false;
     this.setInput(containerConfigureInfo);
   }
 
@@ -24,9 +24,14 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   public containerConfigureInfo: ContainerConfigureData;
   public log: string;
   public loadingMessage: string;
-  public hasLogFetchForDownloadFailed = false;
+  public disableDownloadButton = false;
 
-  constructor(private _containerLogsService: ContainerLogsService, private _ts: TranslateService, injector: Injector) {
+  constructor(
+    private _containerLogsService: ContainerLogsService,
+    private _ts: TranslateService,
+    private _portalService: PortalService,
+    injector: Injector
+  ) {
     super('ContainerLogsComponent', injector, 'dashboard');
     this.featureName = 'ContainerSettings';
     this.loadingMessage = this._ts.instant(PortalResources.loading);
@@ -48,14 +53,38 @@ export class ContainerLogsComponent extends FeatureComponent<ContainerConfigureD
   }
 
   public clickDownload() {
-    this.hasLogFetchForDownloadFailed = false;
-    this._containerLogsService.getContainerLogsAsZip(this.containerConfigureInfo.resourceId).subscribe(data => {
-      if (data.isSuccessful) {
-        FileUtilities.saveFile(data.result, `logs.zip`);
-      }
+    this.disableDownloadButton = true;
+    let notificationId: string = null;
 
-      this.hasLogFetchForDownloadFailed = !data.isSuccessful;
-    });
+    this._portalService
+      .startNotification(
+        this._ts.instant(PortalResources.detailContainerLogFetchTitle),
+        this._ts.instant(PortalResources.detailContainerLogFetchDescription)
+      )
+      .first()
+      .switchMap(notification => {
+        notificationId = notification.id;
+        return this._containerLogsService.getContainerLogsAsZip(this.containerConfigureInfo.resourceId);
+      })
+      .subscribe(data => {
+        if (data.isSuccessful) {
+          FileUtilities.saveFile(data.result, `logs.zip`);
+
+          this._portalService.stopNotification(
+            notificationId,
+            data.isSuccessful,
+            this._ts.instant(PortalResources.detailContainerLogFetchSuccess)
+          );
+        } else {
+          this._portalService.stopNotification(
+            notificationId,
+            data.isSuccessful,
+            this._ts.instant(PortalResources.detailContainerLogFetchFailure)
+          );
+        }
+
+        this.disableDownloadButton = false;
+      });
   }
 
   public clickRefresh() {

@@ -1424,5 +1424,8 @@ export class PortalResources {
   public static sideNav_ProxiesReadOnly = 'sideNav_ProxiesReadOnly';
   public static sideNav_ProxiesInaccessible = 'sideNav_ProxiesInaccessible';
   public static configYamlInvalid = 'configYamlInvalid';
-  public static logFetchFailed = 'logFetchFailed';
+  public static detailContainerLogFetchTitle = 'detailContainerLogFetchTitle';
+  public static detailContainerLogFetchDescription = 'detailContainerLogFetchDescription';
+  public static detailContainerLogFetchSuccess = 'detailContainerLogFetchSuccess';
+  public static detailContainerLogFetchFailure = 'detailContainerLogFetchFailure';
 }
