@@ -4418,7 +4418,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invalid YML format. Error: '{0}'.</value>
   </data>
   <data name="detailContainerLogFetchTitle" xml:space="preserve">
-    <value>Download Container Logs</value>
+    <value>Download container logs</value>
   </data>
   <data name="detailContainerLogFetchDescription" xml:space="preserve">
     <value>Downloading detailed container logs.</value>
