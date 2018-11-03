@@ -4417,4 +4417,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Invalid YML format. Error: '{0}'.</value>
   </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Download container logs</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Downloading detailed container logs.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Successfully downloaded container logs.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Failed to download container logs.</value>
+  </data>
 </root>
