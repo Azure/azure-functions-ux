@@ -290,6 +290,7 @@ export class ScenarioIds {
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
+  public static readonly addScaleOut = 'addScaleOut';
 }
 
 export class NationalCloudArmUris {
@@ -583,6 +584,10 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
+}
+
+export class SupportedFeatures {
+  public static ElasticScaleOut = 'ElasticScaleOut';
 }
 
 export enum FunctionAppVersion {
