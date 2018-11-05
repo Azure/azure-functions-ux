@@ -4676,4 +4676,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
     <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
   </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Scale out</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
+  </data>
 </root>

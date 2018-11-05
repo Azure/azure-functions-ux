@@ -36,6 +36,16 @@ export class DynamicSiteEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.addScaleOut] = {
+      id: ScenarioIds.addScaleOut,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+          data: translateService.instant(PortalResources.featureNotSupportedConsumption),
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.canScaleForSlots] = {
       id: ScenarioIds.canScaleForSlots,
       runCheck: () => {

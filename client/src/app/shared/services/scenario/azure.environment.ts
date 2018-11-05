@@ -120,6 +120,13 @@ export class AzureEnvironment extends Environment {
         return { status: enabled ? 'enabled' : 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.addScaleOut] = {
+      id: ScenarioIds.addScaleOut,
+      runCheck: (input: ScenarioCheckInput) => {
+        return this._enableIfBasicOrHigher(input);
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

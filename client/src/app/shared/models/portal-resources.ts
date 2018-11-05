@@ -1503,4 +1503,6 @@ export class PortalResources {
   public static connectionStringsNoPermissions = 'connectionStringsNoPermissions';
   public static tab_logicAppsDeprecation = 'tab_logicAppsDeprecation';
   public static diagnosticLogsDisabled = 'diagnosticLogsDisabled';
+  public static scaleOut = 'scaleOut';
+  public static scaleOutDescription = 'scaleOutDescription';
 }
