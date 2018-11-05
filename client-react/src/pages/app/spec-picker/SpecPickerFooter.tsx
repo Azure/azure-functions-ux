@@ -29,8 +29,12 @@ interface IStateProps {
   theme: ITheme;
 }
 
-const buttonStyle = style({
+const primaryButtonStyle = style({
   margin: 'none',
+});
+
+const defaultButtonStyle = style({
+  marginLeft: '10px',
 });
 
 const buttonDiv = style({
@@ -64,17 +68,18 @@ class SpecPickerFooter extends React.Component<SpecPickerFooterPropsCombined, an
       height: '55px',
       width: '100%',
       padding: '0px 5px',
-      borderTop: '1px #ccc solid',
+      borderTop: '1px solid',
+      borderTopColor: theme.semanticColors.inputBorder,
     });
 
     return (
       <div className={footerDivStyle}>
         <div className={buttonDiv}>
-          <PrimaryButton onClick={submitButtonOnClick} disabled={submitButtonDisabled} className={buttonStyle}>
+          <PrimaryButton onClick={submitButtonOnClick} disabled={submitButtonDisabled} className={primaryButtonStyle}>
             {t(submitButtonTitle)}
           </PrimaryButton>
           {showDiscardButton && (
-            <DefaultButton onClick={discardButtonOnClick} disabled={discardButtonDisabled} className={buttonStyle}>
+            <DefaultButton onClick={discardButtonOnClick} disabled={discardButtonDisabled} className={defaultButtonStyle}>
               {t('Discard')}
             </DefaultButton>
           )}
@@ -89,7 +94,8 @@ class SpecPickerFooter extends React.Component<SpecPickerFooterPropsCombined, an
                   backgroundColor: 'transparent',
                 },
               }}>
-              {t(statusMessage.message)} {!!statusMessage.infoLink && <Link href={statusMessage.infoLink}>{t('Learn more')}</Link>}
+              {t(statusMessage.message)}
+              {!!statusMessage.infoLink && <Link href={statusMessage.infoLink}>{t('Learn more')}</Link>}
             </MessageBar>
           )}
         </div>
