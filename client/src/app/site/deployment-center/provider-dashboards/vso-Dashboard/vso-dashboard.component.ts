@@ -29,13 +29,15 @@ class VSODeploymentObject extends DeploymentData {
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
   @Input()
   resourceId: string;
-  private _tableItems: ActivityDetailsLog[];
-  public activeDeployment: ActivityDetailsLog;
 
+  public activeDeployment: ActivityDetailsLog;
+  public hideCreds = false;
+  public sidePanelOpened = false;
   public viewInfoStream$: Subject<string>;
   public deploymentObject: VSODeploymentObject;
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
+  private _tableItems: ActivityDetailsLog[];
   private readonly _devAzureCom = 'dev.azure.com';
   constructor(
     private _portalService: PortalService,
@@ -623,6 +625,11 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       },
       'deployment-center'
     );
+  }
+
+  showDeploymentCredentials() {
+    this.hideCreds = true;
+    this.sidePanelOpened = true;
   }
 
   ngOnDestroy(): void {
