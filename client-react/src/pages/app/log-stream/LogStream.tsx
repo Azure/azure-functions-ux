@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 import IState from '../../../modules/types';
 import { ArmObj, Site } from 'src/models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
+import LogStreamLogContainer from './LogStreamLogContainer';
 
 export interface LogStreamProps {
   fetchSite: () => Promise<ArmObj<Site>>;
@@ -15,6 +16,8 @@ export interface LogStreamProps {
   start: () => void;
   clear: () => void;
   isStreaming: boolean;
+  site: ArmObj<Partial<Site>>;
+  clearLogs: boolean;
 }
 
 export interface LogStreamState {
@@ -35,14 +38,17 @@ export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
 
   public render() {
     return (
-      <LogStreamCommandBar
-        reconnect={this.props.reconnect}
-        copy={this.props.copy}
-        pause={this.props.pause}
-        start={this.props.start}
-        clear={this.props.clear}
-        isStreaming={this.props.isStreaming}
-      />
+      <>
+        <LogStreamCommandBar
+          reconnect={this.props.reconnect}
+          copy={this.props.copy}
+          pause={this.props.pause}
+          start={this.props.start}
+          clear={this.props.clear}
+          isStreaming={this.props.isStreaming}
+        />
+        <LogStreamLogContainer clearLogs={this.props.clearLogs} />
+      </>
     );
   }
 }
@@ -50,6 +56,8 @@ export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
 const mapStateToProps = (state: IState) => {
   return {
     isStreaming: true,
+    site: state.site.site,
+    clearLogs: false,
   };
 };
 
