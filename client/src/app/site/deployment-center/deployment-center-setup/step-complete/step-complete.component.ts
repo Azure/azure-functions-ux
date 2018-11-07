@@ -4,11 +4,12 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
-import { LogService } from 'app/shared/services/log.service';
+import { LogService, LogLevel } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
+import { Guid } from 'app/shared/Utilities/Guid';
 
 interface SummaryItem {
   label: string;
@@ -45,6 +46,16 @@ export class StepCompleteComponent {
   }
 
   Save() {
+    const saveGuid = Guid.newGuid();
+    this._portalService.logAction('deploymentcenter', 'save', {
+      id: saveGuid,
+      buildProvider: this.wizard.wizardValues.buildProvider,
+      sourceProvider: this.wizard.wizardValues.sourceProvider,
+      deploymentSlotEnabled: `${this.wizard.wizardValues.deploymentSlotSetting.deploymentSlotEnabled}`,
+      newDeploymentSlot: `${this.wizard.wizardValues.deploymentSlotSetting.newDeploymentSlot}`,
+      loadTestEnabled: `${this.wizard.wizardValues.testEnvironment.enabled}`,
+      loadTestNewApp: `${this.wizard.wizardValues.testEnvironment.newApp}`,
+    });
     this._busyManager.setBusy();
     let notificationId = null;
     this._portalService
@@ -66,6 +77,10 @@ export class StepCompleteComponent {
             this._translateService.instant(PortalResources.settingupDeploymentSuccess)
           );
           this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
+          this._portalService.logAction('deploymentcenter', 'save', {
+            id: saveGuid,
+            succeeded: 'true',
+          });
         },
         err => {
           this.clearBusy();
@@ -75,6 +90,10 @@ export class StepCompleteComponent {
             this._translateService.instant(PortalResources.settingupDeploymentFail)
           );
           this._logService.error(LogCategories.cicd, '/save-cicd', err);
+          this._portalService.logAction('deploymentcenter', 'save', {
+            id: saveGuid,
+            succeeded: 'false',
+          });
         }
       );
   }
