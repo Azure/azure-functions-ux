@@ -20,7 +20,6 @@
             [clearable]="false" 
             bindLabel="displayLabel" 
             bindValue="value" 
-            placeholder="{{'selectAccount' | translate}}" 
             [(ngModel)]="selectedAccount"
             formControlName="vstsAccount" 
             [loading]="accountListLoading" 
@@ -30,8 +29,7 @@
             ariaErrorId="dc-vsts-account-error"
             [ariaLabel]="'vstsAccount' | translate" 
             *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" 
-            [control]="wizard?.buildSettings?.controls?.vstsAccount"
-            placeholder="{{'enterAccountName' | translate}}"></textbox>
+            [control]="wizard?.buildSettings?.controls?.vstsAccount"></textbox>
             <div invalidmessage="vstsAccount" id="dc-vsts-account-error" role="alert"></div>
         </div>
       </div>
@@ -46,7 +44,6 @@
             [items]="locationList" 
             bindLabel="displayLabel" 
             bindValue="value" 
-            placeholder="{{'gettingStarted_selectLocation' | translate}}"
             [clearable]="false" 
             [(ngModel)]="selectedLocation" 
             formControlName="location">
@@ -65,7 +62,6 @@
             [items]="projectList" 
             bindLabel="displayLabel" 
             bindValue="value" 
-            placeholder="{{'selectProject' | translate}}"
             [clearable]="false" 
             [(ngModel)]="selectedProject" 
             formControlName="vstsProject">
