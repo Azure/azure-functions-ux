@@ -86,7 +86,7 @@ class SpecPickerPricingCard extends React.Component<SpecPickerPricingCardPropsCo
       transform: 'translateY(-50%)',
     });
 
-    let divClassName = isSelected ? ` ${cssClassName} ${divStyle} ${selectedDivStyle}` : `${cssClassName} ${divStyle}`;
+    let divClassName = isSelected ? `${cssClassName} ${divStyle} ${selectedDivStyle}` : `${cssClassName} ${divStyle}`;
     divClassName = !!disabledProps ? `${divClassName} ${disabledDivStyle}` : divClassName;
 
     const features: JSX.Element[] = [];
