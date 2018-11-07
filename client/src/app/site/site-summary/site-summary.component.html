@@ -146,7 +146,7 @@
 
 </div>
 
-<div id="site-summary-body">
+<div id="site-summary-body" [is-dirty]="swapControlsOpen">
     <div *ngIf="!this.isStandalone" id="site-summary-features">
       <site-enabled-features [siteInput]="context?.site"></site-enabled-features>
     </div>

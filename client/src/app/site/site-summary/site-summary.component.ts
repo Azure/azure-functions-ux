@@ -599,10 +599,23 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     this.swapControlsOpen = true;
     this._portalService
       .openBlade(bladeInfo, 'site-summary')
-      .finally(() => {
-        this.swapControlsOpen = false;
+      .mergeMap(bladeResult => {
+        return Observable.of({
+          success: true,
+          error: null,
+          result: bladeResult,
+        });
       })
-      .subscribe();
+      .catch(err => {
+        return Observable.of({
+          success: false,
+          error: err,
+          result: null,
+        });
+      })
+      .subscribe(_ => {
+        this.swapControlsOpen = false;
+      });
   }
 
   openDeleteBlade() {

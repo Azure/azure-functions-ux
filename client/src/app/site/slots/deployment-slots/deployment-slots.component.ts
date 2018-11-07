@@ -56,8 +56,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public slotsQuotaMessage: string;
   public slotsQuotaScaleUp: () => void;
 
-  public addControlsOpen: boolean;
-  public swapControlsOpen: boolean;
+  public addControlsOpen = false;
+  public swapControlsOpen = false;
 
   public dirtyMessage: string;
 
@@ -520,13 +520,26 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this._portalService
       .openBlade(bladeInfo, this.componentName)
-      .finally(() => {
+      .mergeMap(bladeResult => {
+        return Observable.of({
+          success: true,
+          error: null,
+          result: bladeResult,
+        });
+      })
+      .catch(err => {
+        return Observable.of({
+          success: false,
+          error: err,
+          result: null,
+        });
+      })
+      .subscribe(_ => {
         this.swapControlsOpen = false;
         if (!this._refreshing) {
           this._updateDisabledState();
         }
-      })
-      .subscribe();
+      });
   }
 
   showAddControls() {
@@ -546,11 +559,24 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this._portalService
       .openBlade(bladeInfo, this.componentName)
-      .finally(() => {
+      .mergeMap(bladeResult => {
+        return Observable.of({
+          success: true,
+          error: null,
+          result: bladeResult,
+        });
+      })
+      .catch(err => {
+        return Observable.of({
+          success: false,
+          error: err,
+          result: null,
+        });
+      })
+      .subscribe(_ => {
         this.addControlsOpen = false;
         this._updateDisabledState();
-      })
-      .subscribe();
+      });
   }
 
   openSlotBlade(resourceId: string) {
