@@ -4,7 +4,7 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
-import { LogService, LogLevel } from 'app/shared/services/log.service';
+import { LogService } from 'app/shared/services/log.service';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';

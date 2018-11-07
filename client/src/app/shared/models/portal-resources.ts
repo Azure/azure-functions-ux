@@ -1428,4 +1428,10 @@ export class PortalResources {
   public static detailContainerLogFetchDescription = 'detailContainerLogFetchDescription';
   public static detailContainerLogFetchSuccess = 'detailContainerLogFetchSuccess';
   public static detailContainerLogFetchFailure = 'detailContainerLogFetchFailure';
+  public static resettingCredentials = 'resettingCredentials';
+  public static resettingCredentialsFail = 'resettingCredentialsFail';
+  public static resettingCredentialsSucccess = 'resettingCredentialsSucccess';
+  public static savingCredentials = 'savingCredentials';
+  public static savingCredentialsFail = 'savingCredentialsFail';
+  public static savingCredentialsSucccess = 'savingCredentialsSucccess';
 }
