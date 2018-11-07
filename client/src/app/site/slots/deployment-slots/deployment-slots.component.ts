@@ -91,7 +91,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   ) {
     super('SlotsComponent', injector, SiteTabIds.deploymentSlotsConfig);
 
-    this.featureName = 'deploymentslots';
+    this.featureName = 'deploymentslotsv2';
     this.isParentComponent = true;
 
     this.slotsQuotaScaleUp = () => {
