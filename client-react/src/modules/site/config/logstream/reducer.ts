@@ -50,7 +50,11 @@ const logStream = (state = InitialState, action: IAction<Partial<ILogStreamState
     case RECONNECT_LOG_STREAM:
       return { ...state, clearLogs: false };
     case COPY_LOG_ENTRIES:
-      UtilitiesService.copyContentToClipboard('hello');
+      let logContent = '';
+      state.logEntries.forEach(logEntry => {
+        logContent += `${logEntry.message}\n`;
+      });
+      UtilitiesService.copyContentToClipboard(logContent);
       return state;
     default:
       return state;
