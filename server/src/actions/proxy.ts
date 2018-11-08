@@ -1,6 +1,6 @@
-import * as request from 'request';
-
+import axios from 'axios';
 import { Request, Response } from 'express';
+import { LogHelper } from '../logHelper';
 
 interface ProxyRequest {
   body: string;
@@ -9,15 +9,23 @@ interface ProxyRequest {
   url: string;
 }
 
-export function proxy(req: Request, res: Response) {
-  const content = req.body as ProxyRequest;
-  request({
-    method: content.method,
-    uri: content.url,
-    headers: content.headers,
-    body: content.body,
-    agentOptions: {
-      keepAlive: true,
-    },
-  }).pipe(res);
+export async function proxy(req: Request, res: Response) {
+  const { method, url, headers, body } = req.body as ProxyRequest;
+
+  try {
+    const result = await axios({
+      method,
+      url,
+      headers,
+      data: body,
+    });
+    res.status(result.status).send(result.data);
+  } catch (err) {
+    if (err.response) {
+      res.status(err.response.status).send(err.response.data);
+    } else {
+      res.sendStatus(500);
+    }
+    LogHelper.error('proxy-passthrough', err);
+  }
 }
