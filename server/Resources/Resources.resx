@@ -1322,7 +1322,7 @@
     <value>Deployment options</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure and manage deployment options for your app, including continuous deployment from VSTS, GitHub and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
+    <value>Configure and manage deployment options for your app, including continuous deployment from Azure Repos, GitHub and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Deployment credentials</value>
@@ -2816,7 +2816,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Organization</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Service Account</value>
+    <value>Azure DevOps Organization</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Project</value>
@@ -2828,7 +2828,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Source</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Account</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Load Test</value>
@@ -2915,10 +2915,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to setup Continuous Delivery</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Created new Visual Studio Team Services account</value>
+    <value>Created new Azure DevOps organization</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Failed to create Visual Studio Team Services account</value>
+    <value>Failed to create Azure DevOps organization</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Created new slot</value>
@@ -2957,10 +2957,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Successfully triggered Continuous Delivery with latest source code from repository</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Build Definition</value>
+    <value>Build Pipeline</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Release Definition</value>
+    <value>Release Pipeline</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Build Triggered</value>
@@ -3014,7 +3014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure continuous integration with a GitHub repo.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Configure continuous integration with a VSTS repo.</value>
+    <value>Configure continuous integration with an Azure Repo.</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Deploy from a public Git or Mercurial repo.</value>
@@ -3347,10 +3347,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Log Level</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS Build (Preview)</value>
+    <value>Azure Pipelines (Preview)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services sets up a robust deployment pipeline for your application. The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
+    <value>Azure Pipelines sets up a robust deployment pipeline for your application. The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu build server</value>
@@ -3503,10 +3503,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Validating...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+    <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>The account name supplied is not valid. Please supply another account name.</value>
+    <value>The organization name supplied is not valid. Please supply another organization name.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3920,7 +3920,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The repository for web app {0} can not be updated at this time.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>VSTS Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principle.</value>
+    <value>Azure DevOps Continuous Delivery requires you to have permissions to write to Azure Active Directory and create a service principal.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Select sample</value>
@@ -3929,13 +3929,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Description</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>You do not own any VSTS Repositories</value>
+    <value>You do not own any Azure Repo</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>You do not have any valid VSTS Accounts</value>
+    <value>You do not have any valid Azure DevOps organization</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>You do not have any valid VSTS Accounts. App Service Kudu Build also requires you to be account owner</value>
+    <value>You do not have any valid Azure DevOps organization. App Service Kudu Build also requires you to be organization owner</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Create one now</value>
@@ -4202,10 +4202,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>New or Existing Deployment Slot</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>New or Existing VSTS Account</value>
+    <value>New or Existing Azure DevOps Organization</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>New or Existing VSTS Account</value>
+    <value>New or Existing Web App</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
