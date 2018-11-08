@@ -27,7 +27,11 @@ export function setupVsoPassthroughAuthentication(app: Application) {
       });
       res.status(result.status).send(result.data);
     } catch (err) {
-      res.sendStatus(500);
+      if (err.response) {
+        res.status(err.response.status).send(err.response.data);
+      } else {
+        res.sendStatus(500);
+      }
       LogHelper.error('vso-passthrough', err);
     }
   });
