@@ -31,6 +31,7 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { AuthzService } from '../../../../shared/services/authz.service';
+import { VSOAccount } from '../../Models/vso-repo';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -53,6 +54,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
   public vstsKuduOnly = false;
+  public vsoAccounts: VSOAccount[];
   constructor(
     private _cacheService: CacheService,
     siteService: SiteService,
@@ -206,10 +208,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
       source: this._deploymentSource,
       targets: this._deploymentTargets,
     };
+    let msaPassthrough = false;
+    const account = this.vsoAccounts.find(x => x.accountName === this.wizardValues.buildSettings.vstsAccount);
+    if (account) {
+      msaPassthrough = !account.accountTenantId || account.accountTenantId === DeploymentCenterConstants.EmptyGuid;
+    }
     const setupvsoCall = this._cacheService.post(
       `${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
       true,
-      this.getVstsPassthroughHeaders(),
+      this.getVstsPassthroughHeaders(msaPassthrough),
       deploymentObject
     );
 
@@ -421,11 +428,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
   }
 
-  public getVstsPassthroughHeaders(): Headers {
+  public getVstsPassthroughHeaders(appendMsaPassthroughHeader: boolean = false): Headers {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
+    headers.append('MsaPassthrough', `${appendMsaPassthroughHeader}`);
     return headers;
   }
 

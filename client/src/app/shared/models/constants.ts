@@ -465,6 +465,8 @@ export class DeploymentCenterConstants {
   // Release definition
   public static readonly releaseSecurityNameSpace = 'C788C23E-1B46-4162-8F5E-D7585343B5DE';
   public static readonly editReleaseDefinitionPermission = 2;
+
+  public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
 }
 
 export class ComponentNames {

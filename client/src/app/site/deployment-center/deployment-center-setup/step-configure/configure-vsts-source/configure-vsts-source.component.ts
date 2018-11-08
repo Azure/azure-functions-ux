@@ -9,7 +9,7 @@ import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo'
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
@@ -199,9 +199,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-    const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
+    const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
     return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
+      this.wizard.vsoAccounts = accounts;
       if (this.isKudu) {
         return Observable.of(accounts.filter(x => x.isAccountOwner));
       } else {
