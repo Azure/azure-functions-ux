@@ -7,6 +7,7 @@ import IState from '../../../modules/types';
 import { ArmObj, Site } from 'src/models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
+import { LogEntry, LogLevel } from './LogStream.Types';
 
 export interface LogStreamProps {
   fetchSite: () => Promise<ArmObj<Site>>;
@@ -18,6 +19,7 @@ export interface LogStreamProps {
   isStreaming: boolean;
   site: ArmObj<Partial<Site>>;
   clearLogs: boolean;
+  logEntries: LogEntry[];
 }
 
 export interface LogStreamState {
@@ -47,7 +49,7 @@ export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
           clear={this.props.clear}
           isStreaming={this.props.isStreaming}
         />
-        <LogStreamLogContainer clearLogs={this.props.clearLogs} />
+        <LogStreamLogContainer clearLogs={this.props.clearLogs} logEntries={this.props.logEntries} />
       </>
     );
   }
@@ -58,6 +60,28 @@ const mapStateToProps = (state: IState) => {
     isStreaming: true,
     site: state.site.site,
     clearLogs: false,
+    logEntries: [
+      {
+        message: 'jfkjdkf1',
+        level: LogLevel.Normal,
+      },
+      {
+        message: 'jfkjdkf2',
+        level: LogLevel.Error,
+      },
+      {
+        message: 'jfkjdkf3',
+        level: LogLevel.Warning,
+      },
+      {
+        message: 'jfkjdkf4',
+        level: LogLevel.Info,
+      },
+      {
+        message: 'jfkjdkf5',
+        level: LogLevel.Unknown,
+      },
+    ],
   };
 };
 
