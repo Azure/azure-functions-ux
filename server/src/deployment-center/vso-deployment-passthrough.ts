@@ -9,8 +9,10 @@ export function setupVsoPassthroughAuthentication(app: Application) {
     const uri = `https://${
       req.query.accountName
     }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
-    const headers = req.headers;
+    const passHeaders = req.headers;
     const body = req.body;
+
+    const useMdsHeader = passHeaders.msapassthrough === 'true';
 
     if (body.source && body.source.repository && body.source.repository.type === 'GitHub') {
       const githubToken = await getGithubTokens(req);
@@ -18,12 +20,16 @@ export function setupVsoPassthroughAuthentication(app: Application) {
     }
     delete body.authToken;
     try {
+      let headers: { [key: string]: string } = {
+        Authorization: passHeaders.vstsauthorization as string,
+        'Content-Type': 'application/json',
+        accept: 'application/json;api-version=4.1-preview.1',
+      };
+      if (useMdsHeader) {
+        headers['X-VSS-ForceMsaPassThrough'] = 'true';
+      }
       const result = await axios.post(uri, body, {
-        headers: {
-          Authorization: headers.vstsauthorization,
-          'Content-Type': 'application/json',
-          accept: 'application/json;api-version=4.1-preview.1',
-        },
+        headers,
       });
       res.status(result.status).send(result.data);
     } catch (err) {
