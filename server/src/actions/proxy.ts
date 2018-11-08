@@ -22,6 +22,6 @@ export async function proxy(req: Request, res: Response) {
     res.status(result.status).send(result.data);
   } catch (err) {
     res.sendStatus(500);
-    LogHelper.error('vso-passthrough', err);
+    LogHelper.error('proxy-passthrough', err);
   }
 }
