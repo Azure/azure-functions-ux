@@ -11,6 +11,11 @@
     (click)="discard()"
     [disabled]="mainForm.pristine || !hasWritePermissions"></command>
 
+    <command
+      displayText="byos"
+      iconUrl="image/discard.svg"
+      (click)="byos()"></command>
+
 </command-bar>
 
 <div

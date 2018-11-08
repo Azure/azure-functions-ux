@@ -41,6 +41,7 @@ import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/
 import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
 import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
+import { ByosData } from 'app/site/byos/byos';
 
 export interface IPortalService {
   getStartupInfo();
@@ -402,6 +403,15 @@ export class PortalService implements IPortalService {
     };
 
     this.postMessage(Verbs.returnPCV3Results, this._packageData(payload));
+  }
+
+  returnByosSelections(selections: ByosData) {
+    const payload: DataMessage<ByosData> = {
+      operationId: Guid.newGuid(),
+      data: selections,
+    };
+
+    this.postMessage(Verbs.returnByosSelections, this._packageData(payload));
   }
 
   private iframeReceivedMsg(event: Event): void {
