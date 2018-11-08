@@ -289,4 +289,23 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       this._setupForm();
     }
   }
+
+  byos() {
+    this._portalService.openBlade(
+      {
+        detailBlade: 'ByosPickerFrameBlade',
+        detailBladeInputs: {
+          id: this.resourceId,
+          data: {
+            resourceId: this.resourceId,
+            isFunctionApp: false,
+            subscriptionId: 'x',
+            location: 'x',
+            os: 'x',
+          },
+        },
+      },
+      'site-config'
+    );
+  }
 }
