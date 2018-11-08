@@ -3014,7 +3014,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure continuous integration with a GitHub repo.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Configure continuous integration with an Azure Repo.</value>
+    <value>Configure continuous integration with an Azure Repo, part of Azure DevOps Services (formerly known as VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Deploy from a public Git or Mercurial repo.</value>
@@ -3350,7 +3350,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Azure Pipelines (Preview)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Azure Pipelines sets up a robust deployment pipeline for your application. The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
+    <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS). The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu build server</value>
