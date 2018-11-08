@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib-commonjs/Toggle';
+import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib/Toggle';
 import { FieldProps } from 'formik';
 
 const Toggle = (props: FieldProps & IToggleProps) => {

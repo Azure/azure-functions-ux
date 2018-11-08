@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { IDropdownOption, Dropdown as OfficeDropdown } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
+import { IDropdownOption, Dropdown as OfficeDropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { ArmObj } from '../../../../../models/WebAppModels';
 import { AvailableStack } from '../../../../../models/available-stacks';
 import IState from '../../../../../modules/types';

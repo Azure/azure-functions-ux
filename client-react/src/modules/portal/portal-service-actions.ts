@@ -29,3 +29,9 @@ export const updateTheme = (theme: ITheme): IAction<ITheme> => ({
   payload: theme,
   type: UPDATE_THEME,
 });
+
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const updateToken = (token: string): IAction<string> => ({
+  payload: token,
+  type: UPDATE_TOKEN,
+});

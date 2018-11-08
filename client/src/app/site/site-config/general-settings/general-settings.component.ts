@@ -1,6 +1,6 @@
 import { OsType } from './../../../shared/models/arm/stacks';
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories, SiteTabIds, ScenarioIds } from './../../../shared/models/constants';
+import { Links, LogCategories, SiteTabIds, ScenarioIds, SubscriptionQuotaIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -23,6 +23,7 @@ import { JavaWebContainerProperties } from './models/java-webcontainer-propertie
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { BillingService } from 'app/shared/services/billing.service';
 
 @Component({
   selector: 'general-settings',
@@ -48,6 +49,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   public alwaysOnUpsell: string;
   public autoSwapUpsell: string;
   public webSocketUpsell: string;
+  public isDreamspark: boolean;
 
   public clientAffinityEnabledOptions: SelectOption<boolean>[];
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -106,6 +108,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     private _portalService: PortalService,
     private _siteService: SiteService,
     private _scenarioService: ScenarioService,
+    private _billingService: BillingService,
     injector: Injector
   ) {
     super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
@@ -141,6 +144,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._resetSlotsInfo();
         this._resetSupportedControls();
         this._resetPermissionsAndLoadingState();
+        const subscription = new ArmSiteDescriptor(this.resourceId).subscription;
 
         return Observable.zip(
           this._siteService.getSite(this.resourceId),
@@ -153,7 +157,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
           this._scenarioService.checkScenarioAsync(ScenarioIds.enablePlatform64, { site: this.siteArm }),
           this._scenarioService.checkScenarioAsync(ScenarioIds.enableAlwaysOn, { site: this.siteArm }),
           this._scenarioService.checkScenarioAsync(ScenarioIds.enableAutoSwap, { site: this.siteArm }),
-          this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, { site: this.siteArm })
+          this._scenarioService.checkScenarioAsync(ScenarioIds.webSocketsEnabled, { site: this.siteArm }),
+          this._billingService.checkIfSubscriptionHasQuotaId(subscription, SubscriptionQuotaIds.dreamSparkQuotaId)
         );
       })
       .do(results => {
@@ -168,6 +173,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.alwaysOnUpsell = results[8].data;
         this.autoSwapUpsell = results[9].data;
         this.webSocketUpsell = results[10].data;
+        this.isDreamspark = results[11];
 
         if (
           !siteResult.isSuccessful ||
@@ -364,6 +370,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
           alwaysOnSupported = false;
           clientAffinitySupported = false;
         }
+      }
+
+      if (this.isDreamspark) {
+        alwaysOnSupported = false;
       }
 
       if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {

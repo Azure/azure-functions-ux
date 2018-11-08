@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib-commonjs/DetailsList';
-import { PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib-commonjs/Button';
+import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
 
-import { Panel, PanelType } from 'office-ui-fabric-react/lib-commonjs/Panel';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';

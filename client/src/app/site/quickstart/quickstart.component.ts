@@ -1,7 +1,7 @@
 import { ApplicationSettings } from './../../shared/models/arm/application-settings';
 import { devEnvironmentOptions, workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { SiteService } from './../../shared/services/site.service';
-import { SiteTabIds, Constants } from 'app/shared/models/constants';
+import { SiteTabIds, Constants, SubscriptionQuotaIds } from 'app/shared/models/constants';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
@@ -20,6 +20,8 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Subscription as Subs } from 'app/shared/models/subscription';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
+import { BillingService } from './../../shared/services/billing.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'quickstart',
@@ -38,6 +40,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
   public devEnvironment: devEnvironmentOptions;
   public appSettingsArm: ArmObj<ApplicationSettings>;
   public runtime: string;
+  public isDreamspark: boolean;
   public possibleRuntimes: DropDownElement<string>[] = [
     {
       displayLabel: '.NET',
@@ -59,6 +62,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     private _fb: FormBuilder,
     private _siteService: SiteService,
     private _translateService: TranslateService,
+    private _billingService: BillingService,
     broadcastService: BroadcastService,
     functionAppService: FunctionAppService,
     userService: UserService
@@ -78,6 +82,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
       isLinux: [null],
       isLinuxConsumption: [null],
       subscriptionName: [null],
+      isDreamspark: [null],
     });
 
     userService
@@ -100,15 +105,20 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
       .takeUntil(this.ngUnsubscribe)
       .switchMap(viewInfo => {
         this._busyManager.setBusy();
-        return this._siteService.getAppSettings(viewInfo.context.site.id);
+        const subscriptionId = new ArmSiteDescriptor(viewInfo.context.site.id).subscription;
+        return Observable.zip(
+          this._siteService.getAppSettings(viewInfo.context.site.id),
+          this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId)
+        );
       })
       .subscribe(r => {
-        if (r.isSuccessful) {
-          this.appSettingsArm = r.result;
+        if (r[0].isSuccessful) {
+          this.appSettingsArm = r[0].result;
           if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
             const workerRuntimeSetting = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName].toLowerCase();
 
             if (this._validWorkerRuntimes.indexOf(workerRuntimeSetting) !== -1) {
+              this.isDreamspark = r[1];
               this._useValidWorkerRuntime(workerRuntimeSetting);
             } else {
               this.canUseQuickstart = false;
@@ -119,7 +129,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
         } else {
           this.showComponentError({
             errorId: errorIds.quickstartLoadError,
-            message: `${r[0].error}\n${r[1].error}`,
+            message: `${r[0].error}`,
             resourceId: this.context.site.id,
           });
         }
@@ -163,6 +173,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     currentFormValues.isLinux = this.isLinux;
     currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
     currentFormValues.subscriptionName = this._findSubscriptionName();
+    currentFormValues.isDreamspark = this.isDreamspark;
     this._wizardService.wizardValues = currentFormValues;
   }
 
