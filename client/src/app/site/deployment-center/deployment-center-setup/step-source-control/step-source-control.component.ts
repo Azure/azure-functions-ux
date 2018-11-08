@@ -20,8 +20,8 @@ export class StepSourceControlComponent {
   public readonly _allProviders: ProviderCard[] = [
     {
       id: 'vsts',
-      name: 'VSTS',
-      icon: 'image/deployment-center/vsts.svg',
+      name: 'Azure Repos',
+      icon: 'image/deployment-center/AzureDevOps.svg',
       color: '#2B79DA',
       description: this._translateService.instant(PortalResources.vstsDesc),
       authorizedStatus: 'none',
