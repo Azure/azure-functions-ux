@@ -12,8 +12,6 @@ export function setupVsoPassthroughAuthentication(app: Application) {
     const passHeaders = req.headers;
     const body = req.body;
 
-    const useMdsHeader = passHeaders.msapassthrough === 'true';
-
     if (body.source && body.source.repository && body.source.repository.type === 'GitHub') {
       const githubToken = await getGithubTokens(req);
       body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
@@ -25,7 +23,7 @@ export function setupVsoPassthroughAuthentication(app: Application) {
         'Content-Type': 'application/json',
         accept: 'application/json;api-version=4.1-preview.1',
       };
-      if (useMdsHeader) {
+      if (passHeaders.msapassthrough === 'true') {
         headers['X-VSS-ForceMsaPassThrough'] = 'true';
       }
       const result = await axios.post(uri, body, {
