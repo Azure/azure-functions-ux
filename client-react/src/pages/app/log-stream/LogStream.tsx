@@ -7,7 +7,14 @@ import IState from '../../../modules/types';
 import { ArmObj, Site } from 'src/models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
-import { LogEntry, LogLevel } from './LogStream.Types';
+import { LogEntry } from './LogStream.Types';
+import {
+  startStreaming,
+  stopStreaming,
+  clearLogEntries,
+  copyLogEntries,
+  reconnectLogStream,
+} from 'src/modules/site/config/logstream/actions';
 
 export interface LogStreamProps {
   fetchSite: () => Promise<ArmObj<Site>>;
@@ -22,16 +29,9 @@ export interface LogStreamProps {
   logEntries: LogEntry[];
 }
 
-export interface LogStreamState {
-  isConnected: boolean;
-}
-
-export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
+export class LogStream extends React.Component<LogStreamProps> {
   constructor(props) {
     super(props);
-    this.state = {
-      isConnected: false,
-    };
   }
 
   public componentWillMount() {
@@ -39,17 +39,11 @@ export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
   }
 
   public render() {
+    const { reconnect, copy, pause, start, clear, isStreaming, logEntries, clearLogs } = this.props;
     return (
       <>
-        <LogStreamCommandBar
-          reconnect={this.props.reconnect}
-          copy={this.props.copy}
-          pause={this.props.pause}
-          start={this.props.start}
-          clear={this.props.clear}
-          isStreaming={this.props.isStreaming}
-        />
-        <LogStreamLogContainer clearLogs={this.props.clearLogs} logEntries={this.props.logEntries} />
+        <LogStreamCommandBar reconnect={reconnect} copy={copy} pause={pause} start={start} clear={clear} isStreaming={isStreaming} />
+        <LogStreamLogContainer clearLogs={clearLogs} logEntries={logEntries} />
       </>
     );
   }
@@ -57,42 +51,21 @@ export class LogStream extends React.Component<LogStreamProps, LogStreamState> {
 
 const mapStateToProps = (state: IState) => {
   return {
-    isStreaming: true,
+    isStreaming: state.logStream.isStreaming,
     site: state.site.site,
-    clearLogs: false,
-    logEntries: [
-      {
-        message: 'jfkjdkf1',
-        level: LogLevel.Normal,
-      },
-      {
-        message: 'jfkjdkf2',
-        level: LogLevel.Error,
-      },
-      {
-        message: 'jfkjdkf3',
-        level: LogLevel.Warning,
-      },
-      {
-        message: 'jfkjdkf4',
-        level: LogLevel.Info,
-      },
-      {
-        message: 'jfkjdkf5',
-        level: LogLevel.Unknown,
-      },
-    ],
+    clearLogs: state.logStream.clearLogs,
+    logEntries: state.logStream.logEntries,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchSite: () => dispatch(fetchSite()),
-    reconnect: () => dispatch(),
-    copy: () => dispatch(),
-    pause: () => dispatch(),
-    start: () => dispatch(),
-    clear: () => dispatch(),
+    reconnect: () => dispatch(reconnectLogStream()),
+    copy: () => dispatch(copyLogEntries()),
+    pause: () => dispatch(stopStreaming()),
+    start: () => dispatch(startStreaming()),
+    clear: () => dispatch(clearLogEntries()),
   };
 };
 

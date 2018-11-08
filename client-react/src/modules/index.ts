@@ -11,6 +11,8 @@ import slotConfigNames from './site/config/slotConfigNames/reducer';
 import webConfig from './site/config/web/reducer';
 import site from './site/reducer';
 import slots from './site/slots/reducer';
+import 'react-app-polyfill/ie11';
+import logStream from './site/config/logstream/reducer';
 
 const rootReducer = combineReducers({
   portalService,
@@ -25,6 +27,7 @@ const rootReducer = combineReducers({
   rbac,
   slotConfigNames,
   billingMeters,
+  logStream,
 });
 
 export default rootReducer;

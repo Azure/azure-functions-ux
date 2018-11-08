@@ -9,11 +9,6 @@ interface LogStreamLogContainerProps {
   logEntries: LogEntry[];
 }
 
-interface ILogStreamLogContainerState {
-  clearLogs: boolean;
-  logEntries: LogEntry[];
-}
-
 const containerDivStyle = style({
   position: 'absolute',
   padding: '15px 0px 0px 15px',
@@ -46,19 +41,13 @@ const logEntryDivStyle = style({
 });
 
 type LogStreamLogContainerPropsCombined = LogStreamLogContainerProps & InjectedTranslateProps;
-class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCombined, ILogStreamLogContainerState> {
+class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCombined> {
   constructor(props) {
     super(props);
-    this.state = {
-      clearLogs: props.clearLogs,
-      logEntries: props.logEntries,
-    };
   }
 
   public render() {
-    const { t } = this.props;
-    const { clearLogs, logEntries } = this.state;
-
+    const { clearLogs, logEntries, t } = this.props;
     return (
       <div className={containerDivStyle}>
         <div className={bodyDivStyle}>
