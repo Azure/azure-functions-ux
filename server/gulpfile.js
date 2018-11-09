@@ -11,7 +11,8 @@ const del = require('del');
 const download = require('gulp-download');
 const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
-var string_replace = require('gulp-string-replace');
+const string_replace = require('gulp-string-replace');
+const prettier = require('prettier');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -129,9 +130,12 @@ gulp.task('resx-to-typescript-models', function(cb) {
     typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
   });
   typescriptFileContent += `}`;
-  let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts'));
-  fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
-  cb();
+  prettier.resolveConfig(path.join(__dirname, '..', '.prettierrc')).then(options => {
+    const formatted = prettier.format(typescriptFileContent, { ...options, parser: 'typescript' });
+    let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts'));
+    fs.writeFileSync(writePath, new Buffer(formatted));
+    cb();
+  });
 });
 
 /********
