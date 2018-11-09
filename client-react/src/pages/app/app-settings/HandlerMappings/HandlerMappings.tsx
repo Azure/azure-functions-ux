@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { HandlerMapping } from '../../../../models/WebAppModels';
@@ -8,6 +8,7 @@ import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -51,13 +52,14 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           onRenderFooterContent={this._onRenderFooterContent}>
           <HandlerMappingsAddEdit {...this.state.currentHandlerMapping!} updateHandlerMapping={this.updateCurrentItem.bind(this)} />
         </Panel>
-        <DetailsList
+        <DisplayTableWithEmptyMessage
           items={values.config.properties.handlerMappings || []}
           columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyHandlerMappings')}
         />
       </>
     );

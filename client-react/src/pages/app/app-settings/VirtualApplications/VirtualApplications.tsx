@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
@@ -8,6 +8,7 @@ import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { FormikProps } from 'formik';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -57,13 +58,14 @@ export class VirtualApplications extends React.Component<
             updateVirtualApplication={this.updateCurrentItem}
           />
         </Panel>
-        <DetailsList
+        <DisplayTableWithEmptyMessage
           items={values.virtualApplications}
           columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyVirtualDirectories')}
         />
       </>
     );
