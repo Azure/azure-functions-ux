@@ -3362,7 +3362,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Build</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Select Account</value>
+    <value>Select Organization</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Enter Account Name</value>
