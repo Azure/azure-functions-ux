@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
 
@@ -9,6 +9,7 @@ import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
@@ -62,13 +63,14 @@ export class ApplicationSettings extends React.Component<
             updateAppSetting={this.updateCurrentItem.bind(this)}
           />
         </Panel>
-        <DetailsList
+        <DisplayTableWithEmptyMessage
           items={this.props.values.appSettings}
           columns={this.getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyAppSettings')}
         />
       </>
     );

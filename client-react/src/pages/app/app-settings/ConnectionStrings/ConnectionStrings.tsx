@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { IColumn, DetailsListLayoutMode, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
@@ -9,6 +9,7 @@ import { FormikProps } from 'formik';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { typeValueToString } from './connectionStringTypes';
 import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 interface ConnectionStringsState {
   hideValues: boolean;
@@ -62,13 +63,14 @@ export class ConnectionStrings extends React.Component<
             updateConnectionString={this.updateCurrentItem.bind(this)}
           />
         </Panel>
-        <DetailsList
+        <DisplayTableWithEmptyMessage
           items={values.connectionStrings}
           columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyConnectionStrings')}
         />
       </>
     );
