@@ -155,7 +155,7 @@ export class SiteService {
     const payload = { targetSlot: slotName };
 
     const slotDiffsId = `${resourceId}/slotsdiffs`;
-    const getSlotDiffs = this._cacheService.postArm(slotDiffsId, null, null, payload).map(r => r.json());
+    const getSlotDiffs = this._cacheService.postArm(slotDiffsId, true, null, payload).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSlotDiffs);
   }

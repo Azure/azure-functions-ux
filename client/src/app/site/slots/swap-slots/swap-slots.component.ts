@@ -136,6 +136,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             return this._getSlotsDiffs(slots[0], slots[1]);
           }
         }
+        this.slotsDiffs = [];
+        this.stickySettingDiffs = [];
         return Observable.of(null);
       })
       .subscribe(_ => {
