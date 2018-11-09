@@ -62,7 +62,7 @@ export class Verbs {
   // Initialization verbs
   public static message = 'message';
   public static ready = 'ready';
-
+  public static initializationcomplete = 'initializationcomplete';
   // Requests from iframe
   public static getStartupInfo = 'get-startup-info';
   public static openBlade = 'open-blade';

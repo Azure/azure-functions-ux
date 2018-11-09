@@ -135,7 +135,7 @@ export class PortalService implements IPortalService {
     // This is a required message. It tells the shell that your iframe is ready to receive messages.
     this.postMessage(Verbs.ready, null);
     this.postMessage(Verbs.getStartupInfo, this._packageData(getStartupInfoObj));
-
+    this.postMessage(Verbs.initializationcomplete, null);
     this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
       if (error.message) {
         this.logMessage(LogEntryLevel.Error, error.message);
