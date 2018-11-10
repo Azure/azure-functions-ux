@@ -5,6 +5,7 @@ import { AppSettingsFormValues } from '../AppSettings.Types';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import Toggle from 'src/components/form-controls/Toggle';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
@@ -49,23 +50,6 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
               },
             ]}
           />
-          <Field
-            name="config.properties.webSocketsEnabled"
-            component={Dropdown}
-            label={t('webSockets')}
-            id="app-settings-web-sockets-enabled"
-            disabled={!values.siteWritePermission}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('Off'),
-              },
-            ]}
-          />
         </>
       )}
       <Field
@@ -90,40 +74,6 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
         ]}
       />
       <Field
-        name="config.properties.alwaysOn"
-        component={Dropdown}
-        label={t('alwaysOn')}
-        id="app-settings-always-on"
-        disabled={!values.siteWritePermission}
-        options={[
-          {
-            key: true,
-            text: t('on'),
-          },
-          {
-            key: false,
-            text: t('Off'),
-          },
-        ]}
-      />
-      <Field
-        name="site.properties.clientAffinityEnabled"
-        component={Dropdown}
-        label={t('clientAffinityEnabledLabel')}
-        id="app-settings-clientAffinityEnabled"
-        disabled={!values.siteWritePermission}
-        options={[
-          {
-            key: true,
-            text: t('on'),
-          },
-          {
-            key: false,
-            text: t('Off'),
-          },
-        ]}
-      />
-      <Field
         name="config.properties.http20Enabled"
         component={Dropdown}
         label={t('httpVersion')}
@@ -139,6 +89,35 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             text: '1.1',
           },
         ]}
+      />
+      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.webSocketsEnabled"
+          component={Toggle}
+          label={t('webSocketsEnabledLabel')}
+          id="app-settings-web-sockets-enabled"
+          disabled={!values.siteWritePermission}
+          onText={t('on')}
+          offText={t('off')}
+        />
+      )}
+      <Field
+        name="config.properties.alwaysOn"
+        component={Toggle}
+        label={t('alwaysOn')}
+        id="app-settings-always-on"
+        disabled={!values.siteWritePermission}
+        onText={t('on')}
+        offText={t('off')}
+      />
+      <Field
+        name="site.properties.clientAffinityEnabled"
+        component={Toggle}
+        label={t('clientAffinityEnabledLabel')}
+        id="app-settings-clientAffinityEnabled"
+        disabled={!values.siteWritePermission}
+        onText={t('on')}
+        offText={t('off')}
       />
     </div>
   );

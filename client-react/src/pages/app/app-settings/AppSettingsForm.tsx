@@ -20,7 +20,7 @@ import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
-  width: '535px',
+  width: '100%',
 });
 
 const defaultDocumentsWrapper = style({
