@@ -5,7 +5,18 @@ import TextField from '../../../../components/form-controls/TextField';
 import { FormikProps, Field } from 'formik';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+
 const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
+  const [focusLast, setFocusLast] = React.useState(false);
+  let lastFieldRef: any = null;
+
+  React.useEffect(() => {
+    if (focusLast) {
+      lastFieldRef.focus();
+      setFocusLast(false);
+    }
+  });
+
   const { values, setValues, errors, t } = props;
   const duplicateValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? 'This field must be unique.' : null;
@@ -26,6 +37,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
   };
 
   const createNewItem = () => {
+    setFocusLast(true);
     const defaultDocuments: string[] = JSON.parse(JSON.stringify(values.config.properties.defaultDocuments));
     defaultDocuments.push('');
     setValues({
@@ -59,6 +71,9 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
           <Field
             name={`config.properties.defaultDocuments[${index}]`}
             component={TextField}
+            componentRef={field => {
+              lastFieldRef = field;
+            }}
             disabled={!values.siteWritePermission}
             styles={{
               root: {
