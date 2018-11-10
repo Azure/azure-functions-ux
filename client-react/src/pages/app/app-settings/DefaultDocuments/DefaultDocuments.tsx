@@ -8,8 +8,9 @@ import IconButton from '../../../../components/IconButton/IconButton';
 
 const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const [focusLast, setFocusLast] = React.useState(false);
-  let lastFieldRef: any = null;
+  let lastFieldRef: HTMLInputElement;
 
+  // This is a hook that is run after render if finished
   React.useEffect(() => {
     if (focusLast) {
       lastFieldRef.focus();
