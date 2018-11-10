@@ -498,6 +498,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     if (!this.deploymentObject || !this.deploymentObject.VSOData) {
       return this._translateService.instant('loading');
     }
+
+    if (this.deploymentObject.VSOData.repository.type.toLowerCase() == "tfsgit"
+        || this.deploymentObject.VSOData.repository.type.toLowerCase() == "tfsversioncontrol")
+    {
+      return `Azure Repos (${this.deploymentObject.VSOData.repository.type})`;
+    }
+
     return this.deploymentObject.VSOData.repository.type;
   }
 

@@ -511,7 +511,7 @@ export class PlanPriceSpecManager {
   private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
     specs.forEach(spec => {
       const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
-      if (!costResult) {
+      if (!costResult || (costResult && costResult.statusCode !== 0)) {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
         spec.priceString = ' ';
       } else if (costResult.amount === 0.0) {

@@ -355,7 +355,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
       case 'OneDrive':
         return 'OneDrive';
       case 'VSO':
-        return 'Visual Studio Online';
+        return 'Azure Repos';
       default:
         return '';
     }
