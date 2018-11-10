@@ -4,7 +4,12 @@ import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent } from './../spec-picker.component';
-import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
+import {
+  SpecCostQueryResult,
+  SpecResourceSet,
+  SpecCostQueryResultStatusCode,
+  SpecCostQueryResultSpecStatusCode,
+} from './../price-spec-manager/billing-models';
 import {
   PriceSpecGroup,
   PriceSpecGroupType,
@@ -510,20 +515,42 @@ export class PlanPriceSpecManager {
 
   private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
     specs.forEach(spec => {
-      const costResult = result && result.costs.find(c => c.id === spec.specResourceSet.id);
-      if (!costResult || (costResult && costResult.statusCode !== 0)) {
+      // Check if the overall result of getSpecCosts has success status code.
+      if (result && this._isSpecCostQueryResultSuccess(result.statusCode)) {
+        const costResult = result.costs.find(c => c.id === spec.specResourceSet.id);
+        if (!costResult || (costResult && !this._shouldShowPricing(costResult.statusCode))) {
+          // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
+          spec.priceString = ' ';
+        } else if (costResult.amount === 0.0) {
+          spec.priceString = this._ts.instant(PortalResources.free);
+          spec.price = 0;
+        } else {
+          const meter = costResult.firstParty[0].meters[0];
+          spec.price = meter.perUnitAmount * 744; // 744 hours in a month
+          const rate = spec.price.toFixed(2);
+          spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
+        }
+      } else {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
         spec.priceString = ' ';
-      } else if (costResult.amount === 0.0) {
-        spec.priceString = this._ts.instant(PortalResources.free);
-        spec.price = 0;
-      } else {
-        const meter = costResult.firstParty[0].meters[0];
-        spec.price = meter.perUnitAmount * 744; // 744 hours in a month
-        const rate = spec.price.toFixed(2);
-        spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
       }
     });
+  }
+
+  private _isSpecCostQueryResultSuccess(statusCode: SpecCostQueryResultStatusCode): boolean {
+    return (
+      statusCode === SpecCostQueryResultStatusCode.Success ||
+      statusCode === SpecCostQueryResultStatusCode.Partial ||
+      statusCode === SpecCostQueryResultStatusCode.SuccessAsRetailForEa ||
+      statusCode === SpecCostQueryResultStatusCode.SuccessAsRetailForNewEa
+    );
+  }
+
+  private _shouldShowPricing(costResultStatusCode: SpecCostQueryResultSpecStatusCode): boolean {
+    return (
+      costResultStatusCode === SpecCostQueryResultSpecStatusCode.Success ||
+      costResultStatusCode === SpecCostQueryResultSpecStatusCode.SuccessAsRetailForEa
+    );
   }
 
   private _findSelectedSpec(specs: PriceSpec[]) {
