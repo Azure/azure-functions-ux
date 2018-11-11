@@ -7,6 +7,8 @@ interface DisplayTableWithEmptyMessageProps {
 const emptyTableMessageStyle = style({
   textAlign: 'center',
   width: '100%',
+  paddingBottom: '16px',
+  borderBottom: '1px solid rgb(243, 242, 241)',
 });
 type Props = DisplayTableWithEmptyMessageProps & IDetailsListProps;
 const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
