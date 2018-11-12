@@ -1,63 +1,63 @@
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../../utils/AppKind';
-import { PriceSpec, PriceSpecInput } from '../PriceSpec';
+import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 
 export abstract class StandardPlanPriceSpec extends PriceSpec {
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.tier = ServerFarmSkuConstants.Tier.standard;
     this.upsellEnabled = true;
     this.featureItems = [
       {
         iconUrl: 'image/ssl.svg',
-        title: 'Custom domains / SSL',
-        description: 'Configure and purchase custom domains with SNI and IP SSL bindings',
+        title: t('pricing_customDomainsSsl'),
+        description: t('pricing_customDomainsIpSslDesc'),
       },
       {
         iconUrl: 'image/scale-up.svg',
-        title: 'Auto scale',
-        description: 'Up to 10 instances. Subject to availability.',
+        title: t('pricing_autoScale'),
+        description: t('pricing_scaleDesc').format(10),
       },
       {
         iconUrl: 'image/slots.svg',
-        title: 'Staging slots',
-        description: 'Up to 5 staging slots to use for testing and deployments before swapping them into production.',
+        title: t('pricing_stagingSlots'),
+        description: t('pricing_slotsDesc').format(5),
       },
       {
         iconUrl: 'image/backups.svg',
-        title: 'Daily backups',
-        description: 'Backup your app 10 times daily.',
+        title: t('pricing_dailyBackups'),
+        description: t('pricing_dailyBackupDesc').format(10),
       },
       {
         iconUrl: 'image/globe.svg',
-        title: 'Traffic manager',
-        description: 'Improve performance and availability by routing traffic between multiple instances of your app.',
+        title: t('pricing_trafficManager'),
+        description: t('pricing_trafficManagerDesc'),
       },
     ];
 
     this.hardwareItems = [
       {
         iconUrl: 'image/app-service-plan.svg',
-        title: 'Azure Compute Units (ACU)',
-        description: 'Dedicated compute resources used to run applications deployed in the App Service Plan.',
+        title: t('pricing_includedHardware_azureComputeUnits'),
+        description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Memory per instance available to run applications deployed and running in the App Service plan.',
+        title: t('memory'),
+        description: t('pricing_dedicatedMemory'),
       },
       {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '50 GB disk storage shared by all apps deployed in the App Service plan.',
+        title: t('storage'),
+        description: t('pricing_sharedDisk').format('50 GB'),
       },
     ];
 
     this.cssClass = style({
-      background: '#4D68C8',
+      background: SpecColorCodes.STANDARD,
     });
   }
 

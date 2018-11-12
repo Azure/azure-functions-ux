@@ -1,61 +1,61 @@
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
-import { PriceSpec, PriceSpecInput } from '../PriceSpec';
+import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.tier = ServerFarmSkuConstants.Tier.premiumContainer;
     this.featureItems = [
       {
         iconUrl: 'image/ssl.svg',
-        title: 'Custom domains / SSL',
-        description: 'Configure and purchase custom domains with SNI and IP SSL bindings',
+        title: t('pricing_customDomainsSsl'),
+        description: t('pricing_customDomainsIpSslDesc'),
       },
       {
         iconUrl: 'image/scale-up.svg',
-        title: 'Auto scale',
-        description: 'Up to 20 instances. Subject to availability.',
+        title: t('pricing_autoScale'),
+        description: t('pricing_scaleDesc').format(20),
       },
       {
         iconUrl: 'image/slots.svg',
-        title: 'Staging slots',
-        description: 'Up to 20 staging slots to use for testing and deployments before swapping them into production.',
+        title: t('pricing_stagingSlots'),
+        description: t('pricing_slotsDesc').format(20),
       },
       {
         iconUrl: 'image/globe.svg',
-        title: 'Traffic manager',
-        description: 'Improve performance and availability by routing traffic between multiple instances of your app.',
+        title: t('pricing_trafficManager'),
+        description: t('pricing_trafficManagerDesc'),
       },
     ];
 
     this.hardwareItems = [
       {
         iconUrl: 'image/app-service-plan.svg',
-        title: 'Azure Compute Units (ACU)',
-        description: 'Dedicated compute resources used to run applications deployed in the App Service Plan.',
+        title: t('pricing_includedHardware_azureComputeUnits'),
+        description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Memory per instance available to run applications deployed and running in the App Service plan.',
+        title: t('memory'),
+        description: t('pricing_dedicatedMemory'),
       },
       {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '250 GB disk storage shared by all apps deployed in the App Service plan.',
+        title: t('storage'),
+        description: t('pricing_premiumContainerSharedDisk').format('250 GB'),
       },
     ];
 
     this.cssClass = style({
-      background: '#852EA7',
+      background: SpecColorCodes.PREMIUM,
     });
   }
 
   public runInitialization(input: PriceSpecInput) {
-    // NOTE(michinoy): Only allow premium containers for xenon.
+    // NOTE(shimedh): Only allow premium containers for xenon.
     if ((input.specPickerInput.data && input.specPickerInput.data.isXenon) || (input.plan && input.plan.properties.isXenon)) {
       this.state = 'enabled';
     } else {

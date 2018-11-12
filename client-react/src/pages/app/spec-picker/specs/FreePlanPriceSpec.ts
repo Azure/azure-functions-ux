@@ -2,52 +2,49 @@ import { of } from 'rxjs';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../utils/AppKind';
-import { PriceSpec, PriceSpecInput } from './PriceSpec';
+import { PriceSpec, PriceSpecInput, SpecColorCodes } from './PriceSpec';
 import { style } from 'typestyle';
 
 export abstract class FreePlanPriceSpec extends PriceSpec {
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.tier = ServerFarmSkuConstants.Tier.free;
     this.skuCode = ServerFarmSkuConstants.SkuCode.Free.F1;
     this.legacySkuName = 'free';
-    this.topLevelFeatures = ['Shared insfrastructure', '1 GB memory', '60 minutes/day compute'];
+    this.topLevelFeatures = [t('pricing_sharedInfrastructure'), t('pricing_memory').format(1), t('pricing_computeLimit').format(60)];
 
     this.featureItems = [];
 
     this.hardwareItems = [
       {
         iconUrl: 'image/app-service-plan.svg',
-        title: 'Azure Compute Units (ACU)',
-        description: 'Dedicated compute resources used to run applications deployed in the App Service Plan.',
+        title: t('pricing_includedHardware_azureComputeUnits'),
+        description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Memory available to run applications deployed and running in the App Service plan.',
+        title: t('memory'),
+        description: t('pricing_sharedMemory'),
       },
       {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '1 GB disk storage shared by all apps deployed in the App Service plan.',
+        title: t('storage'),
+        description: t('pricing_sharedDisk').format('1 GB'),
       },
     ];
-
-    this.meterFriendlyName = 'Free App Service';
 
     this.specResourceSet = {
       id: this.skuCode,
       firstParty: [
         {
           quantity: 744,
-          resourceId: null,
         },
       ],
     };
 
     this.cssClass = style({
-      background: '#C44200',
+      background: SpecColorCodes.FREE,
     });
 
     this.allowZeroCost = true;

@@ -1,14 +1,15 @@
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../../utils/AppKind';
-import { PlanSpecPickerData } from '../PriceSpec';
+import { PlanSpecPickerData, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
 import { ArmObj, Sku, ServerFarm } from '../../../../../models/WebAppModels';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
-  constructor() {
+  constructor(t: (string) => string) {
     super(
+      t,
       ServerFarmSkuConstants.Tier.elasticPremium,
       'Elastic Premium is not supported for this scale unit. Please consider redeploying or cloning your app.',
       CommonConstants.Links.premiumV2NotAvailableLearnMore
@@ -17,47 +18,47 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     this.featureItems = [
       {
         iconUrl: 'image/scale-up.svg',
-        title: 'Rapid scale',
-        description: 'Scale out function apps based on event trigger.',
+        title: t('pricing_rapidScale'),
+        description: t('pricing_rapidScaleDesc'),
       },
       {
         iconUrl: 'image/networking.svg',
-        title: 'Virtual Network Integration',
-        description: 'Runs within your own virtual network.',
+        title: t('pricing_virtualNetwork'),
+        description: t('pricing_isolatedNetworkDesc'),
       },
       {
         iconUrl: 'image/slots.svg',
-        title: 'High Density',
-        description: 'Efficiently share an App Service plan across multiple Function Apps.',
+        title: t('pricing_highDensity'),
+        description: t('pricing_highDensityDesc'),
       },
       {
         iconUrl: 'image/ssl.svg',
-        title: 'Custom domains / SSL',
-        description: 'Configure and purchase custom domains with SNI and IP SSL bindings',
+        title: t('pricing_customDomainsSsl'),
+        description: t('pricing_customDomainsIpSslDesc'),
       },
       {
         iconUrl: 'image/globe.svg',
-        title: 'Traffic manager',
-        description: 'Improve performance and availability by routing traffic between multiple instances of your app.',
+        title: t('pricing_trafficManager'),
+        description: t('pricing_trafficManagerDesc'),
       },
     ];
 
     this.hardwareItems = [
       {
         iconUrl: 'image/app-service-plan.svg',
-        title: 'Azure Compute Units (ACU)',
-        description: 'Dedicated compute resources used to run applications deployed in the App Service Plan.',
+        title: t('pricing_includedHardware_azureComputeUnits'),
+        description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Memory per instance available to run applications deployed and running in the App Service plan.',
+        title: t('memory'),
+        description: t('pricing_dedicatedMemory'),
       },
     ];
 
     this.cssClass = style({
-      background: '#852EA7',
+      background: SpecColorCodes.PREMIUM,
     });
   }
 

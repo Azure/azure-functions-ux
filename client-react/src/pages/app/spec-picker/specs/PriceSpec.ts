@@ -38,6 +38,14 @@ export interface PriceSpecDetail {
   learnMoreUrl?: string;
 }
 
+export enum SpecColorCodes {
+  FREE = '#C44200',
+  BASIC = '#5A8000',
+  STANDARD = '#4D68C8',
+  PREMIUM = '#852EA7',
+  ISOLATED = '#C44200',
+}
+
 enum SubscriptionQuotaIds {
   DreamSparkQuotaId = 'DreamSpark_2015-02-01',
 }
@@ -55,7 +63,6 @@ export abstract class PriceSpec {
   public abstract featureItems: PriceSpecDetail[];
   public abstract hardwareItems: PriceSpecDetail[];
   public abstract specResourceSet: SpecResourceSet;
-  public abstract meterFriendlyName: string;
 
   public cssClass = 'spec';
 
@@ -70,10 +77,13 @@ export abstract class PriceSpec {
   protected _billingService: BillingService;
   protected _logService: LogService;
 
-  constructor() {
+  private _t: (string) => string;
+
+  constructor(t: (string) => string) {
     const portalCommunicator = new PortalCommunicator();
     this._billingService = new BillingService(portalCommunicator);
     this._logService = new LogService(portalCommunicator);
+    this._t = t;
   }
 
   public initialize(input: PriceSpecInput): Observable<void> {
@@ -101,7 +111,7 @@ export abstract class PriceSpec {
         tap(isDreamspark => {
           if (isDreamspark) {
             this.state = 'disabled';
-            this.disabledMessage = 'Your subscription does not allow this pricing tier';
+            this.disabledMessage = this._t('pricing_subscriptionNotAllowed');
             this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
           }
         })

@@ -2,20 +2,17 @@ import { PremiumPlanPriceSpec } from './PremiumPlanPriceSpec';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 
 export abstract class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.skuCode = ServerFarmSkuConstants.SkuCode.Premium.P1;
     this.legacySkuName = 'small_premium';
-    this.topLevelFeatures = ['100 total ACU', '1.75 GB memory', 'A-Series compute equivalent'];
-
-    this.meterFriendlyName = 'Premium Small App Service Hours';
+    this.topLevelFeatures = [t('pricing_ACU').format('100'), t('pricing_memory').format('1.75'), t('pricing_aSeriesComputeEquivalent')];
 
     this.specResourceSet = {
       id: this.skuCode,
       firstParty: [
         {
           quantity: 744,
-          resourceId: null,
         },
       ],
     };

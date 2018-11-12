@@ -1,7 +1,7 @@
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../../utils/AppKind';
-import { PriceSpec, PriceSpecInput } from '../PriceSpec';
+import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
 import { style } from 'typestyle';
 import { store } from '../../../../../store';
@@ -10,58 +10,58 @@ import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
-  constructor() {
-    super();
+  constructor(t: (string) => string) {
+    super(t);
     this.tier = ServerFarmSkuConstants.Tier.isolated;
     this.featureItems = [
       {
         iconUrl: 'image/app-service-environment.svg',
-        title: 'Single tenant system',
-        description: 'Take more control over the resources being used by your app.',
+        title: t('pricing_ase'),
+        description: t('pricing_aseDesc'),
       },
       {
         iconUrl: 'image/networking.svg',
-        title: 'Isolated network',
-        description: 'Runs within your own virtual network.',
+        title: t('pricing_isolatedNetwork'),
+        description: t('pricing_isolatedNetworkDesc'),
       },
       {
         iconUrl: 'image/active-directory.svg',
-        title: 'Private app access',
-        description: 'Using an App Service Environment with Internal Load Balancing (ILB).',
+        title: t('pricing_privateAppAccess'),
+        description: t('pricing_privateAppAccessDesc'),
       },
       {
         iconUrl: 'image/scale-up.svg',
-        title: 'Scale to a large number of instances',
-        description: 'Up to 100 instances.  More allowed upon request.',
+        title: t('pricing_largeScale'),
+        description: t('pricing_largeScaleDesc'),
       },
       {
         iconUrl: 'image/globe.svg',
-        title: 'Traffic manager',
-        description: 'Improve performance and availability by routing traffic between multiple instances of your app.',
+        title: t('pricing_trafficManager'),
+        description: t('pricing_trafficManagerDesc'),
       },
     ];
 
     this.hardwareItems = [
       {
         iconUrl: 'image/app-service-plan.svg',
-        title: 'Azure Compute Units (ACU)',
-        description: 'Dedicated compute resources used to run applications deployed in the App Service Plan.',
+        title: t('pricing_includedHardware_azureComputeUnits'),
+        description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Memory per instance available to run applications deployed and running in the App Service plan.',
+        title: t('memory'),
+        description: t('pricing_dedicatedMemory'),
       },
       {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '1 TB disk storage shared by all apps deployed in the App Service plan.',
+        title: t('storage'),
+        description: t('pricing_sharedDisk').format('1 TB'),
       },
     ];
 
     this.cssClass = style({
-      background: '#C44200',
+      background: SpecColorCodes.ISOLATED,
     });
   }
 

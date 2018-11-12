@@ -13,8 +13,8 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _armEndpoint: string;
   private readonly _armToken: string;
 
-  constructor(sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
-    super();
+  constructor(t: (string) => string, sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
+    super(t);
     this._sku = sku;
     this._skuNotAvailableMessage = skuNotAvailableMessage;
     this._skuNotAvailableLink = skuNotAvailableLink;
