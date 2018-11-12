@@ -31,12 +31,11 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         loadChildren: 'app/ibiza-feature/deployment-shell/deployment-shell.module#DeploymentShellModule',
       },
       {
-        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deploymentslotsv2',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deploymentslots',
         loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
       },
       {
-        path:
-          'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deploymentslotsv2',
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deploymentslots',
         loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule',
       },
       {
