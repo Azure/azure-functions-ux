@@ -39,7 +39,7 @@ export interface FirstPartyResource {
   /**
    * The MINT Resource Id (referred to as Resource GUID in some documentation).
    */
-  resourceId: string;
+  resourceId: string | null;
   /**
    * The quantity of the resource.
    */
