@@ -6,30 +6,29 @@ import { style } from 'typestyle';
 import { FieldProps } from 'formik';
 
 interface CustomDropdownProps {
+  width: string;
   subLabel?: string;
   learnMore?: {
     learnMoreLink: string;
     learnMoreText: string;
   };
 }
-const containerStyle = style({
-  display: 'block',
-  paddingBottom: '15px',
-  minHeight: '23px',
-  fontWeight: 400,
-});
+const containerStyle = width =>
+  style({
+    width,
+    display: 'block',
+    paddingBottom: '15px',
+    minHeight: '23px',
+    fontWeight: 400,
+  });
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
-  const { field, form, label, options, learnMore, subLabel, ...rest } = props;
+  const { field, form, label, width, options, learnMore, subLabel, ...rest } = props;
   const onChange = (e: unknown, option: IDropdownOption) => {
     form.setFieldValue(field.name, option.key);
   };
   return (
-    <div className={containerStyle}>
-      <Label
-        required={true}
-        id={`${rest.id}-label`}
-        htmlFor={rest.id}
-        style={{ color: '#595959', marginBottom: '1px', paddingBottom: '0px' }}>
+    <div className={containerStyle(width || '530px')}>
+      <Label required={true} id={`${rest.id}-label`} htmlFor={rest.id}>
         {label}
       </Label>
       {subLabel && (
