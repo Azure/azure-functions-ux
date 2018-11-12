@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { VirtualApplication } from '../../../../models/WebAppModels';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Checkbox } from 'office-ui-fabric-react';
+import { formElementStyle } from '../AppSettings.Styles';
 
 export interface HandlerMappingAddEditProps extends VirtualApplication {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -17,26 +18,26 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
     return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? "Virtual Path's must be unique" : '';
   };
 
-  const updatePhysicalPath = (physicalPath: string) => {
+  const updatePhysicalPath = (e: any, physicalPath: string) => {
     updateVirtualApplication({
       ...virtualApplication,
       physicalPath,
     });
   };
 
-  const updateVirtualPath = (virtualPath: string) => {
+  const updateVirtualPath = (e: any, virtualPath: string) => {
     const error = validateVirtualPathUniqueness(virtualPath);
     setPathError(error);
     updateVirtualApplication({ ...virtualApplication, virtualPath });
   };
 
-  const updateVirtualDirectory = (virtualDirectory: boolean) => {
+  const updateVirtualDirectory = (e: any, virtualDirectory: boolean) => {
     updateVirtualApplication({
       ...virtualApplication,
       virtualDirectory,
     });
   };
-  const updatePreloadEnabled = (preloadEnabled: boolean) => {
+  const updatePreloadEnabled = (e: any, preloadEnabled: boolean) => {
     updateVirtualApplication({
       ...virtualApplication,
       preloadEnabled,
@@ -49,25 +50,38 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
         id="va-virtual-path"
         value={virtualApplication.virtualPath}
         errorMessage={pathError}
-        onChanged={updateVirtualPath}
+        onChange={updateVirtualPath}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-      <TextField label={t('physicalPath')} id="va-physical-path" value={virtualApplication.physicalPath} onChanged={updatePhysicalPath} />
-      <Toggle
-        label={t('directoryOrApplciation')}
+      <TextField
+        label={t('physicalPath')}
+        id="va-physical-path"
+        value={virtualApplication.physicalPath}
+        onChange={updatePhysicalPath}
+        styles={{
+          root: formElementStyle,
+        }}
+      />
+      <Checkbox
+        label={t('directory')}
         id="va-directory-or-application"
         defaultChecked={virtualApplication.virtualDirectory}
-        onChanged={updateVirtualDirectory}
-        onText={t('directory')}
-        offText={t('application')}
+        onChange={updateVirtualDirectory}
+        styles={{
+          root: formElementStyle,
+        }}
       />
       {virtualApplication.virtualDirectory ? null : (
-        <Toggle
+        <Checkbox
           label={t('preloadEnabled')}
           id="va-preload-enabled"
           defaultChecked={virtualApplication.preloadEnabled}
-          onChanged={updatePreloadEnabled}
-          onText={t('on')}
-          offText={t('off')}
+          onChange={updatePreloadEnabled}
+          styles={{
+            root: formElementStyle,
+          }}
         />
       )}
     </div>

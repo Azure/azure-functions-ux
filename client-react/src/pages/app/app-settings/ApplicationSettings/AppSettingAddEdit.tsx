@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { translate, InjectedTranslateProps } from 'react-i18next';
+import { formElementStyle } from '../AppSettings.Styles';
 export interface AppSettingAddEditProps extends AppSetting {
   updateAppSetting: (item: AppSetting) => any;
   otherAppSettings: AppSetting[];
@@ -10,17 +11,17 @@ export interface AppSettingAddEditProps extends AppSetting {
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
   const { updateAppSetting, children, t, otherAppSettings, ...appSetting } = props;
   const [nameError, setNameError] = React.useState('');
-  const updateAppSettingName = (name: string) => {
+  const updateAppSettingName = (e: any, name: string) => {
     const error = validateAppSettingName(name);
     setNameError(error);
     props.updateAppSetting({ ...appSetting, name });
   };
 
-  const updateAppSettingValue = (value: string) => {
+  const updateAppSettingValue = (e: any, value: string) => {
     props.updateAppSetting({ ...appSetting, value });
   };
 
-  const updateAppSettingSticky = (sticky: boolean) => {
+  const updateAppSettingSticky = (e: any, sticky: boolean) => {
     props.updateAppSetting({ ...appSetting, sticky });
   };
 
@@ -35,16 +36,28 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
         id="app-settings-edit-name"
         value={props.name}
         errorMessage={nameError}
-        onChanged={updateAppSettingName}
+        onChange={updateAppSettingName}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-      <TextField label={t('value')} id="app-settings-edit-value" value={props.value} onChanged={updateAppSettingValue} />
-      <Toggle
+      <TextField
+        label={t('value')}
+        id="app-settings-edit-value"
+        value={props.value}
+        onChange={updateAppSettingValue}
+        styles={{
+          root: formElementStyle,
+        }}
+      />
+      <Checkbox
         label={t('sticky')}
         id="app-settings-edit-sticky"
         defaultChecked={props.sticky}
-        onChanged={updateAppSettingSticky}
-        onText={t('on')}
-        offText={t('off')}
+        onChange={updateAppSettingSticky}
+        styles={{
+          root: formElementStyle,
+        }}
       />
     </form>
   );
