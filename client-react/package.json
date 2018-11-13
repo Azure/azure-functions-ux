@@ -32,7 +32,8 @@
     "rxjs": "^6.3.3",
     "typesafe-actions": "^2.0.4",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.0"
+    "yup": "^0.26.0",
+    "lodash-es": "^4.17.11"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -70,7 +71,8 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.0.3",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.0.3",
+    "@types/lodash-es": "^4.17.1"
   },
   "proxy": "https://localhost:44300",
   "jest": {

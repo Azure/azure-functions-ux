@@ -1,6 +1,6 @@
 import { IAction } from '../../models/action';
 import { IStartupInfo } from '../../models/portal-models';
-import { ITheme } from '@uifabric/styling';
+import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
 
 export const SETUP_IFRAME = 'SETUP_IFRAME';
 export interface ISetupIFrameModel {
@@ -25,7 +25,7 @@ export const getStartupInfoAction = (startupInfo: IStartupInfo): IAction<IGetSta
 });
 
 export const UPDATE_THEME = 'UPDATE_THEME';
-export const updateTheme = (theme: ITheme): IAction<ITheme> => ({
+export const updateTheme = (theme: ThemeExtended): IAction<ThemeExtended> => ({
   payload: theme,
   type: UPDATE_THEME,
 });
