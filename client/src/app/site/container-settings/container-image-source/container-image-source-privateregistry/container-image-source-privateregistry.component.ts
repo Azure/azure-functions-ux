@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
 import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
+import { Links } from 'app/shared/models/constants';
 
 @Component({
   selector: 'container-image-source-privateregistry',
@@ -22,6 +23,7 @@ export class ContainerImageSourcePrivateRegistryComponent extends FeatureCompone
 
   public containerImageSourceInfo: ContainerImageSourceData;
   public imageSourceForm: FormGroup;
+  public learnMoreLink = Links.containerPrivateRegistryLearnMore;
 
   constructor(private _multiConfigService: ContainerMultiConfigService, injector: Injector) {
     super('ContainerImageSourcePrivateRegistryComponent', injector, 'dashboard');
