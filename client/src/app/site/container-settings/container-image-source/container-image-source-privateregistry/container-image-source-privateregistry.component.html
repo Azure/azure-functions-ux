@@ -1,3 +1,11 @@
+<p>
+    {{ 'containerPrivateRegistryDescription' | translate }}
+    <a [href]="learnMoreLink"
+        target="_blank">
+        {{ 'topBar_learnMore' | translate }}
+    </a>
+</p>
+
 <div *ngIf="imageSourceForm" [formGroup] = "imageSourceForm">
     <div class="container-setting-property">
         <label>{{ 'containerServerURL' | translate }}</label>
