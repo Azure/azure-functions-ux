@@ -5,7 +5,7 @@
   <h4>
     <span>{{ 'createApp_description' | translate}}</span>
     <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore">
-      {{ 'topBar_learnMore' | translate }}
+      {{ 'learnMore' | translate }}
       <img src="image/open-external.svg"/></a>
   </h4>
   <br/>
@@ -18,7 +18,7 @@
       </div>
   </div>
   <div class="createapp-wrapper">
-    <label class="createapp-label">{{ 'subscriptionName' | translate }}</label>      
+    <label class="createapp-label">{{ 'subscriptionName' | translate }}</label>
     <div class="createapp-control-container">
       <drop-down
         [control]="group?.controls['subscription']"
@@ -27,17 +27,17 @@
       </drop-down>
     </div>
   </div>
-  <div class="createapp-wrapper">      
+  <div class="createapp-wrapper">
     <label class="createapp-label">{{ 'runtimeImage' | translate }}</label>
     <div class="createapp-control-container">
       <drop-down
-        [control]="group?.controls['runtimeImage']" 
+        [control]="group?.controls['runtimeImage']"
         [options]="runtimeImageOptions"
         [highlightDirty]="true">
       </drop-down>
     </div>
   </div>
- 
+
   <button
     class="custom-button"
     [disabled]="!group?.valid || !group?.dirty"
