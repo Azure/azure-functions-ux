@@ -264,7 +264,7 @@ export class PortalResources {
   public static binding_storageInfoHeader = 'binding_storageInfoHeader';
   public static binding_storageInfoHeader2 = 'binding_storageInfoHeader2';
   public static binding_storageInfoHeader3 = 'binding_storageInfoHeader3';
-  public static topBar_learnMore = 'topBar_learnMore';
+  public static learnMore = 'learnMore';
   public static clickToLearnMore = 'clickToLearnMore';
   public static httpRun_addHeader = 'httpRun_addHeader';
   public static httpRun_addParameter = 'httpRun_addParameter';

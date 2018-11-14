@@ -901,7 +901,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Connect using these credentials:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Learn more</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
