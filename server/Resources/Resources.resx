@@ -4447,4 +4447,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="savingCredentialsSucccess" xml:space="preserve">
     <value>Successfully saved credentials</value>
   </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
+  </data>
 </root>
