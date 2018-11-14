@@ -1,4 +1,3 @@
-import { of } from 'rxjs';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../utils/AppKind';
@@ -50,7 +49,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
     this.allowZeroCost = true;
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public async runInitialization(input: PriceSpecInput): Promise<void> {
     if (input.plan) {
       if (
         input.plan.properties.hostingEnvironmentProfile ||
@@ -69,7 +68,5 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
     }
-
-    return of(null);
   }
 }

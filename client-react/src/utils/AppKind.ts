@@ -2,7 +2,7 @@ import { ArmObj } from 'src/models/WebAppModels';
 
 export class AppKind {
   // Returns true if an ARM object has all of the kind values listed in kindsToCheck
-  public static hasKinds<T>(obj: ArmObj<T>, kindsToCheck: string[]): boolean {
+  public static hasKinds(obj: ArmObj<unknown>, kindsToCheck: string[]): boolean {
     const objKind = obj.kind ? obj.kind.toLowerCase() : '';
 
     for (const kindToCheck of kindsToCheck) {

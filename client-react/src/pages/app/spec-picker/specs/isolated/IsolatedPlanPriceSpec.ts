@@ -65,7 +65,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     });
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public async runInitialization(input: PriceSpecInput): Promise<void> {
     if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
       this.state = 'hidden';
     } else if (input.plan) {
@@ -78,26 +78,29 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       } else {
         const armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
         const armToken = store.getState().portalService.startupInfo!.token;
-        axios
-          .get<{ value: HttpResult<ArmObj<HostingEnvironment>> }>(`${armEndpoint}${input.plan.properties.hostingEnvironmentProfile.id}`, {
+        const hostingEnvironmentFetch = await axios.get<{ value: HttpResult<ArmObj<HostingEnvironment>> }>(
+          `${armEndpoint}${input.plan.properties.hostingEnvironmentProfile.id}`,
+          {
             headers: {
               Authorization: `Bearer ${armToken}`,
             },
-          })
-          .then(r => {
-            // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
-            // but we'll let them see the isolated card anyway.  The plan update will probably fail in
-            // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
-            // ASE permissions to scale their plan.
-            if (
-              r.data.value.isSuccessful &&
-              r.data.value.result &&
-              r.data.value.result.kind &&
-              r.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1
-            ) {
-              this.state = 'hidden';
-            }
-          });
+          }
+        );
+
+        const result = hostingEnvironmentFetch.data;
+
+        // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
+        // but we'll let them see the isolated card anyway.  The plan update will probably fail in
+        // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
+        // ASE permissions to scale their plan.
+        if (
+          result.value.isSuccessful &&
+          result.value.result &&
+          result.value.result.kind &&
+          result.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1
+        ) {
+          this.state = 'hidden';
+        }
       }
     } else if (
       input.specPickerInput.data &&

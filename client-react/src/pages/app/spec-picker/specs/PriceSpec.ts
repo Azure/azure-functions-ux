@@ -1,5 +1,3 @@
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { ArmObj, ServerFarm } from 'src/models/WebAppModels';
 import { BillingService } from '../../../../utils/BillingService';
@@ -86,16 +84,13 @@ export abstract class PriceSpec {
     this._t = t;
   }
 
-  public initialize(input: PriceSpecInput): Observable<void> {
+  public async initialize(input: PriceSpecInput): Promise<void> {
     this._logService.debug(LogCategories.specPicker, `Call runInitialize for ${this.skuCode}`);
-    return this.runInitialization(input).pipe(
-      tap(s => {
-        this._logService.debug(LogCategories.specPicker, `Completed runInitialize for ${this.skuCode}`);
-      })
-    );
+    await this.runInitialization(input);
+    this._logService.debug(LogCategories.specPicker, `Completed runInitialize for ${this.skuCode}`);
   }
 
-  public abstract runInitialization(input: PriceSpecInput): Observable<any>;
+  public abstract async runInitialization(input: PriceSpecInput): Promise<any>;
 
   // NOTE(shimedh): This should return the target spec for upsell.
   public getUpsellSpecSkuCode(): string | null {
@@ -105,19 +100,14 @@ export abstract class PriceSpec {
   // tslint:disable:no-empty
   public updateUpsellBanner(): void {}
 
-  protected checkIfDreamspark(subscriptionId: string) {
+  protected async checkIfDreamspark(subscriptionId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      return this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.DreamSparkQuotaId).pipe(
-        tap(isDreamspark => {
-          if (isDreamspark) {
-            this.state = 'disabled';
-            this.disabledMessage = this._t('pricing_subscriptionNotAllowed');
-            this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
-          }
-        })
-      );
+      const isDreamspark = await this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.DreamSparkQuotaId);
+      if (isDreamspark) {
+        this.state = 'disabled';
+        this.disabledMessage = this._t('pricing_subscriptionNotAllowed');
+        this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
+      }
     }
-
-    return of(false);
   }
 }

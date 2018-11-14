@@ -6,8 +6,8 @@ export interface HttpError {
 
 export interface HttpResult<T> {
   isSuccessful: boolean;
-  error: HttpError | null;
-  result: T | null;
+  error?: HttpError;
+  result?: T;
 }
 
 export interface ArmError {

@@ -61,7 +61,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     });
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public async runInitialization(input: PriceSpecInput): Promise<void> {
     if (input.plan) {
       if (
         input.plan.properties.hostingEnvironmentProfile ||

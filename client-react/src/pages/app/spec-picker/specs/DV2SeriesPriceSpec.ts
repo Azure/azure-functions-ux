@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { store } from '../../../../store';
@@ -22,108 +20,93 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     this._armToken = store.getState().portalService.startupInfo!.token;
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public async runInitialization(input: PriceSpecInput): Promise<void> {
     if (input.plan) {
       this.state = this._shouldHideForExistingPlan(input.plan) ? 'hidden' : this.state;
 
-      this._checkIfSkuEnabledOnStamp(input.plan.id).then(() => {
-        return this.checkIfDreamspark(input.subscriptionId);
-      });
+      await this._checkIfSkuEnabledOnStamp(input.plan.id);
+      await this.checkIfDreamspark(input.subscriptionId);
     }
 
     if (input.specPickerInput.data) {
       this.state = this._shouldHideForNewPlan(input.specPickerInput.data) ? 'hidden' : this.state;
 
-      return this.checkIfDreamspark(input.subscriptionId).pipe(
-        tap(_ => {
-          return this._checkIfSkuEnabledInRegion(
-            input.subscriptionId,
-            input.specPickerInput.data ? input.specPickerInput.data.location : '',
-            input.specPickerInput.data ? input.specPickerInput.data.isLinux : false
-          );
-        })
+      await this.checkIfDreamspark(input.subscriptionId);
+      await this._checkIfSkuEnabledInRegion(
+        input.subscriptionId,
+        input.specPickerInput.data ? input.specPickerInput.data.location : '',
+        input.specPickerInput.data ? input.specPickerInput.data.isLinux : false
       );
     }
-
-    return of(null);
   }
 
   protected abstract _matchSku(sku: Sku): boolean;
   protected abstract _shouldHideForNewPlan(data: PlanSpecPickerData): boolean;
   protected abstract _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean;
 
-  private _checkIfSkuEnabledOnStamp(resourceId: string): Promise<void> {
+  private async _checkIfSkuEnabledOnStamp(resourceId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      return axios
-        .get<{ value: AvailableSku[] }>(`${this._armEndpoint}${resourceId}`, {
-          headers: {
-            Authorization: `Bearer ${this._armToken}`,
-          },
-        })
-        .then(result => {
-          this.state = result.data.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
-
-          if (this.state === 'disabled') {
-            this.disabledMessage = this._skuNotAvailableMessage;
-            this.disabledInfoLink = this._skuNotAvailableLink;
-          }
-        });
-    }
-
-    return Promise.resolve();
-  }
-
-  private _checkIfSkuEnabledInRegion(subscriptionId: string, location: string, isLinux: boolean) {
-    if (this.state !== 'hidden' && this.state !== 'disabled') {
-      return this._getProviderLocations(subscriptionId, 'serverFarms').then(locations => {
-        return this._getAllGeoRegionsForSku(subscriptionId, this._sku, isLinux).then(geoRegionsForSku => {
-          const geoRegions = this._getAvailableGeoRegionsList(locations, geoRegionsForSku);
-          if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
-            this.state = 'disabled';
-            this.disabledMessage = this._skuNotAvailableMessage;
-            this.disabledInfoLink = this._skuNotAvailableLink;
-          }
-        });
-      });
-    }
-
-    return of(null);
-  }
-
-  private _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
-    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
-    return axios
-      .get<{ value: ArmProviderInfo }>(`${this._armEndpoint}${resourceId}`, {
+      const availableSkuFetch = await axios.get<{ value: AvailableSku[] }>(`${this._armEndpoint}${resourceId}`, {
         headers: {
           Authorization: `Bearer ${this._armToken}`,
         },
-      })
-      .then(result => {
-        const resource =
-          result.data &&
-          result.data.value &&
-          result.data.value.resourceTypes &&
-          result.data.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
-
-        return !!resource ? resource.locations : [];
       });
+
+      const result = availableSkuFetch.data;
+      this.state = result.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
+
+      if (this.state === 'disabled') {
+        this.disabledMessage = this._skuNotAvailableMessage;
+        this.disabledInfoLink = this._skuNotAvailableLink;
+      }
+    }
   }
 
-  private _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
+  private async _checkIfSkuEnabledInRegion(subscriptionId: string, location: string, isLinux: boolean): Promise<void> {
+    if (this.state !== 'hidden' && this.state !== 'disabled') {
+      const locations = await this._getProviderLocations(subscriptionId, 'serverFarms');
+      const geoRegionsForSku = await this._getAllGeoRegionsForSku(subscriptionId, this._sku, isLinux);
+
+      const geoRegions = this._getAvailableGeoRegionsList(locations, geoRegionsForSku);
+      if (!geoRegions.find(g => g.properties.name.toLowerCase() === location.toLowerCase())) {
+        this.state = 'disabled';
+        this.disabledMessage = this._skuNotAvailableMessage;
+        this.disabledInfoLink = this._skuNotAvailableLink;
+      }
+    }
+  }
+
+  private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
+    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
+    const providerLocationsFetch = await axios.get<{ value: ArmProviderInfo }>(`${this._armEndpoint}${resourceId}`, {
+      headers: {
+        Authorization: `Bearer ${this._armToken}`,
+      },
+    });
+
+    const result = providerLocationsFetch.data;
+    const resource =
+      result &&
+      result.value &&
+      result.value.resourceTypes &&
+      result.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
+
+    return !!resource ? resource.locations : [];
+  }
+
+  private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
     let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
     if (isLinux) {
       id += '&linuxWorkersEnabled=true';
     }
 
-    return axios
-      .get<{ value: ArmObj<GeoRegion>[] }>(`${this._armEndpoint}${id}`, {
-        headers: {
-          Authorization: `Bearer ${this._armToken}`,
-        },
-      })
-      .then(result => {
-        return result.data.value;
-      });
+    const geoRegionsFetch = await axios.get<{ value: ArmObj<GeoRegion>[] }>(`${this._armEndpoint}${id}`, {
+      headers: {
+        Authorization: `Bearer ${this._armToken}`,
+      },
+    });
+
+    return geoRegionsFetch.data.value;
   }
 
   private _getAvailableGeoRegionsList(providerLocations: string[], geoRegions: ArmObj<GeoRegion>[]) {

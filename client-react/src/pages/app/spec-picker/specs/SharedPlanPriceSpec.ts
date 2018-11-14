@@ -53,7 +53,7 @@ export abstract class SharedPlanPriceSpec extends PriceSpec {
     });
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public runInitialization(input: PriceSpecInput): Promise<void> {
     if (input.plan) {
       if (
         input.plan.properties.hostingEnvironmentProfile ||

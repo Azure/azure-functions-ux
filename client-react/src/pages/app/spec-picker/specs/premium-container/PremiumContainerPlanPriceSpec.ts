@@ -54,7 +54,7 @@ export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
     });
   }
 
-  public runInitialization(input: PriceSpecInput) {
+  public async runInitialization(input: PriceSpecInput): Promise<void> {
     // NOTE(shimedh): Only allow premium containers for xenon.
     if ((input.specPickerInput.data && input.specPickerInput.data.isXenon) || (input.plan && input.plan.properties.isXenon)) {
       this.state = 'enabled';

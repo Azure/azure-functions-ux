@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PortalCommunicator } from '../portal-communicator';
 
@@ -9,11 +8,14 @@ export class BillingService {
     this._portalCommunicator = portalCommunicator;
   }
 
-  public checkIfSubscriptionHasQuotaId(subscriptionId: string, quotaId: string): Observable<boolean> {
-    return this._portalCommunicator.getSubscription(subscriptionId).pipe(
-      map(s => {
-        return !!s && !!s.subscriptionPolicies && s.subscriptionPolicies.quotaId.toLowerCase() === quotaId.toLowerCase();
-      })
-    );
+  public async checkIfSubscriptionHasQuotaId(subscriptionId: string, quotaId: string): Promise<boolean> {
+    return this._portalCommunicator
+      .getSubscription(subscriptionId)
+      .pipe(
+        map(s => {
+          return !!s && !!s.subscriptionPolicies && s.subscriptionPolicies.quotaId.toLowerCase() === quotaId.toLowerCase();
+        })
+      )
+      .toPromise();
   }
 }
