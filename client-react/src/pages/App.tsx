@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorBoundry';
-import { Customizer } from 'office-ui-fabric-react';
-import { FluentCustomizations } from '@uifabric/fluent-theme/lib';
 
 export interface AppProps {
   theme: string;
@@ -19,15 +17,13 @@ export class App extends React.Component<AppProps, any> {
     }
     return (
       <Fabric>
-        <Customizer {...FluentCustomizations}>
-          <ErrorLogger>
-            <Router>
-              <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-              <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-              <LandingPage path="/*" />
-            </Router>
-          </ErrorLogger>
-        </Customizer>
+        <ErrorLogger>
+          <Router>
+            <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+            <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+            <LandingPage path="/*" />
+          </Router>
+        </ErrorLogger>
       </Fabric>
     );
   }
