@@ -4,6 +4,9 @@
   "type": "Microsoft.Web/sites/config",
   "location": "Central US",
   "properties": {
-    "TEST_CONNECTION": "TEST_TEST_CONNECTION_VALUE"
+    "TEST_CONNECTION": {
+      "value": "TEST_CONNECTION_VALUE",
+      "type": 1
+    }
   }
 }

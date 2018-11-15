@@ -41,10 +41,15 @@ export class ConnectionStrings extends React.Component<
     }
     return (
       <>
-        <ActionButton onClick={this.createNewItem} styles={{ root: { marginTop: '5px' } }} iconProps={{ iconName: 'Add' }}>
+        <ActionButton
+          id="app-settings-connection-strings-add"
+          onClick={this.createNewItem}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: 'Add' }}>
           {t('newConnectionString')}
         </ActionButton>
         <ActionButton
+          id="app-settings-connection-strings-show-hide"
           onClick={this.flipHideSwitch}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
@@ -133,19 +138,42 @@ export class ConnectionStrings extends React.Component<
     }
 
     if (column.key === 'delete') {
-      return <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" onClick={() => this.removeItem(index)} />;
+      return (
+        <IconButton
+          iconProps={{ iconName: 'Delete' }}
+          id={`app-settings-connection-strings-delete-${index}`}
+          title="Delete"
+          onClick={() => this.removeItem(index)}
+        />
+      );
     }
     if (column.key === 'edit') {
-      return <IconButton iconProps={{ iconName: 'Edit' }} title="Edit" onClick={() => this._onShowPanel(item, index)} />;
+      return (
+        <IconButton
+          iconProps={{ iconName: 'Edit' }}
+          id={`app-settings-connection-strings-edit-${index}`}
+          title="Edit"
+          onClick={() => this._onShowPanel(item, index)}
+        />
+      );
     }
     if (column.key === 'sticky') {
-      return item.sticky ? <IconButton iconProps={{ iconName: 'CheckMark' }} title="Sticky" /> : null;
+      return item.sticky ? (
+        <IconButton id={`app-settings-connection-strings-sticky-${index}`} iconProps={{ iconName: 'CheckMark' }} title="Sticky" />
+      ) : null;
     }
     if (column.key === 'value') {
-      return this.state.hideValues ? 'Hidden value. Click show values button above to view' : <span>{item[column.fieldName!]}</span>;
+      return this.state.hideValues ? (
+        'Hidden value. Click show values button above to view'
+      ) : (
+        <span id={`app-settings-connection-strings-value-${index}`}>{item[column.fieldName!]}</span>
+      );
     }
     if (column.key === 'type') {
-      return <span>{typeValueToString(item[column.fieldName!])}</span>;
+      return <span id={`app-settings-connection-strings-type-${index}`}>{typeValueToString(item[column.fieldName!])}</span>;
+    }
+    if (column.key === 'name') {
+      return <span id={`app-settings-connection-strings-name-${index}`}>{item[column.fieldName!]}</span>;
     }
     return <span>{item[column.fieldName!]}</span>;
   };
@@ -163,6 +191,7 @@ export class ConnectionStrings extends React.Component<
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'value',

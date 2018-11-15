@@ -96,6 +96,7 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
             {...props}
           />
           <IconButton
+            id={`app-settings-document-delete-${index}`}
             disabled={!values.siteWritePermission}
             style={{ display: 'inline-block', width: '16px' }}
             iconProps={{ iconName: 'Delete' }}
