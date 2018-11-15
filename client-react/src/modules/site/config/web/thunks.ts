@@ -114,10 +114,10 @@ function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
 }
 
 function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
-  const newList: VirtualApplication[] = [];
   if (!virtualApps) {
-    return newList;
+    return [];
   }
+  const newList: VirtualApplication[] = [];
   virtualApps.forEach(va => {
     newList.push({ ...va, virtualDirectory: false, virtualDirectories: [] });
     if (va.virtualDirectories && va.virtualDirectories.length > 0) {

@@ -2,6 +2,10 @@ import * as React from 'react';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { style } from 'typestyle';
+import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { connect } from 'react-redux';
+import IState from 'src/modules/types';
+import { compose } from 'recompose';
 interface FormActionBarProps {
   save: () => void;
   cancel: () => void;
@@ -10,6 +14,9 @@ interface FormActionBarProps {
   id: string;
 }
 
+interface FormActionBarState {
+  theme: ThemeExtended;
+}
 const elementWrapperStyle = style({
   position: 'absolute',
   bottom: '0px',
@@ -19,22 +26,24 @@ const elementWrapperStyle = style({
   overflow: 'hidden',
 });
 
-const buttonsWrapperStyle = style({
-  borderTop: '1px solid rgba(204,204,204,.5)',
-  padding: '16px 25px',
-  position: 'relative',
-  overflow: 'hidden',
-  display: 'block',
-});
+const buttonsWrapperStyle = (theme: ThemeExtended) =>
+  style({
+    borderTop: `1px solid ${theme.palette.neutralDark}`,
+    padding: '16px 25px',
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'block',
+  });
 
 const primaryButtonStyle = style({
   marginRight: '8px',
 });
 
-const FormActionBar: React.SFC<FormActionBarProps & InjectedTranslateProps> = ({ save, valid, cancel, t, id, ...props }) => {
+type FormActionBarPropsCombined = FormActionBarProps & InjectedTranslateProps & FormActionBarState;
+const FormActionBar: React.SFC<FormActionBarPropsCombined> = ({ save, valid, cancel, t, id, theme, ...props }) => {
   return (
     <div className={elementWrapperStyle}>
-      <div className={buttonsWrapperStyle}>
+      <div className={buttonsWrapperStyle(theme)}>
         <PrimaryButton id={`${id}-save`} className={primaryButtonStyle} onClick={save} disabled={!valid}>
           {t('save')}
         </PrimaryButton>
@@ -46,4 +55,15 @@ const FormActionBar: React.SFC<FormActionBarProps & InjectedTranslateProps> = ({
   );
 };
 
-export default translate('translation')(FormActionBar);
+const mapStateToProps = (state: IState) => {
+  return {
+    theme: state.portalService.theme,
+  };
+};
+export default compose<FormActionBarPropsCombined, FormActionBarProps>(
+  translate('translation'),
+  connect(
+    mapStateToProps,
+    null
+  )
+)(FormActionBar);
