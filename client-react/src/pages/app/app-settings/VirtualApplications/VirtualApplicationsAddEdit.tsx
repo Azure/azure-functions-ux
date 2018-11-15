@@ -6,14 +6,15 @@ import { Checkbox } from 'office-ui-fabric-react';
 import { formElementStyle } from '../AppSettings.Styles';
 import FormActionBar from 'src/components/FormActionBar';
 
-export interface HandlerMappingAddEditProps extends VirtualApplication {
+export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
   closeBlade: () => void;
   otherVirtualApplications: VirtualApplication[];
+  virtualApplication: VirtualApplication;
 }
 
 const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateVirtualApplication, children, otherVirtualApplications, t, closeBlade, ...virtualApplication } = props;
+  const { updateVirtualApplication, otherVirtualApplications, t, closeBlade, virtualApplication } = props;
   const [pathError, setPathError] = React.useState('');
   const [currentVirtualApplication, setCurrentVirtualApplication] = React.useState(virtualApplication);
 
@@ -95,7 +96,7 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
           }}
         />
       )}
-      <FormActionBar save={save} valid={!pathError} cancel={cancel} />
+      <FormActionBar id="virtual-applications-edit-footer" save={save} valid={!pathError} cancel={cancel} />
     </form>
   );
 };

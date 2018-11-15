@@ -4,14 +4,16 @@ import { HandlerMapping } from '../../../../models/WebAppModels';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { formElementStyle } from '../AppSettings.Styles';
 import FormActionBar from 'src/components/FormActionBar';
-export interface HandlerMappingAddEditProps extends HandlerMapping {
+export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
   closeBlade: () => void;
+  handlerMapping: HandlerMapping;
 }
 
 const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateHandlerMapping, children, t, closeBlade, ...handlerMapping } = props;
+  const { updateHandlerMapping, t, closeBlade, handlerMapping } = props;
   const [currentHandlerMapping, setCurrentHandlerMapping] = React.useState(handlerMapping);
+
   const updateHandlerMappingExtension = (e: any, extension: string) => {
     setCurrentHandlerMapping({ ...currentHandlerMapping, extension });
   };
@@ -63,7 +65,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
           root: formElementStyle,
         }}
       />
-      <FormActionBar save={save} cancel={cancel} valid={true} />
+      <FormActionBar id="handler-mappings-edit-footer" save={save} cancel={cancel} valid={true} />
     </form>
   );
 };

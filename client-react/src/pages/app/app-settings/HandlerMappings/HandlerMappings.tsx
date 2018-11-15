@@ -50,7 +50,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           headerText={t('newHandlerMapping')}
           closeButtonAriaLabel={t('close')}>
           <HandlerMappingsAddEdit
-            {...this.state.currentHandlerMapping!}
+            handlerMapping={this.state.currentHandlerMapping!}
             updateHandlerMapping={this._onClosePanel.bind(this)}
             closeBlade={this._onCancel.bind(this)}
           />

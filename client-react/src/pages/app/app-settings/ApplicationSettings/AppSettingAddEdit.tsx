@@ -5,13 +5,14 @@ import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { formElementStyle } from '../AppSettings.Styles';
 import FormActionBar from '../../../../components/FormActionBar';
-export interface AppSettingAddEditProps extends AppSetting {
+export interface AppSettingAddEditProps {
   updateAppSetting: (item: AppSetting) => void;
   closeBlade: () => void;
   otherAppSettings: AppSetting[];
+  appSetting: AppSetting;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateAppSetting, children, t, otherAppSettings, closeBlade, ...appSetting } = props;
+  const { updateAppSetting, t, otherAppSettings, closeBlade, appSetting } = props;
   const [nameError, setNameError] = React.useState('');
   const [currentAppSetting, setCurrentAppSetting] = React.useState(appSetting);
 
@@ -71,7 +72,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
             root: formElementStyle,
           }}
         />
-        <FormActionBar save={save} valid={!nameError} cancel={cancel} />
+        <FormActionBar id="app-settings-edit-footer" save={save} valid={!nameError} cancel={cancel} />
       </form>
     </>
   );

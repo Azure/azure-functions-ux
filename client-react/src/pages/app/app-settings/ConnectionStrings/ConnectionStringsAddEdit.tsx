@@ -7,14 +7,15 @@ import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
 import { formElementStyle } from '../AppSettings.Styles';
 import FormActionBar from 'src/components/FormActionBar';
-export interface ConnectionStringAddEditProps extends IConnectionString {
+export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: IConnectionString) => any;
   closeBlade: () => void;
   otherConnectionStrings: IConnectionString[];
+  connectionString: IConnectionString;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, children, otherConnectionStrings, t, closeBlade, ...connectionString } = props;
+  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString } = props;
   const [nameError, setNameError] = React.useState('');
   const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
 
@@ -99,7 +100,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
           root: formElementStyle,
         }}
       />
-      <FormActionBar save={save} valid={!nameError} cancel={cancel} />
+      <FormActionBar id="connection-string-edit-footer" save={save} valid={!nameError} cancel={cancel} />
     </form>
   );
 };

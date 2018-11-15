@@ -57,7 +57,7 @@ export class ConnectionStrings extends React.Component<
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}>
           <ConnectionStringsAddEdit
-            {...this.state.currentConnectionString!}
+            connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
             closeBlade={this._onCancel}

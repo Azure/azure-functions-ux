@@ -52,7 +52,7 @@ export class VirtualApplications extends React.Component<
           headerText={t('newApp')}
           closeButtonAriaLabel={t('close')}>
           <VirtualApplicationsAddEdit
-            {...this.state.currentVirtualApplication!}
+            virtualApplication={this.state.currentVirtualApplication!}
             otherVirtualApplications={values.virtualApplications}
             updateVirtualApplication={this.onClosePanel.bind(this)}
             closeBlade={this.onCancelPanel.bind(this)}

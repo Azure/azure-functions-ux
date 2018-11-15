@@ -7,6 +7,7 @@ interface FormActionBarProps {
   cancel: () => void;
   valid: boolean;
   errorMessage?: string;
+  id: string;
 }
 
 const elementWrapperStyle = style({
@@ -30,14 +31,16 @@ const primaryButtonStyle = style({
   marginRight: '8px',
 });
 
-const FormActionBar: React.SFC<FormActionBarProps & InjectedTranslateProps> = ({ save, valid, cancel, t, ...props }) => {
+const FormActionBar: React.SFC<FormActionBarProps & InjectedTranslateProps> = ({ save, valid, cancel, t, id, ...props }) => {
   return (
     <div className={elementWrapperStyle}>
       <div className={buttonsWrapperStyle}>
-        <PrimaryButton className={primaryButtonStyle} onClick={save} disabled={!valid}>
+        <PrimaryButton id={`${id}-save`} className={primaryButtonStyle} onClick={save} disabled={!valid}>
           {t('save')}
         </PrimaryButton>
-        <DefaultButton onClick={cancel}>{t('cancel')}</DefaultButton>
+        <DefaultButton id={`${id}-cancel`} onClick={cancel}>
+          {t('cancel')}
+        </DefaultButton>
       </div>
     </div>
   );
