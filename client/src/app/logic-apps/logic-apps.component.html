@@ -4,12 +4,12 @@
 
   <div class="description-text">
     <h5 style="display: inline">{{'logicApp_description' | translate}}</h5>
-    <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=858702">{{'topBar_learnMore' | translate}}</a>
+    <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=858702">{{'learnMore' | translate}}</a>
   </div>
 
   <div class="bars">
       <label>{{ 'locationColon' | translate }}</label>
-    
+
       <multi-drop-down id="locationsFilter"
           [inputOptions]="locationOptions"
           [displayText]="locationsDisplayText"
@@ -17,9 +17,9 @@
           [allItemsDisplay]="allLocations"
           [numberItemsDisplay]="numberLocations">
       </multi-drop-down>
-    
+
       <label>{{ 'resourceGroupColon' | translate }}</label>
-    
+
       <multi-drop-down id="resourceGroupsFilter"
           [inputOptions]="resourceGroupOptions"
           [displayText]="resourceGroupsDisplayText"

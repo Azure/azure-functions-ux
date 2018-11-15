@@ -901,7 +901,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Connect using these credentials:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Learn more</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -4446,5 +4446,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="savingCredentialsSucccess" xml:space="preserve">
     <value>Successfully saved credentials</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
   </data>
 </root>
