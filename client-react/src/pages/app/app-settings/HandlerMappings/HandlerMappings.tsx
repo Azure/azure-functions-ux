@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
@@ -46,11 +46,14 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this._onCancel}
           headerText={t('newHandlerMapping')}
-          closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this._onRenderFooterContent}>
-          <HandlerMappingsAddEdit {...this.state.currentHandlerMapping!} updateHandlerMapping={this.updateCurrentItem.bind(this)} />
+          closeButtonAriaLabel={t('close')}>
+          <HandlerMappingsAddEdit
+            handlerMapping={this.state.currentHandlerMapping!}
+            updateHandlerMapping={this._onClosePanel.bind(this)}
+            closeBlade={this._onCancel.bind(this)}
+          />
         </Panel>
         <DisplayTableWithEmptyMessage
           items={values.config.properties.handlerMappings || []}
@@ -64,10 +67,6 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       </>
     );
   }
-
-  private updateCurrentItem = (item: HandlerMapping) => {
-    this.setState({ currentHandlerMapping: item });
-  };
 
   private createNewItem = () => {
     const blankConnectionString: HandlerMapping = {
@@ -83,12 +82,12 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     });
   };
 
-  private _onClosePanel = (): void => {
+  private _onClosePanel = (item: HandlerMapping): void => {
     const { values, setValues } = this.props;
     const handlerMappingsItem = values.config.properties.handlerMappings || [];
     const handlerMappings = [...handlerMappingsItem];
     if (!this.state.createNewItem) {
-      handlerMappings[this.state.currentItemIndex!] = this.state.currentHandlerMapping!;
+      handlerMappings[this.state.currentItemIndex!] = item;
       setValues({
         ...values,
         config: {
@@ -100,7 +99,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         },
       });
     } else {
-      handlerMappings.push(this.state.currentHandlerMapping!);
+      handlerMappings.push(item);
       setValues({
         ...values,
         config: {
@@ -117,17 +116,6 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
   private _onCancel = (): void => {
     this.setState({ createNewItem: false, showPanel: false });
-  };
-
-  private _onRenderFooterContent = (): JSX.Element => {
-    return (
-      <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
-          Save
-        </PrimaryButton>
-        <DefaultButton onClick={this._onCancel}>Cancel</DefaultButton>
-      </div>
-    );
   };
 
   private _onShowPanel = (item: HandlerMapping, index: number): void => {
