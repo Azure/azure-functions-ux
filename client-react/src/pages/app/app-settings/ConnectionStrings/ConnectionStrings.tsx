@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IColumn, DetailsListLayoutMode, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
@@ -53,14 +53,14 @@ export class ConnectionStrings extends React.Component<
         <Panel
           isOpen={this.state.showPanel}
           type={PanelType.medium}
-          onDismiss={this._onClosePanel}
+          onDismiss={this._onCancel}
           headerText={t('addEditConnectionStringHeader')}
-          closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this._onRenderFooterContent}>
+          closeButtonAriaLabel={t('close')}>
           <ConnectionStringsAddEdit
             {...this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
-            updateConnectionString={this.updateCurrentItem.bind(this)}
+            updateConnectionString={this._onClosePanel.bind(this)}
+            closeBlade={this._onCancel}
           />
         </Panel>
         <DisplayTableWithEmptyMessage
@@ -80,10 +80,6 @@ export class ConnectionStrings extends React.Component<
     this.setState({ hideValues: !this.state.hideValues });
   };
 
-  private updateCurrentItem = (item: IConnectionString) => {
-    this.setState({ currentConnectionString: item });
-  };
-
   private createNewItem = () => {
     const blankConnectionString = {
       name: '',
@@ -99,30 +95,23 @@ export class ConnectionStrings extends React.Component<
     });
   };
 
-  private _onClosePanel = (): void => {
+  private _onClosePanel = (currentConnectionString: IConnectionString): void => {
+    this.setState({ currentConnectionString });
     const { values, setFieldValue } = this.props;
     const connectionStrings: IConnectionString[] = [...values.connectionStrings];
     if (!this.state.createNewItem) {
-      connectionStrings[this.state.currentItemIndex] = this.state.currentConnectionString!;
+      connectionStrings[this.state.currentItemIndex] = currentConnectionString;
     } else {
-      connectionStrings.push(this.state.currentConnectionString!);
+      connectionStrings.push(currentConnectionString);
     }
     setFieldValue('connectionStrings', connectionStrings);
     this.setState({ createNewItem: false, showPanel: false });
   };
+
   private _onCancel = (): void => {
     this.setState({ createNewItem: false, showPanel: false });
   };
-  private _onRenderFooterContent = (): JSX.Element => {
-    return (
-      <div>
-        <PrimaryButton onClick={this._onClosePanel} style={{ marginRight: '8px' }}>
-          Save
-        </PrimaryButton>
-        <DefaultButton onClick={this._onCancel}>Cancel</DefaultButton>
-      </div>
-    );
-  };
+
   private _onShowPanel = (item: IConnectionString, index: number): void => {
     this.setState({
       showPanel: true,

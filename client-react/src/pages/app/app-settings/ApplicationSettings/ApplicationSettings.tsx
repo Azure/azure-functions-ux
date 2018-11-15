@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { PrimaryButton, DefaultButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
 
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
@@ -55,12 +55,12 @@ export class ApplicationSettings extends React.Component<
           type={PanelType.medium}
           onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
-          closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this.onRenderFooterContent}>
+          closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             {...this.state.currentAppSetting!}
             otherAppSettings={this.props.values.appSettings}
-            updateAppSetting={this.updateCurrentItem.bind(this)}
+            updateAppSetting={this.onClosePanel.bind(this)}
+            closeBlade={this.onCancel}
           />
         </Panel>
         <DisplayTableWithEmptyMessage
@@ -80,10 +80,6 @@ export class ApplicationSettings extends React.Component<
     this.setState({ hideValues: !this.state.hideValues });
   };
 
-  private updateCurrentItem = (item: AppSetting) => {
-    this.setState({ currentAppSetting: item });
-  };
-
   private createNewItem = () => {
     const blankAppSetting = {
       name: '',
@@ -98,31 +94,21 @@ export class ApplicationSettings extends React.Component<
     });
   };
 
-  private onClosePanel = (): void => {
+  private onClosePanel = (item: AppSetting): void => {
     const appSettings: AppSetting[] = [...this.props.values.appSettings];
     if (!this.state.createNewItem) {
-      appSettings[this.state.currentItemIndex] = this.state.currentAppSetting!;
-      this.props.setFieldValue('appSettings', appSettings);
+      appSettings[this.state.currentItemIndex] = item;
     } else {
-      appSettings.push(this.state.currentAppSetting!);
-      this.props.setFieldValue('appSettings', appSettings);
+      appSettings.push(item);
     }
+    this.props.setFieldValue('appSettings', appSettings);
     this.setState({ createNewItem: false, showPanel: false });
   };
 
   private onCancel = (): void => {
     this.setState({ createNewItem: false, showPanel: false });
   };
-  private onRenderFooterContent = () => {
-    return (
-      <div>
-        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
-          {this.props.t('save')}
-        </PrimaryButton>
-        <DefaultButton onClick={this.onCancel}>{this.props.t('cancel')}</DefaultButton>
-      </div>
-    );
-  };
+
   private onShowPanel = (item: AppSetting, index: number): void => {
     this.setState({
       showPanel: true,
