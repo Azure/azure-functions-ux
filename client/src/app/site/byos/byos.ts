@@ -1,4 +1,7 @@
 import { ResourceId } from 'app/shared/models/arm/arm-obj';
+import { FormGroup } from '@angular/forms';
+
+export type ConfigurationOptionType = 'basic' | 'advanced';
 
 export interface ByosInput<T> {
   id: ResourceId;
@@ -11,6 +14,10 @@ export interface ByosInputData {
   subscriptionId: string;
   location: string;
   os: string;
+}
+
+export interface ByosConfigureData extends ByosInputData {
+  form: FormGroup;
 }
 
 export enum StorageType {

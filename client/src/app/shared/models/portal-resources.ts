@@ -1442,4 +1442,18 @@ export class PortalResources {
   public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
   public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
   public static quickstartPowershellTitle = 'quickstartPowershellTitle';
+  public static addStorageTitle = 'addStorageTitle';
+  public static addStorageDescription = 'addStorageDescription';
+  public static configurationOption = 'configurationOption';
+  public static basic = 'basic';
+  public static advanced = 'advanced';
+  public static chooseAccount = 'chooseAccount';
+  public static storageAccount = 'storageAccount';
+  public static storageContainer = 'storageContainer';
+  public static blob = 'blob';
+  public static files = 'files';
+  public static chooseContainer = 'chooseContainer';
+  public static mountPath = 'mountPath';
+  public static shareName = 'shareName';
+  public static accessKey = 'accessKey';
 }
