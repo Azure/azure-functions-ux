@@ -4468,4 +4468,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
     <value>Choosing specific minor version that is not the latest may result in longer cold start times.</value>
   </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions for PowerShell - getting started</value>
+  </data>
 </root>

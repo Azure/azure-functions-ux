@@ -487,6 +487,7 @@ export class WorkerRuntimeLanguages {
   public static nodejs = 'JavaScript';
   public static python = 'Python';
   public static java = 'Java';
+  public static powershell = 'PowerShell';
 }
 
 export class ConsoleConstants {
