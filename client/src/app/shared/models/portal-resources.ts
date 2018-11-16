@@ -1434,4 +1434,18 @@ export class PortalResources {
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
   public static savingCredentialsSucccess = 'savingCredentialsSucccess';
+  public static addStorageTitle = 'addStorageTitle';
+  public static addStorageDescription = 'addStorageDescription';
+  public static configurationOption = 'configurationOption';
+  public static basic = 'basic';
+  public static advanced = 'advanced';
+  public static chooseAccount = 'chooseAccount';
+  public static storageAccount = 'storageAccount';
+  public static storageContainer = 'storageContainer';
+  public static blob = 'blob';
+  public static files = 'files';
+  public static chooseContainer = 'chooseContainer';
+  public static mountPath = 'mountPath';
+  public static shareName = 'shareName';
+  public static accessKey = 'accessKey';
 }

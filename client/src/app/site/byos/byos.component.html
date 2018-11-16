@@ -1,2 +1,13 @@
-BYOS! for {{resourceId}}
-<button type="button" (click)="closeme()">Closeme</button>
+<app-card-info-control
+  image="image/storage.svg"
+  header="{{ 'addStorageTitle' | translate }}"
+  description="{{ 'addStorageDescription' | translate }}"
+  learnMoreLink="https://blogs.msdn.microsoft.com/appserviceteam/2018/09/24/announcing-bring-your-own-storage-to-app-service/">
+</app-card-info-control>
+
+<div class="byos-selector">
+  <byos-selector
+    *ngIf = "byosConfigureData"
+    [viewInfoInput] = "byosConfigureData">
+  </byos-selector>
+</div>
