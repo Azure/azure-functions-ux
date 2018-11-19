@@ -11,6 +11,7 @@ interface StaticConfig {
     isAzure: boolean;
     isOnPrem: boolean;
     clientOptimzationsOff: boolean;
+    version: string;
     functionsVersionInfo: {
       runtimeStable: Array<RuntimeVersion>;
       runtimeDefault: RuntimeVersion;
@@ -25,6 +26,7 @@ export const staticConfig: StaticConfig = {
       azureResourceManagerEndpoint: 'https://management.azure.com',
       hostName: process.env.WEBSITE_HOSTNAME,
     },
+    version: 'version',
     cacheBreakQuery: '{{cacheBreakQuery}}',
     // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
     isNationalClouds: !!process.env.CLOUD_ENVIRONMENT,
