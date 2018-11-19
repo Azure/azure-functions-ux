@@ -4,7 +4,7 @@ import { VirtualApplication } from '../../../../models/WebAppModels';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Checkbox } from 'office-ui-fabric-react';
 import { formElementStyle } from '../AppSettings.Styles';
-import FormActionBar from 'src/components/FormActionBar';
+import ActionBar from '../../../../components/ActionBar';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -55,6 +55,19 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   const cancel = () => {
     closeBlade();
   };
+
+  const actionBarPrimaryButtonProps = {
+    title: t('save'),
+    onClick: save,
+    disable: !!pathError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
     <form>
       <TextField
@@ -96,7 +109,11 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
           }}
         />
       )}
-      <FormActionBar id="virtual-applications-edit-footer" save={save} valid={!pathError} cancel={cancel} />
+      <ActionBar
+        id="virtual-applications-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
     </form>
   );
 };

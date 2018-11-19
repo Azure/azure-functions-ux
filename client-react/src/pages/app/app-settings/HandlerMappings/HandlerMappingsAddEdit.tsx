@@ -3,7 +3,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { formElementStyle } from '../AppSettings.Styles';
-import FormActionBar from 'src/components/FormActionBar';
+import ActionBar from '../../../../components/ActionBar';
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
   closeBlade: () => void;
@@ -36,6 +36,19 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
   const cancel = () => {
     closeBlade();
   };
+
+  const actionBarPrimaryButtonProps = {
+    title: t('save'),
+    onClick: save,
+    disable: false,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
     <form>
       <TextField
@@ -65,7 +78,11 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
           root: formElementStyle,
         }}
       />
-      <FormActionBar id="handler-mappings-edit-footer" save={save} cancel={cancel} valid={true} />
+      <ActionBar
+        id="handler-mappings-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
     </form>
   );
 };

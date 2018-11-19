@@ -4,7 +4,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { formElementStyle } from '../AppSettings.Styles';
-import FormActionBar from '../../../../components/FormActionBar';
+import ActionBar from '../../../../components/ActionBar';
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: AppSetting) => void;
   closeBlade: () => void;
@@ -41,6 +41,19 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   const cancel = () => {
     closeBlade();
   };
+
+  const actionBarPrimaryButtonProps = {
+    title: t('save'),
+    onClick: save,
+    disable: !!nameError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
     <>
       <form>
@@ -72,7 +85,11 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
             root: formElementStyle,
           }}
         />
-        <FormActionBar id="app-settings-edit-footer" save={save} valid={!nameError} cancel={cancel} />
+        <ActionBar
+          id="app-settings-edit-footer"
+          primaryButton={actionBarPrimaryButtonProps}
+          secondaryButton={actionBarSecondaryButtonProps}
+        />
       </form>
     </>
   );
