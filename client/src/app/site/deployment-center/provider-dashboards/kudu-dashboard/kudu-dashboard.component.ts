@@ -17,6 +17,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
+import { of } from 'rxjs/observable/of';
 
 enum DeployStatus {
   Pending,
@@ -286,8 +287,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
           scmType: 'None',
         },
       });
-
-      const sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+      let sourceControlsConfig = of(null);
+      if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {
+        sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);
+      }
 
       this._portalService
         .startNotification(
@@ -319,6 +322,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         );
     }
   }
+
   refresh() {
     this._busyManager.setBusy();
     this.viewInfoStream$.next(this.resourceId);
