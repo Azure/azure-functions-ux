@@ -285,6 +285,7 @@ export class ScenarioIds {
   public static readonly externalSource = 'externalSource';
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';
+  public static readonly openClassicMsi = 'openClassicMsi';
 }
 
 export class NationalCloudArmUris {
@@ -341,6 +342,7 @@ export class ARMApiVersions {
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
+  public static siteConfigApiVersion = '2018-02-01';
 }
 export class SubscriptionQuotaIds {
   public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
