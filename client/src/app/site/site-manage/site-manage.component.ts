@@ -1,6 +1,6 @@
 import { SiteService } from 'app/shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -393,8 +393,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       ),
     ];
 
+    // algrunin: FIRST we need to make sure that MSI should be added for this site
+    // THEN we have to decide which MSI to open (classic or new)
     if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
-      if (this._scenarioService.checkScenario(ScenarioIds.openOldMsi, { site: site }).status === 'enabled') {
+      if (this._scenarioService.checkScenario(ScenarioIds.openClassicMsi, { site: site }).status === 'enabled') {
         networkFeatures.push(
           new DisableableBladeFeature(
             this._translateService.instant(PortalResources.feature_msiName),
@@ -427,7 +429,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
                 id: site.id,
-                apiVersion: '2018-02-01',
+                apiVersion: ARMApiVersions.siteConfigApiVersion,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
                 userAssignedStatus: 2, // IdentityStatus.Supported
               },
