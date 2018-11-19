@@ -63,7 +63,7 @@ app
     })
   );
 
-let packageJson = { version: '0.0s.0' };
+let packageJson = { version: '0.0.0' };
 //This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
 if (fs.existsSync(path.join(__dirname, 'package.json'))) {
   packageJson = require('./package.json');
