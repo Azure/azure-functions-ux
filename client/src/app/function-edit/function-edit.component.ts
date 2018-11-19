@@ -11,7 +11,7 @@ import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import { NotificationIds, Constants, SiteTabIds } from './../shared/models/constants';
+import { NotificationIds, Constants, SiteTabIds, SubscriptionQuotaIds } from './../shared/models/constants';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
@@ -23,6 +23,8 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
 import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-info';
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
+import { BillingService } from 'app/shared/services/billing.service';
 
 @Component({
   selector: 'function-edit',
@@ -36,6 +38,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
   public inIFrame: boolean;
   public editorType = 'standard';
   public disabled: boolean;
+  public isDreamSpark: boolean;
 
   public DevelopTab: string;
   public IntegrateTab: string;
@@ -56,6 +59,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _configService: ConfigService,
+    private _billingService: BillingService,
     injector: Injector
   ) {
     super('function-edit', injector, info => {
@@ -100,10 +104,16 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
       .switchMap(tuple => {
         this.context = tuple[0];
         const functionDescriptor = tuple[1];
-        return this._functionAppService.getFunction(this.context, functionDescriptor.name);
+        const subscriptionId = new ArmSiteDescriptor(this.context.site.id).subscription;
+        return Observable.zip(
+          this._functionAppService.getFunction(this.context, functionDescriptor.name),
+          this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.dreamSparkQuotaId)
+        );
       })
       .takeUntil(this.ngUnsubscribe)
-      .do(functionResult => {
+      .do(tuple => {
+        const functionResult = tuple[0];
+        this.isDreamSpark = tuple[1];
         if (functionResult.isSuccessful) {
           this.selectedFunction = functionResult.result;
           this._setupPollingTasks();
@@ -169,7 +179,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
         const config = result.configResponse.json();
         const alwaysOnSetting = config.properties.alwaysOn === true || this.context.site.properties.sku === 'Dynamic';
 
-        if (!alwaysOnSetting) {
+        if (!alwaysOnSetting && !this.isDreamSpark) {
           notifications.push({
             id: NotificationIds.alwaysOn,
             message: this._translateService.instant(PortalResources.topBar_alwaysOn),
