@@ -17,26 +17,31 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     this.tier = ServerFarmSkuConstants.Tier.elasticPremium;
     this.featureItems = [
       {
+        id: 'pricing_rapidScale',
         iconUrl: 'image/scale-up.svg',
         title: t('pricing_rapidScale'),
         description: t('pricing_rapidScaleDesc'),
       },
       {
+        id: 'pricing_virtualNetwork',
         iconUrl: 'image/networking.svg',
         title: t('pricing_virtualNetwork'),
         description: t('pricing_isolatedNetworkDesc'),
       },
       {
+        id: 'pricing_highDensity',
         iconUrl: 'image/slots.svg',
         title: t('pricing_highDensity'),
         description: t('pricing_highDensityDesc'),
       },
       {
+        id: 'pricing_customDomainsSsl',
         iconUrl: 'image/ssl.svg',
         title: t('pricing_customDomainsSsl'),
         description: t('pricing_customDomainsIpSslDesc'),
       },
       {
+        id: 'pricing_trafficManager',
         iconUrl: 'image/globe.svg',
         title: t('pricing_trafficManager'),
         description: t('pricing_trafficManagerDesc'),
@@ -45,12 +50,14 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
 
     this.hardwareItems = [
       {
+        id: 'pricing_includedHardware_azureComputeUnits',
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
+        id: 'memory',
         iconUrl: 'image/website-power.svg',
         title: t('memory'),
         description: t('pricing_dedicatedMemory'),

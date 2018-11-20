@@ -60,7 +60,7 @@ const additionalInfoLinkStyle = style({
 });
 
 const InformationCard = (props: InformationCardPropsCombined) => {
-  const { id, icon, title, description, additionalInfoLink, t, theme } = props;
+  const { id, icon, title, description, additionalInfoLink, theme } = props;
   const titleHeaderId = `${id}-title`;
   const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground, margin: '5px 0' });
 
@@ -71,13 +71,13 @@ const InformationCard = (props: InformationCardPropsCombined) => {
       </div>
       <div className={bodyDivStyle}>
         <h4 id={titleHeaderId} className={titleHeaderStyle}>
-          {t(title)}
+          {title}
         </h4>
         <div className={descriptionDivStyle}>
-          {t(description)}
+          {description}
           {additionalInfoLink && (
             <Link href={additionalInfoLink.url} target="_blank" className={additionalInfoLinkStyle} aria-describedby={titleHeaderId}>
-              {t(additionalInfoLink.text)}
+              {additionalInfoLink.text}
             </Link>
           )}
         </div>

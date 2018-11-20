@@ -26,7 +26,7 @@ class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCo
 
     for (const feature of features) {
       const informationCardProps = {
-        id: feature.title,
+        id: feature.id,
         icon: feature.iconUrl,
         title: feature.title,
         description: feature.description,
@@ -42,8 +42,8 @@ class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCo
 
     return (
       <div className={featureListDivStyle}>
-        <h2>{t(title)}</h2>
-        <div>{t(description)}</div>
+        <h2>{title}</h2>
+        <div>{description}</div>
         {informationCards}
       </div>
     );

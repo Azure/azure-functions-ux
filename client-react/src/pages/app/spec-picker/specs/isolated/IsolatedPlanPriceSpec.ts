@@ -15,26 +15,31 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     this.tier = ServerFarmSkuConstants.Tier.isolated;
     this.featureItems = [
       {
+        id: 'pricing_ase',
         iconUrl: 'image/app-service-environment.svg',
         title: t('pricing_ase'),
         description: t('pricing_aseDesc'),
       },
       {
+        id: 'pricing_isolatedNetwork',
         iconUrl: 'image/networking.svg',
         title: t('pricing_isolatedNetwork'),
         description: t('pricing_isolatedNetworkDesc'),
       },
       {
+        id: 'pricing_privateAppAccess',
         iconUrl: 'image/active-directory.svg',
         title: t('pricing_privateAppAccess'),
         description: t('pricing_privateAppAccessDesc'),
       },
       {
+        id: 'pricing_largeScale',
         iconUrl: 'image/scale-up.svg',
         title: t('pricing_largeScale'),
         description: t('pricing_largeScaleDesc'),
       },
       {
+        id: 'pricing_trafficManager',
         iconUrl: 'image/globe.svg',
         title: t('pricing_trafficManager'),
         description: t('pricing_trafficManagerDesc'),
@@ -43,17 +48,20 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
     this.hardwareItems = [
       {
+        id: 'pricing_includedHardware_azureComputeUnits',
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
+        id: 'memory',
         iconUrl: 'image/website-power.svg',
         title: t('memory'),
         description: t('pricing_dedicatedMemory'),
       },
       {
+        id: 'storage',
         iconUrl: 'image/storage.svg',
         title: t('storage'),
         description: t('pricing_sharedDisk').format('1 TB'),
