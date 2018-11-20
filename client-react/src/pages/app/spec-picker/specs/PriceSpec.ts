@@ -30,6 +30,7 @@ export interface PlanSpecPickerData {
 }
 
 export interface PriceSpecDetail {
+  id: string;
   iconUrl: string;
   title: string;
   description: string;

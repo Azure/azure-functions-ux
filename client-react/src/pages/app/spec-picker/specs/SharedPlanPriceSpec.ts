@@ -14,6 +14,7 @@ export abstract class SharedPlanPriceSpec extends PriceSpec {
 
     this.featureItems = [
       {
+        id: 'feature_customDomainsName',
         iconUrl: 'image/custom-domains.svg',
         title: t('feature_customDomainsName'),
         description: t('feature_customDomainsInfo'),
@@ -22,17 +23,20 @@ export abstract class SharedPlanPriceSpec extends PriceSpec {
 
     this.hardwareItems = [
       {
+        id: 'pricing_includedHardware_azureComputeUnits',
         iconUrl: 'image/app-service-plan.svg',
         title: t('pricing_includedHardware_azureComputeUnits'),
         description: t('pricing_computeDedicatedAcu'),
         learnMoreUrl: CommonConstants.Links.azureComputeUnitLearnMore,
       },
       {
+        id: 'memory',
         iconUrl: 'image/website-power.svg',
         title: t('memory'),
         description: t('pricing_sharedMemory'),
       },
       {
+        id: 'storage',
         iconUrl: 'image/storage.svg',
         title: t('storage'),
         description: t('pricing_sharedDisk').format('1 GB'),
