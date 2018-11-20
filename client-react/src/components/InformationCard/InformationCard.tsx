@@ -62,7 +62,7 @@ const additionalInfoLinkStyle = style({
 const InformationCard = (props: InformationCardPropsCombined) => {
   const { id, icon, title, description, additionalInfoLink, t, theme } = props;
   const titleHeaderId = `${id}-title`;
-  const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground });
+  const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground, margin: '5px 0' });
 
   return (
     <div className={informationCardDivStyle}>
