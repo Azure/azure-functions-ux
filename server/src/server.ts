@@ -107,6 +107,14 @@ app.get('/api/version', (_, res) => {
   res.send(staticConfig.config.version);
 });
 
+app.get('/api/debug', (_, res) => {
+  //Generic Debug Data dump, can be added to as needed
+  res.send({
+    appName: process.env.WEBSITE_SITE_NAME,
+    version: staticConfig.config.version,
+  });
+});
+
 app.get('/api/templates', getTemplates);
 app.get('/api/bindingconfig', getBindingConfig);
 app.get('/api/quickstart', getQuickstart);
