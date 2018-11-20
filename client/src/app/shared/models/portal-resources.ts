@@ -1209,6 +1209,7 @@ export class PortalResources {
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';
+  public static pricing_availableFeatures = 'pricing_availableFeatures';
   public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
   public static containerQuickstart = 'containerQuickstart';
   public static containerACR = 'containerACR';

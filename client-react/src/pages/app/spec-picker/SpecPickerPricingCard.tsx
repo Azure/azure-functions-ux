@@ -99,16 +99,16 @@ class SpecPickerPricingCard extends React.Component<SpecPickerPricingCardPropsCo
       <div className={divClassName} id={id} role="button" onClick={this._onClick} aria-disabled={!!this.props.disabledProps} tabIndex={0}>
         <h2 className={headerStyle}>{t(skuCode)}</h2>
         {!disabledProps && (
-          <div className={featuresDivStyle} aria-label={t('Available features')}>
+          <div className={featuresDivStyle} aria-label={t('pricing_availableFeatures')}>
             {features}
             {!!priceString && <div>{t(priceString)}</div>}
-            {!priceString && <div>{t('Loading...')}</div>}
+            {!priceString && <div>{t('loading')}</div>}
           </div>
         )}
         {!!disabledProps && (
           <div className={featuresDivStyle}>
             <div>{t(disabledProps.message)}</div>
-            <Link href={disabledProps.learnMoreLink}>{t('Click to learn more')}</Link>
+            <Link href={disabledProps.learnMoreLink}>{t('clickToLearnMore')}</Link>
           </div>
         )}
       </div>

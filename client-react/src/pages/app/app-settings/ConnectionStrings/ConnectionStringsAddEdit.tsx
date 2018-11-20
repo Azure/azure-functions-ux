@@ -6,7 +6,7 @@ import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
 import { formElementStyle } from '../AppSettings.Styles';
-import FormActionBar from 'src/components/FormActionBar';
+import ActionBar from '../../../../components/ActionBar';
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: IConnectionString) => any;
   closeBlade: () => void;
@@ -47,6 +47,21 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   const cancel = () => {
     closeBlade();
   };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('save'),
+    onClick: save,
+    disable: !!nameError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
     <form>
       <TextField
@@ -100,7 +115,11 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
           root: formElementStyle,
         }}
       />
-      <FormActionBar id="connection-string-edit-footer" save={save} valid={!nameError} cancel={cancel} />
+      <ActionBar
+        id="connection-string-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
     </form>
   );
 };
