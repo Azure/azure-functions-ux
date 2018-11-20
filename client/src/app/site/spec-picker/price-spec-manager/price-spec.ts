@@ -32,6 +32,8 @@ export abstract class PriceSpec {
   abstract specResourceSet: SpecResourceSet;
   abstract meterFriendlyName: string;
 
+  billingSkuCode?: string;
+
   cssClass = 'spec';
 
   allowZeroCost = false;

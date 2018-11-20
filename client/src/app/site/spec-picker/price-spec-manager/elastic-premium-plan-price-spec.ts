@@ -79,6 +79,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
 
 export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP1;
+  billingSkuCode = SkuCode.PremiumV2.P1V2;
   legacySkuName = 'small_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('210'),
@@ -96,6 +97,7 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
 
 export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP2;
+  billingSkuCode = SkuCode.PremiumV2.P2V2;
   legacySkuName = 'medium_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('420'),
@@ -113,6 +115,7 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
 
 export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP3;
+  billingSkuCode = SkuCode.PremiumV2.P3V2;
   legacySkuName = 'large_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('840'),
