@@ -43,12 +43,14 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   };
 
   const actionBarPrimaryButtonProps = {
+    id: 'save',
     title: t('save'),
     onClick: save,
     disable: !!nameError,
   };
 
   const actionBarSecondaryButtonProps = {
+    id: 'cancel',
     title: t('cancel'),
     onClick: cancel,
     disable: false,

@@ -16,6 +16,7 @@ interface StatusMessage {
 }
 
 interface ActionBarButtonProps {
+  id: string;
   title: string;
   disable: boolean;
   onClick: () => void;
@@ -63,7 +64,7 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
     <div className={elementWrapperStyle(theme)}>
       <div className={buttonsWrapperStyle}>
         <PrimaryButton
-          id={`${id}-${primaryButton.title}`}
+          id={`${id}-${primaryButton.id}`}
           className={buttonStyle}
           onClick={primaryButton.onClick}
           disabled={primaryButton.disable}>
@@ -71,7 +72,7 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
         </PrimaryButton>
         {secondaryButton && (
           <DefaultButton
-            id={`${id}-${secondaryButton}`}
+            id={`${id}-${secondaryButton.id}`}
             className={buttonStyle}
             onClick={secondaryButton.onClick}
             disabled={secondaryButton.disable}>
@@ -86,13 +87,13 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
             isMultiline={false}
             styles={{
               root: {
-                backgroundColor: 'transparent',
+                backgroundColor: 'rgba(0, 0, 0, 0.0)',
               },
             }}>
             {t(statusMessage.message)}
             {!!statusMessage.infoLink && (
               <Link href={statusMessage.infoLink} target="_blank">
-                {t('Learn more')}
+                {t('learnMore')}
               </Link>
             )}
           </MessageBar>

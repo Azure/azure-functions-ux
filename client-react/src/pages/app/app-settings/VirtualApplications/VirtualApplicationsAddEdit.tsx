@@ -57,12 +57,14 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   };
 
   const actionBarPrimaryButtonProps = {
+    id: 'save',
     title: t('save'),
     onClick: save,
     disable: !!pathError,
   };
 
   const actionBarSecondaryButtonProps = {
+    id: 'cancel',
     title: t('cancel'),
     onClick: cancel,
     disable: false,

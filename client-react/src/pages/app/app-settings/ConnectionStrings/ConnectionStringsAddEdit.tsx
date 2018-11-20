@@ -49,12 +49,14 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   };
 
   const actionBarPrimaryButtonProps = {
+    id: 'save',
     title: t('save'),
     onClick: save,
     disable: !!nameError,
   };
 
   const actionBarSecondaryButtonProps = {
+    id: 'cancel',
     title: t('cancel'),
     onClick: cancel,
     disable: false,
