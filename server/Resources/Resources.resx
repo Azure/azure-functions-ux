@@ -3766,6 +3766,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
   </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Available features</value>
+  </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Update container settings</value>
   </data>
