@@ -163,9 +163,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this._isSlot = !!siteDescriptor.slot;
         this._slotName = siteDescriptor.slot || 'production';
 
-        this.resourceId = siteDescriptor.getTrimmedResourceId();
+        this.resourceId = siteDescriptor.getTrimmedResourceId().toLowerCase();
 
-        const siteResourceId = siteDescriptor.getSiteOnlyResourceId();
+        const siteResourceId = siteDescriptor.getSiteOnlyResourceId().toLowerCase();
 
         return Observable.zip(
           this._siteService.getSite(siteResourceId, this._refreshing),
@@ -196,8 +196,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           this._siteConfigArm = siteConfigResult.result;
 
           if (this._isSlot) {
-            this.siteArm = slotsResult.result.value.filter(s => s.id === this.resourceId)[0];
-            this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this.resourceId);
+            this.siteArm = slotsResult.result.value.filter(s => s.id.toLowerCase() === this.resourceId.toLowerCase())[0];
+            this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id.toLowerCase() !== this.resourceId.toLowerCase());
             this.relativeSlotsArm.unshift(siteResult.result);
           } else {
             this.siteArm = siteResult.result;
@@ -263,7 +263,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._broadcastService
       .getEvents<EventMessage<SlotSwapInfo>>(BroadcastEvent.SlotSwap)
       .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId === this.resourceId)
+      .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
       .subscribe(message => {
         const slotSwapInfo = message.metadata;
         switch (slotSwapInfo.operationType) {
@@ -292,7 +292,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._broadcastService
       .getEvents<EventMessage<SlotNewInfo>>(BroadcastEvent.SlotNew)
       .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId === this.resourceId)
+      .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
       .subscribe(message => {
         const slotNewInfo = message.metadata;
         if (slotNewInfo.state === SlotOperationState.completed && slotNewInfo.success) {
@@ -363,7 +363,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
     const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
     const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
-    const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
+    const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
     const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
     return this._fb.control(
@@ -414,23 +414,24 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
               if (!ruleControl.pristine) {
                 const nameParts = name.split('/');
-                const ruleName = nameParts.length === 0 ? 'production' : nameParts[1];
-                const index = rampUpRules.findIndex(r => r.name === ruleName);
+                const ruleName = nameParts.length === 2 ? nameParts[1] : 'production';
+                const index = rampUpRules.findIndex(r => r.name.toLowerCase() === ruleName.toLowerCase());
+                const value = !ruleControl.value ? 0 : Number(ruleControl.value).valueOf();
 
-                if (!ruleControl.value) {
+                if (value === 0) {
                   if (index >= 0) {
                     rampUpRules.splice(index, 1);
                   }
                 } else {
                   if (index >= 0) {
-                    rampUpRules[index].reroutePercentage = ruleControl.value;
+                    rampUpRules[index].reroutePercentage = value;
                   } else {
-                    const slotArm = this.relativeSlotsArm.find(s => s.name === name);
+                    const slotArm = this.relativeSlotsArm.find(s => s.name.toLowerCase() === name.toLowerCase());
 
                     if (slotArm) {
                       rampUpRules.push({
                         actionHostName: slotArm.properties.hostNames[0],
-                        reroutePercentage: ruleControl.value,
+                        reroutePercentage: value,
                         changeStep: null,
                         changeIntervalInMinutes: null,
                         minReroutePercentage: null,
