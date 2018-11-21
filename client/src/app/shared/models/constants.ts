@@ -339,10 +339,10 @@ export class LogCategories {
 
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
+  public static websiteApiVersion20180201 = '2018-02-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
-  public static siteConfigApiVersion = '2018-02-01';
 }
 export class SubscriptionQuotaIds {
   public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';

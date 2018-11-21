@@ -1,6 +1,6 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { HttpMethods, HttpConstants, LogCategories, ContainerConstants } from './../models/constants';
+import { HttpMethods, HttpConstants, LogCategories, ContainerConstants, ARMApiVersions } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -781,7 +781,7 @@ export class FunctionAppService {
     return this.azure.executeWithConditions(
       [],
       { resourceId: context.site.id },
-      this._cacheService.getArm(`${context.site.id}/config/web`).map(r => {
+      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20180201).map(r => {
         const config: ArmObj<SiteConfig> = r.json();
         return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
       })
