@@ -8,6 +8,7 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as compression from 'compression';
+import axios from 'axios';
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -80,10 +81,30 @@ const redirectToAcom = (req: express.Request, res: express.Response, next: NextF
   }
 };
 
-const renderIndex = (req: express.Request, res: express.Response) => {
+const versionCache: { [key: string]: any } = {};
+const getVersionFiles = async (version: string) => {
+  try {
+    if (versionCache[version]) {
+      return versionCache[version];
+    }
+    const versionCall = await axios.get(`https://functions.azure.com/ng-min/${version}.json`);
+    const versionConfig = versionCall.data;
+    versionCache[version] = versionConfig;
+    return versionConfig;
+  } catch (err) {
+    return null;
+  }
+};
+const renderIndex = async (req: express.Request, res: express.Response) => {
   staticConfig.config.clientOptimzationsOff =
     req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
-  res.render('index', staticConfig);
+  const versionReq = req.query['appsvc.version'];
+  if (versionReq) {
+    const versionConfig = await getVersionFiles(versionReq);
+    res.render('index', { ...staticConfig, versionConfig });
+  } else {
+    res.render('index', staticConfig);
+  }
 };
 app.get('/', redirectToAcom, renderIndex);
 

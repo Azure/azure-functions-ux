@@ -1,8 +1,12 @@
 - const aiIinstrumentationKey = process.env.aiInstrumentationKey;
 - const stage = process.env['FUNCTIONS_SLOT_NAME'] === 'staging';
 
-
-if config.clientOptimzationsOff 
+if config.versionConfig
+    script(src="#{config.versionConfig.inline}")
+    script(src="#{config.versionConfig.polyfills}")
+    script(src="#{config.versionConfig.scripts}")
+    script(src="#{config.versionConfig.main}")
+else if config.clientOptimzationsOff 
     script(src='inline.bundle.js')
     script(src='polyfills.bundle.js')
     script(src='scripts.bundle.js')
