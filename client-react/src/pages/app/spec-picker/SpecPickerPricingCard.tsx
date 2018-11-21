@@ -12,7 +12,7 @@ interface SpecPickerPricingCardDisabledProps {
   learnMoreLink: string;
 }
 
-interface SpecPickerPricingCardProps {
+export interface SpecPickerPricingCardProps {
   id: string;
   isSelected: boolean;
   topFeatures: string[];
@@ -51,7 +51,7 @@ const featuresDivStyle = style({
 });
 
 type SpecPickerPricingCardPropsCombined = SpecPickerPricingCardProps & InjectedTranslateProps & IStateProps;
-class SpecPickerPricingCard extends React.Component<SpecPickerPricingCardPropsCombined, ISpecPickerPricingCardState> {
+export class SpecPickerPricingCard extends React.Component<SpecPickerPricingCardPropsCombined, ISpecPickerPricingCardState> {
   constructor(props) {
     super(props);
     this.state = {
