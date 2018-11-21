@@ -429,7 +429,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
                 id: site.id,
-                apiVersion: ARMApiVersions.siteConfigApiVersion,
+                apiVersion: ARMApiVersions.websiteApiVersion20180201,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
                 userAssignedStatus: 2, // IdentityStatus.Supported
               },
