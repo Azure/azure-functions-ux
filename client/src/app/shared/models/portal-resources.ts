@@ -1441,4 +1441,5 @@ export class PortalResources {
   public static versionLatest = 'versionLatest';
   public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
   public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
+  public static quickstartPowershellTitle = 'quickstartPowershellTitle';
 }
