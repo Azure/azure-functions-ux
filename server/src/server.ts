@@ -46,9 +46,8 @@ app
   .use(compression())
   .use(express.static(path.join(__dirname, 'public')))
   .use(logger('combined'))
-  .set('view engine', 'pug')
-  .set('views', 'src/views')
-  .set('view cache', true)
+  .set('views', __dirname + '/views')
+  .set('view engine', 'jsx')
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(cookieParser())
@@ -63,7 +62,7 @@ app
       },
     })
   );
-
+app.engine('jsx', require('express-react-views').createEngine());
 let packageJson = { version: '0.0.0' };
 //This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
 if (fs.existsSync(path.join(__dirname, 'package.json'))) {
@@ -82,6 +81,11 @@ const redirectToAcom = (req: express.Request, res: express.Response, next: NextF
 };
 
 const versionCache: { [key: string]: any } = {};
+const versionConfigPath = path.join(__dirname, 'public', 'ng-min', `${staticConfig.config.version}.json`);
+if (fs.existsSync(versionConfigPath)) {
+  const versionConfig = require(versionConfigPath);
+  versionCache[staticConfig.config.version] = versionConfig;
+}
 const getVersionFiles = async (version: string) => {
   try {
     if (versionCache[version]) {
@@ -99,12 +103,9 @@ const renderIndex = async (req: express.Request, res: express.Response) => {
   staticConfig.config.clientOptimzationsOff =
     req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
   const versionReq = req.query['appsvc.version'];
-  if (versionReq) {
-    const versionConfig = await getVersionFiles(versionReq);
-    res.render('index', { ...staticConfig, versionConfig });
-  } else {
-    res.render('index', staticConfig);
-  }
+
+  const versionConfig = await getVersionFiles(versionReq || staticConfig.config.version);
+  res.render('index', { ...staticConfig, version: versionConfig });
 };
 app.get('/', redirectToAcom, renderIndex);
 
