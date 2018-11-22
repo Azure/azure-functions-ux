@@ -8,7 +8,7 @@ const Body = props => {
       <script src={props.version.main} />
     </>
   );
-  if (props.config && props.config.clientOptimzationsOff) {
+  if ((props.config && props.config.clientOptimzationsOff) || !props.version) {
     Scripts = () => (
       <>
         <script src="inline.bundle.js" />
