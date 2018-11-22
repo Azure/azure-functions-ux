@@ -95,7 +95,7 @@ gulp.task('replace-tokens', function() {
  *   Bundle Up production server views
  */
 gulp.task('bundle-views', function() {
-  return gulp.src(['src/**/*.pug', 'src/**/*.css']).pipe(gulp.dest('build/src'));
+  return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('build'));
 });
 
 /********
