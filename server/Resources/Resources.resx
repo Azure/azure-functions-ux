@@ -4495,6 +4495,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="storageContainer" xml:space="preserve">
     <value>Storage Container</value>
   </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage File Share</value>
+  </data>
   <data name="blob" xml:space="preserve">
     <value>Blob</value>
   </data>
@@ -4512,5 +4515,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="accessKey" xml:space="preserve">
     <value>Access key</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Storage type</value>
   </data>
 </root>
