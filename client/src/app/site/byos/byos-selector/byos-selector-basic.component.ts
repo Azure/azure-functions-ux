@@ -17,6 +17,8 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
 
   public byosConfigureData: ByosConfigureData;
   public form: FormGroup;
+  public loadingAccounts = false;
+  public loading;
 
   constructor(injector: Injector) {
     super('ByosSelectorBasicComponent', injector, 'dashboard');

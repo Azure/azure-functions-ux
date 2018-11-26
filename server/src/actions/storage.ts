@@ -60,4 +60,54 @@ export function setupAzureStorage(app: Application) {
       }
     });
   });
+
+  app.post('/api/getStorageContainers', async (req, res) => {
+    const blobService = azure.createBlobService(req.body.accountName, req.body.accessKey);
+    const containers: azure.BlobService.ContainerResult[] = [];
+    let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
+    let error;
+
+    do {
+      await blobService.listContainersSegmented(continuationToken, (err: Error, results: azure.BlobService.ListContainerResult) => {
+        if (results) {
+          continuationToken = results.continuationToken;
+          containers.push(...results.entries);
+        }
+
+        error = err;
+      });
+
+      if (error) {
+        res.status(400).send(error);
+        return;
+      }
+    } while (continuationToken);
+
+    res.status(200).send(containers);
+  });
+
+  app.post('/api/getStorageFileShares', async (req, res) => {
+    const fileService = azure.createFileService(req.body.accountName, req.body.accessKey);
+    const containers: azure.FileService.ShareResult[] = [];
+    let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
+    let error;
+
+    do {
+      await fileService.listSharesSegmented(continuationToken, (err: Error, results: azure.FileService.ListSharesResult) => {
+        if (results) {
+          continuationToken = results.continuationToken;
+          containers.push(...results.entries);
+        }
+
+        error = err;
+      });
+
+      if (error) {
+        res.status(400).send(error);
+        return;
+      }
+    } while (continuationToken);
+
+    res.status(200).send(containers);
+  });
 }
