@@ -84,6 +84,14 @@ export interface SpecCostQueryResult {
   version: string;
 }
 
+export interface BillingMeter {
+  meterId: string;
+  billingLocation: string;
+  shortName: string;
+  friendlyName: string;
+  resourceType: string;
+}
+
 /**
  * Data contract for a third party resource and the quantity of that resource
  */
