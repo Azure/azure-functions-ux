@@ -28,6 +28,10 @@ export class SlotNameValidator implements Validator {
       return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameMaxChars) });
     }
 
+    if (control.value.toLowerCase() === 'production') {
+      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameNotAvailable).format(control.value) });
+    }
+
     const matchingChar = control.value.match(Regex.invalidEntityName);
     if (matchingChar) {
       return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
