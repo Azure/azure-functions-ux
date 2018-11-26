@@ -6,7 +6,7 @@
         class="custom-select byos-select"
         bindLabel="displayLabel"
         bindValue="value"
-        placeholder="'chooseAccount' | translate"
+        [placeholder]="'chooseAccount' | translate"
         formControlName="account"
         [loading]="loadingAccounts"
         [items]="storageAccountItems"
@@ -22,35 +22,36 @@
     <div>
         <radio-selector
             [options] = "byosManager.storageTypes"
+            (value) = "storageTypeChanged($event)"
             [control] = "form?.controls?.storageType">
         </radio-selector>
     </div>
   </div>
 
   <div class="byos-property">
-    <label *ngIf="form?.controls?.storageType === StorageType.azureBlob">{{ 'storageContainer' | translate }}</label>
+    <label *ngIf="form?.controls?.storageType?.value === storageTypeBlob">{{ 'storageContainer' | translate }}</label>
     <ng-select
-        *ngIf="form?.controls?.storageType === StorageType.azureBlob"
+        *ngIf="form?.controls?.storageType?.value === storageTypeBlob"
         id="byos-storage-container"
         class="custom-select byos-select"
         bindLabel="displayLabel"
         bindValue="value"
-        placeholder="'chooseContainer' | translate"
+        [placeholder]="'chooseContainer' | translate"
         formControlName="containerName"
-        [loading]="loadingContainer"
+        [loading]="loadingContainers"
         [items]="containerItems"
         [clearable]="false"
         [(ngModel)]="selectedContainer"
         (change)="containerChanged($event)">
     </ng-select>
-    <label *ngIf="form?.controls?.storageType === StorageType.azureFiles">{{ 'storageFileShare' | translate }}</label>
+    <label *ngIf="form?.controls?.storageType?.value === storageTypeFiles">{{ 'storageFileShare' | translate }}</label>
     <ng-select
-        *ngIf="form?.controls?.storageType === StorageType.azureFiles"
+        *ngIf="form?.controls?.storageType?.value === storageTypeFiles"
         id="byos-storage-container"
         class="custom-select byos-select"
         bindLabel="displayLabel"
         bindValue="value"
-        placeholder="'chooseFileShare' | translate"
+        [placeholder]="'chooseFileShare' | translate"
         formControlName="containerName"
         [loading]="loadingFileShares"
         [items]="fileShareItems"
@@ -60,7 +61,7 @@
     </ng-select>
     <div invalidmessage="containerName" id="byos-containerName-error" role="alert"></div>
   </div>
-  
+
   <div class="byos-property">
     <label>{{ 'mountPath' | translate }}</label>
     <textbox [control] = "form?.controls?.mountPath" [disablePopOverError] = "true"></textbox>

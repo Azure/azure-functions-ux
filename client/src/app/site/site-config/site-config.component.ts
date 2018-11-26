@@ -23,6 +23,7 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -291,17 +292,18 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
   }
 
   byos() {
+    const descriptor: ArmSiteDescriptor = new ArmSiteDescriptor(this._site.id);
     this._portalService.openBlade(
       {
         detailBlade: 'ByosPickerFrameBlade',
         detailBladeInputs: {
-          id: this.resourceId,
+          id: this._site.id,
           data: {
-            resourceId: this.resourceId,
+            resourceId: this._site.id,
             isFunctionApp: false,
-            subscriptionId: 'x',
-            location: 'x',
-            os: 'x',
+            subscriptionId: descriptor.subscription,
+            location: this._site.location,
+            os: ArmUtil.isLinuxApp(this._site) ? 'Linux' : 'Windows',
           },
         },
       },

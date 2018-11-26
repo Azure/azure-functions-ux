@@ -63,51 +63,59 @@ export function setupAzureStorage(app: Application) {
 
   app.post('/api/getStorageContainers', async (req, res) => {
     const blobService = azure.createBlobService(req.body.accountName, req.body.accessKey);
-    const containers: azure.BlobService.ContainerResult[] = [];
+    let containers: azure.BlobService.ContainerResult[] = [];
     let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
-    let error;
 
-    do {
-      await blobService.listContainersSegmented(continuationToken, (err: Error, results: azure.BlobService.ListContainerResult) => {
-        if (results) {
-          continuationToken = results.continuationToken;
-          containers.push(...results.entries);
+    const aggregator = (err: Error, result: azure.BlobService.ListContainerResult, cb: any) => {
+      if (err) {
+        cb(err, []);
+      } else {
+        containers = containers.concat(result.entries);
+        if (result.continuationToken !== null) {
+          blobService.listContainersSegmented(result.continuationToken, aggregator);
+        } else {
+          cb(null, containers);
         }
-
-        error = err;
-      });
-
-      if (error) {
-        res.status(400).send(error);
-        return;
       }
-    } while (continuationToken);
+    };
 
-    res.status(200).send(containers);
+    blobService.listContainersSegmented(continuationToken, (err: Error, result: azure.BlobService.ListContainerResult) => {
+      aggregator(err, result, (err: Error, containers: azure.BlobService.ContainerResult[]) => {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.status(200).send(containers);
+        }
+      });
+    });
   });
 
   app.post('/api/getStorageFileShares', async (req, res) => {
     const fileService = azure.createFileService(req.body.accountName, req.body.accessKey);
-    const containers: azure.FileService.ShareResult[] = [];
+    let shares: azure.FileService.ShareResult[] = [];
     let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
-    let error;
 
-    do {
-      await fileService.listSharesSegmented(continuationToken, (err: Error, results: azure.FileService.ListSharesResult) => {
-        if (results) {
-          continuationToken = results.continuationToken;
-          containers.push(...results.entries);
+    const aggregator = (err: Error, result: azure.FileService.ListSharesResult, cb: any) => {
+      if (err) {
+        cb(err, []);
+      } else {
+        shares = shares.concat(result.entries);
+        if (result.continuationToken !== null) {
+          fileService.listSharesSegmented(<any>result.continuationToken, aggregator);
+        } else {
+          cb(null, shares);
         }
-
-        error = err;
-      });
-
-      if (error) {
-        res.status(400).send(error);
-        return;
       }
-    } while (continuationToken);
+    };
 
-    res.status(200).send(containers);
+    fileService.listSharesSegmented(continuationToken, (err: Error, result: azure.FileService.ListSharesResult) => {
+      aggregator(err, result, (err: Error, shares: azure.FileService.ShareResult[]) => {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.status(200).send(shares);
+        }
+      });
+    });
   });
 }

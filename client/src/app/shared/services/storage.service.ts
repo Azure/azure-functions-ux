@@ -4,12 +4,12 @@ import { StorageAccount, StorageAccountKey, ContainerResult, ShareResult, Storag
 import { Injectable, Injector } from '@angular/core';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
-import { ARMApiVersions } from '../models/constants';
+import { ARMApiVersions, Constants } from '../models/constants';
 
 interface IStorageService {
   getAccounts(subscriptionId: string): Result<ArmArrayResult<StorageAccount>>;
   listAccountKeys(resourceId: ResourceId): Result<StorageAccountKey[]>;
-  getContainers(accountName: string, accessKey: string): Result<ContainerResult>;
+  getContainers(accountName: string, accessKey: string): Result<ContainerResult[]>;
   getFileShares(accountName: string, accessKey: string): Result<ShareResult[]>;
 }
 
@@ -37,13 +37,13 @@ export class StorageService implements IStorageService {
     return this._client.execute({ resourceId: id }, t => listAccountKeys);
   }
 
-  public getContainers(accountName: string, accessKey: string): Result<ContainerResult> {
+  public getContainers(accountName: string, accessKey: string): Result<ContainerResult[]> {
     const payload: StorageDirectApiPayload = {
       accountName,
       accessKey,
     };
 
-    const getContainers = this._cacheService.post(`/api/getStorageContainers`, false, null, payload).map(r => r.json());
+    const getContainers = this._cacheService.post(`${Constants.serviceHost}api/getStorageContainers?accountName=${accountName}`, false, null, payload).map(r => r.json());
 
     return this._client.execute({ resourceId: null }, t => getContainers);
   }
@@ -54,8 +54,8 @@ export class StorageService implements IStorageService {
       accessKey,
     };
 
-    const getContainers = this._cacheService.post(`/api/getStorageFileShares`, false, null, payload).map(r => r.json());
+    const getFileShares = this._cacheService.post(`${Constants.serviceHost}api/getStorageFileShares?accountName=${accountName}`, false, null, payload).map(r => r.json());
 
-    return this._client.execute({ resourceId: null }, t => getContainers);
+    return this._client.execute({ resourceId: null }, t => getFileShares);
   }
 }

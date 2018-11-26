@@ -1,4 +1,15 @@
-﻿export interface StorageAccount {
+﻿export interface StorageAccountDeprecated {
+  id: string;
+  location: string;
+  name: string;
+  properties: {
+    accountType: string;
+    creationTime: string;
+    provisioningState: string;
+  };
+}
+
+export interface StorageAccount {
   primaryEndpoints: { [key: string]: string };
   primaryLocation: string;
   provisioningState: string;
