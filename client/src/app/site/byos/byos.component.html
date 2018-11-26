@@ -11,3 +11,14 @@
     [viewInfoInput] = "byosConfigureData">
   </byos-selector>
 </div>
+
+<footer>
+  <div id="byos-footer">
+      <button type="submit"
+          class="custom-button"
+          (click)="clickApply()"
+          [attr.aria-label]="'apply' | translate">
+          {{'apply' | translate}}
+      </button>
+  </div>
+</footer>
