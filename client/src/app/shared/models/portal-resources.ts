@@ -1442,10 +1442,13 @@ export class PortalResources {
   public static chooseAccount = 'chooseAccount';
   public static storageAccount = 'storageAccount';
   public static storageContainer = 'storageContainer';
+  public static storageFileShare = 'storageFileShare';
   public static blob = 'blob';
   public static files = 'files';
   public static chooseContainer = 'chooseContainer';
   public static mountPath = 'mountPath';
   public static shareName = 'shareName';
   public static accessKey = 'accessKey';
+  public static chooseFileShare = 'chooseFileShare';
+  public static storageType = 'storageType';
 }
