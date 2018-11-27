@@ -50,18 +50,18 @@ enum SubscriptionQuotaIds {
 }
 
 export abstract class PriceSpec {
-  public abstract skuCode: string; // SKU code name, like S1 or P1v2
-  public abstract tier: string;
+  public skuCode: string; // SKU code name, like S1 or P1v2
+  public tier: string;
 
   // Used ONLY for returning legacy PCV3 SKU names to Ibiza create scenario's since it currently
   // relies on this format.  There's no reason why we couldn't remove it going forward but I've
   // decided not to touch it for now to be safe.
-  public abstract legacySkuName: string;
+  public legacySkuName: string;
 
-  public abstract topLevelFeatures: string[]; // Features that show up in the card, like "1x cores", "1.75GB RAM", etc...
-  public abstract featureItems: PriceSpecDetail[];
-  public abstract hardwareItems: PriceSpecDetail[];
-  public abstract specResourceSet: SpecResourceSet;
+  public topLevelFeatures: string[]; // Features that show up in the card, like "1x cores", "1.75GB RAM", etc...
+  public featureItems: PriceSpecDetail[];
+  public hardwareItems: PriceSpecDetail[];
+  public specResourceSet: SpecResourceSet;
 
   public cssClass = 'spec';
 
