@@ -1,0 +1,7 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'mountStorage' | translate }}</h3>
+  <div *ngIf="enableAddItemLink" tabindex="0" role="button" class="link add-setting" (click)="addItem()">
+    {{ 'addStorageLink' | translate }}
+  </div>
+</div>

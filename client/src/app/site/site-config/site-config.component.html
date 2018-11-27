@@ -11,11 +11,6 @@
     (click)="discard()"
     [disabled]="mainForm.pristine || !hasWritePermissions"></command>
 
-    <command
-      displayText="byos"
-      iconUrl="image/discard.svg"
-      (click)="byos()"></command>
-
 </command-bar>
 
 <div
@@ -59,6 +54,12 @@
       [mainForm]="mainForm"
       [resourceId]="resourceId"
       [featureName]="featureName"></virtual-directories>
+
+    <mount-storage
+      *ngIf="mountStorageSupported"
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></mount-storage>
 
   </div>
 

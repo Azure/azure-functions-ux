@@ -4528,4 +4528,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="invalidLinuxPath" xml:space="preserve">
     <value>The path format is not valid for Linux.</value>
   </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Path</value>
+  </data>
 </root>

@@ -29,6 +29,7 @@ export enum BroadcastEvent {
   SiteUpdated,
   SlotSwap,
   SlotNew,
+  ByosConfigReceived,
 }
 
 export interface DirtyStateEvent {

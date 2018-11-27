@@ -87,6 +87,7 @@ export class BroadcastService implements IBroadcastService {
     this._streamMap[BroadcastEvent.SiteUpdated] = new Subject();
     this._streamMap[BroadcastEvent.SlotSwap] = new Subject();
     this._streamMap[BroadcastEvent.SlotNew] = new Subject();
+    this._streamMap[BroadcastEvent.ByosConfigReceived] = new Subject();
   }
 
   // DEPRECATED - Use broadcastEvent

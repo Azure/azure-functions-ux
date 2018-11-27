@@ -1461,4 +1461,8 @@ export class PortalResources {
   public static storageType = 'storageType';
   public static invalidWindowsPath = 'invalidWindowsPath';
   public static invalidLinuxPath = 'invalidLinuxPath';
+  public static mountStorage = 'mountStorage';
+  public static addStorageLink = 'addStorageLink';
+  public static container = 'container';
+  public static path = 'path';
 }

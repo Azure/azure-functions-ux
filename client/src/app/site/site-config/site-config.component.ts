@@ -23,7 +23,6 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -41,6 +40,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
   public defaultDocumentsSupported = false;
   public handlerMappingsSupported = false;
   public virtualDirectoriesSupported = false;
+  public mountStorageSupported = false;
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
@@ -126,6 +126,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
         const writePermission = results[0];
         const readonlyLock = results[1];
         this.hasWritePermissions = writePermission && !readonlyLock;
+        this.mountStorageSupported = false; // TODO(michinoy): enable this in a separate PR.
       });
   }
 
@@ -289,25 +290,5 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     if (proceed) {
       this._setupForm();
     }
-  }
-
-  byos() {
-    const descriptor: ArmSiteDescriptor = new ArmSiteDescriptor(this._site.id);
-    this._portalService.openBlade(
-      {
-        detailBlade: 'ByosPickerFrameBlade',
-        detailBladeInputs: {
-          id: this._site.id,
-          data: {
-            resourceId: this._site.id,
-            isFunctionApp: false,
-            subscriptionId: descriptor.subscription,
-            location: this._site.location,
-            os: ArmUtil.isLinuxApp(this._site) ? 'Linux' : 'Windows',
-          },
-        },
-      },
-      'site-config'
-    );
   }
 }
