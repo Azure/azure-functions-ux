@@ -425,10 +425,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._translateService.instant(PortalResources.feature_msiInfo),
             'image/msi.svg',
             {
-              detailBlade: 'AzureResourceIdentitiesBlade',
+              detailBlade: 'AzureResourceIdentitiesBladeV2',
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
-                id: site.id,
+                resourceId: site.id,
                 apiVersion: ARMApiVersions.websiteApiVersion20180201,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
                 userAssignedStatus: 2, // IdentityStatus.Supported

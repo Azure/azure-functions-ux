@@ -6,7 +6,15 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType, ARMApiVersions } from '../../../shared/models/constants';
+import {
+  Links,
+  LogCategories,
+  ScenarioIds,
+  SiteTabIds,
+  SlotOperationState,
+  SwapOperationType,
+  ARMApiVersions,
+} from '../../../shared/models/constants';
 import { OpenBladeInfo, EventVerbs } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { SlotSwapInfo, SlotNewInfo } from '../../../shared/models/slot-events';
@@ -56,6 +64,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public slotsQuotaMessage: string;
   public slotsQuotaScaleUp: () => void;
 
+  public showAddControlsFn: () => void;
   public addControlsOpen = false;
   public swapControlsOpen = false;
 
@@ -98,6 +107,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       if (this._confirmIfDirty()) {
         this.scaleUp();
       }
+    };
+
+    this.showAddControlsFn = () => {
+      this.showAddControls();
     };
 
     this._setupBroadcastSubscriptions();
