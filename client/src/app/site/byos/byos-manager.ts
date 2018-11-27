@@ -6,11 +6,13 @@ import { SelectOption } from 'app/shared/models/select-option';
 import { ConfigurationOptionType, StorageType } from './byos';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { OsType } from 'app/shared/models/arm/stacks';
+import { StoragePathValidator } from 'app/shared/validators/storagePathValidator';
 
 @Injectable()
 export class ByosManager {
   form: FormGroup;
   requiredValidator: RequiredValidator;
+  storagePathValidator: StoragePathValidator;
   configurationOptions: SelectOption<ConfigurationOptionType>[] = [];
   storageTypes: SelectOption<StorageType>[] = [];
 
@@ -21,6 +23,7 @@ export class ByosManager {
   }
 
   public initialize(os: OsType.Linux | OsType.Windows) {
+    this.storagePathValidator = new StoragePathValidator(this._ts, os);
     this.form = this._fb.group({
       configurationOption: ['basic', this.requiredValidator.validate.bind(this.requiredValidator)],
       basicForm: this._getByosFormGroup(os),
@@ -70,13 +73,10 @@ export class ByosManager {
   private _getByosFormGroup(os: string): FormGroup {
     return this._fb.group({
       account: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
-      storageType: [
-        os === OsType.Windows ? StorageType.azureFiles : StorageType.azureBlob,
-        this.requiredValidator.validate.bind(this.requiredValidator),
-      ],
+      storageType: [os === OsType.Windows ? StorageType.azureFiles : StorageType.azureBlob],
       containerName: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
       accessKey: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
-      mountPath: [''],
+      mountPath: ['', this.storagePathValidator.validate.bind(this.storagePathValidator)],
     });
   }
 }
