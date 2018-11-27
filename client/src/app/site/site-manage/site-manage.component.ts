@@ -425,7 +425,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._translateService.instant(PortalResources.feature_msiInfo),
             'image/msi.svg',
             {
-              detailBlade: 'AzureResourceIdentitiesBlade',
+              detailBlade: 'AzureResourceIdentitiesBladeV2',
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
                 id: site.id,
