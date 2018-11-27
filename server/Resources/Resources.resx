@@ -4501,6 +4501,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="storageType" xml:space="preserve">
     <value>Storage type</value>
   </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
     <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
   </data>

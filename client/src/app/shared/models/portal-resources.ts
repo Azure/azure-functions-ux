@@ -1452,6 +1452,8 @@ export class PortalResources {
   public static accessKey = 'accessKey';
   public static chooseFileShare = 'chooseFileShare';
   public static storageType = 'storageType';
+  public static invalidWindowsPath = 'invalidWindowsPath';
+  public static invalidLinuxPath = 'invalidLinuxPath';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
   public static notSelected = 'notSelected';
   public static latest = 'latest';
