@@ -1435,6 +1435,13 @@ export class PortalResources {
   public static savingCredentials = 'savingCredentials';
   public static savingCredentialsFail = 'savingCredentialsFail';
   public static savingCredentialsSucccess = 'savingCredentialsSucccess';
+  public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
+  public static notSelected = 'notSelected';
+  public static latest = 'latest';
+  public static versionLatest = 'versionLatest';
+  public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
+  public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
+  public static quickstartPowershellTitle = 'quickstartPowershellTitle';
   public static addStorageTitle = 'addStorageTitle';
   public static addStorageDescription = 'addStorageDescription';
   public static configurationOption = 'configurationOption';
@@ -1454,11 +1461,8 @@ export class PortalResources {
   public static storageType = 'storageType';
   public static invalidWindowsPath = 'invalidWindowsPath';
   public static invalidLinuxPath = 'invalidLinuxPath';
-  public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
-  public static notSelected = 'notSelected';
-  public static latest = 'latest';
-  public static versionLatest = 'versionLatest';
-  public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
-  public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
-  public static quickstartPowershellTitle = 'quickstartPowershellTitle';
+  public static mountStorage = 'mountStorage';
+  public static addStorageLink = 'addStorageLink';
+  public static container = 'container';
+  public static path = 'path';
 }

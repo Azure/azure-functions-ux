@@ -105,6 +105,7 @@ export class EventVerbs {
   public static siteUpdated = 'site-updated';
   public static slotSwap = 'slot-swap';
   public static slotNew = 'slot-new';
+  public static sendByosSelection = 'send-byos-selection';
 }
 
 export enum LogEntryLevel {

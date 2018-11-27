@@ -70,6 +70,7 @@ export interface IPortalService {
   logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]);
   returnPcv3Results<T>(results: T);
   broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T);
+  returnByosSelections(selections: ByosData);
 }
 
 @Injectable()
@@ -479,6 +480,12 @@ export class PortalService implements IPortalService {
     } else if (methodName === EventVerbs.slotNew) {
       const slotNewMessage: EventMessage<SlotNewInfo> = data;
       this._broadcastService.broadcastEvent(BroadcastEvent.SlotNew, slotNewMessage);
+    } else if (methodName === EventVerbs.sendByosSelection) {
+      const byosConfiguration: EventMessage<ByosData> = {
+        metadata: data,
+        resourceId: data.appResourceId,
+      };
+      this._broadcastService.broadcastEvent(BroadcastEvent.ByosConfigReceived, byosConfiguration);
     }
   }
 
