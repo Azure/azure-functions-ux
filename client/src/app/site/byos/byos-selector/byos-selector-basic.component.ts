@@ -17,6 +17,8 @@ import { ByosManager } from '../byos-manager';
 export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureData> implements OnDestroy {
   @Input()
   set viewInfoInput(viewInfo: ByosConfigureData) {
+    this.selectedStorageAccountName = null;
+    this._setupForm(viewInfo.form);
     this.setInput(viewInfo);
   }
 
@@ -39,6 +41,8 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
   public storageTypeBlob = StorageType.azureBlob;
   public storageTypeFiles = StorageType.azureFiles;
 
+  public os: string;
+
   constructor(public byosManager: ByosManager, private _storageService: StorageService, injector: Injector) {
     super('ByosSelectorBasicComponent', injector, 'dashboard');
     this.isParentComponent = false;
@@ -49,23 +53,19 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
     return inputEvents
       .distinctUntilChanged()
       .switchMap((input: ByosConfigureData) => {
+        this.os = input.os.toLowerCase();
         this.loadingAccounts = true;
         this.byosConfigureData = input;
-        this.form = <FormGroup>(input.form && input.form.controls && input.form.controls.basicForm);
-        this.form.enable();
-        input.form.controls.advancedForm.disable();
 
         return this._storageService.getAccounts(input.subscriptionId);
       })
       .do(accountsResult => {
-        if (accountsResult.isSuccessful &&
-          accountsResult.result.value &&
-          accountsResult.result.value.length > 0) {
+        if (accountsResult.isSuccessful && accountsResult.result.value && accountsResult.result.value.length > 0) {
           this.storageAccounts = accountsResult.result.value;
 
           this.storageAccountItems = this.storageAccounts.map(item => ({
             displayLabel: item.name,
-            value: item.name
+            value: item.name,
           }));
 
           this.loadingAccounts = false;
@@ -79,21 +79,17 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
 
     const selectedAccount = this.storageAccounts.find(item => item.name === element.value);
 
-    this._storageService
-      .listAccountKeys(selectedAccount.id)
-      .subscribe(keysResult => {
-        if (keysResult.isSuccessful) {
-          const accessKey = keysResult.result.keys[0].value;
-          this.form.controls.accessKey.setValue(accessKey);
-          this._loadContainersAndShares(selectedAccount.name, accessKey);
-        }
-      });
+    this._storageService.listAccountKeys(selectedAccount.id).subscribe(keysResult => {
+      if (keysResult.isSuccessful) {
+        const accessKey = keysResult.result.keys[0].value;
+        this.form.controls.accessKey.setValue(accessKey);
+        this._loadContainersAndShares(selectedAccount.name, accessKey);
+      }
+    });
   }
 
   public storageTypeChanged(storageType: StorageType) {
-    const selectedItem = storageType === StorageType.azureBlob
-      ? this.selectedContainer
-      : this.selectedFileShare;
+    const selectedItem = storageType === StorageType.azureBlob ? this.selectedContainer : this.selectedFileShare;
 
     this.form.controls.containerName.setValue(selectedItem);
   }
@@ -101,23 +97,29 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
   private _resetContainers() {
     this.containerItems = [];
     this.containers = [];
-    this.selectedContainer = '';
+    this.selectedContainer = null;
     this.loadingContainers = true;
   }
 
   private _resetFileShares() {
     this.fileShareItems = [];
     this.fileShares = [];
-    this.selectedFileShare = '';
+    this.selectedFileShare = null;
     this.loadingFileShares = true;
+  }
+
+  private _setupForm(form: FormGroup) {
+    const advancedForm = this.byosManager.getAdvancedForm(form);
+    advancedForm.disable();
+    this.form = this.byosManager.getBasicForm(form);
+    this.form.enable();
   }
 
   private _loadContainersAndShares(accountName: string, accessKey: string) {
     Observable.zip(
       this._storageService.getContainers(accountName, accessKey),
       this._storageService.getFileShares(accountName, accessKey)
-    )
-    .subscribe(results => {
+    ).subscribe(results => {
       const [containersResult, fileSharesResult] = results;
 
       if (containersResult.isSuccessful) {
@@ -125,7 +127,7 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
         this.containers = containersResult.result;
         this.containerItems = this.containers.map(item => ({
           displayLabel: item.name,
-          value: item.name
+          value: item.name,
         }));
       }
 
@@ -134,7 +136,7 @@ export class ByosSelectorBasicComponent extends FeatureComponent<ByosConfigureDa
         this.fileShares = fileSharesResult.result;
         this.fileShareItems = this.fileShares.map(item => ({
           displayLabel: item.name,
-          value: item.name
+          value: item.name,
         }));
       }
     });
