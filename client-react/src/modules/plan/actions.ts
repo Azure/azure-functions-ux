@@ -1,4 +1,4 @@
-import { IAction } from '../../../models/action';
+import { IAction } from '../../models/action';
 import { IPlanState } from './reducer';
 
 export const UPDATE_PLAN = 'UPDATE_PLAN';

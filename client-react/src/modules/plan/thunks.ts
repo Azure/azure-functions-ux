@@ -1,8 +1,8 @@
 import { updateCurrentPlan, updateCurrentPlanNoCache } from './actions';
 import { checkCacheValid } from 'redux-cache';
 import axios from 'axios';
-import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
-import IState from '../../types';
+import { ArmObj, ServerFarm } from '../../models/WebAppModels';
+import IState from '../types';
 
 export function fetchPlan() {
   return async (dispatch: any, getState: () => IState) => {

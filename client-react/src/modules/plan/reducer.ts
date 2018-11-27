@@ -1,5 +1,5 @@
-import { ArmObj, ServerFarm } from '../../../models/WebAppModels';
-import { IAction } from '../../../models/action';
+import { ArmObj, ServerFarm } from '../../models/WebAppModels';
+import { IAction } from '../../models/action';
 import { UPDATE_PLAN, UPDATE_PLAN_NO_CACHE } from './actions';
 import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
 
