@@ -8,6 +8,8 @@ import { IConnectionStringState } from './site/config/connectionstrings/reducer'
 import { IStacksState } from './service/available-stacks/reducer';
 import { ISlotListState } from './site/slots/reducer';
 import { IRbacState } from './service/rbac/reducer';
+import { IBillingMetersState } from './service/billing/reducer';
+import { IPlanState } from './service/plan/reducer';
 
 export default interface IState {
   portalService: IPortalServiceState;
@@ -21,4 +23,6 @@ export default interface IState {
   stacks: IStacksState;
   slots: ISlotListState;
   rbac: IRbacState;
+  billingMeter: IBillingMetersState;
+  plan: IPlanState;
 }
