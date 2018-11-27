@@ -266,7 +266,7 @@
         (keydown)="keyDown($event, 'clickBottomTab', 'logs')">{{ 'logStreaming_logs' | translate }}</h4>
     </div>
 
-    <div *ngIf="showErrorsAndWarnings | async" class="tab-heading" (click)="clickBottomTab('errors')">
+    <div *ngIf="showErrorsAndWarnings" class="tab-heading" (click)="clickBottomTab('errors')">
       <h4 [class.tab-label-disabled]="bottomTab !== 'errors'"
         [class.tab-label-selected]="bottomTab === 'errors'"
         tabindex="0"
@@ -285,7 +285,7 @@
       (closeClicked)="clickBottomTab('logs')"
       (expandClicked)="expandLogsClicked($event)"> </log-streaming>
 
-    <errors-warnings *ngIf="showErrorsAndWarnings | async"
+    <errors-warnings *ngIf="showErrorsAndWarnings"
       [hidden]="bottomTab !== 'errors'"
       (selectFile)="selectedFileStream.next($event)"
       [viewInfo]="viewInfo"

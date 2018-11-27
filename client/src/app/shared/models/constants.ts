@@ -574,3 +574,8 @@ export enum SwapOperationType {
 export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
 }
+
+export enum FunctionAppVersion {
+  v1 = 'V1',
+  v2 = 'V2',
+}
