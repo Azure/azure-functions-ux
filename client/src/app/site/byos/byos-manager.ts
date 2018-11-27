@@ -5,6 +5,7 @@ import { RequiredValidator } from '../../shared/validators/requiredValidator';
 import { SelectOption } from 'app/shared/models/select-option';
 import { ConfigurationOptionType, StorageType } from './byos';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { OsType } from 'app/shared/models/arm/stacks';
 
 @Injectable()
 export class ByosManager {
@@ -19,12 +20,25 @@ export class ByosManager {
     this._setStorageTypes();
   }
 
-  public initialize() {
+  public initialize(os: OsType.Linux | OsType.Windows) {
     this.form = this._fb.group({
       configurationOption: ['basic', this.requiredValidator.validate.bind(this.requiredValidator)],
-      basicForm: this._getByosFormGroup(),
-      advancedForm: this._getByosFormGroup(),
+      basicForm: this._getByosFormGroup(os),
+      advancedForm: this._getByosFormGroup(os),
     });
+  }
+
+  public getBasicForm(form: FormGroup): FormGroup {
+    return <FormGroup>(form && form.controls && form.controls.basicForm);
+  }
+
+  public getAdvancedForm(form: FormGroup): FormGroup {
+    return <FormGroup>(form && form.controls && form.controls.advancedForm);
+  }
+
+  public getConfiguredForm(form: FormGroup): FormGroup {
+    const configuration = form.controls.configurationOption.value;
+    return configuration === 'basic' ? this.getBasicForm(form) : this.getAdvancedForm(form);
   }
 
   private _setConfigurationOptions() {
@@ -53,10 +67,13 @@ export class ByosManager {
     ];
   }
 
-  private _getByosFormGroup(): FormGroup {
+  private _getByosFormGroup(os: string): FormGroup {
     return this._fb.group({
       account: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
-      storageType: [StorageType.azureBlob, this.requiredValidator.validate.bind(this.requiredValidator)],
+      storageType: [
+        os === OsType.Windows ? StorageType.azureFiles : StorageType.azureBlob,
+        this.requiredValidator.validate.bind(this.requiredValidator),
+      ],
       containerName: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
       accessKey: ['', this.requiredValidator.validate.bind(this.requiredValidator)],
       mountPath: [''],

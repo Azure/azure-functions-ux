@@ -17,7 +17,7 @@
     <div invalidmessage="account" id="byos-account-error" role="alert"></div>
   </div>
 
-  <div class="byos-property">
+  <div *ngIf="os && os === 'linux'" class="byos-property">
     <label>{{ 'storageType' | translate }}</label>
     <div>
         <radio-selector
@@ -41,8 +41,7 @@
         [loading]="loadingContainers"
         [items]="containerItems"
         [clearable]="false"
-        [(ngModel)]="selectedContainer"
-        (change)="containerChanged($event)">
+        [(ngModel)]="selectedContainer">
     </ng-select>
     <label *ngIf="form?.controls?.storageType?.value === storageTypeFiles">{{ 'storageFileShare' | translate }}</label>
     <ng-select
@@ -56,8 +55,7 @@
         [loading]="loadingFileShares"
         [items]="fileShareItems"
         [clearable]="false"
-        [(ngModel)]="selectedFileShare"
-        (change)="fileShareChanged($event)">
+        [(ngModel)]="selectedFileShare">
     </ng-select>
     <div invalidmessage="containerName" id="byos-containerName-error" role="alert"></div>
   </div>
