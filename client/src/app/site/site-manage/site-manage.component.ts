@@ -1,6 +1,6 @@
 import { SiteService } from 'app/shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -393,25 +393,53 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       ),
     ];
 
+    // algrunin: FIRST we need to make sure that MSI should be added for this site
+    // THEN we have to decide which MSI to open (classic or new)
     if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
-      networkFeatures.push(
-        new DisableableBladeFeature(
-          this._translateService.instant(PortalResources.feature_msiName),
-          this._translateService.instant(PortalResources.feature_msiName) +
-            this._translateService.instant(PortalResources.authentication) +
-            'MSI',
-          this._translateService.instant(PortalResources.feature_msiInfo),
-          'image/toolbox.svg',
-          {
-            detailBlade: 'MSIBlade',
-            detailBladeInputs: { resourceUri: site.id },
-            openAsContextBlade: true,
-          },
-          this._portalService,
-          null,
-          this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
-        )
-      );
+      if (this._scenarioService.checkScenario(ScenarioIds.openClassicMsi, { site: site }).status === 'enabled') {
+        networkFeatures.push(
+          new DisableableBladeFeature(
+            this._translateService.instant(PortalResources.feature_msiName),
+            this._translateService.instant(PortalResources.feature_msiName) +
+              this._translateService.instant(PortalResources.authentication) +
+              'MSI',
+            this._translateService.instant(PortalResources.feature_msiInfo),
+            'image/msi.svg',
+            {
+              detailBlade: 'MSIBlade',
+              detailBladeInputs: { resourceUri: site.id },
+              openAsContextBlade: true,
+            },
+            this._portalService,
+            null,
+            this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+          )
+        );
+      } else {
+        networkFeatures.push(
+          new DisableableBladeFeature(
+            this._translateService.instant(PortalResources.feature_msiName),
+            this._translateService.instant(PortalResources.feature_msiName) +
+              this._translateService.instant(PortalResources.authentication) +
+              'MSI',
+            this._translateService.instant(PortalResources.feature_msiInfo),
+            'image/msi.svg',
+            {
+              detailBlade: 'AzureResourceIdentitiesBlade',
+              extension: 'Microsoft_Azure_ManagedServiceIdentity',
+              detailBladeInputs: {
+                id: site.id,
+                apiVersion: ARMApiVersions.websiteApiVersion20180201,
+                systemAssignedStatus: 2, // IdentityStatus.Supported
+                userAssignedStatus: 2, // IdentityStatus.Supported
+              },
+            },
+            this._portalService,
+            null,
+            this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+          )
+        );
+      }
     }
 
     if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {

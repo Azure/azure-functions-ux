@@ -55,7 +55,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
   private _ngUnsubscribe = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _subs: Subs[];
-  private readonly _validWorkerRuntimes = ['dotnet', 'node', 'nodejs', 'python', 'java'];
+  private readonly _validWorkerRuntimes = ['dotnet', 'node', 'nodejs', 'python', 'java', 'powershell'];
 
   constructor(
     private _wizardService: QuickstartStateManager,
@@ -162,6 +162,9 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
         break;
       case 'java':
         this.quickstartTitle = this._translateService.instant(PortalResources.quickstartJavaTitle);
+        break;
+      case 'powershell':
+        this.quickstartTitle = this._translateService.instant(PortalResources.quickstartPowershellTitle);
         break;
     }
   }

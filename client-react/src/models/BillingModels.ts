@@ -39,7 +39,7 @@ export interface FirstPartyResource {
   /**
    * The MINT Resource Id (referred to as Resource GUID in some documentation).
    */
-  resourceId: string;
+  resourceId?: string;
   /**
    * The quantity of the resource.
    */
@@ -82,6 +82,14 @@ export interface SpecCostQueryResult {
    * Gets or sets the SpecCostQueryResult version.
    */
   version: string;
+}
+
+export interface BillingMeter {
+  meterId: string;
+  billingLocation: string;
+  shortName: string;
+  friendlyName: string;
+  resourceType: string;
 }
 
 /**

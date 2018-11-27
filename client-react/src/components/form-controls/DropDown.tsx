@@ -65,6 +65,9 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & Cus
             title: dirty && {
               borderColor: theme.semanticColors.dirty,
             },
+            dropdownItemSelected: {
+              color: theme.semanticColors.bodyText,
+            },
             dropdown: dirty && {
               selectors: {
                 ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.dirty }],

@@ -6,40 +6,68 @@ import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
 import { formElementStyle } from '../AppSettings.Styles';
-export interface ConnectionStringAddEditProps extends IConnectionString {
+import ActionBar from '../../../../components/ActionBar';
+export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: IConnectionString) => any;
+  closeBlade: () => void;
   otherConnectionStrings: IConnectionString[];
+  connectionString: IConnectionString;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, children, otherConnectionStrings, t, ...connectionString } = props;
+  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString } = props;
   const [nameError, setNameError] = React.useState('');
+  const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
+
   const validateConnectionStringName = (value: string) => {
     return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? 'Connection string names must be unique' : '';
   };
   const updateConnectionStringName = (e: any, name: string) => {
     const error = validateConnectionStringName(name);
     setNameError(error);
-    updateConnectionString({ ...connectionString, name });
+    setCurrentConnectionString({ ...currentConnectionString, name });
   };
 
   const updateConnectionStringValue = (e: any, value: string) => {
-    updateConnectionString({ ...connectionString, value });
+    setCurrentConnectionString({ ...currentConnectionString, value });
   };
 
   const updateConnectionStringType = (e: any, typeOption: IDropdownOption) => {
-    updateConnectionString({ ...connectionString, type: typeOption.key as number });
+    setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as number });
   };
 
   const updateConnectionStringSticky = (e: any, sticky: boolean) => {
-    updateConnectionString({ ...connectionString, sticky });
+    setCurrentConnectionString({ ...currentConnectionString, sticky });
   };
+
+  const save = () => {
+    updateConnectionString(currentConnectionString);
+  };
+
+  const cancel = () => {
+    closeBlade();
+  };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('save'),
+    onClick: save,
+    disable: !!nameError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
-    <div>
+    <form>
       <TextField
         label={t('nameRes')}
         id="connection-strings-form-name"
-        value={connectionString.name}
+        value={currentConnectionString.name}
         errorMessage={nameError}
         onChange={updateConnectionStringName}
         styles={{
@@ -49,7 +77,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
       <TextField
         label={t('value')}
         id="connection-strings-form-value"
-        value={connectionString.value}
+        value={currentConnectionString.value}
         onChange={updateConnectionStringValue}
         styles={{
           root: formElementStyle,
@@ -58,7 +86,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
       <Dropdown
         label={t('type')}
         id="connection-strings-form-type"
-        selectedKey={connectionString.type}
+        selectedKey={currentConnectionString.type}
         options={[
           {
             key: DatabaseType.MySql,
@@ -81,13 +109,18 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
       <Checkbox
         label={t('sticky')}
         id="connection-strings-form-sticky"
-        defaultChecked={connectionString.sticky}
+        defaultChecked={currentConnectionString.sticky}
         onChange={updateConnectionStringSticky}
         styles={{
           root: formElementStyle,
         }}
       />
-    </div>
+      <ActionBar
+        id="connection-string-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
+    </form>
   );
 };
 

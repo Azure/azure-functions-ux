@@ -264,7 +264,7 @@ export class PortalResources {
   public static binding_storageInfoHeader = 'binding_storageInfoHeader';
   public static binding_storageInfoHeader2 = 'binding_storageInfoHeader2';
   public static binding_storageInfoHeader3 = 'binding_storageInfoHeader3';
-  public static topBar_learnMore = 'topBar_learnMore';
+  public static learnMore = 'learnMore';
   public static clickToLearnMore = 'clickToLearnMore';
   public static httpRun_addHeader = 'httpRun_addHeader';
   public static httpRun_addParameter = 'httpRun_addParameter';
@@ -1209,6 +1209,7 @@ export class PortalResources {
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';
+  public static pricing_availableFeatures = 'pricing_availableFeatures';
   public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
   public static containerQuickstart = 'containerQuickstart';
   public static containerACR = 'containerACR';
@@ -1451,4 +1452,11 @@ export class PortalResources {
   public static accessKey = 'accessKey';
   public static chooseFileShare = 'chooseFileShare';
   public static storageType = 'storageType';
+  public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
+  public static notSelected = 'notSelected';
+  public static latest = 'latest';
+  public static versionLatest = 'versionLatest';
+  public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
+  public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
+  public static quickstartPowershellTitle = 'quickstartPowershellTitle';
 }

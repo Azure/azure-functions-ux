@@ -78,9 +78,6 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                 return this._updateTreeForStartedSite(workingTitles.default.title, workingTitles.default.newDashboard);
               } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly && r.pingedScmSite) {
                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
-              } else if (!r.pingedScmSite) {
-                this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
-                return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
               } else if (!r.hasWritePermission) {
                 this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.');
                 return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
@@ -88,6 +85,9 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                 this.disabledReason = this.sideNav.translateService.instant(
                   'Functions running behind an internal load balancer are not accessible outside their VNET. Please make sure you are in the same VNET as the functions to access them.'
                 );
+                return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
+              } else if (!r.pingedScmSite) {
+                this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
                 return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
               } else {
                 this.disabledReason = this.sideNav.translateService.instant(

@@ -35,7 +35,13 @@
     "metadata": null,
     "connectionStrings": null,
     "machineKey": null,
-    "handlerMappings": null,
+    "handlerMappings": [
+      {
+        "extension": "sdasdasdas",
+        "scriptProcessor": "asdasdasda",
+        "arguments": "asdasdasd"
+      }
+    ],
     "documentRoot": null,
     "scmType": "VSTSRM",
     "use32BitWorkerProcess": true,
@@ -50,14 +56,19 @@
       {
         "virtualPath": "/",
         "physicalPath": "site\\wwwroot",
-        "preloadEnabled": false,
+        "preloadEnabled": true,
         "virtualDirectories": null
       },
       {
-        "virtualPath": "/test",
-        "physicalPath": "site\\test",
+        "virtualPath": "/testapp",
+        "physicalPath": "site\\testapp",
         "preloadEnabled": false,
-        "virtualDirectories": null
+        "virtualDirectories": [
+          {
+            "virtualPath": "/test2",
+            "physicalPath": "site\\wwwroot\\dir"
+          }
+        ]
       }
     ],
     "winAuthAdminState": 0,

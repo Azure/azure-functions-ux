@@ -12,7 +12,7 @@
     "i18next-localstorage-backend": "^1.1.4",
     "i18next-xhr-backend": "^1.5.1",
     "monaco-editor": "^0.14.3",
-    "office-ui-fabric-react": "^6.93.0",
+    "office-ui-fabric-react": "^6.104.0",
     "react": "^16.7.0-alpha.0",
     "react-app-rewired": "^1.6.2",
     "react-dom": "^16.7.0-alpha.0",
