@@ -121,10 +121,10 @@ export class FunctionAppService {
       ).map(result => {
         // For runtime 2.0 we use settings for disabling functions
         const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        if (
-          FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) ===
-          FunctionAppVersion.v2
-        ) {
+        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
+          appSettings.properties[Constants.runtimeVersionAppSettingName]
+        );
+        if (functionGeneration === FunctionAppVersion.v2) {
           const disabledSetting = appSettings.properties[`AzureWebJobs.${result.function.name}.Disabled`];
           result.function.config.disabled = disabledSetting && disabledSetting.toLocaleLowerCase() === 'true';
         }
@@ -142,10 +142,10 @@ export class FunctionAppService {
       ).map(result => {
         // For runtime 2.0 we use settings for disabling functions
         const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        if (
-          FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) ===
-          FunctionAppVersion.v2
-        ) {
+        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
+          appSettings.properties[Constants.runtimeVersionAppSettingName]
+        );
+        if (functionGeneration === FunctionAppVersion.v2) {
           result.functions.forEach(f => {
             const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
 

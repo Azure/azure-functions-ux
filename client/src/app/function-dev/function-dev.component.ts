@@ -122,7 +122,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public bottomBarExpanded: boolean;
   public rightBarExpanded: boolean;
 
-  public showErrorsAndWarnings: Observable<boolean>;
+  public showErrorsAndWarnings: boolean;
 
   public showConsole: boolean;
 
@@ -221,9 +221,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         this.disabled = this._functionAppService
           .getFunctionAppEditMode(functionView.context)
           .map(r => (r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false));
-        this.showErrorsAndWarnings = this._functionAppService
-          .getRuntimeGeneration(functionView.context)
-          .map(v => v === FunctionAppVersion.v1);
         this.showConsole = !ArmUtil.isLinuxDynamic(functionView.context.site);
         return Observable.zip(
           Observable.of(functionView),
@@ -356,6 +353,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this.setFunctionInvokeUrl();
         }
         this.functionAppVersion = tuple[4];
+        this.showErrorsAndWarnings = this.functionAppVersion === FunctionAppVersion.v1;
       });
   }
 
