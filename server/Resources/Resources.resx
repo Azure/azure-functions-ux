@@ -2255,7 +2255,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Temp Value</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
+    <value>You haven't added any deployment slots. Click here to get started.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Name</value>

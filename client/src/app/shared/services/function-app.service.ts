@@ -1,6 +1,6 @@
 import { GlobalStateService } from './global-state.service';
-import { Host } from './../models/host';
-import { HttpMethods, HttpConstants, LogCategories, ContainerConstants, ARMApiVersions } from './../models/constants';
+import { Host, HostV2 } from './../models/host';
+import { HttpMethods, HttpConstants, LogCategories, ContainerConstants, ARMApiVersions, FunctionAppVersion } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -121,7 +121,10 @@ export class FunctionAppService {
       ).map(result => {
         // For runtime 2.0 we use settings for disabling functions
         const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
+        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
+          appSettings.properties[Constants.runtimeVersionAppSettingName]
+        );
+        if (functionGeneration === FunctionAppVersion.v2) {
           const disabledSetting = appSettings.properties[`AzureWebJobs.${result.function.name}.Disabled`];
           result.function.config.disabled = disabledSetting && disabledSetting.toLocaleLowerCase() === 'true';
         }
@@ -139,7 +142,10 @@ export class FunctionAppService {
       ).map(result => {
         // For runtime 2.0 we use settings for disabling functions
         const appSettings = result.appSettings as ArmObj<{ [key: string]: string }>;
-        if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
+        const functionGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(
+          appSettings.properties[Constants.runtimeVersionAppSettingName]
+        );
+        if (functionGeneration === FunctionAppVersion.v2) {
           result.functions.forEach(f => {
             const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
 
@@ -511,6 +517,12 @@ export class FunctionAppService {
   }
 
   getHostJson(context: FunctionAppContext): Result<Host> {
+    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+      this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
+    );
+  }
+
+  getHostV2Json(context: FunctionAppContext): Result<HostV2> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json())
     );
@@ -1147,7 +1159,7 @@ export class FunctionAppService {
     return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context)).map(tuple => {
       if (tuple[0].isSuccessful) {
         const generation = tuple[1];
-        const eventGridName = generation === 'V1' ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
+        const eventGridName = generation === FunctionAppVersion.v1 ? Constants.eventGridName_v1 : Constants.eventGridName_v2;
         const key = tuple[0].result.keys.find(k => k.name === eventGridName);
         return {
           isSuccessful: true,
