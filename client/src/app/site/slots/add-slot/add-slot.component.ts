@@ -209,7 +209,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     const siteId = this._slotsArm[0].id;
     const location = this._slotsArm[0].location;
     const serverFarmId = this._slotsArm[0].properties.serverFarmId;
-    const cloneConfig = newSlotConfig;
+    const cloneConfig = newSlotConfig || {};
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
