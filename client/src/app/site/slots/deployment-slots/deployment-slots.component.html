@@ -65,7 +65,7 @@
         </info-box>
 
         <div class="config-container"
-            [is-dirty]="!!mainForm?.dirty || !!dirtyMessage || swapControlsOpen || addControlsOpen"
+            [is-dirty]="!!mainForm?.dirty || !!dirtyMessage || !swapOperationsComplete || !addOperationsComplete"
             [is-dirty-message]="dirtyMessage">
 
             <!-- TODO [andiamrc]: Provide more granular details for permissions errors -->
