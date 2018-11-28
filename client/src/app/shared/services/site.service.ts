@@ -45,7 +45,9 @@ export class SiteService {
   }
 
   getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
-    const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20180201).map(r => r.json());
+    const getSiteConfig = this._cacheService
+      .getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20180201)
+      .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 
@@ -133,10 +135,13 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => addOrUpdateAppSettings);
   }
 
-  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig): Result<ArmObj<Site>> {
+  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig | {}): Result<ArmObj<Site>> {
     if (!!config) {
-      config.experiments = null;
-      config.routingRules = null;
+      ['experiments', 'routingRules'].forEach(propertyName => {
+        if (config.hasOwnProperty(propertyName)) {
+          config[propertyName] = null;
+        }
+      });
     }
 
     const payload = JSON.stringify({
