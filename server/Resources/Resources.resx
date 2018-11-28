@@ -4493,10 +4493,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Storage account</value>
   </data>
   <data name="storageContainer" xml:space="preserve">
-    <value>Storage Container</value>
+    <value>Storage container</value>
   </data>
   <data name="storageFileShare" xml:space="preserve">
-    <value>Storage File Share</value>
+    <value>Storage file share</value>
   </data>
   <data name="blob" xml:space="preserve">
     <value>Blob</value>

@@ -41,7 +41,7 @@ import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/
 import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
 import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
-import { ByosData } from 'app/site/byos/byos';
+import { ByosData } from '../../site/byos/byos';
 
 export interface IPortalService {
   getStartupInfo();

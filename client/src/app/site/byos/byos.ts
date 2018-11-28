@@ -13,7 +13,7 @@ export interface ByosInputData {
   isFunctionApp: boolean;
   subscriptionId: string;
   location: string;
-  os: string;
+  os: string; // TODO(michinoy): Change to using OsType, but it will also require Ibiza change.
 }
 
 export interface ByosConfigureData extends ByosInputData {

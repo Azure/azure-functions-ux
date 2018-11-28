@@ -11,11 +11,11 @@
 </div>
 
 <byos-selector-basic
-  *ngIf = "form && form.controls && form.controls.configurationOption && form.controls.configurationOption.value == 'basic'"
+  *ngIf = "form?.controls?.configurationOption?.value == 'basic'"
   [viewInfoInput] = "byosConfigureData">
 </byos-selector-basic>
 
 <byos-selector-advanced
-  *ngIf = "form && form.controls && form.controls.configurationOption && form.controls.configurationOption.value == 'advanced'"
+  *ngIf = "form?.controls?.configurationOption?.value == 'advanced'"
   [viewInfoInput] = "byosConfigureData">
 </byos-selector-advanced>

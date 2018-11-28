@@ -13,7 +13,6 @@ export class ByosShellComponent {
   viewInfo: ByosInput<ByosInputData>;
 
   constructor(translateService: TranslateService, userService: UserService) {
-    console.log('byos-shell');
     userService
       .getStartupInfo()
       .first()

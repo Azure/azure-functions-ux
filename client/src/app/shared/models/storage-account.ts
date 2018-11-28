@@ -26,25 +26,6 @@ export interface StorageAccountKey {
   value: string;
 }
 
-export interface StorgeAccountBlobContainerProperties {
-  publicAccess: string;
-  leaseStatus: string;
-  leaseState: string;
-  lastModifiedTime: string;
-}
-
-export interface StorgeAccountFileContainerProperties {
-  publicAccess: string;
-  leaseStatus: string;
-  leaseState: string;
-  lastModifiedTime: string;
-}
-
-export interface StorageAccountContainer<T> {
-  name: string;
-  properties: T;
-}
-
 export interface ContainerResult {
   name: string;
   publicAccessLevel: string;

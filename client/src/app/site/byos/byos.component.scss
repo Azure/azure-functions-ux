@@ -1,7 +1,5 @@
 @import '../../../sass/common/variables';
 
-$footer-height: 55px;
-
 .byos-selector {
   padding: 0px 25px;
   width: 500px;
@@ -29,7 +27,9 @@ footer {
   margin-bottom: auto;
   top: 10px;
 
-  button, .message-icon, .message-text {
-      height: 27px;
+  button,
+  .message-icon,
+  .message-text {
+    height: 27px;
   }
 }
