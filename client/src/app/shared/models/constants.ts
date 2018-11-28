@@ -145,6 +145,7 @@ export class Links {
   public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
   public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
   public static containerPrivateRegistryLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2041449';
+  public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
 }
 
 export class Kinds {

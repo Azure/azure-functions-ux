@@ -6,6 +6,7 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { ByosManager } from './byos-manager';
 import { FormGroup, FormControl } from '@angular/forms';
 import { OsType } from 'app/shared/models/arm/stacks';
+import { Links } from 'app/shared/models/constants';
 
 @Component({
   selector: 'byos',
@@ -20,6 +21,7 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
   }
 
   public byosConfigureData: ByosConfigureData;
+  public byosLearnMoreLink = Links.byosLearnMore;
 
   constructor(private _byosManager: ByosManager, private _portalService: PortalService, injector: Injector) {
     super('ByosComponent', injector, 'dashboard');
