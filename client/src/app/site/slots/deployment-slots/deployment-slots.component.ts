@@ -66,7 +66,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   public showAddControlsFn: () => void;
   public addControlsOpen = false;
+  public addOperationsComplete = true;
+
   public swapControlsOpen = false;
+  public swapOperationsComplete = true;
 
   public dirtyMessage: string;
 
@@ -285,6 +288,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             if (slotSwapInfo.state === SlotOperationState.started) {
               this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
             } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = slotSwapInfo.operationType === SwapOperationType.slotsSwap;
               this.refresh(true);
             }
             break;
@@ -294,6 +298,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.siteArm.properties.targetSwapSlot = null;
               }
             } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = true;
               this.refresh(true);
             }
             break;
@@ -308,8 +313,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
       .subscribe(message => {
         const slotNewInfo = message.metadata;
-        if (slotNewInfo.state === SlotOperationState.completed && slotNewInfo.success) {
-          this.refresh(true);
+        if (slotNewInfo.state === SlotOperationState.completed) {
+          this.addOperationsComplete = true;
+          if (slotNewInfo.success) {
+            this.refresh(true);
+          }
         }
       });
   }
@@ -520,6 +528,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   showSwapControls() {
     if (this._confirmIfDirty()) {
       this.swapControlsOpen = true;
+      this.swapOperationsComplete = false;
       this._updateDisabledState();
       this._openSwapPane();
     }
@@ -550,6 +559,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       })
       .subscribe(_ => {
         this.swapControlsOpen = false;
+        this.swapOperationsComplete = true;
         if (!this._refreshing) {
           this._updateDisabledState();
         }
@@ -559,6 +569,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   showAddControls() {
     if (this._confirmIfDirty()) {
       this.addControlsOpen = true;
+      this.addOperationsComplete = false;
       this._updateDisabledState();
       this._openAddPane();
     }
@@ -589,6 +600,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       })
       .subscribe(_ => {
         this.addControlsOpen = false;
+        this.addOperationsComplete = true;
         this._updateDisabledState();
       });
   }
