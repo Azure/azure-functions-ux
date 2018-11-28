@@ -220,7 +220,6 @@ export class ScenarioIds {
   public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
   public static readonly enableAuth = 'EnableAuth';
-  public static readonly enableMsi = 'EnableMsi';
   public static readonly enableNetworking = 'EnableNetworking';
   public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
   public static readonly enableExtensions = 'EnableExtensions';
