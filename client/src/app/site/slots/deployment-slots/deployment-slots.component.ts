@@ -65,10 +65,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public slotsQuotaScaleUp: () => void;
 
   public showAddControlsFn: () => void;
-  public addControlsOpen = false;
   public addOperationsComplete = true;
-
-  public swapControlsOpen = false;
   public swapOperationsComplete = true;
 
   public dirtyMessage: string;
@@ -84,6 +81,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   private _slotName: string;
 
   private _refreshing: boolean;
+
+  private _addControlsOpen = false;
+  private _swapControlsOpen = false;
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -283,12 +283,19 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       .subscribe(message => {
         const slotSwapInfo = message.metadata;
         switch (slotSwapInfo.operationType) {
-          case SwapOperationType.slotsSwap:
           case SwapOperationType.applySlotConfig:
             if (slotSwapInfo.state === SlotOperationState.started) {
               this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
             } else if (slotSwapInfo.state === SlotOperationState.completed) {
-              this.swapOperationsComplete = slotSwapInfo.operationType === SwapOperationType.slotsSwap;
+              this.swapOperationsComplete = false;
+              this.refresh(true);
+            }
+            break;
+          case SwapOperationType.slotsSwap:
+            if (slotSwapInfo.state === SlotOperationState.started) {
+              this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
+            } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = true;
               this.refresh(true);
             }
             break;
@@ -361,7 +368,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _updateDisabledState() {
-    const operationOpenOrInProgress = this.saving || this.addControlsOpen || this.swapControlsOpen;
+    const operationOpenOrInProgress = this.saving || this._addControlsOpen || this._swapControlsOpen;
 
     this.refreshCommandDisabled = operationOpenOrInProgress || !this.featureSupported;
 
@@ -378,7 +385,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.swapSlotsCommandDisabled =
       this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.relativeSlotsArm || !this.relativeSlotsArm.length;
 
-    this.navigationDisabled = this.addControlsOpen || this.swapControlsOpen;
+    this.navigationDisabled = this._addControlsOpen || this._swapControlsOpen;
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
@@ -527,7 +534,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   showSwapControls() {
     if (this._confirmIfDirty()) {
-      this.swapControlsOpen = true;
+      this._swapControlsOpen = true;
       this.swapOperationsComplete = false;
       this._updateDisabledState();
       this._openSwapPane();
@@ -558,7 +565,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         });
       })
       .subscribe(_ => {
-        this.swapControlsOpen = false;
+        this._swapControlsOpen = false;
         this.swapOperationsComplete = true;
         if (!this._refreshing) {
           this._updateDisabledState();
@@ -568,7 +575,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   showAddControls() {
     if (this._confirmIfDirty()) {
-      this.addControlsOpen = true;
+      this._addControlsOpen = true;
       this.addOperationsComplete = false;
       this._updateDisabledState();
       this._openAddPane();
@@ -599,7 +606,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         });
       })
       .subscribe(_ => {
-        this.addControlsOpen = false;
+        this._addControlsOpen = false;
         this.addOperationsComplete = true;
         this._updateDisabledState();
       });
