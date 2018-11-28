@@ -136,6 +136,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             return this._getSlotsDiffs(slots[0], slots[1]);
           }
         }
+        this.slotsDiffs = [];
+        this.stickySettingDiffs = [];
         return Observable.of(null);
       })
       .subscribe(_ => {
@@ -718,7 +720,11 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         const [srcConnStrings, destConnStrings] = [r[3], r[4]].map(res => res.result.properties);
 
         this.slotsDiffs = slotDiffs.map(d => d.properties).filter(diff => {
-          return diff.diffRule === 'SettingsWillBeModifiedInDestination' || diff.diffRule === 'SettingsWillBeAddedToDestination';
+          return (
+            diff.diffRule === 'SettingsWillBeModifiedInDestination' ||
+            diff.diffRule === 'SettingsWillBeAddedToDestination' ||
+            diff.diffRule === 'SettingsNotInSource'
+          );
         });
 
         if (this._slotConfigNames) {

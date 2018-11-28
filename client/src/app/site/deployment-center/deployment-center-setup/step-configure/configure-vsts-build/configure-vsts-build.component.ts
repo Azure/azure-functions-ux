@@ -170,11 +170,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
     return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
-      if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
-        return Observable.of(accounts.filter(x => x.isAccountOwner));
-      } else {
-        return Observable.of(accounts);
-      }
+      this.wizard.vsoAccounts = accounts;
+      return Observable.of(accounts.filter(x => x.isAccountOwner));
     });
   }
 

@@ -61,6 +61,10 @@ export class QuickstartStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.subscriptionName as FormControl)) || null;
   }
 
+  public get isDreamspark(): FormControl {
+    return (this.wizardForm && (this.wizardForm.controls.isDreamspark as FormControl)) || null;
+  }
+
   markSectionAsTouched(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);

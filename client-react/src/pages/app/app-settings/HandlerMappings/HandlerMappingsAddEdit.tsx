@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 export interface HandlerMappingAddEditProps extends HandlerMapping {

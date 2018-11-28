@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib-commonjs/TextField';
-import { Toggle } from 'office-ui-fabric-react/lib-commonjs/Toggle';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
-import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib-commonjs/Dropdown';
+import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
 export interface ConnectionStringAddEditProps extends IConnectionString {

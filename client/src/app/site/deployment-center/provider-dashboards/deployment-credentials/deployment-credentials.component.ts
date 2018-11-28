@@ -14,6 +14,9 @@ import { Observable } from 'rxjs/Observable';
 import { SiteService } from '../../../../shared/services/site.service';
 import { KeyCodes } from '../../../../shared/models/constants';
 import { Dom } from '../../../../shared/Utilities/dom';
+import { PortalService } from 'app/shared/services/portal.service';
+import { PortalResources } from 'app/shared/models/portal-resources';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-deployment-credentials',
@@ -45,13 +48,14 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   constructor(
     private _cacheService: CacheService,
     private _siteService: SiteService,
+    private _portalService: PortalService,
+    private _translateService: TranslateService,
     fb: FormBuilder,
     broadcastService: BroadcastService,
-    translateService: TranslateService,
     injector: Injector
   ) {
     super('DeploymentCredentialsComponent', injector);
-    const requiredValidation = new RequiredValidator(translateService, true);
+    const requiredValidation = new RequiredValidator(this._translateService, true);
     this.userPasswordForm = fb.group({
       userName: ['', [requiredValidation]],
       password: ['', [requiredValidation]],
@@ -59,7 +63,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     });
     this.userPasswordForm
       .get('passwordConfirm')
-      .setValidators(ConfirmPasswordValidator.create(translateService, this.userPasswordForm.get('password')));
+      .setValidators(ConfirmPasswordValidator.create(this._translateService, this.userPasswordForm.get('password')));
   }
 
   protected setup(inputEvents: Observable<string>) {
@@ -85,25 +89,62 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     this._resetPublishingProfile$
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.resetting = true))
-      .switchMap(() => {
-        return this._cacheService.postArm(`${this.resourceId}/newpassword`, true);
+      .switchMap(() =>
+        this._portalService.startNotification(
+          this._translateService.instant(PortalResources.resettingCredentials),
+          this._translateService.instant(PortalResources.resettingCredentials)
+        )
+      )
+      .switchMap(notificationInfo => {
+        return forkJoin(this._cacheService.postArm(`${this.resourceId}/newpassword`, true), of(notificationInfo));
       })
-      .do(() => (this.resetting = false))
-      .subscribe(() => this.setInput(this.resourceId));
+      .catch((error, result) => {
+        return result.switchMap(([res, notificationInfo]) => {
+          this._portalService.stopNotification(notificationInfo.id, false, PortalResources.resettingCredentialsFail);
+          return forkJoin(of(null), of(notificationInfo));
+        });
+      })
+      .subscribe(([result, notificationInfo]) => {
+        this.resetting = false;
+        if (result) {
+          this.setInput(this.resourceId);
+          this._portalService.stopNotification(notificationInfo.id, true, PortalResources.resettingCredentialsSucccess);
+        }
+      });
 
     this._saveUserCredentials$
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.saving = true))
       .switchMap(() =>
-        this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
-          properties: {
-            publishingUserName: this.userPasswordForm.value.userName,
-            publishingPassword: this.userPasswordForm.value.password,
-          },
-        })
+        this._portalService.startNotification(
+          this._translateService.instant(PortalResources.savingCredentials),
+          this._translateService.instant(PortalResources.savingCredentials)
+        )
       )
-      .do(() => (this.saving = false))
-      .subscribe(() => this.setInput(this.resourceId));
+      .switchMap(notificationInfo =>
+        forkJoin(
+          this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
+            properties: {
+              publishingUserName: this.userPasswordForm.value.userName,
+              publishingPassword: this.userPasswordForm.value.password,
+            },
+          }),
+          of(notificationInfo)
+        )
+      )
+      .catch((error, result) => {
+        return result.switchMap(([res, notificationInfo]) => {
+          this._portalService.stopNotification(notificationInfo.id, false, PortalResources.savingCredentialsFail);
+          return forkJoin(of(null), of(notificationInfo));
+        });
+      })
+      .subscribe(([result, notificationInfo]) => {
+        this.saving = true;
+        if (result) {
+          this.setInput(this.resourceId);
+          this._portalService.stopNotification(notificationInfo.id, true, PortalResources.savingCredentialsSucccess);
+        }
+      });
     this.setInput(this.resourceId);
   }
 

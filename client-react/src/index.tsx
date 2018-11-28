@@ -8,9 +8,11 @@ import LoadingComponent from './components/loading/loading-component';
 import { PortalCommunicator } from './portal-communicator';
 import { store } from './store';
 import i18n from './utils/i18n';
+import { PortalContext } from './PortalContext';
 
 initializeIcons();
-PortalCommunicator.initializeIframe();
+const portalCommunicator = new PortalCommunicator(i18n);
+portalCommunicator.initializeIframe();
 
 const LoadableComponent = Loadable({
   loader: () => import('./pages/App'),
@@ -20,7 +22,9 @@ const LoadableComponent = Loadable({
 ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <LoadableComponent />
+      <PortalContext.Provider value={portalCommunicator}>
+        <LoadableComponent />
+      </PortalContext.Provider>
     </I18nextProvider>
   </Provider>,
   document.getElementById('root') as HTMLElement
