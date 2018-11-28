@@ -20,11 +20,6 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    this.scenarioChecks[ScenarioIds.enableMsi] = {
-      id: ScenarioIds.enableMsi,
-      runCheck: () => disabledResult,
-    };
-
     this.scenarioChecks[ScenarioIds.enableBackups] = {
       id: ScenarioIds.enableBackups,
       runCheck: () => disabledResult,
