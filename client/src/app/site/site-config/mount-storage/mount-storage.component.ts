@@ -90,6 +90,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       })
       .subscribe(message => {
         const byosConfig = message.metadata;
+        console.log(byosConfig); // Leaving this in place to avoid compile errors.
       });
   }
 }

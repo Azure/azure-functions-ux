@@ -40,7 +40,7 @@ export class StoragePathValidator implements Validator {
       }
     }
 
-    if (path.charAt(0) !== '/' || (path.charAt(0) === '/' && path.charAt(1) === '/')) {
+    if (path.startsWith('//')) {
       return { required: this._translateService.instant(PortalResources.invalidLinuxPath) };
     }
 
