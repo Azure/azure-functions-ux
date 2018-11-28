@@ -1,105 +1,106 @@
 @import '../../../sass/common/variables';
 
-$footer-height: 55px;
 $spec-card-max-width: 350px;
-$center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
+$center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
-#container-shield{
-    position: fixed;
-    background-color: $translucent-shield-color;
-    z-index: 10;
-    bottom: 0px;
-    top: 0px;
-    left: 0px;
-    right: 0px;
+#container-shield {
+  position: fixed;
+  background-color: $translucent-shield-color;
+  z-index: 10;
+  bottom: 0px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
 }
 
 #container-picker {
-    padding-bottom: 60px;
+  padding-bottom: 60px;
 
-    .tiers-header {
-        margin: 20px 0px 0px 15px;
+  .tiers-header {
+    margin: 20px 0px 0px 15px;
+  }
+
+  section {
+    &.centered {
+      max-width: $center-column-max-width;
+      margin: 0px auto;
     }
 
-    section {
-        &.centered {
-            max-width: $center-column-max-width;
-            margin: 0px auto;
-        }
+    &.empty-group {
+      text-align: center;
+      margin-top: 100px;
 
-        &.empty-group {
-            text-align: center;
-            margin-top: 100px;
-            
-            .icon-large {
-                height: 75px;
-                width: 75px;
-            }
+      .icon-large {
+        height: 75px;
+        width: 75px;
+      }
 
-            article {
-                max-width: 600px;
-                margin: 15px auto;
-            }
-        }
+      article {
+        max-width: 600px;
+        margin: 15px auto;
+      }
     }
+  }
 
-    .expand-icon{
-        display: inline-block;
-        height: 13px;
-        width: 13px;
-        vertical-align: middle;
-        margin: 0px 5px 4px 5px;
-    }
+  .expand-icon {
+    display: inline-block;
+    height: 13px;
+    width: 13px;
+    vertical-align: middle;
+    margin: 0px 5px 4px 5px;
+  }
 
-    footer{
-        position: fixed;
-        z-index: 100;
-        bottom: 0px;
-        height: $footer-height;
-        width: 100%;
-        border-top: $border;
-        padding: 0px 5px;
-        background-color: $body-bg-color;
-    }
+  footer {
+    position: fixed;
+    z-index: 100;
+    bottom: 0px;
+    height: $footer-height;
+    width: 100%;
+    border-top: $border;
+    padding: 0px 5px;
+    background-color: $body-bg-color;
+  }
 }
 
 #container-footer {
-    position: relative;
-    height: 100%;
-    margin-top: auto;
-    margin-bottom: auto;
-    top: 10px;
+  position: relative;
+  height: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 10px;
 
-    button, .message-icon, .message-text {
-        height: 27px;
-    }
+  button,
+  .message-icon,
+  .message-text {
+    height: 27px;
+  }
 
-    .icon-medium {
-        height: 18px;
-        width: 18px;
-        vertical-align: middle;
-    }
+  .icon-medium {
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+  }
 
-    .message-icon {
-        margin-left: 15px;
-        height: 27px;
-        left: 20px;
-    }
+  .message-icon {
+    margin-left: 15px;
+    height: 27px;
+    left: 20px;
+  }
 
-    .message-text {
-        margin-left: 5px;
-        height: 27px;
-        left: 45px;
-        font-size: 14px;
-    }
+  .message-text {
+    margin-left: 5px;
+    height: 27px;
+    left: 45px;
+    font-size: 14px;
+  }
 }
 
-:host-context(#app-root[theme=dark]){
-    #container-shield{
-        background-color: $translucent-shield-color-dark;
-    }
+:host-context(#app-root[theme='dark']) {
+  #container-shield {
+    background-color: $translucent-shield-color-dark;
+  }
 
-    footer {
-        background-color:$body-bg-color-dark;
-    }
+  footer {
+    background-color: $body-bg-color-dark;
+  }
 }

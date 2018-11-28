@@ -4471,4 +4471,76 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="quickstartPowershellTitle" xml:space="preserve">
     <value>Azure Functions for PowerShell - getting started</value>
   </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Choose a storage account</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Storage account</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Storage container</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Choose a storage container</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Mount path</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Share name</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Access key</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Storage type</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Path</value>
+  </data>
 </root>

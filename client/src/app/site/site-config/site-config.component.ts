@@ -40,6 +40,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
   public defaultDocumentsSupported = false;
   public handlerMappingsSupported = false;
   public virtualDirectoriesSupported = false;
+  public mountStorageSupported = false;
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
@@ -125,6 +126,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
         const writePermission = results[0];
         const readonlyLock = results[1];
         this.hasWritePermissions = writePermission && !readonlyLock;
+        this.mountStorageSupported = false; // TODO(michinoy): enable this in a separate PR.
       });
   }
 

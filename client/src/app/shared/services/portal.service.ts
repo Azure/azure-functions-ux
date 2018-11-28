@@ -41,6 +41,7 @@ import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/
 import { Subscription } from '../models/subscription';
 import { ConfigService } from 'app/shared/services/config.service';
 import { SlotSwapInfo, SlotNewInfo } from '../models/slot-events';
+import { ByosData } from '../../site/byos/byos';
 
 export interface IPortalService {
   getStartupInfo();
@@ -69,6 +70,7 @@ export interface IPortalService {
   logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]);
   returnPcv3Results<T>(results: T);
   broadcastMessage<T>(id: BroadcastMessageId, resourceId: string, metadata?: T);
+  returnByosSelections(selections: ByosData);
 }
 
 @Injectable()
@@ -404,6 +406,15 @@ export class PortalService implements IPortalService {
     this.postMessage(Verbs.returnPCV3Results, this._packageData(payload));
   }
 
+  returnByosSelections(selections: ByosData) {
+    const payload: DataMessage<ByosData> = {
+      operationId: Guid.newGuid(),
+      data: selections,
+    };
+
+    this.postMessage(Verbs.returnByosSelections, this._packageData(payload));
+  }
+
   private iframeReceivedMsg(event: Event): void {
     if (!event || !event.data) {
       return;
@@ -469,6 +480,12 @@ export class PortalService implements IPortalService {
     } else if (methodName === EventVerbs.slotNew) {
       const slotNewMessage: EventMessage<SlotNewInfo> = data;
       this._broadcastService.broadcastEvent(BroadcastEvent.SlotNew, slotNewMessage);
+    } else if (methodName === EventVerbs.sendByosSelection) {
+      const byosConfiguration: EventMessage<ByosData> = {
+        metadata: data,
+        resourceId: data.appResourceId,
+      };
+      this._broadcastService.broadcastEvent(BroadcastEvent.ByosConfigReceived, byosConfiguration);
     }
   }
 
