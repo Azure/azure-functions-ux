@@ -18,15 +18,8 @@ export class StoragePathValidator implements Validator {
   }
 
   private _validateWindowsPath(path: string) {
-    if (
-      path.charAt(0) === '\\' ||
-      path.charAt(1) === '\\' ||
-      path.charAt(0) === '/' ||
-      path.charAt(1) === '/' ||
-      !path.charAt(0).match(/^[a-zA-Z]/) ||
-      !path.charAt(1).match(/^[:]/) ||
-      !path.charAt(2).match(/^[\/\\]/)
-    ) {
+    const valid = path.match(/^[a-zA-Z][:][\/\\]/);
+    if (!valid) {
       return { required: this._translateService.instant(PortalResources.invalidWindowsPath) };
     } else {
       return null;
@@ -34,10 +27,8 @@ export class StoragePathValidator implements Validator {
   }
 
   private _validateLinuxPath(path: string) {
-    for (let i = 0; i < path.length; i++) {
-      if (path.charAt(i).match(/^[\\]$/)) {
-        return { required: this._translateService.instant(PortalResources.invalidLinuxPath) };
-      }
+    if (path.match(/[\\]/)) {
+      return { required: this._translateService.instant(PortalResources.invalidLinuxPath) };
     }
 
     if (path.startsWith('//')) {
