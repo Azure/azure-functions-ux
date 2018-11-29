@@ -71,7 +71,7 @@ from root
 yarn install
 gulp run-dev
 ```
-
+To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true
 #### react application
 
 ```
@@ -102,7 +102,7 @@ ng test
 ```
 cd client-react
 yarn test
-```
+```w
 
 ### React E2E Tests
 
@@ -127,7 +127,7 @@ plus in another terminal
 ```
 cd tests
 npx cypress open
-```
+```w
 
 ## License
 
