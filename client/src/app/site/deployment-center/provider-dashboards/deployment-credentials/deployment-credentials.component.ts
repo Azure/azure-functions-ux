@@ -82,9 +82,15 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
       const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true).do(r => {
         const creds = r.json();
         const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
+        let siteName = siteDescriptor.site;
+        const slotName = siteDescriptor.slot;
+
+        if (slotName) {
+          siteName = `${siteName}__${slotName}`;
+        }
         this.userCredsDesc = this._translateService
           .instant(PortalResources.userCredsDesc)
-          .format(`'${siteDescriptor.site}\\${creds.properties.publishingUserName}'`);
+          .format(`'${siteName}\\${creds.properties.publishingUserName}'`);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
       return forkJoin(publishXml$, publishingUsers$);
