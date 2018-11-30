@@ -1,14 +1,16 @@
-<monitor-classic
-    *ngIf = "shouldRenderMonitorClassic"
-    [functionMonitorInfoInput] = "functionMonitorInfo">
-</monitor-classic>
+<div &ngIf="renderView">
+    <monitor-classic
+        *ngIf = "shouldRenderMonitorClassic"
+        [functionMonitorInfoInput] = "functionMonitorInfo">
+    </monitor-classic>
 
-<monitor-applicationinsights
-    *ngIf = "shouldRenderMonitorApplicationInsights"
-    [functionMonitorInfoInput] = "functionMonitorInfo">
-</monitor-applicationinsights>
+    <monitor-applicationinsights
+        *ngIf = "shouldRenderMonitorApplicationInsights"
+        [functionMonitorInfoInput] = "functionMonitorInfo">
+    </monitor-applicationinsights>
 
-<monitor-configure
-    *ngIf = "shouldRenderMonitorConfigure"
-    [monitorConfigureInfoInput] = "monitorConfigureInfo">
-</monitor-configure>
+    <monitor-configure
+        *ngIf = "shouldRenderMonitorConfigure"
+        [monitorConfigureInfoInput] = "monitorConfigureInfo">
+    </monitor-configure>
+</div>
