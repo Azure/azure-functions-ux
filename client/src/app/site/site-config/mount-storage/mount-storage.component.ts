@@ -55,14 +55,14 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
     throw new Error('_getConfigsFromForms not implemented.');
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges) {
     // TODO(michinoy): implement handling of changes.
     if (changes['resourceId']) {
       this.setInput(this.resourceId);
     }
   }
 
-  addItem() {
+  public addItem() {
     const descriptor: ArmSiteDescriptor = new ArmSiteDescriptor(this._site.id);
     this._portalService.openBlade(
       {
@@ -81,6 +81,8 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       'site-config'
     );
   }
+
+  public validate() {}
 
   private _setupByosConfigSubscription() {
     this._broadcastService
