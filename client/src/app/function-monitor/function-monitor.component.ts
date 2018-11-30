@@ -65,7 +65,10 @@ export class FunctionMonitorComponent extends NavigableComponent {
       .setup(navigationEvents)
       .switchMap(viewInfo => {
         this.renderView = false;
-        Observable.zip(this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()), Observable.of(viewInfo))
+        return Observable.zip(
+          this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
+          Observable.of(viewInfo)
+        );
       })
       .switchMap(tuple =>
         Observable.zip(
@@ -92,7 +95,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
           : this._shouldLoadApplicationInsightsView()
             ? ComponentNames.monitorApplicationInsights
             : this._loadMonitorConfigureView();
-        
+
         this.renderView = true;
       });
   }
