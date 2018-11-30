@@ -31,7 +31,91 @@
 
     </ng-container>
 
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <table-root tblClass="tbl fixed stretch" [name]="Resources.storageAccounts | translate" [items]="groupArray?.controls" #storageAccountTable>
 
+      <!-- Header Row -->
+      <tr table-row>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.storageAccountName | translate }}</th>
+
+        <th class="two-thirds-col padded-col" table-cell [editable]="false">{{ Resources.path | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.account | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.container | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.accessKey | translate }}</th>
+
+        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
+
+      </tr>
+
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each connection string returned (if any) -->
+      <tr *ngFor="let group of storageAccountTable.items | excludeDeleted:true" table-row [group]="group">
+
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
+          <click-to-edit [group]="group" name="name">
+            <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+          </click-to-edit>
+        </td>
+
+        <td class="two-thirds-col padded-col" table-cell [editable]="false">
+          {{ group.controls['mountPath'] }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['accountName'] }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['shareName'] }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="true">
+          <click-to-edit [group]="group" name="accessKey" [hiddenText]="!showValues" [maskText]="'hiddenValueClickToEdit' | translate">
+            <textbox [control]="group.controls['accessKey']" [placeholder]="Resources.enterValue | translate"></textbox>
+          </click-to-edit>
+        </td>
+
+        <td class="action-col" table-cell [editable]="false">
+          <span
+            [tabindex]="hasWritePermissions ? 0 : -1"
+            role="button"
+            class="fa fa-times delete"
+            [attr.aria-label]="Resources._delete | translate"
+            [attr.aria-disabled]="!hasWritePermissions"
+            (click)="hasWritePermissions ? deleteItem(group) : null"
+            [activate-with-keys]>
+          </span>
+        </td>
+
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0)" table-row>
+
+        <!-- ARM call did not return successfully, and user has permissions -->
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="6" table-cell [editable]="false">
+          {{ (loadingFailureMessage || loadingMessage) }}
+        </td>
+
+        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="6" table-cell [editable]="false">
+          {{ showPermissionsMessage ? permissionsMessage : '' }}
+        </td>
+
+        <!-- ARM call returned successfully, but there are no entries to display -->
+        <td *ngIf="!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="6" table-cell [editable]="false">
+          {{ ('emptyConnectionStrings' | translate) }}
+        </td>
+
+      </tr>
+
+    </table-root>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 
     <div *ngIf="enableAddItemLink" tabindex="0" role="button" class="link add-setting" (click)="addItem()">

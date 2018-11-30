@@ -335,6 +335,7 @@ export class LogCategories {
   public static readonly functionHostRestart = 'functionHostRestart';
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly byos = 'byos';
 }
 
 export class ARMApiVersions {

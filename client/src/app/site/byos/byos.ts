@@ -25,6 +25,11 @@ export enum StorageType {
   azureBlob,
 }
 
+export enum StorageTypeSetting {
+  azureFiles = 'AzureFiles',
+  azureBlob = 'AzureBlob',
+}
+
 export interface ByosData {
   type: StorageType;
   accountName: string;
@@ -32,4 +37,17 @@ export interface ByosData {
   accessKey: string;
   mountPath: string;
   appResourceId: string;
+}
+
+export interface ByosStorageAccounts {
+  [key: string]: ByosStorageAccount;
+}
+
+export interface ByosStorageAccount {
+  type: string;
+  accountName: string;
+  shareName: string;
+  accessKey: string;
+  mountPath: string;
+  state?: string;
 }

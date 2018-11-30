@@ -4546,4 +4546,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="storageKeysHiddenInfoText" xml:space="preserve">
     <value>You can choose to display the hidden storage keys in your browser by using the controls below.</value>
   </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Storage accounts</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Storage account name</value>
+  </data>
 </root>

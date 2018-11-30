@@ -1465,4 +1465,7 @@ export class PortalResources {
   public static addStorageLink = 'addStorageLink';
   public static container = 'container';
   public static path = 'path';
+  public static storageKeysHiddenInfoText = 'storageKeysHiddenInfoText';
+  public static storageAccounts = 'storageAccounts';
+  public static storageAccountName = 'storageAccountName';
 }
