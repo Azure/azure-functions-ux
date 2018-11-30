@@ -1,7 +1,41 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'mountStorage' | translate }}</h3>
-  <div *ngIf="enableAddItemLink" tabindex="0" role="button" class="link add-setting" (click)="addItem()">
-    {{ 'addStorageLink' | translate }}
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
+
+  <div class="settings-wrapper collapse-top">
+    <ng-container *ngIf="hasWritePermissions && !!groupArray && !loadingFailureMessage">
+
+      <div class="setting-wrapper wide">
+
+        <info-box
+          [infoText]="'storageKeysHiddenInfoText' | translate">
+        </info-box>
+
+        <radio-selector
+          [options]="showValuesOptions"
+          [defaultValue]="false"
+          (value)="updateShowValues($event)">
+        </radio-selector>
+
+      </div>
+
+    </ng-container>
+
+
+
+
+    <div *ngIf="enableAddItemLink" tabindex="0" role="button" class="link add-setting" (click)="addItem()">
+      {{ 'addStorageLink' | translate }}
+    </div>
   </div>
 </div>

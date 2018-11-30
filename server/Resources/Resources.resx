@@ -4543,4 +4543,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="path" xml:space="preserve">
     <value>Path</value>
   </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>You can choose to display the hidden storage keys in your browser by using the controls below.</value>
+  </data>
 </root>

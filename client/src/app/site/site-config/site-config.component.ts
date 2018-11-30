@@ -234,6 +234,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
           this.generalSettings.processSaveResults(saveResults);
           this.appSettings.processSaveResults(saveResults);
           this.connectionStrings.processSaveResults(saveResults);
+          this.mountStorage.processSaveResults(saveResults);
+
           if (this.defaultDocumentsSupported) {
             this.defaultDocuments.processSaveResults(saveResults);
           }
