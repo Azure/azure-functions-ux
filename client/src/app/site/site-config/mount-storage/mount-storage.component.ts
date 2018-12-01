@@ -62,7 +62,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
     private _fb: FormBuilder,
     injector: Injector
   ) {
-    super('MountStorageComponent', injector, ['SiteConfig'], SiteTabIds.applicationSettings);
+    super('MountStorageComponent', injector, ['AzureStorageAccounts'], SiteTabIds.applicationSettings);
     this._setupByosConfigSubscription();
 
     this._resetPermissionsAndLoadingState();
@@ -347,7 +347,6 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
     this.hasWritePermissions = true;
     this.permissionsMessage = '';
     this.showPermissionsMessage = false;
-    this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
     this.loadingFailureMessage = '';
     this.loadingMessage = this._translateService.instant(PortalResources.loading);
     this.enableAddItemLink = false;

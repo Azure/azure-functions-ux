@@ -5,7 +5,7 @@
     <div invalidmessage="account" id="byos-account-error" role="alert"></div>
   </div>
 
-  <div *ngIf="os && os === 'linux'" class="byos-property">
+  <div *ngIf="os === 'linux'" class="byos-property">
     <label>{{ 'storageType' | translate }}</label>
     <div>
         <radio-selector
