@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Se connecter à l'aide des informations d'identification suivantes :</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>En savoir plus</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Options de déploiement</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configurez et gérez les options de déploiement pour votre application, notamment le déploiement continu à partir de VSTS, GitHub et BitBucket, et déclenchez des déploiements à partir de OneDrive, Dropbox, Git externe et bien plus encore.</value>
+    <value>Configurez et gérez les options de déploiement pour votre application, notamment le déploiement continu à partir d’Azure Repos, GitHub et BitBucket, et déclenchez des déploiements à partir de OneDrive, Dropbox, Git externe et bien plus encore.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Informations d'identification de déploiement</value>
@@ -1622,7 +1622,7 @@
     <value>Utilisez Authentification/autorisation pour protéger votre application et utiliser les données par utilisateur.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed Service Identity</value>
+    <value>Identité</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Votre application peut communiquer en son nom avec d'autres services Azure à l'aide d'une identité Azure Active Directory managée.</value>
@@ -2207,13 +2207,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les emplacements de déploiement vous permettent de déployer différentes versions de votre application de fonction sur différentes URL. Vous pouvez tester une version spécifique, puis permuter le contenu et la configuration entre les emplacements.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Création de l'emplacement {0} </value>
+    <value>Création de l’emplacement « {0} » </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>Emplacement {0} créé </value>
+    <value>Emplacement « {0} » créé </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Échec de la création de l'emplacement {0} </value>
+    <value>Échec de la création de l’emplacement « {0} » </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Impossible de mettre à jour la liste des emplacements</value>
@@ -2252,7 +2252,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Valeur temporaire</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Vous n'avez ajouté aucun emplacement de déploiement. Cliquez sur 'Ajouter un emplacement' pour commencer.</value>
+    <value>You haven't added any deployment slots. Click here to get started.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Nom</value>
@@ -2477,7 +2477,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Corée - Centre</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Corée - Sud</value>
+    <value>Corée Sud</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>USA Ouest</value>
@@ -2522,10 +2522,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Inde Sud</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
-    <value>Centre du Canada</value>
+    <value>Canada Centre</value>
   </data>
   <data name="canadaeast" xml:space="preserve">
-    <value>Est du Canada</value>
+    <value>Canada Est</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
     <value>USA Centre-Ouest</value>
@@ -2813,7 +2813,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Organisation</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Compte Visual Studio Team Services</value>
+    <value>Organisation DevOps Azure</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Projet</value>
@@ -2825,7 +2825,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Source</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Compte</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Test de charge</value>
@@ -2897,10 +2897,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Échec d'annulation de {{operation}}. Erreur : {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>Emplacement {0} permuté avec {1}</value>
+    <value>Emplacement « {0} » permuté avec « {1} »</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>Échec de permutation de l'emplacement {0} avec {1}</value>
+    <value>Échec de la permutation de l’emplacement « {0} » avec « {1} »</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Livraison continue configurée et génération déclenchée</value>
@@ -2912,10 +2912,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Échec de configuration de la livraison continue</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Compte Visual Studio Team Services créé</value>
+    <value>Nouvelle organisation DevOps Azure créée</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Échec de création du compte Visual Studio Team Services</value>
+    <value>Impossible de créer une organisation DevOps Azure</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Emplacement créé</value>
@@ -2954,10 +2954,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Livraison continue déclenchée avec le dernier code source du dépôt</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Définition de build</value>
+    <value>Pipeline de build</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Définition de version release</value>
+    <value>Pipeline de mise en production</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Génération déclenchée</value>
@@ -3011,7 +3011,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Configure l'intégration continue avec un dépôt GitHub.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Configure l'intégration continue avec un dépôt VSTS.</value>
+    <value>Configurer l’intégration continue avec un dépôt Azure Repos, qui fait partie d’Azure DevOps Services (anciennement VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Déploie à partir d'un dépôt Git ou Mercurial public.</value>
@@ -3026,7 +3026,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Synchronisez du contenu à partir d'un dossier cloud Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>Fonctions durables</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>Fonction exécutée chaque fois qu'une activité est appelée par une fonction orchestrator.</value>
@@ -3344,10 +3344,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Niveau du journal</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Build VSTS (préversion)</value>
+    <value>Azure Pipelines (Préversion)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services configure un pipeline de déploiement robuste pour votre application. Le pipeline génère, exécute des tests de charge et se déploie vers un emplacement de préproduction, puis en production.</value>
+    <value>Configurez un pipeline de déploiement robuste pour votre application en utilisant Azure Pipelines, qui fait partie d’Azure DevOps Services (anciennement VSTS). Le pipeline crée, exécute des tests de charge et effectue le déploiement vers un emplacement de préproduction, puis en production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Serveur de builds Kudu App Service</value>
@@ -3359,7 +3359,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Build</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Sélectionner un compte</value>
+    <value>Sélectionner l’organisation</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Entrer le nom du compte</value>
@@ -3500,10 +3500,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Validation...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Vous n'avez pas les autorisations nécessaires pour créer une définition de build ou une définition de mise en production sur ce projet. Contactez l'administrateur du projet.</value>
+    <value>Vous n’avez pas les autorisations nécessaires pour créer un pipeline de build ou un pipeline de mise en production sur ce projet. Contactez l’administrateur du projet</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>Le nom de compte fourni n'est pas valide. Indiquez un autre nom de compte.</value>
+    <value>Le nom d’organisation fourni n’est pas valide. Indiquez un autre nom d’organisation.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Informations d'identification de l'utilisateur</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Les informations d'identification de l'utilisateur sont définies par vous, l'utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Ces informations d'identification peuvent être utilisées avec FTP, Local Git et WebDeploy.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Informations d'identification de l'application</value>
@@ -3763,6 +3764,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU au total </value>
   </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Fonctionnalités disponibles</value>
+  </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Mettre à jour les paramètres du conteneur</value>
   </data>
@@ -3917,7 +3921,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Le référentiel de l’application web {0} ne peut pas être mis à jour pour l’instant.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>La livraison continue VSTS nécessite que vous disposiez d’autorisations pour écrire dans Azure Active Directory et créer un principal du service.</value>
+    <value>La livraison continue d’Azure DevOps nécessite que vous disposiez d’autorisations pour écrire dans Azure Active Directory et créer un principal du service.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Sélectionner un exemple</value>
@@ -3926,13 +3930,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Description</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>Vous ne possédez aucun référentiel VSTS</value>
+    <value>Vous ne possédez aucun dépôt Azure</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>Vous n’avez aucun compte VSTS valide</value>
+    <value>Vous n’avez aucune organisation DevOps Azure valide</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Vous n’avez aucun compte VSTS valide. App Service Kudu Build requiert également que vous soyez propriétaire du compte</value>
+    <value>Vous n’avez aucune organisation DevOps Azure valide. App Service Kudu Build requiert également que vous soyez propriétaire d’organisation</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Créer maintenant</value>
@@ -4199,10 +4203,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Emplacement de déploiement existant ou nouveau</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Compte VSTS nouveau ou existant</value>
+    <value>Organisation DevOps Azure nouvelle ou existante</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Compte VSTS nouveau ou existant</value>
+    <value>Application web nouvelle ou existante</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Détails du déploiement</value>
@@ -4413,5 +4417,128 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Format YML non valide. Erreur : « {0} ».</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Télécharger les journaux de conteneur</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Téléchargement des journaux de conteneur détaillés.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Les journaux de conteneur ont été téléchargés.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Impossible de télécharger les journaux de conteneur.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Réinitialisation des informations d’identification</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Échec de la réinitialisation des informations d’identification</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Réinitialisation des informations d’identification réussie</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Enregistrement des informations d’identification</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Échec de l’enregistrement des informations d’identification</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Informations d’identification correctement enregistrées</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Utilisez une image provenant d’un registre privé, notamment Azure Container Registry.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Non sélectionné</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Le dernier</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (la plus récente)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Votre application utilisera la version la plus récente de {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Le fait de choisir une version mineure spécifique qui n’est pas la plus récente peut entraîner des temps de démarrage à froid plus longs.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions pour PowerShell - Prise en main</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>De base</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Avancé</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Choisir un compte de stockage</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Compte de stockage</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Conteneur de stockage</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Objet blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Fichiers</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Choisir un conteneur de stockage</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Chemin de montage</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Nom du partage</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Clé d'accès</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Type de stockage</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Conteneur</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Chemin</value>
   </data>
 </root>
