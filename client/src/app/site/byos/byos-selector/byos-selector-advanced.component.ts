@@ -20,7 +20,9 @@ export class ByosSelectorAdvancedComponent extends FeatureComponent<ByosConfigur
   public byosConfigureData: ByosConfigureData;
   public form: FormGroup;
 
-  constructor(private _byosManager: ByosManager, injector: Injector) {
+  public os: string;
+
+  constructor(private byosManager: ByosManager, injector: Injector) {
     super('ByosSelectorAdvancedComponent', injector, 'dashboard');
     this.isParentComponent = false;
     this.featureName = 'Byos';
@@ -29,14 +31,15 @@ export class ByosSelectorAdvancedComponent extends FeatureComponent<ByosConfigur
   protected setup(inputEvents: Observable<ByosConfigureData>) {
     return inputEvents.do((input: ByosConfigureData) => {
       this.byosConfigureData = input;
+      this.os = input.os.toLowerCase();
       input.form.controls.basicForm.disable();
     });
   }
 
   private _setupForm(form: FormGroup) {
-    const basicForm = this._byosManager.getBasicForm(form);
+    const basicForm = this.byosManager.getBasicForm(form);
     basicForm.disable();
-    this.form = this._byosManager.getAdvancedForm(form);
+    this.form = this.byosManager.getAdvancedForm(form);
     this.form.enable();
   }
 }

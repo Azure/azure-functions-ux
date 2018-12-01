@@ -127,7 +127,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       saveConfigs && saveConfigs.azureStorageAccountsArm
         ? JSON.parse(JSON.stringify(saveConfigs.azureStorageAccountsArm))
         : JSON.parse(JSON.stringify(this.azureStorageAccountsArm));
-    storageAccountsArm.id = `${this.resourceId}/appsettings`;
+    storageAccountsArm.id = `${this.resourceId}/config/azurestorageaccounts`;
     storageAccountsArm.properties = {};
 
     const storageAccounts: ByosStorageAccounts = storageAccountsArm.properties;
@@ -285,8 +285,9 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       .subscribe(message => {
         const byosConfig = message.metadata;
         const type = byosConfig.type === StorageType.azureFiles ? StorageTypeSetting.azureFiles : StorageTypeSetting.azureBlob;
+        const groups = this.groupArray;
 
-        const group = this._fb.group({
+        this.newItem = this._fb.group({
           name: [
             { value: '', disabled: !this.hasWritePermissions },
             Validators.compose([
@@ -294,9 +295,15 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
               this._uniqueNameValidator.validate.bind(this._uniqueNameValidator),
             ]),
           ],
-          mountPath: [
-            { value: byosConfig.mountPath, disabled: !this.hasWritePermissions },
-            Validators.compose([this._requiredValidator.validate.bind(this._requiredValidator)]),
+          mountPath: [{ value: byosConfig.mountPath, disabled: !this.hasWritePermissions }],
+          displayType: [
+            {
+              value:
+                byosConfig.type === StorageType.azureFiles
+                  ? this._translateService.instant(PortalResources.files)
+                  : this._translateService.instant(PortalResources.blob),
+              disabled: !this.hasWritePermissions,
+            },
           ],
           accountName: [
             { value: byosConfig.accountName, disabled: !this.hasWritePermissions },
@@ -316,7 +323,10 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
           ],
         }) as CustomFormGroup;
 
-        this.groupArray.push(group);
+        this.newItem.msExistenceState = 'new';
+        this.newItem.msStartInEditMode = true;
+        groups.push(this.newItem);
+        this.newItem.markAsDirty();
       });
   }
 
@@ -368,9 +378,15 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
                   this._uniqueNameValidator.validate.bind(this._uniqueNameValidator),
                 ]),
               ],
-              mountPath: [
-                { value: storageAccount.mountPath, disabled: !this.hasWritePermissions },
-                Validators.compose([this._requiredValidator.validate.bind(this._requiredValidator)]),
+              mountPath: [{ value: storageAccount.mountPath, disabled: !this.hasWritePermissions }],
+              displayType: [
+                {
+                  value:
+                    storageAccount.type === StorageTypeSetting.azureFiles
+                      ? this._translateService.instant(PortalResources.files)
+                      : this._translateService.instant(PortalResources.blob),
+                  disabled: !this.hasWritePermissions,
+                },
               ],
               accountName: [
                 { value: storageAccount.accountName, disabled: !this.hasWritePermissions },

@@ -49,5 +49,5 @@ export interface ByosStorageAccount {
   shareName: string;
   accessKey: string;
   mountPath: string;
-  state?: string;
+  state?: 'OK' | 'InvalidCredentials' | 'InvalidShare';
 }

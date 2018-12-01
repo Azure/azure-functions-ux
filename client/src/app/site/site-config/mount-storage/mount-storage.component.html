@@ -37,9 +37,11 @@
       <!-- Header Row -->
       <tr table-row>
 
-        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.storageAccountName | translate }}</th>
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources._name | translate }}</th>
 
-        <th class="two-thirds-col padded-col" table-cell [editable]="false">{{ Resources.path | translate }}</th>
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.path | translate }}</th>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.type | translate }}</th>
 
         <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.account | translate }}</th>
 
@@ -61,16 +63,20 @@
           </click-to-edit>
         </td>
 
-        <td class="two-thirds-col padded-col" table-cell [editable]="false">
-          {{ group.controls['mountPath'] }}
+        <td class="one-third-col padded-col" table-cell [editable]="false">
+          {{ group.controls['mountPath'].value }}
         </td>
 
         <td class="type-col padded-col" table-cell [editable]="false">
-          {{ group.controls['accountName'] }}
+          {{ group.controls['displayType'].value }}
         </td>
 
         <td class="type-col padded-col" table-cell [editable]="false">
-          {{ group.controls['shareName'] }}
+          {{ group.controls['accountName'].value }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['shareName'].value }}
         </td>
 
         <td class="type-col padded-col" table-cell [editable]="true">
@@ -98,18 +104,18 @@
       <tr *ngIf="!groupArray || (!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="6" table-cell [editable]="false">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="7" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="6" table-cell [editable]="false">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="7" table-cell [editable]="false">
           {{ showPermissionsMessage ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="6" table-cell [editable]="false">
-          {{ ('emptyConnectionStrings' | translate) }}
+        <td *ngIf="!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="7" table-cell [editable]="false">
+          {{ ('emptyStorageAccounts' | translate) }}
         </td>
 
       </tr>

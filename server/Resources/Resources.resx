@@ -4532,7 +4532,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Mount storage (Preview)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Add storage</value>
+    <value>+ Add storage</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
@@ -4551,5 +4551,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="storageAccountName" xml:space="preserve">
     <value>Storage account name</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Invalid share</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(no storage accounts to display)</value>
   </data>
 </root>

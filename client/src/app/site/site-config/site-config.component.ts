@@ -216,7 +216,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._putArm(saveConfigs.connectionStringsArm),
             this._putArm(saveConfigs.siteArm),
             this._putArm(saveConfigs.siteConfigArm),
-            this._putArm(saveConfigs.slotConfigNamesArm)
+            this._putArm(saveConfigs.slotConfigNamesArm),
+            this._putArm(saveConfigs.azureStorageAccountsArm)
           );
         })
         .subscribe(results => {
@@ -229,6 +230,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             site: results[2],
             siteConfig: results[3],
             slotConfigNames: results[4],
+            azureStorageAccounts: results[5],
           };
 
           this.generalSettings.processSaveResults(saveResults);

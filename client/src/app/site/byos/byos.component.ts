@@ -44,7 +44,7 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
       const form = this._byosManager.getConfiguredForm(this.byosConfigureData.form);
 
       this._portalService.returnByosSelections({
-        type: null, // TODO(michinoy): Need to remove this property, but requires Ibiza level change.
+        type: form.controls.storageType.value,
         accountName: form.controls.account.value,
         shareName: form.controls.containerName.value,
         accessKey: form.controls.accessKey.value,
