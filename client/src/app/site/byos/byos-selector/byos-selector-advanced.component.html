@@ -4,6 +4,16 @@
     <textbox [control] = "form?.controls?.account" [disablePopOverError] = "true"></textbox>
     <div invalidmessage="account" id="byos-account-error" role="alert"></div>
   </div>
+
+  <div *ngIf="os === 'linux'" class="byos-property">
+    <label>{{ 'storageType' | translate }}</label>
+    <div>
+        <radio-selector
+            [options] = "byosManager.storageTypes"
+            [control] = "form?.controls?.storageType">
+        </radio-selector>
+    </div>
+  </div>
   
   <div class="byos-property">
     <label>{{ 'shareName' | translate }}</label>

@@ -1465,4 +1465,11 @@ export class PortalResources {
   public static addStorageLink = 'addStorageLink';
   public static container = 'container';
   public static path = 'path';
+  public static storageKeysHiddenInfoText = 'storageKeysHiddenInfoText';
+  public static storageAccounts = 'storageAccounts';
+  public static storageAccountName = 'storageAccountName';
+  public static ok = 'ok';
+  public static invalidShare = 'invalidShare';
+  public static invalidCredentials = 'invalidCredentials';
+  public static emptyStorageAccounts = 'emptyStorageAccounts';
 }

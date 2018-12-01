@@ -4,6 +4,7 @@ import { RoutingRule } from './routing-rule';
 import { ConnectionStringInfo } from './connection-strings';
 import { ApplicationSettingInfo } from './application-settings';
 import { ProviderType } from '../../../site/deployment-center/Models/deployment-enums';
+import { ByosStorageAccounts } from 'app/site/byos/byos';
 
 export interface ContainerSiteConfig {
   linuxFxVersion: string;
@@ -44,4 +45,5 @@ export interface SiteConfig extends ContainerSiteConfig {
   connectionStrings?: ConnectionStringInfo[];
   ftpsState?: string;
   http20Enabled: boolean;
+  azureStorageAccounts: ByosStorageAccounts;
 }

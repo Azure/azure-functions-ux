@@ -286,6 +286,7 @@ export class ScenarioIds {
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly openClassicMsi = 'openClassicMsi';
+  public static readonly byosSupported = 'byosSupported';
 }
 
 export class NationalCloudArmUris {
@@ -335,6 +336,7 @@ export class LogCategories {
   public static readonly functionHostRestart = 'functionHostRestart';
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly byos = 'byos';
 }
 
 export class ARMApiVersions {
