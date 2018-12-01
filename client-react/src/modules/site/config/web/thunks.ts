@@ -89,9 +89,12 @@ export function updateConfig(value: ArmObj<SiteConfig>, currentlySelectedStack: 
   };
 }
 
-function unFlattenVirtualApplicationsList(virtalApps: VirtualApplication[]) {
-  const virtualApplications = virtalApps.filter(x => !x.virtualDirectory)!;
-  const virtualDirectories = virtalApps.filter(x => x.virtualDirectory);
+function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
+  if (!virtualApps) {
+    return [];
+  }
+  const virtualApplications = virtualApps.filter(x => !x.virtualDirectory)!;
+  const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
 
@@ -111,6 +114,9 @@ function unFlattenVirtualApplicationsList(virtalApps: VirtualApplication[]) {
 }
 
 function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
+  if (!virtualApps) {
+    return [];
+  }
   const newList: VirtualApplication[] = [];
   virtualApps.forEach(va => {
     newList.push({ ...va, virtualDirectory: false, virtualDirectories: [] });

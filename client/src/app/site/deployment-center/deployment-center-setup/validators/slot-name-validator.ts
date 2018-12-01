@@ -14,6 +14,12 @@ export class SlotNameValidator {
         return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMaxChars) });
       }
 
+      if (control.value.toLowerCase() === 'production') {
+        return Observable.of({
+          invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value),
+        });
+      }
+
       const matchingChar = control.value.match(Regex.invalidEntityName);
       if (matchingChar) {
         return Observable.of({

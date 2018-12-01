@@ -73,6 +73,11 @@ export class XenonSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
+    this.scenarioChecks[ScenarioIds.addMsi] = {
+      id: ScenarioIds.addMsi,
+      runCheck: () => disabledResult,
+    };
+
     this.scenarioChecks[ScenarioIds.autoSwapSupported] = {
       id: ScenarioIds.autoSwapSupported,
       runCheck: (input: ScenarioCheckInput) => {
@@ -103,6 +108,11 @@ export class XenonSiteEnvironment extends Environment {
         scenarioResult.data = t('autoSwapUpsell');
         return scenarioResult;
       },
+    };
+
+    this.scenarioChecks[ScenarioIds.byosSupported] = {
+      id: ScenarioIds.byosSupported,
+      runCheck: () => disabledResult,
     };
   }
 

@@ -1,4 +1,5 @@
-import { ITheme, IPalette } from 'office-ui-fabric-react/lib/Styling';
+import { IPalette } from 'office-ui-fabric-react/lib/Styling';
+import { ThemeExtended } from './SemanticColorsExtended';
 
 const themePalette: IPalette = {
   themeDarker: '#004578',
@@ -142,9 +143,10 @@ const semanticColors = {
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
   menuItemBackgroundChecked: themePalette.neutralLight,
+  dirty: '#68217a',
 };
 
-const lightTheme: Partial<ITheme> = {
+const lightTheme: Partial<ThemeExtended> = {
   semanticColors,
   palette: themePalette,
   fonts: {

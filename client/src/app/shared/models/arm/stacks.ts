@@ -33,6 +33,8 @@ export class AvailableStackNames {
   public static readonly JavaStack = 'java';
   public static readonly RubyStack = 'ruby';
   public static readonly JavaContainer = 'javaContainers';
+  // not an actual stackname returned by AvailableStacks api
+  public static readonly JavaStackForFunctions = 'javaForFunctions';
 }
 
 export class LinuxConstants {

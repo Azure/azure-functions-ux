@@ -1475,3 +1475,21 @@ export interface Lock {
   level: string;
   notes: string;
 }
+
+export interface Sku {
+  name: string;
+  tier?: string;
+  size?: string;
+  family?: string;
+  capacity?: number;
+}
+
+export interface AvailableSku {
+  sku: Sku;
+}
+
+export interface GeoRegion {
+  name: string;
+  displayName: string;
+  sortOrder: number;
+}

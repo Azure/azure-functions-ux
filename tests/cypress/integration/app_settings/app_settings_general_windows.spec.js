@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
 
-context('Querying', () => {
+context('App Settings General Settings Windows', () => {
   beforeEach(() => {
     startVisit('windows', 'allow');
   });

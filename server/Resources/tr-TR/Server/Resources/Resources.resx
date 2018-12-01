@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Bağlanmak için bu kimlik bilgilerini kullan:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Daha fazla bilgi</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Dağıtım seçenekleri</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Uygulamanızda, VSTS, GitHub ve BitBucket'tan sürekli dağıtımı da kapsayan dağıtım seçeneklerini yapılandırıp yönetmenin yanı sıra OneDrive, Dropbox, dış Git ve diğerlerinden dağıtımlar tetikleyin.</value>
+    <value>Uygulamanızda, Azure Depoları, GitHub ve BitBucket'tan sürekli dağıtımı da kapsayan dağıtım seçeneklerini yapılandırıp yönetmenin yanı sıra OneDrive, Dropbox, dış Git ve diğerlerinden dağıtımlar tetikleyin.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Dağıtım kimlik bilgileri</value>
@@ -1622,7 +1622,7 @@
     <value>Uygulamanızı korumak ve kullanıcı başına verilerle çalışmak için Kimlik Doğrulaması / Yetkilendirme kullanın.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Yönetilen hizmet kimliği</value>
+    <value>Kimlik</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uygulamanız diğer Azure hizmetleriyle kendisi olarak iletişim kurmak için, yönetilen bir Azure Active Directory kimliği kullanabilir.</value>
@@ -2207,13 +2207,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtım yuvaları, işlev uygulamanızın farklı sürümlerini farklı URL'lere dağıtmanızı sağlar. Belirli bir sürümü test ederek daha sonra yuvalar arasında içerik ve yapılandırmayı değiştirebilirsiniz.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Yeni {0} yuvası oluşturuluyor</value>
+    <value>Yeni '{0}' yuvası oluşturuluyor </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>{0} yuvası başarıyla oluşturuldu</value>
+    <value>'{0}' yuvası başarıyla oluşturuldu </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>{0} yuvası oluşturulamadı</value>
+    <value>'{0}' yuvası oluşturulamadı </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Yuva listesi güncelleştirilemiyor</value>
@@ -2252,7 +2252,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Geçici Değer</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Dağıtım yuvası eklemediniz. Başlamak için 'Yuva Ekle' seçeneğine tıklayın.</value>
+    <value>Dağıtım yuvası eklemediniz. Başlamak için buraya tıklayın.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Ad</value>
@@ -2813,7 +2813,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kuruluş</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Services Hesabı</value>
+    <value>Azure DevOps Kuruluşu</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Proje</value>
@@ -2825,7 +2825,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kaynak</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Hesap</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Yük Testi</value>
@@ -2897,10 +2897,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>{{operation}} iptal edilemedi. Hata: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>{0} yuvası {1} ile değiştirildi</value>
+    <value>'{0}' yuvası '{1}' ile değiştirildi</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>{0} yuvası {1} ile değiştirilemedi</value>
+    <value>'{0}' yuvası '{1}' ile değiştirilemedi</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Sürekli Teslim başarıyla ayarlandı ve derleme tetiklendi</value>
@@ -2912,10 +2912,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Sürekli Teslim ayarlanamadı</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Yeni Visual Studio Team Services hesabı oluşturuldu</value>
+    <value>Yeni Azure DevOps kuruluşu oluşturuldu</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Visual Studio Team Services hesabı oluşturulamadı</value>
+    <value>Azure DevOps kuruluşu oluşturulamadı</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Yeni yuva oluşturuldu</value>
@@ -2954,10 +2954,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Depodaki en yeni kaynak kod ile Sürekli Teslim başarıyla tetiklendi</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Derleme Tanımı</value>
+    <value>Derleme İşlem Hattı</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Yayın Tanımı</value>
+    <value>Yayın İşlem Hattı</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Tetiklenen Derleme</value>
@@ -3011,7 +3011,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bir GitHub deposu ile sürekli tümleştirmeyi yapılandırın.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Bir VSTS deposu ile sürekli tümleştirmeyi yapılandırın.</value>
+    <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Deposu ile sürekli tümleştirmeyi yapılandırın.</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Genel bir Git veya Mercurial deposundan dağıtın.</value>
@@ -3344,10 +3344,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Günlük Düzeyi</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS Derlemesi (Önizleme)</value>
+    <value>Azure Pipelines (Önizleme)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services, uygulamanız için güçlü bir dağıtım işlem hattı ayarlar. Bu işlem hattı derlemeyi yapar, yük testleri çalıştırır ve ardından önce hazırlama yuvasına sonra da üretime dağıtır.</value>
+    <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Pipelines'ı kullanarak sağlam bir dağıtım işlem hattı yapılandırın. İşlem hattı derler, yük testlerini çalıştırır ve hazırlama yuvasına ve ardından üretime dağıtır.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu derleme sunucusu</value>
@@ -3359,7 +3359,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Derle</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Hesap Seç</value>
+    <value>Kuruluş Seçin</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Hesap Adı girin</value>
@@ -3500,10 +3500,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Doğrulanıyor...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Bu projede Derleme Tanımı veya Sürüm tanımı oluşturmak için izniniz yok. Proje yöneticinize başvurun</value>
+    <value>Bu projede Derleme işlem hattı veya Sürüm işlem hattı oluşturmak için izniniz yok. Proje yöneticinize başvurun</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>Belirtilen hesap adı geçerli değil. Lütfen başka bir hesap adı sağlayın.</value>
+    <value>Belirtilen kuruluş adı geçerli değil. Lütfen başka bir kuruluş adı sağlayın.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kullanıcı Kimlik Bilgileri</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Kullanıcı Kimlik Bilgileri sizin tarafınızdan tanımlanır ve erişiminiz olan tüm uygulamalar ile birlikte kullanılabilir. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Uygulama Kimlik Bilgileri</value>
@@ -3763,6 +3764,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_ACU" xml:space="preserve">
     <value>Toplam {0} ACU</value>
   </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Kullanılabilir özellikler</value>
+  </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Kapsayıcı ayarlarını güncelleştir</value>
   </data>
@@ -3917,7 +3921,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>{0} web uygulamasının deposu şu an güncelleştirilemiyor.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>VSTS Sürekli Teslimi için Azure Active Directory'ye yazma ve hizmet ilkesi oluşturma izninizin olması gerekir.</value>
+    <value>Azure DevOps Sürekli Teslimi için Azure Active Directory'ye yazma ve hizmet sorumlusu oluşturma izninizin olması gerekir.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Örnek seç</value>
@@ -3926,13 +3930,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Açıklama</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>VSTS Deponuz yok</value>
+    <value>Herhangi bir Azure Depo sahibi değilsiniz</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>Geçerli bir VSTS Hesabınız yok</value>
+    <value>Geçerli herhangi bir Azure DevOps kuruluşunuz yok</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Geçerli bir VSTS Hesabınız yok. App Service Kudu Derlemesi aynı zamanda hesap sahibi olmanızı gerektirir</value>
+    <value>Geçerli bir Azure DevOps kuruluşunuz yok. App Service Kudu Derlemesi aynı zamanda kuruluş sahibi olmanızı gerektirir</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Hemen hesap oluşturun</value>
@@ -4199,10 +4203,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yeni veya Mevcut Dağıtım Yuvası</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Yeni veya Mevcut VSTS Hesabı</value>
+    <value>Yeni veya Mevcut Azure DevOps Kuruluşu</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Yeni veya Mevcut VSTS Hesabı</value>
+    <value>Yeni veya Mevcut Web Uygulaması</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Dağıtım Ayrıntıları</value>
@@ -4412,6 +4416,129 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ara Sunucular (Erişilemez)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>Geçersiz YML biçimi. Hata: '{0}'.</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Kapsayıcı günlüklerini indir</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Ayrıntılı kapsayıcı günlükleri indiriliyor.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Kapsayıcı günlükleri başarıyla indirildi.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Kapsayıcı günlükleri indirilemedi.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Kimlik Bilgileri Sıfırlanıyor</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Kimlik bilgileri sıfırlanamadı</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Kimlik bilgileri başarıyla sıfırlandı</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Kimlik Bilgileri Kaydediliyor</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Kimlik bilgileri kaydedilemedi</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Kimlik bilgileri başarıyla kaydedildi</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Azure Container Registry dahil herhangi bir özel kayıt defterinden bir görüntüyü kullanın.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Seçili değil</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>En son</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (en son)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Uygulamanız {{defaultJavaVersion}} yazılımının en son sürümünü kullanacak.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>En son sürüm olmayan belirli bir ikincil sürümü seçmek, daha uzun süren hazırlıksız başlatma sürelerine neden olabilir.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>PowerShell için Azure İşlevleri - Kullanmaya başlayın</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Temel</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Gelişmiş</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Depolama hesabı seç</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Depolama hesabı</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Depolama kapsayıcısı</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Dosyalar</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Choose a storage container</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Bağlama yolu</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Paylaşım adı</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Erişim anahtarı</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Depolama türü</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Hesap</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Kapsayıcı</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Yol</value>
   </data>
 </root>

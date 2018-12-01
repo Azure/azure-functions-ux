@@ -1,0 +1,35 @@
+<div *ngIf="form" [formGroup]="form">
+  <div class="byos-property">
+    <label>{{ 'storageAccount' | translate }}</label>
+    <textbox [control] = "form?.controls?.account" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="account" id="byos-account-error" role="alert"></div>
+  </div>
+
+  <div *ngIf="os === 'linux'" class="byos-property">
+    <label>{{ 'storageType' | translate }}</label>
+    <div>
+        <radio-selector
+            [options] = "byosManager.storageTypes"
+            [control] = "form?.controls?.storageType">
+        </radio-selector>
+    </div>
+  </div>
+  
+  <div class="byos-property">
+    <label>{{ 'shareName' | translate }}</label>
+    <textbox [control] = "form?.controls?.containerName" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="containerName" id="byos-containerName-error" role="alert"></div>
+  </div>
+  
+  <div class="byos-property">
+    <label>{{ 'accessKey' | translate }}</label>
+    <textbox [control] = "form?.controls?.accessKey" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="accessKey" id="byos-accessKey-error" role="alert"></div>
+  </div>
+  
+  <div class="byos-property">
+    <label>{{ 'mountPath' | translate }}</label>
+    <textbox [control] = "form?.controls?.mountPath" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="mountPath" id="byos-mountPath-error" role="alert"></div>
+  </div>
+</div>

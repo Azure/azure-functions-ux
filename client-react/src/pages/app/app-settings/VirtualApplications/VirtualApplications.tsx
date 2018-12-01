@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { PrimaryButton, ActionButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { VirtualApplication } from '../../../../models/WebAppModels';
@@ -8,6 +8,7 @@ import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { FormikProps } from 'formik';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -49,29 +50,26 @@ export class VirtualApplications extends React.Component<
           type={PanelType.medium}
           onDismiss={this.onCancelPanel}
           headerText={t('newApp')}
-          closeButtonAriaLabel={t('close')}
-          onRenderFooterContent={this._onRenderFooterContent}>
+          closeButtonAriaLabel={t('close')}>
           <VirtualApplicationsAddEdit
-            {...this.state.currentVirtualApplication!}
+            virtualApplication={this.state.currentVirtualApplication!}
             otherVirtualApplications={values.virtualApplications}
-            updateVirtualApplication={this.updateCurrentItem}
+            updateVirtualApplication={this.onClosePanel.bind(this)}
+            closeBlade={this.onCancelPanel.bind(this)}
           />
         </Panel>
-        <DetailsList
+        <DisplayTableWithEmptyMessage
           items={values.virtualApplications}
           columns={this._getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          emptyMessage={t('emptyVirtualDirectories')}
         />
       </>
     );
   }
-
-  private updateCurrentItem = (item: VirtualApplication) => {
-    this.setState({ currentVirtualApplication: item });
-  };
 
   private createNewItem = () => {
     const blank: VirtualApplication = {
@@ -92,13 +90,13 @@ export class VirtualApplications extends React.Component<
   private onCancelPanel = () => {
     this.setState({ createNewItem: false, showPanel: false });
   };
-  private onClosePanel = () => {
+  private onClosePanel = (item: VirtualApplication) => {
     const { values, setValues } = this.props;
     const virtualApplications = [...values.virtualApplications];
     if (!this.state.createNewItem) {
-      virtualApplications[this.state.currentItemIndex!] = this.state.currentVirtualApplication!;
+      virtualApplications[this.state.currentItemIndex!] = item;
     } else {
-      virtualApplications.push(this.state.currentVirtualApplication!);
+      virtualApplications.push(item);
     }
     setValues({
       ...values,
@@ -107,16 +105,6 @@ export class VirtualApplications extends React.Component<
     this.setState({ createNewItem: false, showPanel: false });
   };
 
-  private _onRenderFooterContent = (): JSX.Element => {
-    return (
-      <div>
-        <PrimaryButton onClick={this.onClosePanel} style={{ marginRight: '8px' }}>
-          {this.props.t('save')}
-        </PrimaryButton>
-        <DefaultButton onClick={this.onCancelPanel}>{this.props.t('cancel')}</DefaultButton>
-      </div>
-    );
-  };
   private _onShowPanel = (item: VirtualApplication, index: number): void => {
     this.setState({
       showPanel: true,
@@ -167,7 +155,6 @@ export class VirtualApplications extends React.Component<
     return <span>{item[column.fieldName!]}</span>;
   };
 
-  // tslint:disable-next-line:member-ordering
   private _getColumns = () => {
     const { t } = this.props;
     return [

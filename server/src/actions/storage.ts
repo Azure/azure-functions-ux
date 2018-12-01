@@ -60,4 +60,62 @@ export function setupAzureStorage(app: Application) {
       }
     });
   });
+
+  app.post('/api/getStorageContainers', async (req, res) => {
+    const blobService = azure.createBlobService(req.body.accountName, req.body.accessKey);
+    let containers: azure.BlobService.ContainerResult[] = [];
+    let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
+
+    const aggregator = (err: Error, result: azure.BlobService.ListContainerResult, cb: any) => {
+      if (err) {
+        cb(err, []);
+      } else {
+        containers = containers.concat(result.entries);
+        if (result.continuationToken !== null) {
+          blobService.listContainersSegmented(result.continuationToken, aggregator);
+        } else {
+          cb(null, containers);
+        }
+      }
+    };
+
+    blobService.listContainersSegmented(continuationToken, (err: Error, result: azure.BlobService.ListContainerResult) => {
+      aggregator(err, result, (err: Error, containers: azure.BlobService.ContainerResult[]) => {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.status(200).send(containers);
+        }
+      });
+    });
+  });
+
+  app.post('/api/getStorageFileShares', async (req, res) => {
+    const fileService = azure.createFileService(req.body.accountName, req.body.accessKey);
+    let shares: azure.FileService.ShareResult[] = [];
+    let continuationToken: any; // NOTE(michinoy): Cannot to set it to 'ContinuationToken' type as passing in null (requirement) does not compile.
+
+    const aggregator = (err: Error, result: azure.FileService.ListSharesResult, cb: any) => {
+      if (err) {
+        cb(err, []);
+      } else {
+        shares = shares.concat(result.entries);
+        if (result.continuationToken !== null) {
+          fileService.listSharesSegmented(<any>result.continuationToken, aggregator);
+        } else {
+          cb(null, shares);
+        }
+      }
+    };
+
+    fileService.listSharesSegmented(continuationToken, (err: Error, result: azure.FileService.ListSharesResult) => {
+      aggregator(err, result, (err: Error, shares: azure.FileService.ShareResult[]) => {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.status(200).send(shares);
+        }
+      });
+    });
+  });
 }

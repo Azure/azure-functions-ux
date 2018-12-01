@@ -496,15 +496,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     });
     if (match) {
       return match;
-    } else {
+    } else if (!!version) {
       if (version.startsWith('1.')) {
         return '~1';
       } else if (version.startsWith('2.')) {
         return '~2';
-      } else {
-        return this._configService.FunctionsVersionInfo.runtimeDefault;
       }
     }
+    return this._configService.FunctionsVersionInfo.runtimeDefault;
   }
 
   private _validRuntimeVersion(): boolean {

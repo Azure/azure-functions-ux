@@ -1,0 +1,35 @@
+@import '../../../sass/common/variables';
+
+.byos-selector {
+  padding: 0px 25px;
+  width: 500px;
+}
+
+.byos-property {
+  margin-bottom: 15px;
+}
+
+footer {
+  position: fixed;
+  z-index: 100;
+  bottom: 0px;
+  height: $footer-height;
+  width: 100%;
+  border-top: $border;
+  padding: 0px 5px;
+  background-color: $body-bg-color;
+}
+
+#byos-footer {
+  position: relative;
+  height: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 10px;
+
+  button,
+  .message-icon,
+  .message-text {
+    height: 27px;
+  }
+}

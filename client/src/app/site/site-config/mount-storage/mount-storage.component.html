@@ -1,0 +1,138 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'mountStorage' | translate }}</h3>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
+
+  <div class="settings-wrapper collapse-top">
+    <ng-container *ngIf="hasWritePermissions && !!groupArray && !loadingFailureMessage">
+
+      <div class="setting-wrapper wide">
+
+        <info-box
+          [infoText]="'storageKeysHiddenInfoText' | translate">
+        </info-box>
+
+        <radio-selector
+          [options]="showValuesOptions"
+          [defaultValue]="false"
+          (value)="updateShowValues($event)">
+        </radio-selector>
+
+      </div>
+
+    </ng-container>
+
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <table-root tblClass="tbl fixed stretch" [name]="Resources.storageAccounts | translate" [items]="groupArray?.controls" #storageAccountTable>
+
+      <!-- Header Row -->
+      <tr table-row>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources._name | translate }}</th>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.path | translate }}</th>
+
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.type | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.account | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.container | translate }}</th>
+
+        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.accessKey | translate }}</th>
+
+        <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
+
+      </tr>
+
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each connection string returned (if any) -->
+      <tr *ngFor="let group of storageAccountTable.items | excludeDeleted:true" table-row [group]="group">
+
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
+          <click-to-edit [group]="group" name="name">
+            <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+          </click-to-edit>
+        </td>
+
+        <td class="one-third-col padded-col" table-cell [editable]="false">
+          {{ group.controls['mountPath'].value }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['displayType'].value }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['accountName'].value }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="false">
+          {{ group.controls['shareName'].value }}
+        </td>
+
+        <td class="type-col padded-col" table-cell [editable]="true">
+          <click-to-edit [group]="group" name="accessKey" [hiddenText]="!showValues" [maskText]="'hiddenValueClickToEdit' | translate">
+            <textbox [control]="group.controls['accessKey']" [placeholder]="Resources.enterValue | translate"></textbox>
+          </click-to-edit>
+        </td>
+
+        <td class="action-col" table-cell [editable]="false">
+          <span
+            [tabindex]="hasWritePermissions ? 0 : -1"
+            role="button"
+            class="fa fa-times delete"
+            [attr.aria-label]="Resources._delete | translate"
+            [attr.aria-disabled]="!hasWritePermissions"
+            (click)="hasWritePermissions ? deleteItem(group) : null"
+            [activate-with-keys]>
+          </span>
+        </td>
+
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0)" table-row>
+
+        <!-- ARM call did not return successfully, and user has permissions -->
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="7" table-cell [editable]="false">
+          {{ (loadingFailureMessage || loadingMessage) }}
+        </td>
+
+        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="7" table-cell [editable]="false">
+          {{ showPermissionsMessage ? permissionsMessage : '' }}
+        </td>
+
+        <!-- ARM call returned successfully, but there are no entries to display -->
+        <td *ngIf="!!groupArray && storageAccountTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="7" table-cell [editable]="false">
+          {{ ('emptyStorageAccounts' | translate) }}
+        </td>
+
+      </tr>
+
+    </table-root>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine && enableAddItemLink" tabindex="0" role="button" class="link add-setting" (click)="addItem()" [activate-with-keys]>
+      {{ 'addStorageLink' | translate }}
+    </div>
+
+    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine || !enableAddItemLink" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
+      {{ 'addStorageLink' | translate }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+  </div>
+</div>

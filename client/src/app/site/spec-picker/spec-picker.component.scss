@@ -1,309 +1,306 @@
 @import '../../../sass/common/variables';
 
-$footer-height: 55px;
 $spec-card-max-width: 350px;
-$center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
+$center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
-#spec-picker-container{
-    padding-bottom: 60px;
+#spec-picker-container {
+  padding-bottom: 60px;
 
-    #spec-picker-shield{
-        position: fixed;
-        background-color: $translucent-shield-color;
-        z-index: 10;
-        bottom: 0px;
-        top: 42px;
-        left: 0px;
-        right: 0px;
+  #spec-picker-shield {
+    position: fixed;
+    background-color: $translucent-shield-color;
+    z-index: 10;
+    bottom: 0px;
+    top: 42px;
+    left: 0px;
+    right: 0px;
 
-        &.spec-picker-shield-menu{
-            top: 0px;
-        }
+    &.spec-picker-shield-menu {
+      top: 0px;
+    }
+  }
+
+  nav {
+    display: flex;
+  }
+
+  .tiers-header {
+    margin: 20px 0px 0px 15px;
+  }
+
+  section {
+    &.centered {
+      max-width: $center-column-max-width;
+      margin: 0px auto;
     }
 
-    nav{
-        display: flex;
+    &.empty-group {
+      text-align: center;
+      margin-top: 100px;
+
+      .icon-large {
+        height: 75px;
+        width: 75px;
+      }
+
+      article {
+        max-width: 600px;
+        margin: 15px auto;
+      }
+    }
+  }
+
+  .spec-group {
+    background-color: $border-color;
+    width: calc(100% / 3);
+    text-align: center;
+    height: 83px;
+    padding-top: 7px;
+
+    h3 {
+      margin-top: 2px;
+      font-weight: bold;
     }
 
-    .tiers-header{
-        margin: 20px 0px 0px 15px;
+    h4 {
+      font-size: 12px;
     }
 
-    section{
-        &.centered{
-            max-width: $center-column-max-width;
-            margin: 0px auto;
-        }
+    &.selected-spec-group {
+      background-color: $body-bg-color;
+    }
+  }
 
-        &.empty-group{
-            text-align: center;
-            margin-top: 100px;
-            
-            .icon-large{
-                height: 75px;
-                width: 75px;
-            }
+  .spec-container {
+    padding: 0;
+    margin: 0px 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    color: $body-bg-color;
 
-            article{
-                max-width: 600px;
-                margin: 15px auto;
-            }
-        }
+    &.expanded {
+      margin-top: -10px;
+    }
+  }
+
+  .expand-icon {
+    display: inline-block;
+    height: 13px;
+    width: 13px;
+    vertical-align: middle;
+    margin: 0px 5px 4px 5px;
+  }
+
+  .spec {
+    padding: 10px;
+    height: 90px;
+    width: calc(25% - 10px);
+    max-width: $spec-card-max-width;
+    min-width: 250px;
+    margin: 10px 5px;
+    position: relative;
+    cursor: pointer;
+
+    h2 {
+      color: $body-bg-color;
+      font-weight: bold;
+      position: absolute;
+      top: 50%;
+      left: 13px;
+      margin-top: 0px;
+      transform: translateY(-50%);
     }
 
-    .spec-group{
-        background-color: $border-color;
-        width: calc(100% / 3);
-        text-align: center;
-        height: 83px;
-        padding-top: 7px;
-
-        h3{
-            margin-top: 2px;
-            font-weight: bold;
-        }
-
-        h4{
-            font-size: 12px;
-        }
-
-        &.selected-spec-group{
-            background-color: $body-bg-color;
-        }
+    &.selected {
+      outline-color: $border-selection-color;
+      outline-width: 3px;
+      outline-style: solid;
+      outline-offset: 3px;
     }
 
-    .spec-container {
-        padding: 0;
-        margin: 0px 5px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        color: $body-bg-color;
-
-        &.expanded{
-            margin-top: -10px;
-        }
+    .top-features {
+      position: absolute;
+      left: 65px;
+      top: 50%;
+      padding-right: 10px;
+      transform: translateY(-50%);
     }
 
-    .expand-icon{
-        display: inline-block;
-        height: 13px;
-        width: 13px;
-        vertical-align: middle;
-        margin: 0px 5px 4px 5px;
+    &.disabled {
+      background-color: $disabled-color;
+      color: $default-text-color;
+      cursor: not-allowed;
+
+      h2 {
+        color: $default-text-color;
+      }
+    }
+  }
+
+  .spec-expander {
+    text-align: center;
+  }
+
+  .isolated-spec {
+    background: #c44200;
+  }
+
+  .standard-spec {
+    background: #4d68c8;
+  }
+
+  .premium-spec {
+    background: #852ea7;
+  }
+
+  .basic-spec {
+    background: #5a8000;
+  }
+
+  .free-spec {
+    background: #c44200;
+  }
+
+  .feature-lists-container {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .feature-list {
+    padding: 10px;
+    max-width: 700px;
+    margin-top: 10px;
+    width: calc(100% / 2);
+  }
+
+  .feature-item {
+    position: relative;
+    height: 70px;
+    background-color: lighten($border-color, 5%);
+    margin: 5px 0px;
+
+    h4 {
+      font-size: 12px;
+      font-weight: bold;
+      margin: 0px 0px 2px 0px;
     }
 
-
-    .spec {
-        padding: 10px;
-        height: 90px;
-        width: calc(25% - 10px);
-        max-width: $spec-card-max-width;
-        min-width: 250px;
-        margin: 10px 5px;
-        position: relative;
-        cursor: pointer;
-
-        h2{
-            color: $body-bg-color;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 13px;
-            margin-top: 0px;
-            transform: translateY(-50%);
-        }
-
-        &.selected{
-            outline-color: $border-selection-color;
-            outline-width: 3px;
-            outline-style: solid;
-            outline-offset: 3px;
-        }
-
-        .top-features{
-            position: absolute;
-            left: 65px;
-            top: 50%;
-            padding-right: 10px;
-            transform: translateY(-50%);
-        }
-
-        &.disabled{
-            background-color: $disabled-color;
-            color: $default-text-color;
-            cursor: not-allowed;
-
-            h2{
-                color: $default-text-color;
-            }
-        }
+    .icon-medium {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
-    .spec-expander{
-        text-align: center;
+    .feature-body {
+      position: absolute;
+      left: 50px;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
-    .isolated-spec{
-        background: #C44200;
+    // Multi-line text truncation with ellipsis only really works nicely in Chrome.  For all other browsers,
+    // the text will truncate, but there won't be an ellipsis.  There's a lot of weird hacky ways to get
+    // to work, but so far this is the only one that seemed to truncate properly cross-browser without
+    // messing up something else.
+    // https://www.consolelog.io/multiple-line-ellipsis-css-effect/
+    .feature-description {
+      display: block;
+      display: -webkit-box;
+      max-width: 100%;
+      margin: 0 auto;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 36px; /* fallback */
     }
 
-    .standard-spec{
-        background: #4D68C8;
+    .feature-learnMore {
+      display: inline-block;
+    }
+  }
+
+  footer {
+    position: fixed;
+    z-index: 100;
+    bottom: 0px;
+    height: $footer-height;
+    width: 100%;
+    border-top: $border;
+    padding: 0px 5px;
+    background-color: $body-bg-color;
+  }
+
+  #spec-picker-footer {
+    position: relative;
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    top: 10px;
+
+    button,
+    .message-icon,
+    .message-text {
+      height: 27px;
     }
 
-    .premium-spec{
-        background: #852EA7;
+    .icon-medium {
+      height: 18px;
+      width: 18px;
+      vertical-align: middle;
     }
 
-    .basic-spec{
-        background: #5A8000;
+    .message-icon {
+      margin: 0 0 5px 15px;
+      height: 24px;
+      left: 20px;
     }
 
-    .free-spec{
-        background: #C44200;
+    .message-text {
+      margin-left: 5px;
+      height: 27px;
+      left: 45px;
+      font-size: 14px;
     }
-
-    .feature-lists-container {
-        padding: 0;
-        margin: 0;
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .feature-list {
-        padding: 10px;
-        max-width: 700px;
-        margin-top: 10px;
-        width: calc(100% / 2);
-    }
-
-    .feature-item{
-        position: relative;
-        height: 70px;
-        background-color: lighten($border-color, 5%);
-        margin: 5px 0px;
-
-        h4{
-            font-size: 12px;
-            font-weight: bold;
-            margin: 0px 0px 2px 0px;
-        }
-
-        .icon-medium{
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .feature-body{
-            position: absolute;
-            left: 50px;
-            left: 50px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        // Multi-line text truncation with ellipsis only really works nicely in Chrome.  For all other browsers,
-        // the text will truncate, but there won't be an ellipsis.  There's a lot of weird hacky ways to get
-        // to work, but so far this is the only one that seemed to truncate properly cross-browser without
-        // messing up something else.
-        // https://www.consolelog.io/multiple-line-ellipsis-css-effect/
-        .feature-description{
-            display: block;
-            display: -webkit-box;
-            max-width: 100%;
-            margin: 0 auto;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 36px;       /* fallback */
-        }
-
-        .feature-learnMore{
-            display: inline-block;
-        }
-    }
-
-    footer{
-        position: fixed;
-        z-index: 100;
-        bottom: 0px;
-        height: $footer-height;
-        width: 100%;
-        border-top: $border;
-        padding: 0px 5px;
-        background-color: $body-bg-color;
-    }
-
-    #spec-picker-footer{
-        position: relative;
-        height: 100%;
-        margin-top: auto;
-        margin-bottom: auto;
-        top: 10px;
-
-        button, .message-icon, .message-text {
-            height: 27px;
-        }
-
-        .icon-medium {
-            height: 18px;
-            width: 18px;
-            vertical-align: middle;
-        }
-
-        .message-icon {
-            margin: 0 0 5px 15px;
-            height: 24px;
-            left: 20px;
-        }
-
-        .message-text {
-            margin-left: 5px;
-            height: 27px;
-            left: 45px;
-            font-size: 14px;
-        }
-    }
+  }
 }
 
-#app-root[theme=dark]{
-    #spec-picker-shield{
-        background-color: $translucent-shield-color-dark;
-    }
+#app-root[theme='dark'] {
+  #spec-picker-shield {
+    background-color: $translucent-shield-color-dark;
+  }
 
-    .spec-group{
-        background-color: lighten($chrome-color-dark, 10%);
+  .spec-group {
+    background-color: lighten($chrome-color-dark, 10%);
 
-        &.selected-spec-group{
-            background-color: $chrome-color-dark;
-        }
+    &.selected-spec-group {
+      background-color: $chrome-color-dark;
     }
+  }
 
-    .spec-container{
-        h2{
-            color: $default-text-color-dark;
-        }
+  .spec-container {
+    h2 {
+      color: $default-text-color-dark;
     }
+  }
 
-    .feature-item{
-        background-color: lighten($chrome-color-dark, 10%);
-    }
+  .feature-item {
+    background-color: lighten($chrome-color-dark, 10%);
+  }
 
-    .spec {
-        &.disabled{
-            background-color: lighten($chrome-color-dark, 10%);
-            color: $default-text-color-dark;
-        }
+  .spec {
+    &.disabled {
+      background-color: lighten($chrome-color-dark, 10%);
+      color: $default-text-color-dark;
     }
+  }
 
-    footer{
-        background-color: $body-bg-color-dark;
-    }
+  footer {
+    background-color: $body-bg-color-dark;
+  }
 }
-
-
- 

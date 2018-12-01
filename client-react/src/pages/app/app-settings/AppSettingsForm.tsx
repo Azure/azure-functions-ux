@@ -20,7 +20,6 @@ import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
-  width: '535px',
 });
 
 const defaultDocumentsWrapper = style({
@@ -116,7 +115,9 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
       <PivotItem itemKey="applicationSettings" linkText={t('applicationSettings')}>
         <h3>{t('applicationSettings')}</h3>
         {values.siteWritePermission ? (
-          <ApplicationSettings {...props} />
+          <div id="app-settings-application-settings-table">
+            <ApplicationSettings {...props} />
+          </div>
         ) : (
           <div id="app-settings-app-settings-rbac-message">
             <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
@@ -126,7 +127,9 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
         )}
         <h3>{t('connectionStrings')}</h3>
         {values.siteWritePermission ? (
-          <ConnectionStrings {...props} />
+          <div id="app-settings-connection-strings-table">
+            <ConnectionStrings {...props} />
+          </div>
         ) : (
           <div id="app-settings-connection-strings-rbac-message">
             <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>

@@ -1,0 +1,68 @@
+<div *ngIf="form" [formGroup]="form">
+  <div class="byos-property">
+    <label>{{ 'storageAccount' | translate }}</label>
+    <ng-select
+        id="byos-storage-accounts"
+        class="custom-select byos-select"
+        bindLabel="displayLabel"
+        bindValue="value"
+        [placeholder]="'chooseAccount' | translate"
+        formControlName="account"
+        [loading]="loadingAccounts"
+        [items]="storageAccountItems"
+        [clearable]="false"
+        [(ngModel)]="selectedAccount"
+        (change)="accountChanged($event)">
+    </ng-select>
+    <div invalidmessage="account" id="byos-account-error" role="alert"></div>
+  </div>
+
+  <div *ngIf="os && os === 'linux'" class="byos-property">
+    <label>{{ 'storageType' | translate }}</label>
+    <div>
+        <radio-selector
+            [options] = "byosManager.storageTypes"
+            (value) = "storageTypeChanged($event)"
+            [control] = "form?.controls?.storageType">
+        </radio-selector>
+    </div>
+  </div>
+
+  <div class="byos-property">
+    <label *ngIf="form?.controls?.storageType?.value === storageTypeBlob">{{ 'storageContainer' | translate }}</label>
+    <ng-select
+        *ngIf="form?.controls?.storageType?.value === storageTypeBlob"
+        id="byos-storage-container"
+        class="custom-select byos-select"
+        bindLabel="displayLabel"
+        bindValue="value"
+        [placeholder]="'chooseContainer' | translate"
+        formControlName="containerName"
+        [loading]="loadingContainers"
+        [items]="containerItems"
+        [clearable]="false"
+        [(ngModel)]="selectedContainer">
+    </ng-select>
+    <label *ngIf="form?.controls?.storageType?.value === storageTypeFiles">{{ 'storageFileShare' | translate }}</label>
+    <ng-select
+        *ngIf="form?.controls?.storageType?.value === storageTypeFiles"
+        id="byos-storage-container"
+        class="custom-select byos-select"
+        bindLabel="displayLabel"
+        bindValue="value"
+        [placeholder]="'chooseFileShare' | translate"
+        formControlName="containerName"
+        [loading]="loadingFileShares"
+        [items]="fileShareItems"
+        [clearable]="false"
+        [(ngModel)]="selectedFileShare">
+    </ng-select>
+    <div invalidmessage="containerName" id="byos-containerName-error" role="alert"></div>
+  </div>
+
+  <div class="byos-property">
+    <label>{{ 'mountPath' | translate }}</label>
+    <textbox [control] = "form?.controls?.mountPath" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="mountPath" id="byos-mountPath-error" role="alert"></div>
+  </div>
+</div>
