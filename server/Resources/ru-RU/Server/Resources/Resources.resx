@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Подключитесь по этим учетным данным:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Подробнее...</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Параметры развертывания</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Вы можете настраивать варианты развертывания своего приложения, включая непрерывное развертывание из VSTS, Github и Bitbucket, а также активировать развертывание из OneDrive, Dropbox, внешних Git-репозиториев и не только.</value>
+    <value>Вы можете настраивать варианты развертывания своего приложения, включая непрерывное развертывание из репозиториев Azure, Github и Bitbucket, а также активировать развертывание из OneDrive, Dropbox, внешних Git-репозиториев и не только.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Учетные данные развертывания</value>
@@ -1622,7 +1622,7 @@
     <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Управляемое удостоверение службы</value>
+    <value>Идентификатор</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Приложение может взаимодействовать с другими службами Azure, так как использует управляемое удостоверение Azure Active Directory.</value>
@@ -2207,13 +2207,13 @@
     <value>С помощью слотов развертывания можно развертывать различные версии приложения-функции с различными URL-адресами. Вы можете проверить одну из версий приложения и затем перенести содержимое и конфигурацию из одного слота в другой.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Создание нового слота {0} </value>
+    <value>Создается слот "{0}" </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>Слот {0} успешно создан </value>
+    <value>Слот "{0}" создан </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Не удалось создать слот {0} </value>
+    <value>Не удалось создать слот "{0}" </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Не удалось обновить список слотов</value>
@@ -2252,7 +2252,7 @@
     <value>Временное значение</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Вы не добавляли слоты развертывания. Чтобы сделать это, шелкните "Добавить слот".</value>
+    <value>You haven't added any deployment slots. Click here to get started.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Имя</value>
@@ -2477,7 +2477,7 @@
     <value>Центральная Корея</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Южная Корея</value>
+    <value>Республика Корея, южный регион</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>Западная часть США</value>
@@ -2528,7 +2528,7 @@
     <value>Восточная Канада</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
-    <value>Западно-Центральная часть США</value>
+    <value>Центрально-западная часть США</value>
   </data>
   <data name="ukwest" xml:space="preserve">
     <value>Западная часть Соединенного Королевства</value>
@@ -2813,7 +2813,7 @@
     <value>Организация</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Учетная запись Visual Studio Team Services</value>
+    <value>Организация Azure DevOps</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Проект</value>
@@ -2825,7 +2825,7 @@
     <value>Источник</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Учетная запись</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Нагрузочный тест</value>
@@ -2897,10 +2897,10 @@
     <value>Не удалось отменить операцию {{operation}}. Ошибка: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>Слоты {0} и {1} поменялись местами</value>
+    <value>Слоты "{0}" и "{1}" поменялись местами.</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>Не удалось поменять местами слот {0} и {1}</value>
+    <value>Не удалось поменять местами слоты "{0}" и "{1}".</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Непрерывная поставка успешно настроена, активирована сборка.</value>
@@ -2912,10 +2912,10 @@
     <value>Не удалось настроить непрерывную поставку.</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Создана учетная запись Visual Studio Team Services</value>
+    <value>Организация Azure DevOps создана.</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Не удалось создать учетную запись Visual Studio Team Services.</value>
+    <value>Не удалось создать организацию Azure DevOps.</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Создан слот</value>
@@ -2954,10 +2954,10 @@
     <value>Непрерывная поставка успешно активирована с последним исходным кодом из репозитория.</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Определение сборки</value>
+    <value>Конвейер сборки</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Определение выпуска</value>
+    <value>Конвейер выпуска.</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Активирована сборка</value>
@@ -3011,7 +3011,7 @@
     <value>Настройка непрерывной интеграции с репозиторием Github.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Настройка непрерывной интеграции с репозиторием VSTS.</value>
+    <value>Настройка непрерывной интеграции с помощью службы репозиториев Azure, входящей в Azure DevOps Services (ранее — VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Развертывание из открытого репозитория Git или Mercurial.</value>
@@ -3344,10 +3344,10 @@
     <value>Уровень ведения журнала</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Сборка VSTS (предварительная версия)</value>
+    <value>Azure Pipelines (предварительная версия)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services настраивает для вашего приложения надежный конвейер развертывания. Он отвечает за сборку, выполнение нагрузочных тестов, развертывание в промежуточный слот и затем в рабочую среду.</value>
+    <value>Вы можете настроить надежный конвейер развертывания для приложения с помощью службы Azure Pipelines, которая входит в Azure DevOps Services (ранее — VSTS). Конвейер выполняет сборку, запускает нагрузочные тесты и выполняет развертывание в промежуточный слот, а затем в рабочий.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Сервер сборки Kudu службы приложений</value>
@@ -3359,7 +3359,7 @@
     <value>Сборка</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Выбор учетной записи</value>
+    <value>Выбор организации</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Введите имя учетной записи</value>
@@ -3500,10 +3500,10 @@
     <value>Идет проверка...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>У вас нет разрешений на создание определения сборки или выпуска в этом проекте. Свяжитесь с администратором проекта</value>
+    <value>У вас нет разрешений на создание конвейера сборки или выпуска в этом проекте. Обратитесь к администратору проекта.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>Указанное имя учетной записи недопустимо. Укажите другое имя.</value>
+    <value>Указанное имя организации недопустимо. Укажите другое имя.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@
     <value>Учетные данные пользователя</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Учетные данные задаются вами. Они используются со всеми приложениями, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, локальным Git и WebDeploy.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Учетные данные приложения</value>
@@ -3763,6 +3764,9 @@
   <data name="pricing_ACU" xml:space="preserve">
     <value>Общее число ACU: {0}</value>
   </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Доступные функции</value>
+  </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Обновить параметры контейнера</value>
   </data>
@@ -3917,7 +3921,7 @@
     <value>Сейчас невозможно обновить репозиторий для веб-приложения {0}.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Непрерывная поставка VSTS требует, чтобы у вас были разрешения на запись в Azure Active Directory и создание субъекта-службы.</value>
+    <value>Непрерывная поставка Azure DevOps требует, чтобы у вас были разрешения на запись в Azure Active Directory и создание субъекта-службы.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Выберите пример</value>
@@ -3926,13 +3930,13 @@
     <value>Описание</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>Вы не являетесь владельцем репозиториев VSTS</value>
+    <value>У вас нет репозиториев Azure.</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>У вас нет допустимых учетных записей VSTS</value>
+    <value>У вас нет допустимой организации Azure DevOps.</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>У вас нет допустимых учетных записей VSTS. Для сборки Kudu службы приложений вы также должны быть владельцем учетной записи</value>
+    <value>У вас нет допустимой организации Azure DevOps. Для сборки Kudu службы приложений вы также должны быть владельцем организации.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Создать новый</value>
@@ -4199,10 +4203,10 @@
     <value>Новый или существующий слот развертывания</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Новая или существующая учетная запись VSTS</value>
+    <value>Новая или существующая организация Azure DevOps</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Новая или существующая учетная запись VSTS</value>
+    <value>Новое или существующее веб-приложение</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Сведения о развертывании</value>
@@ -4412,6 +4416,129 @@
     <value>Прокси-серверы (недоступны)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>Недопустимый формат YML. Ошибка: "{0}".</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Скачать журналы контейнера</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Скачиваются подробные журналы контейнера.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Журналы контейнера успешно скачаны.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Не удалось скачать журналы контейнера.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Сбрасываются учетные данные</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Не удалось сбросить учетные данные.</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Учетные данные сброшены.</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Сохраняются учетные данные</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Не удалось сохранить учетные данные.</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Учетные данные успешно сохранены</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Используйте изображение из любого частного реестра, включая Реестр контейнеров Azure.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Не выбрано</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (последняя)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Ваше приложение будет использовать последнюю версию {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Выбор определенного дополнительного номера версии, который не является самым последним, может увеличить время холодного запуска.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Функции Azure для PowerShell — начало работы</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Выберите учетную запись хранения</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Учетная запись хранения</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Контейнер хранилища</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>BLOB-объект</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Файлы</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Выберите контейнер хранилища</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Путь подключения</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Имя общего ресурса</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Ключ доступа</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Тип хранилища</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Учетная запись</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Контейнер</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Путь</value>
   </data>
 </root>
