@@ -14,6 +14,7 @@ export interface ByosInputData {
   subscriptionId: string;
   location: string;
   os: string; // TODO(michinoy): Change to using OsType, but it will also require Ibiza change.
+  currentNames?: string[];
 }
 
 export interface ByosConfigureData extends ByosInputData {
@@ -37,6 +38,7 @@ export interface ByosData {
   accessKey: string;
   mountPath: string;
   appResourceId: string;
+  name?: string;
 }
 
 export interface ByosStorageAccounts {
