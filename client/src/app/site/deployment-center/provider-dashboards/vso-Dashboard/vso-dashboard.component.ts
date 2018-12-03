@@ -9,7 +9,7 @@ import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_h
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment-mini-ts';
-import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds, ARMApiVersions } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { ArmService } from '../../../../shared/services/arm.service';
@@ -116,7 +116,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         .do(notification => {
           notificationId = notification.id;
         })
-        .concatMap(() => this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } }))
+        .concatMap(() =>
+          this._armService.patch(
+            `${this.deploymentObject.site.id}/config/web`,
+            { properties: { scmType: 'None' } },
+            ARMApiVersions.websiteApiVersion20180201
+          )
+        )
         .subscribe(
           r => {
             this._busyManager.clearBusy();
@@ -499,9 +505,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       return this._translateService.instant('loading');
     }
 
-    if (this.deploymentObject.VSOData.repository.type.toLowerCase() == "tfsgit"
-        || this.deploymentObject.VSOData.repository.type.toLowerCase() == "tfsversioncontrol")
-    {
+    if (
+      this.deploymentObject.VSOData.repository.type.toLowerCase() == 'tfsgit' ||
+      this.deploymentObject.VSOData.repository.type.toLowerCase() == 'tfsversioncontrol'
+    ) {
       return `Azure Repos (${this.deploymentObject.VSOData.repository.type})`;
     }
 

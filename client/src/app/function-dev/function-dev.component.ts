@@ -47,7 +47,7 @@ import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
-import { LogCategories, WebhookTypes } from '../shared/models/constants';
+import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
@@ -122,7 +122,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public bottomBarExpanded: boolean;
   public rightBarExpanded: boolean;
 
-  public showErrorsAndWarnings: Observable<boolean>;
+  public showErrorsAndWarnings: boolean;
 
   public showConsole: boolean;
 
@@ -130,6 +130,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   private updatedTestContent: string;
   private _disableTestDataAfterViewInit = false;
   private _restartHostSubscription: Subscription;
+
+  private functionAppVersion: string;
 
   constructor(
     private broadcastService: BroadcastService,
@@ -219,13 +221,13 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         this.disabled = this._functionAppService
           .getFunctionAppEditMode(functionView.context)
           .map(r => (r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false));
-        this.showErrorsAndWarnings = this._functionAppService.getRuntimeGeneration(functionView.context).map(v => v === 'V1');
         this.showConsole = !ArmUtil.isLinuxDynamic(functionView.context.site);
         return Observable.zip(
           Observable.of(functionView),
           this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
           this._functionAppService.getFunctionHostStatus(functionView.context),
-          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result)
+          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result),
+          this._functionAppService.getRuntimeGeneration(functionView.context)
         );
       })
       .do(() => {
@@ -350,6 +352,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           this.cd.detectChanges();
           this.setFunctionInvokeUrl();
         }
+        this.functionAppVersion = tuple[4];
+        this.showErrorsAndWarnings = this.functionAppVersion === FunctionAppVersion.v1;
       });
   }
 
@@ -491,34 +495,32 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
       }
 
-      this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
-        let result =
-          jsonObj.isSuccessful &&
-          jsonObj.result.http &&
-          jsonObj.result.http.routePrefix !== undefined &&
-          jsonObj.result.http.routePrefix !== null
-            ? jsonObj.result.http.routePrefix
-            : 'api';
+      if (this.functionAppVersion === FunctionAppVersion.v1) {
+        this._functionAppService.getHostJson(this.context).subscribe(jsonObj => {
+          const result =
+            jsonObj.isSuccessful &&
+            jsonObj.result.http &&
+            jsonObj.result.http.routePrefix !== undefined &&
+            jsonObj.result.http.routePrefix !== null
+              ? jsonObj.result.http.routePrefix
+              : 'api';
 
-        const httpTrigger = this.functionInfo.config.bindings.find(b => {
-          return b.type === BindingType.httpTrigger.toString();
+          this.updateFunctionInvokeUrl(result, queryParams);
         });
-        if (httpTrigger && httpTrigger.route) {
-          result = result + '/' + httpTrigger.route;
-        } else {
-          result = result + '/' + this.functionInfo.name;
-        }
+      } else {
+        this._functionAppService.getHostV2Json(this.context).subscribe(jsonObj => {
+          const result =
+            jsonObj.isSuccessful &&
+            jsonObj.result.extensions &&
+            jsonObj.result.extensions.http &&
+            jsonObj.result.extensions.http.routePrefix !== undefined &&
+            jsonObj.result.extensions.http.routePrefix !== null
+              ? jsonObj.result.extensions.http.routePrefix
+              : 'api';
 
-        // Remove doubled slashes
-        let path = '/' + result;
-        const find = '//';
-        const re = new RegExp(find, 'g');
-        path = path.replace(re, '/');
-        path = path.replace('/?', '?') + queryParams;
-
-        this.functionInvokeUrl = this.context.mainSiteUrl + path;
-        this.runValid = true;
-      });
+          this.updateFunctionInvokeUrl(result, queryParams);
+        });
+      }
     } else {
       this.runValid = true;
     }
@@ -761,6 +763,27 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           break;
       }
     }
+  }
+
+  private updateFunctionInvokeUrl(result: string, queryParams: string) {
+    const httpTrigger = this.functionInfo.config.bindings.find(b => {
+      return b.type === BindingType.httpTrigger.toString();
+    });
+    if (httpTrigger && httpTrigger.route) {
+      result = result + '/' + httpTrigger.route;
+    } else {
+      result = result + '/' + this.functionInfo.name;
+    }
+
+    // Remove doubled slashes
+    let path = '/' + result;
+    const find = '//';
+    const re = new RegExp(find, 'g');
+    path = path.replace(re, '/');
+    path = path.replace('/?', '?') + queryParams;
+
+    this.functionInvokeUrl = this.context.mainSiteUrl + path;
+    this.runValid = true;
   }
 
   private getTestData(): string {

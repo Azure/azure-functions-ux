@@ -72,6 +72,8 @@ yarn install
 gulp run-dev
 ```
 
+To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true
+
 #### react application
 
 ```
@@ -99,36 +101,37 @@ ng test
 
 ### React Unit Tests
 
-```
+````
 cd client-react
 yarn test
-```
+```w
 
 ### React E2E Tests
 
 single run
+````
 
-```
 cd client-react
 yarn build
 cd ../tests
 yarn test:run
-```
 
+```
 development mode
-
 ```
+
 cd client-react
 yarn start
-```
 
+```
 plus in another terminal
-
 ```
+
 cd tests
 npx cypress open
-```
 
+```w
 ## License
 
 This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
+```

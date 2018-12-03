@@ -10,6 +10,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-configure-onedrive',
@@ -38,10 +39,15 @@ export class ConfigureOnedriveComponent implements OnDestroy {
     this._onedriveCallSubject$
       .takeUntil(this._ngUnsubscribe$)
       .switchMap(() =>
-        this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-          url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
-          authToken: this.wizard.getToken(),
-        })
+        this._cacheService
+          .post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
+            url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
+            authToken: this.wizard.getToken(),
+          })
+          .catch(err => {
+            this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);
+            return of({ value: [] });
+          })
       )
       .subscribe(
         r => {

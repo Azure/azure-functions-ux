@@ -1,5 +1,5 @@
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { KeyCodes, Constants, ScenarioIds, SiteTabIds } from './../../shared/models/constants';
+import { KeyCodes, Constants, ScenarioIds, SiteTabIds, ARMApiVersions } from './../../shared/models/constants';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -400,7 +400,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
   private addorUpdateApiDefinitionURL(url: string) {
     return this._cacheService
-      .getArm(`${this.context.site.id}/config/web`, true)
+      .getArm(`${this.context.site.id}/config/web`, true, ARMApiVersions.websiteApiVersion20180201)
       .map(r => r.json())
       .mergeMap(config => {
         let configChange = false;
@@ -428,7 +428,9 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         }
 
         if (configChange) {
-          return this._cacheService.putArm(`${this.context.site.id}/config/web`, null, JSON.stringify(config)).map(r => r.json());
+          return this._cacheService
+            .putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(config))
+            .map(r => r.json());
         }
 
         return Observable.of(true);

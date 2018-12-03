@@ -13,6 +13,7 @@ import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/cons
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
+import { parseToken } from 'app/pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
   selector: 'app-configure-vsts-source',
@@ -200,13 +201,20 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
     const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
+    const currentTid = parseToken(this.wizard.getToken()).tid;
     return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
       this.wizard.vsoAccounts = accounts;
       if (this.isKudu) {
-        return Observable.of(accounts.filter(x => x.isAccountOwner));
+        return Observable.of(
+          accounts.filter(
+            x => x.isAccountOwner && (x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
+          )
+        );
       } else {
-        return Observable.of(accounts);
+        return Observable.of(
+          accounts.filter(x => x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
+        );
       }
     });
   }

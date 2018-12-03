@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Stellen Sie mit diesen Anmeldeinformationen eine Verbindung her:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Weitere Informationen</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Bereitstellungsoptionen</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Konfigurieren und verwalten Sie Bereitstellungsoptionen für Ihre App, einschließlich Continuous Deployment, über VSTS, GitHub und BitBucket, und lösen Sie Bereitstellungen über OneDrive, DropBox, externes Git und andere aus.</value>
+    <value>Konfigurieren und verwalten Sie Bereitstellungsoptionen für Ihre App, einschließlich Continuous Deployment über Azure Repos, GitHub und BitBucket, und lösen Sie Bereitstellungen über OneDrive, DropBox, externes Git und andere aus.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Anmeldeinformationen für Bereitstellung</value>
@@ -1622,7 +1622,7 @@
     <value>Mit der Authentifizierung/Autorisierung können Sie Ihre Anwendung schützen und mit benutzerbasierten Daten arbeiten.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Verwaltete Dienstidentität</value>
+    <value>Identität</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Ihre Anwendung kann unter Verwendung einer verwalteten Azure Active Directory-Identität als sie selbst mit anderen Azure-Diensten kommunizieren.</value>
@@ -2252,7 +2252,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Temporärer Wert</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Sie haben keine Bereitstellungsslots hinzugefügt. Klicken Sie auf "Slot hinzufügen", um zu starten.</value>
+    <value>Sie haben keine Bereitstellungsslots hinzugefügt. Klicken Sie hier, um zu starten.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Name</value>
@@ -2477,7 +2477,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Korea, Mitte</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Korea, Süden</value>
+    <value>Südkorea, Süden</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>USA, Westen</value>
@@ -2813,7 +2813,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Organisation</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Services-Konto</value>
+    <value>Azure DevOps-Organisation</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Projekt</value>
@@ -2825,7 +2825,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Quelle</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Konto</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Auslastungstest</value>
@@ -2912,10 +2912,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Fehler beim Einrichten der Continuous Delivery.</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Neues Visual Studio Team Services-Konto wurde erstellt.</value>
+    <value>Neue Azure DevOps-Organisation erstellt</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Fehler beim Erstellen von Visual Studio Team Services-Konto.</value>
+    <value>Fehler beim Erstellen der Azure DevOps-Organisation.</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Neuer Slot wurde erstellt.</value>
@@ -2954,10 +2954,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Continuous Delivery wurde mit neuestem Quellcode aus dem Repository erfolgreich ausgelöst.</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Builddefinition</value>
+    <value>Buildpipeline</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Releasedefinition</value>
+    <value>Releasepipeline</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Build ausgelöst</value>
@@ -3011,7 +3011,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Hiermit konfigurieren Sie eine Continuous Integration in ein GitHub-Repository.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Hiermit konfigurieren Sie eine Continuous Integration in ein VSTS-Repository.</value>
+    <value>Konfigurieren Sie Continuous Integration mit Azure Repos, einem Bestandteil von Azure DevOps Services (vormals VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Bereitstellen von einem öffentlichen Git- oder Mercurial-Repository.</value>
@@ -3026,7 +3026,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Hiermit wird Inhalt aus einem Dropbox-Cloudordner synchronisiert.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>Robuste Funktionen</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>Eine Funktion, die ausgeführt wird, sobald eine Aktivität von einer Orchestrator-Funktion aufgerufen wird.</value>
@@ -3344,10 +3344,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Protokollebene</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-Build (Vorschau)</value>
+    <value>Azure Pipelines (Vorschau)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services richtet eine stabile Bereitstellungspipeline für Ihre Anwendung ein. Die Pipeline übernimmt die Erstellung, führt Auslastungstests durch und sorgt für die Bereitstellung im Stagingslot und anschließend in der Produktion.</value>
+    <value>Konfigurieren Sie eine robuste Bereitstellungspipeline für Ihre Anwendung mit Azure Pipelines, einem Bestandteil von Azure DevOps Services (vormals VSTS). Die Pipeline erstellt Builds, führt Auslastungstests durch und führt eine Bereitstellung im Stagingslot und anschließend in der Produktion durch.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service-Kudu-Buildserver</value>
@@ -3359,7 +3359,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Build</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Konto auswählen</value>
+    <value>Organisation auswählen</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Kontonamen eingeben</value>
@@ -3500,10 +3500,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Überprüfung wird durchgeführt...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Sie haben keine Berechtigungen zum Erstellen einer Build- oder Releasedefinition für dieses Projekt. Wenden Sie sich an Ihren Projektadministrator.</value>
+    <value>Sie haben keine Berechtigungen zum Erstellen einer Build- oder Releasepipeline für dieses Projekt. Wenden Sie sich an Ihren Projektadministrator.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>Der angegebene Kontoname ist ungültig. Geben Sie einen anderen Kontonamen an.</value>
+    <value>Der angegebene Organisationsname ist ungültig. Geben Sie einen anderen Organisationsnamen an.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP und FTPS</value>
@@ -3536,7 +3536,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Benutzeranmeldeinformationen</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Benutzeranmeldeinformationen werden von Ihnen (dem Benutzer) definiert und können für alle Apps verwendet werden, auf die Sie Zugriff besitzen. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-Anmeldeinformationen</value>
@@ -3763,6 +3764,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_ACU" xml:space="preserve">
     <value>ACU gesamt: {0}</value>
   </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Verfügbare Features</value>
+  </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Containereinstellungen aktualisieren</value>
   </data>
@@ -3917,7 +3921,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Das Repository für die Web-App "{0}" kann zu diesem Zeitpunkt nicht aktualisiert werden.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>Für VSTS Continuous Delivery brauchen Sie Berechtigungen zum Schreiben in Azure Active Directory und zum Erstellen eines Dienstprinzipals.</value>
+    <value>Für Azure DevOps Continuous Delivery benötigen Sie Berechtigungen zum Schreiben in Azure Active Directory und zum Erstellen eines Dienstprinzipals.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Beispiel auswählen</value>
@@ -3926,13 +3930,13 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Beschreibung</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>Sie sind nicht als Besitzer eines VSTS-Repositorys festgelegt.</value>
+    <value>Sie besitzen keine Azure Repos-Instanz.</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>Sie verfügen über keine gültigen VSTS-Konten.</value>
+    <value>Sie verfügen über keine gültige Azure DevOps-Organisation.</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Sie verfügen über keine gültigen VSTS-Konten. Für den App Service-Kudu-Build müssen Sie außerdem der Kontobesitzer sein.</value>
+    <value>Sie verfügen über keine gültigen Azure DevOps-Organisation. Für den App Service-Kudu-Build müssen Sie außerdem ein Organisationsbesitzer sein.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Jetzt erstellen</value>
@@ -4199,10 +4203,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Neuer oder vorhandener Bereitstellungsslot</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Neues oder vorhandenes VSTS-Konto</value>
+    <value>Neue oder vorhandene Azure DevOps-Organisation</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Neues oder vorhandenes VSTS-Konto</value>
+    <value>Neue oder vorhandene Web-App</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Bereitstellungsdetails</value>
@@ -4412,6 +4416,129 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Proxys (kein Zugriff möglich)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>Ungültiges YML-Format. Fehler: {0}.</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Containerprotokolle herunterladen</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Detaillierte Containerprotokolle werden heruntergeladen.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Containerprotokolle wurden erfolgreich heruntergeladen.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Fehler beim Herunterladen von Containerprotokollen.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Anmeldeinformationen werden zurückgesetzt</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Fehler beim Zurücksetzen der Anmeldeinformationen.</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Anmeldeinformationen erfolgreich zurückgesetzt</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Anmeldeinformationen werden gespeichert</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Fehler beim Speichern der Anmeldeinformationen.</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Die Anmeldeinformationen wurden erfolgreich gespeichert.</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Hiermit wird ein Image aus einer privaten Registrierung verwendet, Azure Container Registry eingeschlossen.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Nicht ausgewählt</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Neueste</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (aktuell)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Ihre App verwendet die aktuelle Version von {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Die Auswahl einer bestimmten Nebenversion, bei der es sich nicht um die aktuelle Version handelt, kann die benötigte Zeit für Kaltstarts verlängern.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions für PowerShell – Erste Schritte</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Erweitert</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Speicherkonto wählen</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Speicherkonto</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Speichercontainer</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>BLOB</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Dateien</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Speichercontainer auswählen</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Einbindungspfad</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Freigabename</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Zugriffsschlüssel</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Speichertyp</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Pfad</value>
   </data>
 </root>

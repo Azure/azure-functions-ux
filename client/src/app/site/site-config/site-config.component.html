@@ -55,6 +55,12 @@
       [resourceId]="resourceId"
       [featureName]="featureName"></virtual-directories>
 
+    <mount-storage
+      *ngIf="byosSupported"
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></mount-storage>
+
   </div>
 
 </div>

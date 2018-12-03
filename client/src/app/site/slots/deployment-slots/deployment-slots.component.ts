@@ -6,7 +6,15 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType } from '../../../shared/models/constants';
+import {
+  Links,
+  LogCategories,
+  ScenarioIds,
+  SiteTabIds,
+  SlotOperationState,
+  SwapOperationType,
+  ARMApiVersions,
+} from '../../../shared/models/constants';
 import { OpenBladeInfo, EventVerbs } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { SlotSwapInfo, SlotNewInfo } from '../../../shared/models/slot-events';
@@ -56,8 +64,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public slotsQuotaMessage: string;
   public slotsQuotaScaleUp: () => void;
 
-  public addControlsOpen = false;
-  public swapControlsOpen = false;
+  public showAddControlsFn: () => void;
+  public addOperationsComplete = true;
+  public swapOperationsComplete = true;
 
   public dirtyMessage: string;
 
@@ -72,6 +81,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   private _slotName: string;
 
   private _refreshing: boolean;
+
+  private _addControlsOpen = false;
+  private _swapControlsOpen = false;
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -98,6 +110,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       if (this._confirmIfDirty()) {
         this.scaleUp();
       }
+    };
+
+    this.showAddControlsFn = () => {
+      this.showAddControls();
     };
 
     this._setupBroadcastSubscriptions();
@@ -163,9 +179,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this._isSlot = !!siteDescriptor.slot;
         this._slotName = siteDescriptor.slot || 'production';
 
-        this.resourceId = siteDescriptor.getTrimmedResourceId();
+        this.resourceId = siteDescriptor.getTrimmedResourceId().toLowerCase();
 
-        const siteResourceId = siteDescriptor.getSiteOnlyResourceId();
+        const siteResourceId = siteDescriptor.getSiteOnlyResourceId().toLowerCase();
 
         return Observable.zip(
           this._siteService.getSite(siteResourceId, this._refreshing),
@@ -196,8 +212,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
           this._siteConfigArm = siteConfigResult.result;
 
           if (this._isSlot) {
-            this.siteArm = slotsResult.result.value.filter(s => s.id === this.resourceId)[0];
-            this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this.resourceId);
+            this.siteArm = slotsResult.result.value.filter(s => s.id.toLowerCase() === this.resourceId.toLowerCase())[0];
+            this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id.toLowerCase() !== this.resourceId.toLowerCase());
             this.relativeSlotsArm.unshift(siteResult.result);
           } else {
             this.siteArm = siteResult.result;
@@ -263,15 +279,23 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._broadcastService
       .getEvents<EventMessage<SlotSwapInfo>>(BroadcastEvent.SlotSwap)
       .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId === this.resourceId)
+      .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
       .subscribe(message => {
         const slotSwapInfo = message.metadata;
         switch (slotSwapInfo.operationType) {
-          case SwapOperationType.slotsSwap:
           case SwapOperationType.applySlotConfig:
             if (slotSwapInfo.state === SlotOperationState.started) {
               this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
             } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = false;
+              this.refresh(true);
+            }
+            break;
+          case SwapOperationType.slotsSwap:
+            if (slotSwapInfo.state === SlotOperationState.started) {
+              this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
+            } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = true;
               this.refresh(true);
             }
             break;
@@ -281,6 +305,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.siteArm.properties.targetSwapSlot = null;
               }
             } else if (slotSwapInfo.state === SlotOperationState.completed) {
+              this.swapOperationsComplete = true;
               this.refresh(true);
             }
             break;
@@ -292,11 +317,14 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._broadcastService
       .getEvents<EventMessage<SlotNewInfo>>(BroadcastEvent.SlotNew)
       .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId === this.resourceId)
+      .filter(m => m.resourceId.toLowerCase() === this.resourceId.toLowerCase())
       .subscribe(message => {
         const slotNewInfo = message.metadata;
-        if (slotNewInfo.state === SlotOperationState.completed && slotNewInfo.success) {
-          this.refresh(true);
+        if (slotNewInfo.state === SlotOperationState.completed) {
+          this.addOperationsComplete = true;
+          if (slotNewInfo.success) {
+            this.refresh(true);
+          }
         }
       });
   }
@@ -340,7 +368,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _updateDisabledState() {
-    const operationOpenOrInProgress = this.saving || this.addControlsOpen || this.swapControlsOpen;
+    const operationOpenOrInProgress = this.saving || this._addControlsOpen || this._swapControlsOpen;
 
     this.refreshCommandDisabled = operationOpenOrInProgress || !this.featureSupported;
 
@@ -357,13 +385,13 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.swapSlotsCommandDisabled =
       this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.relativeSlotsArm || !this.relativeSlotsArm.length;
 
-    this.navigationDisabled = this.addControlsOpen || this.swapControlsOpen;
+    this.navigationDisabled = this._addControlsOpen || this._swapControlsOpen;
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
     const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
     const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
-    const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
+    const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
     const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
     return this._fb.control(
@@ -414,23 +442,24 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
               if (!ruleControl.pristine) {
                 const nameParts = name.split('/');
-                const ruleName = nameParts.length === 0 ? 'production' : nameParts[1];
-                const index = rampUpRules.findIndex(r => r.name === ruleName);
+                const ruleName = nameParts.length === 2 ? nameParts[1] : 'production';
+                const index = rampUpRules.findIndex(r => r.name.toLowerCase() === ruleName.toLowerCase());
+                const value = !ruleControl.value ? 0 : Number(ruleControl.value).valueOf();
 
-                if (!ruleControl.value) {
+                if (value === 0) {
                   if (index >= 0) {
                     rampUpRules.splice(index, 1);
                   }
                 } else {
                   if (index >= 0) {
-                    rampUpRules[index].reroutePercentage = ruleControl.value;
+                    rampUpRules[index].reroutePercentage = value;
                   } else {
-                    const slotArm = this.relativeSlotsArm.find(s => s.name === name);
+                    const slotArm = this.relativeSlotsArm.find(s => s.name.toLowerCase() === name.toLowerCase());
 
                     if (slotArm) {
                       rampUpRules.push({
                         actionHostName: slotArm.properties.hostNames[0],
-                        reroutePercentage: ruleControl.value,
+                        reroutePercentage: value,
                         changeStep: null,
                         changeIntervalInMinutes: null,
                         minReroutePercentage: null,
@@ -445,7 +474,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
-          return this._cacheService.putArm(`${this.resourceId}/config/web`, null, siteConfigArm);
+          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, siteConfigArm);
         })
         .do(null, error => {
           this.dirtyMessage = null;
@@ -505,7 +534,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   showSwapControls() {
     if (this._confirmIfDirty()) {
-      this.swapControlsOpen = true;
+      this._swapControlsOpen = true;
+      this.swapOperationsComplete = false;
       this._updateDisabledState();
       this._openSwapPane();
     }
@@ -535,7 +565,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         });
       })
       .subscribe(_ => {
-        this.swapControlsOpen = false;
+        this._swapControlsOpen = false;
+        this.swapOperationsComplete = true;
         if (!this._refreshing) {
           this._updateDisabledState();
         }
@@ -544,7 +575,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   showAddControls() {
     if (this._confirmIfDirty()) {
-      this.addControlsOpen = true;
+      this._addControlsOpen = true;
+      this.addOperationsComplete = false;
       this._updateDisabledState();
       this._openAddPane();
     }
@@ -574,7 +606,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         });
       })
       .subscribe(_ => {
-        this.addControlsOpen = false;
+        this._addControlsOpen = false;
+        this.addOperationsComplete = true;
         this._updateDisabledState();
       });
   }

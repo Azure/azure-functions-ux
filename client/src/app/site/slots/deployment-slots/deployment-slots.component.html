@@ -56,9 +56,16 @@
     </div>
 
     <div *ngIf="keepVisible || featureSupported || loadingFailed" class="config-wrapper">
+        <info-box
+            *ngIf="!fetchingContent && !!siteArm && (!relativeSlotsArm || relativeSlotsArm.length === 0)"
+            [isBanner]="true"
+            [infoText]="'slotsList_noSlots' | translate"
+            typeClass="upsell"
+            [infoActionFn]="showAddControlsFn">
+        </info-box>
 
         <div class="config-container"
-            [is-dirty]="!!mainForm?.dirty || !!dirtyMessage || swapControlsOpen || addControlsOpen"
+            [is-dirty]="!!mainForm?.dirty || !!dirtyMessage || !swapOperationsComplete || !addOperationsComplete"
             [is-dirty-message]="dirtyMessage">
 
             <!-- TODO [andiamrc]: Provide more granular details for permissions errors -->
@@ -208,8 +215,8 @@
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent" class="message-row" colspan="4" table-cell>
-                        {{ (!siteArm ? 'error_unableToLoadSlotsList' : 'slotsList_noSlots') | translate }}
+                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" colspan="4" table-cell>
+                        {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 
                 </tr>

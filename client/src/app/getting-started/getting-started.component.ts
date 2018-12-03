@@ -18,7 +18,7 @@ import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Constants } from './../shared/models/constants';
-import { StorageAccount } from './../shared/models/storage-account';
+import { StorageAccountDeprecated } from './../shared/models/storage-account';
 import { ResourceGroup } from './../shared/models/resource-group';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user';
@@ -350,10 +350,10 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       .subscribe(() => this._createStorageAccount(subscription, geoRegion, functionAppName, result), e => this.completeError(result, e));
   }
 
-  private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccount> {
+  private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccountDeprecated> {
     const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts`;
     return this._armService.get(id, this._armService.storageApiVersion).map(r => {
-      const accounts: StorageAccount[] = r.json().value;
+      const accounts: StorageAccountDeprecated[] = r.json().value;
       return accounts.find(sa => sa.name.startsWith('azurefunctions'));
     });
   }
@@ -361,7 +361,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   private _pullStorageAccount(
     subscription: string,
     geoRegion: string,
-    storageAccount: StorageAccount | string,
+    storageAccount: StorageAccountDeprecated | string,
     functionAppName: string,
     result: Subject<FunctionContainer>,
     count = 0
@@ -378,7 +378,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     } else {
       this._armService
         .get(id, this._armService.storageApiVersion)
-        .map(r => <StorageAccount>r.json())
+        .map(r => <StorageAccountDeprecated>r.json())
         .subscribe(
           sa => {
             if (sa.properties.provisioningState === 'Succeeded') {
@@ -433,7 +433,11 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       );
   }
 
-  private _createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount): RxSubscription {
+  private _createStorageAccountLock(
+    subscription: string,
+    geoRegion: string,
+    storageAccount: string | StorageAccountDeprecated
+  ): RxSubscription {
     const storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
     const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}`;
     const body = {
@@ -465,7 +469,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   private _getStorageAccountSecrets(
     subscription: string,
     geoRegion: string,
-    storageAccount: StorageAccount,
+    storageAccount: StorageAccountDeprecated,
     functionAppName: string,
     result: Subject<FunctionContainer>
   ) {
@@ -486,7 +490,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     subscription: string,
     geoRegion: string,
     name: string,
-    storageAccount: StorageAccount,
+    storageAccount: StorageAccountDeprecated,
     secrets: { key1: string; key2: string },
     result: Subject<FunctionContainer>
   ) {

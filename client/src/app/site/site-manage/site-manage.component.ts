@@ -326,7 +326,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   }
 
   private _initCol2Groups(site: ArmObj<Site>) {
-    const networkFeatures = [
+    const networkFeatures: FeatureItem[] = [
       new DisableableBladeFeature(
         this._translateService.instant(PortalResources.feature_networkingName),
         this._translateService.instant(PortalResources.feature_networkingName) +
@@ -398,7 +398,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
       if (this._scenarioService.checkScenario(ScenarioIds.openClassicMsi, { site: site }).status === 'enabled') {
         networkFeatures.push(
-          new DisableableBladeFeature(
+          new BladeFeature(
             this._translateService.instant(PortalResources.feature_msiName),
             this._translateService.instant(PortalResources.feature_msiName) +
               this._translateService.instant(PortalResources.authentication) +
@@ -410,14 +410,12 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
               detailBladeInputs: { resourceUri: site.id },
               openAsContextBlade: true,
             },
-            this._portalService,
-            null,
-            this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+            this._portalService
           )
         );
       } else {
         networkFeatures.push(
-          new DisableableBladeFeature(
+          new BladeFeature(
             this._translateService.instant(PortalResources.feature_msiName),
             this._translateService.instant(PortalResources.feature_msiName) +
               this._translateService.instant(PortalResources.authentication) +
@@ -425,18 +423,16 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._translateService.instant(PortalResources.feature_msiInfo),
             'image/msi.svg',
             {
-              detailBlade: 'AzureResourceIdentitiesBlade',
+              detailBlade: 'AzureResourceIdentitiesBladeV2',
               extension: 'Microsoft_Azure_ManagedServiceIdentity',
               detailBladeInputs: {
-                id: site.id,
-                apiVersion: ARMApiVersions.siteConfigApiVersion,
+                resourceId: site.id,
+                apiVersion: ARMApiVersions.websiteApiVersion20180201,
                 systemAssignedStatus: 2, // IdentityStatus.Supported
                 userAssignedStatus: 2, // IdentityStatus.Supported
               },
             },
-            this._portalService,
-            null,
-            this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+            this._portalService
           )
         );
       }

@@ -23,6 +23,8 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
+import { MountStorageComponent } from './mount-storage/mount-storage.component';
+import { Url } from 'app/shared/Utilities/url';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -40,6 +42,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
   public defaultDocumentsSupported = false;
   public handlerMappingsSupported = false;
   public virtualDirectoriesSupported = false;
+  public byosSupported = false;
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
@@ -64,6 +67,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
   handlerMappings: HandlerMappingsComponent;
   @ViewChild(VirtualDirectoriesComponent)
   virtualDirectories: VirtualDirectoriesComponent;
+  @ViewChild(MountStorageComponent)
+  mountStorage: MountStorageComponent;
 
   private _site: ArmObj<Site>;
 
@@ -95,6 +100,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       .switchMap(r => {
         this._site = r.result;
 
+        this.byosSupported = !!Url.getParameterByName(null, 'appsvc.byos');
+
         if (!ArmUtil.isLinuxApp(this._site)) {
           this.defaultDocumentsSupported = true;
           this.handlerMappingsSupported = true;
@@ -111,6 +118,10 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         if (this._scenarioService.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site: this._site }).status === 'disabled') {
           this.virtualDirectoriesSupported = false;
+        }
+
+        if (this._scenarioService.checkScenario(ScenarioIds.byosSupported, { site: this._site }).status === 'disabled') {
+          this.byosSupported = false;
         }
 
         this._setupForm();
@@ -166,6 +177,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
+
     if (this.defaultDocumentsSupported) {
       this.defaultDocuments.validate();
     }
@@ -174,6 +186,9 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
     if (this.virtualDirectoriesSupported) {
       this.virtualDirectories.validate();
+    }
+    if (this.byosSupported) {
+      this.mountStorage.validate();
     }
 
     if (this.mainForm.valid) {
@@ -185,6 +200,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       this.generalSettings.getSaveConfigs(saveConfigs);
       this.appSettings.getSaveConfigs(saveConfigs);
       this.connectionStrings.getSaveConfigs(saveConfigs);
+
       if (this.defaultDocumentsSupported) {
         this.defaultDocuments.getSaveConfigs(saveConfigs);
       }
@@ -193,6 +209,9 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       }
       if (this.virtualDirectoriesSupported) {
         this.virtualDirectories.getSaveConfigs(saveConfigs);
+      }
+      if (this.byosSupported) {
+        this.mountStorage.getSaveConfigs(saveConfigs);
       }
 
       this._portalService
@@ -209,7 +228,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._putArm(saveConfigs.connectionStringsArm),
             this._putArm(saveConfigs.siteArm),
             this._putArm(saveConfigs.siteConfigArm),
-            this._putArm(saveConfigs.slotConfigNamesArm)
+            this._putArm(saveConfigs.slotConfigNamesArm),
+            this._putArm(saveConfigs.azureStorageAccountsArm)
           );
         })
         .subscribe(results => {
@@ -222,11 +242,13 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             site: results[2],
             siteConfig: results[3],
             slotConfigNames: results[4],
+            azureStorageAccounts: results[5],
           };
 
           this.generalSettings.processSaveResults(saveResults);
           this.appSettings.processSaveResults(saveResults);
           this.connectionStrings.processSaveResults(saveResults);
+
           if (this.defaultDocumentsSupported) {
             this.defaultDocuments.processSaveResults(saveResults);
           }
@@ -235,6 +257,9 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
           }
           if (this.virtualDirectoriesSupported) {
             this.virtualDirectories.processSaveResults(saveResults);
+          }
+          if (this.byosSupported) {
+            this.mountStorage.processSaveResults(saveResults);
           }
 
           const saveErrors: string[] = [];

@@ -19,6 +19,8 @@ import { ArmService } from './arm.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { PublishingCredentials } from '../models/publishing-credentials';
+import { ARMApiVersions } from '../models/constants';
+import { ByosStorageAccounts } from 'app/site/byos/byos';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -44,7 +46,9 @@ export class SiteService {
   }
 
   getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
-    const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force).map(r => r.json());
+    const getSiteConfig = this._cacheService
+      .getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20180201)
+      .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 
@@ -132,10 +136,13 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => addOrUpdateAppSettings);
   }
 
-  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig): Result<ArmObj<Site>> {
+  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig | {}): Result<ArmObj<Site>> {
     if (!!config) {
-      config.experiments = null;
-      config.routingRules = null;
+      ['experiments', 'routingRules'].forEach(propertyName => {
+        if (config.hasOwnProperty(propertyName)) {
+          config[propertyName] = null;
+        }
+      });
     }
 
     const payload = JSON.stringify({
@@ -169,12 +176,19 @@ export class SiteService {
   }
 
   updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
-    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, null, siteConfig);
+    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, siteConfig);
     return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
   }
 
   updateAppSettings(resourceId: string, appSettings: ArmObj<ApplicationSettings>) {
     const putAppSettings = this._cacheService.putArm(`${resourceId}/config/appSettings`, null, appSettings);
     return this._client.execute({ resourceId: resourceId }, t => putAppSettings);
+  }
+
+  getAzureStorageAccounts(resourceId: string, force?: boolean): Result<ArmObj<ByosStorageAccounts>> {
+    const getSiteConfig = this._cacheService
+      .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20180201)
+      .map(r => r.json());
+    return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 }
