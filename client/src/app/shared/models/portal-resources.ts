@@ -1199,6 +1199,7 @@ export class PortalResources {
   public static settingupDeployment = 'settingupDeployment';
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
+  public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';

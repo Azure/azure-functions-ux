@@ -134,12 +134,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
   }
 
-  public deploy(): Observable<any> {
+  public deploy(): Observable<{ status: string; statusMessage: string }> {
     switch (this.wizardValues.buildProvider) {
       case 'vsts':
         return this._deployVsts();
       default:
-        return this._deployKudu();
+        return this._deployKudu().map(() => ({ status: 'succeeded', statusMessage: null }));
     }
   }
 
@@ -182,11 +182,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .switchMap(() => this._pollVstsCheck(id))
         .map(r => {
           const result = r.json();
-          const ciConfig: string = result.ciConfiguration.result.status;
+          const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
           return ciConfig;
         })
         .first(result => {
-          return result !== 'inProgress' && result !== 'queued';
+          return result.status !== 'inProgress' && result.status !== 'queued';
         });
     });
   }
