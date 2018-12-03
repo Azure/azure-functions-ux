@@ -109,11 +109,6 @@ export class XenonSiteEnvironment extends Environment {
         return scenarioResult;
       },
     };
-
-    this.scenarioChecks[ScenarioIds.byosSupported] = {
-      id: ScenarioIds.byosSupported,
-      runCheck: () => disabledResult,
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
