@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Guid } from 'app/shared/Utilities/Guid';
+import { PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 
 interface SummaryItem {
   label: string;
@@ -204,14 +205,14 @@ export class StepCompleteComponent {
           value: buildSettings.pythonSettings.framework,
         });
 
-        if (wizValues.buildSettings.pythonSettings.framework === 'Flask') {
+        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Flask) {
           returnSummaryItems.push({
             label: this._translateService.instant(PortalResources.flaskProjectName),
             value: buildSettings.pythonSettings.flaskProjectName,
           });
         }
 
-        if (wizValues.buildSettings.pythonSettings.framework === 'Django') {
+        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Django) {
           returnSummaryItems.push({
             label: this._translateService.instant(PortalResources.djangoSettings),
             value: buildSettings.pythonSettings.djangoSettingsModule,

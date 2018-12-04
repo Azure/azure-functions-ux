@@ -32,7 +32,7 @@ export class VstsBuildSettings {
 }
 
 export class PythonSettings {
-  public framework: 'Bottle' | 'Django' | 'Flask';
+  public framework: PythonFrameworkType;
   public version: string;
   public flaskProjectName: string;
   public djangoSettingsModule: string;
@@ -281,13 +281,22 @@ export enum ApplicationType {
   Java = 14,
   Ruby = 15,
 }
-
+export enum PythonFrameworkType {
+  Undefined = 0,
+  Bottle = 1,
+  Django = 2,
+  Flask = 3,
+}
 export interface BuildConfiguration {
   type: ApplicationType;
   workingDirectory: string;
   version?: string;
   startupCommand?: string;
   rubyFramework?: number;
+  pythonExtensionId?: string;
+  pythonFramework?: number;
+  flaskProjectName?: string;
+  djangoSettingsModule?: string;
 }
 
 export interface CodeRepository {

@@ -14,6 +14,7 @@ import {
   TargetEnvironmentType,
   CodeRepository,
   BuildConfiguration,
+  PythonFrameworkType,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -267,6 +268,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
     if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
       buildConfig.rubyFramework = 1;
+    }
+    if (this.wizardValues.buildSettings.applicationFramework === 'Python') {
+      buildConfig.pythonExtensionId = this.wizardValues.buildSettings.pythonSettings.version;
+      buildConfig.pythonFramework = this.wizardValues.buildSettings.pythonSettings.framework;
+      if (buildConfig.pythonFramework === PythonFrameworkType.Flask) {
+        buildConfig.flaskProjectName = this.wizardValues.buildSettings.pythonSettings.flaskProjectName;
+      }
+      if (buildConfig.pythonFramework === PythonFrameworkType.Django) {
+        buildConfig.djangoSettingsModule = this.wizardValues.buildSettings.pythonSettings.djangoSettingsModule;
+      }
     }
     return buildConfig;
   }
