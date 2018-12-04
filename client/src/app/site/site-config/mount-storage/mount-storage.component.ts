@@ -11,7 +11,7 @@ import { SiteService } from 'app/shared/services/site.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { OsType } from 'app/shared/models/arm/stacks';
 import { EventMessage, BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { ByosData, ByosStorageAccounts, StorageType, StorageTypeSetting } from 'app/site/byos/byos';
+import { ByosData, ByosStorageAccounts, StorageType, StorageTypeSetting, ByosInputData } from 'app/site/byos/byos';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,8 +20,7 @@ import { SelectOption } from 'app/shared/models/select-option';
 import { LogService } from 'app/shared/services/log.service';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
-
-// TODO(michinoy): Will send a separate PR with these changes.
+import { StoragePathValidator } from 'app/shared/validators/storagePathValidator';
 
 @Component({
   selector: 'mount-storage',
@@ -52,6 +51,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
 
   private _requiredValidator: RequiredValidator;
   private _uniqueNameValidator: UniqueValidator;
+  private _storagePathValidator: StoragePathValidator;
 
   constructor(
     private _portalService: PortalService,
@@ -170,17 +170,27 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
 
   public addItem() {
     const descriptor: ArmSiteDescriptor = new ArmSiteDescriptor(this._site.id);
+    let currentNames: string[] = [];
+
+    if (this.groupArray && this.groupArray.controls) {
+      currentNames = this.groupArray.controls.map(control => {
+        const form = <FormGroup>control;
+        return form.controls.name.value;
+      });
+    }
+
     this._portalService.openBlade(
       {
         detailBlade: 'ByosPickerFrameBlade',
         detailBladeInputs: {
           id: this._site.id,
-          data: {
+          data: <ByosInputData>{
             resourceId: this._site.id,
             isFunctionApp: false,
             subscriptionId: descriptor.subscription,
             location: this._site.location,
             os: ArmUtil.isLinuxApp(this._site) ? OsType.Linux : OsType.Windows,
+            currentNames,
           },
         },
       },
@@ -289,13 +299,16 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
 
         this.newItem = this._fb.group({
           name: [
-            { value: '', disabled: !this.hasWritePermissions },
+            { value: byosConfig.name, disabled: !this.hasWritePermissions },
             Validators.compose([
               this._requiredValidator.validate.bind(this._requiredValidator),
               this._uniqueNameValidator.validate.bind(this._uniqueNameValidator),
             ]),
           ],
-          mountPath: [{ value: byosConfig.mountPath, disabled: !this.hasWritePermissions }],
+          mountPath: [
+            { value: byosConfig.mountPath, disabled: !this.hasWritePermissions },
+            Validators.compose([this._storagePathValidator.validate.bind(this._storagePathValidator)]),
+          ],
           displayType: [
             {
               value:
@@ -364,6 +377,10 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError)
         );
+        this._storagePathValidator = new StoragePathValidator(
+          this._translateService,
+          ArmUtil.isLinuxApp(this._site) ? OsType.Linux : OsType.Windows
+        );
 
         for (const name in storageAccountsArm.properties) {
           if (storageAccountsArm.properties.hasOwnProperty(name)) {
@@ -377,7 +394,10 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
                   this._uniqueNameValidator.validate.bind(this._uniqueNameValidator),
                 ]),
               ],
-              mountPath: [{ value: storageAccount.mountPath, disabled: !this.hasWritePermissions }],
+              mountPath: [
+                { value: storageAccount.mountPath, disabled: !this.hasWritePermissions },
+                Validators.compose([this._storagePathValidator.validate.bind(this._storagePathValidator)]),
+              ],
               displayType: [
                 {
                   value:

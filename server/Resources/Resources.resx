@@ -4574,4 +4574,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="emptyStorageAccounts" xml:space="preserve">
     <value>(no storage accounts to display)</value>
   </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Storage setting with that name already exists.</value>
+  </data>
 </root>

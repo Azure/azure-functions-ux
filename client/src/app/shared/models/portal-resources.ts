@@ -1472,4 +1472,5 @@ export class PortalResources {
   public static invalidShare = 'invalidShare';
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
+  public static byos_storageNameExists = 'byos_storageNameExists';
 }

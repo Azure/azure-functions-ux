@@ -24,7 +24,6 @@ import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { MountStorageComponent } from './mount-storage/mount-storage.component';
-import { Url } from 'app/shared/Utilities/url';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -100,8 +99,6 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       .switchMap(r => {
         this._site = r.result;
 
-        this.byosSupported = !!Url.getParameterByName(null, 'appsvc.byos');
-
         if (!ArmUtil.isLinuxApp(this._site)) {
           this.defaultDocumentsSupported = true;
           this.handlerMappingsSupported = true;
@@ -122,6 +119,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         if (this._scenarioService.checkScenario(ScenarioIds.byosSupported, { site: this._site }).status === 'disabled') {
           this.byosSupported = false;
+        } else {
+          this.byosSupported = true;
         }
 
         this._setupForm();
