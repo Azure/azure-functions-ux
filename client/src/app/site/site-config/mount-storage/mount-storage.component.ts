@@ -136,12 +136,18 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
       const formGroup = group as CustomFormGroup;
       if (formGroup.msExistenceState !== 'deleted') {
         const controls = formGroup.controls;
-        const name = controls['name'].value;
         const mountPath = controls['mountPath'].value;
-        const accountName = controls['accountName'].value;
         const shareName = controls['shareName'].value;
         const accessKey = controls['accessKey'].value;
         const type = controls['type'].value;
+        const name = controls['name'].value;
+        let accountName = controls['accountName'].value;
+
+        if (!ArmUtil.isLinuxApp(this._site)) {
+          // NOTE(michinoy): This is a temporary fix. Windows backend is throwing an error if the
+          // dns suffix is not explicitly part of the name.
+          accountName = `${accountName}.file.core.windows.net`;
+        }
 
         storageAccounts[name] = {
           type,

@@ -44,17 +44,10 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
 
     if (this.byosConfigureData.form.valid) {
       const form = this._byosManager.getConfiguredForm(this.byosConfigureData.form);
-      let storageAccountName = form.controls.account.value;
-
-      if (this._os === OsType.Windows) {
-        // NOTE(michinoy): This is a temporary fix. Windows backend is throwing an error if the
-        // dns suffix is not explicitly part of the name.
-        storageAccountName = `${storageAccountName}.file.core.windows.net`;
-      }
 
       this._portalService.returnByosSelections({
         type: form.controls.storageType.value,
-        accountName: storageAccountName,
+        accountName: form.controls.account.value,
         shareName: form.controls.containerName.value,
         accessKey: form.controls.accessKey.value,
         mountPath: form.controls.mountPath.value,
