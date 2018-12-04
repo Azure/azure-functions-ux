@@ -86,6 +86,10 @@
       </div>
     </div>
 
+    <info-box *ngIf="unableToReachVSTS"
+        typeClass="error"
+        [infoText]="'unableToReachBuild' | translate">
+    </info-box>
 
     <div class="table-container">
       <ngx-datatable #myTable class='fluent expandable' columnMode="flex" [rows]="TableItems" [groupRowsBy]="'date'"
