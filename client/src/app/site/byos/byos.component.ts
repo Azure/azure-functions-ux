@@ -16,12 +16,14 @@ import { Links } from 'app/shared/models/constants';
 export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> implements OnDestroy {
   @Input()
   set viewInfoInput(viewInfo: ByosInput<ByosInputData>) {
+    this._os = null;
     this.byosConfigureData = null;
     this.setInput(viewInfo);
   }
 
   public byosConfigureData: ByosConfigureData;
   public byosLearnMoreLink = Links.byosLearnMore;
+  private _os: OsType;
 
   constructor(private _byosManager: ByosManager, private _portalService: PortalService, injector: Injector) {
     super('ByosComponent', injector, 'dashboard');
@@ -31,8 +33,8 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
 
   protected setup(inputEvents: Observable<ByosInput<ByosInputData>>) {
     return inputEvents.do((input: ByosInput<ByosInputData>) => {
-      const os = input.data.os.toLowerCase() === OsType.Linux.toLowerCase() ? OsType.Linux : OsType.Windows;
-      this._byosManager.initialize(os, input.data.currentNames || []);
+      this._os = input.data.os.toLowerCase() === OsType.Linux.toLowerCase() ? OsType.Linux : OsType.Windows;
+      this._byosManager.initialize(this._os, input.data.currentNames || []);
       this.byosConfigureData = { ...input.data, form: this._byosManager.form };
     });
   }
@@ -42,6 +44,13 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
 
     if (this.byosConfigureData.form.valid) {
       const form = this._byosManager.getConfiguredForm(this.byosConfigureData.form);
+      let storageAccountName = form.controls.account.value;
+
+      if (this._os === OsType.Windows) {
+        // NOTE(michinoy): This is a temporary fix. Windows backend is throwing an error if the
+        // dns suffix is not explicitly part of the name.
+        storageAccountName = `${storageAccountName}.file.core.windows.net`;
+      }
 
       this._portalService.returnByosSelections({
         type: form.controls.storageType.value,
