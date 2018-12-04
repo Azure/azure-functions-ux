@@ -178,7 +178,7 @@ const semanticColors = {
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
   menuItemBackgroundChecked: AzurePortalColors.background,
-  dirty: AzurePortalColors.controlDirtyOutline,
+  ...AzurePortalColors,
 };
 
 const darkModeTheme: Partial<ThemeExtended> = {

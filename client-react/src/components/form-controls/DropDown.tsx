@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { Link } from 'office-ui-fabric-react/lib/Link';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { Label } from 'office-ui-fabric-react/lib/Label';
 import { style } from 'typestyle';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
@@ -30,32 +28,18 @@ const containerStyle = width =>
   });
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & CustomDropdownStateProps) => {
-  const { field, form, label, width, options, learnMore, subLabel, theme, ...rest } = props;
+  const { field, form, width, options, learnMore, subLabel, theme, ...rest } = props;
   const dirty = get(form.initialValues, field.name, null) !== field.value;
 
   const onChange = (e: unknown, option: IDropdownOption) => {
     form.setFieldValue(field.name, option.key);
   };
   return (
-    <div className={containerStyle(width || '530px')}>
-      <Label required={true} id={`${rest.id}-label`} htmlFor={rest.id}>
-        {label}
-      </Label>
-      {subLabel && (
-        <Label id={`${rest.id}-sublabel`} required={false} style={{ fontSize: '12px', marginTop: '1px', paddingTop: '0px' }}>
-          {subLabel}
-          {learnMore && (
-            <Link href={learnMore.learnMoreLink} target="_blank">
-              {learnMore.learnMoreText}
-            </Link>
-          )}
-        </Label>
-      )}
-
+    <div className={containerStyle(width || '535px')}>
       <Shimmer isDataLoaded={options.length > 0} ariaLabel={'Loading content'}>
         <OfficeDropdown
           selectedKey={field.value === undefined ? 'null' : field.value}
-          ariaLabel={label}
+          ariaLabel={props.label}
           options={options}
           onChange={onChange}
           onBlur={field.onBlur}
@@ -63,15 +47,12 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & Cus
           {...rest}
           styles={{
             title: dirty && {
-              borderColor: theme.semanticColors.dirty,
-            },
-            dropdownItemSelected: {
-              color: theme.semanticColors.bodyText,
+              borderColor: theme.semanticColors.controlDirtyOutline,
             },
             dropdown: dirty && {
               selectors: {
-                ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.dirty }],
-                ['&:hover .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.dirty }],
+                ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
+                ['&:hover .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
               },
             },
           }}
