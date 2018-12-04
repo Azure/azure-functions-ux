@@ -100,13 +100,13 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       .switchMap(r => {
         this._site = r.result;
 
-        this.byosSupported = !!Url.getParameterByName(null, 'appsvc.byos');
-
         if (!ArmUtil.isLinuxApp(this._site)) {
           this.defaultDocumentsSupported = true;
           this.handlerMappingsSupported = true;
           this.virtualDirectoriesSupported = true;
         }
+
+        this.byosSupported = !!Url.getParameterByName(null, 'appsvc.byos');
 
         if (this._scenarioService.checkScenario(ScenarioIds.defaultDocumentsSupported, { site: this._site }).status === 'disabled') {
           this.defaultDocumentsSupported = false;

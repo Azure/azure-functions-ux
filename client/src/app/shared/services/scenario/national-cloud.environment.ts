@@ -135,6 +135,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.vstsSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.byosSupported] = {
+      id: ScenarioIds.byosSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
