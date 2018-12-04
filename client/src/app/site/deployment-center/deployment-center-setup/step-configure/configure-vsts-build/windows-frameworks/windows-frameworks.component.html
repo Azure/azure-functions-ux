@@ -70,6 +70,7 @@
               class="custom-select" 
               [clearable]="false" 
               [searchable]="false" 
+              [loading]="pythonLoading"
               [items]="pythonVersionList" 
               bindLabel="displayLabel"
               bindValue="value" 
@@ -79,14 +80,14 @@
           </div>
         </div>
 
-        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Django'">
+        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 2">
           <label class="setting-label"> {{'djangoSettings' | translate}} </label>
           <div class="setting-control-container">
             <textbox [ariaLabel]="'djangoSettings' | translate" [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule"></textbox>
           </div>
         </div>
 
-        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Flask'">
+        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 3">
           <label class="setting-label">{{'flaskProjectName' | translate}}</label>
           <div class="setting-control-container">
             <textbox [ariaLabel]="'flaskProjectName' | translate" [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.flaskProjectName"></textbox>
