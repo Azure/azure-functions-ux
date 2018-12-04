@@ -3182,7 +3182,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Update App Service plan</value>
   </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
-    <value>Shared insfrastructure</value>
+    <value>Shared infrastructure</value>
   </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
