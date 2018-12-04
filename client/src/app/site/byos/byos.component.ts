@@ -54,7 +54,7 @@ export class ByosComponent extends FeatureComponent<ByosInput<ByosInputData>> im
 
       this._portalService.returnByosSelections({
         type: form.controls.storageType.value,
-        accountName: form.controls.account.value,
+        accountName: storageAccountName,
         shareName: form.controls.containerName.value,
         accessKey: form.controls.accessKey.value,
         mountPath: form.controls.mountPath.value,
