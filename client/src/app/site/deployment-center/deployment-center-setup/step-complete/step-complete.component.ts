@@ -71,16 +71,30 @@ export class StepCompleteComponent {
       .subscribe(
         r => {
           this.clearBusy();
-          this._portalService.stopNotification(
-            notificationId,
-            true,
-            this._translateService.instant(PortalResources.settingupDeploymentSuccess)
-          );
-          this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
-          this._portalService.logAction('deploymentcenter', 'save', {
-            id: saveGuid,
-            succeeded: 'true',
-          });
+          if (r.status === 'succeeded') {
+            this._portalService.stopNotification(
+              notificationId,
+              true,
+              this._translateService.instant(PortalResources.settingupDeploymentSuccess)
+            );
+            this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'true',
+            });
+          } else {
+            this._portalService.stopNotification(
+              notificationId,
+              false,
+              this._translateService.instant(PortalResources.settingupDeploymentFailWithStatusMessage).format(r.statusMessage)
+            );
+            this._logService.error(LogCategories.cicd, '/save-cicd', r.statusMessage);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'false',
+              statusMessage: r.statusMessage,
+            });
+          }
         },
         err => {
           this.clearBusy();
