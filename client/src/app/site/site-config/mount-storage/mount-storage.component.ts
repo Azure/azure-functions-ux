@@ -388,9 +388,19 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
           ArmUtil.isLinuxApp(this._site) ? OsType.Linux : OsType.Windows
         );
 
+        const isWindows = !ArmUtil.isLinuxApp(this._site);
+
         for (const name in storageAccountsArm.properties) {
           if (storageAccountsArm.properties.hasOwnProperty(name)) {
             const storageAccount = storageAccountsArm.properties[name];
+            let accountName = storageAccount.accountName;
+
+            if (isWindows && accountName.endsWith('.file.core.windows.net')) {
+              // NOTE(michinoy): This is a temporary fix. Windows backend is throwing an error if the
+              // dns suffix is not explicitly part of the name. When showing in the grid, not to include
+              // the dns suffix.
+              accountName = accountName.replace('.file.core.windows.net', '');
+            }
 
             const group = this._fb.group({
               name: [
@@ -414,7 +424,7 @@ export class MountStorageComponent extends ConfigSaveComponent implements OnChan
                 },
               ],
               accountName: [
-                { value: storageAccount.accountName, disabled: !this.hasWritePermissions },
+                { value: accountName, disabled: !this.hasWritePermissions },
                 Validators.compose([this._requiredValidator.validate.bind(this._requiredValidator)]),
               ],
               shareName: [
