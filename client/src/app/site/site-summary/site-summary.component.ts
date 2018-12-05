@@ -81,15 +81,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   private _blobUrl: string;
   private _isSlot: boolean;
   private _slotName: string;
-  private readonly _oldExtensionList = [
-    'EventHubConfiguration',
-    'CosmosDBConfiguration',
-    'EventGridExtensionConfig',
-    'MicrosoftGraphExtensionConfig',
-    'SendGridConfiguration',
-    'AuthTokenExtensionConfig',
-    'ServiceBusExtensionConfig',
-  ];
 
   constructor(
     private _cacheService: CacheService,
@@ -179,8 +170,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this._functionAppService.pingScmSite(context),
           this._functionAppService.getRuntimeGeneration(context),
           this._functionAppService.getFunctions(context),
-          this._functionAppService.getExtensionJson(context),
-          (p, s, l, slots, ping, version, functions, extensions) => ({
+          (p, s, l, slots, ping, version, functions) => ({
             hasWritePermission: p,
             hasSwapPermission: s,
             hasReadOnlyLock: l,
@@ -188,7 +178,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             pingedScmSite: ping.isSuccessful ? ping.result : false,
             runtime: version,
             functionInfo: functions.isSuccessful ? functions.result : [],
-            extensionList: extensions.isSuccessful ? extensions.result.map(r => r.name) : [],
           })
         );
       })
