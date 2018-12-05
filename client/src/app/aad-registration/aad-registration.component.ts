@@ -11,6 +11,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { errorIds } from './../shared/models/error-ids';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
+import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'aad-registration',
@@ -28,6 +29,7 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
   descriptionHelper: AADDescriptionDescriptions = new AADDescriptionDescriptions();
   count = 0;
   configuredCount = 0;
+  isNationalCloud: boolean;
   @Output()
   configured: BehaviorSubject<boolean> = new BehaviorSubject(false);
   binding: string;
@@ -67,13 +69,14 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
   }
 
   ngOnInit() {
+    this.isNationalCloud = NationalCloudEnvironment.isNationalCloud();
     this._portalService.getAdToken('graph').subscribe(
       tokenData => {
         this.graphToken = tokenData.result.token;
         this.setModel();
       },
       err => {
-        this.processError(err, 'Error retrieving graph yoken');
+        this.processError(err, 'Error retrieving graph token');
       }
     );
   }
