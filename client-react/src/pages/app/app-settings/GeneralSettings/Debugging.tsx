@@ -25,6 +25,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           <Field
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
+            fullpage
             disabled={!values.siteWritePermission}
             options={[
               {

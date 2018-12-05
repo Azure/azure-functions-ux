@@ -19,6 +19,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           <Field
             name="config.properties.use32BitWorkerProcess"
             component={Dropdown}
+            fullpage
             label={t('platform')}
             id="app-settings-worker-process"
             disabled={!values.siteWritePermission}
@@ -36,6 +37,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           <Field
             name="config.properties.managedPipelineMode"
             component={Dropdown}
+            fullpage
             label={t('managedPipelineVersion')}
             id="app-settings-managed-pipeline-mode"
             disabled={!values.siteWritePermission}
@@ -55,6 +57,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="config.properties.ftpsState"
         component={Dropdown}
+        fullpage
         label={t('ftpState')}
         id="app-settings-ftps-state"
         disabled={!values.siteWritePermission}
@@ -76,6 +79,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="config.properties.http20Enabled"
         component={Dropdown}
+        fullpage
         label={t('httpVersion')}
         id="app-settings-http-enabled"
         disabled={!values.siteWritePermission}

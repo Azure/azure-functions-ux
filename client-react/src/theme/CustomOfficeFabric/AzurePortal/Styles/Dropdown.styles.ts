@@ -22,8 +22,8 @@ const GlobalClassNames = {
   titleHasError: 'ms-Dropdown-title--hasError',
 };
 
-const DROPDOWN_HEIGHT = 32;
-const DROPDOWN_ITEMHEIGHT = 32;
+const DROPDOWN_HEIGHT = 23;
+const DROPDOWN_ITEMHEIGHT = 23;
 
 const highContrastAdjustMixin = {
   // highContrastAdjust mixin
@@ -118,13 +118,26 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
   ];
 
   return {
-    root: globalClassnames.root,
-    label: globalClassnames.label,
+    root: [
+      globalClassnames.root,
+      {
+        marginTop: '0px',
+        marginBottom: '15px',
+      },
+    ],
+    label: [
+      globalClassnames.label,
+      {
+        boxSizing: 'border-box',
+        minHeight: '20px',
+        width: '200px',
+      },
+    ],
     dropdown: [
       globalClassnames.dropdown,
       normalize,
       {
-        ...theme.fonts.medium,
+        ...theme.fonts.small,
         color: semanticColors.textColor,
         position: 'relative',
         outline: 0,
@@ -166,6 +179,12 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
       isOpen && 'is-open',
       disabled && 'is-disabled',
       required && 'is-required',
+      {
+        verticalAlign: 'middle',
+        width: '100%',
+        maxWidth: '265px',
+        minWidth: '75px',
+      },
     ],
     title: [
       globalClassnames.title,
@@ -278,7 +297,7 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
     dropdownItemHeader: [
       globalClassnames.dropdownItemHeader,
       {
-        ...theme.fonts.medium,
+        ...theme.fonts.small,
         fontWeight: FontWeights.semibold,
         color: semanticColors.textColor,
         background: 'none',
