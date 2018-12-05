@@ -1475,4 +1475,5 @@ export class PortalResources {
   public static emptyStorageAccounts = 'emptyStorageAccounts';
   public static byos_storageNameExists = 'byos_storageNameExists';
   public static unableToReachBuild = 'unableToReachBuild';
+  public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
 }

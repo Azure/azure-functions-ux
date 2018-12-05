@@ -4583,4 +4583,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
    <data name="unableToReachBuild" xml:space="preserve">
     <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
   </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>The path for Windows must begin with 'c:\'.</value>
+  </data>
 </root>

@@ -21,9 +21,13 @@ export class StoragePathValidator implements Validator {
     const valid = path.match(/^[a-zA-Z][:][\/\\]/);
     if (!valid) {
       return { required: this._translateService.instant(PortalResources.invalidWindowsPath) };
-    } else {
-      return null;
     }
+
+    if (!path.toLowerCase().startsWith('c:\\')) {
+      return { required: this._translateService.instant(PortalResources.invalidWindowsPathCdrive) };
+    }
+
+    return null;
   }
 
   private _validateLinuxPath(path: string) {
