@@ -2,47 +2,90 @@ import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-export interface HandlerMappingAddEditProps extends HandlerMapping {
+import { formElementStyle } from '../AppSettings.Styles';
+import ActionBar from '../../../../components/ActionBar';
+export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
+  closeBlade: () => void;
+  handlerMapping: HandlerMapping;
 }
 
 const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateHandlerMapping, children, t, ...handlerMapping } = props;
-  const updateHandlerMappingExtension = (extension: string) => {
-    updateHandlerMapping({ ...handlerMapping, extension });
+  const { updateHandlerMapping, t, closeBlade, handlerMapping } = props;
+  const [currentHandlerMapping, setCurrentHandlerMapping] = React.useState(handlerMapping);
+
+  const updateHandlerMappingExtension = (e: any, extension: string) => {
+    setCurrentHandlerMapping({ ...currentHandlerMapping, extension });
   };
 
-  const updateHandlerMappingScriptProccessor = (scriptProcessor: string) => {
-    updateHandlerMapping({ ...handlerMapping, scriptProcessor });
+  const updateHandlerMappingScriptProccessor = (e: any, scriptProcessor: string) => {
+    setCurrentHandlerMapping({ ...currentHandlerMapping, scriptProcessor });
   };
 
-  const updateHandlerMappingArguments = (argumentsVal: string) => {
-    updateHandlerMapping({
-      ...handlerMapping,
+  const updateHandlerMappingArguments = (e: any, argumentsVal: string) => {
+    setCurrentHandlerMapping({
+      ...currentHandlerMapping,
       arguments: argumentsVal,
     });
   };
+
+  const save = () => {
+    updateHandlerMapping(currentHandlerMapping);
+  };
+
+  const cancel = () => {
+    closeBlade();
+  };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('save'),
+    onClick: save,
+    disable: false,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
-    <div>
+    <form>
       <TextField
         label={t('extension')}
         id="handler-mappings-table-extension"
-        value={handlerMapping.extension}
-        onChanged={updateHandlerMappingExtension}
+        value={currentHandlerMapping.extension}
+        onChange={updateHandlerMappingExtension}
+        styles={{
+          root: formElementStyle,
+        }}
       />
       <TextField
         label={t('scriptProcessor')}
         id="handler-mappings-table-script-processor"
-        value={handlerMapping.scriptProcessor}
-        onChanged={updateHandlerMappingScriptProccessor}
+        value={currentHandlerMapping.scriptProcessor}
+        onChange={updateHandlerMappingScriptProccessor}
+        styles={{
+          root: formElementStyle,
+        }}
       />
       <TextField
         label={t('argumentsRes')}
         id="handler-mappings-table-arguments"
-        value={handlerMapping.arguments}
-        onChanged={updateHandlerMappingArguments}
+        value={currentHandlerMapping.arguments}
+        onChange={updateHandlerMappingArguments}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-    </div>
+      <ActionBar
+        id="handler-mappings-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
+    </form>
   );
 };
 export default translate('translation')(HandlerMappingsAddEdit);

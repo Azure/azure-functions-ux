@@ -64,6 +64,9 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
+      <info-box *ngIf="showFunctionsJavaVersionUnspecifiedWarning"
+        [infoText]="('functionsJavaMajorVersionWarning' | translate:{ defaultJavaVersion: functionsSupportedJavaVersionDisplay })">
+      </info-box>
       <label class="setting-label">{{ 'javaVersionLabel' | translate }}
         <pop-over [message]="('javaVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -80,6 +83,9 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
+      <info-box *ngIf="showFunctionsJavaMinorVersionWarning"
+        [infoText]="('functionsJavaMinorVersionWarning' | translate)">
+      </info-box>
       <label class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
         <pop-over [message]="('javaMinorVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -89,12 +95,13 @@
         <drop-down
           [control]="!!group ? group.controls['javaMinorVersion'] : null"
           [options]="!!dropDownOptionsMap ? dropDownOptionsMap['javaMinorVersion'] : []"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          (value)="onJavaMinorVersionChange($event)">
         </drop-down>
       </div>
     </div>
 
-    <div *ngIf="javaSupported" class="setting-wrapper">
+    <div *ngIf="javaSupported && !isJavaFunctionApp" class="setting-wrapper">
       <label class="setting-label">{{ 'javaWebContainerLabel' | translate }}
         <pop-over [message]="('javaWebContainerLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>

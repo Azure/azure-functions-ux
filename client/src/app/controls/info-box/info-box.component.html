@@ -12,10 +12,9 @@
     <div class="info-text-container" [class.banner]="isBanner">
         <div>{{ infoText }}</div>
     </div>
-    <div *ngIf="!!infoLink || !!infoActionFn" class="info-link-container">
+    <div *ngIf="!!infoLink || !!infoActionFn" class="info-link-container" [class.banner]="isBanner">
         <span
             [ngClass]="actionIconClass"
-            [class.banner]="isBanner"
             [load-image]="infoActionIcon || (isBanner ? 'image/arrow-right.svg' : 'image/learn-more.svg')">
         </span>
     </div>

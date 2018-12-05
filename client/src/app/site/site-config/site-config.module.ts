@@ -11,6 +11,7 @@ import { VirtualDirectoriesComponent } from 'app/site/site-config/virtual-direct
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
+import { MountStorageComponent } from './mount-storage/mount-storage.component';
 
 @NgModule({
   entryComponents: [SiteConfigStandaloneComponent],
@@ -25,6 +26,7 @@ import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
     DefaultDocumentsComponent,
     HandlerMappingsComponent,
     VirtualDirectoriesComponent,
+    MountStorageComponent,
   ],
   exports: [SiteConfigComponent, SiteConfigStandaloneComponent],
 })

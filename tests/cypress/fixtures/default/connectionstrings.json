@@ -3,5 +3,10 @@
   "name": "connectionstrings",
   "type": "Microsoft.Web/sites/config",
   "location": "Central US",
-  "properties": {}
+  "properties": {
+    "TEST_CONNECTION": {
+      "value": "TEST_CONNECTION_VALUE",
+      "type": 1
+    }
+  }
 }

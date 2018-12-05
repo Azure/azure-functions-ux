@@ -10,10 +10,10 @@
         <div class="feature-learnMore"
           *ngIf="feature.learnMoreUrl"
           [attr.aria-labelledBy]="feature.title | removeSpaces"
-          [attr.aria-label]="'topBar_learnMore' | translate">
+          [attr.aria-label]="'learnMore' | translate">
           <a [href]="feature.learnMoreUrl"
             target="_blank"
-            [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+            [attr.aria-describedby]="feature.title | removeSpaces">{{'learnMore' | translate}}</a>
         </div>
       </div>
     </div>

@@ -115,6 +115,8 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
         return this._pythonEnvironmentCards();
       case 'java':
         return this._javaEnvironmentCards();
+      case 'powershell':
+        return this._powershellEnvironmentCards();
       default:
         return [];
     }
@@ -149,6 +151,10 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
       return [];
     }
     return [this.vsCodeCard, this.mavenCard];
+  }
+
+  private _powershellEnvironmentCards(): DevEnvironmentCard[] {
+    return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
   }
 
   private _setDefaultDeploymentMethod(devEnvironment: devEnvironmentOptions) {

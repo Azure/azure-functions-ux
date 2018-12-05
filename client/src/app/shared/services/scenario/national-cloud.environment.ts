@@ -71,10 +71,10 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.addMsi] = {
-      id: ScenarioIds.addMsi,
+    this.scenarioChecks[ScenarioIds.openClassicMsi] = {
+      id: ScenarioIds.openClassicMsi,
       runCheck: () => {
-        return { status: 'disabled' };
+        return { status: 'enabled' };
       },
     };
 

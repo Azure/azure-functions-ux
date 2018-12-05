@@ -193,7 +193,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         if (!this.loadingFailure) {
           this._processLoadingResults(siteResult, slotsResult);
 
-          const srcSlot = this._getSlot(slot => slot.id === this._resourceId);
+          const srcSlot = this._getSlot(slot => slot.id.toLowerCase() === this._resourceId.toLowerCase());
           const targetSwapSlot = srcSlot ? srcSlot.properties.targetSwapSlot : null;
 
           if (!!targetSwapSlot) {
@@ -344,7 +344,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   }
 
   private _getPreviewLink(slotId: ResourceId): string {
-    const slot = this._getSlot(s => s.id === slotId);
+    const slot = this._getSlot(s => s.id.toLowerCase() === slotId.toLowerCase());
     return slot ? `https://${slot.properties.defaultHostName}` : null;
   }
 
@@ -403,7 +403,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.swapForm.controls['srcId'].setAsyncValidators(slotSwapSlotIdValidator.validate.bind(slotSwapSlotIdValidator));
     this.swapForm.controls['destId'].setAsyncValidators(slotSwapSlotIdValidator.validate.bind(slotSwapSlotIdValidator));
 
-    const destSlot = this._getSlot(slot => slot.id !== this._resourceId);
+    const destSlot = this._getSlot(slot => slot.id.toLowerCase() !== this._resourceId.toLowerCase());
     this.swapForm.controls['srcId'].markAsTouched();
     this.swapForm.controls['srcId'].setValue(this._resourceId);
     this.swapForm.controls['destId'].markAsTouched();
