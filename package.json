@@ -8,7 +8,8 @@
     "shelljs": "^0.8.1",
     "husky": "^1.1.0",
     "pretty-quick": "^1.7.0",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "gulp-prompt": "^1.1.0"
   },
   "prettier": {
     "jsxBracketSameLine": true,
