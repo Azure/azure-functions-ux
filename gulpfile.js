@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const path = require('path');
 const shell = require('shelljs');
+const prompt = require('gulp-prompt');
 const gulpMultiProcess = require('gulp-multi-process');
 
 gulp.task('run-dev-react', function(cb) {
@@ -61,4 +62,34 @@ gulp.task('restart-prod', () => {
     const cmd = `az webapp restart --resource-group functions-${region} --name functions-${region}`;
     shell.exec(cmd);
   });
+});
+
+gulp.task('build-fusion-url', () => {
+  gulp.src('./package.json').pipe(
+    prompt.prompt(
+      {
+        type: 'input',
+        name: 'task',
+        message: "Check oneNote for possible query parameters.\nProvide comma separated fusion query parameters (omit 'appsvc.'):",
+      },
+      function(res) {
+        if (res && res.task) {
+          const parameters = res.task.split(',');
+          let queryString = '';
+          parameters.forEach(parameter => {
+            const parts = parameter.split('=');
+            if (parts && parts.length === 2) {
+              const [key, value] = parts;
+              const query = queryString ? `%7Cappsvc.${key}%3D${value}` : `appsvc.${key}%3D${value}`;
+
+              queryString += query;
+            }
+          });
+
+          shell.echo(`Full URL - https://portal.azure.com?websitesextension_ext=${queryString}`);
+          shell.echo(`Query - websitesextension_ext=${queryString}`);
+        }
+      }
+    )
+  );
 });
