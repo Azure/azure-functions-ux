@@ -55,7 +55,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
   public vstsKuduOnly = false;
-  public vsoAccounts: VSOAccount[];
+  public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
     siteService: SiteService,
@@ -135,12 +135,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
   }
 
-  public deploy(): Observable<{ status: string; statusMessage: string }> {
+  public deploy(): Observable<{ status: string; statusMessage: string; result: any }> {
     switch (this.wizardValues.buildProvider) {
       case 'vsts':
         return this._deployVsts();
       default:
-        return this._deployKudu().map(() => ({ status: 'succeeded', statusMessage: null }));
+        return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
   }
 
@@ -184,7 +184,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .map(r => {
           const result = r.json();
           const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
-          return ciConfig;
+          return { ...ciConfig, result: result.ciConfiguration };
         })
         .first(result => {
           return result.status !== 'inProgress' && result.status !== 'queued';

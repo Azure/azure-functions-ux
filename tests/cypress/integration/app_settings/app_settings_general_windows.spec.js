@@ -18,14 +18,14 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Turning on Remote Debug should Trigger showing VS Version Dropdown', () => {
-    cy.get('#remote-debugging-switch')
+    cy.get('#remote-debugging-switch-label')
       .click()
-      .get('#remote-debugging-version')
+      .get('#ChoiceGroup28-true')
       .should('be.visible');
   });
 
   it('Remote Debugging being off should Hide VS Version Dropdown', () => {
-    cy.get('#remote-debugging-version').should('not.exist');
+    cy.get('#remote-debugging-version-label').should('not.exist');
   });
 
   it('default stack selection is .Net', () => {
@@ -176,15 +176,15 @@ context('App Settings General Settings Windows', () => {
       .should('exist')
       .get('#app-settings-managed-pipeline-mode')
       .should('exist')
-      .get('#app-settings-web-sockets-enabled')
+      .get('#app-settings-web-sockets-enabled-label')
       .should('exist')
       .get('#app-settings-ftps-state')
       .should('exist')
-      .get('#app-settings-always-on')
+      .get('#app-settings-always-on-label')
       .should('exist')
-      .get('#app-settings-clientAffinityEnabled')
+      .get('#app-settings-clientAffinityEnabled-label')
       .should('exist')
-      .get('#app-settings-http-enabled')
+      .get('#app-settings-http-enabled-label')
       .should('exist');
   });
 });

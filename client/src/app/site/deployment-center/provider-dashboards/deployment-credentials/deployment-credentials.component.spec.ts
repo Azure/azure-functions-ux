@@ -22,7 +22,7 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { MockPortalService } from '../../../../test/mocks/portal.service.mock';
 import { PortalService } from 'app/shared/services/portal.service';
 
-describe('DeploymentCredentialsComponent', () => {
+xdescribe('DeploymentCredentialsComponent', () => {
   let component: DeploymentCredentialsComponent;
   let fixture: ComponentFixture<DeploymentCredentialsComponent>;
 

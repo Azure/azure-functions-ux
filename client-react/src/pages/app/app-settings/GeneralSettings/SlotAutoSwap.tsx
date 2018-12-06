@@ -57,6 +57,7 @@ export class SlotAutoSwap extends React.Component<
                 <Field
                   name="config.properties.autoSwapSlotName"
                   component={Dropdown}
+                  fullpage
                   label={t('autoSwapSlot')}
                   id="app-settings-auto-swap-slot-name"
                   options={slotDropDownItems}

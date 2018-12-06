@@ -55,13 +55,6 @@ export const routes = RouterModule.forRoot([
     resolve: { info: InitResolver },
   },
 
-  // "/try" will load the try functions start page for https://functions.azure.com?trial=true
-  {
-    path: 'try',
-    loadChildren: 'app/try-landing/try-landing.module#TryLandingModule',
-    resolve: { info: InitResolver },
-  },
-
   // "/feature" will load a window to show a specific feature(i.e. app settings) with nothing else, defined by query string
   {
     path: 'feature',

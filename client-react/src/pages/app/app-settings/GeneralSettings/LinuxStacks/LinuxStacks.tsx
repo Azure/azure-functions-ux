@@ -25,6 +25,7 @@ export class LinuxStacks extends React.Component<PropsType, any> {
       <Field
         name="config.properties.linuxFxVersion"
         component={Dropdown}
+        fullpage
         disabled={!values.siteWritePermission}
         label="Runtime Stack"
         id="linux-fx-version-runtime"
