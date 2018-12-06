@@ -9,7 +9,6 @@ import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { By } from '@angular/platform-browser';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { WizardForm, PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 import { PortalResources } from '../../../../shared/models/portal-resources';
@@ -20,7 +19,6 @@ describe('StepCompleteComponent', () => {
   let buildStepTest: StepCompleteComponent;
   let testFixture: ComponentFixture<StepCompleteComponent>;
   let wizardService: MockDeploymentCenterStateManager;
-  let broadcastService: BroadcastService;
   let logService: MockLogService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +39,6 @@ describe('StepCompleteComponent', () => {
     testFixture.detectChanges();
 
     wizardService = TestBed.get(DeploymentCenterStateManager);
-    broadcastService = TestBed.get(BroadcastService);
     logService = TestBed.get(LogService);
   });
 
@@ -398,11 +395,9 @@ describe('StepCompleteComponent', () => {
     it('finish button should trigger save', fakeAsync(done => {
       const button = testFixture.debugElement.query(By.css('#step-complete-finish-button')).nativeElement;
       expect(wizardService.deployTriggered).toBeFalsy();
-      const spy = spyOn(broadcastService, 'broadcastEvent');
       button.click();
       tick();
       expect(wizardService.deployTriggered).toBeTruthy();
-      expect(spy).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter);
     }));
 
     it('save failures should clear busy state and log', fakeAsync(() => {

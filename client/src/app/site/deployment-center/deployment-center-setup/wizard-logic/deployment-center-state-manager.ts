@@ -55,7 +55,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
   public vstsKuduOnly = false;
-  public vsoAccounts: VSOAccount[];
+  public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
     siteService: SiteService,

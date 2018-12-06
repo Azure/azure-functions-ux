@@ -200,25 +200,10 @@ export class StepCompleteComponent {
           value: buildSettings.pythonSettings.version,
         });
 
-        switch (buildSettings.pythonSettings.framework) {
-          case PythonFrameworkType.Bottle:
-            returnSummaryItems.push({
-              label: this._translateService.instant(PortalResources.pythonVersionLabel),
-              value: 'Bottle',
-            });
-            break;
-          case PythonFrameworkType.Django:
-            returnSummaryItems.push({
-              label: this._translateService.instant(PortalResources.pythonVersionLabel),
-              value: 'Django',
-            });
-            break;
-          case PythonFrameworkType.Flask:
-            returnSummaryItems.push({
-              label: this._translateService.instant(PortalResources.pythonVersionLabel),
-              value: 'Flask',
-            });
-        }
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.pythonVersionLabel),
+          value: buildSettings.pythonSettings.framework,
+        });
 
         if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Flask) {
           returnSummaryItems.push({
