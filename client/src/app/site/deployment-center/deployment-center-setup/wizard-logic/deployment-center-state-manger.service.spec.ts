@@ -203,7 +203,7 @@ describe('Deployment State Manager', () => {
         wizardFormValues.sourceSettings.isManualIntegration = false;
         wizardFormValues.sourceProvider = 'external';
         service.wizardValues = wizardFormValues;
-        service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
+        service.deploy().subscribe(({ result }) => expect(result.properties.isManualIntegration).toBeTruthy());
       })
     ));
 
@@ -213,7 +213,7 @@ describe('Deployment State Manager', () => {
         const wizardFormValues = service.wizardValues;
         wizardFormValues.sourceProvider = 'localgit';
         service.wizardValues = wizardFormValues;
-        service.deploy().subscribe(result => expect(result.properties.scmType).toBe('LocalGit'));
+        service.deploy().subscribe(({ result }) => expect(result.properties.scmType).toBe('LocalGit'));
       })
     ));
   });

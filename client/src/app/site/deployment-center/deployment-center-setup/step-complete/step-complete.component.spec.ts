@@ -11,7 +11,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { By } from '@angular/platform-browser';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { WizardForm } from '../wizard-logic/deployment-center-setup-models';
+import { WizardForm, PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { MockPortalService } from '../../../../test/mocks/portal.service.mock';
@@ -153,7 +153,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Bottle',
+            framework: PythonFrameworkType.Bottle,
           },
           applicationFramework: 'Python',
         },
@@ -181,7 +181,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Flask',
+            framework: PythonFrameworkType.Flask,
             flaskProjectName: 'flaskproject',
           },
           applicationFramework: 'Python',
@@ -211,7 +211,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Django',
+            framework: PythonFrameworkType.Django,
             djangoSettingsModule: 'settingsModule',
           },
           applicationFramework: 'Python',
