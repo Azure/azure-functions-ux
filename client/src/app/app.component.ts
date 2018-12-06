@@ -39,9 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our
     // tree logic in order to get it working properly
-    if (_globalStateService.showTryView) {
-      this._router.navigate(['/try'], { queryParams: Url.getQueryStringObj() });
-    } else if (devGuide) {
+    if (devGuide) {
       this._router.navigate(['/devguide'], { queryParams: Url.getQueryStringObj() });
     } else if (
       !this._userService.inIFrame &&

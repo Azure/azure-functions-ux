@@ -7,12 +7,7 @@
     {
       "root": "src",
       "outDir": "../server/src/public/ng-full",
-      "assets": [
-        "assets",
-        "image",
-        "../node_modules/swagger-editor",
-        "sass/main.scss"
-      ],
+      "assets": ["assets", "image", "../node_modules/swagger-editor", "sass/main.scss"],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -26,11 +21,7 @@
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/prismjs/themes/prism-tomorrow.css"
       ],
-      "scripts": [
-        "../node_modules/marked/marked.min.js",
-        "../node_modules/pako/dist/pako.min.js",
-        "../node_modules/marked/lib/marked.js"
-      ],
+      "scripts": ["../node_modules/marked/marked.min.js", "../node_modules/pako/dist/pako.min.js", "../node_modules/marked/lib/marked.js"],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -64,7 +55,6 @@
         "src/app/shared/**/*.ts",
         "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts",
         "**/radio-selector/**",
-        "**/try-now-busy-state/**",
         "**/load-image.directive.ts",
         "**/pop-over/**"
       ]

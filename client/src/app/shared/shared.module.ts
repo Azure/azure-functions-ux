@@ -7,10 +7,8 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
-import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-state.component';
 import { TooltipDirective } from './../tooltip-content/tooltip.directive';
 import { TooltipContentComponent } from './../tooltip-content/tooltip-content.component';
-import { TryNowComponent } from './../try-now/try-now.component';
 import { TopBarStandAloneLoginUserComponent } from './../top-bar-standalone-loginuser/top-bar-standalone-loginuser.component';
 import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { GlobalStateService } from './services/global-state.service';
@@ -100,9 +98,7 @@ export function AiServiceFactory() {
 @NgModule({
   declarations: [
     TopBarComponent,
-    TryNowComponent,
     TopBarStandAloneLoginUserComponent,
-    TryNowBusyStateComponent,
     BusyStateComponent,
     MultiDropDownComponent,
     DropDownComponent,
@@ -144,9 +140,7 @@ export function AiServiceFactory() {
     ReactiveFormsModule,
     MultiDropDownComponent,
     TopBarComponent,
-    TryNowComponent,
     TopBarStandAloneLoginUserComponent,
-    TryNowBusyStateComponent,
     BusyStateComponent,
     DropDownComponent,
     TblComponent,
