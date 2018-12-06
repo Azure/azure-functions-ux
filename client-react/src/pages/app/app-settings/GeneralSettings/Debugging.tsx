@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormikProps, Field } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
-import Toggle from '../../../../components/form-controls/Toggle';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { settingsWrapper } from '../AppSettingsForm';
+import RadioButton from 'src/components/form-controls/RadioButton';
 
 const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
@@ -14,12 +14,21 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
       <div className={settingsWrapper}>
         <Field
           name="config.properties.remoteDebuggingEnabled"
-          component={Toggle}
+          component={RadioButton}
+          fullpage
           label={t('remoteDebuggingEnabledLabel')}
           disabled={!values.siteWritePermission}
           id="remote-debugging-switch"
-          onText={t('on')}
-          offText={t('off')}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
         />
         {props.values.config.properties.remoteDebuggingEnabled && (
           <Field
