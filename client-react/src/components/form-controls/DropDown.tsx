@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-// import { style } from 'typestyle';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { Shimmer } from 'office-ui-fabric-react/lib/components/Shimmer';
