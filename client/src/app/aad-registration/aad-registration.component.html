@@ -56,7 +56,7 @@
 
   <div *ngIf="!model.isAADAppCreated || !model.isPermissionConfigured || isAdditionalPermissionsBinding" class="panel-footer">
     <a class="link" (click)="openAuth()" tabindex="1">{{ 'asdreg_manageAppService' | translate }}</a>
-    <a *ngIf="!model.isAADAppCreated" class="link left" (click)="configureAAD()" tabindex="2">{{ 'aadreg_configureAADNow' | translate }}</a>
+    <a *ngIf="!model.isAADAppCreated" class="link left" (click)="configureAAD()" tabindex="2" check-scenario="configureAADSupported" [cs-input]="{}" cs-enabledByDefault="true">{{ 'aadreg_configureAADNow' | translate }}</a>
     <a *ngIf="model.isAADAppCreated && !model.isPermissionConfigured && !isAdditionalPermissionsBinding" 
       class="link left" (click)="addPermissions()"
       tabindex="3">

@@ -127,13 +127,39 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.githubSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
     this.scenarioChecks[ScenarioIds.bitbucketSource] = {
       id: ScenarioIds.bitbucketSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
     this.scenarioChecks[ScenarioIds.vstsSource] = {
       id: ScenarioIds.vstsSource,
       runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.byosSupported] = {
+      id: ScenarioIds.byosSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    // this.scenarioChecks[ScenarioIds.configureAADSupported] = {
+    //   id: ScenarioIds.configureAADSupported,
+    //   runCheck: () => {
+    //     return { status: 'disabled' };
+    //   },
+    // };
+
+    this.scenarioChecks[ScenarioIds.configureAADSupported] = {
+      id: ScenarioIds.configureAADSupported,
+      runCheckAsync: (input: ScenarioCheckInput) => {
+        return Observable.of<ScenarioResult>({
+          status: 'disabled',
+          data: null,
+        });
+      },
     };
   }
 

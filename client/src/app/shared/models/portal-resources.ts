@@ -1199,6 +1199,7 @@ export class PortalResources {
   public static settingupDeployment = 'settingupDeployment';
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
+  public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
@@ -1472,4 +1473,7 @@ export class PortalResources {
   public static invalidShare = 'invalidShare';
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
+  public static byos_storageNameExists = 'byos_storageNameExists';
+  public static unableToReachBuild = 'unableToReachBuild';
+  public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
 }

@@ -64,7 +64,9 @@
         </td>
 
         <td class="one-third-col padded-col" table-cell [editable]="false">
-          {{ group.controls['mountPath'].value }}
+          <click-to-edit [group]="group" name="mountPath">
+            <textbox [control]="group.controls['mountPath']"></textbox>
+          </click-to-edit>
         </td>
 
         <td class="type-col padded-col" table-cell [editable]="false">

@@ -16,6 +16,7 @@ import { ArmService } from '../../../../shared/services/arm.service';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
+import { of } from 'rxjs/observable/of';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -35,10 +36,12 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   public sidePanelOpened = false;
   public viewInfoStream$: Subject<string>;
   public deploymentObject: VSODeploymentObject;
+  public unableToReachVSTS = false;
   private _ngUnsubscribe$ = new Subject();
   private _busyManager: BusyStateScopeManager;
   private _tableItems: ActivityDetailsLog[];
   private readonly _devAzureCom = 'dev.azure.com';
+
   constructor(
     private _portalService: PortalService,
     private _cacheService: CacheService,
@@ -88,12 +91,20 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
           const accountName = endpointUri.pathname.split('/')[1];
           buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
         }
-        return this._cacheService.get(buildDefUrl);
+        return this._cacheService.get(buildDefUrl).catch((err, caught) => {
+          this._busyManager.clearBusy();
+          this.deploymentObject = null;
+          this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
+          this.unableToReachVSTS = true;
+          return of(null);
+        });
       })
       .subscribe(
         r => {
-          this._busyManager.clearBusy();
-          this.deploymentObject.VSOData = r.json();
+          if (!!r) {
+            this._busyManager.clearBusy();
+            this.deploymentObject.VSOData = r.json();
+          }
         },
         err => {
           this._busyManager.clearBusy();
@@ -118,7 +129,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         })
         .concatMap(() =>
           this._armService.patch(
-            `${this.deploymentObject.site.id}/config/web`,
+            `${this.resourceId}/config/web`,
             { properties: { scmType: 'None' } },
             ARMApiVersions.websiteApiVersion20180201
           )
