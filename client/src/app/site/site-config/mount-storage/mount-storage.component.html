@@ -43,11 +43,11 @@
 
         <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.type | translate }}</th>
 
-        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.account | translate }}</th>
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.account | translate }}</th>
 
-        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.container | translate }}</th>
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.container | translate }}</th>
 
-        <th class="type-col padded-col" table-cell [editable]="false">{{ Resources.accessKey | translate }}</th>
+        <th class="one-third-col padded-col" table-cell [editable]="false">{{ Resources.accessKey | translate }}</th>
 
         <th class="action-col" table-cell [editable]="false">{{ Resources.appSettingsHeader_delete | translate }}</th>
 
@@ -69,19 +69,19 @@
           </click-to-edit>
         </td>
 
-        <td class="type-col padded-col" table-cell [editable]="false">
-          {{ group.controls['displayType'].value }}
+        <td class="one-third-col padded-col" table-cell [editable]="false">
+          <div class="column-text">{{ group.controls['displayType'].value }}</div>
         </td>
 
-        <td class="type-col padded-col" table-cell [editable]="false">
-          {{ group.controls['accountName'].value }}
+        <td class="one-third-col padded-col" table-cell [editable]="false">
+          <div class="column-text">{{ group.controls['accountName'].value }}</div>
         </td>
 
-        <td class="type-col padded-col" table-cell [editable]="false">
-          {{ group.controls['shareName'].value }}
+        <td class="one-third-col padded-col" table-cell [editable]="false">
+          <div class="column-text">{{ group.controls['shareName'].value }}</div>
         </td>
 
-        <td class="type-col padded-col" table-cell [editable]="true">
+        <td class="one-third-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="accessKey" [hiddenText]="!showValues" [maskText]="'hiddenValueClickToEdit' | translate">
             <textbox [control]="group.controls['accessKey']" [placeholder]="Resources.enterValue | translate"></textbox>
           </click-to-edit>

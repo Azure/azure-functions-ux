@@ -1,194 +1,202 @@
 @import '../../../sass/common/variables';
 
-.site-config-wrapper{
-    height: calc(100% - 42px);
-    overflow-y: auto;
+.site-config-wrapper {
+  height: calc(100% - 42px);
+  overflow-y: auto;
 }
 
-.site-config-container{
-    padding: 5px 20px;
+.site-config-container {
+  padding: 5px 20px;
 }
 
-th{
-    height: 0px;
+th {
+  height: 0px;
 }
 
-td{
-    span{
-        font-size: 16px;
+td {
+  span {
+    font-size: 16px;
 
-        &:hover{
-            color: $error-color;
-        }
-
+    &:hover {
+      color: $error-color;
     }
+  }
 
-    span.delete:hover{
-        color: $error-color;
-    }
+  span.delete:hover {
+    color: $error-color;
+  }
 }
 
-.padded-col{
-    padding-left: 2px;
-    padding-right: 2px;
+.padded-col {
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
-.one-third-col{
-    width: 33%;
+.one-third-col {
+  width: 33%;
 }
 
-.two-thirds-col{
-    width: 66%;
+.two-thirds-col {
+  width: 66%;
 }
 
-.one-half-col{
-    width: 50%;
+.one-half-col {
+  width: 50%;
 }
 
-.single-col{
-    width: 100%;
+.single-col {
+  width: 100%;
 }
 
-.type-col, .is-app-col, .slot-setting-col{
-    width: 200px;
+.type-col,
+.is-app-col,
+.slot-setting-col {
+  width: 200px;
 }
 
-.is-app-col, .slot-setting-col{
-    text-align: center;
+.is-app-col,
+.slot-setting-col {
+  text-align: center;
 }
 
-.action-col{
-    width: 40px;
-    text-align: center;
+.action-col {
+  width: 40px;
+  text-align: center;
 }
 
-input[type="checkbox"]{
-    vertical-align: text-bottom;
+input[type='checkbox'] {
+  vertical-align: text-bottom;
 }
 
-.message-row{
-    text-align: center;
+.message-row {
+  text-align: center;
 }
 
-.add-setting{
+.add-setting {
+  margin-top: 10px;
+  margin-left: 5px;
+  display: inline-block;
+}
+
+h3 {
+  font-weight: bold;
+  margin-left: 0px;
+  margin-bottom: 10px;
+  margin-top: 35px;
+  padding-bottom: 10px;
+  display: inline-block;
+
+  &.first-config-heading {
     margin-top: 10px;
-    margin-left: 5px;
-    display: inline-block;
+  }
 }
 
-h3{
-    font-weight: bold;
-    margin-left: 0px;
-    margin-bottom: 10px;
-    margin-top: 35px;
-    padding-bottom: 10px;
-    display: inline-block;
-
-    &.first-config-heading{
-        margin-top: 10px;
-    }
+.auto-swap-warning {
+  border-left-color: $warning-color;
+  border-left-style: solid;
+  border-left-width: 2px;
+  padding-left: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.auto-swap-warning{
-    border-left-color: $warning-color;
-    border-left-style: solid;
-    border-left-width: 2px;
-    padding-left: 8px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+.shield {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  background: rgba(255, 255, 255, 0.6);
+
+  .shield-message {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    border: 1px solid black;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+  }
+}
+
+.settings-group-wrapper {
+  position: relative;
+}
+
+.settings-wrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+
+  &.collapse-top {
+    margin-top: 0px;
+  }
+
+  .settings-load-message {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 15px;
+    margin-right: 25px;
+    border: 1px solid black;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+  }
+
+  .setting-wrapper {
+    width: 535px;
     margin-top: 15px;
     margin-bottom: 15px;
-}
 
-.shield{
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
-    display: flex;
-    background: rgba(255, 255, 255, 0.60);
-
-    .shield-message{
-        padding-top: 15px;
-        padding-bottom: 15px;
-        margin-left: 25px;
-        margin-right: 25px;
-        margin-top: auto;
-        margin-bottom: auto;
-        width: 100%;
-        border: 1px solid black;
-        background: rgba(0, 0, 0, 0.60);
-        text-align: center;
-    }
-}
-
-.settings-group-wrapper{
-    position: relative;
-}
-
-.settings-wrapper{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    position: relative;
-
-    &.collapse-top{
-        margin-top: 0px;
+    &.wide {
+      width: 100%;
     }
 
-    .settings-load-message{
-        padding-top: 15px;
-        padding-bottom: 15px;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 15px;
-        margin-right: 25px;
-        border: 1px solid black;
-        background: rgba(0, 0, 0, 0.60);
-        text-align: center;
+    &:first-child {
+      margin-top: 0px;
     }
 
-    .setting-wrapper{
-        width: 535px;
-        margin-top: 15px;
-        margin-bottom: 15px;
-
-        &.wide{
-            width: 100%;
-        }
-
-        &:first-child{
-            margin-top: 0px;
-        }
-
-        &:last-child{
-            margin-bottom: 0px;
-        }
-
-        .setting-label{
-            box-sizing: border-box;
-            display: inline-block;
-            min-height: 20px;
-            width: 32%;
-        }
-
-        .setting-control-container{
-            display: inline-block;
-            vertical-align: middle;
-            width: 66%;
-        }
+    &:last-child {
+      margin-bottom: 0px;
     }
+
+    .setting-label {
+      box-sizing: border-box;
+      display: inline-block;
+      min-height: 20px;
+      width: 32%;
+    }
+
+    .setting-control-container {
+      display: inline-block;
+      vertical-align: middle;
+      width: 66%;
+    }
+  }
 }
 
-.transparent{
-    background: transparent;
+.transparent {
+  background: transparent;
 }
 
-.icon-small{
-    vertical-align: text-top;
-    margin-left: 5px;
-    height: 13px;
-    width: 13px;
+.icon-small {
+  vertical-align: text-top;
+  margin-left: 5px;
+  height: 13px;
+  width: 13px;
+}
+
+.column-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
