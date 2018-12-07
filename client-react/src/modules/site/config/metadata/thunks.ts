@@ -3,6 +3,7 @@ import { checkCacheValid } from 'redux-cache';
 import axios from 'axios';
 import IState from '../../../types';
 import { ArmObj } from '../../../../models/WebAppModels';
+import { CommonConstants } from 'src/utils/CommonConstants';
 
 export function fetchMetadata() {
   return async (dispatch: any, getState: () => IState) => {
@@ -18,11 +19,15 @@ export function fetchMetadata() {
     }
     dispatch(updateSiteConfigMetadataLoading(true));
     try {
-      const siteFetch = await axios.post(`${armEndpoint}${resourceId}/list?api-version=2016-03-01`, null, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
-      });
+      const siteFetch = await axios.post(
+        `${armEndpoint}${resourceId}/list?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${armToken}`,
+          },
+        }
+      );
       const result = siteFetch.data;
       dispatch(updateCurrentSiteMetadataConfig(result));
       dispatch(updateSiteConfigMetadataLoading(false));
@@ -41,7 +46,7 @@ export function updateMetadata(metadata: ArmObj<{ [key: string]: string }>) {
     dispatch(updateSiteConfigMetadataSaving(true));
     try {
       const siteUpdate = await axios.put<ArmObj<{ [key: string]: string }>>(
-        `${armEndpoint}${startupInfo!.resourceId}/config/metadata?api-version=2016-03-01`,
+        `${armEndpoint}${startupInfo!.resourceId}/config/metadata?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
         metadata,
         {
           headers: {

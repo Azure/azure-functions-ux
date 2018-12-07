@@ -1,7 +1,6 @@
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { async } from 'q';
 import { BusyStateComponent } from './busy-state.component';
-import { TryNowBusyStateComponent } from '../try-now-busy-state/try-now-busy-state.component';
 import { MockComponent } from 'ng-mocks';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { MockLogService } from '../test/mocks/log.service.mock';
@@ -38,7 +37,7 @@ describe('BusyStateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BusyStateComponent, TestBusyStateHostComponent, MockComponent(TryNowBusyStateComponent)],
+      declarations: [BusyStateComponent, TestBusyStateHostComponent],
       providers: [BroadcastService, { provide: LogService, useClass: MockLogService }],
       imports: [],
     }).compileComponents();

@@ -24,6 +24,7 @@ class WindowsStacks extends React.Component<FormikProps<AppSettingsFormValues> &
         <Field
           name="currentlySelectedStack"
           component={Dropdown}
+          fullpage
           options={[
             {
               key: 'dotnet',

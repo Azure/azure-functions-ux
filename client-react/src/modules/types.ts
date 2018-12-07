@@ -10,6 +10,7 @@ import { ISlotListState } from './site/slots/reducer';
 import { IRbacState } from './service/rbac/reducer';
 import { IBillingMetersState } from './service/billing/reducer';
 import { IPlanState } from './plan/reducer';
+import { ISlotConfigNamesState } from './site/config/slotConfigNames/reducer';
 
 export default interface IState {
   portalService: IPortalServiceState;
@@ -25,4 +26,5 @@ export default interface IState {
   rbac: IRbacState;
   billingMeter: IBillingMetersState;
   plan: IPlanState;
+  slotConfigNames: ISlotConfigNamesState;
 }

@@ -16,7 +16,7 @@ context('App Settings Readonly Access', () => {
           expect(el[0].className).to.include('is-disabled');
         }
       })
-      .get('#remote-debugging-switch')
+      .get('#ChoiceGroup28-true')
       .should('be.disabled');
   });
 

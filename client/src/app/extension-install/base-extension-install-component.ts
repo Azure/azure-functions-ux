@@ -193,6 +193,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
               errorId: errorIds.failedToUninstallExtensions,
               resourceId: this.context.site.id,
             });
+            this.bringHostOnline();
           }
         });
       } else {
@@ -239,6 +240,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
             // if failed then show error, remove from status tracking queue
             if (jobInstallationStatusResult.isSuccessful && jobInstallationStatusResult.result.status === 'Failed') {
               this.showInstallFailed(this.context, jobInstallationStatusResult.result.id);
+              this.bringHostOnline();
             } else if (
               jobInstallationStatusResult.isSuccessful &&
               jobInstallationStatusResult.result.status !== 'Succeeded' &&
@@ -253,22 +255,26 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
           this.pollInstallationStatus(timeOut + 1);
         });
       } else {
-        // Put host into running state
-        this.functionAppService.updateHostState(this.context, 'running').subscribe(r => {
-          if (r.isSuccessful) {
-            // Ensure host is running
-            this.correctAppState = false;
-            this.pollHostStatus(0, 'Running');
-          } else {
-            this.showComponentError({
-              message: this.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: r.error }),
-              errorId: errorIds.failedToUpdateHostToRunning,
-              resourceId: this.context.site.id,
-            });
-          }
-        });
+        this.bringHostOnline();
       }
     }, 1000);
+  }
+
+  bringHostOnline() {
+    // Put host into running state
+    this.functionAppService.updateHostState(this.context, 'running').subscribe(r => {
+      if (r.isSuccessful) {
+        // Ensure host is running
+        this.correctAppState = false;
+        this.pollHostStatus(0, 'Running');
+      } else {
+        this.showComponentError({
+          message: this.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: r.error }),
+          errorId: errorIds.failedToUpdateHostToRunning,
+          resourceId: this.context.site.id,
+        });
+      }
+    });
   }
 
   showTimeoutError(context: FunctionAppContext) {

@@ -28,30 +28,30 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
     .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
     .as('rbacCall')
     .route(
-      'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=2016-03-01',
+      'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=**',
       '@siteJSON'
     )
     .route({
-      url: '**/config/connectionStrings/list?api-version=2016-03-01',
+      url: '**/config/connectionStrings/list?api-version=**',
       response: '@connectionstrings',
       method: 'POST',
     })
     .route({
-      url: '**/config/appsettings/list?api-version=2016-03-01',
+      url: '**/config/appsettings/list?api-version=**',
       response: '@appsettings',
       method: 'POST',
     })
     .route({
-      url: '**/config/metadata/list?api-version=2016-03-01',
+      url: '**/config/metadata/list?api-version=**',
       response: '@metadata',
       method: 'POST',
     })
-    .route('**/config/web?api-version=2016-03-01', '@webconfig')
+    .route('**/config/web?api-version=**', '@webconfig')
     .route('**/config/slotConfigNames?api-version=2018-02-01', '@slotconfigNames')
     .route(`**/availableStacks?osTypeSelected=${os === 'windows' ? 'Windows' : 'Linux'}&api-version=2018-02-01`, '@availableStacksJSON')
     .as('getAvailableStacks')
     .route(
-      'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=2016-03-01',
+      'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=**',
       '@slots'
     )
     .visit(

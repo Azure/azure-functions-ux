@@ -13,6 +13,7 @@ import {
   SlotOperationState,
   SwapOperationType,
   FeatureFlags,
+  FunctionAppVersion,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -80,15 +81,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   private _blobUrl: string;
   private _isSlot: boolean;
   private _slotName: string;
-  private readonly _oldExtensionList = [
-    'EventHubConfiguration',
-    'CosmosDBConfiguration',
-    'EventGridExtensionConfig',
-    'MicrosoftGraphExtensionConfig',
-    'SendGridConfiguration',
-    'AuthTokenExtensionConfig',
-    'ServiceBusExtensionConfig',
-  ];
 
   constructor(
     private _cacheService: CacheService,
@@ -176,18 +168,16 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this._authZService.hasReadOnlyLock(context.site.id),
           this._functionAppService.getSlotsList(context),
           this._functionAppService.pingScmSite(context),
-          this._functionAppService.getFunctionHostStatus(context),
+          this._functionAppService.getRuntimeGeneration(context),
           this._functionAppService.getFunctions(context),
-          this._functionAppService.getExtensionJson(context),
-          (p, s, l, slots, ping, host, functions, extensions) => ({
+          (p, s, l, slots, ping, version, functions) => ({
             hasWritePermission: p,
             hasSwapPermission: s,
             hasReadOnlyLock: l,
             slotsList: slots.isSuccessful ? slots.result : [],
             pingedScmSite: ping.isSuccessful ? ping.result : false,
-            runtime: host.isSuccessful ? host.result.version : '',
+            runtime: version,
             functionInfo: functions.isSuccessful ? functions.result : [],
-            extensionList: extensions.isSuccessful ? extensions.result.map(r => r.name) : [],
           })
         );
       })
@@ -199,7 +189,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
         }
 
-        if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime.startsWith('2.')) {
+        if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
           this.showQuickstart = true;
         }
 
@@ -223,20 +213,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             clickCallback: null,
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
-        }
-
-        if (!!r.runtime && r.runtime.includes('2.0.12050')) {
-          const hasOldExtensions = this._oldExtensionList.some(oldExtension => r.extensionList.includes(oldExtension));
-          if (hasOldExtensions) {
-            this.notifications.push({
-              id: NotificationIds.updateExtensions,
-              message: this.ts.instant(PortalResources.topBar_updateExtensions),
-              iconClass: 'fa fa-exclamation-triangle warning',
-              learnMoreLink: Links.extensionInstallHelpLink,
-              clickCallback: null,
-            });
-            this._globalStateService.setTopBarNotifications(this.notifications);
-          }
         }
 
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);

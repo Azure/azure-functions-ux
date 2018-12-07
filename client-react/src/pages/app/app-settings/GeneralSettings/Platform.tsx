@@ -5,7 +5,7 @@ import { AppSettingsFormValues } from '../AppSettings.Types';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import Toggle from 'src/components/form-controls/Toggle';
+import RadioButton from 'src/components/form-controls/RadioButton';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;
@@ -19,6 +19,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           <Field
             name="config.properties.use32BitWorkerProcess"
             component={Dropdown}
+            fullpage
             label={t('platform')}
             id="app-settings-worker-process"
             disabled={!values.siteWritePermission}
@@ -36,16 +37,17 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           <Field
             name="config.properties.managedPipelineMode"
             component={Dropdown}
+            fullpage
             label={t('managedPipelineVersion')}
             id="app-settings-managed-pipeline-mode"
             disabled={!values.siteWritePermission}
             options={[
               {
-                key: 0,
+                key: 'Integrated',
                 text: t('integrated'),
               },
               {
-                key: 1,
+                key: 'Classic',
                 text: t('classic'),
               },
             ]}
@@ -55,6 +57,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="config.properties.ftpsState"
         component={Dropdown}
+        fullpage
         label={t('ftpState')}
         id="app-settings-ftps-state"
         disabled={!values.siteWritePermission}
@@ -76,6 +79,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       <Field
         name="config.properties.http20Enabled"
         component={Dropdown}
+        fullpage
         label={t('httpVersion')}
         id="app-settings-http-enabled"
         disabled={!values.siteWritePermission}
@@ -93,31 +97,58 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"
-          component={Toggle}
+          component={RadioButton}
+          fullpage
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
           disabled={!values.siteWritePermission}
-          onText={t('on')}
-          offText={t('off')}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
         />
       )}
       <Field
         name="config.properties.alwaysOn"
-        component={Toggle}
+        component={RadioButton}
         label={t('alwaysOn')}
         id="app-settings-always-on"
         disabled={!values.siteWritePermission}
-        onText={t('on')}
-        offText={t('off')}
+        fullpage
+        options={[
+          {
+            key: true,
+            text: t('on'),
+          },
+          {
+            key: false,
+            text: t('off'),
+          },
+        ]}
       />
       <Field
         name="site.properties.clientAffinityEnabled"
-        component={Toggle}
+        component={RadioButton}
+        fullpage
         label={t('clientAffinityEnabledLabel')}
         id="app-settings-clientAffinityEnabled"
         disabled={!values.siteWritePermission}
-        onText={t('on')}
-        offText={t('off')}
+        options={[
+          {
+            key: true,
+            text: t('on'),
+          },
+          {
+            key: false,
+            text: t('off'),
+          },
+        ]}
       />
     </div>
   );

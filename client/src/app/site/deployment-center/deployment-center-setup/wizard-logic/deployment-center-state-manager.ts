@@ -14,6 +14,7 @@ import {
   TargetEnvironmentType,
   CodeRepository,
   BuildConfiguration,
+  PythonFrameworkType,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
@@ -54,7 +55,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
   public vstsKuduOnly = false;
-  public vsoAccounts: VSOAccount[];
+  public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
     siteService: SiteService,
@@ -134,12 +135,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
   }
 
-  public deploy(): Observable<any> {
+  public deploy(): Observable<{ status: string; statusMessage: string; result: any }> {
     switch (this.wizardValues.buildProvider) {
       case 'vsts':
         return this._deployVsts();
       default:
-        return this._deployKudu();
+        return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
   }
 
@@ -182,11 +183,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .switchMap(() => this._pollVstsCheck(id))
         .map(r => {
           const result = r.json();
-          const ciConfig: string = result.ciConfiguration.result.status;
-          return ciConfig;
+          const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
+          return { ...ciConfig, result: result.ciConfiguration };
         })
         .first(result => {
-          return result !== 'inProgress' && result !== 'queued';
+          return result.status !== 'inProgress' && result.status !== 'queued';
         });
     });
   }
@@ -267,6 +268,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
     if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
       buildConfig.rubyFramework = 1;
+    }
+    if (this.wizardValues.buildSettings.applicationFramework === 'Python') {
+      buildConfig.pythonExtensionId = this.wizardValues.buildSettings.pythonSettings.version;
+      buildConfig.pythonFramework = this.wizardValues.buildSettings.pythonSettings.framework;
+      if (buildConfig.pythonFramework === PythonFrameworkType.Flask) {
+        buildConfig.flaskProjectName = this.wizardValues.buildSettings.pythonSettings.flaskProjectName;
+      }
+      if (buildConfig.pythonFramework === PythonFrameworkType.Django) {
+        buildConfig.djangoSettingsModule = this.wizardValues.buildSettings.pythonSettings.djangoSettingsModule;
+      }
     }
     return buildConfig;
   }
