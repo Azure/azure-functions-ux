@@ -4053,7 +4053,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Function App runtime stack</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</value>
+    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to your app.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Function Runtime stack</value>
