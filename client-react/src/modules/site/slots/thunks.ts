@@ -3,6 +3,7 @@ import { checkCacheValid } from 'redux-cache';
 import { updateSlotList, updateSlotListNoCache } from './actions';
 import axios from 'axios';
 import { ArmArray, Site } from '../../../models/WebAppModels';
+import { CommonConstants } from 'src/utils/CommonConstants';
 export function fetchSlotList() {
   return async (dispatch: any, getState: () => IState) => {
     const startupInfo = getState().portalService.startupInfo;
@@ -24,11 +25,14 @@ export function fetchSlotList() {
 
     dispatch(updateSlotListNoCache({ loading: true }));
     try {
-      const siteFetch = await axios.get<ArmArray<Site>>(`${armEndpoint}${productionResourceId}/slots?api-version=2016-03-01`, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
-      });
+      const siteFetch = await axios.get<ArmArray<Site>>(
+        `${armEndpoint}${productionResourceId}/slots?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
+        {
+          headers: {
+            Authorization: `Bearer ${armToken}`,
+          },
+        }
+      );
       const siteResult = siteFetch.data;
       dispatch(updateSlotList({ slots: siteResult, loading: false }));
       return siteResult;

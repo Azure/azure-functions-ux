@@ -34,6 +34,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
               },
             ]}
           />
+          {console.log(props.values.config.properties)}
           <Field
             name="config.properties.managedPipelineMode"
             component={Dropdown}
@@ -43,11 +44,11 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             disabled={!values.siteWritePermission}
             options={[
               {
-                key: 0,
+                key: 'Integrated',
                 text: t('integrated'),
               },
               {
-                key: 1,
+                key: 'Classic',
                 text: t('classic'),
               },
             ]}
