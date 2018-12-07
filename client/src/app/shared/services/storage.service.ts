@@ -43,7 +43,9 @@ export class StorageService implements IStorageService {
       accessKey,
     };
 
-    const getContainers = this._cacheService.post(`${Constants.serviceHost}api/getStorageContainers?accountName=${accountName}`, false, null, payload).map(r => r.json());
+    const getContainers = this._cacheService
+      .post(`${Constants.serviceHost}api/getStorageContainers?accountName=${accountName}`, false, null, payload)
+      .map(r => r.json());
 
     return this._client.execute({ resourceId: null }, t => getContainers);
   }
@@ -54,7 +56,9 @@ export class StorageService implements IStorageService {
       accessKey,
     };
 
-    const getFileShares = this._cacheService.post(`${Constants.serviceHost}api/getStorageFileShares?accountName=${accountName}`, false, null, payload).map(r => r.json());
+    const getFileShares = this._cacheService
+      .post(`${Constants.serviceHost}api/getStorageFileShares?accountName=${accountName}`, false, null, payload)
+      .map(r => r.json());
 
     return this._client.execute({ resourceId: null }, t => getFileShares);
   }

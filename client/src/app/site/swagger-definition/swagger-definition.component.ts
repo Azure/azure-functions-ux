@@ -428,7 +428,9 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         }
 
         if (configChange) {
-          return this._cacheService.putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(config)).map(r => r.json());
+          return this._cacheService
+            .putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(config))
+            .map(r => r.json());
         }
 
         return Observable.of(true);

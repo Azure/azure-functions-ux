@@ -282,11 +282,15 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     if (confirmResult) {
       let notificationId = null;
       this._busyManager.setBusy();
-      const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
-        properties: {
-          scmType: 'None',
+      const webConfig = this._armService.patch(
+        `${this.deploymentObject.site.id}/config/web`,
+        {
+          properties: {
+            scmType: 'None',
+          },
         },
-      }, ARMApiVersions.websiteApiVersion20180201);
+        ARMApiVersions.websiteApiVersion20180201
+      );
       let sourceControlsConfig = of(null);
       if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {
         sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);

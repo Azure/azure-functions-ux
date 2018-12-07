@@ -69,6 +69,9 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     config.scripts = index.match(/scripts.*?\.bundle.js/)[0];
     config.main = index.match(/main.*?\.bundle.js/)[0];
     config.styles = index.match(/styles.*?\.bundle.css/)[0];
+    const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
+    const configContents = new Buffer(JSON.stringify(config));
+    fs.writeFileSync(configFile, configContents);
     return gulp
       .src('src/**/*.pug')
       .pipe(replace({ global: config }))
@@ -92,7 +95,7 @@ gulp.task('replace-tokens', function() {
  *   Bundle Up production server views
  */
 gulp.task('bundle-views', function() {
-  return gulp.src(['src/**/*.pug', 'src/**/*.css']).pipe(gulp.dest('build/src'));
+  return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('build'));
 });
 
 /********
@@ -464,6 +467,9 @@ function newGuid() {
   });
 }
 
+function getBuildVersion() {
+  return !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0';
+}
 function getFiles(folders) {
   let possibleDirectory;
 

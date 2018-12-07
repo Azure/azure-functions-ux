@@ -4,6 +4,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "strict": true,
+    "jsx": "react",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -11,8 +12,5 @@
     "skipLibCheck": true,
     "outDir": "build"
   },
-  "exclude": [
-    "node_modules",
-    "src/public"
-  ]
+  "exclude": ["node_modules", "src/public"]
 }
