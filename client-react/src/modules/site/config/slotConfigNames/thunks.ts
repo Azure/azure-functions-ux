@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArmObj, SlotConfigNames } from '../../../../models/WebAppModels';
 import IState from '../../../types';
 import { InitialState } from './reducer';
+import { CommonConstants } from 'src/utils/CommonConstants';
 
 export function fetchSlotConfigNames() {
   return async (dispatch: any, getState: () => IState): Promise<SlotConfigNames> => {
@@ -22,11 +23,14 @@ export function fetchSlotConfigNames() {
     }
     dispatch(updateCurrentSiteSlotConfigNamesNoCache({ loading: true }));
     try {
-      const stickyResult = await axios.get<ArmObj<SlotConfigNames>>(`${armEndpoint}${resourceId}?api-version=2018-02-01`, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
-      });
+      const stickyResult = await axios.get<ArmObj<SlotConfigNames>>(
+        `${armEndpoint}${resourceId}?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
+        {
+          headers: {
+            Authorization: `Bearer ${armToken}`,
+          },
+        }
+      );
       const slotConfigNames = stickyResult.data;
 
       dispatch(
@@ -58,7 +62,7 @@ export function updateSlotConfigNames(slotConfigNamesUpdated: SlotConfigNames) {
     dispatch(updateCurrentSiteSlotConfigNamesNoCache({ saving: true }));
     try {
       await axios.put<ArmObj<SlotConfigNames>>(
-        `${armEndpoint}${resourceId}?api-version=2018-02-01`,
+        `${armEndpoint}${resourceId}?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
         { properties: slotConfigNamesUpdated },
         {
           headers: {
