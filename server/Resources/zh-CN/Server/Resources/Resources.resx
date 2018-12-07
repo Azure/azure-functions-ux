@@ -3536,7 +3536,7 @@
     <value>用户凭据</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>用户凭据由你(即用户)进行定义，且可用于你有权访问的所有应用。这些凭据可用于 FTP、本地 Git 和 WebDeploy。如果你在使用用户凭据连接到应用，则将需要输入用户名作为 {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3733,6 +3733,9 @@
   </data>
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>未能设置部署</value>
+  </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>未能设置部署: {0}</value>
   </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>正在断开你的部署</value>
@@ -4293,7 +4296,7 @@
     <value>物理路径</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>删除</value>
@@ -4500,7 +4503,7 @@
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>文件</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
     <value>选择存储容器</value>
@@ -4530,7 +4533,7 @@
     <value>装载存储(预览)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>添加存储</value>
+    <value>+ 添加存储</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>帐户</value>
@@ -4540,5 +4543,44 @@
   </data>
   <data name="path" xml:space="preserve">
     <value>路径</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>可使用以下控件来选择在浏览器中显示隐藏的存储密钥。</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>存储帐户</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>存储帐户名称</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>无效共享</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>无效凭据</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(没有要显示的存储帐户)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>其中该名称已存在的存储设置。</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>我们无法连接到已连接到此 Web 应用的 Azure 管道。这可能意味着已从 Azure Dev Ops 门户将其删除。如果是这样，可以断开此管道并设置新的部署管道。</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows 的路径必须以 "c:\" 开头。</value>
   </data>
 </root>

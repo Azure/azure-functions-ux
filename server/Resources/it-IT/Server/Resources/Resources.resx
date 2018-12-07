@@ -3536,7 +3536,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Credenziali utente</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>Le credenziali utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. Se si usano le credenziali utente per accedere all'app, sarà necessario specificare il nome utente come {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3733,6 +3733,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Non è stato possibile configurare la distribuzione</value>
+  </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Non è stato possibile configurare la distribuzione: {0}</value>
   </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Disconnessione della distribuzione</value>
@@ -4293,7 +4296,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Percorso fisico</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Tipo</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Elimina</value>
@@ -4497,10 +4500,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Condivisione file di archiviazione</value>
   </data>
   <data name="blob" xml:space="preserve">
-    <value>BLOB</value>
+    <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>File</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
     <value>Scegliere un contenitore di archiviazione</value>
@@ -4530,7 +4533,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Monta risorsa di archiviazione (anteprima)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Aggiungi risorsa di archiviazione</value>
+    <value>+ Aggiungi risorsa di archiviazione</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Account</value>
@@ -4540,5 +4543,44 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="path" xml:space="preserve">
     <value>Percorso</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>È possibile scegliere di visualizzare le chiavi di archiviazione nascoste nel browser tramite i controlli seguenti.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Account di archiviazione</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Nome account di archiviazione</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Condivisione non valida</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Credenziali non valide</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>BLOB</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(nessun account di archiviazione da visualizzare)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Un'impostazione di archiviazione con il nome specificato esiste già.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Non è stato possibile connettersi alla pipeline di Azure connessa a questa app Web. Potrebbe essere stata rimossa dal portale di Azure DevOps. In tal caso, è possibile disconnettere questa pipeline e configurare una nuova pipeline di distribuzione.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Il percorso per Windows deve iniziare con 'c:\'.</value>
   </data>
 </root>
