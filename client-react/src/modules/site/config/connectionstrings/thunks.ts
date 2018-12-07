@@ -3,13 +3,11 @@ import { checkCacheValid } from 'redux-cache';
 import axios from 'axios';
 import { ArmObj } from '../../../../models/WebAppModels';
 import IState from '../../../types';
-interface StickySettings {
-  connectionStringNames: string[];
-  appSettingNames: string[];
-  azureStorageConfigNames: string[];
-}
+import { fetchSlotConfigNames } from '../slotConfigNames/thunks';
+import { CommonConstants } from 'src/utils/CommonConstants';
+
 export function fetchConnectionStrings() {
-  return async (dispatch: (action: any) => void, getState: () => IState) => {
+  return async (dispatch: (action: any) => any, getState: () => IState) => {
     const startupInfo = getState().portalService.startupInfo;
     if (!startupInfo) {
       return null;
@@ -25,14 +23,9 @@ export function fetchConnectionStrings() {
     dispatch(updateCurrentSiteConnectionStringsNoCache({ loading: true }));
 
     try {
-      const connectionFetch = await axios.post<ArmObj<any>>(`${armEndpoint}${resourceId}/list?api-version=2016-03-01`, null, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
-      });
-
-      const stickyFetch = axios.get<ArmObj<StickySettings>>(
-        `${armEndpoint}${startupInfo.resourceId}/config/slotConfigNames?api-version=2018-02-01`,
+      const connectionFetch = await axios.post<ArmObj<any>>(
+        `${armEndpoint}${resourceId}/list?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
+        null,
         {
           headers: {
             Authorization: `Bearer ${armToken}`,
@@ -40,14 +33,16 @@ export function fetchConnectionStrings() {
         }
       );
 
+      const stickyFetch = dispatch(fetchSlotConfigNames());
+
       const [settingsResult, stickyResult] = await Promise.all([connectionFetch, stickyFetch]);
       const settingsData = settingsResult.data;
-      const stickyData = stickyResult.data;
+      const { connectionStringNames } = stickyResult;
       const connectionStrings = Object.keys(settingsData.properties).map(key => ({
         name: key,
         value: settingsData.properties[key].value,
         type: settingsData.properties[key].type,
-        sticky: stickyData && stickyData.properties.connectionStringNames && stickyData.properties.connectionStringNames.indexOf(key) > -1,
+        sticky: connectionStringNames && connectionStringNames.indexOf(key) > -1,
       }));
       dispatch(
         updateCurrentSiteConnectionStrings({

@@ -846,8 +846,9 @@ export interface SkuDescription {
 }
 
 export interface SlotConfigNames {
-  connectionStringNames: string;
-  appSettingNames: string;
+  connectionStringNames: string[];
+  appSettingNames: string[];
+  azureStorageConfigNames: string[];
 }
 
 export interface Snapshot {

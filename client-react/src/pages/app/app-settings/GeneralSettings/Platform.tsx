@@ -43,11 +43,11 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
             disabled={!values.siteWritePermission}
             options={[
               {
-                key: 0,
+                key: 'Integrated',
                 text: t('integrated'),
               },
               {
-                key: 1,
+                key: 'Classic',
                 text: t('classic'),
               },
             ]}

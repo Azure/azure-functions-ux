@@ -27,4 +27,8 @@ export class CommonConstants {
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm
   };
+
+  public static readonly ApiVersions = {
+    websiteApiVersion20180201: '2018-02-01',
+  };
 }
