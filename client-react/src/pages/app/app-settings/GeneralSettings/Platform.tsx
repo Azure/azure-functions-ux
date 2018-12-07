@@ -34,7 +34,6 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
               },
             ]}
           />
-          {console.log(props.values.config.properties)}
           <Field
             name="config.properties.managedPipelineMode"
             component={Dropdown}
