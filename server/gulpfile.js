@@ -38,7 +38,7 @@ gulp.task('build-test', function(cb) {
 });
 
 gulp.task('build-production', function(cb) {
-  runSequence('build-all', 'bundle-views', 'bundle-static-files', 'bundle-config', 'package-version', cb);
+  runSequence('inject-environment-variables', 'build-all', 'bundle-views', 'bundle-static-files', 'bundle-config', 'package-version', cb);
 });
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
@@ -109,6 +109,49 @@ gulp.task('package-version', () => {
     .pipe(gulp.dest('build'));
 });
 
+/**
+ * This generates a inserts environment variables to the .env file
+ */
+gulp.task('inject-environment-variables', cb => {
+  runSequence('copy-env-example-to-env', 'replace-environment-variables', cb);
+});
+gulp.task('copy-env-example-to-env', () => {
+  return gulp
+    .src('**/.env.example')
+    .pipe(
+      rename(function(p) {
+        p.extname = '';
+      })
+    )
+    .pipe(gulp.dest('./'));
+});
+gulp.task('replace-environment-variables', cb => {
+  const envPath = path.join(__dirname, '.env');
+  const minFolderExists = fs.existsSync(envPath);
+  if (minFolderExists) {
+    const hashSalt = newGuid();
+    const config = {
+      bitbucketClientId: process.env.bitbucketClientId || '',
+      githubClientId: process.env.githubClientId || '',
+      githubClientSecret: process.env.githubClientSecret || '',
+      githubRedirectUrl: process.env.githubRedirectUrl || '',
+      bitbucketClientSecret: process.env.bitbucketClientSecret || '',
+      bitbucketRedirectUrl: process.env.bitbucketRedirectUrl || '',
+      dropboxClientSecret: process.env.dropboxClientSecret || '',
+      dropboxClientId: process.env.dropboxClientId || '',
+      dropboxRedirectUrl: process.env.dropboxRedirectUrl || '',
+      onedriveClientSecret: process.env.onedriveClientSecret || '',
+      onedriveClientID: process.env.onedriveClientID || '',
+      onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
+      HashSalt: hashSalt,
+    };
+    return gulp
+      .src('**/.env')
+      .pipe(replace({ global: config }))
+      .pipe(gulp.dest('./'));
+  }
+  cb();
+});
 /********
  *   Bundle Up production server static files
  */

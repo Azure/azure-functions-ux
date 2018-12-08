@@ -1,0 +1,55 @@
+# Node.js with gulp
+# Build a Node.js project using the gulp task runner.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install -g @angular/cli
+    displayName: 'install angular CLI'
+
+  - script: |
+      npm install -g yarn
+    displayName: 'install yarn'
+
+  - script: |
+      npm install -g gulp-cli
+    displayName: 'install gulp'
+
+  - script: |
+      npm install -g typescript
+    displayName: 'install typescript'
+
+  - script: |
+      cd server
+      yarn install
+    displayName: 'yarn install on server'
+
+  - script: |
+      cd server
+      gulp build production
+    displayName: 'Setup Environment Variables and Build Resources'
+
+  - script: |
+      cd server
+      tsc
+    displayName: 'Build Server'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+    inputs:
+      SourceFolder: server/build
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: dest'
+    inputs:
+      ArtifactName: dest
