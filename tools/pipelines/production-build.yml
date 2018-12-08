@@ -128,13 +128,19 @@ jobs:
 
       - script: |
           cd client
-          ng build --progress false --prod --environment=prod --output-path="public/ng-min"
+          ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
         displayName: 'ng build full'
+
+      - script: |
+          cd server
+          yarn install
+          gulp replace-tokens-for-minimized-angular
+        displayName: 'Generate config file with angular files'
 
       - task: CopyFiles@2
         displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
-          SourceFolder: client/public
+          SourceFolder: server/public
           TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
 
       - task: CopyFiles@2

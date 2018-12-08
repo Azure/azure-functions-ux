@@ -72,10 +72,7 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
     const configContents = new Buffer(JSON.stringify(config));
     fs.writeFileSync(configFile, configContents);
-    return gulp
-      .src('src/**/*.pug')
-      .pipe(replace({ global: config }))
-      .pipe(gulp.dest('./src/'));
+    cb();
   }
   cb();
 });
@@ -89,7 +86,7 @@ gulp.task('replace-tokens-for-configuration', () => {
 });
 
 gulp.task('replace-tokens', function() {
-  return runSequence(['replace-tokens-for-configuration', 'replace-tokens-for-minimized-angular']);
+  return runSequence(['replace-tokens-for-configuration']);
 });
 /********
  *   Bundle Up production server views
