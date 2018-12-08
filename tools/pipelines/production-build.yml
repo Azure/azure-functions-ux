@@ -35,7 +35,7 @@ steps:
 
   - script: |
       cd server
-      gulp build production
+      gulp build-production
     displayName: 'Setup Environment Variables and Build Resources'
 
   - script: |
