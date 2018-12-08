@@ -48,7 +48,7 @@
     "@types/react": "^16.7.13",
     "concurrently": "^4.1.0",
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-decompress": "^2.0.2",
     "gulp-download": "^0.0.1",
     "gulp-json-editor": "^2.4.4",
