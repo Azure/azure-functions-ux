@@ -72,10 +72,8 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
     const configContents = new Buffer(JSON.stringify(config));
     fs.writeFileSync(configFile, configContents);
-    cb();
-  } else {
-    cb();
   }
+  cb();
 });
 
 gulp.task('replace-tokens-for-configuration', () => {
