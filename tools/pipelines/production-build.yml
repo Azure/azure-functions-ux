@@ -216,13 +216,6 @@ jobs:
 
       - script: |
           cd $(Build.ArtifactStagingDirectory)
-          yarn install
-          gulp replace-tokens
-        displayName: 'gulp replace-tokens'
-
-      - script: |
-          cd $(Build.ArtifactStagingDirectory)
-          rm -rf node_modules
           yarn install --prod
         displayName: 'delete dev node_modules and install prod'
 

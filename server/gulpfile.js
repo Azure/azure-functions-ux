@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const resx2 = require('gulp-resx2');
+const resx2 = require('./gulp-utils/gulp-resx-js');
 const rename = require('gulp-rename');
 const gulpMerge = require('merge-stream');
 const jeditor = require('gulp-json-editor');
@@ -16,30 +16,7 @@ const prettier = require('prettier');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
-gulp.task('build-all', function(cb) {
-  runSequence(
-    'resources-clean',
-    'download-templates',
-    'unzip-templates',
-    'resources-convert',
-    'resources-build',
-    'resources-combine',
-    'build-templates',
-    'build-bindings',
-    'resx-to-typescript-models',
-    'list-numeric-versions',
-    'resources-clean',
-    cb
-  );
-});
 
-gulp.task('build-test', function(cb) {
-  runSequence('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings', cb);
-});
-
-gulp.task('build-production', function(cb) {
-  runSequence('inject-environment-variables', 'build-all', 'bundle-views', 'bundle-static-files', 'bundle-config', 'package-version', cb);
-});
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
@@ -84,9 +61,6 @@ gulp.task('replace-tokens-for-configuration', () => {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('replace-tokens', function() {
-  return runSequence(['replace-tokens-for-configuration']);
-});
 /********
  *   Bundle Up production server views
  */
@@ -99,7 +73,7 @@ gulp.task('bundle-views', function() {
  */
 gulp.task('package-version', () => {
   //
-  gulp
+  return gulp
     .src('package.json')
     .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0'))
     .pipe(gulp.dest('build'));
@@ -108,9 +82,7 @@ gulp.task('package-version', () => {
 /**
  * This generates a inserts environment variables to the .env file
  */
-gulp.task('inject-environment-variables', cb => {
-  runSequence('copy-env-example-to-env', 'replace-environment-variables', cb);
-});
+
 gulp.task('copy-env-example-to-env', () => {
   return gulp
     .src('**/.env.example')
@@ -148,6 +120,7 @@ gulp.task('replace-environment-variables', cb => {
   }
   cb();
 });
+gulp.task('inject-environment-variables', gulp.series('copy-env-example-to-env', 'replace-environment-variables'));
 /********
  *   Bundle Up production server static files
  */
@@ -460,7 +433,7 @@ gulp.task('unzip-templates', function() {
   return gulpMerge(streams);
 });
 
-gulp.task('list-numeric-versions', function() {
+gulp.task('list-numeric-versions', function(cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
@@ -471,7 +444,43 @@ gulp.task('list-numeric-versions', function() {
   }
   writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
   fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
+  cb();
 });
+
+/*
+ * Task Collections
+ */
+gulp.task(
+  'build-all',
+  gulp.series(
+    'resources-clean',
+    'download-templates',
+    'unzip-templates',
+    'resources-convert',
+    'resources-build',
+    'resources-combine',
+    'build-templates',
+    'build-bindings',
+    'resx-to-typescript-models',
+    'list-numeric-versions',
+    'resources-clean'
+  )
+);
+
+gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings'));
+
+gulp.task(
+  'build-production',
+  gulp.series(
+    'inject-environment-variables',
+    'build-all',
+    'bundle-views',
+    'bundle-static-files',
+    'bundle-config',
+    'package-version',
+    'replace-tokens-for-configuration'
+  )
+);
 /********
  * UTILITIES
  */
@@ -490,10 +499,12 @@ function getFilesWithContent(folder, filesToIgnore) {
   }
   let obj = {};
   const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
-  fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
-    const fileContent = fs.readFileSync(path.join(folder, fileName), { encoding: 'utf8' });
-    obj[fileName] = fileContent;
-  });
+  fileNames
+    .filter(x => filesToIgnore.indexOf(x) === -1)
+    .forEach(fileName => {
+      const fileContent = fs.readFileSync(path.join(folder, fileName), { encoding: 'utf8' });
+      obj[fileName] = fileContent;
+    });
 
   return obj;
 }
