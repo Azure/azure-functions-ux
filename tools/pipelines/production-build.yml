@@ -120,7 +120,10 @@ jobs:
       - script: |
           npm install -g yarn
         displayName: 'install yarn'
-
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+        
       - script: |
           cd client
           yarn install
