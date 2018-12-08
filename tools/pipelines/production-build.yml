@@ -63,6 +63,10 @@ jobs:
           SourceFolder: server/build
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: server'
+        inputs:
+          ArtifactName: server
   - job: AngularFull
     pool:
       vmImage: 'Ubuntu 16.04'
@@ -90,6 +94,11 @@ jobs:
           cd client
           ng build --progress false --output-path="$(Build.ArtifactStagingDirectory)\public\ng-full"
         displayName: 'ng build full'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-full'
+        inputs:
+          ArtifactName: angular-full
 
   - job: PublishArtifacts
     pool:
