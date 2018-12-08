@@ -120,13 +120,19 @@ jobs:
         displayName: 'Download Server Artifacts'
         inputs:
           artifactName: server
-          downloadPath: $(Build.ArtifactStagingDirectory)
+          downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: DownloadBuildArtifacts@0
-        displayName: 'Download Server Artifacts'
+        displayName: 'Download Angular Full Artifacts'
         inputs:
-          artifactName: server
-          downloadPath: $(Build.ArtifactStagingDirectory)
+          artifactName: AngularFull
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: /
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
