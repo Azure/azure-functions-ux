@@ -99,8 +99,8 @@ jobs:
       - task: CopyFiles@2
         displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
-          SourceFolder: client\public
-          TargetFolder: '$(Build.ArtifactStagingDirectory)\public'
+          SourceFolder: client/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: angular-full'
