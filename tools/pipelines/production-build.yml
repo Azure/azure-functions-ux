@@ -129,9 +129,15 @@ jobs:
           downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: CopyFiles@2
-        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        displayName: 'Copy Server Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)
+          SourceFolder: $(System.DefaultWorkingDirectory)/server
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
