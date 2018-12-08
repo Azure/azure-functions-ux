@@ -37,6 +37,19 @@ steps:
       cd server
       gulp build-production
     displayName: 'Setup Environment Variables and Build Resources'
+    env:
+      bitbucketClientId: $(bitbucketClientId)
+      githubClientId: $(githubClientId)
+      githubClientSecret: $(githubClientSecret)
+      githubRedirectUrl: $(githubRedirectUrl)
+      bitbucketClientSecret: $(bitbucketClientSecret)
+      bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+      dropboxClientSecret: $(dropboxClientSecret)
+      dropboxClientId: $(dropboxClientId)
+      dropboxRedirectUrl: $(dropboxRedirectUrl)
+      onedriveClientSecret: $(onedriveClientSecret)
+      onedriveClientID: $(onedriveClientID)
+      onedriveRedirectUrl: $(onedriveRedirectUrl)
 
   - script: |
       cd server
