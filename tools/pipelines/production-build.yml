@@ -67,3 +67,31 @@ jobs:
         displayName: 'Publish Artifact: dest'
         inputs:
           ArtifactName: dest
+
+  - job: AngularFull
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g @angular/cli
+        displayName: 'install angular CLI'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          cd client
+          yarn install
+        displayName: 'yarn install on angular'
+
+      - script: |
+          cd client
+          ng build --progress false --output-path="$(Build.ArtifactStagingDirectory)\public\ng-full"
+        displayName: 'ng build full'
