@@ -220,7 +220,16 @@ jobs:
           yarn install --prod
         displayName: 'delete dev node_modules and install prod'
 
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
+          replaceExistingArchive: true
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/package.zip'
           ArtifactName: dest
