@@ -125,7 +125,7 @@ jobs:
       - task: DownloadBuildArtifacts@0
         displayName: 'Download Angular Full Artifacts'
         inputs:
-          artifactName: AngularFull
+          artifactName: Angular-full
           downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: CopyFiles@2
