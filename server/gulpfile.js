@@ -75,7 +75,7 @@ gulp.task('package-version', () => {
   //
   return gulp
     .src('package.json')
-    .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0'))
+    .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0'))
     .pipe(gulp.dest('build'));
 });
 
@@ -518,7 +518,7 @@ function newGuid() {
 }
 
 function getBuildVersion() {
-  return !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0';
+  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
 }
 function getFiles(folders) {
   let possibleDirectory;
