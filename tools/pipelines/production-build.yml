@@ -140,7 +140,7 @@ jobs:
       - task: CopyFiles@2
         displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
         inputs:
-          SourceFolder: client/assets
+          SourceFolder: client/src/assets
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
