@@ -3,7 +3,6 @@ const resx2 = require('./gulp-utils/gulp-resx-js');
 const rename = require('gulp-rename');
 const gulpMerge = require('merge-stream');
 const jeditor = require('gulp-json-editor');
-const runSequence = require('run-sequence');
 const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
