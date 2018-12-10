@@ -53,10 +53,16 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
 });
 
 gulp.task('replace-tokens-for-configuration', () => {
-  const config = { cacheBreakQuery: newGuid() };
+  const config = {
+    cacheBreakQuery: newGuid(),
+  };
   return gulp
     .src('**/config.js')
-    .pipe(replace({ global: config }))
+    .pipe(
+      replace({
+        global: config,
+      })
+    )
     .pipe(gulp.dest('./'));
 });
 
@@ -74,7 +80,7 @@ gulp.task('package-version', () => {
   //
   return gulp
     .src('package.json')
-    .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0'))
+    .pipe(string_replace('0.0.0', getBuildVersion()))
     .pipe(gulp.dest('build'));
 });
 
@@ -114,7 +120,11 @@ gulp.task('replace-environment-variables', cb => {
     };
     return gulp
       .src('**/.env')
-      .pipe(replace({ global: config }))
+      .pipe(
+        replace({
+          global: config,
+        })
+      )
       .pipe(gulp.dest('./'));
   }
   cb();
@@ -145,7 +155,10 @@ gulp.task('resx-to-typescript-models', function(cb) {
   });
   typescriptFileContent += `}`;
   prettier.resolveConfig(path.join(__dirname, '..', '.prettierrc')).then(options => {
-    const formatted = prettier.format(typescriptFileContent, { ...options, parser: 'typescript' });
+    const formatted = prettier.format(typescriptFileContent, {
+      ...options,
+      parser: 'typescript',
+    });
     let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts'));
     fs.writeFileSync(writePath, new Buffer(formatted));
     cb();
@@ -297,7 +310,11 @@ gulp.task('resources-combine', function() {
       s.push(
         gulp
           .src(stream)
-          .pipe(merge({ fileName: fileName }))
+          .pipe(
+            merge({
+              fileName: fileName,
+            })
+          )
           .pipe(
             rename(function(p) {
               p.basename += '.' + x;
@@ -498,12 +515,12 @@ function getFilesWithContent(folder, filesToIgnore) {
   }
   let obj = {};
   const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
-  fileNames
-    .filter(x => filesToIgnore.indexOf(x) === -1)
-    .forEach(fileName => {
-      const fileContent = fs.readFileSync(path.join(folder, fileName), { encoding: 'utf8' });
-      obj[fileName] = fileContent;
+  fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
+    const fileContent = fs.readFileSync(path.join(folder, fileName), {
+      encoding: 'utf8',
     });
+    obj[fileName] = fileContent;
+  });
 
   return obj;
 }
@@ -519,6 +536,7 @@ function newGuid() {
 function getBuildVersion() {
   return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
 }
+
 function getFiles(folders) {
   let possibleDirectory;
 
