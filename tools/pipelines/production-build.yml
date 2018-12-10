@@ -1,0 +1,237 @@
+# Node.js with gulp
+# Build a Node.js project using the gulp task runner.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+jobs:
+  - job: Server
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+
+      - script: |
+          npm install -g typescript
+        displayName: 'install typescript'
+
+      - script: |
+          cd server
+          yarn install
+        displayName: 'yarn install on server'
+
+      - script: |
+          cd server
+          gulp build-production
+        displayName: 'Setup Environment Variables and Build Resources'
+        env:
+          bitbucketClientId: $(bitbucketClientId)
+          githubClientId: $(githubClientId)
+          githubClientSecret: $(githubClientSecret)
+          githubRedirectUrl: $(githubRedirectUrl)
+          bitbucketClientSecret: $(bitbucketClientSecret)
+          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+          dropboxClientSecret: $(dropboxClientSecret)
+          dropboxClientId: $(dropboxClientId)
+          dropboxRedirectUrl: $(dropboxRedirectUrl)
+          onedriveClientSecret: $(onedriveClientSecret)
+          onedriveClientID: $(onedriveClientID)
+          onedriveRedirectUrl: $(onedriveRedirectUrl)
+
+      - script: |
+          cd server
+          tsc
+        displayName: 'Build Server'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/build
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: server'
+        inputs:
+          ArtifactName: server
+
+  - job: AngularFull
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g @angular/cli
+        displayName: 'install angular CLI'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          cd client
+          yarn install
+        displayName: 'yarn install on angular'
+
+      - script: |
+          cd client
+          ng build --progress false --output-path="public/ng-full"
+        displayName: 'ng build full'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-full'
+        inputs:
+          ArtifactName: angular-full
+
+  - job: AngularMin
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g @angular/cli
+        displayName: 'install angular CLI'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+        
+      - script: |
+          cd client
+          yarn install
+        displayName: 'yarn install on angular'
+
+      - script: |
+          cd client
+          ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
+        displayName: 'ng build full'
+
+      - script: |
+          cd server
+          yarn install
+          gulp replace-tokens-for-minimized-angular
+        displayName: 'Generate config file with angular files'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/src/assets
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-min'
+        inputs:
+          ArtifactName: angular-min
+
+  - job: PublishArtifacts
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    dependsOn:
+      - Server
+      - AngularFull
+      - AngularMin
+    steps:
+      - checkout: none
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Server Artifacts'
+        inputs:
+          artifactName: server
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Full Artifacts'
+        inputs:
+          artifactName: angular-full
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Min Artifacts'
+        inputs:
+          artifactName: angular-min
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Server Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/server
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - script: |
+          cd $(Build.ArtifactStagingDirectory)
+          yarn install --prod
+        displayName: 'delete dev node_modules and install prod'
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
+          replaceExistingArchive: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: dest'
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/package.zip'
+          ArtifactName: dest

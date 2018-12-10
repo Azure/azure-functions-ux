@@ -1,9 +1,8 @@
 const gulp = require('gulp');
-const resx2 = require('gulp-resx2');
+const resx2 = require('./gulp-utils/gulp-resx-js');
 const rename = require('gulp-rename');
 const gulpMerge = require('merge-stream');
 const jeditor = require('gulp-json-editor');
-const runSequence = require('run-sequence');
 const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
@@ -16,30 +15,7 @@ const prettier = require('prettier');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
-gulp.task('build-all', function(cb) {
-  runSequence(
-    'resources-clean',
-    'download-templates',
-    'unzip-templates',
-    'resources-convert',
-    'resources-build',
-    'resources-combine',
-    'build-templates',
-    'build-bindings',
-    'resx-to-typescript-models',
-    'list-numeric-versions',
-    'resources-clean',
-    cb
-  );
-});
 
-gulp.task('build-test', function(cb) {
-  runSequence('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings', cb);
-});
-
-gulp.task('build-production', function(cb) {
-  runSequence('build-all', 'bundle-views', 'bundle-static-files', 'bundle-config', 'package-version', cb);
-});
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
@@ -72,25 +48,24 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
     const configFile = path.join(ngMinPath, `${getBuildVersion()}.json`);
     const configContents = new Buffer(JSON.stringify(config));
     fs.writeFileSync(configFile, configContents);
-    return gulp
-      .src('src/**/*.pug')
-      .pipe(replace({ global: config }))
-      .pipe(gulp.dest('./src/'));
   }
   cb();
 });
 
 gulp.task('replace-tokens-for-configuration', () => {
-  const config = { cacheBreakQuery: newGuid() };
+  const config = {
+    cacheBreakQuery: newGuid(),
+  };
   return gulp
     .src('**/config.js')
-    .pipe(replace({ global: config }))
+    .pipe(
+      replace({
+        global: config,
+      })
+    )
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('replace-tokens', function() {
-  return runSequence(['replace-tokens-for-configuration', 'replace-tokens-for-minimized-angular']);
-});
 /********
  *   Bundle Up production server views
  */
@@ -103,12 +78,58 @@ gulp.task('bundle-views', function() {
  */
 gulp.task('package-version', () => {
   //
-  gulp
+  return gulp
     .src('package.json')
-    .pipe(string_replace('0.0.0', !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0'))
+    .pipe(string_replace('0.0.0', getBuildVersion()))
     .pipe(gulp.dest('build'));
 });
 
+/**
+ * This generates a inserts environment variables to the .env file
+ */
+
+gulp.task('copy-env-example-to-env', () => {
+  return gulp
+    .src('**/.env.example')
+    .pipe(
+      rename(function(p) {
+        p.extname = '';
+      })
+    )
+    .pipe(gulp.dest('./'));
+});
+gulp.task('replace-environment-variables', cb => {
+  const envPath = path.join(__dirname, '.env');
+  const minFolderExists = fs.existsSync(envPath);
+  if (minFolderExists) {
+    const hashSalt = newGuid();
+    const config = {
+      bitbucketClientId: process.env.bitbucketClientId || '',
+      githubClientId: process.env.githubClientId || '',
+      githubClientSecret: process.env.githubClientSecret || '',
+      githubRedirectUrl: process.env.githubRedirectUrl || '',
+      bitbucketClientSecret: process.env.bitbucketClientSecret || '',
+      bitbucketRedirectUrl: process.env.bitbucketRedirectUrl || '',
+      dropboxClientSecret: process.env.dropboxClientSecret || '',
+      dropboxClientId: process.env.dropboxClientId || '',
+      dropboxRedirectUrl: process.env.dropboxRedirectUrl || '',
+      onedriveClientSecret: process.env.onedriveClientSecret || '',
+      onedriveClientID: process.env.onedriveClientID || '',
+      onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
+      HashSalt: hashSalt,
+    };
+    return gulp
+      .src('**/.env')
+      .pipe(
+        replace({
+          global: config,
+        })
+      )
+      .pipe(gulp.dest('./'));
+  }
+  cb();
+});
+gulp.task('inject-environment-variables', gulp.series('copy-env-example-to-env', 'replace-environment-variables'));
 /********
  *   Bundle Up production server static files
  */
@@ -134,7 +155,10 @@ gulp.task('resx-to-typescript-models', function(cb) {
   });
   typescriptFileContent += `}`;
   prettier.resolveConfig(path.join(__dirname, '..', '.prettierrc')).then(options => {
-    const formatted = prettier.format(typescriptFileContent, { ...options, parser: 'typescript' });
+    const formatted = prettier.format(typescriptFileContent, {
+      ...options,
+      parser: 'typescript',
+    });
     let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts'));
     fs.writeFileSync(writePath, new Buffer(formatted));
     cb();
@@ -286,7 +310,11 @@ gulp.task('resources-combine', function() {
       s.push(
         gulp
           .src(stream)
-          .pipe(merge({ fileName: fileName }))
+          .pipe(
+            merge({
+              fileName: fileName,
+            })
+          )
           .pipe(
             rename(function(p) {
               p.basename += '.' + x;
@@ -421,7 +449,7 @@ gulp.task('unzip-templates', function() {
   return gulpMerge(streams);
 });
 
-gulp.task('list-numeric-versions', function() {
+gulp.task('list-numeric-versions', function(cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
@@ -432,7 +460,43 @@ gulp.task('list-numeric-versions', function() {
   }
   writePath = path.join(writePath, 'supportedFunctionsFxVersions.json');
   fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateVersions)));
+  cb();
 });
+
+/*
+ * Task Collections
+ */
+gulp.task(
+  'build-all',
+  gulp.series(
+    'resources-clean',
+    'download-templates',
+    'unzip-templates',
+    'resources-convert',
+    'resources-build',
+    'resources-combine',
+    'build-templates',
+    'build-bindings',
+    'resx-to-typescript-models',
+    'list-numeric-versions',
+    'resources-clean'
+  )
+);
+
+gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings'));
+
+gulp.task(
+  'build-production',
+  gulp.series(
+    'inject-environment-variables',
+    'build-all',
+    'bundle-views',
+    'bundle-static-files',
+    'bundle-config',
+    'package-version',
+    'replace-tokens-for-configuration'
+  )
+);
 /********
  * UTILITIES
  */
@@ -452,7 +516,9 @@ function getFilesWithContent(folder, filesToIgnore) {
   let obj = {};
   const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
   fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
-    const fileContent = fs.readFileSync(path.join(folder, fileName), { encoding: 'utf8' });
+    const fileContent = fs.readFileSync(path.join(folder, fileName), {
+      encoding: 'utf8',
+    });
     obj[fileName] = fileContent;
   });
 
@@ -468,8 +534,9 @@ function newGuid() {
 }
 
 function getBuildVersion() {
-  return !!process.env.BUILD_BUILDNUMBER ? `1.0.${process.env.BUILD_BUILDNUMBER}` : '0.0.0';
+  return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '0.0.0';
 }
+
 function getFiles(folders) {
   let possibleDirectory;
 
