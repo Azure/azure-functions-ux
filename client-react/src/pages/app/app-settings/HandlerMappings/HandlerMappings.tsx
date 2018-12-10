@@ -8,7 +8,7 @@ import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.Types';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
-import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 export interface HandlerMappingState {
   showPanel: boolean;

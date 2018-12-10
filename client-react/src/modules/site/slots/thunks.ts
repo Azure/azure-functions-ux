@@ -3,7 +3,7 @@ import { checkCacheValid } from 'redux-cache';
 import { updateSlotList, updateSlotListNoCache } from './actions';
 import axios from 'axios';
 import { ArmArray, Site } from '../../../models/WebAppModels';
-import { CommonConstants } from 'src/utils/CommonConstants';
+import { CommonConstants } from '../../../utils/CommonConstants';
 export function fetchSlotList() {
   return async (dispatch: any, getState: () => IState) => {
     const startupInfo = getState().portalService.startupInfo;

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArmObj } from '../../../../models/WebAppModels';
 import IState from '../../../types';
 import { fetchSlotConfigNames } from '../slotConfigNames/thunks';
-import { CommonConstants } from 'src/utils/CommonConstants';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export function fetchAppSettings() {
   return async (dispatch: any, getState: () => IState) => {

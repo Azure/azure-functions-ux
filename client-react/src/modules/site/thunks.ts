@@ -9,7 +9,7 @@ import { updateCurrentSiteConnectionStrings, updateCurrentSiteConnectionStringsN
 import IState from '../types';
 import { xor, uniq } from 'lodash-es';
 import { updateSlotConfigNames } from './config/slotConfigNames/thunks';
-import { CommonConstants } from 'src/utils/CommonConstants';
+import { CommonConstants } from '../../utils/CommonConstants';
 
 export function updateResourceId(resourceId: string) {
   return async (dispatch: any) => {

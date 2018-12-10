@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { IDetailsListProps, DetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import { style } from 'typestyle';
-import IState from 'src/modules/types';
+import IState from '../../modules/types';
 import { connect } from 'react-redux';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 interface DisplayTableWithEmptyMessageProps {
   emptyMessage?: string;
   theme: ThemeExtended;

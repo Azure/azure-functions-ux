@@ -4,7 +4,7 @@ import axios from 'axios';
 import { SiteConfig, ArmObj, VirtualApplication } from '../../../../models/WebAppModels';
 import { fetchMetadata, updateMetadata } from '../metadata/thunks';
 import IState from '../../../types';
-import { CommonConstants } from 'src/utils/CommonConstants';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export function fetchConfig() {
   return async (dispatch: any, getState: () => IState) => {

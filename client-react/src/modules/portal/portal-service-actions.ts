@@ -1,6 +1,6 @@
 import { IAction } from '../../models/action';
 import { IStartupInfo } from '../../models/portal-models';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const SETUP_IFRAME = 'SETUP_IFRAME';
 export interface ISetupIFrameModel {

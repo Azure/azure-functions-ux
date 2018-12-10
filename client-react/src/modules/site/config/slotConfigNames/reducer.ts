@@ -1,7 +1,7 @@
 import { IAction } from '../../../../models/action';
 import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
 import { UPDATE_SITE_SLOT_CONFIG_NAMES, UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE } from './actions';
-import { SlotConfigNames } from 'src/models/WebAppModels';
+import { SlotConfigNames } from '../../../../models/WebAppModels';
 
 export interface ISlotConfigNamesState {
   loading: boolean;

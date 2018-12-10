@@ -1,4 +1,4 @@
-import { PermissionsAsRegExp, Permissions, ArmObj, Lock } from 'src/models/WebAppModels';
+import { PermissionsAsRegExp, Permissions, ArmObj, Lock } from '../models/WebAppModels';
 import { store } from '../store';
 import axios from 'axios';
 
