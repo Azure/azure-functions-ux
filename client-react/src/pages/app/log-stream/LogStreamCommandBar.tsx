@@ -22,7 +22,7 @@ const getItems = (
   return [
     {
       key: 'reconnect',
-      name: t('Reconnect'),
+      name: 'Reconnect',
       iconProps: {
         iconName: 'PlugConnected',
       },
@@ -94,6 +94,7 @@ class LogStreamCommandBar extends React.Component<LogStreamCommandBarPropsCombin
           ...props.styles,
           root: {
             backgroundColor: this.props.theme.semanticColors.bodyBackground,
+            border: '1px solid transparent',
           },
           rootDisabled: {
             backgroundColor: this.props.theme.semanticColors.bodyBackground,
