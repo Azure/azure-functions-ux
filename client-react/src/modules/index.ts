@@ -9,6 +9,7 @@ import connectionStrings from './site/config/connectionstrings/reducer';
 import slots from './site/slots/reducer';
 import rbac from './service/rbac/reducer';
 import slotConfigNames from './site/config/slotConfigNames/reducer';
+import 'react-app-polyfill/ie11';
 
 export const reducers = combineReducers({
   portalService,
