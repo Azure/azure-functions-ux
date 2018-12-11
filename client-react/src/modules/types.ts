@@ -1,5 +1,4 @@
 import { IPortalServiceState } from './portal/portal-service-reducer';
-import { IFunctionQuickCreateState } from './app/function-quick-create/reducer';
 import { ISiteState } from './site/reducer';
 import { IWebConfigState } from './site/config/web/reducer';
 import { IMetadataConfigState } from './site/config/metadata/reducer';
@@ -14,7 +13,6 @@ import { ISlotConfigNamesState } from './site/config/slotConfigNames/reducer';
 
 export default interface IState {
   portalService: IPortalServiceState;
-  functionQuickCreate: IFunctionQuickCreateState;
   /*ARM values */
   site: ISiteState;
   webConfig: IWebConfigState;

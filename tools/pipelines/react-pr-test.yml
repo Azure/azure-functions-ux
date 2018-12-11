@@ -18,12 +18,13 @@ phases:
           yarn install
         displayName: 'yarn install react app'
 
-      - script: |
-          cd client-react
-          yarn test --coverage --reporters="jest-junit"
-        displayName: 'run unit tests'
-        env:
-          CI: true
+      # renenable when unit tests exists
+      # - script: |
+      #     cd client-react
+      #     yarn test --coverage --reporters="jest-junit"
+      #   displayName: 'run unit tests'
+      #   env:
+      #     CI: true
 
       - script: |
           cd client-react

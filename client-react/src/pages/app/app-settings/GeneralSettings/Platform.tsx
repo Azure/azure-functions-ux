@@ -5,7 +5,7 @@ import { AppSettingsFormValues } from '../AppSettings.Types';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import RadioButton from 'src/components/form-controls/RadioButton';
+import RadioButton from '../../../../components/form-controls/RadioButton';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;

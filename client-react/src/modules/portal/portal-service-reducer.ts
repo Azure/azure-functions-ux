@@ -2,7 +2,7 @@ import { IAction } from '../../models/action';
 import { IStartupInfo } from '../../models/portal-models';
 import { GET_STARTUP_INFO, SETUP_IFRAME, UPDATE_THEME, UPDATE_TOKEN } from './portal-service-actions';
 import lightTheme from '../../theme/light';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export interface IPortalServiceState {
   shellSrc: string;

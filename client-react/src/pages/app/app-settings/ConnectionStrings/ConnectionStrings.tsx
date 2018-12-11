@@ -9,7 +9,7 @@ import { FormikProps } from 'formik';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { typeValueToString } from './connectionStringTypes';
 import IconButton from '../../../../components/IconButton/IconButton';
-import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 interface ConnectionStringsState {
   hideValues: boolean;

@@ -4,9 +4,9 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { style } from 'typestyle';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { connect } from 'react-redux';
-import IState from 'src/modules/types';
+import IState from '../modules/types';
 import { compose } from 'recompose';
 
 interface StatusMessage {

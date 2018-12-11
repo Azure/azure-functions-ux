@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorBoundry';
-import { AzurePortalCustomizations } from 'src/theme/CustomOfficeFabric';
+import { AzurePortalCustomizations } from '../theme/CustomOfficeFabric';
 import { Customizer } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface AppProps {

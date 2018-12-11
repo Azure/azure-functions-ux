@@ -1,6 +1,6 @@
 import { Router, RouteComponentProps } from '@reach/router';
 import * as React from 'react';
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import LoadingComponent from '../../components/loading/loading-component';
 import { updateResourceId } from '../../modules/site/thunks';

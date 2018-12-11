@@ -67,7 +67,7 @@ export class PortalCommunicator {
   }
 
   public initializeIframe(): void {
-    window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
+    window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
     const shellUrl = decodeURI(window.location.href);
     const shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority') || '';
     store.dispatch(setupIFrameAction(shellSrc));

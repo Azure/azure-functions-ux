@@ -3,7 +3,7 @@ import { checkCacheValid } from 'redux-cache';
 import axios from 'axios';
 import IState from '../../../types';
 import { ArmObj } from '../../../../models/WebAppModels';
-import { CommonConstants } from 'src/utils/CommonConstants';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export function fetchMetadata() {
   return async (dispatch: any, getState: () => IState) => {

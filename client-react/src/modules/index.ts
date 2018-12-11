@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import functionQuickCreate from './app/function-quick-create/reducer';
 import portalService from './portal/portal-service-reducer';
 import site from './site/reducer';
 import webConfig from './site/config/web/reducer';
@@ -10,10 +9,10 @@ import connectionStrings from './site/config/connectionstrings/reducer';
 import slots from './site/slots/reducer';
 import rbac from './service/rbac/reducer';
 import slotConfigNames from './site/config/slotConfigNames/reducer';
+import 'react-app-polyfill/ie11';
 
 export const reducers = combineReducers({
   portalService,
-  functionQuickCreate,
   /*ARM values */
   site,
   webConfig,
