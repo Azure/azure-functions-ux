@@ -3753,7 +3753,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Are you sure you want to disconnect your deployment?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverless Community Library (Preview)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Not finding what you're looking for? Check out the Azure Serverless Community Library!</value>
