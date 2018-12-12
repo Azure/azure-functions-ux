@@ -17,7 +17,7 @@
     "compression": "^1.7.3",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
-    "dotenv": "^6.2.0",
+    "dotenv": "^4.0.0",
     "express": "^4.16.4",
     "express-rate-limit": "^3.3.2",
     "express-react-views": "^0.11.0",
@@ -27,7 +27,6 @@
     "multer": "^1.4.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "request": "^2.88.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -59,9 +58,9 @@
     "gulp-string-replace": "^1.1.2",
     "gulp-token-replace": "^1.1.2",
     "merge-stream": "^1.0.1",
-    "nodemon": "^1.18.7",
+    "nodemon": "^1.11.0",
     "prettier": "^1.15.3",
-    "ts-node": "^7.0.1",
+    "ts-node": "^3.1.0",
     "typescript": "^3.2.2"
   }
 }
