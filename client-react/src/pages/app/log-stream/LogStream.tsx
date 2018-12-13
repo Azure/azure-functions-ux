@@ -8,13 +8,8 @@ import { ArmObj, Site } from 'src/models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry } from './LogStream.Types';
-import {
-  startStreaming,
-  stopStreaming,
-  clearLogEntries,
-  copyLogEntries,
-  reconnectLogStream,
-} from 'src/modules/site/config/logstream/actions';
+import { stopStreaming, startStreaming, clearLogEntries, copyLogEntries } from 'src/modules/site/config/logstream/actions';
+import { startStreamingRequest } from 'src/modules/site/config/logstream/thunk';
 
 export interface LogStreamProps {
   fetchSite: () => Promise<ArmObj<Site>>;
@@ -38,6 +33,10 @@ export class LogStream extends React.Component<LogStreamProps> {
     this.props.fetchSite();
   }
 
+  public componentDidMount() {
+    this.props.reconnect();
+  }
+
   public render() {
     const { reconnect, copy, pause, start, clear, isStreaming, logEntries, clearLogs } = this.props;
     return (
@@ -55,13 +54,16 @@ const mapStateToProps = (state: IState) => {
     site: state.site.site,
     clearLogs: state.logStream.clearLogs,
     logEntries: state.logStream.logEntries,
+    xhReq: state.logStream.xhReq,
+    timeouts: state.logStream.timeouts,
+    logStreamIndex: state.logStream.logStreamIndex,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchSite: () => dispatch(fetchSite()),
-    reconnect: () => dispatch(reconnectLogStream()),
+    reconnect: () => dispatch(startStreamingRequest()),
     copy: () => dispatch(copyLogEntries()),
     pause: () => dispatch(stopStreaming()),
     start: () => dispatch(startStreaming()),

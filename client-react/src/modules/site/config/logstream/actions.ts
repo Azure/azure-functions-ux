@@ -1,4 +1,5 @@
 import { IAction } from '../../../../models/action';
+import { LogEntry } from 'src/pages/app/log-stream/LogStream.Types';
 
 export const CLEAR_LOG_ENTRIES = 'CLEAR_LOG_ENTRIES';
 export function clearLogEntries(): IAction<null> {
@@ -37,5 +38,29 @@ export function reconnectLogStream(): IAction<null> {
   return {
     payload: null,
     type: RECONNECT_LOG_STREAM,
+  };
+}
+
+export const UPDATE_LOG_ENTRIES = 'UPDATE_LOG_ENTRIES';
+export function updateLogEntries(newLogEntries: LogEntry[]): IAction<LogEntry[]> {
+  return {
+    payload: newLogEntries,
+    type: UPDATE_LOG_ENTRIES,
+  };
+}
+
+export const UPDATE_LOG_STREAM_INDEX = 'UPDATE_LOG_STREAM_INDEX';
+export function updateLogStreamIndex(logStreamIndex: number): IAction<number> {
+  return {
+    payload: logStreamIndex,
+    type: UPDATE_LOG_STREAM_INDEX,
+  };
+}
+
+export const UPDATE_TIMEOUTS = 'UPDATE_TIMEOUTS';
+export function updateTimeouts(timeouts: number[]): IAction<number[]> {
+  return {
+    payload: timeouts,
+    type: UPDATE_TIMEOUTS,
   };
 }
