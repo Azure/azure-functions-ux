@@ -1,5 +1,5 @@
 import { PriceSpec, PriceSpecInput } from './price-spec';
-import { PricingTier } from 'app/shared/models/arm/PricingTier';
+import { PricingTier } from 'app/shared/models/arm/pricingtier';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from 'app/shared/models/portal-resources';

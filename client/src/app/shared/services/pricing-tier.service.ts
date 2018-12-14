@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from './../../shared/conditional-http-client';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
-import { PricingTier } from './../models/arm/PricingTier';
+import { PricingTier } from './../models/arm/pricingtier';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { ArmObj } from './../models/arm/arm-obj';
