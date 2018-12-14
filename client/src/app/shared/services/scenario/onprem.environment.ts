@@ -59,6 +59,13 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.usePricingTierApi] = {
+      id: ScenarioIds.usePricingTierApi,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.functionBeta] = {
       id: ScenarioIds.functionBeta,
       runCheck: () => {

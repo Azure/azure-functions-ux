@@ -33,6 +33,7 @@ import { LogCategories, Links } from '../../../shared/models/constants';
 import { Tier } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
+import { PricingTierService } from 'app/shared/services/pricing-tier.service';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -61,6 +62,7 @@ export class PlanPriceSpecManager {
 
   selectedSpecGroup: PriceSpecGroup;
   specGroups: PriceSpecGroup[] = [];
+  pricingTierAvailable = false;
 
   get currentSkuCode(): string {
     if (!this._plan) {
@@ -80,6 +82,7 @@ export class PlanPriceSpecManager {
     private _authZService: AuthzService,
     private _planService: PlanService,
     private _portalService: PortalService,
+    private _pricingTierService: PricingTierService,
     private _ts: TranslateService,
     private _logService: LogService,
     private _injector: Injector
@@ -100,10 +103,14 @@ export class PlanPriceSpecManager {
     this.selectedSpecGroup = this.specGroups[0];
 
     let specInitCalls: Observable<void>[] = [];
-    return this._getPlan(inputs).switchMap(plan => {
+    return Observable.zip(this._getPlan(inputs), this._pricingTierService.getPricingTiers(this._subscriptionId), (plan, pt) => ({
+      plan: plan,
+      pricingTiers: pt,
+    })).flatMap(r => {
       // plan is null for new plans
-      this._plan = plan;
+      this._plan = r.plan;
 
+      this.pricingTierAvailable = !!r.pricingTiers;
       // Initialize every spec for each spec group.  For most cards this is a no-op, but
       // some require special handling so that we know if we need to hide/disable a card.
       this.specGroups.forEach(g => {
@@ -111,6 +118,7 @@ export class PlanPriceSpecManager {
           specPickerInput: inputs,
           plan: this._plan,
           subscriptionId: this._subscriptionId,
+          pricingTiers: r.pricingTiers,
         };
 
         g.initialize(priceSpecInput);
@@ -123,6 +131,9 @@ export class PlanPriceSpecManager {
   }
 
   getSpecCosts() {
+    if (this.pricingTierAvailable) {
+      return Observable.of(null);
+    }
     return this._getBillingMeters(this._inputs)
       .switchMap(meters => {
         if (!meters) {

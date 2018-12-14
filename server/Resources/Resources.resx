@@ -3220,6 +3220,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Auto scale</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Scale out.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Scale to a large number of instances</value>
   </data>
@@ -3228,6 +3231,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Up to {0} instances.  Subject to availability.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Unlimited instances.  Subject to availability.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>High Density</value>
