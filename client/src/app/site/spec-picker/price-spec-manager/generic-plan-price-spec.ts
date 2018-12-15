@@ -27,7 +27,8 @@ export class GenericPlanPriceSpec extends PriceSpec {
 
   constructor(injector: Injector, pricingTier: PricingTier) {
     super(injector);
-    this.legacySkuName = this.skuCode = pricingTier.name;
+    this.legacySkuName = pricingTier.name;
+    this.skuCode = pricingTier.name;
     this.tier = pricingTier.workerTierName;
     if (pricingTier.estimatedPrice === 0) {
       this.priceString = this._ts.instant(PortalResources.free);
@@ -40,8 +41,13 @@ export class GenericPlanPriceSpec extends PriceSpec {
     }
     this.cssClass = GenericPlanPriceSpec.colorToCssSpec[pricingTier.skuSettings];
     this.topLevelFeatures.push(this._ts.instant(PortalResources.pricing_memory).format(pricingTier.memorySize / 1024));
-    this.topLevelFeatures.push('Compute Vm size: {0}'.format(pricingTier.ComputeVmSize + ''));
+    this.topLevelFeatures.push(this._ts.instant(PortalResources.pricing_comouteVmSize).format(pricingTier.ComputeVmSize + ''));
 
+    this._setFeatureItems(pricingTier);
+    this._sethardwareItems(pricingTier);
+  }
+
+  private _setFeatureItems(pricingTier: PricingTier) {
     if (pricingTier.customDomainsEnabled) {
       this.featureItems.push({
         iconUrl: 'image/ssl.svg',
@@ -77,7 +83,9 @@ export class GenericPlanPriceSpec extends PriceSpec {
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(backupPerDays.toFixed()),
       });
     }
+  }
 
+  private _sethardwareItems(pricingTier: PricingTier) {
     this.hardwareItems.push({
       iconUrl: 'image/storage.svg',
       title: this._ts.instant(PortalResources.storage),

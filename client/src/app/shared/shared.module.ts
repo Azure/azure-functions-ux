@@ -72,7 +72,6 @@ import { InvalidmessageDirective } from './directives/invalid-control-message.di
 import { NgUploaderModule } from 'ngx-uploader';
 import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
 import { QuotaService } from './services/quota.service';
-import { PricingTierService } from './services/pricing-tier.service';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 import { MarkdownModule } from 'ngx-markdown';
 import { GroupTabsComponent } from '../controls/group-tabs/group-tabs.component';
@@ -222,7 +221,6 @@ export class SharedModule {
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
         ApplicationInsightsService,
         QuotaService,
-        PricingTierService,
       ],
     };
   }

@@ -23,6 +23,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
+import { PricingTier } from 'app/shared/models/arm/pricingtier';
+import { Observable } from 'rxjs/Observable';
+import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 
 export enum BannerMessageLevel {
   ERROR = 'error',
@@ -35,6 +38,7 @@ export enum BannerMessageLevel {
 export enum SpecGroup {
   Development = 0,
   Production,
+  Isolated,
 }
 
 export enum SpecSection {
@@ -78,50 +82,104 @@ export abstract class PriceSpecGroup {
   }
 
   abstract initialize(input: PriceSpecInput);
+}
 
-  protected initialzeGenericSpecs(input: PriceSpecInput, specGroup: SpecGroup) {
-    if (!input.pricingTiers) {
-      return;
-    }
-    input.pricingTiers.forEach(pricingTier => {
-      if (input.plan) {
-        if (input.plan.properties.isXenon !== pricingTier.properties.isXenon) {
-          return;
-        }
-      }
-      if (pricingTier.properties.specGroup !== specGroup) {
-        return;
-      }
-      if (input.specPickerInput.data) {
-        if (input.specPickerInput.data.isLinux !== pricingTier.properties.isLinux) {
-          return;
-        }
-        if (input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon) {
-          return;
-        }
-      }
+export class GenericSpecGroup extends PriceSpecGroup {
+  recommendedSpecs = [];
 
-      const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
-      const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
-      if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
-        spec.state = 'disabled';
-        spec.disabledMessage = 'Not enough available instances';
-      } else {
-        spec.state = 'enabled';
-      }
-      if (pricingTier.properties.specSection === SpecSection.Recommended) {
-        this.recommendedSpecs.push(spec);
-      } else {
-        this.additionalSpecs.push(spec);
-      }
+  additionalSpecs = [];
+
+  specGroup: SpecGroup;
+  pricingTiers: Observable<ArmArrayResult<PricingTier>>;
+
+  selectedSpec = null;
+  iconUrl: string;
+  title: string;
+  id: PriceSpecGroupType;
+  description: string;
+  emptyMessage: string;
+  emptyInfoLink: string;
+
+  constructor(
+    injector: Injector,
+    specManager: PlanPriceSpecManager,
+    specGroup: SpecGroup,
+    pricingTiers: Observable<ArmArrayResult<PricingTier>>
+  ) {
+    super(injector, specManager);
+    this.specGroup = specGroup;
+    this.pricingTiers = pricingTiers;
+    this._resetSpecGroup();
+  }
+
+  initialize(input: PriceSpecInput) {
+    this.pricingTiers.subscribe(result => {
+      const pricingTiers = result.value;
+      pricingTiers.forEach(pricingTier => {
+        if (input.plan) {
+          if (input.plan.properties.isXenon !== pricingTier.properties.isXenon) {
+            return;
+          }
+        }
+        if (pricingTier.properties.specGroup !== this.specGroup) {
+          return;
+        }
+        if (input.specPickerInput.data) {
+          if (input.specPickerInput.data.isLinux !== pricingTier.properties.isLinux) {
+            return;
+          }
+          if (input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon) {
+            return;
+          }
+        }
+        const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
+        const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
+        if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
+          spec.state = 'disabled';
+          spec.disabledMessage = this.ts.instant(PortalResources.pricing_notEnoughInstances);
+        } else {
+          spec.state = 'enabled';
+        }
+        if (pricingTier.properties.specSection === SpecSection.Recommended) {
+          this.recommendedSpecs.push(spec);
+        } else {
+          this.additionalSpecs.push(spec);
+        }
+      });
     });
+  }
+
+  private _resetSpecGroup() {
+    this.emptyInfoLink = Links.appServicePricing;
+    if (this.specGroup === SpecGroup.Development) {
+      this.iconUrl = 'image/tools.svg';
+      this.title = this.ts.instant(PortalResources.pricing_devTestTitle);
+      this.id = PriceSpecGroupType.DEV_TEST;
+      this.description = this.ts.instant(PortalResources.pricing_devTestDesc);
+      this.emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
+    } else if (this.specGroup === SpecGroup.Production) {
+      this.iconUrl = 'image/app-service-plan.svg';
+      this.title = this.ts.instant(PortalResources.pricing_productionTitle);
+      this.id = PriceSpecGroupType.PROD;
+      this.description = this.ts.instant(PortalResources.pricing_productionDesc);
+      this.emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
+    } else if (this.specGroup === SpecGroup.Isolated) {
+      this.iconUrl = 'image/app-service-environment.svg';
+      this.title = this.ts.instant(PortalResources.pricing_isolatedTitle);
+      this.id = PriceSpecGroupType.ISOLATED;
+      this.description = this.ts.instant(PortalResources.pricing_isolatedDesc);
+      this.emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
+    }
   }
 }
 
 export class DevSpecGroup extends PriceSpecGroup {
-  recommendedSpecs = [];
-
-  additionalSpecs = [];
+  recommendedSpecs = [
+    new FreePlanPriceSpec(this.injector),
+    new SharedPlanPriceSpec(this.injector),
+    new BasicSmallPlanPriceSpec(this.injector),
+  ];
+  additionalSpecs = [new BasicMediumPlanPriceSpec(this.injector), new BasicLargePlanPriceSpec(this.injector)];
 
   selectedSpec = null;
   iconUrl = 'image/tools.svg';
@@ -136,17 +194,6 @@ export class DevSpecGroup extends PriceSpecGroup {
   }
 
   initialize(input: PriceSpecInput) {
-    if (input.pricingTiers) {
-      this.initialzeGenericSpecs(input, SpecGroup.Development);
-    } else {
-      this.recommendedSpecs = [
-        new FreePlanPriceSpec(this.injector),
-        new SharedPlanPriceSpec(this.injector),
-        new BasicSmallPlanPriceSpec(this.injector),
-      ];
-      this.additionalSpecs = [new BasicMediumPlanPriceSpec(this.injector), new BasicLargePlanPriceSpec(this.injector)];
-    }
-
     if (input.specPickerInput.data) {
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
@@ -165,9 +212,25 @@ export class DevSpecGroup extends PriceSpecGroup {
 }
 
 export class ProdSpecGroup extends PriceSpecGroup {
-  recommendedSpecs = [];
+  recommendedSpecs = [
+    new PremiumV2SmallPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV2MediumPlanPriceSpec(this.injector, this.specManager),
+    new PremiumV2LargePlanPriceSpec(this.injector, this.specManager),
+    new PremiumContainerSmallPriceSpec(this.injector),
+    new PremiumContainerMediumPriceSpec(this.injector),
+    new PremiumContainerLargePriceSpec(this.injector),
+    new ElasticPremiumSmallPlanPriceSpec(this.injector),
+    new ElasticPremiumMediumPlanPriceSpec(this.injector),
+    new ElasticPremiumLargePlanPriceSpec(this.injector),
+  ];
 
-  additionalSpecs = [];
+  additionalSpecs = [
+    new StandardMediumPlanPriceSpec(this.injector),
+    new StandardLargePlanPriceSpec(this.injector),
+    new PremiumSmallPlanPriceSpec(this.injector),
+    new PremiumMediumPlanPriceSpec(this.injector),
+    new PremiumLargePlanPriceSpec(this.injector),
+  ];
 
   selectedSpec = null;
   iconUrl = 'image/app-service-plan.svg';
@@ -182,30 +245,6 @@ export class ProdSpecGroup extends PriceSpecGroup {
   }
 
   initialize(input: PriceSpecInput) {
-    if (input.pricingTiers) {
-      this.initialzeGenericSpecs(input, SpecGroup.Production);
-    } else {
-      this.recommendedSpecs = [
-        new PremiumV2SmallPlanPriceSpec(this.injector, this.specManager),
-        new PremiumV2MediumPlanPriceSpec(this.injector, this.specManager),
-        new PremiumV2LargePlanPriceSpec(this.injector, this.specManager),
-        new PremiumContainerSmallPriceSpec(this.injector),
-        new PremiumContainerMediumPriceSpec(this.injector),
-        new PremiumContainerLargePriceSpec(this.injector),
-        new ElasticPremiumSmallPlanPriceSpec(this.injector),
-        new ElasticPremiumMediumPlanPriceSpec(this.injector),
-        new ElasticPremiumLargePlanPriceSpec(this.injector),
-      ];
-
-      this.additionalSpecs = [
-        new StandardMediumPlanPriceSpec(this.injector),
-        new StandardLargePlanPriceSpec(this.injector),
-        new PremiumSmallPlanPriceSpec(this.injector),
-        new PremiumMediumPlanPriceSpec(this.injector),
-        new PremiumLargePlanPriceSpec(this.injector),
-      ];
-    }
-
     if (input.specPickerInput.data) {
       if (input.specPickerInput.data.isLinux) {
         this.bannerMessage = {
@@ -221,9 +260,6 @@ export class ProdSpecGroup extends PriceSpecGroup {
       }
     }
 
-    if (input.pricingTiers) {
-      return;
-    }
     // NOTE(michinoy): The OS type determines whether standard small plan is recommended or additional pricing tier.
     if ((input.specPickerInput.data && input.specPickerInput.data.isLinux) || ArmUtil.isLinuxApp(input.plan)) {
       this.additionalSpecs.unshift(new StandardSmallPlanPriceSpec(this.injector));
@@ -254,10 +290,5 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     super(injector, specManager);
   }
 
-  initialize(input: PriceSpecInput) {
-    if (input.pricingTiers) {
-      this.recommendedSpecs = [];
-      this.additionalSpecs = [];
-    }
-  }
+  initialize(input: PriceSpecInput) {}
 }

@@ -10,13 +10,11 @@ import { LogService } from '../../../shared/services/log.service';
 import { SpecResourceSet } from './billing-models';
 import { PriceSpecDetail } from './price-spec-detail';
 import { SpecPickerInput, PlanSpecPickerData } from './plan-price-spec-manager';
-import { PricingTier } from 'app/shared/models/arm/pricingtier';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;
   subscriptionId: string;
   plan?: ArmObj<ServerFarm>;
-  pricingTiers?: ArmObj<PricingTier>[];
 }
 
 export abstract class PriceSpec {
