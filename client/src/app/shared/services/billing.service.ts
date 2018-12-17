@@ -4,7 +4,7 @@ import { Injectable, Injector } from '@angular/core';
 import { UserService } from './user.service';
 import { PortalService } from './portal.service';
 import { ConditionalHttpClient } from '../conditional-http-client';
-import { PricingTier } from '../models/arm/PricingTier';
+import { PricingTier } from '../models/arm/pricingtier';
 import { CacheService } from './cache.service';
 import { ArmArrayResult } from '../models/arm/arm-obj';
 
