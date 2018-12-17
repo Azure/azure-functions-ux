@@ -37,7 +37,7 @@ import { Url } from './../../shared/Utilities/url';
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { Site } from '../../shared/models/arm/site';
+import { Site, AvailabilitySates } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
@@ -75,6 +75,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   public notifications: TopBarNotification[];
   public swapControlsOpen = false;
   public targetSwapSlot: string;
+  public appStateNormal = false;
 
   private _viewInfo: TreeViewInfo<SiteData>;
   private _subs: Subscription[];
@@ -83,6 +84,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   private _slotName: string;
 
   constructor(
+    public ts: TranslateService,
     private _cacheService: CacheService,
     private _authZService: AuthzService,
     private _armService: ArmService,
@@ -90,14 +92,13 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     private _aiService: AiService,
     private _portalService: PortalService,
     private _domSanitizer: DomSanitizer,
-    public ts: TranslateService,
-    _configService: ConfigService,
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
     private _router: Router,
-    userService: UserService,
     private _scenarioService: ScenarioService,
     private _siteService: SiteService,
+    configService: ConfigService,
+    userService: UserService,
     injector: Injector
   ) {
     super('site-summary', injector, SiteTabIds.overview);
@@ -105,7 +106,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     this.featureName = this.componentName;
     this.isParentComponent = true;
 
-    this.isStandalone = _configService.isStandalone();
+    this.isStandalone = configService.isStandalone();
 
     userService
       .getStartupInfo()
@@ -126,6 +127,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       })
       .switchMap(context => {
         this.context = context;
+        this.appStateNormal = context.site.properties.availabilityState === AvailabilitySates.Normal;
         this.targetSwapSlot = context.site.properties.targetSwapSlot;
         const descriptor = new ArmSiteDescriptor(context.site.id);
         this.subscriptionId = descriptor.subscription;
@@ -149,7 +151,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         this.publishProfileLink = null;
 
         const serverFarm = context.site.properties.serverFarmId.split('/')[8];
-        this.plan = `${serverFarm} (${context.site.properties.sku.replace('Dynamic', 'Consumption')})`;
+        this.plan = context.site.properties.sku
+          ? `${serverFarm} (${context.site.properties.sku.replace('Dynamic', 'Consumption')})`
+          : serverFarm;
         this._isSlot = this._functionAppService.isSlot(context);
         this._slotName = this._functionAppService.getSlotName(context) || 'production';
 

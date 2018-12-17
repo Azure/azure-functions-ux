@@ -2,17 +2,17 @@
   <command [displayText]="context?.site.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
     [iconUrl]="context?.site.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
     (click)="toggleState()"
-    [disabled]="!hasWriteAccess"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess"></command>
 
   <command displayText="{{ (targetSwapSlot ? 'completeSwap' : 'swap') | translate }}"
     iconUrl="image/swap.svg"
     (click)="openSwapBlade()"
-    [disabled]="!hasWriteAccess || !hasSwapAccess || swapControlsOpen"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess || !hasSwapAccess || swapControlsOpen"></command>
 
   <command displayText="{{ 'restart' | translate }}"
     iconUrl="image/restart.svg"
     (click)="restart()"
-    [disabled]="!hasWriteAccess || context?.site.properties.state !== 'Running'"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess || context?.site.properties.state !== 'Running'"></command>
 
   <command displayText="{{ 'getPublishProfile' | translate}}"
     iconUrl="image/download.svg"
@@ -22,17 +22,17 @@
   <command displayText="{{'resetPublishProfile' | translate}}"
     iconUrl="image/reset.svg"
     (click)="resetPublishCredentials()"
-    [disabled]="!hasWriteAccess"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess"></command>
 
   <command displayText="{{ 'downloadFunctionAppContent' | translate}}"
     iconUrl="image/download.svg"
     (click)="openDownloadFunctionAppModal()"
-    [disabled]="!hasWriteAccess"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess"></command>
 
   <command displayText="{{ '_delete' | translate }}"
     iconUrl="image/delete.svg"
     (click)="openDeleteBlade()"
-    [disabled]="!hasWriteAccess"></command>
+    [disabled]="!appStateNormal || !hasWriteAccess"></command>
 </command-bar>
 
 <download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [context]="context"></download-function-app-content>
