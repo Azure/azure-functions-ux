@@ -24,7 +24,6 @@ import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 import { PlanPriceSpecManager } from './plan-price-spec-manager';
 import { GenericPlanPriceSpec } from './generic-plan-price-spec';
 import { PricingTier } from 'app/shared/models/arm/pricingtier';
-import { Observable } from 'rxjs/Observable';
 import { ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 
 export enum BannerMessageLevel {
@@ -90,7 +89,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
   additionalSpecs = [];
 
   specGroup: SpecGroup;
-  pricingTiers: Observable<ArmArrayResult<PricingTier>>;
+  pricingTiers: ArmArrayResult<PricingTier>;
 
   selectedSpec = null;
   iconUrl: string;
@@ -100,12 +99,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
   emptyMessage: string;
   emptyInfoLink: string;
 
-  constructor(
-    injector: Injector,
-    specManager: PlanPriceSpecManager,
-    specGroup: SpecGroup,
-    pricingTiers: Observable<ArmArrayResult<PricingTier>>
-  ) {
+  constructor(injector: Injector, specManager: PlanPriceSpecManager, specGroup: SpecGroup, pricingTiers: ArmArrayResult<PricingTier>) {
     super(injector, specManager);
     this.specGroup = specGroup;
     this.pricingTiers = pricingTiers;
@@ -113,39 +107,36 @@ export class GenericSpecGroup extends PriceSpecGroup {
   }
 
   initialize(input: PriceSpecInput) {
-    this.pricingTiers.subscribe(result => {
-      const pricingTiers = result.value;
-      pricingTiers.forEach(pricingTier => {
-        if (input.plan) {
-          if (input.plan.properties.isXenon !== pricingTier.properties.isXenon) {
-            return;
-          }
-        }
-        if (pricingTier.properties.specGroup !== this.specGroup) {
+    this.pricingTiers.value.forEach(pricingTier => {
+      if (input.plan) {
+        if (input.plan.properties.isXenon !== pricingTier.properties.isXenon) {
           return;
         }
-        if (input.specPickerInput.data) {
-          if (input.specPickerInput.data.isLinux !== pricingTier.properties.isLinux) {
-            return;
-          }
-          if (input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon) {
-            return;
-          }
+      }
+      if (pricingTier.properties.specGroup !== this.specGroup) {
+        return;
+      }
+      if (input.specPickerInput.data) {
+        if (input.specPickerInput.data.isLinux !== pricingTier.properties.isLinux) {
+          return;
         }
-        const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
-        const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
-        if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
-          spec.state = 'disabled';
-          spec.disabledMessage = this.ts.instant(PortalResources.pricing_notEnoughInstances);
-        } else {
-          spec.state = 'enabled';
+        if (input.specPickerInput.data.isXenon !== pricingTier.properties.isXenon) {
+          return;
         }
-        if (pricingTier.properties.specSection === SpecSection.Recommended) {
-          this.recommendedSpecs.push(spec);
-        } else {
-          this.additionalSpecs.push(spec);
-        }
-      });
+      }
+      const numberOfWorkersRequired = (input.plan && input.plan.properties.numberOfWorkers) || 1;
+      const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
+      if ((!input.plan || input.plan.sku.name !== spec.skuCode) && pricingTier.properties.availableInstances < numberOfWorkersRequired) {
+        spec.state = 'disabled';
+        spec.disabledMessage = this.ts.instant(PortalResources.pricing_notEnoughInstances);
+      } else {
+        spec.state = 'enabled';
+      }
+      if (pricingTier.properties.specSection === SpecSection.Recommended) {
+        this.recommendedSpecs.push(spec);
+      } else {
+        this.additionalSpecs.push(spec);
+      }
     });
   }
 
