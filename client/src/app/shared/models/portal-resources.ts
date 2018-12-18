@@ -1476,4 +1476,12 @@ export class PortalResources {
   public static byos_storageNameExists = 'byos_storageNameExists';
   public static unableToReachBuild = 'unableToReachBuild';
   public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
+  public static limitedMode = 'limitedMode';
+  public static limited = 'limited';
+  public static sideNav_FunctionsLimited = 'sideNav_FunctionsLimited';
+  public static stoppedMode = 'stoppedMode';
+  public static noAccessMode = 'noAccessMode';
+  public static readOnlyMode = 'readOnlyMode';
+  public static nonReachableMode = 'nonReachableMode';
+  public static sideNav_ProxiesLimited = 'sideNav_ProxiesLimited';
 }

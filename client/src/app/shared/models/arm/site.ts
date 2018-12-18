@@ -6,13 +6,13 @@ export enum ComputeMode {
   Dynamic,
 }
 
-export enum AvailabilitySates {
-  Normal = 'Normal',
-  Limited = 'Limited',
-  DisasterRecoveryMode = 'DisasterRecoveryMode',
+export enum SiteAvailabilitySates {
+  Normal,
+  Limited,
+  DisasterRecoveryMode,
 }
 
-export type AvailabilitySate = AvailabilitySates.Normal | AvailabilitySates.Limited | AvailabilitySates.DisasterRecoveryMode;
+export type AvailabilitySate = SiteAvailabilitySates.Normal | SiteAvailabilitySates.Limited | SiteAvailabilitySates.DisasterRecoveryMode;
 
 export class SiteProperties {
   properties: { name: string; value: string }[];

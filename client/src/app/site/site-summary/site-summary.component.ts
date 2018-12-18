@@ -36,8 +36,8 @@ import { Router } from '@angular/router';
 import { Url } from './../../shared/Utilities/url';
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
-import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { Site, AvailabilitySates } from '../../shared/models/arm/site';
+import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../shared/resourceDescriptors';
+import { Site, SiteAvailabilitySates } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
@@ -75,7 +75,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
   public notifications: TopBarNotification[];
   public swapControlsOpen = false;
   public targetSwapSlot: string;
-  public appStateNormal = false;
+  public siteAvailabilityStateNormal = false;
 
   private _viewInfo: TreeViewInfo<SiteData>;
   private _subs: Subscription[];
@@ -122,68 +122,59 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     return inputEvents
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
-        const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
-        return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId());
+        return this._functionAppService.getAppContext(viewInfo.resourceId);
       })
       .switchMap(context => {
         this.context = context;
-        this.appStateNormal = context.site.properties.availabilityState === AvailabilitySates.Normal;
-        this.targetSwapSlot = context.site.properties.targetSwapSlot;
-        const descriptor = new ArmSiteDescriptor(context.site.id);
-        this.subscriptionId = descriptor.subscription;
+        this.siteAvailabilityStateNormal = context.site.properties.availabilityState === SiteAvailabilitySates.Normal;
 
-        if (this.showTryView) {
-          this.subscriptionName = 'Trial Subscription';
-        } else {
-          this.subscriptionName = this._subs ? this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName : '';
-        }
-
-        this.resourceGroup = descriptor.resourceGroup;
-
-        this.location = context.site.location;
-        this.state = context.site.properties.state;
-        this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
-
-        this.availabilityState = null;
-        this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
-        this.availabilityIcon = null;
-
-        this.publishProfileLink = null;
-
-        const serverFarm = context.site.properties.serverFarmId.split('/')[8];
-        this.plan = context.site.properties.sku
-          ? `${serverFarm} (${context.site.properties.sku.replace('Dynamic', 'Consumption')})`
-          : serverFarm;
-        this._isSlot = this._functionAppService.isSlot(context);
-        this._slotName = this._functionAppService.getSlotName(context) || 'production';
+        this._setResourceInformation(context);
+        this._setAppServicePlanData(context);
+        this._setSlotsData(context);
+        this._setAppState(context);
 
         this.clearBusyEarly();
-
-        this.hideAvailability =
-          this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: context.site }).status === 'disabled';
 
         // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
         // cases where this causes a false positive, the backend will take care of giving a graceful failure.
         this.hasWriteAccess = true;
 
-        return Observable.zip(
-          this._authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
-          this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
-          this._authZService.hasReadOnlyLock(context.site.id),
-          this._functionAppService.getSlotsList(context),
-          this._functionAppService.pingScmSite(context),
-          this._functionAppService.getRuntimeGeneration(context),
-          this._functionAppService.getFunctions(context),
-          (p, s, l, slots, ping, version, functions) => ({
-            hasWritePermission: p,
-            hasSwapPermission: s,
-            hasReadOnlyLock: l,
-            slotsList: slots.isSuccessful ? slots.result : [],
-            pingedScmSite: ping.isSuccessful ? ping.result : false,
-            runtime: version,
-            functionInfo: functions.isSuccessful ? functions.result : [],
-          })
-        );
+        if (this.siteAvailabilityStateNormal) {
+          return Observable.zip(
+            this._authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
+            this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
+            this._authZService.hasReadOnlyLock(context.site.id),
+            this._functionAppService.getSlotsList(context),
+            this._functionAppService.pingScmSite(context),
+            this._functionAppService.getRuntimeGeneration(context),
+            this._functionAppService.getFunctions(context),
+            (p, s, l, slots, ping, version, functions) => ({
+              hasWritePermission: p,
+              hasSwapPermission: s,
+              hasReadOnlyLock: l,
+              slotsList: slots.isSuccessful ? slots.result : [],
+              pingedScmSite: ping.isSuccessful ? ping.result : false,
+              runtime: version,
+              functionInfo: functions.isSuccessful ? functions.result : [],
+            })
+          );
+        } else {
+          return Observable.zip(
+            this._authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
+            this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
+            this._authZService.hasReadOnlyLock(context.site.id),
+            this._functionAppService.pingScmSite(context),
+            (p, s, l, ping) => ({
+              hasWritePermission: p,
+              hasSwapPermission: s,
+              hasReadOnlyLock: l,
+              slotsList: [],
+              pingedScmSite: ping.isSuccessful ? ping.result : false,
+              runtime: null,
+              functionInfo: [],
+            })
+          );
+        }
       })
       .mergeMap(r => {
         this.hasWriteAccess = r.hasWritePermission && !r.hasReadOnlyLock;
@@ -192,6 +183,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         } else {
           this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
         }
+
+        this.hideAvailability =
+          this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: this.context.site }).status === 'disabled' ||
+          !this.siteAvailabilityStateNormal;
 
         if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
           this.showQuickstart = true;
@@ -233,58 +228,13 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       });
   }
 
-  private _setupPortalBroadcastSubscriptions() {
-    this._portalService.setInboundEventFilter([EventVerbs.slotSwap]);
-    this._setupSlotSwapMessageSubscription();
-  }
-
-  private _setupSlotSwapMessageSubscription() {
-    this._broadcastService
-      .getEvents<EventMessage<SlotSwapInfo>>(BroadcastEvent.SlotSwap)
-      .takeUntil(this.ngUnsubscribe)
-      .filter(m => m.resourceId === this.context.site.id)
-      .subscribe(message => {
-        const slotSwapInfo = message.metadata as SlotSwapInfo;
-        if (!!slotSwapInfo) {
-          switch (slotSwapInfo.operationType) {
-            case SwapOperationType.slotsSwap:
-            case SwapOperationType.applySlotConfig:
-              if (slotSwapInfo.state === SlotOperationState.started) {
-                this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
-              } else {
-                this._viewInfo.node.refresh(null, true);
-              }
-              break;
-            case SwapOperationType.resetSlotConfig:
-              if (slotSwapInfo.state === SlotOperationState.started) {
-                this.targetSwapSlot = null;
-              } else {
-                this._viewInfo.node.refresh(null, true);
-              }
-              break;
-          }
-        }
-      });
-  }
-
-  private _setTargetSwapSlot(srcSlotName: string, destSlotName: string) {
-    if (this._slotName.toLowerCase() === srcSlotName.toLowerCase()) {
-      this.targetSwapSlot = destSlotName;
-    } else if (this._slotName.toLowerCase() === destSlotName.toLowerCase()) {
-      this.targetSwapSlot = srcSlotName;
-    }
-  }
-
-  private get showTryView() {
-    return this._globalStateService.showTryView;
-  }
-
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     if (!viewInfo) {
       return;
     }
 
+    this._reset();
     this.setInput(viewInfo);
   }
 
@@ -345,14 +295,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
   hideDownloadFunctionAppModal() {
     this.showDownloadFunctionAppModal = false;
-  }
-
-  private _cleanupBlob() {
-    const windowUrl = window.URL || (<any>window).webkitURL;
-    if (this._blobUrl) {
-      windowUrl.revokeObjectURL(this._blobUrl);
-      this._blobUrl = null;
-    }
   }
 
   resetPublishCredentials() {
@@ -488,6 +430,143 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     );
   }
 
+  openSwapBlade() {
+    const oldBladeInfo: OpenBladeInfo = {
+      detailBlade: 'WebsiteSlotsListBlade',
+      detailBladeInputs: { resourceUri: this.context.site.id },
+    };
+
+    const newBladeInfo: OpenBladeInfo = {
+      detailBlade: 'SwapSlotsFrameBlade',
+      detailBladeInputs: { id: this.context.site.id },
+      openAsContextBlade: true,
+    };
+
+    const bladeInfo = Url.getParameterByName(null, FeatureFlags.UseNewSlotsBlade) === 'true' ? newBladeInfo : oldBladeInfo;
+
+    this.swapControlsOpen = true;
+    this._portalService
+      .openBlade(bladeInfo, 'site-summary')
+      .mergeMap(bladeResult => {
+        return Observable.of({
+          success: true,
+          error: null,
+          result: bladeResult,
+        });
+      })
+      .catch(err => {
+        return Observable.of({
+          success: false,
+          error: err,
+          result: null,
+        });
+      })
+      .subscribe(_ => {
+        this.swapControlsOpen = false;
+      });
+  }
+
+  openDeleteBlade() {
+    if (this._scenarioService.checkScenario(ScenarioIds.deleteAppDirectly).status === 'enabled') {
+      this._deleteAppDirectly();
+      return;
+    }
+
+    this._portalService.openBlade(
+      {
+        detailBlade: 'AppDeleteBlade',
+        detailBladeInputs: { resourceUri: this.context.site.id },
+        openAsContextBlade: true,
+      },
+      'site-summary'
+    );
+  }
+
+  openQuickstartTab() {
+    this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
+  }
+
+  onKeyPress(event: KeyboardEvent, header: string) {
+    if (event.keyCode === KeyCodes.enter) {
+      switch (header) {
+        case 'subscription':
+          this.openSubscriptionBlade();
+          break;
+        case 'resourceGroup':
+          this.openResourceGroupBlade();
+          break;
+        case 'url':
+          this.openMainAppUrl();
+          break;
+        case 'appServicePlan':
+          this.openPlanBlade();
+          break;
+        case 'functionNew':
+          this.openQuickstartTab();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  private _reset() {
+    this.availabilityState = null;
+    this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
+    this.availabilityIcon = null;
+    this.publishProfileLink = null;
+  }
+
+  private _cleanupBlob() {
+    const windowUrl = window.URL || (<any>window).webkitURL;
+    if (this._blobUrl) {
+      windowUrl.revokeObjectURL(this._blobUrl);
+      this._blobUrl = null;
+    }
+  }
+
+  private _setupPortalBroadcastSubscriptions() {
+    this._portalService.setInboundEventFilter([EventVerbs.slotSwap]);
+    this._setupSlotSwapMessageSubscription();
+  }
+
+  private _setupSlotSwapMessageSubscription() {
+    this._broadcastService
+      .getEvents<EventMessage<SlotSwapInfo>>(BroadcastEvent.SlotSwap)
+      .takeUntil(this.ngUnsubscribe)
+      .filter(m => m.resourceId === this.context.site.id)
+      .subscribe(message => {
+        const slotSwapInfo = message.metadata as SlotSwapInfo;
+        if (!!slotSwapInfo) {
+          switch (slotSwapInfo.operationType) {
+            case SwapOperationType.slotsSwap:
+            case SwapOperationType.applySlotConfig:
+              if (slotSwapInfo.state === SlotOperationState.started) {
+                this._setTargetSwapSlot(slotSwapInfo.srcName, slotSwapInfo.destName);
+              } else {
+                this._viewInfo.node.refresh(null, true);
+              }
+              break;
+            case SwapOperationType.resetSlotConfig:
+              if (slotSwapInfo.state === SlotOperationState.started) {
+                this.targetSwapSlot = null;
+              } else {
+                this._viewInfo.node.refresh(null, true);
+              }
+              break;
+          }
+        }
+      });
+  }
+
+  private _setTargetSwapSlot(srcSlotName: string, destSlotName: string) {
+    if (this._slotName.toLowerCase() === srcSlotName.toLowerCase()) {
+      this.targetSwapSlot = destSlotName;
+    } else if (this._slotName.toLowerCase() === destSlotName.toLowerCase()) {
+      this.targetSwapSlot = srcSlotName;
+    }
+  }
+
   private _setAvailabilityState(availabilityState: string) {
     this.availabilityState = availabilityState.toLowerCase();
     switch (this.availabilityState) {
@@ -562,63 +641,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       );
   }
 
-  openSwapBlade() {
-    const oldBladeInfo: OpenBladeInfo = {
-      detailBlade: 'WebsiteSlotsListBlade',
-      detailBladeInputs: { resourceUri: this.context.site.id },
-    };
-
-    const newBladeInfo: OpenBladeInfo = {
-      detailBlade: 'SwapSlotsFrameBlade',
-      detailBladeInputs: { id: this.context.site.id },
-      openAsContextBlade: true,
-    };
-
-    const bladeInfo = Url.getParameterByName(null, FeatureFlags.UseNewSlotsBlade) === 'true' ? newBladeInfo : oldBladeInfo;
-
-    this.swapControlsOpen = true;
-    this._portalService
-      .openBlade(bladeInfo, 'site-summary')
-      .mergeMap(bladeResult => {
-        return Observable.of({
-          success: true,
-          error: null,
-          result: bladeResult,
-        });
-      })
-      .catch(err => {
-        return Observable.of({
-          success: false,
-          error: err,
-          result: null,
-        });
-      })
-      .subscribe(_ => {
-        this.swapControlsOpen = false;
-      });
-  }
-
-  openDeleteBlade() {
-    if (this._scenarioService.checkScenario(ScenarioIds.deleteAppDirectly).status === 'enabled') {
-      this.deleteAppDirectly();
-      return;
-    }
-
-    this._portalService.openBlade(
-      {
-        detailBlade: 'AppDeleteBlade',
-        detailBladeInputs: { resourceUri: this.context.site.id },
-        openAsContextBlade: true,
-      },
-      'site-summary'
-    );
-  }
-
-  openQuickstartTab() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
-  }
-
-  private deleteAppDirectly() {
+  private _deleteAppDirectly() {
     const appNode = <AppNode>this._viewInfo.node;
     const appsNode = appNode.parent;
     appsNode.select(true);
@@ -637,27 +660,46 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       }
     );
   }
-  onKeyPress(event: KeyboardEvent, header: string) {
-    if (event.keyCode === KeyCodes.enter) {
-      switch (header) {
-        case 'subscription':
-          this.openSubscriptionBlade();
-          break;
-        case 'resourceGroup':
-          this.openResourceGroupBlade();
-          break;
-        case 'url':
-          this.openMainAppUrl();
-          break;
-        case 'appServicePlan':
-          this.openPlanBlade();
-          break;
-        case 'functionNew':
-          this.openQuickstartTab();
-          break;
-        default:
-          break;
+
+  private _setAppServicePlanData(context: FunctionAppContext) {
+    if (context && context.site.properties.serverFarmId) {
+      try {
+        const appServicePlanDescriptor = new ArmPlanDescriptor(context.site.properties.serverFarmId);
+        this.plan = context.site.properties.sku
+          ? `${appServicePlanDescriptor.name} (${context.site.properties.sku.replace('Dynamic', 'Consumption')})`
+          : appServicePlanDescriptor.name;
+      } catch (e) {
+        this._logService.error(LogCategories.siteDashboard, 'site-summary', e);
       }
+    }
+  }
+
+  private _setSlotsData(context: FunctionAppContext) {
+    this.targetSwapSlot = context.site.properties.targetSwapSlot;
+    this._isSlot = this._functionAppService.isSlot(context);
+    this._slotName = this._functionAppService.getSlotName(context) || 'production';
+  }
+
+  private _setAppState(context: FunctionAppContext) {
+    if (context.site.properties.availabilityState !== SiteAvailabilitySates.Normal) {
+      this.state = this.ts.instant(PortalResources.limited);
+      this.stateIcon = 'image/warning.svg';
+    } else {
+      this.state = context.site.properties.state;
+      this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
+    }
+  }
+
+  private _setResourceInformation(context: FunctionAppContext) {
+    const siteDescriptor = new ArmSiteDescriptor(context.site.id);
+    this.subscriptionId = siteDescriptor.subscription;
+    this.resourceGroup = siteDescriptor.resourceGroup;
+    this.location = context.site.location;
+
+    if (this._globalStateService.showTryView) {
+      this.subscriptionName = 'Trial Subscription';
+    } else {
+      this.subscriptionName = this._subs ? this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName : '';
     }
   }
 }
