@@ -4599,7 +4599,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The path for Windows must begin with 'c:\'.</value>
   </data>
   <data name="limitedMode" xml:space="preserve">
-    <value>The App is in a limited state. Unable to retrieve all data.</value>
+    <value>The function app is in a limited state. Unable to retrieve all data.</value>
   </data>
   <data name="limited" xml:space="preserve">
     <value>Limited</value>
