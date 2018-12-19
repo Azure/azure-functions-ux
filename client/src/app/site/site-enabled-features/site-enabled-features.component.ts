@@ -330,11 +330,11 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
 
   private _getSiteFeatures(site: ArmObj<Site>) {
     const items = [];
-    if (site.properties.hostNames && site.properties.hostNames.length > 1) {
+    if (site.properties.hostNames.length > 1) {
       items.push(this._getEnabledFeatureItem(Feature.CustomDomains));
     }
 
-    if (site.properties.hostNameSslStates && site.properties.hostNameSslStates.length > 2) {
+    if (site.properties.hostNameSslStates.length > 2) {
       items.push(this._getEnabledFeatureItem(Feature.SSLBinding));
     }
 
@@ -345,19 +345,17 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
     return this._siteService.getSiteConfig(site.id).map(r => {
       const items = [];
       const config = r.result;
-      if (r.isSuccessful) {
-        if (config.properties.scmType !== 'None') {
-          items.push(this._getEnabledFeatureItem(Feature.DeploymentSource, config.properties.scmType));
-        }
+      if (config.properties.scmType !== 'None') {
+        items.push(this._getEnabledFeatureItem(Feature.DeploymentSource, config.properties.scmType));
+      }
 
-        const cors = config.properties.cors;
-        if (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0 && this._containsNonDefaultCorsRules(cors.allowedOrigins)) {
-          items.push(this._getEnabledFeatureItem(Feature.Cors, cors.allowedOrigins.length));
-        }
+      const cors = config.properties.cors;
+      if (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0 && this._containsNonDefaultCorsRules(cors.allowedOrigins)) {
+        items.push(this._getEnabledFeatureItem(Feature.Cors, cors.allowedOrigins.length));
+      }
 
-        if (config.properties.apiDefinition && config.properties.apiDefinition.url) {
-          items.push(this._getEnabledFeatureItem(Feature.ApiDefinition));
-        }
+      if (config.properties.apiDefinition && config.properties.apiDefinition.url) {
+        items.push(this._getEnabledFeatureItem(Feature.ApiDefinition));
       }
 
       return items;

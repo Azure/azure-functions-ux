@@ -2,44 +2,38 @@
   <command [displayText]="context?.site.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
     [iconUrl]="context?.site.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
     (click)="toggleState()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!hasWriteAccess"></command>
 
   <command displayText="{{ (targetSwapSlot ? 'completeSwap' : 'swap') | translate }}"
     iconUrl="image/swap.svg"
     (click)="openSwapBlade()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess || !hasSwapAccess || swapControlsOpen"></command>
+    [disabled]="!hasWriteAccess || !hasSwapAccess || swapControlsOpen"></command>
 
   <command displayText="{{ 'restart' | translate }}"
     iconUrl="image/restart.svg"
     (click)="restart()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess || context?.site.properties.state !== 'Running'"></command>
+    [disabled]="!hasWriteAccess || context?.site.properties.state !== 'Running'"></command>
 
   <command displayText="{{ 'getPublishProfile' | translate}}"
     iconUrl="image/download.svg"
     (click)="downloadPublishProfile()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!hasWriteAccess"></command>
 
   <command displayText="{{'resetPublishProfile' | translate}}"
     iconUrl="image/reset.svg"
     (click)="resetPublishCredentials()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!hasWriteAccess"></command>
 
   <command displayText="{{ 'downloadFunctionAppContent' | translate}}"
     iconUrl="image/download.svg"
     (click)="openDownloadFunctionAppModal()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!hasWriteAccess"></command>
 
   <command displayText="{{ '_delete' | translate }}"
     iconUrl="image/delete.svg"
     (click)="openDeleteBlade()"
-    [disabled]="!siteAvailabilityStateNormal || !hasWriteAccess"></command>
+    [disabled]="!hasWriteAccess"></command>
 </command-bar>
-
-<info-box
-  *ngIf="!siteAvailabilityStateNormal"
-  typeClass="warning"
-  [infoText]="'limitedMode' | translate">
-</info-box>
 
 <download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [context]="context"></download-function-app-content>
 
@@ -121,7 +115,7 @@
   </div>
 
   <div class="essentials-col">
-    <div *ngIf="siteAvailabilityStateNormal">
+    <div>
       <label id="siteUrlLabel">URL</label>
       <div>
         <a [class.disabled-link]="isStandalone"
@@ -135,7 +129,7 @@
       </div>
     </div>
 
-    <div *ngIf="siteAvailabilityStateNormal || plan">
+    <div>
       <label id="siteAppServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
       <div>
         <a [class.disabled-link]="isStandalone"

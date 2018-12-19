@@ -6,14 +6,6 @@ export enum ComputeMode {
   Dynamic,
 }
 
-export enum SiteAvailabilitySates {
-  Normal,
-  Limited,
-  DisasterRecoveryMode,
-}
-
-export type AvailabilitySate = SiteAvailabilitySates.Normal | SiteAvailabilitySates.Limited | SiteAvailabilitySates.DisasterRecoveryMode;
-
 export class SiteProperties {
   properties: { name: string; value: string }[];
 }
@@ -41,5 +33,4 @@ export interface Site {
   computeMode?: ComputeMode;
   isXenon?: boolean;
   siteProperties?: SiteProperties;
-  availabilityState: AvailabilitySate;
 }

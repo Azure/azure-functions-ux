@@ -4598,28 +4598,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>The path for Windows must begin with 'c:\'.</value>
   </data>
-  <data name="limitedMode" xml:space="preserve">
-    <value>The App is in a limited state. Unable to retrieve all data.</value>
-  </data>
-  <data name="limited" xml:space="preserve">
-    <value>Limited</value>
-  </data>
-  <data name="sideNav_FunctionsLimited" xml:space="preserve">
-    <value>Functions (Limited)</value>
-  </data>
-  <data name="stoppedMode" xml:space="preserve">
-    <value>All functions are stopped. Start your app to view your functions.</value>
-  </data>
-  <data name="noAccessMode" xml:space="preserve">
-    <value>You do not have write permissions to this app.</value>
-  </data>
-  <data name="readOnlyMode" xml:space="preserve">
-    <value>You have read only access. Functions require write access to view.</value>
-  </data>
-  <data name="nonReachableMode" xml:space="preserve">
-    <value>Functions running behind an internal load balancer are not accessible outside their VNET. Please make sure you are in the same VNET as the functions to access them.</value>
-  </data>
-  <data name="sideNav_ProxiesLimited" xml:space="preserve">
-    <value>Proxies (Limited)</value>
-  </data>
 </root>
