@@ -53,6 +53,7 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
       },
       {
         stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesStopped),
+        limitedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesLimited),
         noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesNoAccess),
         nonReachableTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesInaccessible),
         readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnlyLock),
