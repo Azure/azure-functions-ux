@@ -22,7 +22,7 @@ const getItems = (
   return [
     {
       key: 'reconnect',
-      name: 'Reconnect',
+      name: t('logStreaming_reconnect'),
       iconProps: {
         iconName: 'PlugConnected',
       },
@@ -30,7 +30,7 @@ const getItems = (
     },
     {
       key: 'copy',
-      name: 'Copy',
+      name: t('functionKeys_copy'),
       iconProps: {
         iconName: 'Copy',
       },
@@ -38,7 +38,7 @@ const getItems = (
     },
     {
       key: 'toggle',
-      name: isStreaming ? 'Pause' : 'Start',
+      name: isStreaming ? t('logStreaming_pause') : t('logStreaming_start'),
       iconProps: {
         iconName: isStreaming ? 'Pause' : 'Play',
       },
@@ -46,7 +46,7 @@ const getItems = (
     },
     {
       key: 'clear',
-      name: 'Clear',
+      name: t('logStreaming_clear'),
       iconProps: {
         iconName: 'StatusCircleErrorX',
       },

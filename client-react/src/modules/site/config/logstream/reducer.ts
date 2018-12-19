@@ -10,7 +10,7 @@ import {
   UPDATE_LOG_STREAM_INDEX,
   UPDATE_TIMEOUTS,
 } from './actions';
-import { LogEntry } from 'src/pages/app/log-stream/LogStream.Types';
+import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
 
 export interface ILogStreamState {
   isStreaming: boolean;

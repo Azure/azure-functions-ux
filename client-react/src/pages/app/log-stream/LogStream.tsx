@@ -4,12 +4,12 @@ import { fetchSite } from '../../../modules/site/thunks';
 import { compose } from 'recompose';
 import { translate } from 'react-i18next';
 import IState from '../../../modules/types';
-import { ArmObj, Site } from 'src/models/WebAppModels';
+import { ArmObj, Site } from '../../../models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry } from './LogStream.Types';
-import { stopStreaming, startStreaming, clearLogEntries, copyLogEntries } from 'src/modules/site/config/logstream/actions';
-import { startStreamingRequest } from 'src/modules/site/config/logstream/thunk';
+import { stopStreaming, startStreaming, clearLogEntries, copyLogEntries } from '../../../modules/site/config/logstream/actions';
+import { startStreamingRequest } from '../../../modules/site/config/logstream/thunk';
 
 export interface LogStreamProps {
   fetchSite: () => Promise<ArmObj<Site>>;

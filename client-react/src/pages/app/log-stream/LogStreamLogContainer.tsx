@@ -47,11 +47,11 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
   }
 
   public render() {
-    const { clearLogs, logEntries } = this.props;
+    const { clearLogs, logEntries, t } = this.props;
     return (
       <div className={containerDivStyle}>
         <div className={bodyDivStyle}>
-          {!clearLogs && <div className={connectingDivStyle}>{'Connecting...'}</div>}
+          {!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>}
           {!!logEntries &&
             logEntries.map(logEntry => (
               <div key={logEntry.message} className={logEntryDivStyle} style={{ color: this._getLogTextColor(logEntry.level) }}>

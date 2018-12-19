@@ -1,5 +1,5 @@
 import { IAction } from '../../../../models/action';
-import { LogEntry } from 'src/pages/app/log-stream/LogStream.Types';
+import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
 
 export const CLEAR_LOG_ENTRIES = 'CLEAR_LOG_ENTRIES';
 export function clearLogEntries(): IAction<null> {
