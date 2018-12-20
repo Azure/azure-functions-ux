@@ -64,7 +64,7 @@ jobs:
         inputs:
           ArtifactName: server
 
-  - job: React Build
+  - job: ReactBuild
     pool:
       vmImage: 'Ubuntu 16.04'
     steps:
