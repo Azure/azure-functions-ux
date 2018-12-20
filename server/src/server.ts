@@ -46,6 +46,7 @@ configLoader.config();
 app
   .use(compression())
   .use(express.static(path.join(__dirname, 'public')))
+  .use(express.static(path.join(__dirname, 'public', 'react')))
   .use(logger('combined'))
   .set('views', __dirname + '/views')
   .set('view engine', 'jsx')
@@ -105,13 +106,29 @@ const getVersionFiles = async (version: string) => {
     return null;
   }
 };
+
+const reactHtmlCache: { [key: string]: string } = {};
+const reactIndexPage = path.join(__dirname, 'public', 'react', 'index.html');
+if (fs.existsSync(reactIndexPage)) {
+  const reactHtml = fs.readFileSync(reactIndexPage, 'utf8');
+  reactHtmlCache[staticConfig.config.version] = reactHtml;
+}
 const renderIndex = async (req: express.Request, res: express.Response) => {
   staticConfig.config.clientOptimzationsOff =
     req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
+  const sendReact = req.query['appsvc.react'];
   const versionReq = req.query['appsvc.version'];
 
-  const versionConfig = await getVersionFiles(versionReq || staticConfig.config.version);
-  res.render('index', { ...staticConfig, version: versionConfig });
+  if (sendReact) {
+    if (reactHtmlCache[staticConfig.config.version]) {
+      res.send(reactHtmlCache[staticConfig.config.version]);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    const versionConfig = await getVersionFiles(versionReq || staticConfig.config.version);
+    res.render('index', { ...staticConfig, version: versionConfig });
+  }
 };
 app.get('/', redirectToAcom, renderIndex);
 
