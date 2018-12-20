@@ -1,8 +1,8 @@
 import * as React from 'react';
 import AzureHead from './azure/Head';
 import AzureBody from './azure/Body';
-import LocalHead from './local/Head';
-import LocalBody from './local/Body';
+import LocalHead from './react/Head';
+import LocalBody from './react/Body';
 
 const Index = props => {
   return (
@@ -23,7 +23,7 @@ const Index = props => {
         {props.config.isAzure ? <AzureHead {...props} /> : <LocalHead {...props} />}
       </head>
 
-      <body style={{ backgroundColor: 'inherit' }}>
+      <body style={{ backgroundColor: 'inherit', margin: 0 }}>
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{

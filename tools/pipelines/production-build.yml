@@ -64,6 +64,40 @@ jobs:
         inputs:
           ArtifactName: server
 
+  - job: React Build
+    pool:
+      vmImage: 'Ubuntu 16.04'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '8.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g yarn
+        displayName: 'install yarn'
+
+      - script: |
+          cd client-react
+          yarn install
+        displayName: 'yarn install'
+
+      - script: |
+          cd client-react
+          yarn build
+        displayName: 'build production react'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client-react/build
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public/react'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: react-build'
+        inputs:
+          ArtifactName: react-build
+
   - job: AngularFull
     pool:
       vmImage: 'Ubuntu 16.04'
@@ -123,7 +157,7 @@ jobs:
       - script: |
           npm install -g gulp-cli
         displayName: 'install gulp'
-        
+
       - script: |
           cd client
           yarn install
@@ -199,6 +233,12 @@ jobs:
           artifactName: angular-min
           downloadPath: $(System.DefaultWorkingDirectory)
 
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download React Build Artifacts'
+        inputs:
+          artifactName: react-build
+          downloadPath: $(System.DefaultWorkingDirectory)
+
       - task: CopyFiles@2
         displayName: 'Copy Server Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
@@ -215,6 +255,12 @@ jobs:
         displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: CopyFiles@2
+        displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
       - script: |
