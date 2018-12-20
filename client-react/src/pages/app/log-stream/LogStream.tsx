@@ -30,11 +30,11 @@ export class LogStream extends React.Component<LogStreamProps> {
   }
 
   public componentWillMount() {
-    this.props.fetchSite();
-  }
-
-  public componentDidMount() {
-    this.props.reconnect();
+    this.props.fetchSite().then(value => {
+      if (value && value.properties && value.properties.hostNameSslStates) {
+        this.props.reconnect();
+      }
+    });
   }
 
   public render() {

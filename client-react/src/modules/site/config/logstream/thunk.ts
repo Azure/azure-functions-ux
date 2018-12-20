@@ -6,12 +6,10 @@ export function startStreamingRequest() {
   return async (dispatch: any, getState: () => IState) => {
     dispatch(reconnectLogStream());
     const token = getState().portalService.startupInfo!.token;
-    // const hostNameSslStates = getState().site.site.properties.hostNameSslStates;
-    // const scmHostName = hostNameSslStates && hostNameSslStates.length > 0 ?
-    //     hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name // update
-    //     : '';
-    // const logUrl = `https://${scmHostName}/api/logstream/`;
-    const logUrl = `https://andimarc-linux-app.scm.azurewebsites.net/api/logstream/`;
+    const hostNameSslStates = getState().site.site.properties.hostNameSslStates;
+    const scmHostName =
+      hostNameSslStates && hostNameSslStates.length > 0 ? hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name : '';
+    const logUrl = `https://${scmHostName}/api/logstream/`;
     let logStreamIndex = getState().logStream.logStreamIndex;
     let allTimeouts = getState().logStream.timeouts;
     let xhReq = getState().logStream.xhReq;
