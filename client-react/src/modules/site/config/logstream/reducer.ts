@@ -6,6 +6,7 @@ import {
   CLEAR_LOG_ENTRIES,
   COPY_LOG_ENTRIES,
   RECONNECT_LOG_STREAM,
+  UPDATE_WEB_SERVER_LOGS,
   UPDATE_LOG_ENTRIES,
   UPDATE_LOG_STREAM_INDEX,
   UPDATE_TIMEOUTS,
@@ -19,6 +20,7 @@ export interface ILogStreamState {
   xhReq: XMLHttpRequest;
   timeouts: number[];
   logStreamIndex: number;
+  webServerLogs: boolean;
 }
 
 export const InitialState: ILogStreamState = {
@@ -28,6 +30,7 @@ export const InitialState: ILogStreamState = {
   xhReq: new XMLHttpRequest(),
   timeouts: [],
   logStreamIndex: 0,
+  webServerLogs: false,
 };
 
 const logStream = (state = InitialState, action: IAction<any>) => {
@@ -56,6 +59,11 @@ const logStream = (state = InitialState, action: IAction<any>) => {
     case COPY_LOG_ENTRIES:
       _copyLogs(state);
       return state;
+    case UPDATE_WEB_SERVER_LOGS:
+      return {
+        ...state,
+        webServerLogs: action.payload,
+      };
     case UPDATE_LOG_ENTRIES:
       return {
         ...state,

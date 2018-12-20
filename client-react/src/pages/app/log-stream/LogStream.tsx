@@ -8,7 +8,13 @@ import { ArmObj, Site } from '../../../models/WebAppModels';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry } from './LogStream.Types';
-import { stopStreaming, startStreaming, clearLogEntries, copyLogEntries } from '../../../modules/site/config/logstream/actions';
+import {
+  stopStreaming,
+  startStreaming,
+  clearLogEntries,
+  copyLogEntries,
+  updateWebServerLogs,
+} from '../../../modules/site/config/logstream/actions';
 import { startStreamingRequest } from '../../../modules/site/config/logstream/thunk';
 
 export interface LogStreamProps {
@@ -18,8 +24,9 @@ export interface LogStreamProps {
   pause: () => void;
   start: () => void;
   clear: () => void;
+  updateLogOption: (useWebServer: boolean) => void;
   isStreaming: boolean;
-  site: ArmObj<Partial<Site>>;
+  site: ArmObj<Site>;
   clearLogs: boolean;
   logEntries: LogEntry[];
 }
@@ -38,11 +45,18 @@ export class LogStream extends React.Component<LogStreamProps> {
   }
 
   public render() {
-    const { reconnect, copy, pause, start, clear, isStreaming, logEntries, clearLogs } = this.props;
+    const { site, reconnect, copy, pause, start, clear, updateLogOption, isStreaming, logEntries, clearLogs } = this.props;
     return (
       <>
         <LogStreamCommandBar reconnect={reconnect} copy={copy} pause={pause} start={start} clear={clear} isStreaming={isStreaming} />
-        <LogStreamLogContainer clearLogs={clearLogs} logEntries={logEntries} />
+        <LogStreamLogContainer
+          clearLogs={clearLogs}
+          logEntries={logEntries}
+          site={site}
+          clear={clear}
+          reconnect={reconnect}
+          updateLogOption={updateLogOption}
+        />
       </>
     );
   }
@@ -57,6 +71,7 @@ const mapStateToProps = (state: IState) => {
     xhReq: state.logStream.xhReq,
     timeouts: state.logStream.timeouts,
     logStreamIndex: state.logStream.logStreamIndex,
+    webServerLogs: state.logStream.webServerLogs,
   };
 };
 
@@ -68,6 +83,7 @@ const mapDispatchToProps = dispatch => {
     pause: () => dispatch(stopStreaming()),
     start: () => dispatch(startStreaming()),
     clear: () => dispatch(clearLogEntries()),
+    updateLogOption: (useWebServer: boolean) => dispatch(updateWebServerLogs(useWebServer)),
   };
 };
 

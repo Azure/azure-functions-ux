@@ -41,6 +41,14 @@ export function reconnectLogStream(): IAction<null> {
   };
 }
 
+export const UPDATE_WEB_SERVER_LOGS = 'UPDATE_WEB_SEVER_LOGS';
+export function updateWebServerLogs(webServerLogs: boolean): IAction<boolean> {
+  return {
+    payload: webServerLogs,
+    type: UPDATE_WEB_SERVER_LOGS,
+  };
+}
+
 export const UPDATE_LOG_ENTRIES = 'UPDATE_LOG_ENTRIES';
 export function updateLogEntries(newLogEntries: LogEntry[]): IAction<LogEntry[]> {
   return {

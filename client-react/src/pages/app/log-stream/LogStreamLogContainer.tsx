@@ -2,23 +2,36 @@ import * as React from 'react';
 import { compose } from 'recompose';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { style } from 'typestyle';
-import { LogEntry, LogLevel } from './LogStream.Types';
+import { LogEntry, LogLevel, LogTypes } from './LogStream.Types';
+import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react';
+import { ArmObj, Site } from '../../../models/WebAppModels';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 
 interface LogStreamLogContainerProps {
   clearLogs: boolean;
   logEntries: LogEntry[];
+  site: ArmObj<Site>;
+  clear: () => void;
+  reconnect: () => void;
+  updateLogOption: (useWebServer: boolean) => void;
 }
 
 const containerDivStyle = style({
   position: 'absolute',
-  padding: '15px 0px 0px 15px',
+  padding: '5px 0px 0px 15px',
   height: 'calc(100% - 55px)',
   width: 'calc(100% - 30px)',
+});
+
+const toggleDivStyle = style({
+  paddingBottom: '5px',
 });
 
 const bodyDivStyle = style({
   fontFamily: '"Lucida Console", "Courier New", "Consolas", "monospace"',
   backgroundColor: 'black',
+  marginTop: '10px',
   marginLeft: 'auto',
   marginRight: 'auto',
   overflow: 'auto',
@@ -47,9 +60,28 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
   }
 
   public render() {
-    const { clearLogs, logEntries, t } = this.props;
+    const { clearLogs, logEntries, site, t } = this.props;
+    const scenarioChecker = new ScenarioService(t);
     return (
       <div className={containerDivStyle}>
+        {scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled' && (
+          <div className={toggleDivStyle}>
+            <ChoiceGroup
+              defaultSelectedKey={LogTypes.Application}
+              options={[
+                {
+                  key: LogTypes.Application,
+                  text: t('feature_applicationLogsName'),
+                },
+                {
+                  key: LogTypes.WebServer,
+                  text: t('feature_webServerLogsName'),
+                },
+              ]}
+              onChange={this._onOptionChange}
+            />
+          </div>
+        )}
         <div className={bodyDivStyle}>
           {!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>}
           {!!logEntries &&
@@ -62,6 +94,13 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
       </div>
     );
   }
+
+  private _onOptionChange = (e: any, newValue: IChoiceGroupOption) => {
+    const useWebServer = newValue.key === LogTypes.WebServer;
+    this.props.updateLogOption(useWebServer);
+    this.props.clear();
+    this.props.reconnect();
+  };
 
   private _getLogTextColor(level: LogLevel): string {
     switch (level) {

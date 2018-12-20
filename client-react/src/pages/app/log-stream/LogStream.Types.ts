@@ -10,11 +10,16 @@ export interface LogEntry {
 }
 
 export enum LogLevel {
-  Unknown = -1,
-  Normal = 1,
-  Info = 2,
-  Error = 3,
-  Warning = 4,
+  Unknown,
+  Normal,
+  Info,
+  Error,
+  Warning,
+}
+
+export enum LogTypes {
+  Application = 'application',
+  WebServer = 'webserver',
 }
 
 export const timerInterval: number = 1000;
