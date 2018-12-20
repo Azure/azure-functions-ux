@@ -23,8 +23,9 @@ import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
 import { getAcrRepositories, getAcrTags } from './actions/acr';
 import { validateContainerImage } from './actions/containerValidation';
-
+const hsts = require('hsts');
 const cookieSession = require('cookie-session');
+
 if (process.env.aiInstrumentationKey) {
   appInsights
     .setup(process.env.aiInstrumentationKey)
@@ -60,6 +61,11 @@ app
         httpOnly: true,
         secure: true,
       },
+    })
+  )
+  .use(
+    hsts({
+      maxAge: 15552000, // 180 days in seconds
     })
   );
 app.engine('jsx', require('express-react-views').createEngine());
