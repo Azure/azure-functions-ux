@@ -1,8 +1,8 @@
 import * as React from 'react';
 import AzureHead from './azure/Head';
 import AzureBody from './azure/Body';
-import LocalHead from './react/Head';
-import LocalBody from './react/Body';
+import LocalHead from './local/Head';
+import LocalBody from './local/Body';
 
 const Index = props => {
   return (
