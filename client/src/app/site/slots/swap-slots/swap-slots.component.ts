@@ -193,6 +193,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
 
           const currSlot = this._getSlot(slot => slot.id.toLowerCase() === this._resourceId.toLowerCase());
           const currTargetName = currSlot ? currSlot.properties.targetSwapSlot : null;
+          this._resourceId = currSlot.id;
 
           if (!!currTargetName) {
             // We're already in Phase2
@@ -216,11 +217,27 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     if (!siteResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', siteResult.error.result);
       loadingFailed = true;
+    } else {
+      // const siteNameSegment = `/sites/${siteResult.result.properties.name}`;
+      // const siteNameSegmentLower = siteNameSegment.toLowerCase();
+      // siteResult.result.id = siteResult.result.id.replace(siteNameSegmentLower, siteNameSegment);
+      siteResult.result.id = siteResult.result.id.toLowerCase();
+      this.siteResourceId = siteResult.result.id;
     }
+
     if (!slotsResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', slotsResult.error.result);
       loadingFailed = true;
+    } else {
+      slotsResult.result.value.forEach(slot => {
+        // const [siteName, slotName] = slot.properties.name.split('/');
+        // const slotNameSegment = `/sites/${siteName}/slots/${slotName}`;
+        // const slotNameSegmentLower = slotNameSegment.toLowerCase();
+        // slot.id = slot.id.replace(slotNameSegmentLower, slotNameSegment);
+        slot.id = slot.id.toLowerCase();
+      });
     }
+
     if (!slotConfigNamesResult.isSuccessful) {
       this._logService.error(LogCategories.swapSlots, '/swap-slots', slotConfigNamesResult.error.result);
     } else {
@@ -253,7 +270,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   private _loadPhase2(currTargetName: string): Observable<void> {
     // TODO (andimarc): Make sure dest slot has targetSwapSlot set and that this value matches src slot(?)
     const currTargetId =
-      currTargetName.toLowerCase() === 'production' ? this.siteResourceId : this.siteResourceId + '/slots/' + currTargetName.toLowerCase();
+      currTargetName.toLowerCase() === 'production' ? this.siteResourceId : this.siteResourceId + '/slots/' + currTargetName;
     const currSlotDescriptor = new ArmSiteDescriptor(this._resourceId);
     const currSlotName = currSlotDescriptor.slot || 'production';
 
