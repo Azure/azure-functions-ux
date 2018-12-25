@@ -73,7 +73,8 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.0.3",
+    "core-js": "^2.6.1"
   },
   "proxy": "https://localhost:44300",
   "jest": {
