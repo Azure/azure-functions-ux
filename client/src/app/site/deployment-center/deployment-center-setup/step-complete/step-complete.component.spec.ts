@@ -67,9 +67,9 @@ describe('StepCompleteComponent', () => {
       expect(buildStepTest.SummaryGroups.length).toBe(2);
     });
 
-    it('Vsts build provider should return 4 summary groups', () => {
+    it('Vsts build provider should return 3 summary groups', () => {
       wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts' };
-      expect(buildStepTest.SummaryGroups.length).toBe(4);
+      expect(buildStepTest.SummaryGroups.length).toBe(3);
     });
 
     it('create new vso account', () => {
@@ -227,38 +227,6 @@ describe('StepCompleteComponent', () => {
     });
   });
 
-  describe('Load Test Group', () => {
-    it('if disabled should have only one item saying not enabled', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        testEnvironment: {
-          ...wizardService.wizardValues.testEnvironment,
-          enabled: false,
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
-    });
-
-    it('if enabled should say yes to enabled and give app service plan id and web app id', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        testEnvironment: {
-          ...wizardService.wizardValues.testEnvironment,
-          enabled: true,
-          appServicePlanId: 'aspId',
-          webAppId: 'appId',
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('aspId');
-      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('appId');
-    });
-  });
-
   describe('Deployment Slot Group', () => {
     it('if disabled should have only one item saying not enabled', () => {
       wizardService.wizardValues = {
@@ -269,8 +237,8 @@ describe('StepCompleteComponent', () => {
           deploymentSlotEnabled: false,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('no');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
     });
 
     it('if enabled should say yes to enabled and deployment slot name', () => {
@@ -284,10 +252,10 @@ describe('StepCompleteComponent', () => {
           newDeploymentSlot: false,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('no');
-      expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('no');
+      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
     });
 
     it('if enabled and creating new slot should say yes to new slot', () => {
@@ -301,10 +269,10 @@ describe('StepCompleteComponent', () => {
           newDeploymentSlot: true,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
     });
   });
 
@@ -446,12 +414,6 @@ class MockDeploymentCenterStateManager {
         newDeploymentSlot: [false],
         deploymentSlotEnabled: [false],
         deploymentSlot: ['slot'],
-      }),
-      testEnvironment: _fb.group({
-        enabled: [false],
-        newApp: [true],
-        appServicePlanId: ['aspid'],
-        webAppId: [null],
       }),
     });
   }

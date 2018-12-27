@@ -11,7 +11,6 @@ import { StepBuildProviderComponent } from 'app/site/deployment-center/deploymen
 import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
 import { DeploymentDetailComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
-import { StepTestComponent } from 'app/site/deployment-center/deployment-center-setup/step-test/step-test.component';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 import { ConfigureDropboxComponent } from './deployment-center-setup/step-configure/configure-dropbox/configure-dropbox.component';
 import { ConfigureOnedriveComponent } from './deployment-center-setup/step-configure/configure-onedrive/configure-onedrive.component';
@@ -42,7 +41,6 @@ import { NgxDatatableModule } from 'ngx-datatable-accessable';
     StepCompleteComponent,
     StepBuildProviderComponent,
     DeploymentDetailComponent,
-    StepTestComponent,
     ConfigureDropboxComponent,
     ConfigureOnedriveComponent,
     ConfigureGithubComponent,
