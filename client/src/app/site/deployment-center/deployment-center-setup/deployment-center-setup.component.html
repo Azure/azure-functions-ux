@@ -5,7 +5,6 @@
         <app-step-source-control wizardStep title="{{'sourceControl' | translate}}"></app-step-source-control>
         <app-step-build-provider wizardStep title="{{'buildProvider' | translate}}" *ngIf="showBuildStep"></app-step-build-provider>
         <app-step-configure [canExit]="buildConfigValid" wizardStep title="{{'configure' | translate}}" *ngIf="showConfigureStep"></app-step-configure>
-        <app-step-test wizardStep title="{{'test' | translate}}" *ngIf="showTestStep"></app-step-test>
         <app-step-deployment-slot wizardStep title="{{'deploy' | translate}}" *ngIf="showDeployStep"></app-step-deployment-slot>
         <app-step-complete wizardCompletionStep enableBackLinks title="{{'summary' | translate}}" *ngIf="showSummaryStep"></app-step-complete>
     </wizard>
