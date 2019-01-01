@@ -1,20 +1,30 @@
-import { IAction } from '../../../../models/action';
+import { createStandardAction } from 'typesafe-actions';
+
 import { ArmObj } from '../../../../models/WebAppModels';
+import {
+  METADATA_FETCH_FAILURE,
+  METADATA_FETCH_REQUEST,
+  METADATA_FETCH_SUCCESS,
+  METADATA_UPDATE_FAILURE,
+  METADATA_UPDATE_REQUEST,
+  METADATA_UPDATE_SUCCESS,
+} from './actionTypes';
+import { Metadata } from './reducer';
 
-export const UPDATE_SITE_CONFIG_METADATA = 'UPDATE_SITE_CONFIG_METADATA';
-export const updateCurrentSiteMetadataConfig = (site: ArmObj<{ [key: string]: string }>): IAction<ArmObj<{ [key: string]: string }>> => ({
-  payload: site,
-  type: UPDATE_SITE_CONFIG_METADATA,
-});
+export const fetchMetadataRequest = createStandardAction(METADATA_FETCH_REQUEST)();
+export const fetchMetadataSuccess = createStandardAction(METADATA_FETCH_SUCCESS).map((metadata: ArmObj<Metadata>) => ({
+  metadata,
+}));
+export const fetchMetadataFailure = createStandardAction(METADATA_FETCH_FAILURE).map((error: Error) => ({
+  error,
+}));
 
-export const UPDATE_SITE_CONFIG_METADATA_LOADING = 'UPDATE_SITE_CONFIG_METADATA_LOADING';
-export const updateSiteConfigMetadataLoading = (loading: boolean): IAction<boolean> => ({
-  payload: loading,
-  type: UPDATE_SITE_CONFIG_METADATA_LOADING,
-});
-
-export const UPDATE_SITE_CONFIG_METADATA_SAVING = 'UPDATE_SITE_CONFIG_METADATA_SAVING';
-export const updateSiteConfigMetadataSaving = (saving: boolean): IAction<boolean> => ({
-  payload: saving,
-  type: UPDATE_SITE_CONFIG_METADATA_SAVING,
-});
+export const updateMetadataRequest = createStandardAction(METADATA_UPDATE_REQUEST).map((metadata: ArmObj<Metadata>) => ({
+  metadata,
+}));
+export const updateMetadataSuccess = createStandardAction(METADATA_UPDATE_SUCCESS).map((metadata: ArmObj<Metadata>) => ({
+  metadata,
+}));
+export const updateMetadataFailure = createStandardAction(METADATA_UPDATE_FAILURE).map((error: Error) => ({
+  error,
+}));

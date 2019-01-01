@@ -30,11 +30,12 @@
     "redux-freeze": "^0.1.5",
     "redux-localstorage": "^0.4.1",
     "redux-mock-store": "^1.5.3",
-    "redux-thunk": "^2.3.0",
+    "redux-observable": "^1.0.0",
     "rxjs": "^6.3.3",
-    "typesafe-actions": "^2.0.4",
+    "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.0"
+    "yup": "^0.26.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,9 +43,7 @@
     "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
     "eject": "react-scripts eject",
-    "start-rw": "react-app-rewired start ",
-    "build-rw": "react-app-rewired build",
-    "test-rw": "react-app-rewired test --env=jsdom"
+    "test:debug": "react-scripts --inspect-brk test --runInBand"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.14",
@@ -64,6 +63,7 @@
     "@types/recompose": "^0.26.3",
     "@types/webpack-env": "^1.13.6",
     "@types/yup": "^0.24.7",
+    "core-js": "^2.6.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "jest-junit": "^5.2.0",
@@ -73,20 +73,26 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "core-js": "^2.6.1"
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "proxy": "https://localhost:44300",
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
+      "src/**/*.{ts}",
       "!src/**/*.d.ts",
+      "!src/**/*.styles.ts",
+      "!src/**/*.types.ts",
+      "!src/theme/**",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/"
+      "!src/mocks/**",
+      "!src/*",
+      "!src/models/**",
+      "!src/modules/services.ts"
     ],
     "coverageReporters": [
       "text",
-      "cobertura"
+      "cobertura",
+      "html"
     ]
   },
   "browserslist": [

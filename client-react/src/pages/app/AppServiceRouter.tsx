@@ -1,9 +1,11 @@
-import { Router, RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
+
+import { RouteComponentProps, Router } from '@reach/router';
+
 import LoadingComponent from '../../components/loading/loading-component';
-import { updateResourceId } from '../../modules/site/thunks';
+import { updateResourceId } from '../../modules/site/actions';
 
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;

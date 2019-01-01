@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
+import { CommandBarButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { compose } from 'recompose';
-import IState from '../../../modules/types';
-import { connect } from 'react-redux';
 import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
+
+import { RootState } from '../../../modules/types';
 
 // tslint:disable-next-line:member-ordering
 
@@ -90,7 +91,7 @@ class AppSettingsCommandBar extends React.Component<AppSettingsCommandBarPropsCo
   };
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default compose<AppSettingsCommandBarPropsCombined, AppSettingsCommandBarProps>(

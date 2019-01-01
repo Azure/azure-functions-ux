@@ -1,14 +1,26 @@
-import { ArmObj, Site, SiteConfig, VirtualApplication } from '../../../models/WebAppModels';
-import { IConnectionString } from '../../../modules/site/config/connectionstrings/actions';
-import { AvailableStack } from '../../../models/available-stacks';
-import { AppSetting } from '../../../modules/site/config/appsettings/appsettings.types';
 import { FormikProps } from 'formik';
+
+import { AvailableStack } from '../../../models/available-stacks';
+import { ArmObj, Site, SiteConfig, VirtualApplication } from '../../../models/WebAppModels';
+
+export interface FormAppSetting {
+  name: string;
+  value: string;
+  sticky: boolean;
+}
+
+export interface FormConnectionString {
+  name: string;
+  value: string;
+  type: number;
+  sticky: boolean;
+}
 
 export interface AppSettingsFormValues {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
-  appSettings: AppSetting[];
-  connectionStrings: IConnectionString[];
+  appSettings: FormAppSetting[];
+  connectionStrings: FormConnectionString[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   siteWritePermission: boolean;

@@ -1,10 +1,11 @@
+import { Field, FormikProps } from 'formik';
 import * as React from 'react';
-import { FormikProps, Field } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { settingsWrapper } from '../AppSettingsForm';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { settingsWrapper } from '../AppSettingsForm';
 
 const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;

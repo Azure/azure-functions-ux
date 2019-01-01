@@ -18,13 +18,15 @@ phases:
           yarn install
         displayName: 'yarn install react app'
 
-      # renenable when unit tests exists
-      # - script: |
-      #     cd client-react
-      #     yarn test --coverage --reporters="jest-junit"
-      #   displayName: 'run unit tests'
-      #   env:
-      #     CI: true
+      - script: |
+          yarn install
+          cd client-react
+          yarn test --coverage --reporters="jest-junit"
+          cd ..
+          ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
+        displayName: 'run unit tests'
+        env:
+          CI: true
 
       - script: |
           cd client-react
@@ -55,3 +57,9 @@ phases:
           testResultsFormat: 'JUnit'
           testResultsFiles: 'client-react/junit.xml'
           testRunTitle: 'Unit Tests'
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'cobertura'
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/client-react/coverage/cobertura-coverage.xml'
+          reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'

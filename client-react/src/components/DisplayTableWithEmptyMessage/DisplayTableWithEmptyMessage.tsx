@@ -1,9 +1,11 @@
+import { DetailsList, IDetailsListProps } from 'office-ui-fabric-react/lib/DetailsList';
 import * as React from 'react';
-import { IDetailsListProps, DetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-import { style } from 'typestyle';
-import IState from '../../modules/types';
 import { connect } from 'react-redux';
+import { style } from 'typestyle';
+
+import { RootState } from '../../modules/types';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+
 interface DisplayTableWithEmptyMessageProps {
   emptyMessage?: string;
   theme: ThemeExtended;
@@ -28,7 +30,7 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     theme: state.portalService.theme,
   };

@@ -1,11 +1,12 @@
-import * as React from 'react';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import { Field, FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
+import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
+import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import RadioButton from '../../../../components/form-controls/RadioButton';
+import { AppSettingsFormValues } from '../AppSettings.types';
 
 const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;

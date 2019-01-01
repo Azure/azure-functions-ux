@@ -1,9 +1,9 @@
-import { LogCategories } from '../../../../utils/LogCategories';
-import { ArmObj, ServerFarm } from '../../../../models/WebAppModels';
-import { BillingService } from '../../../../utils/BillingService';
-import { LogService } from '../../../../utils/LogService';
 import { SpecResourceSet } from '../../../../models/BillingModels';
+import { ArmObj, ServerFarm } from '../../../../models/WebAppModels';
 import { PortalCommunicator } from '../../../../portal-communicator';
+import { BillingService } from '../../../../utils/BillingService';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { LogService } from '../../../../utils/LogService';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;

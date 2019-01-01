@@ -1,15 +1,17 @@
-import * as React from 'react';
-import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { formElementStyle } from '../AppSettings.Styles';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import ActionBar from '../../../../components/ActionBar';
+import { formElementStyle } from '../AppSettings.styles';
+import { FormAppSetting } from '../AppSettings.types';
+
 export interface AppSettingAddEditProps {
-  updateAppSetting: (item: AppSetting) => void;
+  updateAppSetting: (item: FormAppSetting) => void;
   closeBlade: () => void;
-  otherAppSettings: AppSetting[];
-  appSetting: AppSetting;
+  otherAppSettings: FormAppSetting[];
+  appSetting: FormAppSetting;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
   const { updateAppSetting, t, otherAppSettings, closeBlade, appSetting } = props;

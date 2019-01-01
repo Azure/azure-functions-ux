@@ -1,20 +1,25 @@
-import { IAction } from '../../models/action';
-import { ISiteState } from './reducer';
+import { createStandardAction } from 'typesafe-actions';
 
-export const UPDATE_SITE = 'UPDATE_SITE';
-export const updateCurrentSite = (state: Partial<ISiteState>): IAction<Partial<ISiteState>> => ({
-  payload: state,
-  type: UPDATE_SITE,
-});
+import { ArmObj, Site } from '../../models/WebAppModels';
+import {
+  SITE_FETCH_FAILURE,
+  SITE_FETCH_REQUEST,
+  SITE_FETCH_SUCCESS,
+  SITE_UPDATE_FAILURE,
+  SITE_UPDATE_REQUEST,
+  SITE_UPDATE_SUCCESS,
+  UPDATE_RESOURCE_ID,
+} from './actionTypes';
 
-export const UPDATE_SITE_NO_CACHE = 'UPDATE_SITE';
-export const updateCurrentSiteNoCache = (state: Partial<ISiteState>): IAction<Partial<ISiteState>> => ({
-  payload: state,
-  type: UPDATE_SITE_NO_CACHE,
-});
+export const updateResourceId = createStandardAction(UPDATE_RESOURCE_ID).map((id: string) => ({ id }));
+export const fetchSiteRequest = createStandardAction(SITE_FETCH_REQUEST)();
+export const fetchSiteSuccess = createStandardAction(SITE_FETCH_SUCCESS).map((site: ArmObj<Site>) => ({ site }));
+export const fetchSiteFailure = createStandardAction(SITE_FETCH_FAILURE).map((error: Error) => ({
+  error,
+}));
 
-export const UPDATE_RESOURCE_ID = 'UPDATE_RESOURCE_ID';
-export const updateResourceIdAtomic = (resourceId: string): IAction<string> => ({
-  payload: resourceId,
-  type: UPDATE_RESOURCE_ID,
-});
+export const updateSiteRequest = createStandardAction(SITE_UPDATE_REQUEST).map((site: ArmObj<Site>) => ({ site }));
+export const updateSiteSuccess = createStandardAction(SITE_UPDATE_SUCCESS).map((site: ArmObj<Site>) => ({ site }));
+export const updateSiteFailure = createStandardAction(SITE_UPDATE_FAILURE).map((error: Error) => ({
+  error,
+}));

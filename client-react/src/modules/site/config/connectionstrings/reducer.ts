@@ -1,38 +1,36 @@
-import { IAction } from '../../../../models/action';
-import { UPDATE_SITE_CONNECTION_STRINGS, UPDATE_SITE_CONNECTION_STRINGS_NO_CACHE } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import { ConnectionString } from './connectionstrings.types';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IConnectionStringState {
-  loading: boolean;
-  resourceId: string;
-  connectionStrings: ConnectionString[];
-  saving: boolean;
-}
-export const InitialState: IConnectionStringState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  resourceId: '',
-  saving: false,
-  connectionStrings: [],
+import { ArmObj } from '../../../../models/WebAppModels';
+import { metadataReducer } from '../../../ApiReducerHelper';
+import { ApiState } from '../../../types';
+import * as actions from './actions';
+import { AREA_STRING, CONNECTION_STRINGS_FETCH_SUCCESS, CONNECTION_STRINGS_UPDATE_SUCCESS } from './actionTypes';
+
+export type ConnectionString = { [key: string]: { value: string; type: number } };
+
+export type ConnectionStringActions = ActionType<typeof actions>;
+export type ConnectionStringState = ApiState<ArmObj<ConnectionString>>;
+
+export const InitialState = {
+  data: {
+    id: '',
+    properties: {},
+    name: '',
+    location: '',
+    kind: '',
+  },
 };
-
-const connectionStrings = (state = InitialState, action: IAction<Partial<IConnectionStringState>>) => {
-  switch (action.type) {
-    case UPDATE_SITE_CONNECTION_STRINGS:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(60000),
-        ...action.payload,
-      };
-    case UPDATE_SITE_CONNECTION_STRINGS_NO_CACHE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default connectionStrings;
+export default combineReducers<ConnectionStringState, ConnectionStringActions>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case CONNECTION_STRINGS_FETCH_SUCCESS:
+        return action.connectionStrings;
+      case CONNECTION_STRINGS_UPDATE_SUCCESS:
+        return action.connectionStrings;
+      default:
+        return state;
+    }
+  },
+});

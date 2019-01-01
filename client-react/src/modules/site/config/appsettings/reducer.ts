@@ -1,38 +1,37 @@
-import { IAction } from '../../../../models/action';
-import { UPDATE_SITE_APP_SETTINGS, UPDATE_SITE_APP_SETTINGS_NO_CACHE } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import { AppSetting } from './appsettings.types';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IAppSettingsState {
-  loading: boolean;
-  saving: boolean;
-  resourceId: string;
-  settings: AppSetting[];
-}
-export const InitialState: IAppSettingsState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  resourceId: '',
-  saving: false,
-  settings: [],
+import { ArmObj } from '../../../../models/WebAppModels';
+import { metadataReducer } from '../../../ApiReducerHelper';
+import { ApiState } from '../../../types';
+import * as actions from './actions';
+import { APP_SETTINGS_FETCH_SUCCESS, APP_SETTINGS_UPDATE_SUCCESS, AREA_STRING } from './actionTypes';
+
+export type AppSettings = { [key: string]: string };
+
+export type AppSettingsActions = ActionType<typeof actions>;
+export type AppSettingsState = ApiState<ArmObj<AppSettings>>;
+
+export const InitialState = {
+  data: {
+    id: '',
+    properties: {},
+    name: '',
+    location: '',
+    kind: '',
+  },
 };
 
-const appSettings = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case UPDATE_SITE_APP_SETTINGS:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(60000),
-        ...action.payload,
-      };
-    case UPDATE_SITE_APP_SETTINGS_NO_CACHE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default appSettings;
+export default combineReducers<AppSettingsState, AppSettingsActions>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case APP_SETTINGS_FETCH_SUCCESS:
+        return action.appSettings;
+      case APP_SETTINGS_UPDATE_SUCCESS:
+        return action.appSettings;
+      default:
+        return state;
+    }
+  },
+});

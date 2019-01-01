@@ -11,6 +11,8 @@ import App from './pages/App';
 import lightTheme from './theme/light';
 import { loadTheme } from '@uifabric/styling';
 import './pollyfills';
+import 'react-app-polyfill/ie11';
+
 initializeIcons();
 loadTheme(lightTheme); // make sure we load a custom theme before anything else, custom theme has custom semantic colors
 const portalCommunicator = new PortalCommunicator(i18n);

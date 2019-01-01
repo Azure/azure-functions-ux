@@ -1,14 +1,10 @@
-import { IAction } from '../../../models/action';
-import { ISlotListState } from './reducer';
+import { createStandardAction } from 'typesafe-actions';
 
-export const UPDATE_SLOT_LIST = 'UPDATE_SLOT_LIST';
-export const updateSlotList = (state: Partial<ISlotListState>): IAction<Partial<ISlotListState>> => ({
-  payload: state,
-  type: UPDATE_SLOT_LIST,
-});
+import { ArmArray, Site } from '../../../models/WebAppModels';
+import { SLOTS_FETCH_FAILURE, SLOTS_FETCH_REQUEST, SLOTS_FETCH_SUCCESS } from './actionTypes';
 
-export const UPDATE_SLOT_LIST_NO_CACHE = 'UPDATE_SLOT_LIST_NO_CACHE';
-export const updateSlotListNoCache = (state: Partial<ISlotListState>): IAction<Partial<ISlotListState>> => ({
-  payload: state,
-  type: UPDATE_SLOT_LIST_NO_CACHE,
-});
+export const fetchSlotsRequest = createStandardAction(SLOTS_FETCH_REQUEST)();
+export const fetchSlotsSuccess = createStandardAction(SLOTS_FETCH_SUCCESS).map((slotList: ArmArray<Site>) => ({ slotList }));
+export const fetchSlotsFailure = createStandardAction(SLOTS_FETCH_FAILURE).map((error: Error) => ({
+  error,
+}));

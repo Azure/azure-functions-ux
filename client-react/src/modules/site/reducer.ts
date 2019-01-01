@@ -1,20 +1,20 @@
-import { ArmObj, Site } from '../../models/WebAppModels';
-import { IAction } from '../../models/action';
-import { UPDATE_SITE, UPDATE_RESOURCE_ID, UPDATE_SITE_NO_CACHE } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface ISiteState {
-  loading: boolean;
-  site: ArmObj<Site>;
+import { ArmObj, Site } from '../../models/WebAppModels';
+import { metadataReducer } from '../ApiReducerHelper';
+import { ApiState } from '../types';
+import * as actions from './actions';
+import { AREA_STRING, SITE_FETCH_SUCCESS, SITE_UPDATE_SUCCESS, UPDATE_RESOURCE_ID } from './actionTypes';
+
+export type SiteAction = ActionType<typeof actions>;
+
+export interface SiteState extends ApiState<ArmObj<Site>> {
   resourceId: string;
-  saving: boolean;
 }
-export const InitialState: ISiteState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  saving: false,
+export const InitialState = {
   resourceId: '',
-  site: {
+  data: {
     id: '',
     properties: {} as any,
     name: '',
@@ -23,24 +23,24 @@ export const InitialState: ISiteState = {
   },
 };
 
-const site = (state = InitialState, action: IAction<Partial<ISiteState> | string>) => {
-  switch (action.type) {
-    case UPDATE_SITE:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(6000),
-        ...(action.payload as Partial<ISiteState>),
-      };
-    case UPDATE_SITE_NO_CACHE:
-      return {
-        ...state,
-        ...(action.payload as Partial<ISiteState>),
-      };
-    case UPDATE_RESOURCE_ID:
-      return { ...state, resourceId: action.payload };
-    default:
-      return state;
-  }
-};
-
-export default site;
+export default combineReducers<SiteState, SiteAction>({
+  metadata: metadataReducer(AREA_STRING),
+  resourceId: (state = InitialState.resourceId, action) => {
+    switch (action.type) {
+      case UPDATE_RESOURCE_ID:
+        return action.id;
+      default:
+        return state;
+    }
+  },
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case SITE_FETCH_SUCCESS:
+        return action.site;
+      case SITE_UPDATE_SUCCESS:
+        return action.site;
+      default:
+        return state;
+    }
+  },
+});

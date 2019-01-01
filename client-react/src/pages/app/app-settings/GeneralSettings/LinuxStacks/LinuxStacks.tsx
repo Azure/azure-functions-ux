@@ -1,14 +1,16 @@
+import { Field, FormikProps } from 'formik';
+import { DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import * as React from 'react';
-import { FormikProps, Field } from 'formik';
-import { AppSettingsFormValues } from '../../AppSettings.Types';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { compose } from 'recompose';
-import IState from '../../../../../modules/types';
-import { ArmObj } from '../../../../../models/WebAppModels';
-import { AvailableStack } from '../../../../../models/available-stacks';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { IDropdownOption, DropdownMenuItemType } from 'office-ui-fabric-react/lib/Dropdown';
+import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
+import { RootState } from '../../../../../modules/types';
+import { AppSettingsFormValues } from '../../AppSettings.types';
+
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
   stacksLoading: boolean;
@@ -53,10 +55,10 @@ export class LinuxStacks extends React.Component<PropsType, any> {
     return linuxFxVersionOptions;
   }
 }
-const mapStateToProps = (state: IState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
   return {
-    stacks: state.stacks.stacks.value,
-    stacksLoading: state.stacks.loading,
+    stacks: state.stacks.data.value,
+    stacksLoading: state.stacks.metadata.loading,
   };
 };
 export default compose<PropsType, FormikProps<AppSettingsFormValues>>(
