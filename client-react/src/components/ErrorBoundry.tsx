@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { LogEntryLevel } from '../models/portal-models';
-import { PortalCommunicator } from '../portal-communicator';
+import PortalCommunicator from '../portal-communicator';
 import { PortalContext } from '../PortalContext';
 
 export default class ErrorLogger extends React.Component<{}, {}> {

@@ -27,9 +27,9 @@ import { store } from './store';
 import darkModeTheme from './theme/dark';
 import lightTheme from './theme/light';
 import { Guid } from './utils/Guid';
-import { Url } from './utils/url';
+import Url from './utils/url';
 
-export class PortalCommunicator {
+export default class PortalCommunicator {
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
   private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];

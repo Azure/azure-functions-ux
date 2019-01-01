@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { CommonConstants } from '../utils/CommonConstants';
-import { Url } from '../utils/url';
+import Url from '../utils/url';
 import { RootState } from './types';
 
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';

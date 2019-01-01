@@ -1,4 +1,4 @@
-export class Url {
+export default class Url {
   public static appendQueryString(url: string, queryString): string {
     if (url.includes('?')) {
       return `${url}&${queryString}`;

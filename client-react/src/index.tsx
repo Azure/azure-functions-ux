@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { PortalCommunicator } from './portal-communicator';
+import PortalCommunicator from './portal-communicator';
 import { store } from './store';
 import i18n from './utils/i18n';
 import { PortalContext } from './PortalContext';

@@ -1,6 +1,6 @@
 import { BillingMeter } from '../../../models/BillingModels';
 import { ArmArray } from '../../../models/WebAppModels';
-import { Url } from '../../../utils/url';
+import Url from '../../../utils/url';
 import { MakeArmCall } from '../../ApiHelpers';
 import * as Types from '../../types';
 import { StacksOS } from '../available-stacks/actions';
