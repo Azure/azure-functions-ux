@@ -49,7 +49,7 @@ phases:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: 'tests/test-results.xml'
+          testResultsFiles: 'tests/cypress/results/results-*.xml'
           testRunTitle: 'E2E Tests'
 
       - task: PublishTestResults@2
