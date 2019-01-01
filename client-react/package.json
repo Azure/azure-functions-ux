@@ -87,7 +87,8 @@
       "!src/mocks/**",
       "!src/*",
       "!src/models/**",
-      "!src/modules/services.ts"
+      "!src/modules/services.ts",
+      "!src/utils/Guid.ts"
     ],
     "coverageReporters": [
       "text",
