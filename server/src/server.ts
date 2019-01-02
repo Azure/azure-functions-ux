@@ -108,7 +108,7 @@ const getVersionFiles = async (version: string) => {
 };
 
 const reactHtmlCache: { [key: string]: string } = {};
-const reactIndexPage = path.join(__dirname, 'public', 'react', 'index.html');
+const reactIndexPage = path.join(__dirname, 'public', 'react', 'index.react.html');
 if (fs.existsSync(reactIndexPage)) {
   const reactHtml = fs.readFileSync(reactIndexPage, 'utf8');
   reactHtmlCache[staticConfig.config.version] = reactHtml;
