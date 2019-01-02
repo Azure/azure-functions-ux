@@ -87,6 +87,11 @@ jobs:
           yarn build
         displayName: 'build production react'
 
+      - script: |
+          cd client-react/build
+          mv index.html index.react.html
+        displayName: 'Rename index.html'
+
       - task: CopyFiles@2
         displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
@@ -199,6 +204,7 @@ jobs:
       - Server
       - AngularFull
       - AngularMin
+      - ReactBuild
     steps:
       - checkout: none
 
