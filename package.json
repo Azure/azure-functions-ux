@@ -1,16 +1,22 @@
 {
   "name": "azure-functions-ux-build",
   "version": "0.0.0",
-  "scripts": {},
+  "scripts": {
+    "start": "",
+    "start:react": "",
+    "start:angular": "",
+    "start:server": "cd server && yarn install && "
+  },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "gulp": "^3.9.1",
+    "gulp-inline-source": "~4.0.0",
     "gulp-multi-process": "^1.3.1",
-    "shelljs": "^0.8.1",
-    "husky": "^1.1.0",
-    "pretty-quick": "^1.7.0",
-    "prettier": "^1.14.3",
     "gulp-prompt": "^1.1.0",
-    "gulp-inline-source": "~4.0.0"
+    "husky": "^1.1.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.7.0",
+    "shelljs": "^0.8.1"
   },
   "prettier": {
     "jsxBracketSameLine": true,
