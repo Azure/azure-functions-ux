@@ -3,7 +3,7 @@ const path = require('path');
 const shell = require('shelljs');
 const prompt = require('gulp-prompt');
 const gulpMultiProcess = require('gulp-multi-process');
-
+const inlinesource = require('gulp-inline-source');
 gulp.task('run-dev-react', function(cb) {
   return gulpMultiProcess(['run-react', 'run-server'], cb);
 });
@@ -62,6 +62,13 @@ gulp.task('restart-prod', () => {
     const cmd = `az webapp restart --resource-group functions-${region} --name functions-${region}`;
     shell.exec(cmd);
   });
+});
+
+gulp.task('inline-react-code-coverage', () => {
+  return gulp
+    .src('./client-react/coverage/**/*.html')
+    .pipe(inlinesource({ attribute: false }))
+    .pipe(gulp.dest('./coverage'));
 });
 
 gulp.task('build-fusion-url', () => {

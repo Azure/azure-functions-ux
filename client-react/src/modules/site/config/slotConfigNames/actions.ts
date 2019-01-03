@@ -1,18 +1,29 @@
-import { IAction } from '../../../../models/action';
-import { ISlotConfigNamesState } from './reducer';
+import { createStandardAction } from 'typesafe-actions';
 
-export const UPDATE_SITE_SLOT_CONFIG_NAMES = 'UPDATE_SITE_SLOT_CONFIG_NAMES';
-export const updateCurrentSiteSlotConfigNames = (
-  slotConfigNames: Partial<ISlotConfigNamesState>
-): IAction<Partial<ISlotConfigNamesState>> => ({
-  payload: slotConfigNames,
-  type: UPDATE_SITE_SLOT_CONFIG_NAMES,
-});
+import { ArmObj, SlotConfigNames } from '../../../../models/WebAppModels';
+import {
+  SLOT_CONFIG_FETCH_FAILURE,
+  SLOT_CONFIG_FETCH_REQUEST,
+  SLOT_CONFIG_FETCH_SUCCESS,
+  SLOT_CONFIG_UPDATE_FAILURE,
+  SLOT_CONFIG_UPDATE_REQUEST,
+  SLOT_CONFIG_UPDATE_SUCCESS,
+} from './actionTypes';
 
-export const UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE = 'UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE';
-export const updateCurrentSiteSlotConfigNamesNoCache = (
-  slotConfigNames: Partial<ISlotConfigNamesState>
-): IAction<Partial<ISlotConfigNamesState>> => ({
-  payload: slotConfigNames,
-  type: UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE,
-});
+export const fetchSlotConfigRequest = createStandardAction(SLOT_CONFIG_FETCH_REQUEST)();
+export const fetchSlotConfigSuccess = createStandardAction(SLOT_CONFIG_FETCH_SUCCESS).map((slotConfig: ArmObj<SlotConfigNames>) => ({
+  slotConfig,
+}));
+export const fetchSlotConfigFailure = createStandardAction(SLOT_CONFIG_FETCH_FAILURE).map((error: Error) => ({
+  error,
+}));
+
+export const updateSlotConfigRequest = createStandardAction(SLOT_CONFIG_UPDATE_REQUEST).map((slotConfig: ArmObj<SlotConfigNames>) => ({
+  slotConfig,
+}));
+export const updateSlotConfigSuccess = createStandardAction(SLOT_CONFIG_UPDATE_SUCCESS).map((slotConfig: ArmObj<SlotConfigNames>) => ({
+  slotConfig,
+}));
+export const updateSlotConfigFailure = createStandardAction(SLOT_CONFIG_UPDATE_FAILURE).map((error: Error) => ({
+  error,
+}));

@@ -2,8 +2,9 @@ export interface ArmObj<T> {
   id: string;
   kind?: string;
   properties: T;
+  type?: string;
   tags?: { [key: string]: string };
-  location: string;
+  location?: string;
   name: string;
 }
 
@@ -846,9 +847,9 @@ export interface SkuDescription {
 }
 
 export interface SlotConfigNames {
-  connectionStringNames: string[];
-  appSettingNames: string[];
-  azureStorageConfigNames: string[];
+  connectionStringNames: string[] | null;
+  appSettingNames: string[] | null;
+  azureStorageConfigNames: string[] | null;
 }
 
 export interface Snapshot {

@@ -1,42 +1,39 @@
-import { IAction } from '../../../../models/action';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import { UPDATE_SITE_SLOT_CONFIG_NAMES, UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE } from './actions';
-import { SlotConfigNames } from '../../../../models/WebAppModels';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface ISlotConfigNamesState {
-  loading: boolean;
-  saving: boolean;
-  resourceId: string;
-  slotConfigNames: SlotConfigNames;
-}
-export const InitialState: ISlotConfigNamesState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  resourceId: '',
-  saving: false,
-  slotConfigNames: {
-    appSettingNames: [],
-    connectionStringNames: [],
-    azureStorageConfigNames: [],
+import { ArmObj, SlotConfigNames } from '../../../../models/WebAppModels';
+import { metadataReducer } from '../../../ApiReducerHelper';
+import { ApiState } from '../../../types';
+import * as actions from './actions';
+import { AREA_STRING, SLOT_CONFIG_FETCH_SUCCESS, SLOT_CONFIG_UPDATE_SUCCESS } from './actionTypes';
+
+export type SlotConfigAction = ActionType<typeof actions>;
+
+export type SlotConfigNamesState = ApiState<ArmObj<SlotConfigNames>>;
+export const InitialState = {
+  data: {
+    id: '',
+    properties: {
+      appSettingNames: [],
+      connectionStringNames: [],
+      azureStorageConfigNames: [],
+    },
+    name: '',
+    location: '',
+    kind: '',
   },
 };
 
-const slotConfigNames = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case UPDATE_SITE_SLOT_CONFIG_NAMES:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(60000),
-        ...action.payload,
-      };
-    case UPDATE_SITE_SLOT_CONFIG_NAMES_NO_CACHE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default slotConfigNames;
+export default combineReducers<SlotConfigNamesState, SlotConfigAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case SLOT_CONFIG_FETCH_SUCCESS:
+        return action.slotConfig;
+      case SLOT_CONFIG_UPDATE_SUCCESS:
+        return action.slotConfig;
+      default:
+        return state;
+    }
+  },
+});

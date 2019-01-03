@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { VirtualApplication } from '../../../../models/WebAppModels';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Checkbox } from 'office-ui-fabric-react';
-import { formElementStyle } from '../AppSettings.Styles';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import ActionBar from '../../../../components/ActionBar';
+import { VirtualApplication } from '../../../../models/WebAppModels';
+import { formElementStyle } from '../AppSettings.styles';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;

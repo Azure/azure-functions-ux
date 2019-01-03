@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import { HandlerMapping } from '../../../../models/WebAppModels';
-import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import IconButton from '../../../../components/IconButton/IconButton';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { HandlerMapping } from '../../../../models/WebAppModels';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 
 export interface HandlerMappingState {
   showPanel: boolean;

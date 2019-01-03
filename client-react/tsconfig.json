@@ -14,10 +14,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "alwaysStrict": false,
+    "alwaysStrict": true,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noUnusedLocals": true
   },
   "include": ["src"]
 }

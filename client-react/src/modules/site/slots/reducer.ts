@@ -1,36 +1,26 @@
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
+
 import { ArmArray, Site } from '../../../models/WebAppModels';
-import { IAction } from '../../../models/action';
-import { UPDATE_SLOT_LIST, UPDATE_SLOT_LIST_NO_CACHE } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
+import { metadataReducer } from '../../ApiReducerHelper';
+import { ApiState } from '../../types';
+import * as actions from './actions';
+import { AREA_STRING, SLOTS_FETCH_SUCCESS } from './actionTypes';
 
-export interface ISlotListState {
-  loading: boolean;
-  slots: ArmArray<Partial<Site>> | null;
-  saving: boolean;
-}
-export const InitialState: ISlotListState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  saving: false,
-  slots: null,
+export type SlotsAction = ActionType<typeof actions>;
+export type SlotsState = ApiState<ArmArray<Site>>;
+export const InitialState = {
+  data: { value: [] },
 };
 
-const slots = (state = InitialState, action: IAction<Partial<ISlotListState>>) => {
-  switch (action.type) {
-    case UPDATE_SLOT_LIST:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(6000),
-        ...action.payload,
-      };
-    case UPDATE_SLOT_LIST_NO_CACHE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default slots;
+export default combineReducers<SlotsState, SlotsAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case SLOTS_FETCH_SUCCESS:
+        return action.slotList;
+      default:
+        return state;
+    }
+  },
+});

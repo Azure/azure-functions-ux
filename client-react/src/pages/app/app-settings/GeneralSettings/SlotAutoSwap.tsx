@@ -1,16 +1,17 @@
-import * as React from 'react';
-import { FormikProps, Field } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
-import IState from '../../../../modules/types';
-import { connect } from 'react-redux';
-import { ArmArray, Site, ArmObj } from '../../../../models/WebAppModels';
-import { fetchSlotList } from '../../../../modules/site/slots/thunks';
+import { Field, FormikProps } from 'formik';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
-import { settingsWrapper } from '../AppSettingsForm';
-import Dropdown from '../../../../components/form-controls/DropDown';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
+import { ArmArray, ArmObj, Site } from '../../../../models/WebAppModels';
+import { fetchSlotsRequest } from '../../../../modules/site/slots/actions';
+import { RootState } from '../../../../modules/types';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { settingsWrapper } from '../AppSettingsForm';
 
 interface SlotAutoSwapPropsStateMap {
   slots: ArmArray<Partial<Site>>;
@@ -94,13 +95,13 @@ export class SlotAutoSwap extends React.Component<
   };
 }
 
-const mapStateToProps = (state: IState, otherProps: FormikProps<AppSettingsFormValues>) => ({
-  slots: state.slots.slots,
-  site: state.site.site,
+const mapStateToProps = (state: RootState, otherProps: FormikProps<AppSettingsFormValues>) => ({
+  slots: state.slots.data,
+  site: state.site.data,
 });
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSlotList: () => dispatch(fetchSlotList()),
+    fetchSlotList: () => dispatch(fetchSlotsRequest()),
   };
 };
 export default compose(

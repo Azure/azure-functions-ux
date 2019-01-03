@@ -1,49 +1,44 @@
-import { IAction } from '../../../models/action';
+import { createStandardAction } from 'typesafe-actions';
 
-export const ADD_PERMISSION = 'ADD_PERMISSION';
-export const addPermission = (permissionKey: string, value: boolean): IAction<{ key: string; value: boolean }> => ({
-  payload: { value, key: permissionKey },
-  type: ADD_PERMISSION,
-});
+import {
+  ADD_PERMISSION,
+  ADD_PERMISSION_CALLED,
+  ADD_READONLY_LOCK,
+  ADD_READONLY_LOCK_CALLED,
+  REMOVE_PERMISSION,
+  REMOVE_PERMISSIONS_CALLED,
+  REMOVE_READONLY_LOCK,
+  REMOVE_READONLY_LOCK_CALLED,
+} from './actionTypes';
 
-export const REMOVE_PERMISSION = 'REMOVE_PERMISSION';
-export const removePermission = (permissionKey: string): IAction<string> => ({
-  payload: permissionKey,
-  type: REMOVE_PERMISSION,
-});
+export const addPermission = createStandardAction(ADD_PERMISSION).map((payload: { permissionKey: string; value: boolean }) => ({
+  ...payload,
+}));
 
-export const ADD_READONLY_LOCK = 'ADD_READONLY_LOCK';
-export const addReadonlyLock = (resourceId: string, lock: boolean): IAction<{ key: string; value: boolean }> => ({
-  payload: { key: resourceId, value: lock },
-  type: ADD_READONLY_LOCK,
-});
+export const removePermission = createStandardAction(REMOVE_PERMISSION).map((permissionKey: string) => ({
+  permissionKey,
+}));
 
-export const REMOVE_READONLY_LOCK = 'REMOVE_READONLY_LOCK';
-export const removeReadonlyLock = (resourceId: string): IAction<string> => ({
-  payload: resourceId,
-  type: ADD_READONLY_LOCK,
-});
+export const addReadonlyLock = createStandardAction(ADD_READONLY_LOCK).map((payload: { resourceId: string; lock: boolean }) => ({
+  ...payload,
+}));
 
-export const ADD_READONLY_LOCK_CALLED = 'ADD_READONLY_LOCK_CALLED';
-export const addReadonlyCalled = (called: string): IAction<string> => ({
-  payload: called,
-  type: ADD_READONLY_LOCK_CALLED,
-});
+export const removeReadonlyLock = createStandardAction(REMOVE_READONLY_LOCK).map((resourceId: string) => ({
+  resourceId,
+}));
 
-export const REMOVE_READONLY_LOCK_CALLED = 'REMOVE_READONLY_LOCK_CALLED';
-export const removeReadonlyCalled = (called: string): IAction<string> => ({
-  payload: called,
-  type: REMOVE_READONLY_LOCK_CALLED,
-});
+export const addReadonlyCalled = createStandardAction(ADD_READONLY_LOCK_CALLED).map((called: string) => ({
+  called,
+}));
 
-export const ADD_PERMISSION_CALLED = 'ADD_PERMISSION_CALLED';
-export const addPermissionCalled = (called: string): IAction<string> => ({
-  payload: called,
-  type: ADD_PERMISSION_CALLED,
-});
+export const removeReadonlyCalled = createStandardAction(REMOVE_READONLY_LOCK_CALLED).map((called: string) => ({
+  called,
+}));
 
-export const REMOVE_PERMISSIONS_CALLED = 'REMOVE_PERMISSIONS_CALLED';
-export const removePermissionsCalled = (called: string): IAction<string> => ({
-  payload: called,
-  type: REMOVE_PERMISSIONS_CALLED,
-});
+export const addPermissionCalled = createStandardAction(ADD_PERMISSION_CALLED).map((called: string) => ({
+  called,
+}));
+
+export const removePermissionsCalled = createStandardAction(REMOVE_PERMISSIONS_CALLED).map((called: string) => ({
+  called,
+}));

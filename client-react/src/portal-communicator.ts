@@ -1,34 +1,35 @@
 import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
+import { Observable, Subject } from 'rxjs';
+import { filter, first, map } from 'rxjs/operators';
+
+import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
 import {
-  IEvent,
-  IStartupInfo,
-  Verbs,
-  IDataMessage,
-  INotificationStartedInfo,
-  IOpenBladeInfo,
-  IBladeResult,
-  IDataMessageResult,
-  IUpdateBladeInfo,
-  INotificationInfo,
-  IDirtyStateInfo,
-  LogEntryLevel,
   BroadcastMessage,
   BroadcastMessageId,
+  IBladeResult,
+  IDataMessage,
+  IDataMessageResult,
+  IDirtyStateInfo,
+  IEvent,
+  INotificationInfo,
+  INotificationStartedInfo,
+  IOpenBladeInfo,
+  IStartupInfo,
   ISubscriptionRequest,
+  IUpdateBladeInfo,
+  LogEntryLevel,
+  Verbs,
 } from './models/portal-models';
-import { getStartupInfoAction, setupIFrameAction, updateTheme, updateToken } from './modules/portal/portal-service-actions';
+import { ISubscription } from './models/subscription';
+import { getStartupInfoAction, setupIFrameAction, updateTheme, updateToken } from './modules/portal/actions';
+import { updateResourceId } from './modules/site/actions';
 import { store } from './store';
-import { Url } from './utils/url';
 import darkModeTheme from './theme/dark';
 import lightTheme from './theme/light';
-import { Subject, Observable } from 'rxjs';
 import { Guid } from './utils/Guid';
-import { filter, first, map } from 'rxjs/operators';
-import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
-import { ISubscription } from './models/subscription';
-import { updateResourceId } from './modules/site/thunks';
+import Url from './utils/url';
 
-export class PortalCommunicator {
+export default class PortalCommunicator {
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
   private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
@@ -253,7 +254,7 @@ export class PortalCommunicator {
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendInputs) {
-      store.dispatch<any>(updateResourceId(data.resourceId));
+      store.dispatch(updateResourceId(data.resourceId));
     } else if (methodName === Verbs.sendData) {
       this.operationStream.next(data);
     }

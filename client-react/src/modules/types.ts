@@ -1,28 +1,40 @@
-import { IPortalServiceState } from './portal/portal-service-reducer';
-import { ISiteState } from './site/reducer';
-import { IWebConfigState } from './site/config/web/reducer';
-import { IMetadataConfigState } from './site/config/metadata/reducer';
-import { IAppSettingsState } from './site/config/appsettings/reducer';
-import { IConnectionStringState } from './site/config/connectionstrings/reducer';
-import { IStacksState } from './service/available-stacks/reducer';
-import { ISlotListState } from './site/slots/reducer';
-import { IRbacState } from './service/rbac/reducer';
-import { IBillingMetersState } from './service/billing/reducer';
-import { IPlanState } from './plan/reducer';
-import { ISlotConfigNamesState } from './site/config/slotConfigNames/reducer';
+import { AxiosError } from 'axios';
+import { StateType } from 'typesafe-actions';
 
-export default interface IState {
-  portalService: IPortalServiceState;
-  /*ARM values */
-  site: ISiteState;
-  webConfig: IWebConfigState;
-  metadata: IMetadataConfigState;
-  appSettings: IAppSettingsState;
-  connectionStrings: IConnectionStringState;
-  stacks: IStacksState;
-  slots: ISlotListState;
-  rbac: IRbacState;
-  billingMeter: IBillingMetersState;
-  plan: IPlanState;
-  slotConfigNames: ISlotConfigNamesState;
+import rootReducer from './';
+import { StacksAction } from './service/available-stacks/reducer';
+import services from './services';
+import { AppSettingsActions } from './site/config/appsettings/reducer';
+import { ConnectionStringActions } from './site/config/connectionstrings/reducer';
+import { MetadataAction } from './site/config/metadata/reducer';
+import { SlotConfigAction } from './site/config/slotConfigNames/reducer';
+import { ConfigAction } from './site/config/web/reducer';
+import { SiteAction } from './site/reducer';
+import { SlotsAction } from './site/slots/reducer';
+
+export type RootState = StateType<typeof rootReducer>;
+export type RootAction =
+  | SiteAction
+  | SlotsAction
+  | ConfigAction
+  | SlotConfigAction
+  | MetadataAction
+  | ConnectionStringActions
+  | AppSettingsActions
+  | StacksAction;
+
+export type Services = typeof services;
+
+export interface ApiStateMetadata {
+  fetchError: boolean;
+  fetchErrorObject: AxiosError | Error;
+  updateError: boolean;
+  updateErrorObject: AxiosError | Error;
+  loading: boolean;
+  updating: boolean;
+}
+
+export interface ApiState<T> {
+  metadata: ApiStateMetadata;
+  data: T;
 }

@@ -1,0 +1,4 @@
+export const SETUP_IFRAME = 'SETUP_IFRAME';
+export const GET_STARTUP_INFO = 'GET_STARTUP_INFO';
+export const UPDATE_THEME = 'UPDATE_THEME';
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';

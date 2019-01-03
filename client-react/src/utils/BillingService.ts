@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { PortalCommunicator } from '../portal-communicator';
+import PortalCommunicator from '../portal-communicator';
 
 export class BillingService {
   private _portalCommunicator: PortalCommunicator;

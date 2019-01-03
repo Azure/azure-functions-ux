@@ -1,20 +1,19 @@
-import * as React from 'react';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { AppSetting } from '../../../../modules/site/config/appsettings/appsettings.types';
-
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import AppSettingAddEdit from './AppSettingAddEdit';
 import { FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import IconButton from '../../../../components/IconButton/IconButton';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
+import AppSettingAddEdit from './AppSettingAddEdit';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
   showPanel: boolean;
-  currentAppSetting: AppSetting | null;
+  currentAppSetting: FormAppSetting | null;
   currentItemIndex: number;
   createNewItem: boolean;
 }
@@ -99,8 +98,8 @@ export class ApplicationSettings extends React.Component<
     });
   };
 
-  private onClosePanel = (item: AppSetting): void => {
-    const appSettings: AppSetting[] = [...this.props.values.appSettings];
+  private onClosePanel = (item: FormAppSetting): void => {
+    const appSettings: FormAppSetting[] = [...this.props.values.appSettings];
     if (!this.state.createNewItem) {
       appSettings[this.state.currentItemIndex] = item;
     } else {
@@ -114,7 +113,7 @@ export class ApplicationSettings extends React.Component<
     this.setState({ createNewItem: false, showPanel: false });
   };
 
-  private onShowPanel = (item: AppSetting, index: number): void => {
+  private onShowPanel = (item: FormAppSetting, index: number): void => {
     this.setState({
       showPanel: true,
       currentAppSetting: item,
@@ -123,12 +122,12 @@ export class ApplicationSettings extends React.Component<
   };
 
   private removeItem(index: number) {
-    const appSettings: AppSetting[] = [...this.props.values.appSettings];
+    const appSettings: FormAppSetting[] = [...this.props.values.appSettings];
     appSettings.splice(index, 1);
     this.props.setFieldValue('appSettings', appSettings);
   }
 
-  private onRenderItemColumn = (item: AppSetting, index: number, column: IColumn) => {
+  private onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const { t } = this.props;
     if (!column || !item) {
       return null;

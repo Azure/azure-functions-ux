@@ -1,4 +1,8 @@
 {
   "baseUrl": "https://localhost:44400",
-  "projectId": "rwcr7y"
+  "projectId": "rwcr7y",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "cypress/results/results-[hash].xml"
+  }
 }

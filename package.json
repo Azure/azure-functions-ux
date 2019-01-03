@@ -9,7 +9,8 @@
     "husky": "^1.1.0",
     "pretty-quick": "^1.7.0",
     "prettier": "^1.14.3",
-    "gulp-prompt": "^1.1.0"
+    "gulp-prompt": "^1.1.0",
+    "gulp-inline-source": "~4.0.0"
   },
   "prettier": {
     "jsxBracketSameLine": true,

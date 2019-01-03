@@ -1,10 +1,11 @@
-import * as React from 'react';
+import { Field, FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { AppSettingsFormValues } from '../AppSettings.Types';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import TextField from '../../../../components/form-controls/TextField';
-import { FormikProps, Field } from 'formik';
-import { translate, InjectedTranslateProps } from 'react-i18next';
 import IconButton from '../../../../components/IconButton/IconButton';
+import { AppSettingsFormValues } from '../AppSettings.types';
 
 const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const [focusLast, setFocusLast] = React.useState(false);

@@ -1,15 +1,20 @@
-import { IAction } from '../../../models/action';
-import { ArmArray } from '../../../models/WebAppModels';
+import { createStandardAction } from 'typesafe-actions';
+
 import { BillingMeter } from '../../../models/BillingModels';
+import { ArmArray } from '../../../models/WebAppModels';
+import { StacksOS } from '../available-stacks/actions';
+import { BILLING_METERS_FETCH_FAILURE, BILLING_METERS_FETCH_REQUEST, BILLING_METERS_FETCH_SUCCESS } from './actionTypes';
 
-export const UPDATE_BILLING_METERS = 'UPDATE_BILLING_METERS';
-export const updateBillingMeters = (billingMeters: ArmArray<BillingMeter>): IAction<ArmArray<BillingMeter>> => ({
-  payload: billingMeters,
-  type: UPDATE_BILLING_METERS,
-});
-
-export const UPDATE_BILLING_METERS_LOADING = 'UPDATE_BILLING_METERS_LOADING';
-export const updateBillingMetersLoading = (loading: boolean): IAction<boolean> => ({
-  payload: loading,
-  type: UPDATE_BILLING_METERS_LOADING,
-});
+export const fetchBillingMetersRequest = createStandardAction(BILLING_METERS_FETCH_REQUEST).map(
+  (payload: { subscriptionId: string; location?: string; osType?: StacksOS }) => ({
+    subscriptionId: payload.subscriptionId,
+    location: payload.location,
+    osType: payload.osType,
+  })
+);
+export const fetchBillingMetersSuccess = createStandardAction(BILLING_METERS_FETCH_SUCCESS).map((meters: ArmArray<BillingMeter>) => ({
+  meters,
+}));
+export const fetchBillingMetersFailure = createStandardAction(BILLING_METERS_FETCH_FAILURE).map((error: Error) => ({
+  error,
+}));

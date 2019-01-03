@@ -1,12 +1,14 @@
+import { Field, FormikProps } from 'formik';
 import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import { AppSettingsFormValues } from '../../AppSettings.types';
 import DotNetStack from './DotNetStack';
+import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
-import { AppSettingsFormValues } from '../../AppSettings.Types';
-import JavaStack from './JavaStack';
-import { Field, FormikProps } from 'formik';
-import Dropdown from '../../../../../components/form-controls/DropDown';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+
 interface StacksState {
   currentStack: string;
 }
