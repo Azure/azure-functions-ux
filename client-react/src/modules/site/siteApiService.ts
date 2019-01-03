@@ -15,6 +15,8 @@ const siteApiService = {
 
 export default siteApiService;
 
+// TODO, travih: remove in next pass
+// note leaving this for refrence on updating to update flow next pass
 // // HELPER FUNCTIONS
 // const getAppSettingsForUpdate = (getState: () => RootState, appSettings?: AppSetting[]): any | undefined => {
 //   if (!appSettings) {
