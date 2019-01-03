@@ -2,10 +2,11 @@
   "name": "azure-functions-ux-server",
   "version": "0.0.0",
   "scripts": {
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node --inspect src/server.ts",
     "build": "tsc",
     "build:watch": "concurrently \"tsc --watch\" \"nodemon build\"",
     "build-resources:dev": "gulp build-all",
-    "watch": "nodemon .\\nodemon.json",
     "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json",
     "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
   },
