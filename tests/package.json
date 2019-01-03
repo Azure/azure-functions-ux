@@ -13,6 +13,11 @@
     "test:ci:record": "run-p --race start:ci e2e:record",
     "test:dev": "run-p --race start:ci cypress:open"
   },
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
   "devDependencies": {
     "cypress": "^3.1.0",
     "serve": "^10.0.2",
