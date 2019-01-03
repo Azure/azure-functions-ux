@@ -2,12 +2,12 @@
   "name": "azure-functions-ux-server",
   "version": "0.0.0",
   "scripts": {
-    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
-    "watch:serve": "ts-node --inspect src/server.ts",
-    "build": "tsc",
-    "build:watch": "concurrently \"tsc --watch\" \"nodemon build\"",
-    "build-resources:dev": "gulp build-all",
-    "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json",
+    "watch": "concurrently npm:watch:*",
+    "watch:ts": "nodemon -e ts -w ./src -x npm run serve:dev",
+    "watch:resources": "nodemon -e resx -w ./Resources -x npm run build:resources",
+    "serve:dev": "ts-node --inspect src/server.ts",
+    "build:resources": "gulp build-all",
+    "build": "gulp build-production && tsc",
     "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
   },
   "dependencies": {

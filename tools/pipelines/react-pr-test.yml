@@ -2,7 +2,7 @@
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
 phases:
   - phase: Test
-    queue: 'Hosted macOS'
+    queue: 'Ubuntu 16.04'
     steps:
       - task: NodeTool@0
         inputs:

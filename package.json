@@ -25,6 +25,12 @@
     "tabWidth": 2,
     "trailingComma": "es5"
   },
+  "private": true,
+  "workspaces": [
+    "client",
+    "client-react",
+    "server"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
