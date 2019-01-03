@@ -10,6 +10,7 @@
     "build": "gulp build-production && tsc",
     "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
   },
+  "private": true,
   "workspaces": {
     "nohoist": [
       "**"

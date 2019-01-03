@@ -13,6 +13,7 @@
     "test:ci:record": "run-p --race start:ci e2e:record",
     "test:dev": "run-p --race start:ci cypress:open"
   },
+  "private": true,
   "workspaces": {
     "nohoist": [
       "**"
