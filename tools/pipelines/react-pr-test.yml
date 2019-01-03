@@ -1,8 +1,11 @@
 # run the same job on 2 CI machines in parallel
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
 phases:
   - phase: Test
-    queue: 'Ubuntu 16.04'
     steps:
       - task: NodeTool@0
         inputs:
