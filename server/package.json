@@ -2,9 +2,19 @@
   "name": "azure-functions-ux-server",
   "version": "0.0.0",
   "scripts": {
-    "watch": "nodemon .\\nodemon.json",
-    "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json",
+    "watch": "concurrently npm:watch:*",
+    "watch:ts": "nodemon -e ts -w ./src -x npm run serve:dev",
+    "watch:resources": "nodemon -e resx -w ./Resources -x npm run build:resources",
+    "serve:dev": "ts-node --inspect src/server.ts",
+    "build:resources": "gulp build-all",
+    "build": "gulp build-production && tsc",
     "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
+  },
+  "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
   },
   "dependencies": {
     "applicationinsights": "^1.0.7",
@@ -26,8 +36,8 @@
     "jsonwebtoken": "^8.4.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

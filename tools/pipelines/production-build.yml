@@ -10,20 +10,12 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '8.x'
+          versionSpec: '10.x'
         displayName: 'Install Node.js'
 
       - script: |
           npm install -g yarn
         displayName: 'install yarn'
-
-      - script: |
-          npm install -g gulp-cli
-        displayName: 'install gulp'
-
-      - script: |
-          npm install -g typescript
-        displayName: 'install typescript'
 
       - script: |
           cd server
@@ -32,7 +24,7 @@ jobs:
 
       - script: |
           cd server
-          gulp build-production
+          yarn build
         displayName: 'Setup Environment Variables and Build Resources'
         env:
           bitbucketClientId: $(bitbucketClientId)
@@ -47,11 +39,6 @@ jobs:
           onedriveClientSecret: $(onedriveClientSecret)
           onedriveClientID: $(onedriveClientID)
           onedriveRedirectUrl: $(onedriveRedirectUrl)
-
-      - script: |
-          cd server
-          tsc
-        displayName: 'Build Server'
 
       - task: CopyFiles@2
         displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'

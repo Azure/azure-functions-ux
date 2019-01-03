@@ -1,65 +1,56 @@
 # run the same job on 2 CI machines in parallel
 # https://docs.microsoft.com/en-us/vsts/pipelines/process/phases
-phases:
-  - phase: Test
-    queue: 'Hosted macOS'
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '8.x'
-        displayName: 'Install Node.js'
 
-      - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
-
-      - script: |
-          cd client-react
-          yarn install
-        displayName: 'yarn install react app'
-
-      - script: |
-          yarn install
-          cd client-react
-          yarn test --coverage --reporters="jest-junit"
-          cd ..
-          ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
-        displayName: 'run unit tests'
-        env:
-          CI: true
-
-      - script: |
-          cd client-react
-          yarn build
-        displayName: 'create production build'
-
-      - script: |
-          cd tests
-          yarn install
-          npm run cy:verify
-        displayName: 'Cypress verify'
-
-      - script: |
-          cd tests
-          npm run test:ci:record
-        displayName: 'Run Cypress tests'
-        env:
-          CYPRESS_RECORD_KEY: $(cypresskey)
-
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: 'tests/cypress/results/results-*.xml'
-          testRunTitle: 'E2E Tests'
-
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: 'client-react/junit.xml'
-          testRunTitle: 'Unit Tests'
-
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: 'cobertura'
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/client-react/coverage/cobertura-coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+pool:
+  vmImage: 'Ubuntu 16.04'
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+  - script: |
+      npm install -g yarn
+    displayName: 'install yarn'
+  - script: |
+      cd client-react
+      yarn install
+    displayName: 'yarn install react app'
+  - script: |
+      yarn install
+      cd client-react
+      yarn test --coverage --reporters="jest-junit"
+      cd ..
+      ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
+    displayName: 'run unit tests'
+    env:
+      CI: true
+  - script: |
+      cd client-react
+      yarn build
+    displayName: 'create production build'
+  - script: |
+      cd tests
+      yarn install
+      npm run cy:verify
+    displayName: 'Cypress verify'
+  - script: |
+      cd tests
+      npm run test:ci:record
+    displayName: 'Run Cypress tests'
+    env:
+      CYPRESS_RECORD_KEY: $(cypresskey)
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'tests/cypress/results/results-*.xml'
+      testRunTitle: 'E2E Tests'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'client-react/junit.xml'
+      testRunTitle: 'Unit Tests'
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'cobertura'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/client-react/coverage/cobertura-coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
