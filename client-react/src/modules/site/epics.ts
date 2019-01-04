@@ -28,4 +28,4 @@ export const updateSiteFlow: Epic<SiteAction, SiteAction, RootState, Services> =
       )
     )
   );
-export default combineEpics(fetchSiteFlow);
+export default combineEpics(fetchSiteFlow, updateSiteFlow);

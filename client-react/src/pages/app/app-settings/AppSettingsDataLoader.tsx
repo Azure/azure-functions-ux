@@ -6,21 +6,22 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import { fetchStacksRequest, StacksOS } from '../../../modules/service/available-stacks/actions';
 import { fetchPermissions, PermissionCheckObj } from '../../../modules/service/rbac/thunks';
-import { fetchSiteRequest } from '../../../modules/site/actions';
+import { fetchSiteRequest, updateSiteRequest } from '../../../modules/site/actions';
 import { fetchAppSettingsRequest } from '../../../modules/site/config/appsettings/actions';
 import { AppSettingsState } from '../../../modules/site/config/appsettings/reducer';
 import { fetchConnectionStringsRequest } from '../../../modules/site/config/connectionstrings/actions';
 import { ConnectionStringState } from '../../../modules/site/config/connectionstrings/reducer';
 import { fetchMetadataRequest } from '../../../modules/site/config/metadata/actions';
 import { MetadataState } from '../../../modules/site/config/metadata/reducer';
-import { fetchSlotConfigRequest } from '../../../modules/site/config/slotConfigNames/actions';
+import { fetchSlotConfigRequest, updateSlotConfigRequest } from '../../../modules/site/config/slotConfigNames/actions';
 import { SlotConfigNamesState } from '../../../modules/site/config/slotConfigNames/reducer';
-import { fetchWebConfigRequest } from '../../../modules/site/config/web/actions';
+import { fetchWebConfigRequest, updateWebConfigRequest } from '../../../modules/site/config/web/actions';
 import { ConfigStateType } from '../../../modules/site/config/web/reducer';
 import { SiteState } from '../../../modules/site/reducer';
 import { RootAction, RootState } from '../../../modules/types';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
+import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
 
 export interface AppSettingsDataLoaderProps {
   children: (
@@ -28,7 +29,7 @@ export interface AppSettingsDataLoaderProps {
       initialFormValues: AppSettingsFormValues;
       saving: boolean;
       loading: boolean;
-      onSubmit: typeof onSubmit;
+      onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
     }
   ) => JSX.Element;
   fetchSite: () => void;
@@ -39,6 +40,9 @@ export interface AppSettingsDataLoaderProps {
   fetchSlotConfigNames: () => void;
   fetchConnectionStrings: () => void;
   fetchPermissions: (resources: PermissionCheckObj[]) => void;
+  updateSite: (site: ArmObj<Site>) => void;
+  updateConfig: (config: ArmObj<SiteConfig>) => void;
+  updateSlotConfig: (slotNames: ArmObj<SlotConfigNames>) => void;
   resourceId: string;
   site: SiteState;
   config: ConfigStateType;
@@ -62,7 +66,19 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps> = props => {
     fetchSlotConfigNames,
     resourceId,
     fetchStacks,
+    metadata,
+    slotConfigNames,
+    updateConfig,
+    updateSite,
+    updateSlotConfig,
   } = props;
+
+  const onSubmit = (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+    const newValues = convertFormToState(values, metadata.data, slotConfigNames.data);
+    updateSite(newValues.site);
+    updateConfig(newValues.config);
+    newValues.slotConfigNames && updateSlotConfig(newValues.slotConfigNames);
+  };
 
   useEffect(() => {
     fetchAppSettings();
@@ -88,15 +104,14 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps> = props => {
     },
     [props.site.data.id]
   );
-
+  if (isSaving(props)) {
+    return <div>Saving</div>;
+  }
   return (
     <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isSaving(props), loading: isLoading(props) })}</>
   );
 };
 
-const onSubmit = (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
-  console.log(values);
-};
 const isLoading = (props: AppSettingsDataLoaderProps) => {
   const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
   return (
@@ -117,7 +132,7 @@ const isSaving = (props: AppSettingsDataLoaderProps) => {
     appSettings.metadata.updating ||
     metadata.metadata.updating ||
     connectionStrings.metadata.updating ||
-    slotConfigNames.metadata.loading
+    slotConfigNames.metadata.updating
   );
 };
 
@@ -146,6 +161,9 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
       fetchMetadata: fetchMetadataRequest,
       fetchSlotConfigNames: fetchSlotConfigRequest,
       fetchPermissions: fetchPermissions,
+      updateSite: updateSiteRequest,
+      updateConfig: updateWebConfigRequest,
+      updateSlotConfig: updateSlotConfigRequest,
     },
     dispatch
   );

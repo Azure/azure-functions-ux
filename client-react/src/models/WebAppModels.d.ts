@@ -679,7 +679,7 @@ export interface Site {
   storageRecoveryDefaultState: string;
   contentAvailabilityState: number;
   runtimeAvailabilityState: number;
-  siteConfig: SiteConfig;
+  siteConfig: Partial<SiteConfig>;
   deploymentId: string;
   trafficManagerHostNames: string;
   sku: string;
