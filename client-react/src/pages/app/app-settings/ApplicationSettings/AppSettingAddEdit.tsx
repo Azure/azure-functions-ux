@@ -20,7 +20,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
 
   const updateAppSettingName = (e: any, name: string) => {
     const error = validateAppSettingName(name);
-    setNameError(error);
+    console.log(error);
+    setNameError('');
     setCurrentAppSetting({ ...currentAppSetting, name });
   };
 

@@ -1,5 +1,4 @@
 import { combineEpics } from 'redux-observable';
-
 import stacks from './modules/service/available-stacks/epics';
 import appSettings from './modules/site/config/appsettings/epics';
 import connectionStrings from './modules/site/config/connectionstrings/epics';

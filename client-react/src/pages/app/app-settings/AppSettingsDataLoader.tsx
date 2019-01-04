@@ -1,5 +1,5 @@
 import { FormikActions } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -22,6 +22,10 @@ import { RootAction, RootState } from '../../../modules/types';
 import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
+import { PortalContext } from '../../../PortalContext';
+import { startNotification, stopNotification } from '../../../modules/portal/actions';
+import { translate, InjectedTranslateProps } from 'react-i18next';
+import { AxiosError } from 'axios';
 
 export interface AppSettingsDataLoaderProps {
   children: (
@@ -54,8 +58,40 @@ export interface AppSettingsDataLoaderProps {
 }
 
 // `state` parameter needs a type annotation to type-check the correct shape of a state object but also it'll be used by "type inference" to infer the type of returned props
+const isLoading = (props: AppSettingsDataLoaderProps) => {
+  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
 
-const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps> = props => {
+  return (
+    site.metadata.loading ||
+    config.metadata.loading ||
+    appSettings.metadata.loading ||
+    metadata.metadata.loading ||
+    connectionStrings.metadata.loading ||
+    slotConfigNames.metadata.loading
+  );
+};
+
+const isUpdating = (props: AppSettingsDataLoaderProps) => {
+  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
+  return (
+    site.metadata.updating ||
+    config.metadata.updating ||
+    appSettings.metadata.updating ||
+    metadata.metadata.updating ||
+    connectionStrings.metadata.updating ||
+    slotConfigNames.metadata.updating
+  );
+};
+
+const updateError = (props: AppSettingsDataLoaderProps) => {
+  const { site, config, slotConfigNames } = props;
+  return (
+    (site.metadata.updateError && site.metadata.updateErrorObject) ||
+    (config.metadata.updateError && config.metadata.updateErrorObject) ||
+    (slotConfigNames.metadata.updateError && slotConfigNames.metadata.updateErrorObject)
+  );
+};
+const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTranslateProps> = props => {
   const {
     fetchAppSettings,
     fetchConfig,
@@ -71,25 +107,28 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps> = props => {
     updateConfig,
     updateSite,
     updateSlotConfig,
+    t,
   } = props;
-
-  const onSubmit = (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+  const portalContext = useContext(PortalContext);
+  const [notificationId, setNotificationId] = useState('');
+  const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     const newValues = convertFormToState(values, metadata.data, slotConfigNames.data);
     updateSite(newValues.site);
     updateConfig(newValues.config);
-    newValues.slotConfigNames && updateSlotConfig(newValues.slotConfigNames);
-  };
 
+    newValues.slotConfigNames && updateSlotConfig(newValues.slotConfigNames);
+    setNotificationId(portalContext.startNotification(t('configUpdating'), t('configUpdating')));
+  };
   useEffect(() => {
-    fetchAppSettings();
     fetchConfig();
-    fetchConnectionStrings();
     fetchSite();
-    fetchMetadata();
     fetchSlotConfigNames();
+    fetchMetadata();
+    fetchConnectionStrings();
+    fetchAppSettings();
     fetchPermissions([{ resourceId: resourceId, action: './write' }]);
   }, []);
-
+  const loadingOrUpdating = isUpdating(props) || isLoading(props);
   useEffect(
     () => {
       const { kind } = props.site.data;
@@ -102,37 +141,32 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps> = props => {
         fetchStacks(os);
       }
     },
-    [props.site.data.id]
+    [props.site.data.kind]
   );
-  if (isSaving(props)) {
-    return <div>Saving</div>;
-  }
-  return (
-    <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isSaving(props), loading: isLoading(props) })}</>
-  );
-};
 
-const isLoading = (props: AppSettingsDataLoaderProps) => {
-  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
-  return (
-    site.metadata.loading ||
-    config.metadata.loading ||
-    appSettings.metadata.loading ||
-    metadata.metadata.loading ||
-    connectionStrings.metadata.loading ||
-    slotConfigNames.metadata.loading
+  useEffect(
+    () => {
+      if (!loadingOrUpdating && notificationId) {
+        const err = updateError(props) as AxiosError | Error;
+        if (err) {
+          let eMessage = '';
+          if ('response' in err) {
+            eMessage = err.response && err.response.data && err.response.data.Message;
+          } else {
+            eMessage = err.message;
+          }
+          portalContext.stopNotification(notificationId, false, `${t('configUpdateFailure')} ${eMessage}`);
+        } else {
+          portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
+        }
+        setNotificationId('');
+      }
+    },
+    [loadingOrUpdating]
   );
-};
 
-const isSaving = (props: AppSettingsDataLoaderProps) => {
-  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
   return (
-    site.metadata.updating ||
-    config.metadata.updating ||
-    appSettings.metadata.updating ||
-    metadata.metadata.updating ||
-    connectionStrings.metadata.updating ||
-    slotConfigNames.metadata.updating
+    <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isUpdating(props), loading: isLoading(props) })}</>
   );
 };
 
@@ -164,11 +198,14 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
       updateSite: updateSiteRequest,
       updateConfig: updateWebConfigRequest,
       updateSlotConfig: updateSlotConfigRequest,
+      startNotification,
+      stopNotification,
     },
     dispatch
   );
 
 export default compose(
+  translate('translation'),
   connect(
     mapStateToProps,
     mapDispatchToProps

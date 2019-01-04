@@ -14,25 +14,28 @@ const formStyle = style({
 const AppSettings: React.SFC<void> = () => {
   return (
     <AppSettingsDataLoader>
-      {({ initialFormValues, saving, loading, onSubmit }) =>
-        !loading && (
-          <Formik initialValues={initialFormValues} onSubmit={onSubmit} enableReinitialize={true} validateOnBlur validateOnChange>
-            {(formProps: FormikProps<AppSettingsFormValues>) => (
-              <form>
-                <AppSettingsCommandBar
-                  submitForm={formProps.submitForm}
-                  resetForm={formProps.resetForm}
-                  disabled={!formProps.values.siteWritePermission}
-                  dirty={formProps.dirty}
-                />
-                <div className={formStyle}>
-                  <AppSettingsForm {...formProps} />
-                </div>
-              </form>
-            )}
-          </Formik>
-        )
-      }
+      {({ initialFormValues, saving, loading, onSubmit }) => (
+        <Formik
+          initialValues={initialFormValues}
+          onSubmit={onSubmit}
+          enableReinitialize={!saving && !loading}
+          validateOnBlur
+          validateOnChange>
+          {(formProps: FormikProps<AppSettingsFormValues>) => (
+            <form>
+              <AppSettingsCommandBar
+                submitForm={formProps.submitForm}
+                resetForm={formProps.resetForm}
+                disabled={!formProps.values.siteWritePermission || saving || loading}
+                dirty={formProps.dirty}
+              />
+              <div className={formStyle}>
+                <AppSettingsForm {...formProps} />
+              </div>
+            </form>
+          )}
+        </Formik>
+      )}
     </AppSettingsDataLoader>
   );
 };
