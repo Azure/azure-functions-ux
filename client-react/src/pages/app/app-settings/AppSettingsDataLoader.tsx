@@ -23,7 +23,6 @@ import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
 import { PortalContext } from '../../../PortalContext';
-import { startNotification, stopNotification } from '../../../modules/portal/actions';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { AxiosError } from 'axios';
 
@@ -202,8 +201,6 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
       updateSite: updateSiteRequest,
       updateConfig: updateWebConfigRequest,
       updateSlotConfig: updateSlotConfigRequest,
-      startNotification,
-      stopNotification,
     },
     dispatch
   );
