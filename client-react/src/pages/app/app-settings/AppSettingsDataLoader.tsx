@@ -109,8 +109,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     updateSlotConfig,
     t,
   } = props;
-  const portalContext = useContext(PortalContext);
-  const [notificationId, setNotificationId] = useState('');
+
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     const newValues = convertFormToState(values, metadata.data, slotConfigNames.data);
     updateSite(newValues.site);
@@ -119,6 +118,11 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     newValues.slotConfigNames && updateSlotConfig(newValues.slotConfigNames);
     setNotificationId(portalContext.startNotification(t('configUpdating'), t('configUpdating')));
   };
+
+  const portalContext = useContext(PortalContext);
+  const [notificationId, setNotificationId] = useState('');
+  const loadingOrUpdating = isUpdating(props) || isLoading(props);
+
   useEffect(() => {
     fetchConfig();
     fetchSite();
@@ -128,7 +132,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     fetchAppSettings();
     fetchPermissions([{ resourceId: resourceId, action: './write' }]);
   }, []);
-  const loadingOrUpdating = isUpdating(props) || isLoading(props);
+
   useEffect(
     () => {
       const { kind } = props.site.data;

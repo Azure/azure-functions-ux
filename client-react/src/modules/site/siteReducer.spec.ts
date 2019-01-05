@@ -59,10 +59,10 @@ describe('Site Store Epics', () => {
     let action$ = ActionsObservable.of(updateSiteRequest(testResult));
     const output$ = updateSiteFlow(action$, {} as any, successDeps);
     const actions = await output$.pipe(toArray()).toPromise();
-    expect(actions.length).toBe(1);
-    let action = actions[0];
-    if (action.type === SITE_UPDATE_SUCCESS) {
-      expect(action.site.name).toBe('fromApi');
+    expect(actions.length).toBe(4);
+    let siteUpdateAction = actions[0];
+    if (siteUpdateAction.type === SITE_UPDATE_SUCCESS) {
+      expect(siteUpdateAction.site.name).toBe('fromApi');
     }
   });
 

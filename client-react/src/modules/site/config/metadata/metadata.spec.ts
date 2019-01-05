@@ -15,6 +15,7 @@ import {
   updateMetadataFailure,
   updateMetadataRequest,
   updateMetadataSuccess,
+  updateMetadataFromSiteUpdate,
 } from './actions';
 import { METADATA_FETCH_FAILURE, METADATA_FETCH_SUCCESS, METADATA_UPDATE_FAILURE, METADATA_UPDATE_SUCCESS } from './actionTypes';
 import { fetchMetadata, updateMetadata } from './epics';
@@ -157,6 +158,48 @@ describe('Metadata Store Reducer', () => {
       expect(state.metadata.loading).toBe(false);
       expect(state.metadata.updateError).toBe(true);
       expect(state.metadata.updateErrorObject.message).toBe('testerror');
+    });
+
+    it("updateMetadataFromSiteUpdate action is null if site object doesn't contain app settings", () => {
+      const action = updateMetadataFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      expect(action.metadata).toBeNull();
+    });
+
+    it('updateMetadataFromSiteUpdate action makes app settings array gets mapped correctly to app settings object', () => {
+      const action = updateMetadataFromSiteUpdate({
+        properties: { siteConfig: { metadata: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const metadataObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(action.metadata).toEqual(metadataObject);
+    });
+
+    it('updateMetadataFromSiteUpdate updates state in reducer', () => {
+      const action = updateMetadataFromSiteUpdate({
+        properties: { siteConfig: { metadata: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const state = reducer(initialState, action);
+      const metadataObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(state.data.properties).toEqual(metadataObject);
+    });
+
+    it("updateMetadataFromSiteUpdate doesn't update state in reducer if app settings value is null", () => {
+      const action = updateMetadataFromSiteUpdate({
+        properties: { siteConfig: { metadata: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const nullAction = updateMetadataFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      const state = reducer(initialState, action);
+      const state2 = reducer(state, nullAction);
+      const metadataObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(state2.data.properties).toEqual(metadataObject);
     });
   });
 });

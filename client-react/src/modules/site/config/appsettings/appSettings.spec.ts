@@ -15,6 +15,7 @@ import {
   updateAppSettingsFailure,
   updateAppSettingsRequest,
   updateAppSettingsSuccess,
+  updateAppSettingsFromSiteUpdate,
 } from './actions';
 import {
   APP_SETTINGS_FETCH_FAILURE,
@@ -164,6 +165,48 @@ describe('App Settings Store Reducer', () => {
       expect(state.metadata.loading).toBe(false);
       expect(state.metadata.updateError).toBe(true);
       expect(state.metadata.updateErrorObject.message).toBe('testerror');
+    });
+
+    it("updateAppSettingsFromSiteUpdate action is null if site object doesn't contain app settings", () => {
+      const action = updateAppSettingsFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      expect(action.appSettings).toBeNull();
+    });
+
+    it('updateAppSettingsFromSiteUpdate action makes app settings array gets mapped correctly to app settings object', () => {
+      const action = updateAppSettingsFromSiteUpdate({
+        properties: { siteConfig: { appSettings: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const appSettingsObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(action.appSettings).toEqual(appSettingsObject);
+    });
+
+    it('updateAppSettingsFromSiteUpdate updates state in reducer', () => {
+      const action = updateAppSettingsFromSiteUpdate({
+        properties: { siteConfig: { appSettings: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const state = reducer(initialState, action);
+      const appSettingsObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(state.data.properties).toEqual(appSettingsObject);
+    });
+
+    it("updateAppSettingsFromSiteUpdate doesn't update state in reducer if app settings value is null", () => {
+      const action = updateAppSettingsFromSiteUpdate({
+        properties: { siteConfig: { appSettings: [{ name: 'test1', value: 'testvalue1' }, { name: 'test2', value: 'testvalue2' }] } },
+      } as any);
+      const nullAction = updateAppSettingsFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      const state = reducer(initialState, action);
+      const state2 = reducer(state, nullAction);
+      const appSettingsObject = {
+        test1: 'testvalue1',
+        test2: 'testvalue2',
+      };
+      expect(state2.data.properties).toEqual(appSettingsObject);
     });
   });
 });
