@@ -7,7 +7,7 @@
     "watch:resources": "nodemon -e resx -w ./Resources -x npm run build:resources",
     "serve:dev": "ts-node --inspect src/server.ts",
     "build:resources": "gulp build-all",
-    "build": "gulp build-production && tsc",
+    "build": "tsc && gulp build-production",
     "pack-cert-mac": "openssl pkcs12 -inkey selfcertkey.pem  -in selfcert.pem -export -out certinstall.pfx"
   },
   "private": true,
