@@ -1,8 +1,9 @@
-import { ArmObj, SiteConfig, SlotConfigNames, VirtualApplication } from '../../../models/WebAppModels';
+import { ArmObj, SiteConfig, SlotConfigNames, VirtualApplication, Site, NameValuePair, ConnStringInfo } from '../../../models/WebAppModels';
 import { AppSettings } from '../../../modules/site/config/appsettings/reducer';
 import { ConnectionString } from '../../../modules/site/config/connectionstrings/reducer';
-import { AppSettingsFormValues } from './AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting, FormConnectionString } from './AppSettings.types';
 import { AppSettingsDataLoaderProps } from './AppSettingsDataLoader';
+import { Metadata } from '../../../modules/site/config/metadata/reducer';
 
 export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, metadata, siteWritePermission, slotConfigNames } = props;
@@ -17,7 +18,46 @@ export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettin
     currentlySelectedStack: getCurrentStackString(config.data, metadata.data),
   };
 };
+type ApiSetupReturn = { site: ArmObj<Site>; config: ArmObj<SiteConfig>; slotConfigNames?: ArmObj<SlotConfigNames> };
+export const convertFormToState = (
+  values: AppSettingsFormValues,
+  currentMetadata: ArmObj<Metadata>,
+  oldSlotNameSettings: ArmObj<SlotConfigNames>
+): ApiSetupReturn => {
+  const config = values.config;
+  config.properties.virtualApplications = unFlattenVirtualApplicationsList(values.virtualApplications);
 
+  const site = values.site;
+
+  site.properties.siteConfig = {
+    appSettings: getAppSettingsFromForm(values.appSettings),
+    connectionStrings: getConnectionStringsFromForm(values.connectionStrings),
+    metadata: getMetadataToSet(currentMetadata, values.currentlySelectedStack),
+  };
+
+  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
+  return {
+    config,
+    site,
+    slotConfigNames,
+  };
+};
+
+export function getStickySettings(
+  appSettings: FormAppSetting[],
+  connectionStrings: FormConnectionString[],
+  oldSlotNameSettings: ArmObj<SlotConfigNames>
+): ArmObj<SlotConfigNames> {
+  return {
+    id: '',
+    name: '',
+    properties: {
+      appSettingNames: appSettings.filter(x => x.sticky).map(x => x.name),
+      connectionStringNames: connectionStrings.filter(x => x.sticky).map(x => x.name),
+      azureStorageConfigNames: oldSlotNameSettings.properties.azureStorageConfigNames,
+    },
+  };
+}
 export function getFormAppSetting(settingsData: ArmObj<AppSettings>, slotConfigNames: ArmObj<SlotConfigNames>) {
   const { appSettingNames } = slotConfigNames.properties;
   return Object.keys(settingsData.properties).map(key => ({
@@ -27,6 +67,20 @@ export function getFormAppSetting(settingsData: ArmObj<AppSettings>, slotConfigN
   }));
 }
 
+export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValuePair[] {
+  return appSettings.map(({ name, value }) => ({ name, value }));
+}
+
+export function getMetadataToSet(currentMetadata: ArmObj<Metadata>, currentStack: String) {
+  const properties = {
+    ...currentMetadata.properties,
+    CURRENT_STACK: currentStack,
+  };
+  return Object.keys(properties).map(md => ({
+    name: md,
+    value: properties[md],
+  }));
+}
 export function getFormConnectionStrings(settingsData: ArmObj<ConnectionString>, slotConfigNames: ArmObj<SlotConfigNames>) {
   const { connectionStringNames } = slotConfigNames.properties;
   return Object.keys(settingsData.properties).map(key => ({
@@ -36,6 +90,15 @@ export function getFormConnectionStrings(settingsData: ArmObj<ConnectionString>,
     sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
   }));
 }
+
+export function getConnectionStringsFromForm(connectionStrings: FormConnectionString[]): ConnStringInfo[] {
+  return connectionStrings.map(({ name, value, type }) => ({
+    name,
+    type,
+    connectionString: value,
+  }));
+}
+
 export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
   const virtualApplications = virtualApps.filter(x => !x.virtualDirectory)!;
   const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
@@ -77,7 +140,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmObj<{ [key: string]: string }>): string {
+export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmObj<Metadata>): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }

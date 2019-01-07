@@ -14,8 +14,8 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 
 interface SlotAutoSwapPropsStateMap {
-  slots: ArmArray<Partial<Site>>;
-  site: ArmObj<Partial<Site>>;
+  slots: ArmArray<Site>;
+  site: ArmObj<Site>;
 }
 
 interface SlotAutoSwapPropsDispatchMap {

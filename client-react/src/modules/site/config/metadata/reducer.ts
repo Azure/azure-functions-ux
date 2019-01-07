@@ -5,7 +5,7 @@ import { ArmObj } from '../../../../models/WebAppModels';
 import { metadataReducer } from '../../../ApiReducerHelper';
 import { ApiState } from '../../../types';
 import * as actions from './actions';
-import { AREA_STRING, METADATA_FETCH_SUCCESS, METADATA_UPDATE_SUCCESS } from './actionTypes';
+import { AREA_STRING, METADATA_FETCH_SUCCESS, METADATA_UPDATE_SUCCESS, UPDATE_METADATA_FROM_SITE_UPDATE } from './actionTypes';
 
 export type MetadataAction = ActionType<typeof actions>;
 export type Metadata = { [key: string]: string };
@@ -28,6 +28,8 @@ export default combineReducers<MetadataState, MetadataAction>({
         return action.metadata;
       case METADATA_UPDATE_SUCCESS:
         return action.metadata;
+      case UPDATE_METADATA_FROM_SITE_UPDATE:
+        return { ...state, properties: action.metadata ? action.metadata : state.properties };
       default:
         return state;
     }

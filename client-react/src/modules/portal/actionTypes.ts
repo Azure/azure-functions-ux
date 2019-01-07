@@ -1,4 +1,5 @@
-export const SETUP_IFRAME = 'SETUP_IFRAME';
-export const GET_STARTUP_INFO = 'GET_STARTUP_INFO';
-export const UPDATE_THEME = 'UPDATE_THEME';
-export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const AREA_STRING = '@portal';
+export const SETUP_IFRAME = '@portal/SETUP_IFRAME';
+export const GET_STARTUP_INFO = '@portal/GET_STARTUP_INFO';
+export const UPDATE_THEME = '@portal/UPDATE_THEME';
+export const UPDATE_TOKEN = '@portal/UPDATE_TOKEN';

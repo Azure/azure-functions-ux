@@ -15,7 +15,7 @@ export interface AppSeriviceRouterProps {
   updateResourceId: (resourceId: string) => any;
 }
 const AppSettingsLoadable: any = Loadable({
-  loader: () => import('./app-settings/AppSettings'),
+  loader: () => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'),
   loading: LoadingComponent,
 });
 

@@ -33,7 +33,6 @@ export default class PortalCommunicator {
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
   private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
-
   private static postMessage(verb: string, data: string | null) {
     const shellSrc = store.getState().portalService.shellSrc;
     if (Url.getParameterByName(null, 'appsvc.bladetype') === 'appblade') {
@@ -149,16 +148,16 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.updateBladeInfo, this.packageData(payload));
   }
 
-  public startNotification(title: string, description: string): Subject<INotificationStartedInfo> {
+  public startNotification(title: string, description: string) {
     const payload: INotificationInfo = {
+      id: Guid.newTinyGuid(),
       title,
       description,
       state: 'start',
     };
 
     PortalCommunicator.postMessage(Verbs.setNotification, this.packageData(payload));
-
-    return this.notificationStartStream;
+    return payload.id!;
   }
 
   public stopNotification(id: string, success: boolean, description: string) {

@@ -5,6 +5,7 @@ import {
   flattenVirtualApplicationsList,
   unFlattenVirtualApplicationsList,
   getCurrentStackString,
+  convertFormToState,
 } from './AppSettingsFormData';
 import { mockSite, mockWebConfig, mockConnectionStrings, mockMetadata, mockAppSettings, mockSlotConfigName } from '../../../mocks/ArmMocks';
 import { VirtualApplication } from '../../../models/WebAppModels';
@@ -24,6 +25,14 @@ describe('Get Form App Setting', () => {
     const mockAppSettingsForm = getFormAppSetting(mockProps.appSettings.data, mockProps.slotConfigNames.data);
     expect(mockAppSettingsForm.length).toBe(2);
     expect(mockAppSettingsForm.filter(x => x.sticky).length).toBe(1);
+  });
+});
+
+describe('Get Arm App Setting Objects', () => {
+  it('Converts app settings to app settings with slot config tick', () => {
+    const mockFormData = convertStateToForm(mockProps as any);
+    const newObjs = convertFormToState(mockFormData, mockProps.metadata.data, mockProps.slotConfigNames.data);
+    expect(newObjs).toMatchSnapshot();
   });
 });
 

@@ -4,7 +4,7 @@ import { toArray } from 'rxjs/operators';
 
 import rootReducer from '../../..';
 import { IStartupInfo } from '../../../../models/portal-models';
-import { ArmObj } from '../../../../models/WebAppModels';
+import { ArmObj, ConnStringInfo } from '../../../../models/WebAppModels';
 import { getStartupInfoAction } from '../../../portal/actions';
 import { RootState, Services } from '../../../types';
 import { updateResourceId } from '../../actions';
@@ -15,6 +15,7 @@ import {
   updateConnectionStringsFailure,
   updateConnectionStringsRequest,
   updateConnectionStringsSuccess,
+  updateConnectionStringsFromSiteUpdate,
 } from './actions';
 import {
   CONNECTION_STRINGS_FETCH_FAILURE,
@@ -166,6 +167,69 @@ describe('Connection Strings Store Reducer', () => {
       expect(state.metadata.updating).toBe(false);
       expect(state.metadata.updateError).toBe(true);
       expect(state.metadata.updateErrorObject.message).toBe('testerror');
+    });
+
+    it("updateConnectionStringsFromSiteUpdate action is null if site object doesn't contain app settings", () => {
+      const action = updateConnectionStringsFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      expect(action.connectionStrings).toBeNull();
+    });
+
+    it('updateConnectionStringsFromSiteUpdate action makes app settings array gets mapped correctly to app settings object', () => {
+      const action = updateConnectionStringsFromSiteUpdate({
+        properties: {
+          siteConfig: {
+            connectionStrings: [
+              { name: 'test1', connectionString: 'testvalue1', type: 1 },
+              { name: 'test2', connectionString: 'testvalue2', type: 1 },
+            ],
+          },
+        },
+      } as any);
+      const connectionStringsObject: ConnectionString = {
+        test1: { value: 'testvalue1', type: 1 },
+        test2: { value: 'testvalue2', type: 1 },
+      };
+      expect(action.connectionStrings).toEqual(connectionStringsObject);
+    });
+
+    it('updateConnectionStringsFromSiteUpdate updates state in reducer', () => {
+      const action = updateConnectionStringsFromSiteUpdate({
+        properties: {
+          siteConfig: {
+            connectionStrings: [
+              { name: 'test1', connectionString: 'testvalue1', type: 1 },
+              { name: 'test2', connectionString: 'testvalue2', type: 1 },
+            ] as ConnStringInfo[],
+          },
+        },
+      } as any);
+      const state = reducer(initialState, action);
+      const connectionStringsObject: ConnectionString = {
+        test1: { value: 'testvalue1', type: 1 },
+        test2: { value: 'testvalue2', type: 1 },
+      };
+      expect(state.data.properties).toEqual(connectionStringsObject);
+    });
+
+    it("updateAppSettingsFromSiteUpdate doesn't update state in reducer if app settings value is null", () => {
+      const action = updateConnectionStringsFromSiteUpdate({
+        properties: {
+          siteConfig: {
+            connectionStrings: [
+              { name: 'test1', connectionString: 'testvalue1', type: 1 },
+              { name: 'test2', connectionString: 'testvalue2', type: 1 },
+            ],
+          },
+        },
+      } as any);
+      const nullAction = updateConnectionStringsFromSiteUpdate({ properties: { siteConfig: {} } } as any);
+      const state = reducer(initialState, action);
+      const state2 = reducer(state, nullAction);
+      const connectionStringsObject: ConnectionString = {
+        test1: { value: 'testvalue1', type: 1 },
+        test2: { value: 'testvalue2', type: 1 },
+      };
+      expect(state2.data.properties).toEqual(connectionStringsObject);
     });
   });
 });
