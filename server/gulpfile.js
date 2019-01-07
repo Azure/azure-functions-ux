@@ -443,7 +443,7 @@ gulp.task('unzip-templates', function() {
       gulp
         .src(`template-downloads/${version}/*`)
         .pipe(decompress())
-        .pipe(gulp.dest(`Templates/${version}`))
+        .pipe(gulp.dest(`templates/${version}`))
     );
   });
   return gulpMerge(streams);
