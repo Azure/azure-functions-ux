@@ -1,74 +1,23 @@
-import { IAction } from '../../../../models/action';
+import {
+  CLEAR_LOG_ENTRIES,
+  START_STREAMING,
+  STOP_STREAMING,
+  COPY_LOG_ENTRIES,
+  RECONNECT_LOG_STREAM,
+  UPDATE_WEB_SERVER_LOGS,
+  UPDATE_LOG_ENTRIES,
+  UPDATE_LOG_STREAM_INDEX,
+  UPDATE_TIMEOUTS,
+} from './actionTypes';
 import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
+import { createStandardAction } from 'typesafe-actions';
 
-export const CLEAR_LOG_ENTRIES = 'CLEAR_LOG_ENTRIES';
-export function clearLogEntries(): IAction<null> {
-  return {
-    payload: null,
-    type: CLEAR_LOG_ENTRIES,
-  };
-}
-
-export const START_STREAMING = 'START_STREAMING';
-export function startStreaming(): IAction<null> {
-  return {
-    payload: null,
-    type: START_STREAMING,
-  };
-}
-
-export const STOP_STREAMING = 'STOP_STREAMING';
-export function stopStreaming(): IAction<null> {
-  return {
-    payload: null,
-    type: STOP_STREAMING,
-  };
-}
-
-export const COPY_LOG_ENTRIES = 'COPY_LOG_ENTRIES';
-export function copyLogEntries(): IAction<null> {
-  return {
-    payload: null,
-    type: COPY_LOG_ENTRIES,
-  };
-}
-
-export const RECONNECT_LOG_STREAM = 'RECONNECT_LOG_STREAM';
-export function reconnectLogStream(): IAction<null> {
-  return {
-    payload: null,
-    type: RECONNECT_LOG_STREAM,
-  };
-}
-
-export const UPDATE_WEB_SERVER_LOGS = 'UPDATE_WEB_SEVER_LOGS';
-export function updateWebServerLogs(webServerLogs: boolean): IAction<boolean> {
-  return {
-    payload: webServerLogs,
-    type: UPDATE_WEB_SERVER_LOGS,
-  };
-}
-
-export const UPDATE_LOG_ENTRIES = 'UPDATE_LOG_ENTRIES';
-export function updateLogEntries(newLogEntries: LogEntry[]): IAction<LogEntry[]> {
-  return {
-    payload: newLogEntries,
-    type: UPDATE_LOG_ENTRIES,
-  };
-}
-
-export const UPDATE_LOG_STREAM_INDEX = 'UPDATE_LOG_STREAM_INDEX';
-export function updateLogStreamIndex(logStreamIndex: number): IAction<number> {
-  return {
-    payload: logStreamIndex,
-    type: UPDATE_LOG_STREAM_INDEX,
-  };
-}
-
-export const UPDATE_TIMEOUTS = 'UPDATE_TIMEOUTS';
-export function updateTimeouts(timeouts: number[]): IAction<number[]> {
-  return {
-    payload: timeouts,
-    type: UPDATE_TIMEOUTS,
-  };
-}
+export const clearLogEntries = createStandardAction(CLEAR_LOG_ENTRIES)();
+export const startStreaming = createStandardAction(START_STREAMING)();
+export const stopStreaming = createStandardAction(STOP_STREAMING)();
+export const copyLogEntries = createStandardAction(COPY_LOG_ENTRIES)();
+export const reconnectLogStream = createStandardAction(RECONNECT_LOG_STREAM)();
+export const updateWebServerLogs = createStandardAction(UPDATE_WEB_SERVER_LOGS).map((webServerLogs: boolean) => ({ webServerLogs }));
+export const updateLogEntries = createStandardAction(UPDATE_LOG_ENTRIES).map((newLogEntries: LogEntry[]) => ({ newLogEntries }));
+export const updateLogStreamIndex = createStandardAction(UPDATE_LOG_STREAM_INDEX).map((logStreamIndex: number) => ({ logStreamIndex }));
+export const updateTimeouts = createStandardAction(UPDATE_TIMEOUTS).map((timeouts: number[]) => ({ timeouts }));

@@ -1,11 +1,11 @@
-import IState from '../../../types';
+import { RootState } from '../../../types';
 import { updateLogStreamIndex, updateTimeouts, updateLogEntries, reconnectLogStream } from './actions';
 import { timerInterval, newLine, LogEntry, LogRegex, LogLevel, maxLogEntries } from '../../../../pages/app/log-stream/LogStream.Types';
 
 export function startStreamingRequest() {
-  return async (dispatch: any, getState: () => IState) => {
+  return async (dispatch: any, getState: () => RootState) => {
     dispatch(reconnectLogStream());
-    const hostNameSslStates = getState().site.site.properties.hostNameSslStates;
+    const hostNameSslStates = getState().site.data.properties.hostNameSslStates;
     const scmHostName =
       hostNameSslStates && hostNameSslStates.length > 0 ? hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name : '';
     const suffix = getState().logStream.webServerLogs ? 'http' : '';

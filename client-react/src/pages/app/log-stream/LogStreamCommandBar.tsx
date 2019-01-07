@@ -3,7 +3,7 @@ import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Butto
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { compose } from 'recompose';
-import IState from '../../../modules/types';
+import { RootState } from '../../../modules/types';
 import { connect } from 'react-redux';
 import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 
@@ -105,7 +105,7 @@ class LogStreamCommandBar extends React.Component<LogStreamCommandBarPropsCombin
   };
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default compose<LogStreamCommandBarPropsCombined, LogStreamCommandBarProps>(

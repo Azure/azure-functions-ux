@@ -1,10 +1,9 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchSite } from '../../../modules/site/thunks';
+import { fetchSiteRequest } from '../../../modules/site/actions';
 import { compose } from 'recompose';
 import { translate } from 'react-i18next';
-import IState from '../../../modules/types';
-import { ArmObj, Site } from '../../../models/WebAppModels';
+import { RootState, RootAction } from '../../../modules/types';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry } from './LogStream.Types';
@@ -16,9 +15,11 @@ import {
   updateWebServerLogs,
 } from '../../../modules/site/config/logstream/actions';
 import { startStreamingRequest } from '../../../modules/site/config/logstream/thunk';
+import { bindActionCreators, Dispatch } from 'redux';
+import { SiteState } from '../../../modules/site/reducer';
 
 export interface LogStreamProps {
-  fetchSite: () => Promise<ArmObj<Site>>;
+  fetchSite: () => void;
   reconnect: () => void;
   copy: () => void;
   pause: () => void;
@@ -26,46 +27,44 @@ export interface LogStreamProps {
   clear: () => void;
   updateLogOption: (useWebServer: boolean) => void;
   isStreaming: boolean;
-  site: ArmObj<Site>;
+  site: SiteState;
   clearLogs: boolean;
   logEntries: LogEntry[];
 }
 
-export class LogStream extends React.Component<LogStreamProps> {
-  constructor(props) {
-    super(props);
-  }
+export const LogStream: React.SFC<LogStreamProps> = props => {
+  const { site, reconnect, copy, pause, start, clear, updateLogOption, isStreaming, logEntries, clearLogs } = props;
+  useEffect(() => {
+    props.fetchSite();
+  }, []);
 
-  public componentWillMount() {
-    this.props.fetchSite().then(value => {
-      if (value && value.properties && value.properties.hostNameSslStates) {
-        this.props.reconnect();
+  useEffect(
+    () => {
+      if (site && site.data && site.data.properties && site.data.properties.hostNameSslStates) {
+        props.reconnect();
       }
-    });
-  }
+    },
+    [site.data.id]
+  );
+  return (
+    <>
+      <LogStreamCommandBar reconnect={reconnect} copy={copy} pause={pause} start={start} clear={clear} isStreaming={isStreaming} />
+      <LogStreamLogContainer
+        clearLogs={clearLogs}
+        logEntries={logEntries}
+        site={site.data}
+        clear={clear}
+        reconnect={reconnect}
+        updateLogOption={updateLogOption}
+      />
+    </>
+  );
+};
 
-  public render() {
-    const { site, reconnect, copy, pause, start, clear, updateLogOption, isStreaming, logEntries, clearLogs } = this.props;
-    return (
-      <>
-        <LogStreamCommandBar reconnect={reconnect} copy={copy} pause={pause} start={start} clear={clear} isStreaming={isStreaming} />
-        <LogStreamLogContainer
-          clearLogs={clearLogs}
-          logEntries={logEntries}
-          site={site}
-          clear={clear}
-          reconnect={reconnect}
-          updateLogOption={updateLogOption}
-        />
-      </>
-    );
-  }
-}
-
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     isStreaming: state.logStream.isStreaming,
-    site: state.site.site,
+    site: state.site,
     clearLogs: state.logStream.clearLogs,
     logEntries: state.logStream.logEntries,
     xhReq: state.logStream.xhReq,
@@ -75,17 +74,19 @@ const mapStateToProps = (state: IState) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchSite: () => dispatch(fetchSite()),
-    reconnect: () => dispatch(startStreamingRequest()),
-    copy: () => dispatch(copyLogEntries()),
-    pause: () => dispatch(stopStreaming()),
-    start: () => dispatch(startStreaming()),
-    clear: () => dispatch(clearLogEntries()),
-    updateLogOption: (useWebServer: boolean) => dispatch(updateWebServerLogs(useWebServer)),
-  };
-};
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
+  bindActionCreators(
+    {
+      fetchSite: fetchSiteRequest,
+      reconnect: startStreamingRequest,
+      copy: copyLogEntries,
+      pause: stopStreaming,
+      start: startStreaming,
+      clear: clearLogEntries,
+      updateLogOption: updateWebServerLogs,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(

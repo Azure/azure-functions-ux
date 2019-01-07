@@ -1,17 +1,17 @@
-import { UtilitiesService } from './../../../../utils/utilities';
-import { IAction } from '../../../../models/action';
 import {
   START_STREAMING,
   STOP_STREAMING,
   CLEAR_LOG_ENTRIES,
-  COPY_LOG_ENTRIES,
   RECONNECT_LOG_STREAM,
   UPDATE_WEB_SERVER_LOGS,
   UPDATE_LOG_ENTRIES,
   UPDATE_LOG_STREAM_INDEX,
   UPDATE_TIMEOUTS,
-} from './actions';
+} from './actionTypes';
 import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
+import { ActionType } from 'typesafe-actions';
+import * as actions from './actions';
+import { combineReducers } from 'redux';
 
 export interface ILogStreamState {
   isStreaming: boolean;
@@ -33,63 +33,75 @@ export const InitialState: ILogStreamState = {
   webServerLogs: false,
 };
 
-const logStream = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case CLEAR_LOG_ENTRIES:
-      return {
-        ...state,
-        logEntries: [],
-        clearLogs: true,
-      };
-    case START_STREAMING:
-      return {
-        ...state,
-        isStreaming: true,
-      };
-    case STOP_STREAMING:
-      return {
-        ...state,
-        isStreaming: false,
-      };
-    case RECONNECT_LOG_STREAM:
-      return {
-        ...state,
-        clearLogs: false,
-      };
-    case COPY_LOG_ENTRIES:
-      _copyLogs(state);
-      return state;
-    case UPDATE_WEB_SERVER_LOGS:
-      return {
-        ...state,
-        webServerLogs: action.payload,
-      };
-    case UPDATE_LOG_ENTRIES:
-      return {
-        ...state,
-        logEntries: action.payload,
-      };
-    case UPDATE_LOG_STREAM_INDEX:
-      return {
-        ...state,
-        logStreamIndex: action.payload,
-      };
-    case UPDATE_TIMEOUTS:
-      return {
-        ...state,
-        timeouts: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export type LogStreamActions = ActionType<typeof actions>;
 
-function _copyLogs(state: ILogStreamState) {
-  let logContent = '';
-  state.logEntries.forEach(logEntry => {
-    logContent += `${logEntry.message}\n`;
-  });
-  UtilitiesService.copyContentToClipboard(logContent);
-}
+export default combineReducers<ILogStreamState, LogStreamActions>({
+  isStreaming: (state = InitialState.isStreaming, action) => {
+    switch (action.type) {
+      case START_STREAMING:
+        return true;
+      case STOP_STREAMING:
+        return false;
+      default:
+        return state;
+    }
+  },
+  logEntries: (state = InitialState.logEntries, action) => {
+    switch (action.type) {
+      case CLEAR_LOG_ENTRIES:
+        return [];
+      case UPDATE_LOG_ENTRIES:
+        return action.newLogEntries;
+      default:
+        return state;
+    }
+  },
+  clearLogs: (state = InitialState.clearLogs, action) => {
+    switch (action.type) {
+      case CLEAR_LOG_ENTRIES:
+        return true;
+      case RECONNECT_LOG_STREAM:
+        return false;
+      default:
+        return state;
+    }
+  },
+  xhReq: (state = InitialState.xhReq, action) => {
+    switch (action.type) {
+      default:
+        return state;
+    }
+  },
+  timeouts: (state = InitialState.timeouts, action) => {
+    switch (action.type) {
+      case UPDATE_TIMEOUTS:
+        return action.timeouts;
+      default:
+        return state;
+    }
+  },
+  logStreamIndex: (state = InitialState.logStreamIndex, action) => {
+    switch (action.type) {
+      case UPDATE_LOG_STREAM_INDEX:
+        return action.logStreamIndex;
+      default:
+        return state;
+    }
+  },
+  webServerLogs: (state = InitialState.webServerLogs, action) => {
+    switch (action.type) {
+      case UPDATE_WEB_SERVER_LOGS:
+        return action.webServerLogs;
+      default:
+        return state;
+    }
+  },
+});
 
-export default logStream;
+// function _copyLogs(state: ILogStreamState) {
+//   let logContent = '';
+//   state.logEntries.forEach(logEntry => {
+//     logContent += `${logEntry.message}\n`;
+//   });
+//   UtilitiesService.copyContentToClipboard(logContent);
+// }

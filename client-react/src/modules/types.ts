@@ -11,6 +11,7 @@ import { ConfigAction } from './site/config/web/reducer';
 import { SiteAction } from './site/reducer';
 import { SlotsAction } from './site/slots/reducer';
 import { AxiosError } from 'axios';
+import { LogStreamActions } from './site/config/logstream/reducer';
 
 export type RootState = StateType<typeof rootReducer>;
 export type RootAction =
@@ -21,7 +22,8 @@ export type RootAction =
   | MetadataAction
   | ConnectionStringActions
   | AppSettingsActions
-  | StacksAction;
+  | StacksAction
+  | LogStreamActions;
 
 export type Services = typeof services;
 
