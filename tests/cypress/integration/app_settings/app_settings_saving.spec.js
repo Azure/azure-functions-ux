@@ -22,7 +22,7 @@ context('App Settings Save/Notification', () => {
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
-      .get('#command-button-save')
+      .get('[data-cy=command-button-save]')
       .click()
       .wait('@putSite')
       .should(xhr => {
@@ -59,7 +59,7 @@ context('App Settings Save/Notification', () => {
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
-      .get('#command-button-save')
+      .get('[data-cy=command-button-save]')
       .click()
       .wait(1)
       .get('@spyPostMessage')

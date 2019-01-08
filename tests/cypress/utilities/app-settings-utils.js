@@ -115,6 +115,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
         }
       )
 
-      .wait('@rbacCall');
+      .wait('@rbacCall')
+      .wait(50); //let page render all of the way
   }
 }
