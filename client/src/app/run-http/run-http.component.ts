@@ -90,7 +90,7 @@ export class RunHttpComponent {
   @Input()
   set functionInvokeUrl(value: string) {
     if (value) {
-      // Store "code" aithentication parameter
+      // Store "code" authentication parameter
       let params = this.getQueryParams(value);
       const codeIndex = params.findIndex(p => p.name.toLowerCase() === 'code');
       if (codeIndex > -1) {
