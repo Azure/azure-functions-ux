@@ -239,7 +239,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     return this._tableItems || [];
   }
   get gitCloneUri() {
-    const publishingUsername = this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
     const scmUri = this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
     let siteName = this.deploymentObject && this.deploymentObject.site.name;
 
@@ -247,7 +246,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     if (siteName.includes('/')) {
       siteName = siteName.split('/')[0];
     }
-    return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
+    return this.deploymentObject && `https://${scmUri}:443/${siteName}.git`;
   }
 
   syncScm() {
