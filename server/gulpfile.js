@@ -19,7 +19,7 @@ const prettier = require('prettier');
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
-gulp.task('resources-clean', function() {
+gulp.task('resources-clean', function(cb) {
   return del([
     'template-downloads',
     'Templates',
@@ -359,13 +359,13 @@ function makeStreams() {
  */
 
 gulp.task('build-templates', function(cb) {
-  const templateRuntimeVersions = getSubDirectories('Templates');
+  const templateRuntimeVersions = getSubDirectories('templates');
   templateRuntimeVersions.forEach(version => {
     let templateListJson = [];
-    const templates = getSubDirectories(path.join(__dirname, 'Templates', version, 'Templates'));
+    const templates = getSubDirectories(path.join(__dirname, 'templates', version, 'templates'));
     templates.forEach(template => {
       let templateObj = {};
-      const filePath = path.join(__dirname, 'Templates', version, 'Templates', template);
+      const filePath = path.join(__dirname, 'templates', version, 'templates', template);
       let files = getFilesWithContent(filePath, ['function.json', 'metadata.json']);
 
       templateObj.id = template;
@@ -391,14 +391,14 @@ gulp.task('build-templates', function(cb) {
  */
 
 gulp.task('build-bindings', function(cb) {
-  const templateRuntimeVersions = getSubDirectories('Templates');
+  const templateRuntimeVersions = getSubDirectories('templates');
   templateRuntimeVersions.forEach(version => {
-    const bindingFile = require(path.join(__dirname, 'Templates', version, 'Bindings', 'bindings.json'));
+    const bindingFile = require(path.join(__dirname, 'templates', version, 'Bindings', 'bindings.json'));
     bindingFile.bindings.forEach(binding => {
       if (binding.documentation) {
         const documentationSplit = binding.documentation.split('\\');
         const documentationFile = documentationSplit[documentationSplit.length - 1];
-        const documentationString = fs.readFileSync(path.join(__dirname, 'Templates', version, 'Documentation', documentationFile), {
+        const documentationString = fs.readFileSync(path.join(__dirname, 'templates', version, 'Documentation', documentationFile), {
           encoding: 'utf8',
         });
         binding.documentation = documentationString;
