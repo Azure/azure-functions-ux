@@ -158,7 +158,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   private _initCol1Groups(site: ArmObj<Site>) {
     const codeDeployFeatures = [];
     const showDeploymentCenterFlag = Url.getParameterByName(null, 'appsvc.deploymentcenter');
-    const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site }).data !== 'disabled';
+    const deploymentCenterEnabled = this._scenarioService.checkScenario(ScenarioIds.deploymentCenter, { site }).status !== 'disabled';
     if (deploymentCenterEnabled || showDeploymentCenterFlag) {
       const deploymentCenterFeature = new TabFeature(
         this._translateService.instant(PortalResources.deploymentCenterTitle),
