@@ -75,6 +75,7 @@ class AppSettingsCommandBar extends React.Component<AppSettingsCommandBarPropsCo
     return (
       <CommandBarButton
         {...props}
+        id={`command-button-${props.name}`}
         onClick={props.onClick}
         styles={{
           ...props.styles,

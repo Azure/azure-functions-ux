@@ -27,13 +27,15 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
     .route('**/api/resources**', '@resourcesJSON')
     .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
     .as('rbacCall');
-
   if (writeAccess == 'allow') {
     return baseFixtures
-      .route(
-        'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=**',
-        '@siteJSON'
-      )
+      .as('postmessage')
+      .route({
+        url:
+          'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=**',
+        response: '@siteJSON',
+        method: 'GET',
+      })
       .route({
         url: '**/config/connectionstrings/list?api-version=**',
         response: '@connectionstrings',
@@ -62,6 +64,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
         {
           onBeforeLoad(win) {
             setupWindow(win);
+            cy.spy(win.parent, 'postMessage').as('spyPostMessage');
           },
         }
       )
@@ -98,6 +101,11 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
         'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/slots?api-version=**',
         '@slots'
       )
+      .window()
+      .then(win => {
+        console.log(win);
+        cy.spy(win, 'postMessage').as('spyPostMessage');
+      })
       .visit(
         '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/settings?trustedAuthority=test',
         {
@@ -106,6 +114,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
           },
         }
       )
+
       .wait('@rbacCall');
   }
 }
