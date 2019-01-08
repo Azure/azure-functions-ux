@@ -7,13 +7,7 @@ import { RootState, RootAction } from '../../../modules/types';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry } from './LogStream.Types';
-import {
-  stopStreaming,
-  startStreaming,
-  clearLogEntries,
-  copyLogEntries,
-  updateWebServerLogs,
-} from '../../../modules/site/config/logstream/actions';
+import { stopStreaming, startStreaming, clearLogEntries, updateWebServerLogs } from '../../../modules/site/config/logstream/actions';
 import { startStreamingRequest } from '../../../modules/site/config/logstream/thunk';
 import { bindActionCreators, Dispatch } from 'redux';
 import { SiteState } from '../../../modules/site/reducer';
@@ -21,7 +15,6 @@ import { SiteState } from '../../../modules/site/reducer';
 export interface LogStreamProps {
   fetchSite: () => void;
   reconnect: () => void;
-  copy: () => void;
   pause: () => void;
   start: () => void;
   clear: () => void;
@@ -33,7 +26,7 @@ export interface LogStreamProps {
 }
 
 export const LogStream: React.SFC<LogStreamProps> = props => {
-  const { site, reconnect, copy, pause, start, clear, updateLogOption, isStreaming, logEntries, clearLogs } = props;
+  const { site, reconnect, pause, start, clear, updateLogOption, isStreaming, logEntries, clearLogs } = props;
   useEffect(() => {
     props.fetchSite();
   }, []);
@@ -48,7 +41,14 @@ export const LogStream: React.SFC<LogStreamProps> = props => {
   );
   return (
     <>
-      <LogStreamCommandBar reconnect={reconnect} copy={copy} pause={pause} start={start} clear={clear} isStreaming={isStreaming} />
+      <LogStreamCommandBar
+        reconnect={reconnect}
+        pause={pause}
+        start={start}
+        clear={clear}
+        isStreaming={isStreaming}
+        logEntries={logEntries}
+      />
       <LogStreamLogContainer
         clearLogs={clearLogs}
         logEntries={logEntries}
@@ -79,7 +79,6 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
     {
       fetchSite: fetchSiteRequest,
       reconnect: startStreamingRequest,
-      copy: copyLogEntries,
       pause: stopStreaming,
       start: startStreaming,
       clear: clearLogEntries,

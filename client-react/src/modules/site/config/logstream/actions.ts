@@ -2,7 +2,6 @@ import {
   CLEAR_LOG_ENTRIES,
   START_STREAMING,
   STOP_STREAMING,
-  COPY_LOG_ENTRIES,
   RECONNECT_LOG_STREAM,
   UPDATE_WEB_SERVER_LOGS,
   UPDATE_LOG_ENTRIES,
@@ -15,7 +14,6 @@ import { createStandardAction } from 'typesafe-actions';
 export const clearLogEntries = createStandardAction(CLEAR_LOG_ENTRIES)();
 export const startStreaming = createStandardAction(START_STREAMING)();
 export const stopStreaming = createStandardAction(STOP_STREAMING)();
-export const copyLogEntries = createStandardAction(COPY_LOG_ENTRIES)();
 export const reconnectLogStream = createStandardAction(RECONNECT_LOG_STREAM)();
 export const updateWebServerLogs = createStandardAction(UPDATE_WEB_SERVER_LOGS).map((webServerLogs: boolean) => ({ webServerLogs }));
 export const updateLogEntries = createStandardAction(UPDATE_LOG_ENTRIES).map((newLogEntries: LogEntry[]) => ({ newLogEntries }));

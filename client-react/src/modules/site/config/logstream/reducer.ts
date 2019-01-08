@@ -97,11 +97,3 @@ export default combineReducers<ILogStreamState, LogStreamActions>({
     }
   },
 });
-
-// function _copyLogs(state: ILogStreamState) {
-//   let logContent = '';
-//   state.logEntries.forEach(logEntry => {
-//     logContent += `${logEntry.message}\n`;
-//   });
-//   UtilitiesService.copyContentToClipboard(logContent);
-// }

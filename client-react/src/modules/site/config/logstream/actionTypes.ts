@@ -2,7 +2,6 @@ export const AREA_STRING = '@logstream';
 export const CLEAR_LOG_ENTRIES = '@logstream/CLEAR_LOG_ENTRIES';
 export const START_STREAMING = '@logstream/START_STREAMING';
 export const STOP_STREAMING = '@logstream/STOP_STREAMING';
-export const COPY_LOG_ENTRIES = '@logstream/COPY_LOG_ENTRIES';
 export const RECONNECT_LOG_STREAM = '@logstream/RECONNECT_LOG_STREAM';
 export const UPDATE_WEB_SERVER_LOGS = '@logstream/UPDATE_WEB_SEVER_LOGS';
 export const UPDATE_LOG_ENTRIES = '@logstream/UPDATE_LOG_ENTRIES';
