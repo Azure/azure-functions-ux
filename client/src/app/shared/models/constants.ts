@@ -343,6 +343,7 @@ export class LogCategories {
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
   public static websiteApiVersion20180201 = '2018-02-01';
+  public static websiteApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
