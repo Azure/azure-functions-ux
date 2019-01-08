@@ -8,7 +8,7 @@ import {
   UPDATE_LOG_STREAM_INDEX,
   UPDATE_TIMEOUTS,
 } from './actionTypes';
-import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
+import { LogEntry } from '../../../../pages/app/log-stream/LogStream.types';
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 import { combineReducers } from 'redux';

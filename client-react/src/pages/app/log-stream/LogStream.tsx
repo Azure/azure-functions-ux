@@ -6,7 +6,7 @@ import { translate } from 'react-i18next';
 import { RootState, RootAction } from '../../../modules/types';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
-import { LogEntry } from './LogStream.Types';
+import { LogEntry } from './LogStream.types';
 import { stopStreaming, startStreaming, clearLogEntries, updateWebServerLogs } from '../../../modules/site/config/logstream/actions';
 import { startStreamingRequest } from '../../../modules/site/config/logstream/thunk';
 import { bindActionCreators, Dispatch } from 'redux';

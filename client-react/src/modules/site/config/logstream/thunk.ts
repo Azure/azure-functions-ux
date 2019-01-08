@@ -1,7 +1,6 @@
 import { RootState } from '../../../types';
 import { updateLogStreamIndex, updateTimeouts, updateLogEntries, reconnectLogStream } from './actions';
-import { timerInterval, newLine, LogEntry, LogRegex, LogLevel, maxLogEntries } from '../../../../pages/app/log-stream/LogStream.Types';
-
+import { timerInterval, newLine, LogEntry, LogRegex, LogLevel, maxLogEntries } from '../../../../pages/app/log-stream/LogStream.types';
 export function startStreamingRequest() {
   return async (dispatch: any, getState: () => RootState) => {
     dispatch(reconnectLogStream());

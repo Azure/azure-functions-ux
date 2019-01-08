@@ -10,11 +10,11 @@ export interface LogEntry {
 }
 
 export enum LogLevel {
-  Unknown,
-  Normal,
-  Info,
-  Error,
-  Warning,
+  Unknown = -1,
+  Normal = 1,
+  Info = 2,
+  Error = 3,
+  Warning = 4,
 }
 
 export enum LogTypes {

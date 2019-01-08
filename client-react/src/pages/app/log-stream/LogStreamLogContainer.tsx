@@ -2,7 +2,7 @@ import * as React from 'react';
 import { compose } from 'recompose';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { style } from 'typestyle';
-import { LogEntry, LogLevel, LogTypes } from './LogStream.Types';
+import { LogEntry, LogLevel, LogTypes } from './LogStream.types';
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react';
 import { ArmObj, Site } from '../../../models/WebAppModels';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';

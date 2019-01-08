@@ -8,7 +8,7 @@ import {
   UPDATE_LOG_STREAM_INDEX,
   UPDATE_TIMEOUTS,
 } from './actionTypes';
-import { LogEntry } from '../../../../pages/app/log-stream/LogStream.Types';
+import { LogEntry } from '../../../../pages/app/log-stream/LogStream.types';
 import { createStandardAction } from 'typesafe-actions';
 
 export const clearLogEntries = createStandardAction(CLEAR_LOG_ENTRIES)();

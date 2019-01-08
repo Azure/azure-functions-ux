@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import { RootState } from '../../../modules/types';
 import { connect } from 'react-redux';
 import { ITheme } from 'office-ui-fabric-react/lib/Styling';
-import { LogEntry } from './LogStream.Types';
+import { LogEntry } from './LogStream.types';
 import { UtilitiesService } from '../../../utils/utilities';
 
 // tslint:disable-next-line:member-ordering
