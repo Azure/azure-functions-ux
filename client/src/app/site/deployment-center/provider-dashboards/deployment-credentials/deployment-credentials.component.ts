@@ -33,6 +33,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   @Input()
   standalone = true;
 
+  @Input()
+  localGit = false;
+
   activeTab: 'user' | 'app' = 'app';
 
   public appUserName: string;
@@ -75,7 +78,12 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
         .filter(x => x.publishMethod === 'FTP')
         .do(ftpProfile => {
-          this.appUserName = ftpProfile.userName;
+          if (this.localGit) {
+            this.appUserName = ftpProfile.userName.split('\\')[1];
+          } else {
+            this.appUserName = ftpProfile.userName;
+          }
+
           this.appPwd = ftpProfile.userPWD;
         });
 
@@ -88,9 +96,8 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         if (slotName) {
           siteName = `${siteName}__${slotName}`;
         }
-        this.userCredsDesc = this._translateService
-          .instant(PortalResources.userCredsDesc)
-          .format(`'${siteName}\\${creds.properties.publishingUserName}'`);
+        const putInAs = this.localGit ? creds.properties.publishingUserName : `${siteName}\\${creds.properties.publishingUserName}`;
+        this.userCredsDesc = this._translateService.instant(PortalResources.userCredsDesc).format(`'${putInAs}'`);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
       return forkJoin(publishXml$, publishingUsers$);
