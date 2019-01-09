@@ -6,15 +6,17 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
+import { MessageBarType, MessageBar } from 'office-ui-fabric-react/lib';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
   closeBlade: () => void;
   otherAppSettings: FormAppSetting[];
   appSetting: FormAppSetting;
+  disableSlotSetting: boolean;
 }
 const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateAppSetting, t, otherAppSettings, closeBlade, appSetting } = props;
+  const { updateAppSetting, t, otherAppSettings, closeBlade, appSetting, disableSlotSetting } = props;
   const [nameError, setNameError] = React.useState('');
   const [currentAppSetting, setCurrentAppSetting] = React.useState(appSetting);
 
@@ -83,12 +85,18 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
         <Checkbox
           label={t('sticky')}
           id="app-settings-edit-sticky"
+          disabled={disableSlotSetting}
           defaultChecked={currentAppSetting.sticky}
           onChange={updateAppSettingSticky}
           styles={{
             root: formElementStyle,
           }}
         />
+        {disableSlotSetting && (
+          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+            {t('slotSettingNoProdPermission')}
+          </MessageBar>
+        )}
         <ActionBar
           id="app-settings-edit-footer"
           primaryButton={actionBarPrimaryButtonProps}
