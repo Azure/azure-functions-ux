@@ -125,7 +125,6 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
   const loadingOrUpdating = isUpdating(props) || isLoading(props);
 
   const [initialLoading, setInitialLoading] = useState(true);
-
   useEffect(
     () => {
       const { kind } = props.site.data;
