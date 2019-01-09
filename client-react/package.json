@@ -43,7 +43,9 @@
     "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
     "eject": "react-scripts eject",
-    "test:debug": "react-scripts --inspect-brk test --runInBand"
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.14",
@@ -74,7 +76,13 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.0.3",
+    "@storybook/react": "^4.1.6",
+    "@storybook/addon-actions": "^4.1.6",
+    "@storybook/addon-links": "^4.1.6",
+    "@storybook/addons": "^4.1.6",
+    "@babel/core": "^7.2.2",
+    "babel-loader": "^8.0.5"
   },
   "workspaces": {
     "nohoist": [
