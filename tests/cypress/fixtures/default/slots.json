@@ -1,5 +1,108 @@
 {
-  "value": [],
+  "value": [
+    {
+      "id": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/sites/azure-functions-react-test/slots/slot",
+      "name": "azure-functions-react-test/slot",
+      "type": "Microsoft.Web/sites/slots",
+      "kind": "app",
+      "location": "Central US",
+      "properties": {
+        "name": "azure-functions-react-test(slot)",
+        "state": "Running",
+        "hostNames": ["azure-functions-react-test-slot.azurewebsites.net"],
+        "webSpace": "azure-functions-react-test-CentralUSwebspace",
+        "selfLink": "https://waws-prod-dm1-117.api.azurewebsites.windows.net:454/subscriptions/sub/webspaces/azure-functions-react-test-CentralUSwebspace/sites/space",
+        "repositorySiteName": "azure-functions-react-test",
+        "owner": null,
+        "usageState": "Normal",
+        "enabled": true,
+        "adminEnabled": true,
+        "enabledHostNames": ["azure-functions-react-test-slot.azurewebsites.net", "azure-functions-react-test-slot.scm.azurewebsites.net"],
+        "siteProperties": {
+          "metadata": null,
+          "properties": [
+            {
+              "name": "LinuxFxVersion",
+              "value": ""
+            },
+            {
+              "name": "WindowsFxVersion",
+              "value": null
+            }
+          ],
+          "appSettings": null
+        },
+        "availabilityState": "Normal",
+        "sslCertificates": null,
+        "csrs": [],
+        "cers": null,
+        "siteMode": "Limited",
+        "hostNameSslStates": [
+          {
+            "name": "azure-functions-react-test-slot.azurewebsites.net",
+            "sslState": "Disabled",
+            "ipBasedSslResult": null,
+            "virtualIP": null,
+            "thumbprint": null,
+            "toUpdate": null,
+            "toUpdateIpBasedSsl": null,
+            "ipBasedSslState": "NotConfigured",
+            "hostType": "Standard"
+          },
+          {
+            "name": "azure-functions-react-test-slot.scm.azurewebsites.net",
+            "sslState": "Disabled",
+            "ipBasedSslResult": null,
+            "virtualIP": null,
+            "thumbprint": null,
+            "toUpdate": null,
+            "toUpdateIpBasedSsl": null,
+            "ipBasedSslState": "NotConfigured",
+            "hostType": "Repository"
+          }
+        ],
+        "computeMode": "Dedicated",
+        "serverFarm": null,
+        "serverFarmId": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/serverfarms/webapptest3",
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "lastModifiedTimeUtc": "2018-12-16T06:23:33.66",
+        "storageRecoveryDefaultState": "Running",
+        "contentAvailabilityState": "Normal",
+        "runtimeAvailabilityState": "Normal",
+        "siteConfig": null,
+        "deploymentId": "",
+        "trafficManagerHostNames": null,
+        "sku": "Standard",
+        "scmSiteAlsoStopped": false,
+        "targetSwapSlot": null,
+        "hostingEnvironment": null,
+        "hostingEnvironmentProfile": null,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "domainVerificationIdentifiers": null,
+        "kind": "app",
+        "outboundIpAddresses": "40.113.236.45,104.43.246.4,104.43.241.185,104.43.251.139,40.113.223.211",
+        "possibleOutboundIpAddresses": "40.113.236.45,104.43.246.4,104.43.241.185,104.43.251.139,40.113.223.211,40.113.219.59,40.113.216.205,40.113.217.83",
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "suspendedTill": null,
+        "siteDisabledReason": 0,
+        "functionExecutionUnitsCache": null,
+        "maxNumberOfWorkers": null,
+        "homeStamp": "waws-prod-dm1-117",
+        "cloningInfo": null,
+        "hostingEnvironmentId": null,
+        "tags": null,
+        "resourceGroup": "azure-functions-react-test",
+        "defaultHostName": "azure-functions-react-test-slot.azurewebsites.net",
+        "slotSwapStatus": null,
+        "httpsOnly": false
+      }
+    }
+  ],
   "nextLink": null,
   "id": null
 }

@@ -93,9 +93,11 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
           }}
         />
         {disableSlotSetting && (
-          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-            {t('slotSettingNoProdPermission')}
-          </MessageBar>
+          <div data-cy="app-setting-slot-setting-no-permission-message">
+            <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+              {t('slotSettingNoProdPermission')}
+            </MessageBar>
+          </div>
         )}
         <ActionBar
           id="app-settings-edit-footer"

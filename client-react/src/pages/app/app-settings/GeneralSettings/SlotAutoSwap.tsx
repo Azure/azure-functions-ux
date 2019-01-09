@@ -58,11 +58,13 @@ export class SlotAutoSwap extends React.Component<
           <>
             <h3>{t('slots')}</h3>
             {!values.productionWritePermission ? (
-              <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-                {t('autoSwapSettingPermissionFail')}
-              </MessageBar>
+              <div data-cy="auto-swap-disabled-message">
+                <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+                  {t('autoSwapSettingPermissionFail')}
+                </MessageBar>
+              </div>
             ) : (
-              <div className={settingsWrapper}>
+              <div className={settingsWrapper} data-cy="auto-swap-control-set">
                 <Label id={`app-settings-auto-swap-enabled-label`} className={labelStyle}>
                   {t('autoSwapEnabled')}
                 </Label>

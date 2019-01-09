@@ -114,15 +114,18 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         label={t('sticky')}
         id="connection-strings-form-sticky"
         defaultChecked={currentConnectionString.sticky}
+        disabled={disableSlotSetting}
         onChange={updateConnectionStringSticky}
         styles={{
           root: formElementStyle,
         }}
       />
       {disableSlotSetting && (
-        <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
-          {t('slotSettingNoProdPermission')}
-        </MessageBar>
+        <div data-cy="connection-string-slot-setting-no-permission-message">
+          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+            {t('slotSettingNoProdPermission')}
+          </MessageBar>
+        </div>
       )}
       <ActionBar
         id="connection-string-edit-footer"
