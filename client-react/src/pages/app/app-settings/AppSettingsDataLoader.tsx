@@ -25,7 +25,7 @@ import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAp
 import { PortalContext } from '../../../PortalContext';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { AxiosError } from 'axios';
-
+import LoadingComponent from '../../../components/loading/loading-component';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {
@@ -54,11 +54,12 @@ export interface AppSettingsDataLoaderProps {
   metadata: MetadataState;
   slotConfigNames: SlotConfigNamesState;
   siteWritePermission: boolean;
+  permissionsWaiting: string[];
 }
 
 // `state` parameter needs a type annotation to type-check the correct shape of a state object but also it'll be used by "type inference" to infer the type of returned props
 const isLoading = (props: AppSettingsDataLoaderProps) => {
-  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames } = props;
+  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames, permissionsWaiting, resourceId } = props;
 
   return (
     site.metadata.loading ||
@@ -66,7 +67,8 @@ const isLoading = (props: AppSettingsDataLoaderProps) => {
     appSettings.metadata.loading ||
     metadata.metadata.loading ||
     connectionStrings.metadata.loading ||
-    slotConfigNames.metadata.loading
+    slotConfigNames.metadata.loading ||
+    permissionsWaiting.includes(resourceId)
   );
 };
 
@@ -122,15 +124,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
   const [notificationId, setNotificationId] = useState('');
   const loadingOrUpdating = isUpdating(props) || isLoading(props);
 
-  useEffect(() => {
-    fetchConfig();
-    fetchSite();
-    fetchSlotConfigNames();
-    fetchMetadata();
-    fetchConnectionStrings();
-    fetchAppSettings();
-    fetchPermissions([{ resourceId: resourceId, action: './write' }]);
-  }, []);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(
     () => {
@@ -149,6 +143,10 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
 
   useEffect(
     () => {
+      if (!loadingOrUpdating) {
+        setInitialLoading(false);
+      }
+
       if (!loadingOrUpdating && notificationId) {
         const err = updateError(props) as AxiosError | Error;
         if (err) {
@@ -168,6 +166,19 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     [loadingOrUpdating]
   );
 
+  useEffect(() => {
+    fetchConfig();
+    fetchSite();
+    fetchSlotConfigNames();
+    fetchMetadata();
+    fetchConnectionStrings();
+    fetchAppSettings();
+    fetchPermissions([{ resourceId: resourceId, action: './write' }]);
+    setInitialLoading(true);
+  }, []);
+  if (initialLoading) {
+    return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
+  }
   return (
     <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isUpdating(props), loading: isLoading(props) })}</>
   );
@@ -184,6 +195,7 @@ const mapStateToProps = (state: RootState) => {
     metadata: state.metadata,
     slotConfigNames: state.slotConfigNames,
     siteWritePermission: state.rbac.permissions[siteWriteKey],
+    permissionsWaiting: state.rbac.permissionCalled,
   };
 };
 
