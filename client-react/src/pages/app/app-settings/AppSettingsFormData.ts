@@ -49,15 +49,15 @@ export function getStickySettings(
   oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ArmObj<SlotConfigNames> {
   let appSettingNames = appSettings.filter(x => x.sticky).map(x => x.name);
-  const oldAppSettingNamesToKeep = oldSlotNameSettings.properties.appSettingNames!.filter(
-    x => appSettings.filter(y => y.name === x).length === 0
-  );
+  const oldAppSettingNamesToKeep = oldSlotNameSettings.properties.appSettingNames
+    ? oldSlotNameSettings.properties.appSettingNames.filter(x => appSettings.filter(y => y.name === x).length === 0)
+    : [];
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
 
   let connectionStringNames = connectionStrings.filter(x => x.sticky).map(x => x.name);
-  const oldConnectionStringNamesToKeep = oldSlotNameSettings.properties.connectionStringNames!.filter(
-    x => connectionStrings.filter(y => y.name === x).length === 0
-  );
+  const oldConnectionStringNamesToKeep = oldSlotNameSettings.properties.connectionStringNames
+    ? oldSlotNameSettings.properties.connectionStringNames.filter(x => connectionStrings.filter(y => y.name === x).length === 0)
+    : [];
   connectionStringNames = connectionStringNames.concat(oldConnectionStringNamesToKeep);
 
   return {
