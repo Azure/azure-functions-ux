@@ -93,6 +93,8 @@ const updateError = (props: AppSettingsDataLoaderProps) => {
     (slotConfigNames.metadata.updateError && slotConfigNames.metadata.updateErrorObject)
   );
 };
+
+const getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
 const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTranslateProps> = props => {
   const {
     fetchAppSettings,
@@ -176,7 +178,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     fetchAppSettings();
     fetchPermissions([{ resourceId: resourceId, action: './write' }]);
     if (resourceId.includes('/slots/')) {
-      const productionId = resourceId.split('/slots/')[0];
+      const productionId = getProductionId(resourceId);
       fetchPermissions([{ resourceId: productionId, action: './write' }]);
     }
     setInitialLoading(true);
@@ -193,7 +195,7 @@ const mapStateToProps = (state: RootState) => {
   const siteWriteKey = `${state.site.resourceId}|./write`;
   let parentWriteKey = '';
   if (state.site.resourceId.includes('/slots/')) {
-    parentWriteKey = `${state.site.resourceId.split('/slots/')[0]}|./write`;
+    parentWriteKey = `${getProductionId(state.site.resourceId)}|./write`;
   }
   return {
     resourceId: state.site.resourceId,
