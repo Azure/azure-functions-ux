@@ -78,7 +78,7 @@ ng test
 
 ### React Unit Tests
 
-````
+```
 cd client-react
 yarn test
 ```
@@ -86,7 +86,7 @@ yarn test
 ### React E2E Tests
 
 single run
-````
+```
 
 cd client-react
 yarn build
@@ -111,4 +111,3 @@ npx cypress open
 ## License
 
 This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
-```
