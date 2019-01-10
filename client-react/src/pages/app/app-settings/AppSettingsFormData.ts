@@ -6,13 +6,14 @@ import { AppSettingsDataLoaderProps } from './AppSettingsDataLoader';
 import { Metadata } from '../../../modules/site/config/metadata/reducer';
 
 export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, metadata, siteWritePermission, slotConfigNames } = props;
+  const { site, config, appSettings, connectionStrings, metadata, siteWritePermission, slotConfigNames, productionWritePermission } = props;
   return {
     site: site.data,
     config: config.data,
     appSettings: getFormAppSetting(appSettings.data, slotConfigNames.data),
     connectionStrings: getFormConnectionStrings(connectionStrings.data, slotConfigNames.data),
     siteWritePermission,
+    productionWritePermission,
     virtualApplications:
       config.data && config.data && config.data.properties && flattenVirtualApplicationsList(config.data.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config.data, metadata.data),

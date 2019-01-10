@@ -8,16 +8,18 @@ import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormConnectionString } from '../AppSettings.types';
 import { DatabaseType, typeValueToString } from './connectionStringTypes';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
   closeBlade: () => void;
   otherConnectionStrings: FormConnectionString[];
   connectionString: FormConnectionString;
+  disableSlotSetting: boolean;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString } = props;
+  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString, disableSlotSetting } = props;
   const [nameError, setNameError] = React.useState('');
   const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
 
@@ -112,11 +114,19 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         label={t('sticky')}
         id="connection-strings-form-sticky"
         defaultChecked={currentConnectionString.sticky}
+        disabled={disableSlotSetting}
         onChange={updateConnectionStringSticky}
         styles={{
           root: formElementStyle,
         }}
       />
+      {disableSlotSetting && (
+        <div data-cy="connection-string-slot-setting-no-permission-message">
+          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+            {t('slotSettingNoProdPermission')}
+          </MessageBar>
+        </div>
+      )}
       <ActionBar
         id="connection-string-edit-footer"
         primaryButton={actionBarPrimaryButtonProps}

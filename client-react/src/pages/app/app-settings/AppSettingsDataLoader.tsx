@@ -54,6 +54,7 @@ export interface AppSettingsDataLoaderProps {
   metadata: MetadataState;
   slotConfigNames: SlotConfigNamesState;
   siteWritePermission: boolean;
+  productionWritePermission: boolean;
   permissionsWaiting: string[];
 }
 
@@ -92,6 +93,8 @@ const updateError = (props: AppSettingsDataLoaderProps) => {
     (slotConfigNames.metadata.updateError && slotConfigNames.metadata.updateErrorObject)
   );
 };
+
+const getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
 const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTranslateProps> = props => {
   const {
     fetchAppSettings,
@@ -108,6 +111,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     updateConfig,
     updateSite,
     updateSlotConfig,
+    productionWritePermission,
     t,
   } = props;
 
@@ -116,7 +120,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     updateSite(newValues.site);
     updateConfig(newValues.config);
 
-    newValues.slotConfigNames && updateSlotConfig(newValues.slotConfigNames);
+    newValues.slotConfigNames && productionWritePermission && updateSlotConfig(newValues.slotConfigNames);
     setNotificationId(portalContext.startNotification(t('configUpdating'), t('configUpdating')));
   };
 
@@ -173,6 +177,10 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     fetchConnectionStrings();
     fetchAppSettings();
     fetchPermissions([{ resourceId: resourceId, action: './write' }]);
+    if (resourceId.includes('/slots/')) {
+      const productionId = getProductionId(resourceId);
+      fetchPermissions([{ resourceId: productionId, action: './write' }]);
+    }
     setInitialLoading(true);
   }, []);
   if (initialLoading) {
@@ -185,6 +193,10 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
 
 const mapStateToProps = (state: RootState) => {
   const siteWriteKey = `${state.site.resourceId}|./write`;
+  let parentWriteKey = '';
+  if (state.site.resourceId.includes('/slots/')) {
+    parentWriteKey = `${getProductionId(state.site.resourceId)}|./write`;
+  }
   return {
     resourceId: state.site.resourceId,
     site: state.site,
@@ -194,6 +206,7 @@ const mapStateToProps = (state: RootState) => {
     metadata: state.metadata,
     slotConfigNames: state.slotConfigNames,
     siteWritePermission: state.rbac.permissions[siteWriteKey],
+    productionWritePermission: parentWriteKey ? state.rbac.permissions[parentWriteKey] : state.rbac.permissions[siteWriteKey],
     permissionsWaiting: state.rbac.permissionCalled,
   };
 };
