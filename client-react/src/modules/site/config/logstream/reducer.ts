@@ -67,10 +67,7 @@ export default combineReducers<ILogStreamState, LogStreamActions>({
     }
   },
   xhReq: (state = InitialState.xhReq, action) => {
-    switch (action.type) {
-      default:
-        return state;
-    }
+    return state;
   },
   timeouts: (state = InitialState.timeouts, action) => {
     switch (action.type) {
