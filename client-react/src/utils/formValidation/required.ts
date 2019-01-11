@@ -1,4 +1,4 @@
-const requiredValidation = (value: any, errorMessage: string) => {
+const requiredValidation = (value: unknown, errorMessage: string) => {
   let error;
   if (!value) {
     error = errorMessage;

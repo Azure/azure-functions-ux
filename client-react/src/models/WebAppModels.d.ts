@@ -10,7 +10,7 @@ export interface ArmObj<T> {
 
 export interface ArmArray<T> {
   value: ArmObj<T>[];
-  nextLink?: string;
+  nextLink?: string | null;
   id?: string;
 }
 

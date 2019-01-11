@@ -49,10 +49,6 @@ export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>)
     };
   });
 
-export const getCurrentJavaFramework = () => {
-  return;
-};
-
 export const getFrameworkVersionOptions = (
   javaContainers: ArmObj<AvailableStack>,
   config: ArmObj<SiteConfig>,

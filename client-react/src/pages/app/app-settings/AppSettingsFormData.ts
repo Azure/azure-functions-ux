@@ -37,10 +37,11 @@ export const convertFormToState = (
   };
 
   const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
+  const configWithStack = getConfigWithStackSettings(config, values);
   return {
-    config,
     site,
     slotConfigNames,
+    config: configWithStack,
   };
 };
 
@@ -161,4 +162,14 @@ export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmO
     return metadata.properties.CURRENT_STACK;
   }
   return 'dotnet';
+}
+
+export function getConfigWithStackSettings(config: ArmObj<SiteConfig>, values: AppSettingsFormValues): ArmObj<SiteConfig> {
+  const configCopy = { ...config };
+  if (values.currentlySelectedStack !== 'java') {
+    configCopy.properties.javaContainer = '';
+    configCopy.properties.javaContainerVersion = '';
+    configCopy.properties.javaVersion = '';
+  }
+  return configCopy;
 }
