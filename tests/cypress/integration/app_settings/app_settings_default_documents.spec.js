@@ -23,6 +23,10 @@ context('Default Documents', () => {
   it('Validation fails if duplicate document names are used', () => {
     cy.get('#app-settings-document-text-0')
       .type('l')
+      .wait(500)
+      .get('[data-cy=command-button-save]')
+      .click()
+      .wait(500)
       .get('#root')
       .contains('This field must be unique');
   });
