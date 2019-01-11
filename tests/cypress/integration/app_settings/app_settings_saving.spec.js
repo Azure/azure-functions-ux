@@ -22,6 +22,7 @@ context('App Settings Save/Notification', () => {
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
+      .wait(500) //give a few ticks for save to become enabled
       .get('[data-cy=command-button-save]')
       .click()
       .wait('@putSite')
@@ -59,6 +60,7 @@ context('App Settings Save/Notification', () => {
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
+      .wait(500) //give a few ticks for save to become enabled
       .get('[data-cy=command-button-save]')
       .click()
       .wait(1)
