@@ -3179,7 +3179,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zaktualizuj plan usługi App Service</value>
   </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
-    <value>Infrastruktura udostępniona</value>
+    <value>Infrastruktura współdzielona</value>
   </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Udostępnione zasoby obliczeniowe używane do uruchamiania aplikacji wdrożonych w ramach planu usługi App Service.</value>
@@ -3536,7 +3536,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Poświadczenia użytkownika</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>Poświadczenia użytkownika są definiowane przez Ciebie, użytkownika, i mogą być używane we wszystkich aplikacjach, do których masz dostęp. Tych poświadczeń można używać w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Jeśli łączysz się ze swoją aplikacją przy użyciu poświadczeń użytkownika, konieczne będzie wprowadzenie następującej nazwy użytkownika: {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3733,6 +3733,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Nie można skonfigurować wdrożenia</value>
+  </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Nie można skonfigurować wdrożenia: {0}</value>
   </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Odłączanie wdrożenia</value>
@@ -4293,7 +4296,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ścieżka fizyczna</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Typ</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Usuń</value>
@@ -4470,13 +4473,13 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Usługa Azure Functions dla programu PowerShell — wprowadzenie</value>
   </data>
   <data name="addStorageTitle" xml:space="preserve">
-    <value>Add storage (Preview)</value>
+    <value>Dodaj magazyn (wersja zapoznawcza)</value>
   </data>
   <data name="addStorageDescription" xml:space="preserve">
-    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+    <value>Podaj informacje o magazynie Azure Storage Blob lub File, który ma zostać zainstalowany dla aplikacji.</value>
   </data>
   <data name="configurationOption" xml:space="preserve">
-    <value>Configuration option</value>
+    <value>Opcja konfiguracji</value>
   </data>
   <data name="basic" xml:space="preserve">
     <value>Podstawowe</value>
@@ -4485,7 +4488,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Zaawansowane</value>
   </data>
   <data name="chooseAccount" xml:space="preserve">
-    <value>Choose a storage account</value>
+    <value>Wybierz konto magazynu</value>
   </data>
   <data name="storageAccount" xml:space="preserve">
     <value>Konto magazynu</value>
@@ -4494,16 +4497,16 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Kontener magazynu</value>
   </data>
   <data name="storageFileShare" xml:space="preserve">
-    <value>Storage file share</value>
+    <value>Udział plików magazynu</value>
   </data>
   <data name="blob" xml:space="preserve">
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>Pliki</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
-    <value>Choose a storage container</value>
+    <value>Wybierz kontener magazynu</value>
   </data>
   <data name="mountPath" xml:space="preserve">
     <value>Ścieżka instalacji</value>
@@ -4515,22 +4518,22 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Klucz dostępu</value>
   </data>
   <data name="chooseFileShare" xml:space="preserve">
-    <value>Choose a File Share</value>
+    <value>Wybierz udział plików</value>
   </data>
   <data name="storageType" xml:space="preserve">
     <value>Typ magazynu</value>
   </data>
   <data name="invalidWindowsPath" xml:space="preserve">
-    <value>The path format is not valid for Windows.</value>
+    <value>Format ścieżki nie jest prawidłowy dla systemu Windows.</value>
   </data>
   <data name="invalidLinuxPath" xml:space="preserve">
-    <value>The path format is not valid for Linux.</value>
+    <value>Format ścieżki nie jest prawidłowy dla systemu Linux.</value>
   </data>
   <data name="mountStorage" xml:space="preserve">
-    <value>Mount storage (Preview)</value>
+    <value>Zainstaluj magazyn (wersja zapoznawcza)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Add storage</value>
+    <value>+ Dodaj magazyn</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4540,5 +4543,44 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="path" xml:space="preserve">
     <value>Ścieżka</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>Przy użyciu poniższych kontrolek możesz zdecydować, czy ukryte klucze magazynu mają być wyświetlane w przeglądarce.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Konta magazynu</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Nazwa konta magazynu</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Nieprawidłowy udział</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Nieprawidłowe poświadczenia</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Pliki</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(brak kont magazynu do wyświetlenia)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Istnieje już ustawienie magazynu o tej nazwie.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Nie mogliśmy nawiązać połączenia z potokiem platformy Azure połączonym z tą aplikacją internetową. Może to oznaczać, że został on usunięty z portalu usługi Azure DevOps. Jeśli tak się stało, możesz odłączyć ten potok i skonfigurować nowy potok wdrażania.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Ścieżka dla systemu Windows musi zaczynać się od "c:\".</value>
   </data>
 </root>
