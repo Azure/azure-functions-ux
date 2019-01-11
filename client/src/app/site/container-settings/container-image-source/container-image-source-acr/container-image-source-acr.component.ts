@@ -109,6 +109,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
   public registryChanged(element: DropDownElement<string>) {
     this.selectedRepository = '';
+    this.repositoryItems = [];
     this.repositoryDropdownItems = [];
     this.selectedTag = '';
     this.tagDropdownItems = [];
@@ -155,26 +156,14 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
   private _loadRepositories() {
     this.loadingRepo = true;
     this._acrService
-      .getRepositories(
-        this.containerImageSourceInfo.subscriptionId,
-        this.containerImageSourceInfo.resourceId,
-        this.selectedRegistry,
-        this.imageSourceForm.controls.login.value,
-        this.imageSourceForm.controls.password.value
-      )
+      .getRepositories(this.selectedRegistry, this.imageSourceForm.controls.login.value, this.imageSourceForm.controls.password.value)
       .subscribe(response => {
-        if (response.isSuccessful && response.result && response.result.repositories && response.result.repositories.length > 0) {
-          this.repositoryItems = response.result.repositories.sort();
+        this.repositoryItems.sort();
 
-          this.repositoryDropdownItems = this.repositoryItems.map(item => ({
-            displayLabel: item,
-            value: item,
-          }));
-
-          if (this.selectedRepository) {
-            this._loadTags();
-          }
-        }
+        this.repositoryDropdownItems = this.repositoryItems.map(item => ({
+          displayLabel: item,
+          value: item,
+        }));
 
         this.loadingRepo = false;
       });

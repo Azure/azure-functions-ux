@@ -1,40 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { ArmArrayResult, ArmObj } from '../../../shared/models/arm/arm-obj';
-import { ACRRegistry, ACRCredential, ACRDirectRequestPayload, ACRRepositories, ACRTags, ACRWebhookPayload } from '../container-settings';
+import { ACRRegistry, ACRCredential, ACRDirectRequestPayload, ACRTags, ACRWebhookPayload } from '../container-settings';
 import { CacheService } from '../../../shared/services/cache.service';
 import { ARMApiVersions } from '../../../shared/models/constants';
 import { Headers } from '@angular/http';
 import { ConditionalHttpClient, Result } from '../../../shared/conditional-http-client';
 import { UserService } from '../../../shared/services/user.service';
-
-export interface IContainerACRService {
-  getRegistries(subscriptionId: string): Result<ArmArrayResult<ACRRegistry>>;
-  getCredentials(resourceUri: string, registry: string): Result<ACRCredential>;
-  getRepositories(
-    subscriptionId: string,
-    resourceId: string,
-    loginServer: string,
-    username: string,
-    password: string
-  ): Result<ACRRepositories>;
-  getTags(
-    subscriptionId: string,
-    resourceId: string,
-    loginServer: string,
-    repository: string,
-    username: string,
-    password: string
-  ): Result<ACRTags>;
-  updateAcrWebhook(
-    resourceId: string,
-    webhookName: string,
-    location: string,
-    webhookPayload: ACRWebhookPayload
-  ): Result<ArmObj<ACRWebhookPayload>>;
-}
+import { Observable } from 'rxjs/Observable';
+import { ResponseHeader } from 'app/shared/Utilities/response-header';
 
 @Injectable()
-export class ContainerACRService implements IContainerACRService {
+export class ContainerACRService {
   private readonly _client: ConditionalHttpClient;
 
   constructor(private _cacheService: CacheService, userService: UserService, injector: Injector) {
@@ -57,28 +33,33 @@ export class ContainerACRService implements IContainerACRService {
     return this._client.execute({ resourceId: resourceId }, t => getCredentails);
   }
 
-  public getRepositories(
-    subscriptionId: string,
-    resourceId: string,
-    loginServer: string,
-    username: string,
-    password: string
-  ): Result<ACRRepositories> {
-    const payload: ACRDirectRequestPayload = {
-      username,
-      password,
-      subId: subscriptionId,
-      endpoint: `https://${loginServer}/v2/_catalog`,
-    };
-
+  public getRepositories(loginServer: string, username: string, password: string): any {
     const headers = new Headers();
+    const encoded = btoa(`${username}:${password}`);
+
+    headers.append('Authorization', `Basic ${encoded}`);
     headers.append('Content-Type', 'application/json');
 
-    const getRepositories = this._cacheService
-      .post(`/api/getAcrRepositories?server=${loginServer}`, false, headers, payload)
-      .map(r => r.json());
+    const url = `https://${loginServer}/v2/_catalog`;
 
-    return this._client.execute({ resourceId: resourceId }, t => getRepositories);
+    return this._cacheService
+      .get(url, true, headers)
+      .expand(response => {
+        if (response.status === 200) {
+          const linksHeader = response.headers.getAll('link');
+          const links = ResponseHeader.getLinksFromLinkHeader(linksHeader);
+          const requests = Object.keys(links).map(linkName => {
+            const nextUrl = `https://${loginServer}${links[linkName]}`;
+            return this._cacheService.get(nextUrl, true, headers);
+          });
+          return Observable.zip(requests);
+        } else {
+          return Observable.empty();
+        }
+      })
+      .concatMap(content => {
+        return Observable.of(content);
+      });
   }
 
   public getTags(
