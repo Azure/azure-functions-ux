@@ -1844,7 +1844,7 @@
     <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller ett resursnamn där ditt funktionsinnehåll är lagrat. Appen kommer inte att kunna användas utan den här inställningen. Du kan behöva ta bort och återskapa funktionsappen om du inte längre har tillgång till värdet för den här programinställningen.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för funktionernas övervakningsvy. Här samlas anropsinformation som sedan visas i övervakningsvyn. Övervakningsvyn kan vara skadad.</value>
+    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för funktionernas övervakningsvy. Här aggregeras anropsinformation som sedan visas i övervakningsvyn. Övervakningsvyn kan vara skadad.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
     <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för att funktionskörningen ska kunna hantera synkronisering av flera instanser, logga anropsresultat och köra andra infrastrukturjobb. Appen fungerar inte som den ska utan den här inställningen.</value>
@@ -2282,7 +2282,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Enligt förbrukningsplanen kan endast en plats användas. Om du behöver fler platser använder du särskilda App Service-planer.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Sökfunktioner</value>
+    <value>Sök funktioner</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Ny</value>
@@ -3217,6 +3217,15 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoskala</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Skala ut.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Beräkna VM-storlek: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Det finns inte tillräckligt med tillgängliga instanser.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Skala till ett stort antal instanser</value>
   </data>
@@ -3225,6 +3234,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Upp till {0} instanser. I mån av tillgänglighet.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Obegränsade instanser. I mån av tillgänglighet.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Hög densitet</value>
@@ -3750,7 +3762,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Vill du koppla ifrån din distribution?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverlöst Community-bibliotek (förhandsversion)</value>
+    <value>Serverlöst Community-bibliotek</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Hittar du inte det du letar efter? Testa Azures serverlösa Community-bibliotek!</value>
@@ -4582,5 +4594,35 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Windows-sökvägen måste inledas med c:\.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Funktionsappen är i ett begränsat tillstånd. Det går inte att hämta alla data.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Begränsad</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funktioner (begränsade)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Alla funktioner har stoppats. Starta appen om du vill visa funktionerna.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Du har inte skrivbehörigheter för den här appen.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Du har skrivskyddad åtkomst. Du måste ha skrivåtkomst för att kunna visa funktionerna.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Funktioner som körs bakom en intern lastbalanserare är inte tillgängliga utanför sina virtuella nätverk. Verifiera att du befinner dig i samma VNET som funktionerna, så att du kan få åtkomst till dem.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxyservrar (begränsade)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Om du vill ändra fackinställningar måste du ha skrivåtkomst till produktionsappen.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Om du vill ändra inställningen för automatisk växling måste du ha behörigheter till produktionsappen.</value>
   </data>
 </root>

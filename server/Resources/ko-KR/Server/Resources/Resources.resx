@@ -647,7 +647,7 @@
     <value>관리</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>모니터</value>
+    <value>모니터링</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>입력 바인딩 선택</value>
@@ -2144,7 +2144,7 @@
     <value>{{name}} 키를 갱신하시겠습니까?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Azure Functions는 이벤트 기반의 서버를 사용하지 않는 계산 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
+    <value>Azure Functions는 이벤트 기반의 서버리스 계산 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Azure Functions에 대한 자세한 정보</value>
@@ -2282,7 +2282,7 @@
     <value>사용 계획은 단일 슬롯에 대해서만 허용됩니다. 둘 이상의 슬롯이 필요한 경우 전용 App Service 계획을 사용하세요.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>검색 함수</value>
+    <value>함수 검색</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>새로 만들기</value>
@@ -2924,10 +2924,10 @@
     <value>슬롯을 만들지 못함</value>
   </data>
   <data name="createTestWebAppSuccess" xml:space="preserve">
-    <value>테스트 환경에 대한 새 웹 응용 프로그램을 만듦</value>
+    <value>테스트 환경에 대한 새 웹 애플리케이션을 만듦</value>
   </data>
   <data name="createTestWebAppFail" xml:space="preserve">
-    <value>테스트 환경에 대한 새 웹 응용 프로그램을 만들지 못함</value>
+    <value>테스트 환경에 대한 새 웹 애플리케이션을 만들지 못함</value>
   </data>
   <data name="disconnectCICDVSOSuccess" xml:space="preserve">
     <value>{0}에 대한 지속적인 업데이트 연결을 끊음</value>
@@ -3217,6 +3217,15 @@
   <data name="pricing_autoScale" xml:space="preserve">
     <value>자동 크기 조정</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>규모 확장.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Vm 크기 계산: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>사용할 수 있는 인스턴스가 부족합니다.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>많은 수의 인스턴스로 크기 조정</value>
   </data>
@@ -3224,7 +3233,10 @@
     <value>최대 100개의 인스턴스입니다.  요청 시 더 많이 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>최대 {0}개의 인스턴스까지 가능합니다.  제공 여부는 변동될 수 있습니다.</value>
+    <value>최대 {0}개의 인스턴스까지 가능합니다. 사용 가능 여부에 따라 달라집니다.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>무제한 인스턴스입니다. 사용 가능 여부에 따라 달라집니다.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>고밀도</value>
@@ -3368,7 +3380,7 @@
     <value>프로젝트 선택</value>
   </data>
   <data name="webAppFramework" xml:space="preserve">
-    <value>웹 응용 프로그램 프레임워크</value>
+    <value>웹 애플리케이션 프레임워크</value>
   </data>
   <data name="selectFramework" xml:space="preserve">
     <value>프레임워크 선택</value>
@@ -3750,7 +3762,7 @@
     <value>배포 연결을 끊으시겠습니까?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>서버리스 커뮤니티 라이브러리(미리 보기)</value>
+    <value>서버리스 커뮤니티 라이브러리</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>원하는 내용을 찾을 수 없나요? Azure 서버리스 커뮤니티 라이브러리를 확인하세요!</value>
@@ -4050,7 +4062,7 @@
     <value>함수 앱 런타임 스택</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하지 전에 런타임 스택을 설정하세요.</value>
+    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>함수 런타임 스택</value>
@@ -4278,10 +4290,10 @@
     <value>가상 응용 프로그램 및 디렉터리</value>
   </data>
   <data name="appSettingsSaveAriaLabel" xml:space="preserve">
-    <value>웹 응용 프로그램의 모든 설정 저장</value>
+    <value>웹 애플리케이션의 모든 설정 저장</value>
   </data>
   <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
-    <value>웹 응용 프로그램 설정의 변경 내용 모두 취소</value>
+    <value>웹 애플리케이션 설정의 변경 내용 모두 취소</value>
   </data>
   <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
     <value>왼쪽 및 오른쪽 화살표 키를 사용하여 명령 간 이동</value>
@@ -4582,5 +4594,35 @@
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Windows에 대한 경로는 'c:\'로 시작해야 합니다.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>함수 앱이 제한된 상태에 있으므로 모든 데이터를 검색할 수 없습니다.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>제한</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>함수(제한됨)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>모든 함수가 중지되었습니다. 기능을 보려면 앱을 시작하세요.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>이 앱에 쓸 수 있는 권한이 없습니다.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>읽기 전용입니다. 함수를 보려면 쓰기 액세스 권한이 있어야 합니다.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>내부 부하 분산 장치 뒤에서 실행하는 함수는 해당 VNET 외부에서 액세스할 수 없습니다. 함수에 액세스하려면 함수와 동일한 VNET에 있는지 확인하세요.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>프록시(제한됨)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

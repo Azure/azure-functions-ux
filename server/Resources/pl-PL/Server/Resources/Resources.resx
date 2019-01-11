@@ -3217,6 +3217,15 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Skalowanie automatyczne</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Zwiększ skalę w poziomie.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Oblicz rozmiar maszyny wirtualnej: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Zbyt mało dostępnych wystąpień.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Skaluj do dużej liczby wystąpień</value>
   </data>
@@ -3225,6 +3234,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Maksymalnie do {0} wystąpień. Zależnie od dostępności.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Nieograniczona liczba wystąpień. Zależnie od dostępności.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Duża gęstość</value>
@@ -3750,7 +3762,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Czy na pewno chcesz odłączyć swoje wdrożenie?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Biblioteka społeczności rozwiązań bezserwerowych (wersja zapoznawcza)</value>
+    <value>Biblioteka społeczności rozwiązań bezserwerowych</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Nie możesz znaleźć tego, czego szukasz? Zajrzyj do biblioteki społeczności rozwiązań bezserwerowych dla platformy Azure!</value>
@@ -4050,7 +4062,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Stos środowiska uruchomieniowego aplikacji funkcji</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Aplikacje funkcji w wersji 2 obsługują teraz jeden język. Przed dodaniem funkcji do aplikacji ustaw stos środowiska uruchomieniowego.</value>
+    <value>Aplikacje funkcji w wersji 2 obsługują teraz jeden język. Przed dodaniem funkcji do swojej aplikacji ustaw stos środowiska uruchomieniowego.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Stos środowiska uruchomieniowego funkcji</value>
@@ -4582,5 +4594,35 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Ścieżka dla systemu Windows musi zaczynać się od "c:\".</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Aplikacja funkcji jest w stanie z ograniczeniami. Nie można pobrać wszystkich danych.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Ograniczona</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funkcje (ograniczone)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Wszystkie funkcje są zatrzymane. Uruchom aplikację, aby wyświetlić funkcje.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Nie masz uprawnień do zapisu dla tej aplikacji.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Masz dostęp tylko do odczytu. Do wyświetlania funkcji są wymagane uprawnienia do zapisu.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Funkcje działające w ramach wewnętrznego modułu równoważenia obciążenia nie są dostępne poza ich siecią wirtualną. Upewnij się, że znajdujesz się w tej samej sieci wirtualnej co funkcje, aby uzyskać do nich dostęp.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Serwery proxy (ograniczone)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Aby zmienić ustawienia miejsca, musisz mieć dostęp do zapisu w aplikacji produkcyjnej.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Aby zmienić ustawienia automatycznej wymiany, musisz mieć dostęp do zapisu w aplikacji produkcyjnej.</value>
   </data>
 </root>
