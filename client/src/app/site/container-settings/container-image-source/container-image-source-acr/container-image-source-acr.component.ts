@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
-import { ACRRegistry, ContainerImageSourceData } from '../../container-settings';
+import { ACRRegistry, ContainerImageSourceData, ACRRepositories, ACRTags } from '../../container-settings';
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { ContainerACRService } from '../../services/container-acr.service';
 import { FormGroup } from '@angular/forms';
@@ -7,6 +7,7 @@ import { FeatureComponent } from '../../../../shared/components/feature-componen
 import { Observable } from 'rxjs/Observable';
 import { ContainerMultiConfigService } from '../../services/container-multiconfig.service';
 import { ContainerConstants } from 'app/shared/models/constants';
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'container-image-source-acr',
@@ -112,6 +113,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.repositoryItems = [];
     this.repositoryDropdownItems = [];
     this.selectedTag = '';
+    this.tagItems = [];
     this.tagDropdownItems = [];
     this.loadingRepo = true;
 
@@ -133,6 +135,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
   public respositoryChanged(element: DropDownElement<string>) {
     this.selectedTag = '';
+    this.tagItems = [];
     this.tagDropdownItems = [];
     this._loadTags();
   }
@@ -157,15 +160,23 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.loadingRepo = true;
     this._acrService
       .getRepositories(this.selectedRegistry, this.imageSourceForm.controls.login.value, this.imageSourceForm.controls.password.value)
-      .subscribe(response => {
-        this.repositoryItems.sort();
+      .subscribe((response: Response) => {
+        if (response.status === 200) {
+          const repositories: string[] = (response.json() as ACRRepositories).repositories;
+          this.repositoryItems.push(...repositories);
 
-        this.repositoryDropdownItems = this.repositoryItems.map(item => ({
-          displayLabel: item,
-          value: item,
-        }));
-
-        this.loadingRepo = false;
+          const nextLink = this._acrService.getNextLink(this.selectedRegistry, response);
+          if (!nextLink) {
+            this.repositoryItems.sort();
+            this.repositoryDropdownItems = this.repositoryItems.map(item => ({
+              displayLabel: item,
+              value: item,
+            }));
+            this.loadingRepo = false;
+          }
+        } else {
+          this.loadingRepo = false;
+        }
       });
   }
 
@@ -173,24 +184,28 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.loadingTag = true;
     this._acrService
       .getTags(
-        this.containerImageSourceInfo.subscriptionId,
-        this.containerImageSourceInfo.resourceId,
         this.selectedRegistry,
         this.selectedRepository,
         this.imageSourceForm.controls.login.value,
         this.imageSourceForm.controls.password.value
       )
-      .subscribe(response => {
-        if (response.isSuccessful && response.result && response.result.tags && response.result.tags.length > 0) {
-          this.tagItems = response.result.tags.sort();
+      .subscribe((response: Response) => {
+        if (response.status === 200) {
+          const tags: string[] = (response.json() as ACRTags).tags;
+          this.tagItems.push(...tags);
 
-          this.tagDropdownItems = this.tagItems.map(item => ({
-            displayLabel: item,
-            value: item,
-          }));
+          const nextLink = this._acrService.getNextLink(this.selectedRegistry, response);
+          if (!nextLink) {
+            this.tagItems.sort();
+            this.tagDropdownItems = this.tagItems.map(item => ({
+              displayLabel: item,
+              value: item,
+            }));
+            this.loadingTag = false;
+          }
+        } else {
+          this.loadingTag = false;
         }
-
-        this.loadingTag = false;
       });
   }
 }
