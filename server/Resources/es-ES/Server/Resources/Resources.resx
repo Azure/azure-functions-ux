@@ -2282,7 +2282,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>El plan de consumo solo permite un espacio. Si necesita más, use los planes de App Service dedicados.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Funciones de búsqueda</value>
+    <value>Buscar funciones</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Nuevo</value>
@@ -3217,6 +3217,15 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Escalado automático</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Escalabilidad horizontal.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Tamaño de la VM de proceso: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>No hay suficientes instancias disponibles.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Escalar a un gran número de instancias</value>
   </data>
@@ -3225,6 +3234,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Hasta {0} instancias. Sujeto a disponibilidad.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Las instancias son ilimitadas. Sujeto a disponibilidad.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Alta densidad</value>
@@ -3750,7 +3762,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>¿Seguro que quiere desconectar la implementación?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Biblioteca de la comunidad sin servidor (versión preliminar)</value>
+    <value>Biblioteca de la comunidad sin servidor</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>¿No encuentra lo que busca? Eche un vistazo a la biblioteca de la comunidad sin servidor de Azure.</value>
@@ -3762,7 +3774,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Haga clic aquí para obtener detalles sobre la configuración de almacenamiento.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Haga clic aquí para obtener más información acerca de la instalación de la extensión de solución de problemas.</value>
+    <value>Haga clic aquí para obtener más información acerca de la solución de problemas de instalación de extensiones</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>Total de ACU: {0}</value>
@@ -4582,5 +4594,35 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>La ruta de acceso de Windows debe comenzar con "c:\".</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>La aplicación de función está en un estado limitado. No se pueden recuperar todos los datos.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limitada</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funciones (limitado)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Todas las funciones están detenidas. Inicie la aplicación para verlas.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>No tiene permisos de escritura en esta aplicación.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Tiene acceso de solo lectura. Se requiere el acceso de escritura para poder ver las funciones.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Las funciones que se ejecutan detrás de un equilibrador de carga interno no son accesibles fuera de su red virtual. Asegúrese de que está en la misma red virtual que las funciones para obtener acceso a ellas.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxies (limitado)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

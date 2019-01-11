@@ -641,13 +641,13 @@
     <value>Разработка</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Интегрировать</value>
+    <value>Интеграция</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
     <value>Управление</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Монитор</value>
+    <value>Мониторинг</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Выберите привязку для ввода.</value>
@@ -2144,7 +2144,7 @@
     <value>Вы действительно хотите возобновить ключ {{name}}?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Функции Azure представляют собой вычислительный инструмент на основе событий и без привязки к серверу. С помощью функций Azure вы сможете повысить скорость разработки. Доступно масштабирование по требованию; вы платите только за те ресурсы, которые используете.</value>
+    <value>Функции Azure представляют собой бессерверный вычислительный инструмент на основе событий. С помощью функций Azure вы сможете повысить скорость разработки. Доступно масштабирование по требованию; вы платите только за те ресурсы, которые используете.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Дополнительные сведения о функциях Azure</value>
@@ -3217,6 +3217,15 @@
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Автомасштабирование</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Горизонтальное масштабирование.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Вычислить размер виртуальной машины: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Недостаточно доступных экземпляров.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Масштабировать до большого числа экземпляров</value>
   </data>
@@ -3225,6 +3234,9 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Максимум экземпляров: {0} (если это возможно).</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Неограниченное число экземпляров (если это возможно).</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Высокая плотность</value>
@@ -3750,7 +3762,7 @@
     <value>Действительно отключить развертывание?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Бессерверная библиотека сообщества (предварительная версия)</value>
+    <value>Бессерверная библиотека сообщества</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Не удается найти то, что ищете? Посмотрите в бессерверной библиотеке сообщества Azure.</value>
@@ -3762,7 +3774,7 @@
     <value>Щелкните, чтобы получить сведения о конфигурации хранилища.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Щелкните, чтобы получить дополнительные сведения об устранении неполадок с установкой расширений</value>
+    <value>Щелкните, чтобы получить дополнительные сведения об устранении неполадок с установкой расширений.</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>Общее число ACU: {0}</value>
@@ -4582,5 +4594,35 @@
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Путь в Windows должен начинаться с "C:\".</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Приложение-функция находится в ограниченном состоянии. Не удалось извлечь все данные.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Ограничено</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Функции (с ограничениями)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Все функции остановлены. Запустите приложение, чтобы просмотреть свои функции.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>У вас нет разрешений на запись в это приложение.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>У вас есть доступ только для чтения. Для просмотра функций требуется доступ для записи.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Функции, выполняющиеся за внутренней подсистемой балансировки нагрузки, недоступны за пределами их виртуальной сети. Убедитесь, что вы находитесь в той же виртуальной сети, что и функции.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Прокси-серверы (с ограничениями)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

@@ -1844,7 +1844,7 @@
     <value>Uygulamanızda '{0}' uygulama ayarı eksik. Bu ayar, işlev içeriğinizin barındırıldığı bir paylaşım adı içeriyor. Bu ayar olmadan uygulamanız çalışmaz. Bu uygulama ayarının değerine artık erişiminiz yoksa, bu işlev uygulamasını silip yeniden oluşturmanız gerekebilir.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-    <value>Uygulamanızda '{0}' uygulama ayarı eksik. Bu ayar, işlevlerinizin izleme görünümü için gereken bir Azure Depolama hesabı için bir bağlantı dizesi içerir. Çağrı verileri burada toplanarak izleme görünümünde gösterilir. İzleme görünümünüz çalışmıyor olabilir.</value>
+    <value>Uygulamanızda '{0}' uygulama ayarı eksik. Bu ayar, işlevlerinizin izleme görünümü için gereken bir Azure Depolama hesabı için bir bağlantı dizesi içerir. Çağrı verileri burada kümelenerek izleme görünümünde gösterilir. İzleme görünümünüz çalışmıyor olabilir.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
     <value>Uygulamanızda '{0}' uygulama ayarı eksik. Bu ayar, işlevler çalışma zamanının birden çok örnek eşitlemesini işlemesi, çağrı sonuçlarını günlüğe kaydetmesi ve diğer altyapı görevlerini gerçekleştirmesi için gereken bir Azure Depolama hesabına yönelik bir bağlantı dizesi içerir. İşlev uygulamanız, bu ayar olmadan düzgün çalışmaz.</value>
@@ -3217,6 +3217,15 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Otomatik ölçeklendir</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Ölçeği genişlet.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>İşlem VM boyutu: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Yeterli kullanılabilir örnek yok.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Ölçeği çok büyük sayıda örneğe büyüt</value>
   </data>
@@ -3224,7 +3233,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>En fazla 100 örnek.  İstek üzerine daha fazlasına izin verilir.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>En çok {0} örnek.  Kullanılabilirliğe bağlıdır.</value>
+    <value>En çok {0} örnek. Kullanılabilirliğe bağlıdır.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Sınırsız örnek. Kullanılabilirliğe bağlıdır.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Yüksek Yoğunluk</value>
@@ -3750,7 +3762,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtımınızın bağlantısının kesilmesini istediğinizden emin misiniz?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Sunucusuz Topluluk Kitaplığı (Önizleme)</value>
+    <value>Sunucusuz Topluluk Kitaplığı</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Aradığınızı bulamıyor musunuz? Azure Sunucusuz Topluluk Kitaplığı'na bakın!</value>
@@ -4582,5 +4594,35 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Windows için yol 'c:\' ile başlamalıdır.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>İşlev uygulaması sınırlı bir durumda. Tüm veriler alınamıyor.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Sınırlı</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>İşlevler (Sınırlı)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Tüm işlevler durduruldu. İşlevlerinizi görüntülemek için uygulamanızı başlatın.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Bu uygulamaya yönelik yazma izniniz yok.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Salt okunur erişime sahipsiniz. İşlevleri görüntülemek için yazma erişimi gerekir.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Bir iç yük dengeleyicinin arkasında çalışan işlevlere kendi sanal ağları dışından erişilemez. Lütfen bu işlevlere erişmek için işlevlerle aynı sanal ağda olduğunuzdan emin olun.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Ara Sunucular (Sınırlı)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

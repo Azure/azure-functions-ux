@@ -647,7 +647,7 @@
     <value>Verwalten</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Überwachen</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Eingabebindung auswählen</value>
@@ -2282,7 +2282,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Der Verbrauchstarif unterstützt nur einen einzigen Slot. Wenn Sie mehr als einen Slot benötigen, verwenden Sie dedizierte App Service-Pläne.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Suchfunktionen</value>
+    <value>Funktionen durchsuchen</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Neu</value>
@@ -3217,6 +3217,15 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatische Staffelung</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Horizontal hochskalieren.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Compute-VM-Größe: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Nicht genügend verfügbare Instanzen.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Auf große Anzahl von Instanzen skalieren</value>
   </data>
@@ -3224,7 +3233,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Bis zu 100 Instanzen. Zusätzliche Instanzen auf Anfrage möglich.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Bis zu {0} Instanzen. Verfügbarkeit vorbehalten.</value>
+    <value>Bis zu {0} Instanzen, vorbehaltlich der Verfügbarkeit.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Unbegrenzte Instanzen, vorbehaltlich der Verfügbarkeit.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Hohe Dichte</value>
@@ -3750,7 +3762,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Möchten Sie Ihre Bereitstellung trennen?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverlose Communitybibliothek (Vorschau)</value>
+    <value>Serverlose Communitybibliothek</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Sie finden nicht, wonach Sie suchen? Sehen Sie sich die serverlose Bibliothek der Azure-Community an!</value>
@@ -4582,5 +4594,35 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Der Pfad für Windows muss mit "c:\" beginnen.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Die Funktions-App ist zurzeit eingeschränkt. Es können nicht alle Daten abgerufen werden.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Eingeschränkt</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funktionen (begrenzt)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Alle Funktionen werden beendet. Starten Sie Ihre App, um Ihre Funktionen anzuzeigen.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Sie besitzen für diese App keine Schreibberechtigungen.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Sie haben nur Lesezugriff. Zur Anzeige von Funktionen ist Schreibzugriff erforderlich.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Funktionen, die hinter einem internen Lastenausgleich ausgeführt werden, sind außerhalb ihres VNET nicht zugänglich. Stellen Sie sicher, dass Sie sich in demselben VNET wie die Funktionen befinden, auf die Sie zugreifen möchten.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxys (begrenzt)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Um die Sloteinstellungen zu ändern, müssen Sie über Schreibzugriff auf die Produktions-App verfügen.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Um die Einstellungen für den automatischen Tausch zu ändern, müssen Sie über Schreibberechtigungen für die Produktions-App verfügen.</value>
   </data>
 </root>

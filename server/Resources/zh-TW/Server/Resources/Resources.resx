@@ -3217,6 +3217,15 @@
   <data name="pricing_autoScale" xml:space="preserve">
     <value>自動調整規模</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>向外延展。</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>計算 VM 大小: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>可用的執行個體不足。</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>調整成大量的執行個體</value>
   </data>
@@ -3225,6 +3234,9 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>最多 {0} 個執行個體，視可用性而定。</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>無限制的執行個體，視可用性而定。</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>高密度</value>
@@ -3750,7 +3762,7 @@
     <value>確定要中斷部署的連線嗎?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>無伺服器社群文件庫 (預覽)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>沒有找到您要找的內容嗎? 請看看 Azure 無伺服器社群文件庫!</value>
@@ -3762,7 +3774,7 @@
     <value>如需儲存體設定的詳細資料，請按一下這裡。</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>若要深入了解如何疑難排解延伸模組的安裝，請按一下這裡</value>
+    <value>若要深入了解如何針對延伸模組安裝進行疑難排解，請按一下這裡</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>總共 {0} 個 ACU</value>
@@ -4050,7 +4062,7 @@
     <value>函數應用程式執行階段堆疊</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>函數應用程式 v2 現為單一語言。在將函數新增至應用程式之前，請先設定執行階段堆疊。</value>
+    <value>函數應用程式 v2 現為單一語言。在將函式新增至應用程式前，請先設定執行階段堆疊。</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>函數執行階段堆疊</value>
@@ -4582,5 +4594,35 @@
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Windows 的路徑必須以 'c:\' 開頭。</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>此函數應用程式為受限狀態。無法擷取所有資料。</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>有限制</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>函式 (受限)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>所有函式均已停止。啟動應用程式即可檢視您的函式。</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>您無權寫入此應用程式。</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>您只有唯讀權限。需要寫入權限才能檢視函式。</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>無法從函式 VNET 外部存取於內部負載平衡器後方執行的函式。若要存取這些函式，您必須位在函式所在的同一個 VNET。</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxy (受限)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>您必須有生產應用程式的寫入權限，才能變更位置設定。</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>您必須有生產應用程式的寫入權限，才能變更自動交換設定。</value>
   </data>
 </root>
