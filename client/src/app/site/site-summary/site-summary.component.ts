@@ -12,7 +12,6 @@ import {
   NotificationIds,
   SlotOperationState,
   SwapOperationType,
-  FeatureFlags,
   FunctionAppVersion,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
@@ -45,6 +44,7 @@ import { errorIds } from '../../shared/models/error-ids';
 import { TopBarNotification } from 'app/top-bar/top-bar-models';
 import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
+import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
 
 @Component({
   selector: 'site-summary',
@@ -442,7 +442,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       openAsContextBlade: true,
     };
 
-    const bladeInfo = Url.getParameterByName(null, FeatureFlags.UseNewSlotsBlade) === 'true' ? newBladeInfo : oldBladeInfo;
+    const bladeInfo = FlightingUtil.checkSubscriptionInFlight(this.subscriptionId, FlightingUtil.Features.NewDeploymentSlots)
+      ? newBladeInfo
+      : oldBladeInfo;
 
     this.swapControlsOpen = true;
     this._portalService
