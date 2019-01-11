@@ -647,7 +647,7 @@
     <value>Beheren</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Controle</value>
+    <value>Controleren</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Een invoerbinding kiezen</value>
@@ -1844,7 +1844,7 @@
     <value>De toepassingsinstelling {0} ontbreekt in uw app. Deze instelling bevat een sharenaam voor de locatie waar uw inhoud is opgeslagen. Zonder deze instelling werkt uw app niet. Mogelijk moet u deze functie-app verwijderen en opnieuw maken als u geen toegang meer hebt tot de waarde van deze toepassingsinstelling.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-    <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount dat vereist is voor de bewakingsweergave van uw functies. Hier worden aanroepgegevens samengevoegd en vervolgens weergegeven in de bewakingsweergave. De bewakingsweergave werkt mogelijk niet meer.</value>
+    <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount dat vereist is voor de bewakingsweergave van uw functies. Hier worden aanroepgegevens geaggregeerde en vervolgens weergegeven in de bewakingsweergave. De bewakingsweergave werkt mogelijk niet meer.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
     <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount dat is vereist voor de runtime van uw functies om synchronisatie van meerdere instanties af te handelen, resultaten van aanroepen vast te leggen en andere infrastructuurtaken uit te voeren. Zonder deze instelling werkt uw functie-app niet op de juiste manier.</value>
@@ -2144,7 +2144,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Weet u zeker dat u de sleutel {{name}} wilt verlengen?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Azure Functions is een op gebeurtenissen gebaseerde rekenervaring zonder server waarmee u sneller kunt ontwikkelen. U kunt schalen op aanvraag en u betaalt alleen voor de resources die u gebruikt.</value>
+    <value>Azure Functions is een op gebeurtenissen gebaseerde serverloze rekenervaring waarmee u sneller kunt ontwikkelen. U kunt schalen op aanvraag en u betaalt alleen voor de resources die u gebruikt.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Meer informatie over Azure Functions</value>
@@ -3218,6 +3218,15 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatisch schalen</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Uitschalen.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>VM-grootte berekenen: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Er zijn onvoldoende instanties beschikbaar.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Schalen naar een groot aantal exemplaren</value>
   </data>
@@ -3225,7 +3234,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Maximaal 100 exemplaren. Meer toegestaan op aanvraag.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Maximaal {0} exemplaren. Afhankelijk van beschikbaarheid.</value>
+    <value>Maximaal {0} instanties. Afhankelijk van beschikbaarheid.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Onbeperkt aantal instanties. Afhankelijk van beschikbaarheid.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>High Density</value>
@@ -3751,10 +3763,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Weet u zeker dat u de verbinding met uw implementatie wilt verbreken?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Bibliotheek van Serverless-community (preview)</value>
+    <value>Serverloze communitybibliotheek</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Niet gevonden wat u zoekt? Bekijk de bibliotheek van de Azure Serverless-community.</value>
+    <value>Niet gevonden wat u zoekt? Bekijk de bibliotheek van de Azure Serverloze communitybibliotheek.</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Azure Functions-runtime is niet bereikbaar.</value>
@@ -4051,7 +4063,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Runtimestack voor functie-app</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Functie-apps v2 gebruiken nu één taal. Stel de runtimestack in voordat u functies toevoegt aan uw app.</value>
+    <value>De functie-apps v2 gebruiken nu één taal. Stel de runtimestack in voordat u functies toevoegt aan uw app.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Runtimestack voor functie</value>
@@ -4583,5 +4595,35 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Het pad voor Windows moet beginnen met c:\.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>De functie-app heeft de status Beperkt. Kan niet alle gegevens ophalen.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Beperkt</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Functies (beperkt)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Alle functies zijn gestopt. Start uw app om uw functies weer te geven.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>U hebt geen schrijfmachtigingen voor deze app.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>U hebt alleen-lezentoegang. Functies vereisen schrijftoegang om weer te geven.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Functies die worden uitgevoerd na een interne load balancer zijn niet toegankelijk buiten hun VNET. Zorg dat u zich in hetzelfde VNET bevindt als de functies om toegang te krijgen.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxy's (beperkt)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>U moet schrijftoegang hebben voor de productie-app als u site-instellingen wilt wijzigen.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Als u de instelling voor automatisch wisselen wilt wijzigen, hebt u schrijfmachtigingen nodig voor de productie-app.</value>
   </data>
 </root>

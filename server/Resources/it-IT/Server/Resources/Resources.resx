@@ -641,13 +641,13 @@
     <value>Sviluppo</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrazione</value>
+    <value>Integra</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
     <value>Gestisci</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitoraggio</value>
+    <value>Monitora</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Scegliere un'associazione di input</value>
@@ -2144,7 +2144,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Rinnovare la chiave {{name}}?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Funzioni di Azure è un'esperienza di calcolo senza server basata su eventi che permette di accelerare lo sviluppo, ridimensionare in base alla domanda e pagare solo per le risorse usate.</value>
+    <value>Funzioni di Azure è un'esperienza di calcolo serverless basata su eventi che permette di accelerare lo sviluppo, ridimensionare in base alla domanda e pagare solo per le risorse usate.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Altre informazioni su Funzioni di Azure</value>
@@ -3217,6 +3217,15 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Scalabilità automatica</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Scale Out.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Dimensioni macchina virtuale di calcolo: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Le istanze disponibili non sono sufficienti.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Scalabile per l'aggiunta di un numero elevato di istanze</value>
   </data>
@@ -3224,7 +3233,10 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Fino a 100 istanze. Possibilità di aggiungerne su richiesta.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Fino a {0} istanze. Soggetto a disponibilità.</value>
+    <value>Fino a un massimo di {0} istanze, a seconda della disponibilità.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Istanze senza limiti, a seconda della disponibilità.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Alta densità</value>
@@ -3750,7 +3762,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Disconnettere la distribuzione?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Libreria della community serverless di Azure (anteprima)</value>
+    <value>Libreria della community serverless</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Le informazioni cercate non sono state trovate? Consultare la libreria della community serverless di Azure.</value>
@@ -3762,7 +3774,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Fare clic qui per i dettagli sulla configurazione dell'archiviazione.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Fare clic qui per altre informazioni sull'installazione dell'estensione Risoluzione dei problemi</value>
+    <value>Fare clic qui per altre informazioni sulla risoluzione dei problemi di installazione dell'estensione</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU totali</value>
@@ -3777,7 +3789,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Avvio rapido</value>
   </data>
   <data name="containerACR" xml:space="preserve">
-    <value>Registro contenitori di Azure</value>
+    <value>Registro Azure Container</value>
   </data>
   <data name="containerDockerHub" xml:space="preserve">
     <value>Hub Docker</value>
@@ -3795,7 +3807,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Immagine e tag facoltativo, ad esempio 'image:tag'</value>
   </data>
   <data name="containerACRMissingErrorMessage" xml:space="preserve">
-    <value>Per iniziare, creare un Registro contenitori di Azure e aggiungere un'immagine.</value>
+    <value>Per iniziare, creare un Registro Azure Container e aggiungere un'immagine.</value>
   </data>
   <data name="containerRepositoryAccess" xml:space="preserve">
     <value>Accesso al repository</value>
@@ -4050,7 +4062,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Stack di runtime dell'app per le funzioni</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Le app per le funzioni v2 sono ora disponibili in un solo linguaggio. Impostare lo stack di runtime prima di aggiungere le funzioni all'app.</value>
+    <value>Le app per le funzioni v2 sono ora disponibili per un singolo linguaggio. Impostare lo stack di runtime prima di aggiungere le funzioni all'app.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Stack di runtime della funzione</value>
@@ -4452,7 +4464,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Le credenziali sono state salvate</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>È possibile usare un'immagine da qualsiasi registro privato, incluso il Registro contenitori di Azure.</value>
+    <value>È possibile usare un'immagine da qualsiasi registro privato, incluso il Registro Azure Container.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Non selezionato</value>
@@ -4582,5 +4594,35 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Il percorso per Windows deve iniziare con 'c:\'.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>L'app per le funzioni si trova in uno stato limitato. Non è possibile recuperare tutti i dati.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limitato</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funzioni (limitate)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Tutte le funzioni sono arrestate. Avviare l'app per visualizzare le funzioni.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>L'utente non ha le autorizzazioni di scrittura per questa app.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Si dispone dell'accesso di sola lettura. Le funzioni richiedono l'accesso in scrittura per la visualizzazione.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Le funzioni in esecuzione tramite un servizio di bilanciamento del carico interno non sono accessibili all'esterno della rete virtuale in cui risiedono. Per accedervi, assicurarsi di usare la stessa rete virtuale delle funzioni.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxy (limitati)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Per modificare le impostazioni degli slot è necessario disporre dell'accesso in scrittura all'app di produzione.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Per modificare l'impostazione di scambio automatico è necessario disporre delle autorizzazioni di scrittura sull'app di produzione.</value>
   </data>
 </root>

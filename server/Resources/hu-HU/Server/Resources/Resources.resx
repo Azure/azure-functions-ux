@@ -647,7 +647,7 @@
     <value>Kezelés</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Figyelő</value>
+    <value>Figyelés</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Bemeneti kötés választása</value>
@@ -3217,6 +3217,15 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatikus skálázás</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Horizontális felskálázás.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Virtuálisgép-méret kiszámítása: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Nincs elég rendelkezésre álló példány.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Nagy számú példány használatát biztosító skálázás</value>
   </data>
@@ -3225,6 +3234,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Legfeljebb {0} példány, az elérhetőség függvényében.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Korlátlan számú példány. Az elérhetőség függvényében.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Nagy kapacitású</value>
@@ -3750,10 +3762,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Biztosan leválasztja az üzemelő példányt?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Kiszolgáló nélküli közösségi erőforrástár (előzetes verzió)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
-    <value>Nem találja, amit keres? Tekintse meg az Azure kiszolgáló nélküli közösségi erőforrástárát!</value>
+    <value>Nem találja, amit keres? Tekintse meg az Azure Serverless Community Libraryt!</value>
   </data>
   <data name="scmPingFailedErrorMessage" xml:space="preserve">
     <value>Az Azure Functions-futtatókörnyezet nem érhető el.</value>
@@ -4050,7 +4062,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Függvényalkalmazás futtatókörnyezeti verme</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>A v2 verziójú függvényalkalmazások mostantól egynyelvűek. A függvények alkalmazáshoz való hozzáadás előtt állítsa be a futtatókörnyezeti vermet.</value>
+    <value>A v2 verziójú függvényalkalmazások mostantól egynyelvűek. A függvények alkalmazáshoz való hozzáadása előtt állítsa be a futtatókörnyezeti vermet.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Függvény futtatókörnyezeti verme</value>
@@ -4578,9 +4590,39 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Már van ilyen nevű tárolási beállítás.</value>
   </data>
   <data name="unableToReachBuild" xml:space="preserve">
-    <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
+    <value>Nem sikerült csatlakozni a webalkalmazáshoz csatlakoztatott Azure Pipelines-folyamathoz. Ez azt is jelentheti, hogy az el lett távolítva az Azure DevOps-portálról. Ha ez történt, leválaszthatja a folyamatot, és beállíthat egy új üzembe helyezési folyamatot.</value>
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
-    <value>The path for Windows must begin with 'c:\'.</value>
+    <value>A windowsos elérési útnak a következővel kell kezdődnie: c:\.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>A függvényalkalmazás korlátozott állapotban van. Nem sikerült beolvasni az összes adatot.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Korlátozott</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Functions (korlátozott)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Az összes függvény le van állítva. Indítsa el az alkalmazást a függvények megtekintéséhez.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Nem rendelkezik írási engedéllyel ehhez az alkalmazáshoz.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Csak olvasási hozzáféréssel rendelkezik. A függvények megtekintéséhez írási hozzáférés szükséges.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>A belső terheléselosztó mögött futó függvények nem érhetők el a virtuális hálózatukon kívülről. Az elérésükhöz ellenőrizze, hogy az ugyanazt a virtuális hálózatot használja-e, mint a függvények.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxyk (korlátozott)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

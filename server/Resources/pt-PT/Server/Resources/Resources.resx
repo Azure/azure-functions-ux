@@ -647,7 +647,7 @@
     <value>Gerir</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitorização</value>
+    <value>Monitorizar</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Escolher um enlace de entrada</value>
@@ -1733,7 +1733,7 @@
     <value>Utilize o Kudu para inspecionar as variáveis de ambiente, aceder à consola de depuração, carregar zips, visualizar processos e mais.</value>
   </data>
   <data name="feature_appServiceEditorName" xml:space="preserve">
-    <value>Editor do Serviço de Aplicação</value>
+    <value>Editor do Serviço de Aplicações</value>
   </data>
   <data name="feature_appServiceEditorInfo" xml:space="preserve">
     <value>O Editor do Serviço de Aplicações fornece uma experiência de edição no browser para o código.</value>
@@ -2144,7 +2144,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Quer mesmo renovar a chave {{name}}?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>A ranhura {0} foi criada com êxito </value>
+    <value>As Funções do Azure são uma experiência de computação sem servidor baseada em eventos que lhe permite acelerar o seu desenvolvimento. Dimensione com base na procura e pague apenas pelos recursos que consumir.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Saiba mais sobre as funções do azure</value>
@@ -2282,7 +2282,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>O plano de consumo permite apenas uma única ranhura. Se necessitar de mais de uma ranhura, utilize os planos dedicados do Serviço de Aplicações.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Procurar funções</value>
+    <value>Procurar Funções</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Nova</value>
@@ -3217,6 +3217,15 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Dimensionamento automático</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Ampliar.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Tamanho da VM de computação: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Não existem instâncias disponíveis suficientes.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Dimensionar para um grande número de instâncias</value>
   </data>
@@ -3225,6 +3234,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Até {0} instâncias. Sujeito a disponibilidade.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Instâncias ilimitadas. Sujeito a disponibilidade.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Alta Densidade</value>
@@ -3750,7 +3762,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Tem a certeza de que pretende desligar a sua implementação?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Biblioteca de Comunidade Sem Servidor (Pré-visualização)</value>
+    <value>Biblioteca de Comunidade Sem Servidor</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Não encontra aquilo que procura? Consulte a Biblioteca da Comunidade sem Servidor do Azure!</value>
@@ -3762,7 +3774,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Clique aqui para obter detalhes sobre a configuração do armazenamento.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Clique aqui para saber mais sobre a instalação da extensão de resolução de problemas</value>
+    <value>Clique aqui para saber mais sobre a resolução de problemas de instalação de extensões</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU total</value>
@@ -4050,7 +4062,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Pilha de runtime da Aplicação de Função</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>As Aplicações de Funções v2 estão agora em linguagem única. Defina a pilha de runtime antes de adicionar funções à aplicação.</value>
+    <value>As Function Apps v2 estão agora na mesma linguagem. Defina a pilha de runtime antes de adicionar funções à sua aplicação.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Pilha de Runtime de Função</value>
@@ -4582,5 +4594,35 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>O caminho para o Windows tem de começar por "c:\".</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>A aplicação de funções está num estado limitado. Não é possível obter todos os dados.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limitado</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funções (Limitado)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Todas as funções estão paradas. Inicie a sua aplicação para ver as funções.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Não tem permissões de escrita para esta aplicação.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Tem acesso só de leitura. Ver as funções requer acesso de escrita.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>As funções em execução atrás de um balanceador de carga interno não estão acessíveis fora da respetiva VNET. Certifique-se de que está na mesma VNET em que se encontram as funções para poder aceder às mesmas.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxies (Limitado)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>
