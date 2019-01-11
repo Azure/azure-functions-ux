@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Conéctese con estas credenciales:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Más información</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Opciones de distribución</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure y administre las opciones de implementación de la aplicación, incluida la implementación continua desde VSTS, GitHub y BitBucket, y, además, desencadene implementaciones desde OneDrive, DropBox, GIT externo, etc.</value>
+    <value>Configure y administre las opciones de implementación de la aplicación, incluidas las de implementación continua desde Azure Repos, GitHub y BitBucket, así como las del desencadenador desde OneDrive, Dropbox, GIT externo, etc.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Credenciales de implementación</value>
@@ -1622,7 +1622,7 @@
     <value>Use Autenticación o autorización para proteger la aplicación y trabajar con datos por usuario.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed Service Identity</value>
+    <value>Identidad</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>La aplicación puede comunicarse con otros servicios de Azure como ella misma con una identidad de Azure Active Directory administrada.</value>
@@ -2207,13 +2207,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Los espacios de implementación le permiten implementar distintas versiones de su aplicación de función en diferentes direcciones URL. Puede probar una determinada versión y luego intercambiar contenido y configuraciones entre espacios.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Creando nuevo espacio {0} </value>
+    <value>Creación del nuevo espacio "{0}" </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>Espacio creado correctamente {0} </value>
+    <value>El espacio "{0}" se creó correctamente</value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>No se pudo crear el espacio {0} </value>
+    <value>No se pudo crear el espacio "{0}" </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>No se puede actualizar la lista de espacios</value>
@@ -2252,7 +2252,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Valor temporal</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>No se ha agregado ningún espacio de implementación. Haga clic en "Agregar espacio" para comenzar.</value>
+    <value>No ha agregado ninguna ranura de implementación. Haga clic aquí para empezar.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Nombre</value>
@@ -2477,7 +2477,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Centro de Corea</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>Sur de Corea</value>
+    <value>Sur de Corea del Sur</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>Oeste de EE. UU.</value>
@@ -2522,13 +2522,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>India del Sur</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
-    <value>Canadá central</value>
+    <value>Centro de Canadá</value>
   </data>
   <data name="canadaeast" xml:space="preserve">
-    <value>Canadá oriental</value>
+    <value>Este de Canadá</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
-    <value>Oeste del centro de EE. UU.</value>
+    <value>Centro-oeste de EE. UU.</value>
   </data>
   <data name="ukwest" xml:space="preserve">
     <value>Oeste de Reino Unido</value>
@@ -2813,7 +2813,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Organización</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Cuenta de Visual Studio Team Services</value>
+    <value>Organización de Azure DevOps</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Proyecto</value>
@@ -2825,7 +2825,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Origen</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Cuenta</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Prueba de carga</value>
@@ -2897,10 +2897,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se pudo cancelar {{operation}}. Error: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>El espacio {0} se intercambió con {1}.</value>
+    <value>El espacio "{0}" se intercambió con "{1}".</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>No se pudo intercambiar el espacio {0} con {1}.</value>
+    <value>No se pudo intercambiar el espacio "{0}" con "{1}".</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>La entrega continua se configuró correctamente y se desencadenó la compilación.</value>
@@ -2912,10 +2912,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se pudo configurar la entrega continua.</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Se ha creado una cuenta de Visual Studio Team Services.</value>
+    <value>Se creó una nueva organización de Azure DevOps.</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>No se pudo crear la cuenta de Visual Studio Team Services.</value>
+    <value>No se pudo crear la organización de Azure DevOps.</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Se ha creado un espacio.</value>
@@ -2954,10 +2954,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>La entrega continua se desencadenó correctamente con el último código fuente del repositorio.</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Definición de compilación</value>
+    <value>Canalización de compilación</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Definición de la versión</value>
+    <value>Canalización de versión</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Compilación desencadenada</value>
@@ -3011,7 +3011,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Configure la integración continua con un repositorio de GitHub.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Configura la integración continua en un repositorio de VSTS.</value>
+    <value>Configure la integración continua con Azure Repos, que forma parte de Azure DevOps Services (anteriormente conocido como VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Implementa desde un repositorio Mercurial o GIT público.</value>
@@ -3344,10 +3344,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Nivel de registro</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Compilación de VSTS (versión preliminar)</value>
+    <value>Azure Pipelines (versión preliminar)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services configura una canalización de implementación eficaz para su aplicación. La canalización se compila, ejecuta pruebas de carga e se implementa en el espacio de ensayo y, después, en producción.</value>
+    <value>Configure una canalización de implementación sólida para su aplicación con Azure Pipelines, que forma parte de Azure DevOps Services (anteriormente conocido como VSTS). La canalización compila y ejecuta las pruebas de carga y las implementa en el espacio de ensayo y luego al de producción.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Servidor de compilación de Kudu para App Service</value>
@@ -3359,7 +3359,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Compilación</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Seleccionar cuenta</value>
+    <value>Seleccionar organización</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Escriba el nombre de la cuenta</value>
@@ -3500,10 +3500,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Validando...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>No tiene permisos para crear una definición de versión o una definición de compilación en este proyecto. Póngase en contacto con el administrador del proyecto.</value>
+    <value>No tiene permiso para crear ninguna canalización de compilación o de versión en este proyecto. Póngase en contacto con el administrador del proyecto.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>El nombre de cuenta especificado no es válido. Proporcione otro.</value>
+    <value>El nombre de organización especificado no es válido. Proporcione otro.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Credenciales de usuario</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Las credenciales de usuario las define el usuario y se pueden usar con todas las aplicaciones a las que tiene acceso. Estas credenciales se pueden usar con FTP, GIT local y WebDeploy.</value>
+    <value>Las credenciales de usuario las define el usuario y se pueden usar con todas las aplicaciones a las que tiene acceso. Estas credenciales se pueden usar con FTP, GIT local y WebDeploy. Si usa las credenciales de usuario para conectarse a la aplicación, el nombre de usuario deberá indicarse como {0}.</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenciales de la aplicación</value>
@@ -3733,6 +3734,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>No se pudo configurar la implementación.</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>No se pudo configurar la implementación: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Desconectando la implementación</value>
   </data>
@@ -3762,6 +3766,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>Total de ACU: {0}</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Características disponibles</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Actualizar configuración de contenedor</value>
@@ -3917,7 +3924,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>El repositorio para la aplicación web {0} no se puede actualizar en este momento.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>La entrega continua de VSTS requiere que tenga permisos para escribir en Azure Active Directory y crear un principio de servicio.</value>
+    <value>La entrega continua de Azure DevOps requiere que tenga permisos para escribir en Azure Active Directory y crear una entidad de servicio.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Seleccionar muestra</value>
@@ -3926,13 +3933,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Descripción</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>No posee ningún repositorio de VSTS.</value>
+    <value>No tiene ninguna instancia de Azure Repos.</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>No tiene ninguna cuenta de VSTS válida.</value>
+    <value>No tiene ninguna organización de Azure DevOps válida.</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>No tiene ninguna cuenta de VSTS válida. La compilación Kudu de App Service también requiere que sea el propietario de la cuenta.</value>
+    <value>No tiene ninguna organización de Azure DevOps válida. La compilación Kudu de App Service también requiere que sea el propietario de la organización.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Crear ahora</value>
@@ -4121,7 +4128,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Finalizar e ir al centro de implementación</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de consumo de Linux (versión preliminar).</value>
+    <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo de Linux (versión preliminar).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Contenedor único (versión preliminar)</value>
@@ -4199,10 +4206,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Ranura de implementación nueva o existente</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Cuenta de VSTS nueva o existente</value>
+    <value>Organización de Azure DevOps nueva o existente</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Cuenta de VSTS nueva o existente</value>
+    <value>Aplicación web nueva o existente</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Detalles de la implementación</value>
@@ -4289,7 +4296,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Ruta de acceso física</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Tipo</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Eliminar</value>
@@ -4412,6 +4419,168 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Servidores proxy (inaccesibles)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>Formato no válido de YML. Error: "{0}".</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Descargar los registros del contenedor</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Descargando registros detallados del contenedor.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Los registros de contenedor se descargaron correctamente.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>No se pudieron descargar los registros del contenedor.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Restableciendo credenciales</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>No se pudieron restablecer las credenciales.</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Las credenciales se restablecieron correctamente.</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Guardando credenciales</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>No se pudieron guardar las credenciales.</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Las credenciales se guardaron correctamente.</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Permite usar una imagen de cualquier registro privado, incluido Azure Container Registry.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>No seleccionada</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Más reciente</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (versión más reciente)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>La aplicación usará la versión más reciente de {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Si elige una versión secundaria específica que no es la más reciente, podrían producirse períodos más largos de arranque en frío.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions para PowerShell: introducción</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Agregar almacenamiento (versión preliminar)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Proporcione información de Azure Storage Blob o del archivo que se va a montar para la aplicación.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Opción de configuración</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Básico</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Avanzadas</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Elija una cuenta de almacenamiento</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Cuenta de almacenamiento</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Contenedor de almacenamiento</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Recurso compartido de archivos de almacenamiento</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Elija un contenedor de almacenamiento</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Ruta de acceso de montaje</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Nombre del recurso compartido</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Clave de acceso</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Elegir un recurso compartido de archivos</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Tipo de almacenamiento</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>El formato de la ruta de acceso no es válido para Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>El formato de la ruta de acceso no es válido para Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Almacenamiento de montaje (versión preliminar)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ Agregar almacenamiento</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Contenedor</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Ruta de acceso</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>Puede elegir mostrar las claves de almacenamiento ocultas en el explorador mediante los siguientes controles.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Cuentas de almacenamiento</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Nombre de cuenta de almacenamiento</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>El recurso compartido no es válido.</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Credenciales no válidas</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(no hay ninguna cuenta de almacenamiento para mostrar).</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Ya existe una opción de almacenamiento con ese nombre.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>No se pudo establecer la conexión con la canalización de Azure que está conectada a esta aplicación web. Quizás se quitó del portal de Azure DevOps. Si esto es lo que sucedió, puede desconectar esta canalización y configurar una nueva canalización de implementación.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>La ruta de acceso de Windows debe comenzar con "c:\".</value>
   </data>
 </root>

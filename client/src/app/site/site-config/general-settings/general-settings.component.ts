@@ -1,6 +1,14 @@
 import { OsType } from './../../../shared/models/arm/stacks';
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories, SiteTabIds, ScenarioIds, SubscriptionQuotaIds } from './../../../shared/models/constants';
+import {
+  Constants,
+  Links,
+  LogCategories,
+  ScenarioIds,
+  SiteTabIds,
+  SubscriptionQuotaIds,
+  WorkerRuntimeLanguages,
+} from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -24,6 +32,9 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { BillingService } from 'app/shared/services/billing.service';
+import { HttpResult } from 'app/shared/models/http-result';
+import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
+import { FunctionsVersionInfoHelper } from 'app/shared/models/functions-version-info';
 
 @Component({
   selector: 'general-settings',
@@ -79,17 +90,22 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   public http20Supported = false;
   public http20EnabledOptions: SelectOption<boolean>[];
 
+  public functionsSupportedJavaVersionDisplay: string;
+  public isJavaFunctionApp = false;
+  public showFunctionsJavaVersionUnspecifiedWarning = false;
+  public showFunctionsJavaMinorVersionWarning = false;
   public dropDownOptionsMap: { [key: string]: DropDownElement<string>[] };
   public linuxRuntimeSupported = false;
   public linuxFxVersionOptions: DropDownGroupElement<string>[];
   public readonly linuxFxVersionLabelHelp: string;
   public readonly appCommandLineLabelHelp: string;
 
+  private readonly _functionsSupportedJavaVersion = '1.8';
   private _sku: string;
 
   private _dropDownOptionsMapClean: { [key: string]: DropDownElement<string>[] };
   private _emptyJavaWebContainerProperties: JavaWebContainerProperties = {
-    container: '-',
+    container: '',
     containerMajorVersion: '',
     containerMinorVersion: '',
   };
@@ -97,6 +113,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   private _javaMinorToMajorVersionsMap: { [key: string]: string };
 
   private _selectedJavaVersion: string;
+  private _lastSelectedJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
   private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
   private _ignoreChildEvents = true;
 
@@ -150,6 +167,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
           this._siteService.getSite(this.resourceId),
           this._siteService.getSlots(this.resourceId),
           this._siteService.getSiteConfig(this.resourceId, true),
+          this._siteService.getAppSettings(this.resourceId, true),
           this._siteService.getAvailableStacks(OsType.Windows),
           this._siteService.getAvailableStacks(OsType.Linux),
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
@@ -165,40 +183,28 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         const siteResult = results[0];
         const slotsResult = results[1];
         const configResult = results[2];
-        const stacksResultWindows = results[3];
-        const stacksResultLinux = results[4];
-        const hasWritePermission = results[5];
-        const hasReadonlyLock = results[6];
-        this.use32BitWorkerProcessUpsell = results[7].data;
-        this.alwaysOnUpsell = results[8].data;
-        this.autoSwapUpsell = results[9].data;
-        this.webSocketUpsell = results[10].data;
-        this.isDreamspark = results[11];
+        const appSettingsResult = results[3];
+        const stacksResultWindows = results[4];
+        const stacksResultLinux = results[5];
+        const hasWritePermission = results[6];
+        const hasReadonlyLock = results[7];
+        this.use32BitWorkerProcessUpsell = results[8].data;
+        this.alwaysOnUpsell = results[9].data;
+        this.autoSwapUpsell = results[10].data;
+        this.webSocketUpsell = results[11].data;
+        this.isDreamspark = results[12];
 
-        if (
-          !siteResult.isSuccessful ||
-          !slotsResult.isSuccessful ||
-          !configResult.isSuccessful ||
-          !stacksResultWindows.isSuccessful ||
-          !stacksResultLinux.isSuccessful
-        ) {
-          if (!siteResult.isSuccessful) {
-            this._logService.error(LogCategories.generalSettings, '/general-settings', siteResult.error.result);
-          } else if (!slotsResult.isSuccessful) {
-            this._logService.error(LogCategories.generalSettings, '/general-settings', slotsResult.error.result);
-          } else if (!configResult.isSuccessful) {
-            this._logService.error(LogCategories.generalSettings, '/general-settings', configResult.error.result);
-          } else if (!stacksResultWindows.isSuccessful) {
-            this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultWindows.error.result);
-          } else {
-            this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultLinux.error.result);
-          }
-
+        if (!this._isFetchSuccessful(siteResult, slotsResult, configResult, appSettingsResult, stacksResultWindows, stacksResultWindows)) {
           this._setupForm(null, null);
           this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
         } else {
           this.siteArm = siteResult.result;
           this.siteConfigArm = configResult.result;
+          this.appSettingsArm = appSettingsResult.isSuccessful && appSettingsResult.result;
+
+          this._sku = this.siteArm.properties.sku;
+
+          this.isJavaFunctionApp = this._isJavaFunctionApp(this.siteArm, this.appSettingsArm);
 
           this._setPermissions(hasWritePermission, hasReadonlyLock);
 
@@ -217,6 +223,54 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
       });
+  }
+
+  private _isJavaFunctionApp(siteArm: ArmObj<Site>, appSettingsArm: ArmObj<ApplicationSettings>): boolean {
+    if (!siteArm || !ArmUtil.isFunctionApp(siteArm) || !appSettingsArm || !appSettingsArm.properties) {
+      return false;
+    }
+
+    const runtimeVersion = appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
+    const runtimeGeneration = FunctionsVersionInfoHelper.getFunctionGeneration(runtimeVersion);
+    const workerRuntime = appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+    return runtimeGeneration === 'V2' && workerRuntime === WorkerRuntimeLanguages.java.toLowerCase();
+  }
+
+  private _isFetchSuccessful(
+    siteResult: HttpResult<ArmObj<Site>>,
+    slotsResult: HttpResult<ArmArrayResult<Site>>,
+    configResult: HttpResult<ArmObj<SiteConfig>>,
+    appSettingsResult: HttpResult<ArmObj<ApplicationSettings>>,
+    stacksResultWindows: HttpResult<ArmArrayResult<AvailableStack>>,
+    stacksResultLinux: HttpResult<ArmArrayResult<AvailableStack>>
+  ): boolean {
+    let isSuccessful = true;
+
+    if (!siteResult.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', siteResult.error.result);
+      isSuccessful = false;
+    }
+    if (!slotsResult.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', slotsResult.error.result);
+      isSuccessful = false;
+    }
+    if (!configResult.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', configResult.error.result);
+      isSuccessful = false;
+    }
+    if (!appSettingsResult.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', appSettingsResult.error.result);
+    }
+    if (!stacksResultWindows.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultWindows.error.result);
+      isSuccessful = false;
+    }
+    if (!stacksResultLinux.isSuccessful) {
+      this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultLinux.error.result);
+      isSuccessful = false;
+    }
+
+    return isSuccessful;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -334,8 +388,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       let FTPAccessSupported = true;
       let http20Supported = true;
 
-      this._sku = siteArm.properties.sku;
-
       if (ArmUtil.isLinuxApp(siteArm)) {
         netFrameworkSupported = false;
         phpSupported = false;
@@ -361,7 +413,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       if (ArmUtil.isFunctionApp(siteArm)) {
         netFrameworkSupported = false;
         pythonSupported = false;
-        javaSupported = false;
+        javaSupported = false; // TODO (andimarc): Set to "this.isJavaFunctionApp" once ANT79 is fully deployed
         classicPipelineModeSupported = false;
         linuxRuntimeSupported = false;
 
@@ -842,11 +894,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
       let defaultJavaVersion = '';
       const javaVersionOptions: DropDownElement<string>[] = [];
-      const javaVersionOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaStack];
-
-      let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
-      let javaWebContainerOptions: DropDownElement<string>[] = [];
-      const javaWebContainerOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer];
+      const javaVersionOptionsClean = this.isJavaFunctionApp
+        ? this._dropDownOptionsMapClean[AvailableStackNames.JavaStackForFunctions]
+        : this._dropDownOptionsMapClean[AvailableStackNames.JavaStack];
 
       if (javaVersion) {
         if (this._javaMinorVersionOptionsMap[javaVersion]) {
@@ -855,19 +905,32 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
           defaultJavaVersion = this._javaMinorToMajorVersionsMap[javaVersion];
           defaultJavaMinorVersion = javaVersion;
         } else {
-          // TODO: [andimarc] How to handle an invalid javaVersion string
-          // javaVersion = "";
+          // TODO (andimarc): How to handle an invalid javaVersion string
+          defaultJavaVersion = '';
+          defaultJavaMinorVersion = '';
         }
+      }
+
+      this._updateFunctionsJavaWarnings(defaultJavaVersion, defaultJavaMinorVersion);
+
+      if (this.isJavaFunctionApp && !!defaultJavaVersion && defaultJavaVersion !== this._functionsSupportedJavaVersion) {
+        // TODO (andimarc): How to handle function app using unsupported java version
+        defaultJavaVersion = '';
+        defaultJavaMinorVersion = '';
       }
 
       // MajorVersion
       this._selectedJavaVersion = defaultJavaVersion;
       javaVersionOptionsClean.forEach(element => {
-        javaVersionOptions.push({
-          displayLabel: element.displayLabel,
-          value: element.value,
-          default: element.value === defaultJavaVersion || (!element.value && !defaultJavaVersion),
-        });
+        // For a Java Function app, don't include the 'empty' option unless the setting is currently not configured on the app
+        const shouldExclude = this.isJavaFunctionApp && !element.value && !!defaultJavaVersion;
+        if (!shouldExclude) {
+          javaVersionOptions.push({
+            displayLabel: element.displayLabel,
+            value: element.value,
+            default: element.value === defaultJavaVersion || (!element.value && !defaultJavaVersion),
+          });
+        }
       });
       const javaVersionControl = this._fb.control({ value: defaultJavaVersion, disabled: !this.hasWritePermissions });
 
@@ -886,11 +949,19 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       const javaMinorVersionControl = this._fb.control({ value: defaultJavaMinorVersion, disabled: !this.hasWritePermissions });
 
       // WebContainer
+      let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
+      const javaWebContainerOptions: DropDownElement<string>[] = [];
+
       if (defaultJavaVersion) {
+        const javaWebContainerOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer];
+
         javaWebContainerOptionsClean.forEach(element => {
           let match = false;
           const parsedValue: JavaWebContainerProperties = JSON.parse(element.value);
-          if (
+          if (!javaContainer && !javaContainerVersion && element.value === JSON.stringify(this._emptyJavaWebContainerProperties)) {
+            defaultJavaWebContainer = element.value;
+            match = true;
+          } else if (
             parsedValue.container.toUpperCase() === javaContainer &&
             (parsedValue.containerMinorVersion === javaContainerVersion ||
               (parsedValue.containerMajorVersion === javaContainerVersion && !parsedValue.containerMinorVersion))
@@ -904,9 +975,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             default: match,
           });
         });
-      } else {
-        javaWebContainerOptions = [];
       }
+
+      this._lastSelectedJavaWebContainer = defaultJavaWebContainer;
       const javaWebContainerControl = this._fb.control({ value: defaultJavaWebContainer, disabled: !this.hasWritePermissions });
 
       group.addControl('javaVersion', javaVersionControl);
@@ -933,11 +1004,12 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       let javaWebContainerNeedsUpdate = false;
 
       if (!javaVersion) {
-        if (previousJavaVersionSelection) {
+        if (!!previousJavaVersionSelection) {
           javaMinorVersionOptions = [];
           defaultJavaMinorVersion = '';
           javaMinorVersionNeedsUpdate = true;
 
+          this._lastSelectedJavaWebContainer = this.group.controls['javaWebContainer'].value as string;
           javaWebContainerOptions = [];
           defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
           javaWebContainerNeedsUpdate = true;
@@ -952,13 +1024,17 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         javaMinorVersionNeedsUpdate = true;
 
         if (!previousJavaVersionSelection) {
+          defaultJavaWebContainer = this._lastSelectedJavaWebContainer;
           const javaWebContainerOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer];
           javaWebContainerOptions = JSON.parse(JSON.stringify(javaWebContainerOptionsClean));
-          javaWebContainerOptions[0].default = true;
-          defaultJavaWebContainer = javaWebContainerOptions[0].value;
+          javaWebContainerOptions.forEach(option => {
+            option.default = option.value === defaultJavaWebContainer;
+          });
           javaWebContainerNeedsUpdate = true;
         }
       }
+
+      this._updateFunctionsJavaWarnings(javaVersion, defaultJavaMinorVersion);
 
       // MinorVersion
       if (javaMinorVersionNeedsUpdate) {
@@ -992,6 +1068,16 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._setEnabledStackControls();
       }, 0);
     }
+  }
+
+  public onJavaMinorVersionChange(javaMinorVersion: string) {
+    this._updateFunctionsJavaWarnings(!!this.group.controls['javaVersion'] && this.group.controls['javaVersion'].value, javaMinorVersion);
+  }
+
+  private _updateFunctionsJavaWarnings(javaVersion: string, javaMinorVersion: string) {
+    this.showFunctionsJavaVersionUnspecifiedWarning = this.isJavaFunctionApp && !javaVersion;
+    this.showFunctionsJavaMinorVersionWarning =
+      this.isJavaFunctionApp && javaVersion === this._functionsSupportedJavaVersion && !!javaMinorVersion;
   }
 
   private _parseAvailableStacks(availableStacksArm: ArmArrayResult<AvailableStack>) {
@@ -1086,6 +1172,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this._javaMinorVersionOptionsMap = {};
 
     const javaVersionOptions: DropDownElement<string>[] = [];
+    const javaVersionOptionsForFunctions: DropDownElement<string>[] = [];
 
     javaVersionOptions.push({
       displayLabel: this._translateService.instant(PortalResources.off),
@@ -1093,17 +1180,33 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       default: false,
     });
 
+    javaVersionOptionsForFunctions.push({
+      displayLabel: this._translateService.instant(PortalResources.notSelected),
+      value: '',
+      default: false,
+    });
+
     availableStack.majorVersions.forEach(majorVersion => {
       this._parseJavaMinorStackOptions(majorVersion);
 
-      javaVersionOptions.push({
+      const option: DropDownElement<string> = {
         displayLabel: 'Java ' + majorVersion.displayVersion.substr(2),
         value: majorVersion.runtimeVersion,
         default: false,
-      });
+      };
+
+      if (option.value === this._functionsSupportedJavaVersion) {
+        this.functionsSupportedJavaVersionDisplay = option.displayLabel;
+      }
+
+      javaVersionOptions.push(option);
+      if (majorVersion.runtimeVersion === this._functionsSupportedJavaVersion) {
+        javaVersionOptionsForFunctions.push(option);
+      }
     });
 
     this._dropDownOptionsMapClean[AvailableStackNames.JavaStack] = javaVersionOptions;
+    this._dropDownOptionsMapClean[AvailableStackNames.JavaStackForFunctions] = javaVersionOptionsForFunctions;
   }
 
   private _parseJavaMinorStackOptions(majorVersion: MajorVersion) {
@@ -1122,7 +1225,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     });
 
     javaMinorVersionOptions.push({
-      displayLabel: this._translateService.instant(PortalResources.newest),
+      displayLabel: this._translateService.instant(PortalResources.latest),
       value: '',
       default: false,
     });
@@ -1134,6 +1237,12 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
 
     const javaWebContainerOptions: DropDownElement<string>[] = [];
+
+    javaWebContainerOptions.push({
+      displayLabel: this._translateService.instant(PortalResources.notSelected),
+      value: JSON.stringify(this._emptyJavaWebContainerProperties),
+      default: false,
+    });
 
     availableStack.frameworks.forEach(framework => {
       framework.majorVersions.forEach(majorVersion => {
@@ -1150,8 +1259,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         });
 
         javaWebContainerOptions.push({
-          displayLabel:
-            this._translateService.instant(PortalResources.newest) + ' ' + framework.display + ' ' + majorVersion.displayVersion,
+          displayLabel: this._translateService.instant(PortalResources.versionLatest, {
+            version: `${framework.display} ${majorVersion.displayVersion}`,
+          }),
           value: JSON.stringify({
             container: framework.name,
             containerMajorVersion: majorVersion.runtimeVersion,
@@ -1228,11 +1338,13 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   }
 
   validate() {
-    let controls = this.group.controls;
+    const controls = this.group.controls;
     for (const controlName in controls) {
-      const control = <CustomFormControl>controls[controlName];
-      control._msRunValidation = true;
-      control.updateValueAndValidity();
+      if (controls[controlName]) {
+        const control = <CustomFormControl>controls[controlName];
+        control._msRunValidation = true;
+        control.updateValueAndValidity();
+      }
     }
   }
 
@@ -1242,7 +1354,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     let sitePristine = true;
     let siteConfigPristine = true;
 
-    for (let name in generalSettingsControls) {
+    for (const name in generalSettingsControls) {
       if (generalSettingsControls[name].dirty) {
         if (name === 'clientAffinityEnabled') {
           sitePristine = false;

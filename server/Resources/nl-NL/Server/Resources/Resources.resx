@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Verbinding maken met deze referenties:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Meer informatie</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Implementatieopties</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configureer en beheer implementatieopties voor uw app, waaronder continue implementatie via VSTS, GitHub en Bitbucket, en activeer implementaties via OneDrive, Dropbox, externe Git en meer.</value>
+    <value>Configureer en beheer implementatieopties voor uw app, waaronder continue implementatie via Azure-opslagplaatsen, GitHub en Bitbucket, en activeer implementaties via OneDrive, Dropbox, externe Git en meer.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Referenties voor implementatie</value>
@@ -1622,7 +1622,7 @@
     <value>Gebruik Verificatie/autorisatie om uw toepassing te beschermen en met individuele gebruikersgegevens te werken.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed Service Identity</value>
+    <value>Identiteit</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Uw toepassing kan met een beheerde Azure Active Directory-id als zichzelf met andere Azure-services communiceren.</value>
@@ -1643,7 +1643,7 @@
     <value>Webserverlogboeken</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
-    <value>Logboeken met diagnostische gegevens</value>
+    <value>Diagnostische logboeken</value>
   </data>
   <data name="feature_diagnosticLogsInfo" xml:space="preserve">
     <value>Configureer waar en wanneer u toepassings- en servergebeurtenissen aan het logboek wilt toevoegen.</value>
@@ -2207,7 +2207,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Met implementatiesites kunt u verschillende versie van uw functie-app naar verschillende URL's implementeren. U kunt een bepaalde versie testen en vervolgens inhoud en configuratie uitwisselen tussen sites.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>De nieuwe site {0} maken... </value>
+    <value>De nieuwe site {0} maken</value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
     <value>De site {0} is gemaakt </value>
@@ -2252,7 +2252,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Tijdelijke waarde</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>U hebt geen implementatiesleuven toegevoegd. Klik op Sleuf toevoegen om te beginnen.</value>
+    <value>U hebt geen implementatiesites toegevoegd. Klik hier om aan de slag te gaan.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Naam</value>
@@ -2522,10 +2522,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>India - zuid</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
-    <value>Canada Centraal</value>
+    <value>Canada - centraal</value>
   </data>
   <data name="canadaeast" xml:space="preserve">
-    <value>Canada Oost</value>
+    <value>Canada - oost</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
     <value>US - west-centraal</value>
@@ -2814,7 +2814,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Organisatie</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Service-account</value>
+    <value>Azure DevOps-organisatie</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Project</value>
@@ -2826,7 +2826,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Bron</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Account</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Belastingstest</value>
@@ -2898,10 +2898,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Kan {{operation}} niet annuleren. Fout: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>Sleuf {0} verwisseld met {1}</value>
+    <value>De site {0} is verwisseld met {1}</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>Kan sleuf {0} niet verwisselen met {1}</value>
+    <value>Kan de site {0} niet verwisselen met {1}</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Continue levering is geïnstalleerd en het bouwen is geactiveerd</value>
@@ -2913,10 +2913,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Kan geen continue levering instellen</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Nieuwe Visual Studio Team Services-account is gemaakt</value>
+    <value>Er is een Azure DevOps-organisatie gemaakt</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Kan Visual Studio Team Services-account niet maken</value>
+    <value>Kan geen Azure DevOps-organisatie maken</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Nieuwe sleuf gemaakt</value>
@@ -2955,10 +2955,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Continue levering is geactiveerd met de meest recente broncode uit de opslagplaats</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Definitie van de build</value>
+    <value>Build-pipeline</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Definitie van de release</value>
+    <value>Release-pijplijn</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Build geactiveerd</value>
@@ -3012,7 +3012,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Continue integratie configureren met een GitHub-opslagplaats.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Continue integratie configureren met een VSTS-opslagplaats.</value>
+    <value>Continue integratie met een Azure-opslagplaats als onderdeel van Azure DevOps Services (voorheen VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Implementeren vanaf een openbare Git- of Mercurial-opslagplaats.</value>
@@ -3027,7 +3027,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>De inhoud van een OneDrive-cloudmap synchroniseren.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>Duurzame functies</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>Een functie die wordt uitgevoerd wanneer een activiteit door een orchestrator-functie wordt aangeroepen.</value>
@@ -3345,10 +3345,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Logboekniveau</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS-build (preview-versie)</value>
+    <value>Azure Pipelines (preview)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Met Visual Studio Team Services kunt u eenvoudig een robuuste implementatiepijplijn voor uw toepassing instellen. De pijplijn bouwt, voert belastingtests uit en implementeert naar de faseringssleuf en vervolgens naar productie.</value>
+    <value>Gebruik Azure Pipelines, onderdeel van Azure DevOps Services (voorheen VSTS), om een robuuste implementatiepijplijn voor uw toepassing te configureren. Met de pijplijn kunt u toepassingen bouwen en belastingtests uitvoeren, en vervolgens implementeren naar de faseringssleuf en naar de productieomgeving.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu maken server</value>
@@ -3360,7 +3360,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Build</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Account selecteren</value>
+    <value>Organisatie selecteren</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Accountnaam invoeren</value>
@@ -3501,10 +3501,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Valideren...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>U hebt geen machtigingen om een builddefinitie of een versiedefinitie te maken voor dit project. Neem contact op met de projectbeheerder</value>
+    <value>U hebt geen machtigingen om een build-pipeline of een release-pijplijn te maken voor dit project. Neem contact op met de projectbeheerder</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>De opgegeven naam van het account is ongeldig. Geef een andere accountnaam op.</value>
+    <value>De opgegeven organisatienaam is ongeldig. Geef een andere organisatienaam op.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP- + FTPS</value>
@@ -3537,7 +3537,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gebruikersreferenties</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTP, Lokale Git en WebDeploy.</value>
+    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt voor alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt voor FTP, lokale Git en WebDeploy. Als u gebruikersreferenties gebruikt om verbinding te maken met uw app, moet de gebruikersnaam worden ingevoerd als {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-referenties</value>
@@ -3734,6 +3735,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Kan de implementatie niet instellen</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Kan de implementatie niet instellen: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>De verbinding met uw implementatie wordt verbroken</value>
   </data>
@@ -3763,6 +3767,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} Azure Compute-eenheden in totaal</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Beschikbare functies</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Containerinstellingen bijwerken</value>
@@ -3918,7 +3925,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>De opslagplaats voor web-app {0} kan op dit moment niet worden bijgewerkt.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>De doorlopende VSTS-levering vereist dat u een machtiging hebt voor het schrijven naar Azure Active Directory en het maken van een service-principal.</value>
+    <value>De doorlopende Azure DevOps-levering vereist dat u een machtiging hebt voor het schrijven naar Azure Active Directory en het maken van een service-principal.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Voorbeeld selecteren</value>
@@ -3927,13 +3934,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Beschrijving</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>U bent geen eigenaar van VSTS-opslagplaatsen</value>
+    <value>U bent geen eigenaar van een Azure-opslagplaats</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>U hebt geen geldige VSTS-accounts</value>
+    <value>U beschikt niet over een geldige Azure DevOps-organisatie</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>U hebt geen geldige VSTS-accounts. App Service Kudu Build vereist ook dat u accounteigenaar bent</value>
+    <value>U hebt geen geldige Azure DevOps-organisatie. App Service Kudu Build vereist ook dat u eigenaar van de organisatie bent</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Nu maken</value>
@@ -4200,10 +4207,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Nieuwe of bestaande implementatiesite</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Nieuw of bestaand VSTS-account</value>
+    <value>Nieuwe of bestaande Azure DevOps-organisatie</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Nieuw of bestaand VSTS-account</value>
+    <value>Nieuwe of bestaande web-app</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Implementatiedetails</value>
@@ -4414,5 +4421,167 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Ongeldige YML-indeling. Fout: {0}.</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Containerlogboeken downloaden</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Gedetailleerde containerlogboeken downloaden.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>De containerlogboeken zijn gedownload.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Kan de containerlogboeken niet downloaden.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Referenties opnieuw instellen</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Het opnieuw instellen van de referenties is mislukt</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>De referenties zijn opnieuw ingesteld</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Referenties opslaan</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Het opslaan van de referenties is mislukt</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Referenties zijn opgeslagen</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Een installatiekopie uit een privéregister, zoals Azure Container Registry, gebruiken.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Niet geselecteerd</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Meest recent</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (nieuwste)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Uw app gaat de nieuwste versie gebruiken van {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Als u een specifieke secundaire versie kiest, die niet het nieuwste is, kan dit langere koude opstarttijden tot gevolg hebben.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions for PowerShell - aan de slag</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Opslag toevoegen (preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Geef de aan uw app te koppelen Azure Storage Blob of bestandsgegevens op.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuratieoptie</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basis</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Geavanceerd</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Kies een opslagaccount</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Opslagaccount</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Opslagcontainer</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Opslagbestandsshare</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Kies een opslagcontainer</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Koppelpad</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Sharenaam</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Toegangssleutel</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Kies een bestandsshare</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Opslagtype</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>De padnotatie is niet geldig voor Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>De padnotatie is niet geldig voor Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Opslag koppelen (preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ Opslag toevoegen</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Pad</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>U kunt de verbogen opslagsleutels in uw browser weergeven met behulp van de onderstaande besturingselementen.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Opslagaccounts</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Naam van opslagaccount</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Share is ongeldig</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Ongeldige referenties</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Bestanden</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(er geen opslagaccounts om weer te geven)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Er bestaat al een opslaginstelling met die naam.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Kan geen verbinding maken met de Azure-pijplijn die is verbonden met deze web-app. Dit kan betekenen dat deze is verwijderd uit de Azure Dev Ops-portal. Als dit het geval is, kunt u de verbinding met deze pijplijn verbreken en een nieuwe implementatiepijplijn instellen.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Het pad voor Windows moet beginnen met c:\.</value>
   </data>
 </root>

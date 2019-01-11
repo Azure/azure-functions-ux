@@ -7,6 +7,7 @@ import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
 import { FeatureComponent } from './feature-component';
 import { BusyStateName } from 'app/busy-state/busy-state.component';
+import { ByosStorageAccounts } from 'app/site/byos/byos';
 
 export interface ArmSaveConfigs {
   appSettingsArm?: ArmObj<ApplicationSettings>;
@@ -14,6 +15,7 @@ export interface ArmSaveConfigs {
   siteArm?: ArmObj<Site>;
   siteConfigArm?: ArmObj<SiteConfig>;
   slotConfigNamesArm?: ArmObj<SlotConfigNames>;
+  azureStorageAccountsArm?: ArmObj<ByosStorageAccounts>;
 }
 
 export interface ArmSaveResult<T> {
@@ -28,9 +30,10 @@ export interface ArmSaveResults {
   site?: ArmSaveResult<Site>;
   siteConfig?: ArmSaveResult<SiteConfig>;
   slotConfigNames?: ArmSaveResult<SlotConfigNames>;
+  azureStorageAccounts?: ArmSaveResult<ByosStorageAccounts>;
 }
 
-type ConfigType = 'ApplicationSettings' | 'ConnectionStrings' | 'Site' | 'SiteConfig' | 'SlotConfigNames';
+type ConfigType = 'ApplicationSettings' | 'ConnectionStrings' | 'Site' | 'SiteConfig' | 'SlotConfigNames' | 'AzureStorageAccounts';
 
 interface ConfigState {
   isNeeded: boolean;
@@ -47,10 +50,18 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
   public siteArm: ArmObj<Site>;
   public siteConfigArm: ArmObj<SiteConfig>;
   public slotConfigNamesArm: ArmObj<SlotConfigNames>;
+  public azureStorageAccountsArm: ArmObj<ByosStorageAccounts>;
 
   protected _saveFailed: boolean;
 
-  private readonly _configTypes: ConfigType[] = ['ApplicationSettings', 'ConnectionStrings', 'Site', 'SiteConfig', 'SlotConfigNames'];
+  private readonly _configTypes: ConfigType[] = [
+    'ApplicationSettings',
+    'ConnectionStrings',
+    'Site',
+    'SiteConfig',
+    'SlotConfigNames',
+    'AzureStorageAccounts',
+  ];
 
   private _configStates: ConfigStateMap;
 
@@ -72,6 +83,7 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
     this.siteArm = null;
     this.siteConfigArm = null;
     this.slotConfigNamesArm = null;
+    this.azureStorageAccountsArm = null;
   }
 
   protected _resetSubmittedStates() {
@@ -108,6 +120,8 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
         return !!sourceConfigs.siteConfigArm;
       case 'SlotConfigNames':
         return !!sourceConfigs.slotConfigNamesArm;
+      case 'AzureStorageAccounts':
+        return !!sourceConfigs.azureStorageAccountsArm;
       default:
         return false;
     }
@@ -131,6 +145,9 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
       case 'SlotConfigNames':
         destConfigs.slotConfigNamesArm = sourceConfigs.slotConfigNamesArm;
         break;
+      case 'AzureStorageAccounts':
+        destConfigs.azureStorageAccountsArm = sourceConfigs.azureStorageAccountsArm;
+        break;
       default:
         break;
     }
@@ -143,6 +160,7 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
       siteArm: results.site ? results.site.value : null,
       siteConfigArm: results.siteConfig ? results.siteConfig.value : null,
       slotConfigNamesArm: results.slotConfigNames ? results.slotConfigNames.value : null,
+      azureStorageAccountsArm: results.azureStorageAccounts ? results.azureStorageAccounts.value : null,
     };
     this._assignConfig(configType, configs, destConfigs);
   }
@@ -181,6 +199,9 @@ export abstract class ConfigSaveComponent extends FeatureComponent<ResourceId> i
         break;
       case 'SlotConfigNames':
         result = results.slotConfigNames;
+        break;
+      case 'AzureStorageAccounts':
+        result = results.azureStorageAccounts;
         break;
       default:
         break;

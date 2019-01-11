@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>使用这些凭据连接:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>了解详细信息</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>部署选项</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>配置并管理应用的部署选项，包括来自 VSTS、GitHub 和 Bitbucket 的持续部署以及来自 OneDrive、Dropbox、外部 GIT 和更多内容的触发器部署。</value>
+    <value>配置并管理应用的部署选项，包括来自 Azure Repos、GitHub 和 Bitbucket 的持续部署以及来自 OneDrive、Dropbox、外部 GIT 等的触发部署。</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>部署凭据</value>
@@ -1622,7 +1622,7 @@
     <value>使用身份验证/授权来保护应用程序，并使用按用户划分的数据工作。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>托管服务标识</value>
+    <value>标识</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>应用程序可以与其他 Azure 服务通信，因为它本身使用的是托管 Azure Active Directory 标识。</value>
@@ -2207,13 +2207,13 @@
     <value>部署槽位可使你将不同版本的 Function App 部署到不同的 URL。可以测试某个版本，然后在槽位之间交换内容并配置。</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>正在创建槽位 {0} </value>
+    <value>正在新建槽“{0}”</value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>已成功创建槽位 {0} </value>
+    <value>已成功创建槽“{0}”</value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>未能创建槽位 {0} </value>
+    <value>未能创建槽“{0}”</value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>无法更新槽位列表</value>
@@ -2252,7 +2252,7 @@
     <value>临时值</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>尚未添加任何部署槽位。单击“添加槽位”以开始使用。</value>
+    <value>尚未添加任何部署槽。请单击此处以开始使用。</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>名称</value>
@@ -2813,7 +2813,7 @@
     <value>组织</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Service 帐户</value>
+    <value>Azure DevOps 组织</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>项目</value>
@@ -2825,7 +2825,7 @@
     <value>源</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>帐户</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>负载测试</value>
@@ -2897,10 +2897,10 @@
     <value>未能取消 {{operation}}。错误: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>已将槽 {0} 与 {1} 交换</value>
+    <value>已将槽“{0}”与“{1}”交换</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>未能将槽 {0} 与 {1} 交换</value>
+    <value>未能将槽“{0}”与“{1}”交换</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>成功设置持续交付和触发的生成</value>
@@ -2912,10 +2912,10 @@
     <value>未能设置持续交付</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>已创建新的 Visual Studio Team Services 帐户</value>
+    <value>创建新的 Azure DevOps 组织</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>未能创建 Visual Studio Team Services 帐户</value>
+    <value>未能创建 Azure DevOps 组织</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>已创建新的槽</value>
@@ -2954,10 +2954,10 @@
     <value>使用存储库中的最新源代码成功触发持续交付</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>生成定义</value>
+    <value>生成管道</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>发布定义</value>
+    <value>发布管道</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>触发生成</value>
@@ -3011,7 +3011,7 @@
     <value>使用 GitHub 存储库配置持续集成。</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>使用 VSTS 存储库配置持续集成。</value>
+    <value>使用 Azure Repo (Azure DevOps 服务 - 以前称为 VSTS - 的一部分)配置持续集成。</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>从公共的 Git 或 Mercurial 存储库部署。</value>
@@ -3026,7 +3026,7 @@
     <value>从 Dropbox 云文件夹同步内容。</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>Durable 函数</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>orchestrator 函数调用活动时将运行的函数。</value>
@@ -3344,10 +3344,10 @@
     <value>日志级别</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 生成(预览)</value>
+    <value>Azure Pipelines (预览)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services 为应用程序设置强大的部署管道。生成管道、 运行负载测试并部署到过渡槽，然后再部署到生产。</value>
+    <value>使用 Azure Pipelines (Azure DevOps 服务 - 以前称为 VSTS - 的一部分)为应用程序配置可靠的部署。该管道生成、运行负载测试并部署到过渡槽，然后部署到生产中。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>应用服务 Kudu 生成服务器</value>
@@ -3359,7 +3359,7 @@
     <value>生成</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>选择帐户</value>
+    <value>选择组织</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>输入帐户名称</value>
@@ -3500,10 +3500,10 @@
     <value>正在验证...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>你没有权限为此项目创建生成定义或发布定义。请联系项目管理员</value>
+    <value>你没有权限在此项目上创建生成管道或发布管道。请联系项目管理员</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>提供的帐户名无效。请提供其他帐户名。</value>
+    <value>提供的组织名无效。请提供其他组织名。</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@
     <value>用户凭据</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>用户凭据由用户定义，并且可以用于用户有权访问的所有应用。这些凭据可以用于 FTP、本地 GIT 和 WebDeploy。</value>
+    <value>用户凭据由你(即用户)进行定义，且可用于你有权访问的所有应用。这些凭据可用于 FTP、本地 Git 和 WebDeploy。如果你在使用用户凭据连接到应用，则将需要输入用户名作为 {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>应用凭据</value>
@@ -3733,6 +3734,9 @@
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>未能设置部署</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>未能设置部署: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>正在断开你的部署</value>
   </data>
@@ -3762,6 +3766,9 @@
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} 总 ACU</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>可用的功能</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>更新容器设置</value>
@@ -3917,7 +3924,7 @@
     <value>目前无法更新 Web 应用 {0} 的存储库。</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>要使用 VSTS 持续交付，需具备写入 Azure Active Directory 和创建服务主体的权限。</value>
+    <value>Azure DevOps 持续交付要求你具备写入 Azure Active Directory 并创建服务主体的权限。</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>选择示例</value>
@@ -3926,13 +3933,13 @@
     <value>描述</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>你没有任何 VSTS 存储库</value>
+    <value>你不拥有任何 Azure Repo</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>你没有任何有效的 VSTS 帐户</value>
+    <value>你没有任何有效的 Azure DevOps 组织</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>你没有任何有效的 VSTS 帐户。应用服务 Kudu 生成还要求你是帐户所有者</value>
+    <value>你没有任何有效的 Azure DevOps 组织。应用服务 Kudu 生成还要求你是帐户所有者</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>立即创建</value>
@@ -4199,10 +4206,10 @@
     <value>新建的或现有的部署槽位</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>新建的或现有 VSTS 帐户</value>
+    <value>新的或现有 Azure DevOps 组织</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>新建的或现有 VSTS 帐户</value>
+    <value>新的或现有 Web 应用</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>部署详细信息</value>
@@ -4289,7 +4296,7 @@
     <value>物理路径</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>删除</value>
@@ -4412,6 +4419,168 @@
     <value>代理服务器(不可访问)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>YML 格式无效。错误:“{0}”。</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>下载容器日志</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>正在下载详细容器日志。</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>已成功下载容器日志。</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>无法下载容器日志。</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>正在重置凭据</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>未能重置凭据</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>已成功重置凭据</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>正在保存凭据</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>未能保存凭据</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>已成功保存凭据</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>使用包括 Azure 容器注册表在内的任何专用注册表中的图像。</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>未选定</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (最新)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>你的应用将使用最新版本的 {{defaultJavaVersion}}。</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>选择不是最新的特定次要版本可能会导致冷启动时间较长。</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions for PowerShell - 入门</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>添加存储(预览)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>提供要为应用装载的 Azure 存储 Blob 或文件信息。</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>配置选项</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>基本</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>选择存储帐户</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>存储帐户</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>存储容器</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>存储文件共享</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>选择存储容器</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>安装路径</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>共享名</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>访问密钥</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>选择文件共享</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>存储类型</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>路径格式对 Windows 无效。</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>路径格式对 Linux 无效。</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>装载存储(预览)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ 添加存储</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>帐户</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>容器</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>路径</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>可使用以下控件来选择在浏览器中显示隐藏的存储密钥。</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>存储帐户</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>存储帐户名称</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>无效共享</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>无效凭据</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(没有要显示的存储帐户)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>其中该名称已存在的存储设置。</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>我们无法连接到已连接到此 Web 应用的 Azure 管道。这可能意味着已从 Azure Dev Ops 门户将其删除。如果是这样，可以断开此管道并设置新的部署管道。</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows 的路径必须以 "c:\" 开头。</value>
   </data>
 </root>

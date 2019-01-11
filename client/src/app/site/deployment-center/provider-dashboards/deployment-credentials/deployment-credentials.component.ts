@@ -17,6 +17,7 @@ import { Dom } from '../../../../shared/Utilities/dom';
 import { PortalService } from 'app/shared/services/portal.service';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { of } from 'rxjs/observable/of';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: 'app-deployment-credentials',
@@ -45,6 +46,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   private _currentTabIndex: number;
   public saving = false;
   public resetting = false;
+  public userCredsDesc = '';
   constructor(
     private _cacheService: CacheService,
     private _siteService: SiteService,
@@ -79,6 +81,16 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
 
       const publishingUsers$ = this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, true).do(r => {
         const creds = r.json();
+        const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
+        let siteName = siteDescriptor.site;
+        const slotName = siteDescriptor.slot;
+
+        if (slotName) {
+          siteName = `${siteName}__${slotName}`;
+        }
+        this.userCredsDesc = this._translateService
+          .instant(PortalResources.userCredsDesc)
+          .format(`'${siteName}\\${creds.properties.publishingUserName}'`);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
       return forkJoin(publishXml$, publishingUsers$);
@@ -139,7 +151,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         });
       })
       .subscribe(([result, notificationInfo]) => {
-        this.saving = true;
+        this.saving = false;
         if (result) {
           this.setInput(this.resourceId);
           this._portalService.stopNotification(notificationInfo.id, true, PortalResources.savingCredentialsSucccess);

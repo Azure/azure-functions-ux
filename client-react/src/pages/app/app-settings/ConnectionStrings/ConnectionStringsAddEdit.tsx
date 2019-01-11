@@ -1,57 +1,92 @@
 import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import { typeValueToString, DatabaseType } from './connectionStringTypes';
-export interface ConnectionStringAddEditProps extends IConnectionString {
+import { formElementStyle } from '../AppSettings.Styles';
+import ActionBar from '../../../../components/ActionBar';
+export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: IConnectionString) => any;
+  closeBlade: () => void;
   otherConnectionStrings: IConnectionString[];
+  connectionString: IConnectionString;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, children, otherConnectionStrings, t, ...connectionString } = props;
+  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString } = props;
   const [nameError, setNameError] = React.useState('');
+  const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
+
   const validateConnectionStringName = (value: string) => {
     return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? 'Connection string names must be unique' : '';
   };
-  const updateConnectionStringName = (name: string) => {
+  const updateConnectionStringName = (e: any, name: string) => {
     const error = validateConnectionStringName(name);
     setNameError(error);
-    updateConnectionString({ ...connectionString, name });
+    setCurrentConnectionString({ ...currentConnectionString, name });
   };
 
-  const updateConnectionStringValue = (value: string) => {
-    updateConnectionString({ ...connectionString, value });
+  const updateConnectionStringValue = (e: any, value: string) => {
+    setCurrentConnectionString({ ...currentConnectionString, value });
   };
 
-  const updateConnectionStringType = (event: any, typeOption: IDropdownOption) => {
-    updateConnectionString({ ...connectionString, type: typeOption.key as number });
+  const updateConnectionStringType = (e: any, typeOption: IDropdownOption) => {
+    setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as number });
   };
 
-  const updateConnectionStringSticky = (sticky: boolean) => {
-    updateConnectionString({ ...connectionString, sticky });
+  const updateConnectionStringSticky = (e: any, sticky: boolean) => {
+    setCurrentConnectionString({ ...currentConnectionString, sticky });
   };
+
+  const save = () => {
+    updateConnectionString(currentConnectionString);
+  };
+
+  const cancel = () => {
+    closeBlade();
+  };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('save'),
+    onClick: save,
+    disable: !!nameError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
-    <div>
+    <form>
       <TextField
         label={t('nameRes')}
         id="connection-strings-form-name"
-        value={connectionString.name}
+        value={currentConnectionString.name}
         errorMessage={nameError}
-        onChanged={updateConnectionStringName}
+        onChange={updateConnectionStringName}
+        styles={{
+          root: formElementStyle,
+        }}
       />
       <TextField
         label={t('value')}
         id="connection-strings-form-value"
-        value={connectionString.value}
-        onChanged={updateConnectionStringValue}
+        value={currentConnectionString.value}
+        onChange={updateConnectionStringValue}
+        styles={{
+          root: formElementStyle,
+        }}
       />
       <Dropdown
         label={t('type')}
         id="connection-strings-form-type"
-        selectedKey={connectionString.type}
+        selectedKey={currentConnectionString.type}
         options={[
           {
             key: DatabaseType.MySql,
@@ -67,16 +102,25 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
           },
         ]}
         onChange={updateConnectionStringType}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-      <Toggle
+      <Checkbox
         label={t('sticky')}
         id="connection-strings-form-sticky"
-        defaultChecked={connectionString.sticky}
-        onChanged={updateConnectionStringSticky}
-        onText={t('on')}
-        offText={t('off')}
+        defaultChecked={currentConnectionString.sticky}
+        onChange={updateConnectionStringSticky}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-    </div>
+      <ActionBar
+        id="connection-string-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
+    </form>
   );
 };
 

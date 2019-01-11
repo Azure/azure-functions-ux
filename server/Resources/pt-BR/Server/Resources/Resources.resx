@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Conecte-se com estas credenciais:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Saiba mais</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>Opções de Implantação</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure e gerencie as opções de implantação de seu aplicativo, incluindo a implantação contínua do VSTS, do GitHub e do Bitbucket, além das implantações de gatilho do OneDrive, do DropBox, do Git externo e muito mais.</value>
+    <value>Configure e gerencie as opções de implantação de seu aplicativo, incluindo a implantação contínua do Azure Repos, do GitHub e do Bitbucket, além das implantações de gatilho do OneDrive, do DropBox, do Git externo e muito mais.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Credenciais da implantação</value>
@@ -1622,7 +1622,7 @@
     <value>Use a Autenticação/Autorização para proteger seu aplicativo e trabalhar com dados por usuário.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Identidade de serviço gerenciada</value>
+    <value>Identidade</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Seu aplicativo pode se comunicar com outros serviços do Azure usando uma identidade gerenciada do Azure Active Directory.</value>
@@ -2207,13 +2207,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Os slots de implantação permitem que você implante versões diferentes de seu aplicativo de função para URLs diferentes. Você pode testar uma determinada versão e, em seguida, trocar o conteúdo e a configuração entre os slots.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>Criando novo slot {0} </value>
+    <value>Criando novo slot '{0}' </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>O slot {0} foi criado com êxito </value>
+    <value>O slot '{0}' foi criado com êxito </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Falha ao criar o slot {0} </value>
+    <value>Falha ao criar o slot '{0}' </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Não é possível atualizar a lista de slots</value>
@@ -2252,7 +2252,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Valor Temporário</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>Você não adicionou nenhum slot de implantação. Clique em "Adicionar slot" para começar.</value>
+    <value>Você não adicionou nenhum slot de implantação. Clique aqui para começar.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Nome</value>
@@ -2522,13 +2522,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Sul da Índia</value>
   </data>
   <data name="canadacentral" xml:space="preserve">
-    <value>Central do Canadá</value>
+    <value>Canadá Central</value>
   </data>
   <data name="canadaeast" xml:space="preserve">
     <value>Leste do Canadá</value>
   </data>
   <data name="westcentralus" xml:space="preserve">
-    <value>Centro-oeste dos EUA</value>
+    <value>Centro-Oeste dos EUA</value>
   </data>
   <data name="ukwest" xml:space="preserve">
     <value>Oeste do Reino Unido</value>
@@ -2813,7 +2813,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Organização</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Conta do Visual Studio Team Services</value>
+    <value>Organização do Azure DevOps</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>Projeto</value>
@@ -2825,7 +2825,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Origem</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>Conta</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>Teste de Carga</value>
@@ -2897,10 +2897,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Falha ao cancelar {{operation}}. Erro: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>O slot {0} foi trocado por {1}</value>
+    <value>O slot '{0}' foi trocado por '{1}'</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>Falha ao trocar o slot {0} por {1}</value>
+    <value>Falha ao trocar o slot '{0}' por '{1}'</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>Entrega Contínua configurada e build disparado com êxito</value>
@@ -2912,10 +2912,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Falha ao configurar a Entrega Contínua</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>Criada nova conta do Visual Studio Team Services</value>
+    <value>Nova organização Azure DevOps criada</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Falha ao criar conta do Visual Studio Team Services</value>
+    <value>Falha ao criar a organização Azure DevOps</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>Criado novo slot</value>
@@ -2954,10 +2954,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Acionada com êxito a Entrega Contínua com o código-fonte mais recente do repositório</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>Definição de Build</value>
+    <value>Pipeline de Build</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>Definição de Versão</value>
+    <value>Pipeline de Lançamento</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>Build Acionado</value>
@@ -3011,7 +3011,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Configure a integração contínua com um repositório do GitHub.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>Configure a integração contínua com um repositório do VSTS.</value>
+    <value>Configure a integração contínua com um repositório do Azure, parte do Azure DevOps Services (antes conhecido como VSTS).</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>Implante a partir de um repositório Git público ou Mercurial.</value>
@@ -3026,7 +3026,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Sincronizar conteúdo de uma pasta de nuvem do Dropbox.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>Funções Duráveis</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>Uma função que será executada sempre que uma Atividade for chamada por uma função de orquestrador.</value>
@@ -3344,10 +3344,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Nível de Log</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>Build do VSTS (Versão Prévia)</value>
+    <value>Azure Pipelines (versão prévia)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>O Visual Studio Team Services configura um pipeline de implantação robusto para o aplicativo. O pipeline cria, executa testes de carga e implanta no slot de preparo e depois no de produção.</value>
+    <value>Configure um pipeline de implantação robusto para seu aplicativo usando o Azure Pipelines, parte do Azure DevOps Services (antes conhecidos como VSTS). O pipeline compila, executa testes de carga e implanta no slot de preparo e, em seguida, na produção.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>Servidor de build Kudu do Serviço de Aplicativo</value>
@@ -3359,7 +3359,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Compilação</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>Selecionar Conta</value>
+    <value>Selecionar Organização</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>Insira o Nome da Conta</value>
@@ -3500,10 +3500,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Validando...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>Você não tem permissões para criar uma Definição de Build ou uma Definição da Versão nesse projeto. Entre em contato com seu administrador de projeto</value>
+    <value>Você não tem permissões para criar um Pipeline de build ou um Pipeline de lançamento nesse projeto. Entre em contato com seu administrador de projeto</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>O nome da conta fornecido não é válido. Forneça outro nome de conta.</value>
+    <value>O nome da organização fornecido não é válido. Forneça outro nome de organização.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Credenciais do Usuário</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com FTP, Git Local e WebDeploy.</value>
+    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com o FTP, Git Local e WebDeploy. Se você estiver usando credenciais de Usuário para se conectar ao seu aplicativo, o nome de usuário precisará ser colocado como {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenciais do Aplicativo</value>
@@ -3733,6 +3734,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Falha ao configurar a implantação</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Falha ao configurar a implantação: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Desconectando a implantação</value>
   </data>
@@ -3762,6 +3766,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} ACU no total</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Recursos disponíveis</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Atualizar configurações de contêiner</value>
@@ -3917,7 +3924,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Não é possível atualizar o repositório do aplicativo Web {0} no momento.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>A Entrega Contínua do VSTS exige que você tenha permissões para gravar no Azure Active Directory e criar um princípio de serviço.</value>
+    <value>A Entrega Contínua do Azure DevOps exige que você tenha permissões para gravar no Azure Active Directory e criar uma entidade de serviço.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>Selecionar amostra</value>
@@ -3926,13 +3933,13 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Descrição</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>Você não tem nenhum Repositório do VSTS</value>
+    <value>Você não tem nenhum repositório do Azure</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>Você não tem nenhuma Conta do VSTS válida</value>
+    <value>Você não tem nenhuma organização do Azure DevOps válida</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>Você não tem nenhuma Conta do VSTS válida. O Build Kudu do Serviço de Aplicativo também exige que você seja proprietário de uma conta</value>
+    <value>Você não tem nenhuma organização do Azure DevOps válida. O Build Kudu do Serviço de Aplicativo também exige que você seja proprietário de uma organização</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>Criar um agora</value>
@@ -4199,10 +4206,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Slot de Implantação Novo ou Existente</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>Conta de VSTS Nova ou Existente</value>
+    <value>Organização Novas ou Existentes do Azure DevOps</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>Conta de VSTS Nova ou Existente</value>
+    <value>Aplicativo Web Novo ou Existente</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Detalhes de Implantação</value>
@@ -4289,7 +4296,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Caminho Físico</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Tipo</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Excluir</value>
@@ -4413,5 +4420,167 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>Formato inválido do YML. Erro: '{0}'.</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>Baixar logs de contêiner</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>Baixando logs do contêiner detalhados.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>Logs do contêiner baixados com êxito.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>Falha ao baixar os logs do contêiner.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>Redefinindo Credenciais</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>Falha ao redefinir as credenciais</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>Credenciais redefinidas com êxito</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>Salvando Credenciais</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>Falha ao salvar as credenciais</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>Credenciais salvas com êxito</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Use uma imagem de qualquer registro particular, incluindo do Registro de Contêiner do Azure.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Não Selecionado</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Mais Recente</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (mais recente)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Seu aplicativo usará a versão mais recente do {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Escolher uma versão secundária específica que não é a mais recente pode resultar em tempos de inicialização a frio mais longos.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions para PowerShell – introdução</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Adicionar armazenamento (Versão Prévia)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Forneça as informações do Azure Storage Blob ou do Arquivo a ser montado para o Aplicativo.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Opção de configuração</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Básico</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Avançado</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Escolher uma conta de armazenamento</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Conta de armazenamento</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Contêiner de armazenamento</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Compartilhamento de arquivos de armazenamento</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Escolha um contêiner de armazenamento</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Caminho de montagem</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Nome do compartilhamento</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Tecla de acesso</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Escolha um Compartilhamento de Arquivos</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Tipo de armazenamento</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>O formato do caminho não é válido para o Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>O formato do caminho não é válido para o Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Montar armazenamento (Versão Prévia)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ Adicionar armazenamento</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Conta</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Contêiner</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Caminho</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>Você pode escolher exibir as chaves de armazenamento ocultas no seu navegador usando os controles abaixo.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Contas de armazenamento</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Nome da conta de armazenamento</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Compartilhamento inválido</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Credenciais inválidas</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Arquivos</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(nenhuma conta de armazenamento para exibir)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Já existe uma configuração de armazenamento com esse nome.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Não foi possível estabelecer uma conexão com o Pipeline do Azure que está conectado a este Aplicativo Web. Isso pode significar que ele foi removido do Portal do Azure Dev Ops. Se isso tiver acontecido, você poderá desconectar esse pipeline e configurar um novo pipeline de implantação.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>O caminho para o Windows precisa começar com 'c:\'.</value>
   </data>
 </root>

@@ -39,6 +39,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
     <Field
       name="config.properties.pythonVersion"
       component={Dropdown}
+      fullpage
       disabled={!values.siteWritePermission}
       label={t('pythonVersion')}
       id="pythonVersion"

@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
 
-context('Querying', () => {
+context('App Settings Readonly Access', () => {
   beforeEach(() => {
     startVisit('windows', 'denyWrite');
   });
@@ -16,7 +16,7 @@ context('Querying', () => {
           expect(el[0].className).to.include('is-disabled');
         }
       })
-      .get('#remote-debugging-switch')
+      .get('#ChoiceGroup28-true')
       .should('be.disabled');
   });
 

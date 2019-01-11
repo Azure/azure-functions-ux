@@ -79,6 +79,7 @@ class AppSettingsCommandBar extends React.Component<AppSettingsCommandBarPropsCo
           ...props.styles,
           root: {
             backgroundColor: this.props.theme.semanticColors.bodyBackground,
+            border: '1px solid transparent',
           },
           rootDisabled: {
             backgroundColor: this.props.theme.semanticColors.bodyBackground,

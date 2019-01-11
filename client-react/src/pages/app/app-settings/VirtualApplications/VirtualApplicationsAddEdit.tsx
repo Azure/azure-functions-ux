@@ -1,76 +1,122 @@
 import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { VirtualApplication } from '../../../../models/WebAppModels';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Checkbox } from 'office-ui-fabric-react';
+import { formElementStyle } from '../AppSettings.Styles';
+import ActionBar from '../../../../components/ActionBar';
 
-export interface HandlerMappingAddEditProps extends VirtualApplication {
+export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
+  closeBlade: () => void;
   otherVirtualApplications: VirtualApplication[];
+  virtualApplication: VirtualApplication;
 }
 
 const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateVirtualApplication, children, otherVirtualApplications, t, ...virtualApplication } = props;
+  const { updateVirtualApplication, otherVirtualApplications, t, closeBlade, virtualApplication } = props;
   const [pathError, setPathError] = React.useState('');
+  const [currentVirtualApplication, setCurrentVirtualApplication] = React.useState(virtualApplication);
 
   const validateVirtualPathUniqueness = (value: string) => {
     return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? "Virtual Path's must be unique" : '';
   };
 
-  const updatePhysicalPath = (physicalPath: string) => {
-    updateVirtualApplication({
-      ...virtualApplication,
+  const updatePhysicalPath = (e: any, physicalPath: string) => {
+    setCurrentVirtualApplication({
+      ...currentVirtualApplication,
       physicalPath,
     });
   };
 
-  const updateVirtualPath = (virtualPath: string) => {
+  const updateVirtualPath = (e: any, virtualPath: string) => {
     const error = validateVirtualPathUniqueness(virtualPath);
     setPathError(error);
-    updateVirtualApplication({ ...virtualApplication, virtualPath });
+    setCurrentVirtualApplication({ ...currentVirtualApplication, virtualPath });
   };
 
-  const updateVirtualDirectory = (virtualDirectory: boolean) => {
-    updateVirtualApplication({
-      ...virtualApplication,
+  const updateVirtualDirectory = (e: any, virtualDirectory: boolean) => {
+    setCurrentVirtualApplication({
+      ...currentVirtualApplication,
       virtualDirectory,
     });
   };
-  const updatePreloadEnabled = (preloadEnabled: boolean) => {
-    updateVirtualApplication({
-      ...virtualApplication,
+  const updatePreloadEnabled = (e: any, preloadEnabled: boolean) => {
+    setCurrentVirtualApplication({
+      ...currentVirtualApplication,
       preloadEnabled,
     });
   };
+
+  const save = () => {
+    updateVirtualApplication(currentVirtualApplication);
+  };
+
+  const cancel = () => {
+    closeBlade();
+  };
+
+  const actionBarPrimaryButtonProps = {
+    id: 'save',
+    title: t('save'),
+    onClick: save,
+    disable: !!pathError,
+  };
+
+  const actionBarSecondaryButtonProps = {
+    id: 'cancel',
+    title: t('cancel'),
+    onClick: cancel,
+    disable: false,
+  };
+
   return (
-    <div>
+    <form>
       <TextField
         label={t('virtualPath')}
         id="va-virtual-path"
-        value={virtualApplication.virtualPath}
+        value={currentVirtualApplication.virtualPath}
         errorMessage={pathError}
-        onChanged={updateVirtualPath}
+        onChange={updateVirtualPath}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-      <TextField label={t('physicalPath')} id="va-physical-path" value={virtualApplication.physicalPath} onChanged={updatePhysicalPath} />
-      <Toggle
-        label={t('directoryOrApplciation')}
+      <TextField
+        label={t('physicalPath')}
+        id="va-physical-path"
+        value={currentVirtualApplication.physicalPath}
+        onChange={updatePhysicalPath}
+        styles={{
+          root: formElementStyle,
+        }}
+      />
+      <Checkbox
+        label={t('directory')}
         id="va-directory-or-application"
-        defaultChecked={virtualApplication.virtualDirectory}
-        onChanged={updateVirtualDirectory}
-        onText={t('directory')}
-        offText={t('application')}
+        defaultChecked={currentVirtualApplication.virtualDirectory}
+        onChange={updateVirtualDirectory}
+        styles={{
+          root: formElementStyle,
+        }}
       />
-      {virtualApplication.virtualDirectory ? null : (
-        <Toggle
+      {currentVirtualApplication.virtualDirectory ? null : (
+        <Checkbox
           label={t('preloadEnabled')}
           id="va-preload-enabled"
-          defaultChecked={virtualApplication.preloadEnabled}
-          onChanged={updatePreloadEnabled}
-          onText={t('on')}
-          offText={t('off')}
+          defaultChecked={currentVirtualApplication.preloadEnabled}
+          onChange={updatePreloadEnabled}
+          styles={{
+            root: formElementStyle,
+          }}
         />
       )}
-    </div>
+      <ActionBar
+        id="virtual-applications-edit-footer"
+        primaryButton={actionBarPrimaryButtonProps}
+        secondaryButton={actionBarSecondaryButtonProps}
+      />
+    </form>
   );
 };
 

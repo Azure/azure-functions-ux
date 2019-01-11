@@ -10,5 +10,5 @@ export const updateCurrentSiteAppSettings = (settings: Partial<IAppSettingsState
 export const UPDATE_SITE_APP_SETTINGS_NO_CACHE = 'UPDATE_SITE_APP_SETTINGS_NO_CACHE';
 export const updateCurrentSiteAppSettingsNoCache = (settings: Partial<IAppSettingsState>): IAction<Partial<IAppSettingsState>> => ({
   payload: settings,
-  type: UPDATE_SITE_APP_SETTINGS,
+  type: UPDATE_SITE_APP_SETTINGS_NO_CACHE,
 });

@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
 
-context('Querying', () => {
+context('App Settings Linux Basic', () => {
   beforeEach(() => {
     startVisit('linux', 'allow').wait('@getAvailableStacks');
   });
@@ -34,11 +34,11 @@ context('Querying', () => {
       .should('not.exist')
       .get('#app-settings-ftps-state')
       .should('exist')
-      .get('#app-settings-always-on')
+      .get('#app-settings-always-on-label')
       .should('exist')
-      .get('#app-settings-clientAffinityEnabled')
+      .get('#app-settings-clientAffinityEnabled-label')
       .should('exist')
-      .get('#app-settings-http-enabled')
+      .get('#app-settings-http-enabled-label')
       .should('exist');
   });
 });

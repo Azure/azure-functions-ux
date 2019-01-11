@@ -901,7 +901,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Connect using these credentials:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>Learn more</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1625,7 +1625,7 @@
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>Managed service identity</value>
+    <value>Identity</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
@@ -2255,7 +2255,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Temp Value</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
+    <value>You haven't added any deployment slots. Click here to get started.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Name</value>
@@ -3182,7 +3182,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Update App Service plan</value>
   </data>
   <data name="pricing_sharedInfrastructure" xml:space="preserve">
-    <value>Shared insfrastructure</value>
+    <value>Shared infrastructure</value>
   </data>
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
@@ -3539,7 +3539,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>User Credentials</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App Credentials</value>
@@ -3736,6 +3737,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Failed to set up deployment</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Failed to set up deployment: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Disconnecting your deployment</value>
   </data>
@@ -3765,6 +3769,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>Available features</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>Update container settings</value>
@@ -4046,7 +4053,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Function App runtime stack</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to you app.</value>
+    <value>Function Apps v2 are now single language. Please set the runtime stack before adding functions to your app.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Function Runtime stack</value>
@@ -4446,5 +4453,137 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="savingCredentialsSucccess" xml:space="preserve">
     <value>Successfully saved credentials</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>Not Selected</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (latest)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>Choosing specific minor version that is not the latest may result in longer cold start times.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions for PowerShell - getting started</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>Add storage (Preview)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>Configuration option</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>Choose a storage account</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>Storage account</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>Storage container</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>Storage file share</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>Choose a storage container</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>Mount path</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>Share name</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>Access key</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>Choose a File Share</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>Storage type</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>The path format is not valid for Windows.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>The path format is not valid for Linux.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>Mount storage (Preview)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ Add storage</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>You can choose to display the hidden storage keys in your browser by using the controls below.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Storage accounts</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Storage account name</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Invalid share</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(no storage accounts to display)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Storage setting with that name already exists.</value>
+  </data>
+   <data name="unableToReachBuild" xml:space="preserve">
+    <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>The path for Windows must begin with 'c:\'.</value>
   </data>
 </root>

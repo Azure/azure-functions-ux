@@ -46,14 +46,7 @@
     "javaContainerVersion": null,
     "appCommandLine": "",
     "managedPipelineMode": 0,
-    "virtualApplications": [
-      {
-        "virtualPath": "/",
-        "physicalPath": "site\\wwwroot",
-        "preloadEnabled": false,
-        "virtualDirectories": null
-      }
-    ],
+    "virtualApplications": null,
     "winAuthAdminState": 0,
     "winAuthTenantState": 0,
     "customAppPoolIdentityAdminState": false,

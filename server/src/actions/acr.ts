@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { IncomingMessageHeaders } from 'http';
 import Axios from 'axios';
 import { LogHelper } from '../logHelper';
 
@@ -45,8 +44,8 @@ async function callAcrAPI(payload: ACRDirectRequestPayload) {
   }
 }
 
-function getHeaders(payload: ACRDirectRequestPayload): IncomingMessageHeaders {
-  const headers: IncomingMessageHeaders = {};
+function getHeaders(payload: ACRDirectRequestPayload): { [key: string]: string } {
+  const headers: { [key: string]: string } = {};
   headers['Content-Type'] = 'application/json';
   headers['Accept'] = 'application/json';
   headers['Cache-Control'] = 'no-cache';

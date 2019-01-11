@@ -85,4 +85,6 @@ export class ScenarioIds {
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly windowsAppStack = 'windowsAppStack';
   public static readonly linuxAppStack = 'linuxAppStack';
+  public static readonly byosSupported = 'byosSupported';
+  public static readonly configureAADSupported = 'configureAADSupported';
 }

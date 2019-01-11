@@ -11,10 +11,10 @@
     "i18next-localstorage-backend": "^1.1.4",
     "i18next-xhr-backend": "^1.5.1",
     "monaco-editor": "^0.14.3",
-    "office-ui-fabric-react": "^6.93.0",
-    "react": "^16.7.0-alpha.0",
+    "office-ui-fabric-react": "^6.104.0",
+    "react": "^16.7.0-alpha.2",
     "react-app-rewired": "^1.6.2",
-    "react-dom": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.2",
     "react-i18next": "^7.10.1",
     "react-loadable": "^5.5.0",
     "react-redux": "^5.0.7",
@@ -31,7 +31,9 @@
     "rxjs": "^6.3.3",
     "typesafe-actions": "^2.0.4",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.0"
+    "yup": "^0.26.0",
+    "lodash-es": "^4.17.11",
+    "@uifabric/variants": "^6.14.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -69,7 +71,8 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.0.3",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.0.3",
+    "@types/lodash-es": "^4.17.1"
   },
   "proxy": "https://localhost:44300",
   "jest": {

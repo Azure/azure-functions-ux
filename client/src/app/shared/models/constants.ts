@@ -144,6 +144,8 @@ export class Links {
   public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
   public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
   public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
+  public static containerPrivateRegistryLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2041449';
+  public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
 }
 
 export class Kinds {
@@ -219,7 +221,6 @@ export class ScenarioIds {
   public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
   public static readonly enableAuth = 'EnableAuth';
-  public static readonly enableMsi = 'EnableMsi';
   public static readonly enableNetworking = 'EnableNetworking';
   public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
   public static readonly enableExtensions = 'EnableExtensions';
@@ -284,6 +285,9 @@ export class ScenarioIds {
   public static readonly externalSource = 'externalSource';
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';
+  public static readonly openClassicMsi = 'openClassicMsi';
+  public static readonly byosSupported = 'byosSupported';
+  public static readonly configureAADSupported = 'configureAADSupported';
 }
 
 export class NationalCloudArmUris {
@@ -333,13 +337,16 @@ export class LogCategories {
   public static readonly functionHostRestart = 'functionHostRestart';
   public static readonly containerACR = 'containerACR';
   public static readonly containerSettings = 'containerSettings';
+  public static readonly byos = 'byos';
 }
 
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
+  public static websiteApiVersion20180201 = '2018-02-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
+  public static storageApiVersion = '2018-07-01';
 }
 export class SubscriptionQuotaIds {
   public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
@@ -484,6 +491,7 @@ export class WorkerRuntimeLanguages {
   public static nodejs = 'JavaScript';
   public static python = 'Python';
   public static java = 'Java';
+  public static powershell = 'PowerShell';
 }
 
 export class ConsoleConstants {
@@ -569,4 +577,9 @@ export enum SwapOperationType {
 
 export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
+}
+
+export enum FunctionAppVersion {
+  v1 = 'V1',
+  v2 = 'V2',
 }

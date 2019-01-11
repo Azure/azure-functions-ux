@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>これらの資格情報を使用して接続する:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>詳細情報</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>展開オプション</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>VSTS、GitHub、Bitbucket からの継続的デプロイのほか、OneDrive、DropBox、外部 Git などからのトリガー デプロイなど、アプリのさまざまなデプロイ オプションを構成および管理します。</value>
+    <value>Azure Repos、GitHub、Bitbucket からの継続的デプロイのほか、OneDrive、Dropbox、外部 Git などからのトリガー デプロイなど、アプリのさまざまなデプロイ オプションを構成および管理します。</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>デプロイ資格情報</value>
@@ -1622,7 +1622,7 @@
     <value>アプリケーションを保護してユーザーごとのデータを取り扱うには、認証/承認を使用します。</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>マネージド サービス ID</value>
+    <value>ID</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>アプリケーションが、マネージド Azure Active Directory ID を使って自ら他の Azure サービスと通信できます。</value>
@@ -2207,13 +2207,13 @@
     <value>デプロイ スロットを使うと、さまざまなバージョンの Function App をさまざまな URL にデプロイすることができます。特定のバージョンをテストしたうえで、スロット単位でコンテンツと構成を切り替えることができるようになります。</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>新しいスロット {0} を作成しています</value>
+    <value>新しいスロット '{0}' を作成しています </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>スロット {0} を正常に作成しました</value>
+    <value>スロット '{0}' を正常に作成しました </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>スロット {0} を作成できませんでした</value>
+    <value>スロット '{0}' を作成できませんでした </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>スロットの一覧を更新できません</value>
@@ -2252,7 +2252,7 @@
     <value>一時的な値</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>デプロイ スロットが追加されていません。開始するには、[スロットの追加] をクリックしてください。</value>
+    <value>デプロイ スロットが追加されていません。ここをクリックして開始します。</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>名前</value>
@@ -2537,7 +2537,7 @@
     <value>英国南部</value>
   </data>
   <data name="westus2" xml:space="preserve">
-    <value>西アメリカ 2</value>
+    <value>米国西部 2</value>
   </data>
   <data name="allResourceGroups" xml:space="preserve">
     <value>すべてのリソース グループ</value>
@@ -2813,7 +2813,7 @@
     <value>組織</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Service アカウント</value>
+    <value>Azure DevOps 組織</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>プロジェクト</value>
@@ -2825,7 +2825,7 @@
     <value>ソース</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>アカウント</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>ロード テスト</value>
@@ -2897,10 +2897,10 @@
     <value>{{operation}} をキャンセルできませんでした。エラー: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>スロット {0} と {1} を交換しました</value>
+    <value>スロット '{0}' を '{1}' と交換しました</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>スロット {0} と {1} を交換できませんでした</value>
+    <value>スロット '{0}' を '{1}' と交換できませんでした</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>継続的デリバリーが正常にセットアップされ、ビルドがトリガーされました</value>
@@ -2912,10 +2912,10 @@
     <value>継続的デリバリーをセットアップできませんでした</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>新しい Visual Studio Team Services アカウントが作成されました</value>
+    <value>Azure DevOps の新しい組織が作成されました</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Visual Studio Team Services アカウントを作成できませんでした</value>
+    <value>Azure DevOps 組織を作成できませんでした</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>新しいスロットが作成されました</value>
@@ -2954,10 +2954,10 @@
     <value>リポジトリから最新のソース コードを使用して継続的デリバリーが正常にトリガーされました</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>ビルド定義</value>
+    <value>ビルド パイプライン</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>リリース定義</value>
+    <value>リリース パイプライン</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>ビルドがトリガーされました</value>
@@ -3011,7 +3011,7 @@
     <value>GitHub リポジトリを使用して継続的インテグレーションを構成します。</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>VSTS リポジトリを使用して継続的インテグレーションを構成します。</value>
+    <value>Azure DevOps Services (旧称 VSTS) の一部である Azure リポジトリによる継続的インテグレーションを構成します。</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>パブリックの Git リポジトリまたは Mercurial リポジトリからデプロイします。</value>
@@ -3344,10 +3344,10 @@
     <value>ログ レベル</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS ビルド (プレビュー)</value>
+    <value>Azure Pipelines (プレビュー)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services は、アプリケーションの堅牢なデプロイ パイプラインを設定します。このパイプラインではロード テストをビルドして実行し、ステージング スロットにデプロイしてから運用環境にデプロイします。</value>
+    <value>Azure DevOps Services (旧称 VSTS) の一部である Azure Pipelines を使用して、アプリケーションに強力なデプロイ パイプラインを構成します。パイプラインによって、ビルド、ロード テストの実行、ステージング スロットへのデプロイ、実稼働へのデプロイが順に行われます。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu ビルド サーバー</value>
@@ -3359,7 +3359,7 @@
     <value>ビルド</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>アカウントの選択</value>
+    <value>組織を選択します</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>アカウント名の入力</value>
@@ -3476,13 +3476,13 @@
     <value>結果は、最大で 5 分遅れる可能性があります。</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
-    <value>ファイルをここ、または次にドラッグします:</value>
+    <value>ファイルをここにドラッグするか、</value>
   </data>
   <data name="browse" xml:space="preserve">
     <value>参照</value>
   </data>
   <data name="toUpload" xml:space="preserve">
-    <value>選択してください</value>
+    <value>アップロードします</value>
   </data>
   <data name="feature_metricsName" xml:space="preserve">
     <value>メトリック</value>
@@ -3500,10 +3500,10 @@
     <value>検証しています...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>このプロジェクトのビルド定義およびリリース定義を作成するアクセス許可がありません。プロジェクト管理者にお問い合わせください</value>
+    <value>このプロジェクトのビルド パイプラインおよびリリース パイプラインを作成するアクセス許可がありません。プロジェクト管理者にお問い合わせください</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>指定したアカウント名が無効です。別のアカウント名を指定してください。</value>
+    <value>指定した組織名が無効です。別の組織名を指定してください。</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP + FTPS</value>
@@ -3536,7 +3536,8 @@
     <value>ユーザーの資格情報</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>ユーザー資格情報がお客様 (ユーザー) によって定義されており、お客様がアクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
+    <value>ユーザー資格情報はご自身 (ユーザー) によって定義されているため、アクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。ユーザー資格情報を使用してアプリに接続している場合は、ユーザー名を {0} とする必要があります</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>アプリの資格情報</value>
@@ -3733,6 +3734,9 @@
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>デプロイをセットアップできませんでした</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>デプロイをセットアップできませんでした: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>デプロイとの接続を切断しています</value>
   </data>
@@ -3762,6 +3766,9 @@
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>ACU 合計 {0}</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>使用可能な機能</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>コンテナーの設定を更新する</value>
@@ -3917,7 +3924,7 @@
     <value>Web アプリ {0} のリポジトリは、現在は更新できません。</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>VSTS 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
+    <value>Azure DevOps 継続的デリバリーでは、Azure Active Directory への書き込みとサービス プリンシパルの作成を行うためのアクセス許可が必要です。</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>サンプルの選択</value>
@@ -3926,13 +3933,13 @@
     <value>説明</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>VSTS リポジトリを所有していません</value>
+    <value>所有している Azure リポジトリがありません</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>有効な VSTS アカウントがありません</value>
+    <value>有効な Azure DevOps 組織がありません</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>有効な VSTS アカウントがありません。App Service Kudu ビルドを使用するには、アカウント所有者であることも必要です</value>
+    <value>有効な Azure DevOps 組織がありません。App Service Kudu ビルドを使用するには、組織所有者であることも必要です</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>今すぐ作成します</value>
@@ -4199,10 +4206,10 @@
     <value>新規または既存のデプロイ スロット </value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>新規または既存の VSTS アカウント</value>
+    <value>新規または既存の Azure DevOps 組織</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>新規または既存の VSTS アカウント</value>
+    <value>新規または既存の Web アプリ</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>デプロイの詳細</value>
@@ -4289,7 +4296,7 @@
     <value>物理パス</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>種類</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>削除</value>
@@ -4412,6 +4419,168 @@
     <value>プロキシ (アクセス不可)</value>
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
-    <value>Invalid YML format. Error: '{0}'.</value>
+    <value>YML の形式が無効です。エラー: '{0}'。</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>コンテナー ログのダウンロード</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>詳細なコンテナー ログをダウンロードしています。</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>コンテナー ログが正常にダウンロードされました。</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>コンテナー ログをダウンロードできませんでした。</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>資格情報をリセットしています</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>資格情報をリセットできませんでした</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>資格情報が正常にリセットされました</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>資格情報を保存しています</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>資格情報を保存できませんでした</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>資格情報が正常に保存されました</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Azure Container Registry を含む、任意のプライベート レジストリからイメージを使用します。</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>未選択</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}} (最新)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>アプリでは {{defaultJavaVersion}} の最新版を使用します。</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>最新ではない特定のマイナー バージョンを選択すると、コールド スタート時間が長くなる可能性があります。</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>PowerShell 向けの Azure Functions - 作業の開始</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>ストレージの追加 (プレビュー)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>アプリにマウントする Azure Storage Blob またはファイルの情報を指定します。</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>構成オプション</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>ストレージ アカウントの選択</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>ストレージ アカウント</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>ストレージ コンテナー</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>ストレージ ファイル共有</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>記憶域コンテナーを選択する</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>マウント パス</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>共有名</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>アクセス キー</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>ファイル共有を選択</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>ストレージの種類</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>Windows では無効なパス形式です。</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>Linux では無効なパス形式です。</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>ストレージのマウント (プレビュー)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ ストレージの追加</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>アカウント</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>コンテナー</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>パス</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>下のコントロールを使用して、お使いのブラウザーで非表示のストレージ キーを表示できます。</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>ストレージ アカウント</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>ストレージ アカウント名</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>無効な共有</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>資格情報が無効です</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>BLOB</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(表示するストレージ アカウントがありません)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>同じ名前のストレージの設定が既に存在します。</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>この Web アプリに接続されている Azure パイプラインに接続できませんでした。Azure Dev Ops ポータルから削除された可能性があります。これが発生した場合は、このパイプラインを切断し、新しいデプロイ パイプラインを設定できます。</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows のパスは、'c:\' で始める必要があります。</value>
   </data>
 </root>

@@ -1,36 +1,34 @@
 @import '../../../../sass/common/variables';
 
-$footer-height: 55px;
-
 .container-configure {
-    padding: 10px;
+  padding: 10px;
 }
 
 .container-configure-header {
-    text-align: center;
+  text-align: center;
 }
 
 .container-configure-host {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .container-configure-image-source {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 footer {
-    position: fixed;
-    z-index: 100;
-    bottom: 0px;
-    height: $footer-height;
-    width: 100%;
-    border-top: $border;
-    padding: 0px 5px;
-    background-color: $body-bg-color;
+  position: fixed;
+  z-index: 100;
+  bottom: 0px;
+  height: $footer-height;
+  width: 100%;
+  border-top: $border;
+  padding: 0px 5px;
+  background-color: $body-bg-color;
 }
 
 .container-disabled-icon {
-    height: 100px;
-    width: 100px;
-    filter: grayscale(100%);
+  height: 100px;
+  width: 100px;
+  filter: grayscale(100%);
 }

@@ -1,0 +1,28 @@
+
+<div *ngIf="form" [formGroup] = "form">
+  <div class="byos-property">
+    <label>{{ '_name' | translate }}</label>
+    <textbox [control] = "form?.controls?.name" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="name" id="byos-name-error" role="alert"></div>
+  </div>
+
+  <div class="byos-property">
+    <label>{{ 'configurationOption' | translate }}</label>
+    <div>
+        <radio-selector
+            [options] = "byosManager.configurationOptions"
+            [control] = "form?.controls?.configurationOption">
+        </radio-selector>
+    </div>
+  </div>
+</div>
+
+<byos-selector-basic
+  *ngIf = "form?.controls?.configurationOption?.value == 'basic'"
+  [viewInfoInput] = "byosConfigureData">
+</byos-selector-basic>
+
+<byos-selector-advanced
+  *ngIf = "form?.controls?.configurationOption?.value == 'advanced'"
+  [viewInfoInput] = "byosConfigureData">
+</byos-selector-advanced>

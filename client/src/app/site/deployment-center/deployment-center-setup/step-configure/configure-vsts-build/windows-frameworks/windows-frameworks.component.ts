@@ -1,7 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DeploymentCenterStateManager } from '../../../wizard-logic/deployment-center-state-manager';
 import { Subject } from 'rxjs/Subject';
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
+import { CacheService } from 'app/shared/services/cache.service';
+import { PythonFrameworkType } from '../../../wizard-logic/deployment-center-setup-models';
 
 export const TaskRunner = {
   None: 'None',
@@ -18,6 +20,11 @@ export const WebAppFramework = {
   StaticWebapp: 'StaticWebapp',
 };
 
+const siteExtensionApiUri = 'https://api-v2v3search-0.nuget.org/query?q=Tags%3AAzureSiteExtension&prerelease=true&take=500';
+interface SiteExtensionDef {
+  id: string;
+  title: string;
+}
 @Component({
   selector: 'app-windows-frameworks',
   templateUrl: './windows-frameworks.component.html',
@@ -27,7 +34,7 @@ export const WebAppFramework = {
     '../../../deployment-center-setup.component.scss',
   ],
 })
-export class WindowsFramworksComponent implements OnDestroy {
+export class WindowsFramworksComponent implements OnInit, OnDestroy {
   defaultNodeTaskRunner = 'none';
   nodeJsTaskRunners: DropDownElement<string>[] = [
     { value: 'gulp', displayLabel: 'Gulp' },
@@ -35,27 +42,16 @@ export class WindowsFramworksComponent implements OnDestroy {
     { value: 'none', displayLabel: 'None' },
   ];
 
-  recommendedPythonVersion = 'python353x86';
-  pythonVersionList: DropDownElement<string>[] = [
-    { value: 'python2712x64', displayLabel: 'Python 2.7.12 x64' },
-    { value: 'python2712x86', displayLabel: 'Python 2.7.12 x86' },
-    { value: 'python2713x64', displayLabel: 'Python 2.7.13 x64' },
-    { value: 'python2713x86', displayLabel: 'Python 2.7.13 x86' },
-    { value: 'python353x64', displayLabel: 'Python 3.5.3 x64' },
-    { value: 'python353x86', displayLabel: 'Python 3.5.3 x86' }, // Recommended version
-    { value: 'python360x86', displayLabel: 'Python 3.6.0 x86' },
-    { value: 'python360x64', displayLabel: 'Python 3.6.0 x64' },
-    { value: 'python361x86', displayLabel: 'Python 3.6.1 x86' },
-    { value: 'python361x64', displayLabel: 'Python 3.6.1 x64' },
-  ];
+  pythonVersionList: DropDownElement<string>[] = [];
 
   defaultPythonFramework = 'Bottle';
-  pythonFrameworkList: DropDownElement<string>[] = [
-    { value: 'Bottle', displayLabel: 'Bottle' },
-    { value: 'Django', displayLabel: 'Django' },
-    { value: 'Flask', displayLabel: 'Flask' },
+  pythonFrameworkList: DropDownElement<PythonFrameworkType>[] = [
+    { value: PythonFrameworkType.Bottle, displayLabel: 'Bottle' },
+    { value: PythonFrameworkType.Django, displayLabel: 'Django' },
+    { value: PythonFrameworkType.Flask, displayLabel: 'Flask' },
   ];
 
+  pythonLoading = false;
   webApplicationFrameworks: DropDownElement<string>[] = [
     {
       displayLabel: 'ASP.NET',
@@ -84,18 +80,27 @@ export class WindowsFramworksComponent implements OnDestroy {
   ];
 
   private _ngUnsubscribe$ = new Subject();
-
+  selectedPythonVersion = '';
   selectedFramework = WebAppFramework.AspNetWap;
-  selectedPythonVersion = this.recommendedPythonVersion;
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
 
-  constructor(public wizard: DeploymentCenterStateManager) {}
+  constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService) {}
 
   get getFramework() {
     return this.selectedPythonFramework;
   }
 
+  ngOnInit(): void {
+    this.pythonLoading = true;
+    this._cacheService.get(siteExtensionApiUri).subscribe(res => {
+      const siteExtensionData: SiteExtensionDef[] = res.json().data;
+      const pythonObjs = siteExtensionData.filter(r => r.id.includes('azureappservice-python'));
+      this.pythonVersionList = pythonObjs.map(x => ({ displayLabel: x.title, value: x.id.split('-')[1] }));
+      this.selectedPythonVersion = this.pythonVersionList[0].value;
+      this.pythonLoading = false;
+    });
+  }
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
   }

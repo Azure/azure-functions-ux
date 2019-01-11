@@ -28,6 +28,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
   private _renderComponentName: string = '';
   public functionMonitorInfo: FunctionMonitorInfo;
   public monitorConfigureInfo: MonitorConfigureInfo;
+  public renderView = false;
 
   constructor(
     private _functionAppService: FunctionAppService,
@@ -62,9 +63,13 @@ export class FunctionMonitorComponent extends NavigableComponent {
   protected setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
     return super
       .setup(navigationEvents)
-      .switchMap(viewInfo =>
-        Observable.zip(this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()), Observable.of(viewInfo))
-      )
+      .switchMap(viewInfo => {
+        this.renderView = false;
+        return Observable.zip(
+          this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
+          Observable.of(viewInfo)
+        );
+      })
       .switchMap(tuple =>
         Observable.zip(
           Observable.of(tuple[0]),
@@ -90,6 +95,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
           : this._shouldLoadApplicationInsightsView()
             ? ComponentNames.monitorApplicationInsights
             : this._loadMonitorConfigureView();
+
+        this.renderView = true;
       });
   }
 

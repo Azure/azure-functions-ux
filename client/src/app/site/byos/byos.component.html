@@ -1,0 +1,24 @@
+<app-card-info-control
+  image="image/storage.svg"
+  header="{{ 'addStorageTitle' | translate }}"
+  description="{{ 'addStorageDescription' | translate }}"
+  [learnMoreLink]="byosLearnMoreLink">
+</app-card-info-control>
+
+<div class="byos-selector">
+  <byos-selector
+    *ngIf = "byosConfigureData"
+    [viewInfoInput] = "byosConfigureData">
+  </byos-selector>
+</div>
+
+<footer>
+  <div id="byos-footer">
+      <button type="submit"
+          class="custom-button"
+          (click)="clickApply()"
+          [attr.aria-label]="'apply' | translate">
+          {{'ok' | translate}}
+      </button>
+  </div>
+</footer>

@@ -33,7 +33,7 @@ class SpecPickerExpander extends React.Component<SpecPickerExpanderPropsCombined
     return (
       <div className={expanderDivStyle}>
         <ActionButton onClick={this._onClick} iconProps={{ iconName: isExpanded ? 'ChevronUp' : 'ChevronDown' }}>
-          {isExpanded ? t('See only recommended options') : t('See additional options')}
+          {isExpanded ? t('seeRecommendedOptions') : t('seeAllOptions')}
         </ActionButton>
       </div>
     );

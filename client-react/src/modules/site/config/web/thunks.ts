@@ -4,6 +4,7 @@ import axios from 'axios';
 import { SiteConfig, ArmObj, VirtualApplication } from '../../../../models/WebAppModels';
 import { fetchMetadata, updateMetadata } from '../metadata/thunks';
 import IState from '../../../types';
+import { CommonConstants } from 'src/utils/CommonConstants';
 
 export function fetchConfig() {
   return async (dispatch: any, getState: () => IState) => {
@@ -20,7 +21,7 @@ export function fetchConfig() {
       return currentWebconfig;
     }
     dispatch(updateCurrentSiteWebConfigNoCache({ loading: true }));
-    const configFetch = axios.get(`${armEndpoint}${resourceId}?api-version=2016-03-01`, {
+    const configFetch = axios.get(`${armEndpoint}${resourceId}?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`, {
       headers: {
         Authorization: `Bearer ${armToken}`,
       },
@@ -63,7 +64,7 @@ export function updateConfig(value: ArmObj<SiteConfig>, currentlySelectedStack: 
         await dispatch(updateMetadata(metadata));
       }
       const siteUpdate = await axios.put<ArmObj<SiteConfig>>(
-        `${armEndpoint}${startupInfo!.resourceId}/config/web?api-version=2016-03-01`,
+        `${armEndpoint}${startupInfo!.resourceId}/config/web?api-version=${CommonConstants.ApiVersions.websiteApiVersion20180201}`,
         setStackData(currentlySelectedStack, value),
         {
           headers: {
@@ -89,9 +90,12 @@ export function updateConfig(value: ArmObj<SiteConfig>, currentlySelectedStack: 
   };
 }
 
-function unFlattenVirtualApplicationsList(virtalApps: VirtualApplication[]) {
-  const virtualApplications = virtalApps.filter(x => !x.virtualDirectory)!;
-  const virtualDirectories = virtalApps.filter(x => x.virtualDirectory);
+function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
+  if (!virtualApps) {
+    return [];
+  }
+  const virtualApplications = virtualApps.filter(x => !x.virtualDirectory)!;
+  const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
 
@@ -111,6 +115,9 @@ function unFlattenVirtualApplicationsList(virtalApps: VirtualApplication[]) {
 }
 
 function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]) {
+  if (!virtualApps) {
+    return [];
+  }
   const newList: VirtualApplication[] = [];
   virtualApps.forEach(va => {
     newList.push({ ...va, virtualDirectory: false, virtualDirectories: [] });

@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Request, Response } from 'express';
-import { IncomingMessageHeaders } from 'http';
 
 interface TriggerRequest {
   body: string;
@@ -14,7 +13,7 @@ export function triggerFunctionAPIM(req: Request, res: Response) {
   }
 
   const content = req.body as TriggerRequest;
-  const headers: IncomingMessageHeaders = {};
+  const headers: { [key: string]: string } = {};
   headers['Content-Type'] = 'application/json';
   headers['Accept'] = 'application/json';
   headers['Cache-Control'] = 'no-cache';

@@ -123,7 +123,7 @@ interface CostEstimate {
  * Status code for the GetSpecsCosts result
  * The corresponding C# enum is CostEstimateOverallStatusCode
  */
-enum SpecCostQueryResultSpecStatusCode {
+export enum SpecCostQueryResultSpecStatusCode {
   /**
    * Costing data was successfully returned.
    */
@@ -254,7 +254,7 @@ interface PriceRule {
  * Status code for the GetSpecsCosts result
  * The corresponding C# enum is CostEstimateOverallStatusCode
  */
-enum SpecCostQueryResultStatusCode {
+export enum SpecCostQueryResultStatusCode {
   /**
    * Costing data was successfully returned.
    */
@@ -307,4 +307,9 @@ enum SpecCostQueryResultStatusCode {
    * Spec is not supported in the current environment, e.g. Mooncake, Blackforest
    */
   NotSupportedInCurrentEnvironment = 13,
+
+  /**
+   * New EA subscription user cannot to see EA pricing in the first 20 minutes. Showing retail price instead.
+   */
+  SuccessAsRetailForNewEa = 14,
 }

@@ -134,6 +134,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
         <Field
           name="config.properties.javaVersion"
           component={Dropdown}
+          fullpage
           disabled={!values.siteWritePermission}
           label={t('javaMinorVersion')}
           id="app-settings-java-minor-verison"
@@ -142,6 +143,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
         <Field
           name="config.properties.javaContainer"
           component={Dropdown}
+          fullpage
           label={t('javaContainer')}
           disabled={!values.siteWritePermission}
           id="app-settings-java-container-runtime"
@@ -150,6 +152,7 @@ class JavaStack extends React.Component<Props, JavaStackState> {
         <Field
           name="config.properties.javaContainerVersion"
           component={Dropdown}
+          fullpage
           disabled={!values.siteWritePermission}
           label={t('javaContainerVersion')}
           id="app-settings-java-container-version"

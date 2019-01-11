@@ -898,7 +898,7 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>이 자격 증명을 이용하여 연결:</value>
   </data>
-  <data name="topBar_learnMore" xml:space="preserve">
+  <data name="learnMore" xml:space="preserve">
     <value>자세한 정보</value>
   </data>
   <data name="clickToLearnMore" xml:space="preserve">
@@ -1319,7 +1319,7 @@
     <value>배포 옵션</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>OneDrive, Dropbox, 외부 Git 등에서의 트리거 배포뿐만 아니라 VSTS, GitHub, BitBucket에서의 지속적인 배포를 비롯하여 앱에 대한 배포 옵션을 구성하고 관리합니다.</value>
+    <value>OneDrive, Dropbox, 외부 Git 등에서의 트리거 배포뿐만 아니라 Azure Repos, GitHub, BitBucket에서의 지속적인 배포를 비롯하여 앱에 대한 배포 옵션을 구성하고 관리합니다.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>배포 자격 증명</value>
@@ -1622,7 +1622,7 @@
     <value>인증/권한 부여를 사용하여 응용 프로그램을 보호하고 사용자 단위 데이터로 작업합니다.</value>
   </data>
   <data name="feature_msiName" xml:space="preserve">
-    <value>관리 서비스 ID</value>
+    <value>ID</value>
   </data>
   <data name="feature_msiInfo" xml:space="preserve">
     <value>응용 프로그램은 관리되는 Azure Active Directory ID를 사용하여 다른 Azure 서비스와 통신할 수 있습니다.</value>
@@ -2207,13 +2207,13 @@
     <value>배포 슬롯을 사용하여 다양한 버전의 함수 앱을 서로 다른 URL에 배포할 수 있습니다. 특정 버전을 테스트한 다음 슬롯 간에 콘텐츠 및 구성을 교환할 수 있습니다.</value>
   </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
-    <value>새 슬롯 {0}을(를) 만드는 중 </value>
+    <value>새 슬롯 '{0}'을(를) 만드는 중 </value>
   </data>
   <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
-    <value>{0} 슬롯 만들기 성공 </value>
+    <value>'{0}' 슬롯 만들기 성공 </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>{0} 슬롯 만들기 실패 </value>
+    <value>'{0}' 슬롯 만들기 실패 </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>슬롯 목록을 업데이트할 수 없습니다.</value>
@@ -2252,7 +2252,7 @@
     <value>임시 값</value>
   </data>
   <data name="slotsList_noSlots" xml:space="preserve">
-    <value>배포 슬롯을 추가하지 않았습니다. 시작하려면 '슬롯 추가'를 클릭하세요.</value>
+    <value>배포 슬롯을 추가하지 않았습니다. 시작하려면 여기를 클릭하세요.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>이름</value>
@@ -2477,7 +2477,7 @@
     <value>대한민국 중부</value>
   </data>
   <data name="koreasouth" xml:space="preserve">
-    <value>대한민국 남부</value>
+    <value>한국 남부</value>
   </data>
   <data name="westus" xml:space="preserve">
     <value>미국 서부</value>
@@ -2813,7 +2813,7 @@
     <value>조직</value>
   </data>
   <data name="vstsAccount" xml:space="preserve">
-    <value>Visual Studio Team Services 계정</value>
+    <value>Azure DevOps 조직</value>
   </data>
   <data name="project" xml:space="preserve">
     <value>프로젝트</value>
@@ -2825,7 +2825,7 @@
     <value>소스</value>
   </data>
   <data name="account" xml:space="preserve">
-    <value>계정</value>
+    <value>Organization</value>
   </data>
   <data name="loadTest" xml:space="preserve">
     <value>부하 테스트</value>
@@ -2897,10 +2897,10 @@
     <value>{{operation}}을(를) 취소하지 못했습니다. 오류: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
-    <value>{0} 슬롯을 {1}과(와) 교환함</value>
+    <value>'{0}' 슬롯을 '{1}'과(와) 교환함</value>
   </data>
   <data name="swappedSlotFail" xml:space="preserve">
-    <value>{0} 슬롯을 {1}과(와) 교환하지 못함</value>
+    <value>'{0}' 슬롯을 '{1}'과(와) 교환하지 못함</value>
   </data>
   <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
     <value>지속적인 업데이트를 설정하고 빌드를 트리거함</value>
@@ -2912,10 +2912,10 @@
     <value>지속적인 업데이트를 설정하지 못함</value>
   </data>
   <data name="createVSTSAccountSuccess" xml:space="preserve">
-    <value>새 Visual Studio Team Services 계정을 만듦</value>
+    <value>생성된 새 Azure DevOps 조직</value>
   </data>
   <data name="createVSTSAccountFail" xml:space="preserve">
-    <value>Visual Studio Team Services 계정을 만들지 못함</value>
+    <value>Azure DevOps 조직을 만들지 못함</value>
   </data>
   <data name="createdNewSlotSuccess" xml:space="preserve">
     <value>새 슬롯을 만듦</value>
@@ -2954,10 +2954,10 @@
     <value>리포지토리의 최신 소스 코드로 지속적인 업데이트를 트리거함</value>
   </data>
   <data name="buildDefinition" xml:space="preserve">
-    <value>빌드 정의</value>
+    <value>빌드 파이프라인</value>
   </data>
   <data name="releaseDefinition" xml:space="preserve">
-    <value>릴리스 정의</value>
+    <value>릴리스 파이프라인</value>
   </data>
   <data name="buildTriggered" xml:space="preserve">
     <value>빌드 트리거됨</value>
@@ -3011,7 +3011,7 @@
     <value>GitHub 리포지토리를 사용하여 지속적인 통합을 구성합니다.</value>
   </data>
   <data name="vstsDesc" xml:space="preserve">
-    <value>VSTS 리포지토리를 사용하여 지속적인 통합을 구성합니다.</value>
+    <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Repo와 연속 통합을 구성합니다.</value>
   </data>
   <data name="externalDesc" xml:space="preserve">
     <value>공용 Git 또는 Mercurial 리포지토리에서 배포합니다.</value>
@@ -3026,7 +3026,7 @@
     <value>Dropbox 클라우드 폴더의 콘텐츠를 동기화합니다.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
-    <value>지속형 함수</value>
+    <value>Durable Functions</value>
   </data>
   <data name="DurableFunctionsActivity_description" xml:space="preserve">
     <value>활동이 오케스트레이터 함수에 의해 호출될 때마다 실행되는 함수입니다.</value>
@@ -3344,10 +3344,10 @@
     <value>로그 수준</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
-    <value>VSTS 빌드(미리 보기)</value>
+    <value>Azure Pipelines(미리 보기)</value>
   </data>
   <data name="vstsBuildServerDesc" xml:space="preserve">
-    <value>Visual Studio Team Services는 응용 프로그램에 대한 강력한 배포 파이프라인을 설정합니다. 파이프라인은 부하 테스트를 빌드하고, 실행하고, 스테이징 슬롯에 배포한 다음 프로덕션에 배포합니다.</value>
+    <value>Azure DevOps Services(이전 VSTS)의 일부인 Azure Pipelines를 사용하여 응용 프로그램의 강력한 배포 파이프라인을 구성합니다. 파이프라인이 빌드되고, 부하 테스트를 실행하고, 스테이징 슬롯에 배포된 후, 프로덕션 환경에 배포됩니다.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
     <value>App Service Kudu 빌드 서버</value>
@@ -3359,7 +3359,7 @@
     <value>빌드</value>
   </data>
   <data name="selectAccount" xml:space="preserve">
-    <value>계정 선택</value>
+    <value>조직 선택</value>
   </data>
   <data name="enterAccountName" xml:space="preserve">
     <value>계정 이름 입력</value>
@@ -3500,10 +3500,10 @@
     <value>유효성을 검사하는 중...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>이 프로젝트에 대한 빌드 정의 또는 릴리스 정의를 만들 수 있는 권한이 없습니다. 프로젝트 관리자에게 문의하세요.</value>
+    <value>이 프로젝트의 빌드 파이프라인 또는 릴리스 파이프라인을 만들 권한이 없습니다. 프로젝트 관리자에게 문의하세요.</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
-    <value>제공된 계정 이름이 잘못되었습니다. 다른 계정 이름을 제공하세요.</value>
+    <value>제공된 조직 이름이 잘못되었습니다. 다른 조직 이름을 제공하세요.</value>
   </data>
   <data name="FTPBoth" xml:space="preserve">
     <value>FTP+FTPS</value>
@@ -3536,7 +3536,8 @@
     <value>사용자 자격 증명</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>사용자 자격 증명은 귀하와 사용자가 정의하며 액세스 권한이 있는 모든 앱과 함께 사용할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다.</value>
+    <value>사용자 자격 증명이 정의되었으므로 액세스할 수 있는 모든 앱에 이 자격 증명을 사용할 수 있습니다. 이 자격 증명을 FTP, 로컬 Git 및 WebDeploy에 사용할 수 있습니다. 사용자 자격 증명을 사용하여 앱에 연결하는 경우, 사용자 이름을 {0}(으)로 입력해야 합니다.</value>
+    <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>앱 자격 증명</value>
@@ -3733,6 +3734,9 @@
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>배포를 설정하지 못함</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>배포를 설정하지 못함: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>배포 연결을 끊는 중</value>
   </data>
@@ -3762,6 +3766,9 @@
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} 총 ACU</value>
+  </data>
+  <data name="pricing_availableFeatures" xml:space="preserve">
+    <value>사용 가능한 기능</value>
   </data>
   <data name="containerSettingsApplyLabel" xml:space="preserve">
     <value>컨테이너 설정 업데이트</value>
@@ -3917,7 +3924,7 @@
     <value>지금은 {0} 웹앱에 대한 리포지토리를 업데이트할 수 없습니다.</value>
   </data>
   <data name="vsts_permissions_error" xml:space="preserve">
-    <value>VSTS 지속적인 업데이트를 사용하려면 Azure Active Directory에 대한 쓰기 권한과 서비스 사용자를 만들 수 있는 권한이 있어야 합니다.</value>
+    <value>Azure DevOps 지속적인 업데이트를 사용하려면 Azure Active Directory에 대한 쓰기 권한과 서비스 주체를 만들 수 있는 권한이 있어야 합니다.</value>
   </data>
   <data name="quickstartSelectSample" xml:space="preserve">
     <value>샘플 선택</value>
@@ -3926,13 +3933,13 @@
     <value>설명</value>
   </data>
   <data name="no_vsts_repos" xml:space="preserve">
-    <value>소유한 VSTS 리포지토리가 없습니다.</value>
+    <value>Azure Repo를 소유하지 않음</value>
   </data>
   <data name="no_vsts_accounts" xml:space="preserve">
-    <value>유효한 VSTS 계정이 없습니다.</value>
+    <value>유효한 Azure DevOps 조직이 없음</value>
   </data>
   <data name="no_vsts_accounts_kudu" xml:space="preserve">
-    <value>유효한 VSTS 계정이 없습니다. 계정 소유자가 되려면 App Service Kudu 빌드도 필요합니다.</value>
+    <value>유효한 Azure DevOps 조직이 없습니다. App Service Kudu 빌드를 사용하려면 조직 소유자여야 합니다.</value>
   </data>
   <data name="create_one" xml:space="preserve">
     <value>지금 새로 만들기</value>
@@ -4199,10 +4206,10 @@
     <value>새 또는 기존 배포 슬롯</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
-    <value>새 또는 기존 VSTS 계정</value>
+    <value>신규 또는 기존 Azure DevOps 조직</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
-    <value>새 또는 기존 VSTS 계정</value>
+    <value>신규 또는 기존 웹앱</value>
     </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>배포 정보</value>
@@ -4289,7 +4296,7 @@
     <value>실제 경로</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>형식</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>삭제</value>
@@ -4413,5 +4420,167 @@
   </data>
   <data name="configYamlInvalid" xml:space="preserve">
     <value>YML 형식이 잘못되었습니다. 오류: '{0}'.</value>
+  </data>
+  <data name="detailContainerLogFetchTitle" xml:space="preserve">
+    <value>컨테이너 로그 다운로드</value>
+  </data>
+  <data name="detailContainerLogFetchDescription" xml:space="preserve">
+    <value>자세한 컨테이너 로그를 다운로드하는 중입니다.</value>
+  </data>
+  <data name="detailContainerLogFetchSuccess" xml:space="preserve">
+    <value>컨테이너 로그를 다운로드했습니다.</value>
+  </data>
+  <data name="detailContainerLogFetchFailure" xml:space="preserve">
+    <value>컨테이너 로그를 다운로드하지 못했습니다.</value>
+  </data>
+  <data name="resettingCredentials" xml:space="preserve">
+    <value>자격 증명을 다시 설정하는 중</value>
+  </data>
+  <data name="resettingCredentialsFail" xml:space="preserve">
+    <value>자격 증명을 다시 설정하지 못함</value>
+  </data>
+  <data name="resettingCredentialsSucccess" xml:space="preserve">
+    <value>자격 증명을 다시 설정함</value>
+  </data>
+  <data name="savingCredentials" xml:space="preserve">
+    <value>자격 증명을 저장하는 중</value>
+  </data>
+  <data name="savingCredentialsFail" xml:space="preserve">
+    <value>자격 증명을 저장하지 못함</value>
+  </data>
+  <data name="savingCredentialsSucccess" xml:space="preserve">
+    <value>자격 증명을 저장함</value>
+  </data>
+  <data name="containerPrivateRegistryDescription" xml:space="preserve">
+    <value>Azure Container Registry 등 개인 레지스트리의 이미지를 사용하세요.</value>
+  </data>
+  <data name="notSelected" xml:space="preserve">
+    <value>선택되지 않음</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>최신</value>
+  </data>
+  <data name="versionLatest" xml:space="preserve">
+    <value>{{version}}(최신)</value>
+  </data>
+  <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
+    <value>앱에서 최신 버전의 {{defaultJavaVersion}}을(를) 사용합니다.</value>
+  </data>
+  <data name="functionsJavaMinorVersionWarning" xml:space="preserve">
+    <value>최신이 아닌 특정 부 버전을 선택하면 콜드 부팅 시간이 더 오래 걸릴 수 있습니다.</value>
+  </data>
+  <data name="quickstartPowershellTitle" xml:space="preserve">
+    <value>Azure Functions for PowerShell - 시작</value>
+  </data>
+  <data name="addStorageTitle" xml:space="preserve">
+    <value>스토리지 추가(미리 보기)</value>
+  </data>
+  <data name="addStorageDescription" xml:space="preserve">
+    <value>사용자 앱에 대해 마운트할 Azure Storage Blob 또는 파일 정보를 제공합니다.</value>
+  </data>
+  <data name="configurationOption" xml:space="preserve">
+    <value>구성 옵션</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>기본</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>고급</value>
+  </data>
+  <data name="chooseAccount" xml:space="preserve">
+    <value>저장소 계정 선택</value>
+  </data>
+  <data name="storageAccount" xml:space="preserve">
+    <value>스토리지 계정</value>
+  </data>
+  <data name="storageContainer" xml:space="preserve">
+    <value>스토리지 컨테이너</value>
+  </data>
+  <data name="storageFileShare" xml:space="preserve">
+    <value>스토리지 파일 공유</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="chooseContainer" xml:space="preserve">
+    <value>저장소 컨테이너 선택</value>
+  </data>
+  <data name="mountPath" xml:space="preserve">
+    <value>탑재 경로</value>
+  </data>
+  <data name="shareName" xml:space="preserve">
+    <value>공유 이름</value>
+  </data>
+  <data name="accessKey" xml:space="preserve">
+    <value>액세스 키</value>
+  </data>
+  <data name="chooseFileShare" xml:space="preserve">
+    <value>파일 공유 선택</value>
+  </data>
+  <data name="storageType" xml:space="preserve">
+    <value>스토리지 유형</value>
+  </data>
+  <data name="invalidWindowsPath" xml:space="preserve">
+    <value>경로 형식이 Windows에 유효하지 않습니다.</value>
+  </data>
+  <data name="invalidLinuxPath" xml:space="preserve">
+    <value>경로 형식이 Linux에 유효하지 않습니다.</value>
+  </data>
+  <data name="mountStorage" xml:space="preserve">
+    <value>스토리지 마운트(미리 보기)</value>
+  </data>
+  <data name="addStorageLink" xml:space="preserve">
+    <value>+ 스토리지 추가</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>계정</value>
+  </data>
+  <data name="container" xml:space="preserve">
+    <value>컨테이너</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>경로</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>아래의 컨트롤을 사용하여 브라우저에서 숨겨진 스토리지 키를 표시하도록 선택할 수 있습니다.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>스토리지 계정</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>스토리지 계정 이름</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>확인</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>잘못된 공유</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>자격 증명이 잘못되었습니다.</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>형식</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>파일</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(표시할 스토리지 계정 없음)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>해당 이름의 스토리지 설정이 이미 있습니다.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>이 웹앱에 연결된 Azure Pipeline에 연결할 수 없습니다. 이는 이 파이프라인이 Azure Dev Ops Portal에서 제거되었음을 의미합니다. 이런 경우, 이 파이프라인의 연결을 끊고 새 배포 파이프라인을 설정할 수 있습니다.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows에 대한 경로는 'c:\'로 시작해야 합니다.</value>
   </data>
 </root>
