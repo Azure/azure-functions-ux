@@ -12,7 +12,7 @@ export class FlightingUtil {
       seed: 422209594,
       percentofUsers: 50,
       forceOnFlag: FeatureFlags.oldDeploymentCenter,
-      forceOffFlag: '',
+      forceOffFlag: null,
     },
     NewDeploymentSlots: {
       seed: 187465135,

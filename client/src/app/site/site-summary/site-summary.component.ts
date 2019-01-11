@@ -12,7 +12,6 @@ import {
   NotificationIds,
   SlotOperationState,
   SwapOperationType,
-  FeatureFlags,
   FunctionAppVersion,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
