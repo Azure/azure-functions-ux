@@ -62,6 +62,7 @@ export class ApplicationSettings extends React.Component<
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
+            disableSlotSetting={!this.props.values.productionWritePermission}
             otherAppSettings={this.props.values.appSettings}
             updateAppSetting={this.onClosePanel.bind(this)}
             closeBlade={this.onCancel}

@@ -111,7 +111,7 @@ const semanticColors = {
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
 
   errorText: AzurePortalColors.inlineErrorText,
-  warningText: themePalette.white,
+  warningText: AzurePortalColors.textColor,
   errorBackground: AzurePortalColors.errorBackground,
   blockingBackground: AzurePortalColors.errorBackground,
   warningBackground: AzurePortalColors.warningBackground,

@@ -65,6 +65,7 @@ export class ConnectionStrings extends React.Component<
             connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
+            disableSlotSetting={!values.productionWritePermission}
             closeBlade={this._onCancel}
           />
         </Panel>
@@ -185,7 +186,7 @@ export class ConnectionStrings extends React.Component<
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
+        minWidth: 110,
         maxWidth: 350,
         isRowHeader: true,
         data: 'string',
@@ -197,7 +198,7 @@ export class ConnectionStrings extends React.Component<
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 110,
         isRowHeader: true,
         data: 'string',
         isPadded: true,

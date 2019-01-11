@@ -24,6 +24,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
   siteWritePermission: boolean;
+  productionWritePermission: boolean;
 }
 
 export interface FormState {
