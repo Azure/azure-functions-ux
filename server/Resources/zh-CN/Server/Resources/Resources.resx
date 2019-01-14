@@ -647,7 +647,7 @@
     <value>管理</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>监视器</value>
+    <value>监视</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>选择输入绑定</value>
@@ -2144,7 +2144,7 @@
     <value>是否确实要更新 {{name}} 密钥?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Azure Functions 是一种可促进开发的基于事件的无服务计算体验。按需缩放，并仅为你耗用的资源付费。</value>
+    <value>Azure Functions 是一种可促进开发的基于事件的无服务器计算体验。按需缩放，并仅为你耗用的资源付费。</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>了解有关 Azure Functions 的详细信息</value>
@@ -3217,6 +3217,15 @@
   <data name="pricing_autoScale" xml:space="preserve">
     <value>自动缩放</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>扩大。</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>计算 VM 大小: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>可用实例不足。</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>缩放到大量实例</value>
   </data>
@@ -3225,6 +3234,9 @@
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>最多 {0} 个实例。取决于可用性。</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>实例数不限。取决于可用性。</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>高密度</value>
@@ -3536,7 +3548,7 @@
     <value>用户凭据</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>用户凭据由你(即用户)进行定义，且可用于你有权访问的所有应用。这些凭据可用于 FTP、本地 Git 和 WebDeploy。如果你在使用用户凭据连接到应用，则将需要输入用户名作为 {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3734,6 +3746,9 @@
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>未能设置部署</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>未能设置部署: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>正在断开你的部署</value>
   </data>
@@ -3747,7 +3762,7 @@
     <value>确定要断开部署吗?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>无服务器社区库(预览)</value>
+    <value>无服务器社区库</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>未找到所需内容? 请查看 Azure 无服务器社区库!</value>
@@ -4047,7 +4062,7 @@
     <value>函数应用运行时堆栈</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>函数应用 v2 现在是单一语言。请先设置运行时堆栈，再向应用添加函数。</value>
+    <value>Function Apps v2 现仅支持一种语言。请先设置运行时堆栈，然后在向应用添加函数。</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>函数运行时堆栈</value>
@@ -4293,7 +4308,7 @@
     <value>物理路径</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>删除</value>
@@ -4500,7 +4515,7 @@
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>文件</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
     <value>选择存储容器</value>
@@ -4530,7 +4545,7 @@
     <value>装载存储(预览)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>添加存储</value>
+    <value>+ 添加存储</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>帐户</value>
@@ -4540,5 +4555,74 @@
   </data>
   <data name="path" xml:space="preserve">
     <value>路径</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>可使用以下控件来选择在浏览器中显示隐藏的存储密钥。</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>存储帐户</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>存储帐户名称</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>无效共享</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>无效凭据</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(没有要显示的存储帐户)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>其中该名称已存在的存储设置。</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>我们无法连接到已连接到此 Web 应用的 Azure 管道。这可能意味着已从 Azure Dev Ops 门户将其删除。如果是这样，可以断开此管道并设置新的部署管道。</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows 的路径必须以 "c:\" 开头。</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>函数应用处于受限状态。无法检索所有数据。</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>受限制</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>函数(受限)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>已停止所有函数。启动应用以查看函数。</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>不具备对此应用的写入权限。</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>具有只读访问权限。写入访问权限才可查看函数。</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>对于在内部负载均衡器后运行的函数，不能在其 VNET 外部对其进行访问。要想访问函数，请确保与函数位于相同的 VNET。</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>代理(受限)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>要更改槽设置，则必须对生产应用具有写入权限。</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>要更改自动交换设置，则必须对生产应用具有写入权限。</value>
   </data>
 </root>

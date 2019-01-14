@@ -40,7 +40,7 @@ export class SiteService {
   getSlots(resourceId: string, force?: boolean): Result<ArmArrayResult<Site>> {
     const siteDescriptor = new ArmSiteDescriptor(resourceId);
     const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
-    const getSlots = this._cacheService.getArm(slotsId, force).map(r => r.json());
+    const getSlots = this._cacheService.getArm(slotsId, force, ARMApiVersions.websiteApiVersion20180201).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getSlots);
   }
@@ -155,7 +155,7 @@ export class SiteService {
       },
     });
     const newSlotId = `${resourceId}/slots/${slotName}`;
-    const createSlot = this._cacheService.putArm(newSlotId, null, payload).map(r => r.json());
+    const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.websiteApiVersion20180201, payload).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => createSlot);
   }

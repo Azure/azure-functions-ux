@@ -647,7 +647,7 @@
     <value>Gerenciar</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Monitorar</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Escolher uma associação de entrada</value>
@@ -3217,6 +3217,15 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoescala</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Aumentar.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Computar o tamanho da VM: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Não há instâncias disponíveis suficientes.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Escalar para um grande número de instâncias</value>
   </data>
@@ -3224,7 +3233,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Até 100 instâncias. Mais são permitidas sob solicitação.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Até {0} instâncias. Sujeito a disponibilidade.</value>
+    <value>Até {0} instâncias. Sujeito à disponibilidade.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Instâncias ilimitadas. Sujeito à disponibilidade.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Alta Densidade</value>
@@ -3536,7 +3548,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Credenciais do Usuário</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com o FTP, Git Local e WebDeploy. Se você estiver usando credenciais de Usuário para se conectar ao seu aplicativo, o nome de usuário precisará ser colocado como {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3734,6 +3746,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Falha ao configurar a implantação</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Falha ao configurar a implantação: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Desconectando a implantação</value>
   </data>
@@ -3747,7 +3762,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Tem certeza de que deseja desconectar a implantação?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Biblioteca Comunitária Sem Servidor (Versão Prévia)</value>
+    <value>Biblioteca Comunitária Sem Servidor</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Não encontrou o que você está procurando? Confira a Biblioteca Comunitária Sem Servidor do Azure!</value>
@@ -4047,7 +4062,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Pilha em tempo de execução do Aplicativo de Funções</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Os Aplicativos de Funções v2 agora são em único idioma. Defina a pilha em tempo de execução antes de adicionar funções ao aplicativo.</value>
+    <value>Os Aplicativos de Funções v2 agora têm em único idioma. Defina a pilha de tempo de execução antes de adicionar funções ao seu aplicativo.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Pilha em Tempo de Execução de Função</value>
@@ -4293,7 +4308,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Caminho Físico</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Tipo</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Excluir</value>
@@ -4500,7 +4515,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>Arquivos</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
     <value>Escolha um contêiner de armazenamento</value>
@@ -4530,7 +4545,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Montar armazenamento (Versão Prévia)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Adicionar armazenamento</value>
+    <value>+ Adicionar armazenamento</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Conta</value>
@@ -4540,5 +4555,74 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="path" xml:space="preserve">
     <value>Caminho</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>Você pode escolher exibir as chaves de armazenamento ocultas no seu navegador usando os controles abaixo.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Contas de armazenamento</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Nome da conta de armazenamento</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Compartilhamento inválido</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Credenciais inválidas</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Arquivos</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(nenhuma conta de armazenamento para exibir)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Já existe uma configuração de armazenamento com esse nome.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Não foi possível estabelecer uma conexão com o Pipeline do Azure que está conectado a este Aplicativo Web. Isso pode significar que ele foi removido do Portal do Azure Dev Ops. Se isso tiver acontecido, você poderá desconectar esse pipeline e configurar um novo pipeline de implantação.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>O caminho para o Windows precisa começar com 'c:\'.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>O aplicativo de funções está em um estado limitado. Não é possível recuperar todos os dados.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limitado</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funções (Limitadas)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Todas as funções estão paradas. Inicie o aplicativo para exibi-las.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Você não tem permissões de gravação neste aplicativo.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Você tem acesso somente leitura. As funções requerem acesso de gravação para serem exibidas.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>As funções em execução por trás de um balanceador de carga interno não podem ser acessadas fora de suas VNETs. Verifique se você está na mesma VNET que as funções para acessá-las.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxies (Limitados)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Para alterar as configurações do slot, você deve ter acesso de gravação no aplicativo de produção.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Para alterar a configuração de troca automática, você deve ter permissões de gravação no aplicativo de produção.</value>
   </data>
 </root>

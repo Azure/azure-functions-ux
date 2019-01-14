@@ -53,6 +53,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideBuild = false;
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
+  public isFunctionApp = false;
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
   constructor(
@@ -76,6 +77,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const [site, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
+        this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
@@ -390,6 +392,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return ApplicationType.Python;
       case 'Ruby':
         return ApplicationType.Ruby;
+      case 'ScriptFunction':
+        return ApplicationType.ScriptFunctionApp;
+      case 'PrecompiledFunction':
+        return ApplicationType.DotNetPreCompiledFunctionApp;
       default:
         return ApplicationType.StaticWebapp;
     }

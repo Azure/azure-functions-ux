@@ -73,5 +73,6 @@
     
   </div>
 </div>
-<app-linux-frameworks *ngIf="wizard.isLinuxApp" ></app-linux-frameworks>
-<app-windows-frameworks *ngIf="!wizard.isLinuxApp" ></app-windows-frameworks>
+<app-linux-frameworks *ngIf="wizard.isLinuxApp && !wizard.isFunctionApp" ></app-linux-frameworks>
+<app-windows-frameworks *ngIf="!wizard.isLinuxApp && !wizard.isFunctionApp" ></app-windows-frameworks>
+<app-functions-frameworks *ngIf="wizard.isFunctionApp"></app-functions-frameworks>

@@ -1844,7 +1844,7 @@
     <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller ett resursnamn där ditt funktionsinnehåll är lagrat. Appen kommer inte att kunna användas utan den här inställningen. Du kan behöva ta bort och återskapa funktionsappen om du inte längre har tillgång till värdet för den här programinställningen.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
-    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för funktionernas övervakningsvy. Här samlas anropsinformation som sedan visas i övervakningsvyn. Övervakningsvyn kan vara skadad.</value>
+    <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för funktionernas övervakningsvy. Här aggregeras anropsinformation som sedan visas i övervakningsvyn. Övervakningsvyn kan vara skadad.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
     <value>Programinställningen {0} saknas i appen. Den här inställningen innehåller en anslutningssträng för ett Azure Storage-konto som behövs för att funktionskörningen ska kunna hantera synkronisering av flera instanser, logga anropsresultat och köra andra infrastrukturjobb. Appen fungerar inte som den ska utan den här inställningen.</value>
@@ -2282,7 +2282,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Enligt förbrukningsplanen kan endast en plats användas. Om du behöver fler platser använder du särskilda App Service-planer.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Sökfunktioner</value>
+    <value>Sök funktioner</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Ny</value>
@@ -3217,6 +3217,15 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoskala</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Skala ut.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Beräkna VM-storlek: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Det finns inte tillräckligt med tillgängliga instanser.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Skala till ett stort antal instanser</value>
   </data>
@@ -3225,6 +3234,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Upp till {0} instanser. I mån av tillgänglighet.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Obegränsade instanser. I mån av tillgänglighet.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Hög densitet</value>
@@ -3536,7 +3548,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Användarautentiseringsuppgifter</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>Användarautentiseringsuppgifter definieras av användaren och kan användas med alla appar som du har åtkomst till. De här autentiseringsuppgifterna kan användas med FTP, Local Git och WebDeploy. Om du använder autentiseringsuppgifter för att ansluta till din app måste användarnamnet anges som {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3734,6 +3746,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>Det gick inte att konfigurera distributionen</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>Det gick inte att konfigurera distributionen: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Kopplar från din distribution</value>
   </data>
@@ -3747,7 +3762,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Vill du koppla ifrån din distribution?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverlöst Community-bibliotek (förhandsversion)</value>
+    <value>Serverlöst Community-bibliotek</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Hittar du inte det du letar efter? Testa Azures serverlösa Community-bibliotek!</value>
@@ -4293,7 +4308,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Fysisk sökväg</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Typ</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Ta bort</value>
@@ -4470,13 +4485,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Azure Functions för PowerShell – komma igång</value>
   </data>
   <data name="addStorageTitle" xml:space="preserve">
-    <value>Add storage (Preview)</value>
+    <value>Lägg till minne (förhandsversion)</value>
   </data>
   <data name="addStorageDescription" xml:space="preserve">
-    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+    <value>Ange Azure Storage Blob eller filinformation som ska monteras för din app.</value>
   </data>
   <data name="configurationOption" xml:space="preserve">
-    <value>Configuration option</value>
+    <value>Konfigurationsalternativ</value>
   </data>
   <data name="basic" xml:space="preserve">
     <value>Grundläggande</value>
@@ -4485,7 +4500,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Avancerat</value>
   </data>
   <data name="chooseAccount" xml:space="preserve">
-    <value>Choose a storage account</value>
+    <value>Välj ett lagringskonto</value>
   </data>
   <data name="storageAccount" xml:space="preserve">
     <value>Lagringskonto</value>
@@ -4494,16 +4509,16 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Lagringscontainrar</value>
   </data>
   <data name="storageFileShare" xml:space="preserve">
-    <value>Storage file share</value>
+    <value>Minnesfilresurs</value>
   </data>
   <data name="blob" xml:space="preserve">
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>Filer</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
-    <value>Choose a storage container</value>
+    <value>Välj en lagringscontainer</value>
   </data>
   <data name="mountPath" xml:space="preserve">
     <value>Monteringssökväg</value>
@@ -4515,22 +4530,22 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Åtkomstnyckel</value>
   </data>
   <data name="chooseFileShare" xml:space="preserve">
-    <value>Choose a File Share</value>
+    <value>Välj en filresurs</value>
   </data>
   <data name="storageType" xml:space="preserve">
     <value>Lagringstyp</value>
   </data>
   <data name="invalidWindowsPath" xml:space="preserve">
-    <value>The path format is not valid for Windows.</value>
+    <value>Sökvägsformatet är inte giltigt för Windows.</value>
   </data>
   <data name="invalidLinuxPath" xml:space="preserve">
-    <value>The path format is not valid for Linux.</value>
+    <value>Sökvägsformatet är inte giltigt för Linux.</value>
   </data>
   <data name="mountStorage" xml:space="preserve">
-    <value>Mount storage (Preview)</value>
+    <value>Montera minne (förhandsversion)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Add storage</value>
+    <value>+ Lägg till minne</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>Konto</value>
@@ -4540,5 +4555,74 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="path" xml:space="preserve">
     <value>Sökväg</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>Du kan välja att visa dolda lagringsnycklar i webbläsaren genom att använda kontrollerna nedan.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>Lagringskonton</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>Lagringskontonamn</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>Ogiltig resurs</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>Felaktiga autentiseringsuppgifter</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>Filer</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(inga lagringskonton att visa)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>Det finns redan en minnesinställning med det namnet.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>Det gick inte att ansluta till den Azure-pipeline som är ansluten till den här webbappen. Det kan innebära att den har tagits bort från Azure DevOps-portalen. Om så är fallet kan du koppla från denna pipeline och konfigurera en ny distribution pipeline.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows-sökvägen måste inledas med c:\.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Funktionsappen är i ett begränsat tillstånd. Det går inte att hämta alla data.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Begränsad</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funktioner (begränsade)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Alla funktioner har stoppats. Starta appen om du vill visa funktionerna.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Du har inte skrivbehörigheter för den här appen.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Du har skrivskyddad åtkomst. Du måste ha skrivåtkomst för att kunna visa funktionerna.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Funktioner som körs bakom en intern lastbalanserare är inte tillgängliga utanför sina virtuella nätverk. Verifiera att du befinner dig i samma VNET som funktionerna, så att du kan få åtkomst till dem.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxyservrar (begränsade)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Om du vill ändra fackinställningar måste du ha skrivåtkomst till produktionsappen.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Om du vill ändra inställningen för automatisk växling måste du ha behörigheter till produktionsappen.</value>
   </data>
 </root>

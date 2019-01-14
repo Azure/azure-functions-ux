@@ -6,13 +6,14 @@ import { AppSettingsDataLoaderProps } from './AppSettingsDataLoader';
 import { Metadata } from '../../../modules/site/config/metadata/reducer';
 
 export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettingsFormValues => {
-  const { site, config, appSettings, connectionStrings, metadata, siteWritePermission, slotConfigNames } = props;
+  const { site, config, appSettings, connectionStrings, metadata, siteWritePermission, slotConfigNames, productionWritePermission } = props;
   return {
     site: site.data,
     config: config.data,
     appSettings: getFormAppSetting(appSettings.data, slotConfigNames.data),
     connectionStrings: getFormConnectionStrings(connectionStrings.data, slotConfigNames.data),
     siteWritePermission,
+    productionWritePermission,
     virtualApplications:
       config.data && config.data && config.data.properties && flattenVirtualApplicationsList(config.data.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config.data, metadata.data),
@@ -36,10 +37,11 @@ export const convertFormToState = (
   };
 
   const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
+  const configWithStack = getConfigWithStackSettings(config, values);
   return {
-    config,
     site,
     slotConfigNames,
+    config: configWithStack,
   };
 };
 
@@ -48,12 +50,24 @@ export function getStickySettings(
   connectionStrings: FormConnectionString[],
   oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ArmObj<SlotConfigNames> {
+  let appSettingNames = appSettings.filter(x => x.sticky).map(x => x.name);
+  const oldAppSettingNamesToKeep = oldSlotNameSettings.properties.appSettingNames
+    ? oldSlotNameSettings.properties.appSettingNames.filter(x => appSettings.filter(y => y.name === x).length === 0)
+    : [];
+  appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
+
+  let connectionStringNames = connectionStrings.filter(x => x.sticky).map(x => x.name);
+  const oldConnectionStringNamesToKeep = oldSlotNameSettings.properties.connectionStringNames
+    ? oldSlotNameSettings.properties.connectionStringNames.filter(x => connectionStrings.filter(y => y.name === x).length === 0)
+    : [];
+  connectionStringNames = connectionStringNames.concat(oldConnectionStringNamesToKeep);
+
   return {
     id: '',
     name: '',
     properties: {
-      appSettingNames: appSettings.filter(x => x.sticky).map(x => x.name),
-      connectionStringNames: connectionStrings.filter(x => x.sticky).map(x => x.name),
+      appSettingNames,
+      connectionStringNames,
       azureStorageConfigNames: oldSlotNameSettings.properties.azureStorageConfigNames,
     },
   };
@@ -148,4 +162,14 @@ export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmO
     return metadata.properties.CURRENT_STACK;
   }
   return 'dotnet';
+}
+
+export function getConfigWithStackSettings(config: ArmObj<SiteConfig>, values: AppSettingsFormValues): ArmObj<SiteConfig> {
+  const configCopy = { ...config };
+  if (values.currentlySelectedStack !== 'java') {
+    configCopy.properties.javaContainer = '';
+    configCopy.properties.javaContainerVersion = '';
+    configCopy.properties.javaVersion = '';
+  }
+  return configCopy;
 }

@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 import { setupWindow } from './window';
 
-export function startVisit(os = 'windows', writeAccess = 'allow') {
+export function startVisit(os = 'windows', writeAccess = 'allow', baseOnly = false) {
   const baseFixtures = cy
     .server()
     .fixture('resources.json')
@@ -25,11 +25,16 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
     .fixture(`default/rbaccheck.${writeAccess}.json`)
     .as('rbacAllow')
     .route('**/api/resources**', '@resourcesJSON')
-    .route('**/providers/microsoft.authorization/permissions**', '@rbacAllow')
+    .route(
+      'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif/providers/microsoft.authorization/permissions?api-version=2015-07-01',
+      '@rbacAllow'
+    )
     .as('rbacCall');
+  if (baseOnly) {
+    return baseFixtures;
+  }
   if (writeAccess == 'allow') {
     return baseFixtures
-      .as('postmessage')
       .route({
         url:
           'https://management.azure.com/subscriptions/resoindfos/resourcegroups/roinwerw/providers/Microsoft.Web/sites/soidfnosnif?api-version=**',
@@ -115,6 +120,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow') {
         }
       )
 
-      .wait('@rbacCall');
+      .wait('@rbacCall')
+      .wait(50); //let page render all of the way
   }
 }

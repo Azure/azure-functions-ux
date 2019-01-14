@@ -17,7 +17,16 @@ export class VstsBuildSettings {
   public vstsAccount: string;
   public vstsProject: string;
   public location: string;
-  public applicationFramework: 'AspNetWap' | 'AspNetCore' | 'Node' | 'PHP' | 'Python' | 'StaticWebapp' | 'Ruby';
+  public applicationFramework:
+    | 'AspNetWap'
+    | 'AspNetCore'
+    | 'Node'
+    | 'PHP'
+    | 'Python'
+    | 'StaticWebapp'
+    | 'Ruby'
+    | 'ScriptFunction'
+    | 'PrecompiledFunction';
   public workingDirectory: string;
   public nodejsTaskRunner: string;
   public pythonSettings: PythonSettings;

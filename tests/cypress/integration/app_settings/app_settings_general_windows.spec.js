@@ -54,7 +54,7 @@ context('App Settings General Settings Windows', () => {
       .should('exist');
   });
 
-  it('Java stack should show Java Versions, Containers and Container Versions', () => {
+  it('Java stack should show Java Versions, Containers', () => {
     cy.get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')
@@ -64,7 +64,18 @@ context('App Settings General Settings Windows', () => {
       .get('#app-settings-java-minor-verison')
       .should('exist')
       .get('#app-settings-java-container-runtime')
-      .should('exist')
+      .should('exist');
+  });
+
+  it('Java container version should show when a Java Container is selected', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list3')
+      .click()
+      .get('#app-settings-java-container-runtime-option')
+      .click()
+      .get('#app-settings-java-container-runtime-list0')
+      .click()
       .get('#app-settings-java-container-version')
       .should('exist');
   });

@@ -33,6 +33,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   @Input()
   standalone = true;
 
+  @Input()
+  localGit = false;
+
   activeTab: 'user' | 'app' = 'app';
 
   public appUserName: string;
@@ -75,7 +78,12 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         .switchMap(r => from(PublishingProfile.parsePublishProfileXml(r.result)))
         .filter(x => x.publishMethod === 'FTP')
         .do(ftpProfile => {
-          this.appUserName = ftpProfile.userName;
+          if (this.localGit) {
+            this.appUserName = ftpProfile.userName.split('\\')[1];
+          } else {
+            this.appUserName = ftpProfile.userName;
+          }
+
           this.appPwd = ftpProfile.userPWD;
         });
 
@@ -88,9 +96,8 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         if (slotName) {
           siteName = `${siteName}__${slotName}`;
         }
-        this.userCredsDesc = this._translateService
-          .instant(PortalResources.userCredsDesc)
-          .format(`'${siteName}\\${creds.properties.publishingUserName}'`);
+        const putInAs = this.localGit ? creds.properties.publishingUserName : `${siteName}\\${creds.properties.publishingUserName}`;
+        this.userCredsDesc = this._translateService.instant(PortalResources.userCredsDesc).format(`'${putInAs}'`);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
       return forkJoin(publishXml$, publishingUsers$);
@@ -98,6 +105,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   }
 
   ngOnInit() {
+    let resetPublishingProfileNotificationId = '';
     this._resetPublishingProfile$
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.resetting = true))
@@ -108,22 +116,26 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
         )
       )
       .switchMap(notificationInfo => {
-        return forkJoin(this._cacheService.postArm(`${this.resourceId}/newpassword`, true), of(notificationInfo));
-      })
-      .catch((error, result) => {
-        return result.switchMap(([res, notificationInfo]) => {
-          this._portalService.stopNotification(notificationInfo.id, false, PortalResources.resettingCredentialsFail);
-          return forkJoin(of(null), of(notificationInfo));
+        resetPublishingProfileNotificationId = notificationInfo.id;
+        return this._cacheService.postArm(`${this.resourceId}/newpassword`, true).catch((error, result) => {
+          const errorMessage = error && error.json && error.json().Message;
+          this._portalService.stopNotification(
+            resetPublishingProfileNotificationId,
+            false,
+            errorMessage || PortalResources.resettingCredentialsFail
+          );
+          return of(null);
         });
       })
-      .subscribe(([result, notificationInfo]) => {
+      .subscribe(result => {
         this.resetting = false;
+        this.setInput(this.resourceId);
         if (result) {
-          this.setInput(this.resourceId);
-          this._portalService.stopNotification(notificationInfo.id, true, PortalResources.resettingCredentialsSucccess);
+          this._portalService.stopNotification(resetPublishingProfileNotificationId, true, PortalResources.resettingCredentialsSucccess);
         }
       });
 
+    let saveUserCredentialsNotificationId = '';
     this._saveUserCredentials$
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.saving = true))
@@ -133,28 +145,30 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
           this._translateService.instant(PortalResources.savingCredentials)
         )
       )
-      .switchMap(notificationInfo =>
-        forkJoin(
-          this._cacheService.putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
+      .switchMap(notificationInfo => {
+        saveUserCredentialsNotificationId = notificationInfo.id;
+        return this._cacheService
+          .putArm(`/providers/Microsoft.Web/publishingUsers/web`, null, {
             properties: {
               publishingUserName: this.userPasswordForm.value.userName,
               publishingPassword: this.userPasswordForm.value.password,
             },
-          }),
-          of(notificationInfo)
-        )
-      )
-      .catch((error, result) => {
-        return result.switchMap(([res, notificationInfo]) => {
-          this._portalService.stopNotification(notificationInfo.id, false, PortalResources.savingCredentialsFail);
-          return forkJoin(of(null), of(notificationInfo));
-        });
+          })
+          .catch((error, result) => {
+            const errorMessage = error && error.json && error.json().Message;
+            this._portalService.stopNotification(
+              saveUserCredentialsNotificationId,
+              false,
+              errorMessage || PortalResources.savingCredentialsFail
+            );
+            return of(null);
+          });
       })
-      .subscribe(([result, notificationInfo]) => {
+      .subscribe(result => {
         this.saving = false;
+        this.setInput(this.resourceId);
         if (result) {
-          this.setInput(this.resourceId);
-          this._portalService.stopNotification(notificationInfo.id, true, PortalResources.savingCredentialsSucccess);
+          this._portalService.stopNotification(saveUserCredentialsNotificationId, true, PortalResources.savingCredentialsSucccess);
         }
       });
     this.setInput(this.resourceId);

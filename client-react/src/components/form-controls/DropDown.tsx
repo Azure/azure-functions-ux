@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import { Shimmer } from 'office-ui-fabric-react/lib/components/Shimmer';
 import { connect } from 'react-redux';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 interface CustomDropdownProps {
@@ -25,39 +24,43 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & Cus
   const onChange = (e: unknown, option: IDropdownOption) => {
     form.setFieldValue(field.name, option.key);
   };
+  const errorMessage = get(form.errors, field.name, '') as string;
   return (
-    <Shimmer isDataLoaded={options.length > 0} ariaLabel={'Loading content'}>
-      <OfficeDropdown
-        selectedKey={field.value === undefined ? 'null' : field.value}
-        ariaLabel={props.label}
-        options={options}
-        onChange={onChange}
-        onBlur={field.onBlur}
-        errorMessage={form.errors[field.name] as string}
-        {...rest}
-        styles={{
-          title: dirty && {
-            borderColor: theme.semanticColors.controlDirtyOutline,
+    <OfficeDropdown
+      selectedKey={field.value === undefined ? 'null' : field.value}
+      ariaLabel={props.label}
+      options={options}
+      onChange={onChange}
+      onBlur={field.onBlur}
+      errorMessage={errorMessage}
+      {...rest}
+      styles={{
+        title: dirty && {
+          borderColor: theme.semanticColors.controlDirtyOutline,
+        },
+        label: [
+          fullpage && {
+            display: 'inline-block',
           },
-          label: [
-            fullpage && {
-              display: 'inline-block',
+        ],
+        errorMessage: [
+          fullpage && {
+            paddingLeft: '200px',
+          },
+        ],
+        dropdown: [
+          fullpage && {
+            display: 'inline-block',
+          },
+          dirty && {
+            selectors: {
+              ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
+              ['&:hover .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
             },
-          ],
-          dropdown: [
-            fullpage && {
-              display: 'inline-block',
-            },
-            dirty && {
-              selectors: {
-                ['&:focus .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-                ['&:hover .ms-Dropdown-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-              },
-            },
-          ],
-        }}
-      />
-    </Shimmer>
+          },
+        ],
+      }}
+    />
   );
 };
 
