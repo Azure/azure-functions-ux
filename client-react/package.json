@@ -13,7 +13,7 @@
     "i18next-xhr-backend": "^1.5.1",
     "lodash-es": "^4.17.11",
     "monaco-editor": "^0.14.3",
-    "office-ui-fabric-react": "^6.119.0",
+    "office-ui-fabric-react": "^6.124.2",
     "react": "16.8.0-alpha.0",
     "react-app-polyfill": "^0.2.0",
     "react-app-rewired": "^1.6.2",
