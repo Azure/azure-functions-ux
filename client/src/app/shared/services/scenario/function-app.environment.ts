@@ -1,5 +1,4 @@
 import { ScenarioCheckInput } from './scenario.models';
-// import { ScenarioIds } from '../../models/constants';
 import { Environment } from './scenario.models';
 import { Kinds } from 'app/shared/models/constants';
 

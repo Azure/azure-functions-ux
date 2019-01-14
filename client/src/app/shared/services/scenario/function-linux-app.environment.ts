@@ -3,7 +3,7 @@ import { Environment } from './scenario.models';
 import { Kinds, ScenarioIds } from 'app/shared/models/constants';
 
 export class FunctionLinuxAppEnvironment extends Environment {
-  name = 'DynamicSite';
+  name = 'FunctionLinuxApp';
 
   constructor() {
     super();
