@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp } from '../models/WebAppModels';
 import { store } from '../store';
+import { MakeArmCall } from '../modules/ApiHelpers';
+import { RootState } from '../modules/types';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
@@ -18,17 +20,13 @@ export default class RbacHelper {
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
   public static _wildCardEscapeSequence = '\\*';
   public static armLocksApiVersion = '2015-01-01';
-  public static async hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean> {
-    const authId = `${resourceId}${this.permissionsSuffix}?api-version=2015-07-01`;
+  public static async hasPermission(state: RootState, resourceId: string, requestedActions: string[]): Promise<boolean> {
+    const authId = `${resourceId}${this.permissionsSuffix}`;
     try {
-      const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
-      const armToken = store.getState().portalService.startupInfo!.token;
-      const permissionsSetCall = await axios.get<{ value: Permissions[] }>(`${armEnpoint}${authId}`, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
-      });
-      return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.data.value);
+      //const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
+      //const armToken = store.getState().portalService.startupInfo!.token;
+      const permissionsSetCall = await MakeArmCall<any>(state, authId, 'GET', null, '2015-07-01');
+      return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
     } catch (e) {
       return false;
     }

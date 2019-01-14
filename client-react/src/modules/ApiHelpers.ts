@@ -54,7 +54,6 @@ const armObs = armSubject.pipe(
   }),
   share()
 );
-armObs.subscribe(x => console.log(x));
 
 export const MakeArmCall = async <T>(
   state: RootState,
@@ -71,7 +70,6 @@ export const MakeArmCall = async <T>(
   const armEndpoint = startupInfo.armEndpoint;
   const id = Guid.newTinyGuid();
   return new Promise((resolve, reject) => {
-    armSubject.next({ method, armEndpoint, resourceId, authToken, body, apiVersion, id });
     armObs
       .pipe(
         map(x => {
@@ -85,6 +83,7 @@ export const MakeArmCall = async <T>(
       .subscribe(x => {
         resolve(x[0].content);
       });
+    armSubject.next({ method, armEndpoint, resourceId, authToken, body, apiVersion, id });
   });
 };
 
