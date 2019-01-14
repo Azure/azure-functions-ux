@@ -17,7 +17,7 @@ export class Constants {
 
   public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
-  public static nodeVersion = '6.5.0';
+  public static nodeVersion = '6.5.0'; 
   public static nodeVersionV2 = '8.11.1';
   public static latest = 'latest';
   public static disabled = 'disabled';
