@@ -19,8 +19,8 @@ const AppSettings: React.SFC<void> = () => {
           initialValues={initialFormValues}
           onSubmit={onSubmit}
           enableReinitialize={!saving && !loading}
-          validateOnBlur
-          validateOnChange>
+          validateOnBlur={false}
+          validateOnChange={false}>
           {(formProps: FormikProps<AppSettingsFormValues>) => (
             <form>
               <AppSettingsCommandBar
