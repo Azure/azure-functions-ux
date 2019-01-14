@@ -1490,4 +1490,7 @@ export class PortalResources {
   public static sideNav_ProxiesLimited = 'sideNav_ProxiesLimited';
   public static slotSettingNoProdPermission = 'slotSettingNoProdPermission';
   public static autoSwapSettingPermissionFail = 'autoSwapSettingPermissionFail';
+  public static scriptFunctionApp = 'scriptFunctionApp';
+  public static precompiledDotNetApp = 'precompiledDotNetApp';
+  public static functionAppType = 'functionAppType';
 }

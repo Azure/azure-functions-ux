@@ -1,0 +1,27 @@
+<div class="settings-group-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <label id="dc-vsts-build-functions-framework-label" class="setting-label">{{'functionAppType' | translate}}</label>
+      <div class="setting-control-container">
+        <ng-select
+          aria-labelledby="dc-vsts-build-functions-framework-label"
+          class="custom-select"
+          [clearable]="false"
+          [searchable]="false"
+          [items]="webApplicationFrameworks"
+          bindLabel="displayLabel"
+          bindValue="value"
+          [(ngModel)]="selectedFramework"
+          formControlName="applicationFramework"
+        >
+        </ng-select>
+      </div>
+    </div>
+    <div class="setting-wrapper">
+      <label class="setting-label">{{ 'workingDirectory' | translate }} </label>
+      <div class="setting-control-container">
+        <textbox [ariaLabel]="'workingDirectory' | translate" [control]="wizard?.buildSettings?.controls?.workingDirectory"></textbox>
+      </div>
+    </div>
+  </div>
+</div>
