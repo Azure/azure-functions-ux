@@ -51,12 +51,13 @@ export default class RbacHelper {
   private static async getLocks(resourceId: string) {
     const lockId = `${resourceId}${RbacHelper.authSuffix}?api-version=${this.armLocksApiVersion}`;
     const armToken = store.getState().portalService.startupInfo!.token;
-    const logCall = await axios.get(lockId, {
+    const armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
+    const logCall = await axios.get(`${armEndpoint}${lockId}`, {
       headers: {
         Authorization: `Bearer ${armToken}`,
       },
     });
-    return logCall.data as ArmObj<Lock>[];
+    return logCall.data.value as ArmObj<Lock>[];
   }
 
   private static getResourceType(resourceId: string) {
