@@ -4628,4 +4628,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Script Function App</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Precompiled .NET Function App</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Function App Type</value>
+  </data>
 </root>
