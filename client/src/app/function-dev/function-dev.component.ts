@@ -414,6 +414,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
+    this._globalStateService.clearBusyState();
     this.functionUpdate.unsubscribe();
     this.selectedFileStream.unsubscribe();
     if (this._restartHostSubscription) {
