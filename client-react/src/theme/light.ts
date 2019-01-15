@@ -21,6 +21,7 @@ const AzurePortalColors = {
   placeholderText: '#595959',
   labelText: '#747474',
   disabledText: 'rgba(128, 128, 128, 0.7)',
+  disabledControlBackground: 'rgba(128, 128, 128, 0.1)',
   hyperlinkText: '#015cda',
   inlineSuccessText: '#428000',
   inlineErrorText: '#e00b1c',

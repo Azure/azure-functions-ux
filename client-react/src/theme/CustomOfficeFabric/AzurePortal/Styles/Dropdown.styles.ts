@@ -207,9 +207,9 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
       isRenderingPlaceholder && [globalClassnames.titleIsPlaceHolder, { color: semanticColors.placeholderText }],
       hasError && [globalClassnames.titleHasError, borderColorError],
       disabled && {
-        backgroundColor: semanticColors.buttonDisabled,
-        border: 'none',
-        color: semanticColors.disabledText,
+        backgroundColor: 'rgba(127,127,127,.1)',
+        border: `1px solid ${semanticColors.disabledText}`,
+        color: semanticColors.textColor,
         cursor: 'default',
         selectors: { [HighContrastSelector]: { border: '1px solid GrayText', color: 'GrayText' } },
       },
