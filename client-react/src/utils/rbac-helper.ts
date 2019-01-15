@@ -2,8 +2,9 @@ import axios from 'axios';
 
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp } from '../models/WebAppModels';
 import { store } from '../store';
-import { MakeArmCall } from '../modules/ApiHelpers';
+import { MakeArmCall } from '../modules/ArmHelper';
 import { RootState } from '../modules/types';
+import { getArmEndpointAndTokenFromState } from '../modules/StateUtilities';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
@@ -25,7 +26,8 @@ export default class RbacHelper {
     try {
       //const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
       //const armToken = store.getState().portalService.startupInfo!.token;
-      const permissionsSetCall = await MakeArmCall<any>(state, authId, 'GET', null, '2015-07-01');
+      const { armEndpoint, authToken } = getArmEndpointAndTokenFromState(state);
+      const permissionsSetCall = await MakeArmCall<any>(armEndpoint, authToken, authId, 'RbacCheck', 'GET', null, false, '2015-07-01');
       return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
     } catch (e) {
       return false;

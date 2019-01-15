@@ -2,26 +2,36 @@ import axios from 'axios';
 
 import { CommonConstants } from '../utils/CommonConstants';
 import Url from '../utils/url';
-import { RootState } from './types';
 import { Subject, from } from 'rxjs';
-import { bufferTime, filter, concatMap, map, share, take } from 'rxjs/operators';
+import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
-interface ArmBatchObject {
+interface ArmRequest {
   method: MethodTypes;
   armEndpoint: string;
   resourceId: string;
   id: string;
+  commandName?: string;
   body: any;
   apiVersion: string;
   authToken: string;
 }
 
-const bufferTimeInterval = 50; // ms
+interface ArmBatchObject {
+  httpStatusCode: number;
+  headers: { [key: string]: string };
+  contentLength: number;
+  content: any;
+  id?: string;
+}
+interface ArmBatchResponse {
+  responses: ArmBatchObject[];
+}
+const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
-const armSubject = new Subject<ArmBatchObject>();
-const armObs = armSubject.pipe(
+const armSubject$ = new Subject<ArmRequest>();
+const armObs$ = armSubject$.pipe(
   bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize),
   filter(x => x.length > 0),
   concatMap(x => {
@@ -29,26 +39,29 @@ const armObs = armSubject.pipe(
       return {
         httpMethod: arm.method,
         content: arm.body,
+        requestHeaderDetails: {
+          commandName: arm.commandName,
+        },
         url: Url.appendQueryString(arm.resourceId, `api-version=${arm.apiVersion}`),
       };
     });
     return from(
-      makeArmRequest({
+      makeArmRequest<ArmBatchResponse>({
         method: 'POST',
         armEndpoint: x[0].armEndpoint,
         resourceId: '/batch',
         authToken: x[0].authToken,
         body: { requests: batchBody },
-        apiVersion: '2015-11-01',
+        apiVersion: CommonConstants.ApiVersions.armBatchApi,
         id: '',
       })
     ).pipe(
-      map(({ responses }: any) => {
-        const responsesWithId: any[] = [];
+      concatMap(({ responses }) => {
+        const responsesWithId: ArmBatchObject[] = [];
         for (let i = 0; i < responses.length; i++) {
           responsesWithId.push({ ...responses[i], id: x[i].id });
         }
-        return responsesWithId;
+        return from(responsesWithId);
       })
     );
   }),
@@ -56,38 +69,38 @@ const armObs = armSubject.pipe(
 );
 
 export const MakeArmCall = async <T>(
-  state: RootState,
+  armEndpoint: string,
+  authToken: string,
   resourceId: string,
+  commandName: string,
   method: MethodTypes = 'GET',
   body: T | null = null,
+  skipBuffer = false,
   apiVersion: string = CommonConstants.ApiVersions.websiteApiVersion20180201
 ): Promise<T> => {
-  const startupInfo = state.portalService.startupInfo;
-  if (!startupInfo) {
-    throw new Error('App not yet initialized');
+  const id = Guid.newGuid();
+  if (!skipBuffer) {
+    return new Promise((resolve, reject) => {
+      armObs$
+        .pipe(
+          filter(x => x.id === id),
+          take(1)
+        )
+        .subscribe(x => {
+          if (x.httpStatusCode >= 300) {
+            reject({ data: x.content });
+          } else {
+            resolve(x.content);
+          }
+        });
+      armSubject$.next({ method, armEndpoint, resourceId, authToken, body, apiVersion, id, commandName });
+    });
+  } else {
+    return makeArmRequest({ method, armEndpoint, resourceId, authToken, body, apiVersion, id });
   }
-  const authToken = startupInfo.token;
-  const armEndpoint = startupInfo.armEndpoint;
-  const id = Guid.newTinyGuid();
-  return new Promise((resolve, reject) => {
-    armObs
-      .pipe(
-        map(x => {
-          return x.filter(y => y.id === id);
-        }),
-        filter(x => {
-          return x.length > 0;
-        }),
-        take(1)
-      )
-      .subscribe(x => {
-        resolve(x[0].content);
-      });
-    armSubject.next({ method, armEndpoint, resourceId, authToken, body, apiVersion, id });
-  });
 };
 
-const makeArmRequest = async (armObj: ArmBatchObject) => {
+const makeArmRequest = async <T>(armObj: ArmRequest): Promise<T> => {
   const { method, resourceId, armEndpoint, body, apiVersion, authToken } = armObj;
   let url = Url.appendQueryString(`${armEndpoint}${resourceId}`, `api-version=${apiVersion}`);
   const siteFetch = await axios({

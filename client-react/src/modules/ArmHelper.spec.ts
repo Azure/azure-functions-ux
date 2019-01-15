@@ -1,6 +1,6 @@
 import mockAxios from 'jest-mock-axios';
 
-import { MakeArmCall } from './ApiHelpers';
+import { MakeArmCall } from './ArmHelper';
 import { RootState } from './types';
 
 const testResult = {
@@ -142,7 +142,7 @@ describe('MakeArmCall', () => {
     });
 
     it('Api Verison gets set correctly', async () => {
-      MakeArmCall(stateGood, 'resourceid', 'GET', null, 'testApiVersion');
+      MakeArmCall(stateGood, 'resourceid', '', 'GET', null, true, 'testApiVersion');
       expect(mockAxios).toHaveBeenCalledWith({
         method: 'GET',
         url: 'testendpointresourceid?api-version=testApiVersion',

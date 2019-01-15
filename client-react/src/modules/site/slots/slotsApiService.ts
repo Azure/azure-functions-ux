@@ -1,6 +1,7 @@
 import { ArmArray, Site } from '../../../models/WebAppModels';
-import { MakeArmCall } from '../../ApiHelpers';
+import { MakeArmCall } from '../../ArmHelper';
 import * as Types from '../../types';
+import { getArmEndpointAndTokenFromState } from '../../StateUtilities';
 
 const slotApiService = {
   fetchSlots: async (state: Types.RootState): Promise<ArmArray<Site>> => {
@@ -8,7 +9,8 @@ const slotApiService = {
     if (productionResourceId.includes('/slots/')) {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
-    return await MakeArmCall<ArmArray<Site>>(state, `${productionResourceId}/slots`);
+    const { armEndpoint, authToken } = getArmEndpointAndTokenFromState(state);
+    return await MakeArmCall<ArmArray<Site>>(armEndpoint, authToken, `${productionResourceId}/slots`, 'FetchSlots');
   },
 };
 

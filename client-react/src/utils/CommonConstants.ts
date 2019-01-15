@@ -30,5 +30,6 @@ export class CommonConstants {
 
   public static readonly ApiVersions = {
     websiteApiVersion20180201: '2018-02-01',
+    armBatchApi: '2015-11-01',
   };
 }
