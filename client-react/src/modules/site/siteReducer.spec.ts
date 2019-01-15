@@ -177,12 +177,12 @@ describe('Site Store Reducer', () => {
 
     it('Fetch Api calls api with appropriate info', async () => {
       siteApi.fetchSite(state);
-      expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid', 'FetchSite');
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'FetchSite' });
     });
 
     it('Update Api calls api with appropriate info', async () => {
       siteApi.updateSite(state, testResult);
-      expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid', 'UpdateSite', 'PUT', testResult);
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'UpdateSite', method: 'PUT', body: testResult });
     });
   });
 });

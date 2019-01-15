@@ -10,14 +10,14 @@ describe('Arm Helper', () => {
   it('returns data from fetch in buffer path', async () => {
     const mockData = { responses: [{ httpStatusCode: 200, content: { val: 'test' } }] };
     mock.onPost().reply(200, mockData);
-    const t = await MockCall<any>('test', 'test', 'test', 'test');
+    const t = await MockCall<any>({ resourceId: 'test', commandName: 'test' });
     expect(t.val).toBe('test');
   });
 
   it('returns data from fetch in non buffer path', async () => {
     const mockData = { val: 'test' };
     mock.onGet().reply(200, mockData);
-    const t = await MockCall<any>('test', 'test', 'test', 'test', 'GET', undefined, true);
+    const t = await MockCall<any>({ resourceId: 'test', commandName: 'test', skipBuffer: true });
     expect(t.val).toBe('test');
   });
 
@@ -26,8 +26,8 @@ describe('Arm Helper', () => {
       responses: [{ httpStatusCode: 200, content: { val: 'test1' } }, { httpStatusCode: 200, content: { val: 'test2' } }],
     };
     mock.onPost().reply(200, mockData);
-    const t = MockCall<any>('test', 'test', 'test', 'test');
-    const r = MockCall<any>('test', 'test', 'test2', 'test2');
+    const t = MockCall<any>({ resourceId: 'test', commandName: 'test' });
+    const r = MockCall<any>({ resourceId: 'test2', commandName: 'test2' });
     const [tR, rR] = await Promise.all([t, r]);
     expect(tR.val).toBe('test1');
     expect(rR.val).toBe('test2');
@@ -41,8 +41,8 @@ describe('Arm Helper', () => {
     mock.onPost().reply(200, mockData);
     const rCatchFn = jest.fn();
     const tCatchFn = jest.fn();
-    const t = MockCall<any>('test', 'test', 'test', 'test').catch(tCatchFn);
-    const r = MockCall<any>('test', 'test', 'test2', 'test2').catch(rCatchFn);
+    const t = MockCall<any>({ resourceId: 'test', commandName: 'test' }).catch(tCatchFn);
+    const r = MockCall<any>({ resourceId: 'test2', commandName: 'test2' }).catch(rCatchFn);
     await t;
     await r;
     expect(rCatchFn).toHaveBeenCalledTimes(1);

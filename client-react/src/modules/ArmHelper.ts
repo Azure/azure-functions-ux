@@ -5,17 +5,28 @@ import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
 import Url from '../utils/url';
+import { MethodTypes, ArmRequestObject } from './ArmHelper.types';
+
+let endpoint = '';
+let authToken = '';
+export const updateEndpoint = newEndpoint => {
+  endpoint = newEndpoint;
+};
+
+export const updateAuthToken = newToken => {
+  authToken = newToken;
+};
+
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
-export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
-interface ArmRequest {
+
+interface InternalArmRequest {
   method: MethodTypes;
-  armEndpoint: string;
   resourceId: string;
   id: string;
   commandName?: string;
   body: any;
   apiVersion: string;
-  authToken: string;
+  queryString?: string;
 }
 
 interface ArmBatchObject {
@@ -30,7 +41,7 @@ interface ArmBatchResponse {
 }
 const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
-const armSubject$ = new Subject<ArmRequest>();
+const armSubject$ = new Subject<InternalArmRequest>();
 const armObs$ = armSubject$.pipe(
   bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize, async),
   filter(x => x.length > 0),
@@ -48,9 +59,7 @@ const armObs$ = armSubject$.pipe(
     return from(
       makeArmRequest<ArmBatchResponse>({
         method: 'POST',
-        armEndpoint: x[0].armEndpoint,
         resourceId: '/batch',
-        authToken: x[0].authToken,
         body: { requests: batchBody },
         apiVersion: CommonConstants.ApiVersions.armBatchApi,
         id: '',
@@ -68,17 +77,19 @@ const armObs$ = armSubject$.pipe(
   share()
 );
 
-const MakeArmCall = async <T>(
-  armEndpoint: string,
-  authToken: string,
-  resourceId: string,
-  commandName: string,
-  method: MethodTypes = 'GET',
-  body: T | null = null,
-  skipBuffer = false,
-  apiVersion: string = CommonConstants.ApiVersions.websiteApiVersion20180201
-): Promise<T> => {
+const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<T> => {
+  const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString } = requestObject;
+
   const id = Guid.newGuid();
+  const armBatchObject: InternalArmRequest = {
+    method: method || 'GET',
+    apiVersion: apiVersion || CommonConstants.ApiVersions.websiteApiVersion20180201,
+    resourceId,
+    body,
+    commandName,
+    queryString,
+    id,
+  };
   if (!skipBuffer && !alwaysSkipBatch) {
     return new Promise((resolve, reject) => {
       armObs$
@@ -88,28 +99,27 @@ const MakeArmCall = async <T>(
         )
         .subscribe(x => {
           if (x.httpStatusCode >= 300) {
-            reject({ data: x.content, statusCode: x.httpStatusCode });
+            reject({ response: x.content, statusCode: x.httpStatusCode });
           } else {
             resolve(x.content);
           }
         });
-      armSubject$.next({ method, armEndpoint, resourceId, authToken, body, apiVersion, id, commandName });
+      armSubject$.next(armBatchObject);
     });
   } else {
-    return makeArmRequest({ method, armEndpoint, resourceId, authToken, body, apiVersion, id });
+    return makeArmRequest(armBatchObject);
   }
 };
 
-const makeArmRequest = async <T>(armObj: ArmRequest): Promise<T> => {
-  const { method, resourceId, armEndpoint, body, apiVersion, authToken } = armObj;
-  let url = Url.appendQueryString(`${armEndpoint}${resourceId}`, `api-version=${apiVersion}`);
+const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<T> => {
+  const { method, resourceId, body, apiVersion, queryString } = armObj;
+  let url = Url.appendQueryString(`${endpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const result = await axios({
     url,
     method,
     data: body,
     headers: {
       Authorization: `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
     },
   });
   return result.data;

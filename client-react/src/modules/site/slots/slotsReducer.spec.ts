@@ -116,13 +116,13 @@ describe('Slots Service', () => {
   });
   it('Fetch Api calls api with appropriate info', async () => {
     slotApiService.fetchSlots(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/slots', 'FetchSlots');
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'FetchSlots' });
   });
 
   it('Fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     slotApiService.fetchSlots(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/slots', 'FetchSlots');
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'FetchSlots' });
   });
 });

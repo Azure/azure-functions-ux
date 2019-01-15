@@ -1,8 +1,7 @@
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
-import { store } from '../store';
 import MakeArmCall from '../modules/ArmHelper';
 import { RootState } from '../modules/types';
-import { getArmEndpointAndTokenFromState } from '../modules/StateUtilities';
+import { CommonConstants } from './CommonConstants';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
@@ -18,14 +17,16 @@ export default class RbacHelper {
   public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
   public static _wildCardEscapeSequence = '\\*';
-  public static armLocksApiVersion = '2015-01-01';
   public static async hasPermission(state: RootState, resourceId: string, requestedActions: string[]): Promise<boolean> {
     const authId = `${resourceId}${this.permissionsSuffix}`;
     try {
-      const { armEndpoint, authToken } = getArmEndpointAndTokenFromState(state);
-      const permissionsSetCall = await MakeArmCall<any>(armEndpoint, authToken, authId, 'RbacCheck', 'GET', null, false, '2015-07-01');
+      const permissionsSetCall = await MakeArmCall<any>({
+        resourceId: authId,
+        commandName: 'RbacCheck',
+        skipBuffer: false,
+        apiVersion: CommonConstants.ApiVersions.armRbacApiVersion,
+      });
       const t = this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
-      console.log(t);
       return t;
     } catch (e) {
       return false;
@@ -46,10 +47,12 @@ export default class RbacHelper {
     }
   }
   private static async getLocks(resourceId: string): Promise<ArmObj<Lock>[]> {
-    const lockId = `${resourceId}${RbacHelper.authSuffix}?api-version=${this.armLocksApiVersion}`;
-    const armToken = store.getState().portalService.startupInfo!.token;
-    const armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
-    const logCall = await MakeArmCall<ArmArray<Lock>>(armEndpoint, armToken, lockId, 'getLocks');
+    const lockId = `${resourceId}${RbacHelper.authSuffix}`;
+    const logCall = await MakeArmCall<ArmArray<Lock>>({
+      resourceId: lockId,
+      commandName: 'getLocks',
+      apiVersion: CommonConstants.ApiVersions.armLocksApiVersion,
+    });
 
     return logCall.value;
   }

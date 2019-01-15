@@ -4,7 +4,6 @@ import { AppKind } from '../../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
 import { style } from 'typestyle';
-import { store } from '../../../../../store';
 import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
 import MakeArmCall from '../../../../../modules/ArmHelper';
@@ -84,14 +83,10 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       } else {
-        const armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
-        const armToken = store.getState().portalService.startupInfo!.token;
-        const hostingEnvironmentFetch = await MakeArmCall<{ value: HttpResult<ArmObj<HostingEnvironment>> }>(
-          armEndpoint,
-          armToken,
-          input.plan.properties.hostingEnvironmentProfile.id,
-          'IsolatedPlanPriceSpec'
-        );
+        const hostingEnvironmentFetch = await MakeArmCall<{ value: HttpResult<ArmObj<HostingEnvironment>> }>({
+          resourceId: input.plan.properties.hostingEnvironmentProfile.id,
+          commandName: 'IsolatedPlanPriceSpec',
+        });
 
         const result = hostingEnvironmentFetch;
 

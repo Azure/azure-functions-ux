@@ -1,22 +1,16 @@
 import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
-import { store } from '../../../../store';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
 import MakeArmCall from '../../../../modules/ArmHelper';
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;
   private readonly _skuNotAvailableLink: string;
-  private readonly _armEndpoint: string;
-  private readonly _armToken: string;
-
   constructor(t: (string) => string, sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
     super(t);
     this._sku = sku;
     this._skuNotAvailableMessage = skuNotAvailableMessage;
     this._skuNotAvailableLink = skuNotAvailableLink;
-    this._armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
-    this._armToken = store.getState().portalService.startupInfo!.token;
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
@@ -45,12 +39,10 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _checkIfSkuEnabledOnStamp(resourceId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      const availableSkuFetch = await MakeArmCall<{ value: AvailableSku[] }>(
-        this._armEndpoint,
-        this._armToken,
+      const availableSkuFetch = await MakeArmCall<{ value: AvailableSku[] }>({
         resourceId,
-        '_checkIfSkuEnabledOnStamp'
-      );
+        commandName: '_checkIfSkuEnabledOnStamp',
+      });
 
       const result = availableSkuFetch;
       this.state = result.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
@@ -78,12 +70,10 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
     const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
-    const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>(
-      this._armEndpoint,
-      this._armToken,
+    const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>({
       resourceId,
-      '_getProviderLocations'
-    );
+      commandName: '_getProviderLocations',
+    });
 
     const result = providerLocationsFetch;
     const resource =
@@ -101,7 +91,10 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       id += '&linuxWorkersEnabled=true';
     }
 
-    const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>(this._armEndpoint, this._armToken, id, '_getProviderLocations');
+    const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
+      resourceId: id,
+      commandName: '_getProviderLocations',
+    });
 
     return geoRegionsFetch.value;
   }

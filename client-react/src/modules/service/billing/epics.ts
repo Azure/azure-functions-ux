@@ -15,7 +15,7 @@ export const fetchBillingMeters: Epic<BillingMetersAction, BillingMetersAction, 
   action$.pipe(
     filter(isActionOf(fetchBillingMetersRequest)),
     switchMap(action =>
-      from(billingMetersApi.fetchBillingMeters(store.value, action.subscriptionId, action.osType, action.location)).pipe(
+      from(billingMetersApi.fetchBillingMeters(action.subscriptionId, action.osType, action.location)).pipe(
         map(fetchBillingMetersSuccess),
         catchError(err => of(fetchBillingMetersFailure(err)))
       )

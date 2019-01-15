@@ -254,24 +254,20 @@ describe('Connection Strings Service', () => {
 
   it('Fetch Api calls api with appropriate info', async () => {
     api.fetchConnectionStrings(state);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/connectionstrings/list',
-      'FetchConnectionStrings',
-      'POST'
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/connectionstrings/list',
+      commandName: 'FetchConnectionStrings',
+      method: 'POST',
+    });
   });
 
   it('Update Api calls api with appropriate info', async () => {
     api.updateConnectionStrings(state, testResult);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/connectionstrings',
-      'UpdateConnectionStrings',
-      'PUT',
-      testResult
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/connectionstrings',
+      commandName: 'UpdateConnectionStrings',
+      method: 'PUT',
+      body: testResult,
+    });
   });
 });

@@ -230,18 +230,20 @@ describe('App Settings Service', () => {
 
   it('Fetch Api calls api with appropriate info', async () => {
     api.fetchAppSettings(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/appsettings/list', 'FetchAppSettings', 'POST');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/appsettings/list',
+      commandName: 'FetchAppSettings',
+      method: 'POST',
+    });
   });
 
   it('Update Api calls api with appropriate info', async () => {
     api.updateAppSettings(state, testAppSettingsObj);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/appsettings',
-      'UpdateAppSettings',
-      'PUT',
-      testAppSettingsObj
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/appsettings',
+      commandName: 'UpdateAppSettings',
+      method: 'PUT',
+      body: testAppSettingsObj,
+    });
   });
 });

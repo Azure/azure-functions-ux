@@ -182,11 +182,16 @@ describe('Web Config Names Service', () => {
 
   it('Fetch Api calls api with appropriate info', async () => {
     api.fetchWebConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/web', 'FetchWebConfig');
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/web', commandName: 'FetchWebConfig' });
   });
 
   it('Update Api calls api with appropriate info', async () => {
     api.updateWebConfig(state, testResult);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/web', 'UpdateWebConfig', 'PUT', testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/web',
+      commandName: 'UpdateWebConfig',
+      method: 'PUT',
+      body: testResult,
+    });
   });
 });

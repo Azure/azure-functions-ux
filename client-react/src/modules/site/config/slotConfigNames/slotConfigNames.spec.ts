@@ -187,39 +187,35 @@ describe('Slot Config Names Service', () => {
 
   it('Fetch Api calls api with appropriate info', async () => {
     api.fetchSlotConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/slotconfignames', 'FetchSlotConfig');
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'FetchSlotConfig' });
   });
 
   it('Fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     api.fetchSlotConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/slotconfignames', 'FetchSlotConfig');
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'FetchSlotConfig' });
   });
 
   it('Update Api calls api with appropriate info', async () => {
     api.updateSlotConfig(state, testResult);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/slotconfignames',
-      'UpdateSlotConfig',
-      'PUT',
-      testResult
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/slotconfignames',
+      commandName: 'UpdateSlotConfig',
+      method: 'PUT',
+      body: testResult,
+    });
   });
 
   it('Update Api calls api with appropriate info from slot', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     api.updateSlotConfig(state, testResult);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/slotconfignames',
-      'UpdateSlotConfig',
-      'PUT',
-      testResult
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/slotconfignames',
+      commandName: 'UpdateSlotConfig',
+      method: 'PUT',
+      body: testResult,
+    });
   });
 });

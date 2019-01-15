@@ -7,7 +7,7 @@ import { IStartupInfo } from '../../../models/portal-models';
 import { ArmArray } from '../../../models/WebAppModels';
 import { getStartupInfoAction } from '../../portal/actions';
 import { updateResourceId } from '../../site/actions';
-import { RootState, Services } from '../../types';
+import { Services } from '../../types';
 import { StacksOS } from '../available-stacks/actions';
 import { fetchBillingMetersFailure, fetchBillingMetersRequest, fetchBillingMetersSuccess } from './actions';
 import { BILLING_METERS_FETCH_FAILURE, BILLING_METERS_FETCH_SUCCESS } from './actionTypes';
@@ -35,12 +35,7 @@ const testResult: ArmArray<BillingMeter> = {
 describe('Billing Meters Store Epics', () => {
   const successDeps = {
     billingMetersApi: {
-      fetchBillingMeters: async (
-        state: RootState,
-        subscriptionId: string,
-        osType?: StacksOS,
-        location?: string
-      ): Promise<ArmArray<BillingMeter>> => {
+      fetchBillingMeters: async (subscriptionId: string, osType?: StacksOS, location?: string): Promise<ArmArray<BillingMeter>> => {
         testResult.id = `${osType}/${subscriptionId}/${location}`;
         return testResult;
       },
@@ -49,12 +44,7 @@ describe('Billing Meters Store Epics', () => {
 
   const failDeps = {
     billingMetersApi: {
-      fetchBillingMeters: async (
-        state: RootState,
-        subscriptionId: string,
-        osType?: StacksOS,
-        location?: string
-      ): Promise<ArmArray<BillingMeter>> => {
+      fetchBillingMeters: async (subscriptionId: string, osType?: StacksOS, location?: string): Promise<ArmArray<BillingMeter>> => {
         throw new Error('failuremessage');
       },
     },
@@ -124,58 +114,43 @@ describe('Billing Meters Store Reducer', () => {
 });
 
 describe('Billing Meters Service', () => {
-  const initialState = rootReducer(undefined, {} as any);
-  let state;
-  beforeEach(() => {
-    const updateResourceIdAction = updateResourceId('resourceid');
-    const updateSUIAction = getStartupInfoAction({
-      token: 'testtoken',
-      armEndpoint: 'testEndpoint',
-    } as IStartupInfo);
-
-    state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
-  });
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id', async () => {
-    api.fetchBillingMeters(state, 'subid');
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
-      'FetchBillingMeters'
-    );
+    api.fetchBillingMeters('subid');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '',
+      commandName: 'FetchBillingMeters',
+    });
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id and location', async () => {
-    api.fetchBillingMeters(state, 'subid', undefined, 'testloc');
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc',
-      'FetchBillingMeters'
-    );
+    api.fetchBillingMeters('subid', undefined, 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?billingLocation=testloc',
+      commandName: 'FetchBillingMeters',
+    });
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id and osType', async () => {
-    api.fetchBillingMeters(state, 'subid', 'Windows');
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?osType=Windows',
-      'FetchBillingMeters'
-    );
+    api.fetchBillingMeters('subid', 'Windows');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?osType=Windows',
+      commandName: 'FetchBillingMeters',
+    });
   });
 
   it('Fetch Api calls api with appropriate info with all options', async () => {
-    api.fetchBillingMeters(state, 'subid', 'Windows', 'testloc');
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&osType=Windows',
-      'FetchBillingMeters'
-    );
+    api.fetchBillingMeters('subid', 'Windows', 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?billingLocation=testloc&osType=Windows',
+      commandName: 'FetchBillingMeters',
+    });
   });
 });

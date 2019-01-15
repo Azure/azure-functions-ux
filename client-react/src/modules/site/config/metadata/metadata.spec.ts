@@ -224,18 +224,20 @@ describe('Metadata Service', () => {
 
   it('Fetch Api calls api with appropriate info', async () => {
     api.fetchMetadata(state);
-    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/metadata/list', 'FetchMetadata', 'POST');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/metadata/list',
+      commandName: 'FetchMetadata',
+      method: 'POST',
+    });
   });
 
   it('Update Api calls api with appropriate info', async () => {
     api.updateMetadata(state, testResult);
-    expect(MakeArmCall).toHaveBeenCalledWith(
-      'testEndpoint',
-      'testtoken',
-      'resourceid/config/metadata',
-      'UpdateMetadata',
-      'PUT',
-      testResult
-    );
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/metadata',
+      commandName: 'UpdateMetadata',
+      method: 'PUT',
+      body: testResult,
+    });
   });
 });
