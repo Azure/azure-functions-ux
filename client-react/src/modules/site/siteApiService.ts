@@ -1,5 +1,5 @@
 import { ArmObj, Site } from '../../models/WebAppModels';
-import { MakeArmCall } from '../ArmHelper';
+import MakeArmCall from '../ArmHelper';
 import { RootState } from '../types';
 import { getArmEndpointAndTokenFromState } from '../StateUtilities';
 

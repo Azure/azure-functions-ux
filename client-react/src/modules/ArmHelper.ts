@@ -3,7 +3,7 @@ import axios from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
 import Url from '../utils/url';
 import { Subject, from } from 'rxjs';
-import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
+import { bufferTime, filter, concatMap, share, take, tap } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -17,7 +17,6 @@ interface ArmRequest {
   apiVersion: string;
   authToken: string;
 }
-
 interface ArmBatchObject {
   httpStatusCode: number;
   headers: { [key: string]: string };
@@ -33,6 +32,7 @@ const maxBufferSize = 20;
 const armSubject$ = new Subject<ArmRequest>();
 const armObs$ = armSubject$.pipe(
   bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize),
+  tap(x => console.log(x)),
   filter(x => x.length > 0),
   concatMap(x => {
     const batchBody = x.map(arm => {
@@ -68,7 +68,7 @@ const armObs$ = armSubject$.pipe(
   share()
 );
 
-export const MakeArmCall = async <T>(
+const MakeArmCall = async <T>(
   armEndpoint: string,
   authToken: string,
   resourceId: string,
@@ -113,3 +113,5 @@ const makeArmRequest = async <T>(armObj: ArmRequest): Promise<T> => {
   });
   return siteFetch.data;
 };
+
+export default MakeArmCall;

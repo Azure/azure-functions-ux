@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -13,6 +12,8 @@ import { SLOTS_FETCH_FAILURE, SLOTS_FETCH_SUCCESS } from './actionTypes';
 import { fetchSlotsFlow } from './epics';
 import reducer from './reducer';
 import slotApiService from './slotsApiService';
+jest.mock('../../ArmHelper');
+import MakeArmCall from '../../ArmHelper';
 
 describe('Slots Store Epics', () => {
   const successDeps = {
@@ -97,10 +98,8 @@ describe('Slots Store Reducer', () => {
   });
 });
 
-describe('Site Service', () => {
+describe('Slots Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -113,55 +112,17 @@ describe('Site Service', () => {
   });
 
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
-
-  it('Fetch Api calls api with appropriate info from production app', async () => {
-    const fetcher = slotApiService.fetchSlots(state);
-    let siteApiRequestInfo = mockAxios.lastReqGet();
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpointresourceid/slots?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    let responseObj = { data: { value: [{ name: test }] } };
-    mockAxios.mockResponse(responseObj, siteApiRequestInfo);
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
+  it('Fetch Api calls api with appropriate info', async () => {
+    slotApiService.fetchSlots(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/slots', 'FetchSlots');
   });
 
   it('Fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
-    const fetcher = slotApiService.fetchSlots(state);
-    let siteApiRequestInfo = mockAxios.lastReqGet();
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpointresourceid/slots?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    let responseObj = { data: { value: [{ name: test }] } };
-    mockAxios.mockResponse(responseObj, siteApiRequestInfo);
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = slotApiService
-      .fetchSlots(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
+    slotApiService.fetchSlots(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/slots', 'FetchSlots');
   });
 });

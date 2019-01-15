@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -21,6 +20,8 @@ import { METADATA_FETCH_FAILURE, METADATA_FETCH_SUCCESS, METADATA_UPDATE_FAILURE
 import { fetchMetadata, updateMetadata } from './epics';
 import api from './metadataApiService';
 import reducer, { Metadata } from './reducer';
+jest.mock('../../../ArmHelper');
+import MakeArmCall from '../../../ArmHelper';
 
 const testResult = {
   id: '',
@@ -206,8 +207,6 @@ describe('Metadata Store Reducer', () => {
 
 describe('Metadata Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -220,60 +219,23 @@ describe('Metadata Service', () => {
   });
 
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
   it('Fetch Api calls api with appropriate info', async () => {
-    const fetcher = api.fetchMetadata(state);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'POST',
-      url: 'testEndpointresourceid/config/metadata/list?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.testkey).toBe('testvalue');
+    api.fetchMetadata(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/metadata/list', 'FetchMetadata', 'POST');
   });
 
   it('Update Api calls api with appropriate info', async () => {
-    const fetcher = api.updateMetadata(state, testResult);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'PUT',
-      url: 'testEndpointresourceid/config/metadata?api-version=2018-02-01',
-      data: testResult,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.testkey).toBe('testvalue');
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = api
-      .fetchMetadata(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
-  });
-
-  it('Update Api should throw on error', async () => {
-    const fetcher = api
-      .updateMetadata(state, testResult)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
+    api.updateMetadata(state, testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      'resourceid/config/metadata',
+      'UpdateMetadata',
+      'PUT',
+      testResult
+    );
   });
 });

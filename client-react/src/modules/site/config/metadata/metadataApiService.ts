@@ -1,5 +1,5 @@
 import { ArmObj } from '../../../../models/WebAppModels';
-import { MakeArmCall } from '../../../ArmHelper';
+import MakeArmCall from '../../../ArmHelper';
 import { RootState } from '../../../types';
 import { Metadata } from './reducer';
 import { getArmEndpointAndTokenFromState } from '../../../StateUtilities';

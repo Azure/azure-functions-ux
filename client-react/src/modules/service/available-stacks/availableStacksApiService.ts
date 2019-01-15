@@ -1,6 +1,6 @@
 import { AvailableStack } from '../../../models/available-stacks';
 import { ArmArray } from '../../../models/WebAppModels';
-import { MakeArmCall } from '../../ArmHelper';
+import MakeArmCall from '../../ArmHelper';
 import { StacksOS } from './actions';
 import { getArmEndpointAndTokenFromState } from '../../StateUtilities';
 import { RootState } from '../../types';

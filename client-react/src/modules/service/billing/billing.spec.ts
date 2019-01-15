@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -16,6 +15,8 @@ import api from './billingMetersApiService';
 import { fetchBillingMeters } from './epics';
 import reducer from './reducer';
 
+jest.mock('../../ArmHelper');
+import MakeArmCall from '../../ArmHelper';
 const testResult: ArmArray<BillingMeter> = {
   value: [
     {
@@ -124,8 +125,6 @@ describe('Billing Meters Store Reducer', () => {
 
 describe('Billing Meters Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -137,89 +136,46 @@ describe('Billing Meters Service', () => {
     state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
   });
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
+    api.fetchBillingMeters(state, 'subid');
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      'FetchBillingMeters'
+    );
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id and location', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', undefined, 'testloc');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
+    api.fetchBillingMeters(state, 'subid', undefined, 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc',
+      'FetchBillingMeters'
+    );
   });
 
   it('Fetch Api calls api with appropriate info with only subscription id and osType', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', 'Windows');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?osType=Windows&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
+    api.fetchBillingMeters(state, 'subid', 'Windows');
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?osType=Windows',
+      'FetchBillingMeters'
+    );
   });
 
   it('Fetch Api calls api with appropriate info with all options', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', 'Windows', 'testloc');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url:
-        'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&osType=Windows&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const catchFn = jest.fn();
-    const thenFn = jest.fn();
-    const updateResourceIdAction = updateResourceId('resourceid');
-    const updateSUIAction = getStartupInfoAction({
-      token: 'testtoken',
-      armEndpoint: 'testEndpoint',
-    } as IStartupInfo);
-
-    const state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
-    const fetcher = api
-      .fetchBillingMeters(state, 'subid')
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
+    api.fetchBillingMeters(state, 'subid', 'Windows', 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      '/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&osType=Windows',
+      'FetchBillingMeters'
+    );
   });
 });

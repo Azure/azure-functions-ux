@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -25,6 +24,8 @@ import {
 import { fetchSlotConfigName, updateSlotConfigName } from './epics';
 import reducer from './reducer';
 import api from './slotConfigNamesService';
+jest.mock('../../../ArmHelper');
+import MakeArmCall from '../../../ArmHelper';
 
 const testResult: ArmObj<SlotConfigNames> = {
   id: '',
@@ -67,7 +68,7 @@ describe('Slot Config Names Store Epics', () => {
     const action = actions[0];
     expect(action.type).toBe(SLOT_CONFIG_FETCH_SUCCESS);
     if (action.type === SLOT_CONFIG_FETCH_SUCCESS) {
-      expect(action.slotConfig.properties.appSettingNames[0]).toBe('testvalue');
+      expect(action.slotConfig.properties.appSettingNames![0]).toBe('testvalue');
     }
   });
 
@@ -79,7 +80,7 @@ describe('Slot Config Names Store Epics', () => {
     const action = actions[0];
     expect(action.type).toBe(SLOT_CONFIG_UPDATE_SUCCESS);
     if (action.type === SLOT_CONFIG_UPDATE_SUCCESS) {
-      expect(action.slotConfig.properties.appSettingNames[0]).toBe('testvalue');
+      expect(action.slotConfig.properties.appSettingNames![0]).toBe('testvalue');
     }
   });
 
@@ -132,7 +133,7 @@ describe('Slot Config Names Store Reducer', () => {
       const action = fetchSlotConfigSuccess(testResult);
       const state = reducer(initialState, action);
       expect(state.metadata.loading).toBe(false);
-      expect(state.data.properties.appSettingNames[0]).toBe('testvalue');
+      expect(state.data.properties.appSettingNames![0]).toBe('testvalue');
     });
 
     it('error should be reflected on failed load', () => {
@@ -155,7 +156,7 @@ describe('Slot Config Names Store Reducer', () => {
       const action = updateSlotConfigSuccess(testResult);
       const state = reducer(initialState, action);
       expect(state.metadata.updating).toBe(false);
-      expect(state.data.properties.appSettingNames[0]).toBe('testvalue');
+      expect(state.data.properties.appSettingNames![0]).toBe('testvalue');
     });
 
     it('error should be reflected on failed load', () => {
@@ -170,8 +171,6 @@ describe('Slot Config Names Store Reducer', () => {
 
 describe('Slot Config Names Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -182,97 +181,45 @@ describe('Slot Config Names Service', () => {
 
     state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
   });
-
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info from a production app', async () => {
-    const fetcher = api.fetchSlotConfig(state);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpointresourceid/config/slotconfignames?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.appSettingNames[0]).toBe('testvalue');
+  it('Fetch Api calls api with appropriate info', async () => {
+    api.fetchSlotConfig(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/slotconfignames', 'FetchSlotConfig');
   });
 
-  it('Fetch Api calls api with appropriate info from a slot app', async () => {
+  it('Fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
-    const fetcher = api.fetchSlotConfig(state);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpointresourceid/config/slotconfignames?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.appSettingNames[0]).toBe('testvalue');
+    api.fetchSlotConfig(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/slotconfignames', 'FetchSlotConfig');
   });
 
-  it('Update Api calls api with appropriate info from a production app', async () => {
-    const fetcher = api.updateSlotConfig(state, testResult);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'PUT',
-      url: 'testEndpointresourceid/config/slotconfignames?api-version=2018-02-01',
-      data: testResult,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.appSettingNames[0]).toBe('testvalue');
+  it('Update Api calls api with appropriate info', async () => {
+    api.updateSlotConfig(state, testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      'resourceid/config/slotconfignames',
+      'UpdateSlotConfig',
+      'PUT',
+      testResult
+    );
   });
 
-  it('Update Api calls api with appropriate info from a slot app', async () => {
+  it('Update Api calls api with appropriate info from slot', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
-    const fetcher = api.updateSlotConfig(state, testResult);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'PUT',
-      url: 'testEndpointresourceid/config/slotconfignames?api-version=2018-02-01',
-      data: testResult,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.appSettingNames[0]).toBe('testvalue');
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = api
-      .fetchSlotConfig(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
-  });
-
-  it('Update Api should throw on error', async () => {
-    const fetcher = api
-      .updateSlotConfig(state, testResult)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
+    api.updateSlotConfig(state, testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith(
+      'testEndpoint',
+      'testtoken',
+      'resourceid/config/slotconfignames',
+      'UpdateSlotConfig',
+      'PUT',
+      testResult
+    );
   });
 });

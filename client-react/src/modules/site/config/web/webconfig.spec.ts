@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -20,6 +19,8 @@ import { WEB_CONFIG_FETCH_FAILURE, WEB_CONFIG_FETCH_SUCCESS, WEB_CONFIG_UPDATE_F
 import { fetchWebConfig, updateWebConfig } from './epics';
 import reducer from './reducer';
 import api from './webConfigApiService';
+jest.mock('../../../ArmHelper');
+import MakeArmCall from '../../../ArmHelper';
 
 const testResult: ArmObj<SiteConfig> = {
   id: '',
@@ -30,7 +31,7 @@ const testResult: ArmObj<SiteConfig> = {
     scmType: 'testvalue',
   },
 } as ArmObj<SiteConfig>;
-describe('Slot Config Names Store Epics', () => {
+describe('Web Config Names Store Epics', () => {
   const successDeps = {
     webConfigApi: {
       fetchWebConfig: async (state: RootState): Promise<ArmObj<SiteConfig>> => {
@@ -102,7 +103,7 @@ describe('Slot Config Names Store Epics', () => {
   });
 });
 
-describe('Slot Config Names Store Reducer', () => {
+describe('Web Config Names Store Reducer', () => {
   const initialState = reducer(undefined, {} as any);
   describe('initial state', () => {
     it('should match a snapshot', () => {
@@ -115,7 +116,7 @@ describe('Slot Config Names Store Reducer', () => {
     });
   });
 
-  describe('Slot Config Names Fetch Stories', () => {
+  describe('Web Config Names Fetch Stories', () => {
     it('should trigger loading when the fetch is requested', () => {
       const action = fetchWebConfigRequest();
       const state = reducer(initialState, action);
@@ -138,7 +139,7 @@ describe('Slot Config Names Store Reducer', () => {
     });
   });
 
-  describe('Slot Config Names Update Stories', () => {
+  describe('Web Config Names Update Stories', () => {
     it('should trigger updating when the update is requested', () => {
       const action = updateWebConfigRequest(testResult);
       const state = reducer(initialState, action);
@@ -162,10 +163,8 @@ describe('Slot Config Names Store Reducer', () => {
   });
 });
 
-describe('Slot Config Names Service', () => {
+describe('Web Config Names Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -178,62 +177,16 @@ describe('Slot Config Names Service', () => {
   });
 
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
-  });
-  afterEach(() => {
-    mockAxios.reset();
+    jest.clearAllMocks();
   });
 
   it('Fetch Api calls api with appropriate info', async () => {
-    const fetcher = api.fetchWebConfig(state);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpointresourceid/config/web?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.scmType).toBe('testvalue');
+    api.fetchWebConfig(state);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/web', 'FetchWebConfig');
   });
 
   it('Update Api calls api with appropriate info', async () => {
-    const fetcher = api.updateWebConfig(state, testResult);
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'PUT',
-      url: 'testEndpointresourceid/config/web?api-version=2018-02-01',
-      data: testResult,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
-    });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.scmType).toBe('testvalue');
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = api
-      .fetchWebConfig(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
-  });
-  it('Update Api should throw on error', async () => {
-    const fetcher = api
-      .updateWebConfig(state, testResult)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
+    api.updateWebConfig(state, testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith('testEndpoint', 'testtoken', 'resourceid/config/web', 'UpdateWebConfig', 'PUT', testResult);
   });
 });

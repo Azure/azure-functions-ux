@@ -1,5 +1,5 @@
 import { ArmArray, Site } from '../../../models/WebAppModels';
-import { MakeArmCall } from '../../ArmHelper';
+import MakeArmCall from '../../ArmHelper';
 import * as Types from '../../types';
 import { getArmEndpointAndTokenFromState } from '../../StateUtilities';
 

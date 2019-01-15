@@ -1,7 +1,7 @@
 import { BillingMeter } from '../../../models/BillingModels';
 import { ArmArray } from '../../../models/WebAppModels';
 import Url from '../../../utils/url';
-import { MakeArmCall } from '../../ArmHelper';
+import MakeArmCall from '../../ArmHelper';
 import * as Types from '../../types';
 import { StacksOS } from '../available-stacks/actions';
 import { getArmEndpointAndTokenFromState } from '../../StateUtilities';

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp } from '../models/WebAppModels';
 import { store } from '../store';
-import { MakeArmCall } from '../modules/ArmHelper';
+import MakeArmCall from '../modules/ArmHelper';
 import { RootState } from '../modules/types';
 import { getArmEndpointAndTokenFromState } from '../modules/StateUtilities';
 
