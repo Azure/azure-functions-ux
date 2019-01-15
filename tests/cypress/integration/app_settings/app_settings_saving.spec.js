@@ -32,7 +32,7 @@ context('App Settings Save/Notification', () => {
       })
       .get('#app-settings-stack-dropdown-option')
       .should('contain', 'PHP')
-      .wait(200)
+      .wait(1)
       .get('@spyPostMessage')
       .then(x => {
         const setNotificationArgs = x.args.filter(x => x[0].kind === 'set-notification');
@@ -65,7 +65,7 @@ context('App Settings Save/Notification', () => {
       .wait(500) //give a few ticks for save to become enabled
       .get('[data-cy=command-button-save]')
       .click()
-      .wait(200)
+      .wait(1)
       .get('@spyPostMessage')
       .then(x => {
         const setNotificationArgs = x.args.filter(x => x[0].kind === 'set-notification');
