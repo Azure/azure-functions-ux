@@ -12,8 +12,6 @@ interface LogStreamLogContainerProps {
   clearLogs: boolean;
   logEntries: LogEntry[];
   site: ArmObj<Site>;
-  clear: () => void;
-  reconnect: () => void;
   updateLogOption: (useWebServer: boolean) => void;
 }
 
@@ -98,8 +96,6 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
   private _onOptionChange = (e: any, newValue: IChoiceGroupOption) => {
     const useWebServer = newValue.key === LogTypes.WebServer;
     this.props.updateLogOption(useWebServer);
-    this.props.clear();
-    this.props.reconnect();
   };
 
   private _getLogTextColor(level: LogLevel): string {
