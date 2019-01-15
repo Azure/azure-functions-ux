@@ -46,7 +46,7 @@ context('App Settings Readonly Access', () => {
         '@slots'
       )
       .visit(
-        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/slots/slot/settings?trustedAuthority=test',
+        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/slots/slot/settings?trustedAuthority=test&appsvc.skipbatching=true',
         {
           onBeforeLoad(win) {
             setupWindow(win);

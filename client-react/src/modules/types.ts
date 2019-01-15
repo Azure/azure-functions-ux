@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { StateType } from 'typesafe-actions';
 
 import rootReducer from './';
@@ -11,6 +10,7 @@ import { SlotConfigAction } from './site/config/slotConfigNames/reducer';
 import { ConfigAction } from './site/config/web/reducer';
 import { SiteAction } from './site/reducer';
 import { SlotsAction } from './site/slots/reducer';
+import { AxiosError } from 'axios';
 
 export type RootState = StateType<typeof rootReducer>;
 export type RootAction =

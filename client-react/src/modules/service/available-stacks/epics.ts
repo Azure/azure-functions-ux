@@ -12,7 +12,7 @@ export const fetchStacksFlow: Epic<StacksAction, StacksAction, RootState, Servic
   action$.pipe(
     filter(isOfType(STACKS_FETCH_REQUEST)),
     switchMap(action =>
-      from(stacksApi.fetchAvailableStacks(store.value, action.stackOs)).pipe(
+      from(stacksApi.fetchAvailableStacks(action.stackOs)).pipe(
         map(fetchStacksSuccess),
         catchError(err => of(fetchStacksFailure(err)))
       )

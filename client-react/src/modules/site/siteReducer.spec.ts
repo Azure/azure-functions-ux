@@ -1,4 +1,4 @@
-import mockAxios from 'jest-mock-axios';
+jest.mock('../ArmHelper');
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -20,7 +20,7 @@ import { SITE_FETCH_FAILURE, SITE_FETCH_SUCCESS, SITE_UPDATE_FAILURE, SITE_UPDAT
 import { fetchSiteFlow, updateSiteFlow } from './epics';
 import reducer from './reducer';
 import siteApi from './siteApiService';
-
+import MakeArmCall from '../ArmHelper';
 const testResult = { name: 'fromApi' } as ArmObj<Site>;
 describe('Site Store Epics', () => {
   const successDeps = {
@@ -160,8 +160,6 @@ describe('Site Store Reducer', () => {
 
   describe('Site Service', () => {
     const initialState = rootReducer(undefined, {} as any);
-    const catchFn = jest.fn();
-    const thenFn = jest.fn();
     let state;
     beforeEach(() => {
       const updateResourceIdAction = updateResourceId('resourceid');
@@ -174,65 +172,17 @@ describe('Site Store Reducer', () => {
     });
 
     afterEach(() => {
-      mockAxios.reset();
-      thenFn.mockClear();
-      catchFn.mockClear();
+      jest.clearAllMocks();
     });
 
-    it('Fetch Api calls api with appropriate info', async () => {
-      const fetcher = siteApi.fetchSite(state);
-      let siteApiRequestInfo = mockAxios.lastReqGet();
-      expect(mockAxios).toHaveBeenCalledWith({
-        method: 'GET',
-        url: 'testEndpointresourceid?api-version=2018-02-01',
-        data: null,
-        headers: {
-          Authorization: `Bearer testtoken`,
-        },
-      });
-      let responseObj = { data: { name: 'testsite' } };
-      mockAxios.mockResponse(responseObj, siteApiRequestInfo);
-      const result = await fetcher;
-      expect(result.name).toBe('testsite');
+    it('fetch Api calls api with appropriate info', async () => {
+      siteApi.fetchSite(state);
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'fetchSite' });
     });
 
-    it('Update Api calls api with appropriate info', async () => {
-      const fetcher = siteApi.updateSite(state, testResult);
-      let siteApiRequestInfo = mockAxios.lastReqGet();
-      expect(mockAxios).toHaveBeenCalledWith({
-        method: 'PUT',
-        url: 'testEndpointresourceid?api-version=2018-02-01',
-        data: testResult,
-        headers: {
-          Authorization: `Bearer testtoken`,
-        },
-      });
-      let responseObj = { data: { name: 'testsite' } };
-      mockAxios.mockResponse(responseObj, siteApiRequestInfo);
-      const result = await fetcher;
-      expect(result.name).toBe('testsite');
-    });
-
-    it('Fetch Api should throw on error', async () => {
-      const fetcher = siteApi
-        .fetchSite(state)
-        .then(thenFn)
-        .catch(catchFn);
-      mockAxios.mockError(new Error('errorMessage'));
-      await fetcher;
-      expect(thenFn).not.toHaveBeenCalled();
-      expect(catchFn).toHaveBeenCalled();
-    });
-
-    it('Update Api should throw on error', async () => {
-      const fetcher = siteApi
-        .updateSite(state, testResult)
-        .then(thenFn)
-        .catch(catchFn);
-      mockAxios.mockError(new Error('errorMessage'));
-      await fetcher;
-      expect(thenFn).not.toHaveBeenCalled();
-      expect(catchFn).toHaveBeenCalled();
+    it('update Api calls api with appropriate info', async () => {
+      siteApi.updateSite(state, testResult);
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'updateSite', method: 'PUT', body: testResult });
     });
   });
 });

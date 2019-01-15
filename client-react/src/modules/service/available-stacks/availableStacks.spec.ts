@@ -1,19 +1,16 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
-import rootReducer from '../../';
 import { AvailableStack } from '../../../models/available-stacks';
-import { IStartupInfo } from '../../../models/portal-models';
 import { ArmArray } from '../../../models/WebAppModels';
-import { getStartupInfoAction } from '../../portal/actions';
-import { updateResourceId } from '../../site/actions';
-import { RootState, Services } from '../../types';
+import { Services } from '../../types';
 import { fetchStacksFailure, fetchStacksRequest, fetchStacksSuccess, StacksOS } from './actions';
 import { STACKS_FETCH_FAILURE, STACKS_FETCH_SUCCESS } from './actionTypes';
 import api from './availableStacksApiService';
 import { fetchStacksFlow } from './epics';
 import reducer from './reducer';
+jest.mock('../../ArmHelper');
+import MakeArmCall from '../../ArmHelper';
 
 const testResult: ArmArray<AvailableStack> = {
   value: [
@@ -47,7 +44,7 @@ const testResult: ArmArray<AvailableStack> = {
 describe('Available Stacks Store Epics', () => {
   const successDeps = {
     stacksApi: {
-      fetchAvailableStacks: async (state: RootState, stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
+      fetchAvailableStacks: async (stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
         testResult.id = stacksOs;
         return testResult;
       },
@@ -56,7 +53,7 @@ describe('Available Stacks Store Epics', () => {
 
   const failDeps = {
     stacksApi: {
-      fetchAvailableStacks: async (state: RootState, stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
+      fetchAvailableStacks: async (stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
         throw new Error('failuremessage');
       },
     },
@@ -137,63 +134,25 @@ describe('Available Stacks Store Reducer', () => {
 });
 
 describe('Available Stacks Service', () => {
-  const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
-  let state;
-  beforeEach(() => {
-    const updateResourceIdAction = updateResourceId('resourceid');
-    const updateSUIAction = getStartupInfoAction({
-      token: 'testtoken',
-      armEndpoint: 'testEndpoint',
-    } as IStartupInfo);
-
-    state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
-  });
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info with Windows', async () => {
-    const fetcher = api.fetchAvailableStacks(state, 'Windows');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/providers/Microsoft.Web/availableStacks?osTypeSelected=Windows&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with Windows', async () => {
+    api.fetchAvailableStacks('Windows');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/providers/Microsoft.Web/availableStacks',
+      queryString: '?osTypeSelected=Windows',
+      commandName: 'fetchAvailableStacks',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
   });
 
-  it('Fetch Api calls api with appropriate info with Linux', async () => {
-    const fetcher = api.fetchAvailableStacks(state, 'Linux');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/providers/Microsoft.Web/availableStacks?osTypeSelected=Linux&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with Linux', async () => {
+    api.fetchAvailableStacks('Linux');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/providers/Microsoft.Web/availableStacks',
+      queryString: '?osTypeSelected=Linux',
+      commandName: 'fetchAvailableStacks',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = api
-      .fetchAvailableStacks(state, 'Windows')
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
   });
 });
