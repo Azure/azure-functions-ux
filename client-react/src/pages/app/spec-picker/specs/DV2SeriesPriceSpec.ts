@@ -1,9 +1,8 @@
-import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm } from '../../../../models/WebAppModels';
+import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { store } from '../../../../store';
-import axios from 'axios';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
-
+import MakeArmCall from '../../../../modules/ArmHelper';
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;
@@ -46,13 +45,14 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _checkIfSkuEnabledOnStamp(resourceId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      const availableSkuFetch = await axios.get<{ value: AvailableSku[] }>(`${this._armEndpoint}${resourceId}`, {
-        headers: {
-          Authorization: `Bearer ${this._armToken}`,
-        },
-      });
+      const availableSkuFetch = await MakeArmCall<{ value: AvailableSku[] }>(
+        this._armEndpoint,
+        this._armToken,
+        resourceId,
+        '_checkIfSkuEnabledOnStamp'
+      );
 
-      const result = availableSkuFetch.data;
+      const result = availableSkuFetch;
       this.state = result.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
 
       if (this.state === 'disabled') {
@@ -78,13 +78,14 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
     const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
-    const providerLocationsFetch = await axios.get<{ value: ArmProviderInfo }>(`${this._armEndpoint}${resourceId}`, {
-      headers: {
-        Authorization: `Bearer ${this._armToken}`,
-      },
-    });
+    const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>(
+      this._armEndpoint,
+      this._armToken,
+      resourceId,
+      '_getProviderLocations'
+    );
 
-    const result = providerLocationsFetch.data;
+    const result = providerLocationsFetch;
     const resource =
       result &&
       result.value &&
@@ -100,13 +101,9 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       id += '&linuxWorkersEnabled=true';
     }
 
-    const geoRegionsFetch = await axios.get<{ value: ArmObj<GeoRegion>[] }>(`${this._armEndpoint}${id}`, {
-      headers: {
-        Authorization: `Bearer ${this._armToken}`,
-      },
-    });
+    const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>(this._armEndpoint, this._armToken, id, '_getProviderLocations');
 
-    return geoRegionsFetch.data.value;
+    return geoRegionsFetch.value;
   }
 
   private _getAvailableGeoRegionsList(providerLocations: string[], geoRegions: ArmObj<GeoRegion>[]) {

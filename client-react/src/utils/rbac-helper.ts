@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp } from '../models/WebAppModels';
 import { store } from '../store';
 import MakeArmCall from '../modules/ArmHelper';
@@ -24,8 +22,6 @@ export default class RbacHelper {
   public static async hasPermission(state: RootState, resourceId: string, requestedActions: string[]): Promise<boolean> {
     const authId = `${resourceId}${this.permissionsSuffix}`;
     try {
-      //const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
-      //const armToken = store.getState().portalService.startupInfo!.token;
       const { armEndpoint, authToken } = getArmEndpointAndTokenFromState(state);
       const permissionsSetCall = await MakeArmCall<any>(armEndpoint, authToken, authId, 'RbacCheck', 'GET', null, false, '2015-07-01');
       return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
@@ -49,14 +45,15 @@ export default class RbacHelper {
   }
 
   private static async getLocks(resourceId: string) {
-    const lockId = `${resourceId}${RbacHelper.authSuffix}?api-version=${this.armLocksApiVersion}`;
-    const armToken = store.getState().portalService.startupInfo!.token;
-    const logCall = await axios.get(lockId, {
-      headers: {
-        Authorization: `Bearer ${armToken}`,
-      },
-    });
-    return logCall.data as ArmObj<Lock>[];
+    // const lockId = `${resourceId}${RbacHelper.authSuffix}?api-version=${this.armLocksApiVersion}`;
+    // const armToken = store.getState().portalService.startupInfo!.token;
+    // const logCall = await axios.get(lockId, {
+    //   headers: {
+    //     Authorization: `Bearer ${armToken}`,
+    //   },
+    // });
+    // return logCall.data as ArmObj<Lock>[];
+    return [] as any;
   }
 
   private static getResourceType(resourceId: string) {

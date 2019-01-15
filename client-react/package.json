@@ -42,8 +42,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
-    "eject": "react-scripts eject",
-    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test:debug": "react-scripts  --inspect-brk test --no-cache --verbose=false --runInBand",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -80,7 +79,9 @@
     "@storybook/react": "^4.1.6",
     "@storybook/addon-actions": "^4.1.6",
     "@storybook/addon-links": "^4.1.6",
-    "@storybook/addons": "^4.1.6"
+    "@storybook/addons": "^4.1.6",
+    "jest-fetch-mock": "^2.1.0",
+    "@types/node-fetch": "^2.1.4"
   },
   "workspaces": {
     "nohoist": [

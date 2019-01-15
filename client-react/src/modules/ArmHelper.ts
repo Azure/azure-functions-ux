@@ -1,10 +1,9 @@
-import axios from 'axios';
-
 import { CommonConstants } from '../utils/CommonConstants';
 import Url from '../utils/url';
 import { Subject, from } from 'rxjs';
 import { bufferTime, filter, concatMap, share, take, tap } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
+import { async } from 'rxjs/internal/scheduler/async';
 
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
 interface ArmRequest {
@@ -31,8 +30,7 @@ const bufferTimeInterval = 100; // ms
 const maxBufferSize = 20;
 const armSubject$ = new Subject<ArmRequest>();
 const armObs$ = armSubject$.pipe(
-  bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize),
-  tap(x => console.log(x)),
+  bufferTime(bufferTimeInterval, bufferTimeInterval, maxBufferSize, async),
   filter(x => x.length > 0),
   concatMap(x => {
     const batchBody = x.map(arm => {
@@ -88,7 +86,7 @@ const MakeArmCall = async <T>(
         )
         .subscribe(x => {
           if (x.httpStatusCode >= 300) {
-            reject({ data: x.content });
+            reject({ data: x.content, statusCode: x.httpStatusCode });
           } else {
             resolve(x.content);
           }
@@ -103,15 +101,16 @@ const MakeArmCall = async <T>(
 const makeArmRequest = async <T>(armObj: ArmRequest): Promise<T> => {
   const { method, resourceId, armEndpoint, body, apiVersion, authToken } = armObj;
   let url = Url.appendQueryString(`${armEndpoint}${resourceId}`, `api-version=${apiVersion}`);
-  const siteFetch = await axios({
+  return fetch(url, {
     method,
-    url,
-    data: body,
+    body: JSON.stringify(body),
     headers: {
       Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
     },
+  }).then(function(response) {
+    return response.json();
   });
-  return siteFetch.data;
 };
 
 export default MakeArmCall;

@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { StateType } from 'typesafe-actions';
 
 import rootReducer from './';
@@ -25,11 +24,12 @@ export type RootAction =
 
 export type Services = typeof services;
 
+export type ApiError = { data: any; statusCode: string };
 export interface ApiStateMetadata {
   fetchError: boolean;
-  fetchErrorObject: AxiosError | Error;
+  fetchErrorObject: ApiError | Error;
   updateError: boolean;
-  updateErrorObject: AxiosError | Error;
+  updateErrorObject: ApiError | Error;
   loading: boolean;
   updating: boolean;
 }
