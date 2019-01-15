@@ -118,39 +118,39 @@ describe('Billing Meters Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id', async () => {
+  it('fetch Api calls api with appropriate info with only subscription id', async () => {
     api.fetchBillingMeters('subid');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
       queryString: '',
-      commandName: 'FetchBillingMeters',
+      commandName: 'fetchBillingMeters',
     });
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id and location', async () => {
+  it('fetch Api calls api with appropriate info with only subscription id and location', async () => {
     api.fetchBillingMeters('subid', undefined, 'testloc');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
       queryString: '?billingLocation=testloc',
-      commandName: 'FetchBillingMeters',
+      commandName: 'fetchBillingMeters',
     });
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id and osType', async () => {
+  it('fetch Api calls api with appropriate info with only subscription id and osType', async () => {
     api.fetchBillingMeters('subid', 'Windows');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
       queryString: '?osType=Windows',
-      commandName: 'FetchBillingMeters',
+      commandName: 'fetchBillingMeters',
     });
   });
 
-  it('Fetch Api calls api with appropriate info with all options', async () => {
+  it('fetch Api calls api with appropriate info with all options', async () => {
     api.fetchBillingMeters('subid', 'Windows', 'testloc');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
       queryString: '?billingLocation=testloc&osType=Windows',
-      commandName: 'FetchBillingMeters',
+      commandName: 'fetchBillingMeters',
     });
   });
 });

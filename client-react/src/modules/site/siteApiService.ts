@@ -5,11 +5,11 @@ import { RootState } from '../types';
 const siteApiService = {
   fetchSite: (state: RootState): Promise<ArmObj<Site>> => {
     const resourceId = state.site.resourceId;
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'FetchSite' });
+    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
   },
   updateSite: (state: RootState, site: ArmObj<Site>): Promise<ArmObj<Site>> => {
     const resourceId = state.site.resourceId;
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'UpdateSite', method: 'PUT', body: site });
+    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: site });
   },
 };
 

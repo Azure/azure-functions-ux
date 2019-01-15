@@ -252,20 +252,20 @@ describe('Connection Strings Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     api.fetchConnectionStrings(state);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/connectionstrings/list',
-      commandName: 'FetchConnectionStrings',
+      commandName: 'fetchConnectionStrings',
       method: 'POST',
     });
   });
 
-  it('Update Api calls api with appropriate info', async () => {
+  it('update Api calls api with appropriate info', async () => {
     api.updateConnectionStrings(state, testResult);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/connectionstrings',
-      commandName: 'UpdateConnectionStrings',
+      commandName: 'updateConnectionStrings',
       method: 'PUT',
       body: testResult,
     });

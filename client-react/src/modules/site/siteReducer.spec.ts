@@ -175,14 +175,14 @@ describe('Site Store Reducer', () => {
       jest.clearAllMocks();
     });
 
-    it('Fetch Api calls api with appropriate info', async () => {
+    it('fetch Api calls api with appropriate info', async () => {
       siteApi.fetchSite(state);
-      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'FetchSite' });
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'fetchSite' });
     });
 
-    it('Update Api calls api with appropriate info', async () => {
+    it('update Api calls api with appropriate info', async () => {
       siteApi.updateSite(state, testResult);
-      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'UpdateSite', method: 'PUT', body: testResult });
+      expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid', commandName: 'updateSite', method: 'PUT', body: testResult });
     });
   });
 });

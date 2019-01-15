@@ -180,16 +180,16 @@ describe('Web Config Names Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     api.fetchWebConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/web', commandName: 'FetchWebConfig' });
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/web', commandName: 'fetchWebConfig' });
   });
 
-  it('Update Api calls api with appropriate info', async () => {
+  it('update Api calls api with appropriate info', async () => {
     api.updateWebConfig(state, testResult);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/web',
-      commandName: 'UpdateWebConfig',
+      commandName: 'updateWebConfig',
       method: 'PUT',
       body: testResult,
     });

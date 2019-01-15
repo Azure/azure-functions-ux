@@ -228,20 +228,20 @@ describe('App Settings Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     api.fetchAppSettings(state);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/appsettings/list',
-      commandName: 'FetchAppSettings',
+      commandName: 'fetchAppSettings',
       method: 'POST',
     });
   });
 
-  it('Update Api calls api with appropriate info', async () => {
+  it('update Api calls api with appropriate info', async () => {
     api.updateAppSettings(state, testAppSettingsObj);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/appsettings',
-      commandName: 'UpdateAppSettings',
+      commandName: 'updateAppSettings',
       method: 'PUT',
       body: testAppSettingsObj,
     });

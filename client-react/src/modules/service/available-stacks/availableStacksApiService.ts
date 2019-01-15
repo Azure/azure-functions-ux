@@ -10,7 +10,7 @@ const availableStacksApiService = {
     return await MakeArmCall<ArmArray<AvailableStack>>({
       resourceId,
       queryString,
-      commandName: 'FetchAvailableStacks',
+      commandName: 'fetchAvailableStacks',
     });
   },
 };

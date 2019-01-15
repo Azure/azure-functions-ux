@@ -9,7 +9,7 @@ const slotConfigNamesApiService = {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
     const resourceId = `${productionResourceId}/config/slotconfignames`;
-    return await MakeArmCall({ resourceId, commandName: 'FetchSlotConfig' });
+    return await MakeArmCall({ resourceId, commandName: 'fetchSlotConfig' });
   },
   updateSlotConfig: async (state: RootState, newConfigName: ArmObj<SlotConfigNames>): Promise<ArmObj<SlotConfigNames>> => {
     let productionResourceId = state.site.resourceId;
@@ -17,7 +17,7 @@ const slotConfigNamesApiService = {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
     const resourceId = `${productionResourceId}/config/slotconfignames`;
-    return await MakeArmCall({ resourceId, commandName: 'UpdateSlotConfig', method: 'PUT', body: newConfigName });
+    return await MakeArmCall({ resourceId, commandName: 'updateSlotConfig', method: 'PUT', body: newConfigName });
   },
 };
 

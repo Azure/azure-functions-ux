@@ -138,21 +138,21 @@ describe('Available Stacks Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info with Windows', async () => {
+  it('fetch Api calls api with appropriate info with Windows', async () => {
     api.fetchAvailableStacks('Windows');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/providers/Microsoft.Web/availableStacks',
       queryString: '?osTypeSelected=Windows',
-      commandName: 'FetchAvailableStacks',
+      commandName: 'fetchAvailableStacks',
     });
   });
 
-  it('Fetch Api calls api with appropriate info with Linux', async () => {
+  it('fetch Api calls api with appropriate info with Linux', async () => {
     api.fetchAvailableStacks('Linux');
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: '/providers/Microsoft.Web/availableStacks',
       queryString: '?osTypeSelected=Linux',
-      commandName: 'FetchAvailableStacks',
+      commandName: 'fetchAvailableStacks',
     });
   });
 });

@@ -14,7 +14,7 @@ const billingMetersApiService = {
     if (osType) {
       queryString = Url.appendQueryString(queryString, `osType=${osType}`);
     }
-    return await MakeArmCall({ resourceId, queryString, commandName: 'FetchBillingMeters' });
+    return await MakeArmCall({ resourceId, queryString, commandName: 'fetchBillingMeters' });
   },
 };
 

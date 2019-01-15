@@ -222,20 +222,20 @@ describe('Metadata Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     api.fetchMetadata(state);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/metadata/list',
-      commandName: 'FetchMetadata',
+      commandName: 'fetchMetadata',
       method: 'POST',
     });
   });
 
-  it('Update Api calls api with appropriate info', async () => {
+  it('update Api calls api with appropriate info', async () => {
     api.updateMetadata(state, testResult);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/metadata',
-      commandName: 'UpdateMetadata',
+      commandName: 'updateMetadata',
       method: 'PUT',
       body: testResult,
     });

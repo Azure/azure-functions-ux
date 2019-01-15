@@ -185,35 +185,35 @@ describe('Slot Config Names Service', () => {
     jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     api.fetchSlotConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'FetchSlotConfig' });
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'fetchSlotConfig' });
   });
 
-  it('Fetch Api calls api with appropriate info from slots app', async () => {
+  it('fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     api.fetchSlotConfig(state);
-    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'FetchSlotConfig' });
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/config/slotconfignames', commandName: 'fetchSlotConfig' });
   });
 
-  it('Update Api calls api with appropriate info', async () => {
+  it('update Api calls api with appropriate info', async () => {
     api.updateSlotConfig(state, testResult);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/slotconfignames',
-      commandName: 'UpdateSlotConfig',
+      commandName: 'updateSlotConfig',
       method: 'PUT',
       body: testResult,
     });
   });
 
-  it('Update Api calls api with appropriate info from slot', async () => {
+  it('update Api calls api with appropriate info from slot', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     api.updateSlotConfig(state, testResult);
     expect(MakeArmCall).toHaveBeenCalledWith({
       resourceId: 'resourceid/config/slotconfignames',
-      commandName: 'UpdateSlotConfig',
+      commandName: 'updateSlotConfig',
       method: 'PUT',
       body: testResult,
     });

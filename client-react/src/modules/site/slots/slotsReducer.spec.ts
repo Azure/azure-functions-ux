@@ -114,15 +114,15 @@ describe('Slots Service', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('Fetch Api calls api with appropriate info', async () => {
+  it('fetch Api calls api with appropriate info', async () => {
     slotApiService.fetchSlots(state);
-    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'FetchSlots' });
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'fetchSlots' });
   });
 
-  it('Fetch Api calls api with appropriate info from slots app', async () => {
+  it('fetch Api calls api with appropriate info from slots app', async () => {
     const updateResourceIdAction = updateResourceId('resourceid/slots/slot');
     state = rootReducer(state, updateResourceIdAction);
     slotApiService.fetchSlots(state);
-    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'FetchSlots' });
+    expect(MakeArmCall).toHaveBeenCalledWith({ resourceId: 'resourceid/slots', commandName: 'fetchSlots' });
   });
 });

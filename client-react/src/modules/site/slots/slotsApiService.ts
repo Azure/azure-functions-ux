@@ -9,7 +9,7 @@ const slotApiService = {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
     const resourceId = `${productionResourceId}/slots`;
-    return await MakeArmCall<ArmArray<Site>>({ resourceId, commandName: 'FetchSlots' });
+    return await MakeArmCall<ArmArray<Site>>({ resourceId, commandName: 'fetchSlots' });
   },
 };
 
