@@ -145,24 +145,42 @@ export class SiteService {
     return this._client.execute({ resourceId: resourceId }, t => addOrUpdateAppSettings);
   }
 
-  createSlot(resourceId: string, slotName: string, loc: string, serverfarmId: string, config?: SiteConfig | {}): Result<ArmObj<Site>> {
-    if (!!config) {
+  createSlot(
+    resourceId: string,
+    slotName: string,
+    loc: string,
+    serverFarmId: string,
+    site?: Site,
+    siteConfig?: SiteConfig | {}
+  ): Result<ArmObj<Site>> {
+    if (!!siteConfig) {
       ['experiments', 'routingRules'].forEach(propertyName => {
-        if (config.hasOwnProperty(propertyName)) {
-          config[propertyName] = null;
+        if (siteConfig.hasOwnProperty(propertyName)) {
+          siteConfig[propertyName] = null;
         }
       });
     }
 
-    const payload = JSON.stringify({
+    const payload = {
       location: loc,
       properties: {
-        serverFarmId: serverfarmId,
-        siteConfig: config,
+        serverFarmId,
+        siteConfig,
       },
-    });
+    };
+
+    if (!!site) {
+      ['clientCertEnabled', 'httpsOnly'].forEach(propertyName => {
+        if (site.hasOwnProperty(propertyName)) {
+          payload.properties[propertyName] = site[propertyName];
+        }
+      });
+    }
+
     const newSlotId = `${resourceId}/slots/${slotName}`;
-    const createSlot = this._cacheService.putArm(newSlotId, ARMApiVersions.websiteApiVersion20180201, payload).map(r => r.json());
+    const createSlot = this._cacheService
+      .putArm(newSlotId, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(payload))
+      .map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => createSlot);
   }

@@ -205,16 +205,22 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     this.addForm.markAsPristine();
 
     const newSlotName = this.addForm.controls['name'].value;
-    const newSlotConfig = this.addForm.controls['cloneSrcConfig'].value;
     const siteId = this._slotsArm[0].id;
-    const location = this._slotsArm[0].location;
-    const serverFarmId = this._slotsArm[0].properties.serverFarmId;
-    const cloneConfig = newSlotConfig || {};
 
     const slotNewInfo: SlotNewInfo = {
       resourceId: `${siteId}/slots/${newSlotName}`,
       state: SlotOperationState.started,
     };
+
+    const location = this._slotsArm[0].location;
+    const serverFarmId = this._slotsArm[0].properties.serverFarmId;
+
+    const cloneSrcId = this.addForm.controls['cloneSrcId'].value;
+    const cloneSrcIndex = this._slotsArm.findIndex(slot => slot.id.toLowerCase() === cloneSrcId.toLowerCase());
+    const cloneSite = cloneSrcIndex === -1 ? null : this._slotsArm[cloneSrcIndex].properties;
+
+    const newSlotConfig = this.addForm.controls['cloneSrcConfig'].value;
+    const cloneConfig = newSlotConfig || {};
 
     this.addForm.controls['name'].disable();
     this.addForm.controls['cloneSrcId'].disable();
@@ -227,7 +233,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     this.progressMessageClass = 'spinner';
     this.isCreating = true;
     this.executeButtonDisabled = true;
-    this._siteService.createSlot(siteId, newSlotName, location, serverFarmId, cloneConfig).subscribe(r => {
+    this._siteService.createSlot(siteId, newSlotName, location, serverFarmId, cloneSite, cloneConfig).subscribe(r => {
       if (r.isSuccessful) {
         this.progressMessage = this._translateService.instant(PortalResources.slotNew_startCreateSuccessNotifyTitle).format(newSlotName);
         this.progressMessageClass = 'success';
