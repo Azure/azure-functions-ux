@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
-import Url from '../utils/url';
 import { Subject, from } from 'rxjs';
-import { bufferTime, filter, concatMap, share, take, tap } from 'rxjs/operators';
+import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
 import { Guid } from '../utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
-
+import Url from '../utils/url';
+const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE';
 interface ArmRequest {
   method: MethodTypes;
@@ -16,6 +17,7 @@ interface ArmRequest {
   apiVersion: string;
   authToken: string;
 }
+
 interface ArmBatchObject {
   httpStatusCode: number;
   headers: { [key: string]: string };
@@ -77,7 +79,7 @@ const MakeArmCall = async <T>(
   apiVersion: string = CommonConstants.ApiVersions.websiteApiVersion20180201
 ): Promise<T> => {
   const id = Guid.newGuid();
-  if (!skipBuffer) {
+  if (!skipBuffer && !alwaysSkipBatch) {
     return new Promise((resolve, reject) => {
       armObs$
         .pipe(
@@ -101,16 +103,16 @@ const MakeArmCall = async <T>(
 const makeArmRequest = async <T>(armObj: ArmRequest): Promise<T> => {
   const { method, resourceId, armEndpoint, body, apiVersion, authToken } = armObj;
   let url = Url.appendQueryString(`${armEndpoint}${resourceId}`, `api-version=${apiVersion}`);
-  return fetch(url, {
+  const result = await axios({
+    url,
     method,
-    body: JSON.stringify(body),
+    data: body,
     headers: {
       Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json',
     },
-  }).then(function(response) {
-    return response.json();
   });
+  return result.data;
 };
 
 export default MakeArmCall;
