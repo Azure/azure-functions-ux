@@ -42,12 +42,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
-    "eject": "react-scripts eject",
-    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test:debug": "react-scripts  --inspect-brk test --no-cache --verbose=false --runInBand",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^4.1.6",
+    "@storybook/addon-links": "^4.1.6",
+    "@storybook/addons": "^4.1.6",
+    "@storybook/react": "^4.1.6",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/i18next-xhr-backend": "^1.4.1",
@@ -65,6 +68,7 @@
     "@types/recompose": "^0.26.3",
     "@types/webpack-env": "^1.13.6",
     "@types/yup": "^0.24.7",
+    "axios-mock-adapter": "^1.16.0",
     "core-js": "^2.6.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
@@ -76,11 +80,7 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "@storybook/react": "^4.1.6",
-    "@storybook/addon-actions": "^4.1.6",
-    "@storybook/addon-links": "^4.1.6",
-    "@storybook/addons": "^4.1.6"
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "workspaces": {
     "nohoist": [

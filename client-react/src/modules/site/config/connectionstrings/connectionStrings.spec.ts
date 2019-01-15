@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -26,6 +25,8 @@ import {
 import api from './connectionStringsApiService';
 import { fetchConnectionStrings, updateConnectionStrings } from './epics';
 import reducer, { ConnectionString } from './reducer';
+jest.mock('../../../ArmHelper');
+import MakeArmCall from '../../../ArmHelper';
 
 const testResult = {
   id: '',
@@ -236,8 +237,6 @@ describe('Connection Strings Store Reducer', () => {
 
 describe('Connection Strings Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -250,60 +249,25 @@ describe('Connection Strings Service', () => {
   });
 
   afterEach(() => {
-    mockAxios.reset();
-    catchFn.mockClear();
-    thenFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
-    const fetcher = api.fetchConnectionStrings(state);
-    expect(mockAxios).toHaveBeenCalledWith({
+  it('fetch Api calls api with appropriate info', async () => {
+    api.fetchConnectionStrings(state);
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/connectionstrings/list',
+      commandName: 'fetchConnectionStrings',
       method: 'POST',
-      url: 'testEndpointresourceid/config/connectionstrings/list?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.testkey.value).toBe('testvalue');
   });
 
-  it('Update Api calls api with appropriate info', async () => {
-    const fetcher = api.updateConnectionStrings(state, testResult);
-    expect(mockAxios).toHaveBeenCalledWith({
+  it('update Api calls api with appropriate info', async () => {
+    api.updateConnectionStrings(state, testResult);
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/connectionstrings',
+      commandName: 'updateConnectionStrings',
       method: 'PUT',
-      url: 'testEndpointresourceid/config/connectionstrings?api-version=2018-02-01',
-      data: testResult,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+      body: testResult,
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.properties.testkey.value).toBe('testvalue');
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = api
-      .fetchConnectionStrings(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
-  });
-
-  it('Update Api should throw on error', async () => {
-    const fetcher = api
-      .updateConnectionStrings(state, testResult)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
   });
 });

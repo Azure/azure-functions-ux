@@ -24,8 +24,8 @@ import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
 import { PortalContext } from '../../../PortalContext';
 import { translate, InjectedTranslateProps } from 'react-i18next';
-import { AxiosError } from 'axios';
 import LoadingComponent from '../../../components/loading/loading-component';
+import { AxiosError } from 'axios';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {

@@ -23,7 +23,7 @@ export function fetchPermissions(resources: PermissionCheckObj[]) {
       const resourceKey = `${resource.resourceId}|${resource.action}`;
       if (getState().rbac.permissionCalled.indexOf(resourceKey) === -1) {
         dispatch(addPermissionCalled(resourceKey));
-        const permissionCheck = await rbacHelper.hasPermission(resource.resourceId, [resource.action!]);
+        const permissionCheck = await rbacHelper.hasPermission(getState(), resource.resourceId, [resource.action!]);
         dispatch(addPermission({ permissionKey: resourceKey, value: permissionCheck }));
         dispatch(removePermissionsCalled(resourceKey));
       }

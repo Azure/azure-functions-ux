@@ -65,7 +65,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow', baseOnly = fal
         '@slots'
       )
       .visit(
-        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/settings?trustedAuthority=test',
+        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/settings?trustedAuthority=test&appsvc.skipbatching=true',
         {
           onBeforeLoad(win) {
             setupWindow(win);
@@ -112,7 +112,7 @@ export function startVisit(os = 'windows', writeAccess = 'allow', baseOnly = fal
         cy.spy(win, 'postMessage').as('spyPostMessage');
       })
       .visit(
-        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/settings?trustedAuthority=test',
+        '/feature/subscriptions/resoindfos/resourcegroups/roinwerw/providers/microsoft.web/sites/soidfnosnif/settings?trustedAuthority=test&appsvc.skipbatching=true',
         {
           onBeforeLoad(win) {
             setupWindow(win);

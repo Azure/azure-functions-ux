@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -23,9 +22,11 @@ import {
   APP_SETTINGS_UPDATE_FAILURE,
   APP_SETTINGS_UPDATE_SUCCESS,
 } from './actionTypes';
-import appSettingsApi from './appSettingsApiService';
+import api from './appSettingsApiService';
 import { fetchAppSettings, updateAppSettings } from './epics';
 import reducer, { AppSettings } from './reducer';
+jest.mock('../../../ArmHelper');
+import MakeArmCall from '../../../ArmHelper';
 
 const testAppSettingsObj = {
   id: '',
@@ -213,8 +214,6 @@ describe('App Settings Store Reducer', () => {
 
 describe('App Settings Service', () => {
   const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
   let state;
   beforeEach(() => {
     const updateResourceIdAction = updateResourceId('resourceid');
@@ -226,60 +225,25 @@ describe('App Settings Service', () => {
     state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
   });
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info', async () => {
-    const fetcher = appSettingsApi.fetchAppSettings(state);
-    expect(mockAxios).toHaveBeenCalledWith({
+  it('fetch Api calls api with appropriate info', async () => {
+    api.fetchAppSettings(state);
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/appsettings/list',
+      commandName: 'fetchAppSettings',
       method: 'POST',
-      url: 'testEndpointresourceid/config/appsettings/list?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
     });
-    mockAxios.mockResponse({ data: testAppSettingsObj });
-    const result = await fetcher;
-    expect(result.properties.testkey).toBe('testvalue');
   });
 
-  it('Update Api calls api with appropriate info', async () => {
-    const fetcher = appSettingsApi.updateAppSettings(state, testAppSettingsObj);
-    expect(mockAxios).toHaveBeenCalledWith({
+  it('update Api calls api with appropriate info', async () => {
+    api.updateAppSettings(state, testAppSettingsObj);
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: 'resourceid/config/appsettings',
+      commandName: 'updateAppSettings',
       method: 'PUT',
-      url: 'testEndpointresourceid/config/appsettings?api-version=2018-02-01',
-      data: testAppSettingsObj,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+      body: testAppSettingsObj,
     });
-    mockAxios.mockResponse({ data: testAppSettingsObj });
-    const result = await fetcher;
-    expect(result.properties.testkey).toBe('testvalue');
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const fetcher = appSettingsApi
-      .fetchAppSettings(state)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
-  });
-
-  it('Update Api should throw on error', async () => {
-    const fetcher = appSettingsApi
-      .updateAppSettings(state, testAppSettingsObj)
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
   });
 });
