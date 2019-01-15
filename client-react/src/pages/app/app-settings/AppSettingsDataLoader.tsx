@@ -18,13 +18,14 @@ import { SlotConfigNamesState } from '../../../modules/site/config/slotConfigNam
 import { fetchWebConfigRequest, updateWebConfigRequest } from '../../../modules/site/config/web/actions';
 import { ConfigStateType } from '../../../modules/site/config/web/reducer';
 import { SiteState } from '../../../modules/site/reducer';
-import { RootAction, RootState, ApiError } from '../../../modules/types';
+import { RootAction, RootState } from '../../../modules/types';
 import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
 import { PortalContext } from '../../../PortalContext';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import LoadingComponent from '../../../components/loading/loading-component';
+import { AxiosError } from 'axios';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {
@@ -150,11 +151,11 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
       }
 
       if (!loadingOrUpdating && notificationId) {
-        const err = updateError(props) as ApiError | Error;
+        const err = updateError(props) as AxiosError | Error;
         if (err) {
           let eMessage = '';
-          if ('data' in err) {
-            eMessage = err.data && err.data && err.data.Message;
+          if ('response' in err) {
+            eMessage = err.response && err.response.data && err.response.data.Message;
           } else {
             eMessage = err.message;
           }

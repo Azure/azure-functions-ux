@@ -10,6 +10,7 @@ import { SlotConfigAction } from './site/config/slotConfigNames/reducer';
 import { ConfigAction } from './site/config/web/reducer';
 import { SiteAction } from './site/reducer';
 import { SlotsAction } from './site/slots/reducer';
+import { AxiosError } from 'axios';
 
 export type RootState = StateType<typeof rootReducer>;
 export type RootAction =
@@ -24,12 +25,11 @@ export type RootAction =
 
 export type Services = typeof services;
 
-export type ApiError = { data: any; statusCode: string };
 export interface ApiStateMetadata {
   fetchError: boolean;
-  fetchErrorObject: ApiError | Error;
+  fetchErrorObject: AxiosError | Error;
   updateError: boolean;
-  updateErrorObject: ApiError | Error;
+  updateErrorObject: AxiosError | Error;
   loading: boolean;
   updating: boolean;
 }

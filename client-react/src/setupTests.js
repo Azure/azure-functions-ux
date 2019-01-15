@@ -1,7 +1,6 @@
 import Enzyme from 'enzyme';
 import ReactSixteenAdapter from 'enzyme-adapter-react-16';
 import 'jest-date-mock';
-global.fetch = require('jest-fetch-mock');
 Enzyme.configure({
   adapter: new ReactSixteenAdapter(),
 });
