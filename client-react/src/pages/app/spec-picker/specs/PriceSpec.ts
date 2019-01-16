@@ -81,14 +81,14 @@ export abstract class PriceSpec {
   constructor(t: (string) => string) {
     const portalCommunicator = new PortalCommunicator();
     this._billingService = new BillingService(portalCommunicator);
-    this._logService = new LogService(portalCommunicator);
+    this._logService = new LogService();
     this._t = t;
   }
 
   public async initialize(input: PriceSpecInput): Promise<void> {
-    this._logService.debug(LogCategories.specPicker, `Call runInitialize for ${this.skuCode}`);
+    LogService.debug(LogCategories.specPicker, `Call runInitialize for ${this.skuCode}`);
     await this.runInitialization(input);
-    this._logService.debug(LogCategories.specPicker, `Completed runInitialize for ${this.skuCode}`);
+    LogService.debug(LogCategories.specPicker, `Completed runInitialize for ${this.skuCode}`);
   }
 
   public abstract async runInitialization(input: PriceSpecInput): Promise<any>;

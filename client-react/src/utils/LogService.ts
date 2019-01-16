@@ -1,135 +1,119 @@
-import Url from './url';
-import { LogEntryLevel } from '../models/portal-models';
-import PortalCommunicator from '../portal-communicator';
+import ReactAI from 'react-appinsights';
 
-export type LogLevelString = 'error' | 'warning' | 'debug' | 'verbose';
-
+const appInsights = ReactAI.ai();
 export default class LogService {
-  private _logLevel: number;
-  private _categories: string[];
-  private _portalCommunicator: PortalCommunicator;
+  private static _logToConsole = process.env.NODE_ENV !== 'production';
 
-  constructor(portalCommunicator: PortalCommunicator) {
-    this._portalCommunicator = portalCommunicator;
-    const levelStr = Url.getParameterByName(null, 'appsvc.log.level');
-    this._logLevel = this._getLogLevel(levelStr);
-    this._categories = Url.getParameterArrayByName(null, 'appsvc.log.category');
-  }
-
-  public error(category: string, data: any, id?: string) {
+  public static error(category: string, id: string, data: any) {
     this._validateCategory(category);
     this._validateId(id);
     this._validateData(data);
 
     const errorId = `/errors/${category}/${id}`;
 
-    // Always log errors to Ibiza logs
-    this._portalCommunicator.logMessage(LogEntryLevel.Error, errorId, data);
-
-    if (this._shouldLog(category, LogEntryLevel.Error)) {
+    if (appInsights) {
+      appInsights.trackEvent(errorId, data);
+    }
+    if (this._logToConsole) {
       console.error(`[${category}] - ${data}`);
     }
   }
 
-  public warn(category: string, data: any, id?: string) {
+  public static warn(category: string, id: string, data: any) {
     this._validateCategory(category);
     this._validateId(id);
     this._validateData(data);
 
     const warningId = `/warnings/${category}/${id}`;
 
-    // Always log warnings to Ibiza logs
-    this._portalCommunicator.logMessage(LogEntryLevel.Warning, warningId, data);
+    if (appInsights) {
+      appInsights.trackEvent(warningId, data);
+    }
+    if (this._logToConsole) {
+      console.warn(`[${category}] - ${data}`);
+    }
+  }
 
-    if (this._shouldLog(category, LogEntryLevel.Warning)) {
+  public static trackEvent(category: string, id: string, data: any) {
+    this._validateCategory(category);
+    this._validateId(id);
+    this._validateData(data);
+
+    const warningId = `/event/${category}/${id}`;
+
+    if (appInsights) {
+      appInsights.trackEvent(warningId, data);
+    }
+    if (this._logToConsole) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
     }
   }
 
-  public debug(category: string, data: any) {
+  public static startTrackPage(pageName: string) {
+    if (appInsights) {
+      appInsights.startTrackPage(pageName);
+    }
+    if (this._logToConsole) {
+      console.log(`${this._getTime()} [Start Track Page] - ${pageName}`);
+    }
+  }
+
+  public static stopTrackPage(pageName: string, data: any) {
+    if (appInsights) {
+      appInsights.stopTrackPage(pageName, window.location.href, data);
+    }
+
+    if (this._logToConsole) {
+      console.log(`${this._getTime()} [Stop Track Page] - ${pageName}`);
+    }
+  }
+
+  public static startTrackEvent(eventName: string) {
+    if (appInsights) {
+      appInsights.startTrackPage(eventName);
+    }
+    if (this._logToConsole) {
+      console.log(`${this._getTime()} [Start Track Event] - ${eventName}`);
+    }
+  }
+
+  public static stopTrackEvent(eventName: string, data: any) {
+    this._validateData(data);
+    if (appInsights) {
+      appInsights.stopTrackEvent(eventName, data);
+    }
+    if (this._logToConsole) {
+      console.log(`${this._getTime()} [Stop Track Event] - ${eventName}`);
+    }
+  }
+
+  public static debug(category: string, data: any) {
     this._validateCategory(category);
     this._validateData(data);
 
-    if (this._shouldLog(category, LogEntryLevel.Debug)) {
-      console.log(`${this._getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
+    if (this._logToConsole) {
+      console.debug(`${this._getTime()} %c[${category}] - ${data}`);
     }
   }
 
-  public verbose(category: string, data: any) {
-    this._validateCategory(category);
-    this._validateData(data);
-
-    if (this._shouldLog(category, LogEntryLevel.Verbose)) {
-      console.log(`${this._getTime()} [${category}] - ${data}`);
-    }
-  }
-
-  public log(level: LogEntryLevel, category: string, data: any, id?: string) {
-    if (level === LogEntryLevel.Error) {
-      this.error(category, data, id);
-    } else if (level === LogEntryLevel.Warning) {
-      this.warn(category, data, id);
-    } else if (level === LogEntryLevel.Debug) {
-      this.debug(category, data);
-    } else {
-      this.verbose(category, data);
-    }
-  }
-
-  private _getLogLevel(levelStr: string | null) {
-    switch (levelStr) {
-      case 'custom':
-        return LogEntryLevel.Custom;
-      case 'debug':
-        return LogEntryLevel.Debug;
-      case 'verbose':
-        return LogEntryLevel.Verbose;
-      case 'warning':
-        return LogEntryLevel.Warning;
-      case 'error':
-        return LogEntryLevel.Error;
-      default:
-        return LogEntryLevel.Warning;
-    }
-  }
-  private _shouldLog(category: string, logLevel: number) {
-    if (logLevel <= this._logLevel) {
-      if (logLevel === LogEntryLevel.Error || logLevel === LogEntryLevel.Warning) {
-        return true;
-      }
-
-      if (this._categories.length > 0 && this._categories.find(c => c.toLowerCase() === category.toLowerCase())) {
-        return true;
-      }
-
-      if (this._categories.length === 0) {
-        return true;
-      }
-
-      return false;
-    }
-
-    return false;
-  }
-
-  private _getTime() {
+  private static _getTime() {
     const now = new Date();
     return now.toISOString();
   }
 
-  private _validateCategory(category?: string) {
+  private static _validateCategory(category?: string) {
     if (!category) {
       throw Error('You must provide a category');
     }
   }
 
-  private _validateId(id?: string) {
+  private static _validateId(id?: string) {
     if (!id) {
       throw Error('You must provide an id');
     }
   }
 
-  private _validateData(data?: any) {
+  private static _validateData(data?: any) {
     if (!data) {
       throw Error('You must provide data');
     }

@@ -35,7 +35,8 @@
     "rxjs": "^6.3.3",
     "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.6"
+    "yup": "^0.26.6",
+    "react-appinsights": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -68,6 +69,7 @@
     "@types/recompose": "^0.26.3",
     "@types/webpack-env": "^1.13.6",
     "@types/yup": "^0.24.7",
+    "@types/applicationinsights-js": "^1.0.9",
     "axios-mock-adapter": "^1.16.0",
     "core-js": "^2.6.1",
     "enzyme": "^3.7.0",
@@ -80,8 +82,7 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "react-appinsights": "^2.0.1"
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "workspaces": {
     "nohoist": [
