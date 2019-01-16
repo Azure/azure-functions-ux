@@ -12,7 +12,11 @@ import lightTheme from './theme/light';
 import { loadTheme } from '@uifabric/styling';
 import './pollyfills';
 import 'react-app-polyfill/ie11';
+import ReactAI from 'react-appinsights';
 
+if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {
+  ReactAI.init({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
+}
 initializeIcons();
 loadTheme(lightTheme); // make sure we load a custom theme before anything else, custom theme has custom semantic colors
 const portalCommunicator = new PortalCommunicator(i18n);

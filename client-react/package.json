@@ -80,7 +80,8 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.0.3",
+    "react-appinsights": "^2.0.1"
   },
   "workspaces": {
     "nohoist": [
