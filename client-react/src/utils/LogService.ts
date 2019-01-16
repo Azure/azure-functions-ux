@@ -1,6 +1,5 @@
-import ReactAI from 'react-appinsights';
+import { AppInsights as appInsights } from 'applicationinsights-js';
 
-const appInsights = ReactAI.ai();
 export default class LogService {
   private static _logToConsole = process.env.NODE_ENV !== 'production';
 

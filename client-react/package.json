@@ -36,7 +36,7 @@
     "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
     "yup": "^0.26.6",
-    "react-appinsights": "^2.0.1"
+    "applicationinsights-js": "^1.0.20"
   },
   "scripts": {
     "start": "react-scripts start",

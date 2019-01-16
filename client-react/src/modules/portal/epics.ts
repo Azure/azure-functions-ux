@@ -4,7 +4,6 @@ import { isActionOf } from 'typesafe-actions';
 
 import { getStartupInfoAction, updateToken } from './actions';
 import { updateEndpoint, updateAuthToken } from '../ArmHelper';
-import ReactAI from 'react-appinsights';
 
 export const startupInfoSideEffects: Epic = (action$, store) =>
   action$.pipe(
@@ -12,7 +11,6 @@ export const startupInfoSideEffects: Epic = (action$, store) =>
     tap(action => {
       updateEndpoint(action.startupInfo.armEndpoint);
       updateAuthToken(action.startupInfo.token);
-      ReactAI.setAppContext({ ibizaSessionId: action.startupInfo.sessionId });
     }),
     ignoreElements()
   );

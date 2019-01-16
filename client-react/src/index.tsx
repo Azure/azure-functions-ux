@@ -12,15 +12,15 @@ import lightTheme from './theme/light';
 import { loadTheme } from '@uifabric/styling';
 import './pollyfills';
 import 'react-app-polyfill/ie11';
-import ReactAI from 'react-appinsights';
 import LogService from './utils/LogService';
+import { AppInsights } from 'applicationinsights-js';
 
 if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {
-  ReactAI.init({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
+  AppInsights.downloadAndSetup!({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
 }
 initializeIcons();
 loadTheme(lightTheme); // make sure we load a custom theme before anything else, custom theme has custom semantic colors
-LogService.startTrackPage('shell');
+
 LogService.startTrackPage('shell');
 const portalCommunicator = new PortalCommunicator(i18n);
 portalCommunicator.initializeIframe();
