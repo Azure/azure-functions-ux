@@ -2066,13 +2066,6 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node-fetch@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.4.tgz#093d1beae11541aef25999d70aa09286fd025b1a"
-  integrity sha512-tR1ekaXUGpmzOcDXWU9BW73YfA2/VW1DF1FH+wlJ82BbCSnWTbdX+JkqWQXWKIGsFPnPsYadbXfNgz28g+ccWg==
-  dependencies:
-    "@types/node" "*"
-
 "@types/node@*", "@types/node@^10.11.7", "@types/node@^10.12.12":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
@@ -2327,10 +2320,31 @@
     "@uifabric/utilities" ">=6.27.0 <7.0.0"
     tslib "^1.7.1"
 
+"@uifabric/styling@>=6.40.0 <7.0.0":
+  version "6.40.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/styling/-/styling-6.40.0.tgz#34a3d6e8f914b2387b5715bac05c99ae89b0ff16"
+  integrity sha512-Itrs6lIYDMpQG/hAgE4V1clWLmHqFA01fQaAXrgXR3WguVRJVryyP5dWVTSitV889dZePkM9gawyCYX879VD8A==
+  dependencies:
+    "@microsoft/load-themed-styles" "^1.7.13"
+    "@uifabric/merge-styles" ">=6.15.0 <7.0.0"
+    "@uifabric/set-version" ">=1.1.3 <2.0.0"
+    "@uifabric/utilities" ">=6.27.2 <7.0.0"
+    tslib "^1.7.1"
+
 "@uifabric/utilities@>=6.27.0 <7.0.0", "@uifabric/utilities@>=6.27.1 <7.0.0":
   version "6.27.1"
   resolved "https://registry.yarnpkg.com/@uifabric/utilities/-/utilities-6.27.1.tgz#60535989fdd04291141d7709ba569a032421244d"
   integrity sha512-kNHmByH+RDPZ2Pj1Fua4/sOGYEZAIVwzJpRZbosAipUqgPWXkA+hIKm6sb0aPaphz4koDtlom0Vi7uUUrDnPGw==
+  dependencies:
+    "@uifabric/merge-styles" ">=6.15.0 <7.0.0"
+    "@uifabric/set-version" ">=1.1.3 <2.0.0"
+    prop-types "^15.5.10"
+    tslib "^1.7.1"
+
+"@uifabric/utilities@>=6.27.2 <7.0.0", "@uifabric/utilities@>=6.28.0 <7.0.0":
+  version "6.28.0"
+  resolved "https://registry.yarnpkg.com/@uifabric/utilities/-/utilities-6.28.0.tgz#89fcd9b9119b7ed40da20e2e1d77bb4fc2b4ecc4"
+  integrity sha512-HHC4J7L9UQcV5rNe0YlmW8mCswLTTPvO/SdfCU4alMrkkmrOAB/Z1OSryvIcXnLLPlqmnyoW2PwXyQrO5nBl0Q==
   dependencies:
     "@uifabric/merge-styles" ">=6.15.0 <7.0.0"
     "@uifabric/set-version" ">=1.1.3 <2.0.0"
@@ -5482,14 +5496,6 @@ create-react-context@^0.2.1, create-react-context@^0.2.2:
   dependencies:
     fbjs "^0.8.0"
     gud "^1.0.0"
-
-cross-fetch@^2.2.2:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.2.3.tgz#e8a0b3c54598136e037f8650f8e823ccdfac198e"
-  integrity sha512-PrWWNH3yL2NYIb/7WF/5vFG3DCQiXDOVf8k3ijatbrtnwNuhMWLC7YF7uqf53tbTFDzHIUD8oITw4Bxt8ST3Nw==
-  dependencies:
-    node-fetch "2.1.2"
-    whatwg-fetch "2.0.4"
 
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
@@ -10411,14 +10417,6 @@ jest-environment-node@^23.4.0:
     jest-mock "^23.2.0"
     jest-util "^23.4.0"
 
-jest-fetch-mock@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/jest-fetch-mock/-/jest-fetch-mock-2.1.0.tgz#49c16451b82f311158ec897e467d704e0cb118f9"
-  integrity sha512-jrTNlxDsZZCq6tMhdyH7gIbt4iDUHRr6C4Jp+kXItLaaaladOm9/wJjIwU3tCAEohbuW/7/naOSfg2A8H6/35g==
-  dependencies:
-    cross-fetch "^2.2.2"
-    promise-polyfill "^7.1.1"
-
 jest-get-type@^22.1.0:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-22.4.3.tgz#e3a8504d8479342dd4420236b322869f18900ce4"
@@ -12491,11 +12489,6 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
-node-fetch@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
-  integrity sha1-q4hOjn5X44qUR1POxwb3iNF2i7U=
-
 node-fetch@^1.0.1:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
@@ -12943,7 +12936,7 @@ obuf@^1.0.0, obuf@^1.1.1, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-"office-ui-fabric-react@>=6.110.1 <7.0.0", office-ui-fabric-react@^6.119.0:
+"office-ui-fabric-react@>=6.110.1 <7.0.0":
   version "6.119.0"
   resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-6.119.0.tgz#227402c42ec32be81585ed5a941140fe3d581ac7"
   integrity sha512-q9PLARkGm5cyS+MqHrKAyBN5XVrn1rdLLHx8D7TKzWpQ8MeWhf1sOu71RrmNo/PV75hWe3OpqM0/1T25Ls2T9A==
@@ -12954,6 +12947,20 @@ obuf@^1.0.0, obuf@^1.1.1, obuf@^1.1.2:
     "@uifabric/set-version" ">=1.1.3 <2.0.0"
     "@uifabric/styling" ">=6.39.0 <7.0.0"
     "@uifabric/utilities" ">=6.27.1 <7.0.0"
+    prop-types "^15.5.10"
+    tslib "^1.7.1"
+
+office-ui-fabric-react@^6.124.2:
+  version "6.124.2"
+  resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-6.124.2.tgz#d8f5193372e9079400cf43a62d3eda066a16af71"
+  integrity sha512-WHvnjYPvCOPXSDzCmtNXjOv/dPJpp6rXVXIKYZDa1jdXT0nCtUrAcKzCcGbkF+JQYRwrCcEoEAUKlyrMUFWQLQ==
+  dependencies:
+    "@microsoft/load-themed-styles" "^1.7.13"
+    "@uifabric/icons" ">=6.3.0 <7.0.0"
+    "@uifabric/merge-styles" ">=6.15.0 <7.0.0"
+    "@uifabric/set-version" ">=1.1.3 <2.0.0"
+    "@uifabric/styling" ">=6.40.0 <7.0.0"
+    "@uifabric/utilities" ">=6.28.0 <7.0.0"
     prop-types "^15.5.10"
     tslib "^1.7.1"
 
@@ -14322,11 +14329,6 @@ promise-polyfill@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-6.1.0.tgz#dfa96943ea9c121fca4de9b5868cb39d3472e057"
   integrity sha1-36lpQ+qcEh/KTem1hoyznTRy4Fc=
-
-promise-polyfill@^7.1.1:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
-  integrity sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==
 
 promise.prototype.finally@^3.1.0:
   version "3.1.0"
@@ -18740,11 +18742,6 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   integrity sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==
   dependencies:
     iconv-lite "0.4.24"
-
-whatwg-fetch@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
-  integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
 whatwg-fetch@3.0.0, whatwg-fetch@>=0.10.0:
   version "3.0.0"

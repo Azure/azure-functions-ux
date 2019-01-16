@@ -45,7 +45,7 @@ export class ApplicationSettings extends React.Component<
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          {t('addEditApplicationSetting')}
+          {t('newApplicationSetting')}
         </ActionButton>
         <ActionButton
           id="app-settings-application-settings-show-hide"

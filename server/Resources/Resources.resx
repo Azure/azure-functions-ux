@@ -4374,7 +4374,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>All allowed</value>
   </data>
   <data name="ftpsOnly" xml:space="preserve">
-    <value>Ftps only</value>
+    <value>FTPS only</value>
   </data>
   <data name="alwaysOn" xml:space="preserve">
     <value>Always on</value>
@@ -4405,6 +4405,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Slot setting</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Add/Edit connection string</value>

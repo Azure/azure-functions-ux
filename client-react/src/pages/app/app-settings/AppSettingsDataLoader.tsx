@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { fetchStacksRequest, StacksOS } from '../../../modules/service/available-stacks/actions';
-import { fetchPermissions, PermissionCheckObj } from '../../../modules/service/rbac/thunks';
+import { fetchPermissions, PermissionCheckObj, fetchReadonlyLocks, ReadonlyCheckObj } from '../../../modules/service/rbac/thunks';
 import { fetchSiteRequest, updateSiteRequest } from '../../../modules/site/actions';
 import { fetchAppSettingsRequest } from '../../../modules/site/config/appsettings/actions';
 import { AppSettingsState } from '../../../modules/site/config/appsettings/reducer';
@@ -43,6 +43,7 @@ export interface AppSettingsDataLoaderProps {
   fetchSlotConfigNames: () => void;
   fetchConnectionStrings: () => void;
   fetchPermissions: (resources: PermissionCheckObj[]) => void;
+  fetchReadonly: (resources: ReadonlyCheckObj[]) => void;
   updateSite: (site: ArmObj<Site>) => void;
   updateConfig: (config: ArmObj<SiteConfig>) => void;
   updateSlotConfig: (slotNames: ArmObj<SlotConfigNames>) => void;
@@ -56,11 +57,22 @@ export interface AppSettingsDataLoaderProps {
   siteWritePermission: boolean;
   productionWritePermission: boolean;
   permissionsWaiting: string[];
+  readonlyWaiting: string[];
 }
 
 // `state` parameter needs a type annotation to type-check the correct shape of a state object but also it'll be used by "type inference" to infer the type of returned props
 const isLoading = (props: AppSettingsDataLoaderProps) => {
-  const { site, config, appSettings, metadata, connectionStrings, slotConfigNames, permissionsWaiting, resourceId } = props;
+  const {
+    site,
+    config,
+    appSettings,
+    metadata,
+    connectionStrings,
+    slotConfigNames,
+    permissionsWaiting,
+    resourceId,
+    readonlyWaiting,
+  } = props;
 
   return (
     site.metadata.loading ||
@@ -69,7 +81,8 @@ const isLoading = (props: AppSettingsDataLoaderProps) => {
     metadata.metadata.loading ||
     connectionStrings.metadata.loading ||
     slotConfigNames.metadata.loading ||
-    permissionsWaiting.includes(resourceId)
+    permissionsWaiting.includes(resourceId) ||
+    readonlyWaiting.includes(resourceId)
   );
 };
 
@@ -112,6 +125,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     updateSite,
     updateSlotConfig,
     productionWritePermission,
+    fetchReadonly,
     t,
   } = props;
 
@@ -176,10 +190,12 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     fetchMetadata();
     fetchConnectionStrings();
     fetchAppSettings();
-    fetchPermissions([{ resourceId: resourceId, action: './write' }]);
+    fetchPermissions([{ resourceId, action: './write' }]);
+    fetchReadonly([{ resourceId }]);
     if (resourceId.includes('/slots/')) {
       const productionId = getProductionId(resourceId);
       fetchPermissions([{ resourceId: productionId, action: './write' }]);
+      fetchReadonly([{ resourceId: productionId }]);
     }
     setInitialLoading(true);
   }, []);
@@ -194,10 +210,18 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
 const mapStateToProps = (state: RootState) => {
   const siteWriteKey = `${state.site.resourceId}|./write`;
   let parentWriteKey = '';
+  let parentResourceId = '';
   if (state.site.resourceId.includes('/slots/')) {
-    parentWriteKey = `${getProductionId(state.site.resourceId)}|./write`;
+    parentResourceId = getProductionId(state.site.resourceId);
+    parentWriteKey = `${parentResourceId}|./write`;
   }
+  const siteWritePermission = state.rbac.permissions[siteWriteKey] && !state.rbac.readonlyLocks[state.site.resourceId];
+  const productionWritePermission = parentWriteKey
+    ? state.rbac.permissions[parentWriteKey] && !state.rbac.readonlyLocks[parentResourceId]
+    : state.rbac.permissions[siteWriteKey] && !state.rbac.readonlyLocks[state.site.resourceId];
   return {
+    siteWritePermission,
+    productionWritePermission,
     resourceId: state.site.resourceId,
     site: state.site,
     config: state.webConfig,
@@ -205,9 +229,8 @@ const mapStateToProps = (state: RootState) => {
     connectionStrings: state.connectionStrings,
     metadata: state.metadata,
     slotConfigNames: state.slotConfigNames,
-    siteWritePermission: state.rbac.permissions[siteWriteKey],
-    productionWritePermission: parentWriteKey ? state.rbac.permissions[parentWriteKey] : state.rbac.permissions[siteWriteKey],
     permissionsWaiting: state.rbac.permissionCalled,
+    readonlyWaiting: state.rbac.readonlyLockCalled,
   };
 };
 
@@ -225,6 +248,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
       updateSite: updateSiteRequest,
       updateConfig: updateWebConfigRequest,
       updateSlotConfig: updateSlotConfigRequest,
+      fetchReadonly: fetchReadonlyLocks,
     },
     dispatch
   );

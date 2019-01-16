@@ -1,6 +1,7 @@
 import { FontSizes, FontWeights, HighContrastSelector, IStyle, IPalette, getGlobalClassNames } from '@uifabric/styling';
 import { IsFocusVisibleClassName } from '@uifabric/utilities';
 import { IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles } from 'office-ui-fabric-react';
+import { ThemeExtended } from '../../../SemanticColorsExtended';
 
 const GlobalClassNames = {
   root: 'ms-ChoiceField',
@@ -88,7 +89,7 @@ function getImageWrapperStyle(isSelectedImageWrapper: boolean, className?: strin
 
 export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IChoiceGroupOptionStyles => {
   const { theme, hasIcon, hasImage, checked, disabled, imageIsLarge, focused } = props;
-  const { palette, semanticColors } = theme;
+  const { palette, semanticColors } = theme as ThemeExtended;
 
   const classNames = getGlobalClassNames(GlobalClassNames, theme);
 
@@ -134,7 +135,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
       borderRadius: '50%',
     },
     disabled && {
-      backgroundColor: checked ? semanticColors.bodyBackground : semanticColors.disabledText,
+      backgroundColor: semanticColors.disabledControlBackground,
       borderColor: semanticColors.disabledText,
       selectors: {
         [HighContrastSelector]: {
