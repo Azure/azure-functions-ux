@@ -31,9 +31,9 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
   public registryDropdownItems: DropDownElement<string>[];
   public registryItems: ACRRegistry[];
   public repositoryDropdownItems: DropDownElement<string>[];
-  public repositoryItems: string[];
+  public repositoryItems: string[] = [];
   public tagDropdownItems: DropDownElement<string>[];
-  public tagItems: string[];
+  public tagItems: string[] = [];
   public containerImageSourceInfo: ContainerImageSourceData;
   public selectedRegistry: string;
   public selectedRepository: string;
@@ -173,6 +173,10 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
               value: item,
             }));
             this.loadingRepo = false;
+
+            if (this.selectedRepository) {
+              this._loadTags();
+            }
           }
         } else {
           this.loadingRepo = false;
