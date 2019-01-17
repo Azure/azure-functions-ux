@@ -15,8 +15,14 @@
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
   "dependencies": {
-    "@angular/animations": "^5.0.0",
+    "@angular/cli": "^1.7.4",
+    "@angular/animations": "^5.2.11",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",

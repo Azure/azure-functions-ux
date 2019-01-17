@@ -4,10 +4,9 @@ import { AppKind } from '../../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
 import { style } from 'typestyle';
-import { store } from '../../../../../store';
-import axios from 'axios';
 import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
+import MakeArmCall from '../../../../../modules/ArmHelper';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   constructor(t: (string) => string) {
@@ -84,18 +83,12 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
       ) {
         this.state = 'hidden';
       } else {
-        const armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
-        const armToken = store.getState().portalService.startupInfo!.token;
-        const hostingEnvironmentFetch = await axios.get<{ value: HttpResult<ArmObj<HostingEnvironment>> }>(
-          `${armEndpoint}${input.plan.properties.hostingEnvironmentProfile.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${armToken}`,
-            },
-          }
-        );
+        const hostingEnvironmentFetch = await MakeArmCall<{ value: HttpResult<ArmObj<HostingEnvironment>> }>({
+          resourceId: input.plan.properties.hostingEnvironmentProfile.id,
+          commandName: 'IsolatedPlanPriceSpec',
+        });
 
-        const result = hostingEnvironmentFetch.data;
+        const result = hostingEnvironmentFetch;
 
         // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
         // but we'll let them see the isolated card anyway.  The plan update will probably fail in

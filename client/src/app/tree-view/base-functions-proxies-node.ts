@@ -1,6 +1,6 @@
 import { PortalResources } from './../shared/models/portal-resources';
 import { FunctionAppContext } from './../shared/function-app-context';
-import { Site } from './../shared/models/arm/site';
+import { Site, SiteAvailabilitySates } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { LogCategories } from './../shared/models/constants';
@@ -18,6 +18,7 @@ interface ErrorTitles {
   nonReachableTitle: string;
   readOnlyTitle: string;
   stoppedTitle: string;
+  limitedTitle: string;
 }
 
 interface WorkingTitles {
@@ -55,7 +56,10 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
       .getArm(this._context.site.id)
       .map(i => i.json() as ArmObj<Site>)
       .concatMap(site => {
-        if (site.properties.state === 'Running') {
+        if (site.properties.availabilityState !== SiteAvailabilitySates.Normal) {
+          this.disabledReason = this.sideNav.translateService.instant(PortalResources.limitedMode);
+          return this._updateTreeForNonUsableState(errorTitles.limitedTitle);
+        } else if (site.properties.state === 'Running') {
           this.isLoading = true;
           return Observable.zip(
             this.sideNav.authZService.hasPermission(this._context.site.id, [AuthzService.writeScope]),
@@ -79,20 +83,16 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
               } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly && r.pingedScmSite) {
                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
               } else if (!r.hasWritePermission) {
-                this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.');
+                this.disabledReason = this.sideNav.translateService.instant(PortalResources.noAccessMode);
                 return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
               } else if (!r.reachable) {
-                this.disabledReason = this.sideNav.translateService.instant(
-                  'Functions running behind an internal load balancer are not accessible outside their VNET. Please make sure you are in the same VNET as the functions to access them.'
-                );
+                this.disabledReason = this.sideNav.translateService.instant(PortalResources.nonReachableMode);
                 return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
               } else if (!r.pingedScmSite) {
                 this.disabledReason = this.sideNav.translateService.instant(PortalResources.scmPingFailedErrorMessage);
                 return this._updateTreeForNonUsableState(errorTitles.nonReachableTitle);
               } else {
-                this.disabledReason = this.sideNav.translateService.instant(
-                  'You have read only access. Functions require write access to view'
-                );
+                this.disabledReason = this.sideNav.translateService.instant(PortalResources.readOnlyMode);
                 return this._updateTreeForNonUsableState(errorTitles.readOnlyTitle);
               }
             })
@@ -106,8 +106,8 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
               }
             );
         } else {
-          this.disabledReason = this.sideNav.translateService.instant('All functions are stopped. Start your app to view your functions.');
-          return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(errorTitles.stoppedTitle));
+          this.disabledReason = this.sideNav.translateService.instant(PortalResources.stoppedMode);
+          return this._updateTreeForNonUsableState(errorTitles.stoppedTitle);
         }
       });
   }

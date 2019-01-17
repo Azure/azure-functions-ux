@@ -14,11 +14,12 @@ import {
   TargetEnvironmentType,
   CodeRepository,
   BuildConfiguration,
+  PythonFrameworkType,
 } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
-import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
@@ -42,7 +43,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
-  private _pricingTier: string;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -53,8 +53,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideBuild = false;
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
+  public isFunctionApp = false;
   public vstsKuduOnly = false;
-  public vsoAccounts: VSOAccount[];
+  public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
     siteService: SiteService,
@@ -76,10 +77,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const [site, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
+        this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
-        this._pricingTier = this.siteArm.properties.sku;
         const siteDesc = new ArmSiteDescriptor(this._resourceId);
         return forkJoin(
           scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
@@ -126,20 +127,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.buildSettings as FormGroup)) || null;
   }
 
-  public get testEnvironmentSettings(): FormGroup {
-    return (this.wizardForm && (this.wizardForm.controls.testEnvironment as FormGroup)) || null;
-  }
-
   public get deploymentSlotSetting(): FormGroup {
     return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
   }
 
-  public deploy(): Observable<any> {
+  public deploy(): Observable<{ status: string; statusMessage: string; result: any }> {
     switch (this.wizardValues.buildProvider) {
       case 'vsts':
         return this._deployVsts();
       default:
-        return this._deployKudu();
+        return this._deployKudu().map(result => ({ status: 'succeeded', statusMessage: null, result }));
     }
   }
 
@@ -182,11 +179,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         .switchMap(() => this._pollVstsCheck(id))
         .map(r => {
           const result = r.json();
-          const ciConfig: string = result.ciConfiguration.result.status;
-          return ciConfig;
+          const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
+          return { ...ciConfig, result: result.ciConfiguration };
         })
         .first(result => {
-          return result !== 'inProgress' && result !== 'queued';
+          return result.status !== 'inProgress' && result.status !== 'queued';
         });
     });
   }
@@ -268,6 +265,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
     if (this.wizardValues.buildSettings.applicationFramework === 'Ruby') {
       buildConfig.rubyFramework = 1;
     }
+    if (this.wizardValues.buildSettings.applicationFramework === 'Python') {
+      buildConfig.pythonExtensionId = this.wizardValues.buildSettings.pythonSettings.version;
+      buildConfig.pythonFramework = this.wizardValues.buildSettings.pythonSettings.framework;
+      if (buildConfig.pythonFramework === PythonFrameworkType.Flask) {
+        buildConfig.flaskProjectName = this.wizardValues.buildSettings.pythonSettings.flaskProjectName;
+      }
+      if (buildConfig.pythonFramework === PythonFrameworkType.Django) {
+        buildConfig.djangoSettingsModule = this.wizardValues.buildSettings.pythonSettings.djangoSettingsModule;
+      }
+    }
     return buildConfig;
   }
 
@@ -336,9 +343,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   private get _deploymentTargets(): DeploymentTarget[] {
     const deploymentTargets = [];
-    if (this.wizardValues.testEnvironment.enabled) {
-      deploymentTargets.push(this._loadTestTarget);
-    }
     deploymentTargets.push(this._primaryTarget);
     return deploymentTargets;
   }
@@ -374,41 +378,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return targetObject;
   }
 
-  private get _loadTestTarget(): AzureAppServiceDeploymentTarget {
-    const tid = parseToken(this._token).tid;
-    const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
-    const newSiteDescriptor = new ArmSiteDescriptor(this.wizardValues.testEnvironment.webAppId);
-
-    const appServicePlanDescriptor = new ArmPlanDescriptor(this.wizardValues.testEnvironment.appServicePlanId);
-    const targetObject = {
-      provider: DeploymentTargetProvider.Azure,
-      type: this.isLinuxApp ? AzureResourceType.LinuxAppService : AzureResourceType.WindowsAppService,
-      environmentType: TargetEnvironmentType.Test,
-      friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
-      subscriptionId: siteDescriptor.subscription,
-      subscriptionName: this.subscriptionName,
-      tenantId: tid,
-      resourceIdentifier: siteDescriptor.site,
-      location: this._location,
-      resourceGroupName: newSiteDescriptor.resourceGroup,
-      authorizationInfo: {
-        scheme: 'Headers',
-        parameters: {
-          Authorization: `Bearer ${this._vstsApiToken}`,
-        },
-      },
-      createOptions: this.wizardValues.testEnvironment.newApp
-        ? {
-            appServicePlanName: appServicePlanDescriptor.name,
-            appServicePricingTier: this._pricingTier,
-            baseAppServiceName: siteDescriptor.site,
-          }
-        : null,
-      slotSwapConfiguration: null,
-    };
-    return targetObject;
-  }
-
   private get _applicationType(): ApplicationType {
     switch (this.wizardValues.buildSettings.applicationFramework) {
       case 'AspNetWap':
@@ -423,6 +392,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return ApplicationType.Python;
       case 'Ruby':
         return ApplicationType.Ruby;
+      case 'ScriptFunction':
+        return ApplicationType.ScriptFunctionApp;
+      case 'PrecompiledFunction':
+        return ApplicationType.DotNetPreCompiledFunctionApp;
       default:
         return ApplicationType.StaticWebapp;
     }

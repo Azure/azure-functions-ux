@@ -27,4 +27,11 @@ export class CommonConstants {
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm
   };
+
+  public static readonly ApiVersions = {
+    websiteApiVersion20180201: '2018-02-01',
+    armBatchApi: '2015-11-01',
+    armLocksApiVersion: '2015-01-01',
+    armRbacApiVersion: '2015-07-01',
+  };
 }

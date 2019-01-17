@@ -47,11 +47,7 @@ root
 
 **master**: (https://functions-staging.azure.com)
 
-> This is connected to staging. After all scenarios are validated on staging we swap by running the following gulp command from the root of the project
-
-```bash
-gulp swap-production-slots
-```
+> This is connected to staging. Staging is swapped to production after being validated
 
 **dev**: (https://functions-next.azure.com) Make Pull Requests against this branch
 
@@ -59,34 +55,17 @@ gulp swap-production-slots
 
 For control and styling samples go to [https://functions.azure.com?appsvc.devguide=true](https://functions.azure.com?appsvc.devguide=true)
 
-### Installing
+### Running in Dev
 
 A step by step series of examples that tell you how to get a development env running
-
-#### Angular Application
-
 from root
 
 ```
 yarn install
-gulp run-dev
-```
-To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true
-#### react application
-
-```
-cd client-react
 yarn start
 ```
 
-#### server only
-
-from root
-
-```
-yarn install
-gulp run-server
-```
+To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true&websitesextension_useReactFrameBlade=true
 
 ## Running the tests
 
@@ -102,33 +81,33 @@ ng test
 ```
 cd client-react
 yarn test
-```w
+```
 
 ### React E2E Tests
 
 single run
-
 ```
+
 cd client-react
 yarn build
 cd ../tests
 yarn test:run
-```
 
+```
 development mode
-
 ```
+
 cd client-react
 yarn start
-```
 
+```
 plus in another terminal
-
 ```
+
 cd tests
 npx cypress open
-```w
 
+```
 ## License
 
 This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details

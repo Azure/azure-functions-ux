@@ -7,12 +7,14 @@ import { ConfigurationOptionType, StorageType } from './byos';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { OsType } from 'app/shared/models/arm/stacks';
 import { StoragePathValidator } from 'app/shared/validators/storagePathValidator';
+import { UniqueStorageNameValidator } from 'app/shared/validators/uniqueStorageNameValidator';
 
 @Injectable()
 export class ByosManager {
   form: FormGroup;
   requiredValidator: RequiredValidator;
   storagePathValidator: StoragePathValidator;
+  uniqueStorageNameValidator: UniqueStorageNameValidator;
   configurationOptions: SelectOption<ConfigurationOptionType>[] = [];
   storageTypes: SelectOption<StorageType>[] = [];
 
@@ -22,9 +24,17 @@ export class ByosManager {
     this._setStorageTypes();
   }
 
-  public initialize(os: OsType.Linux | OsType.Windows) {
+  public initialize(os: OsType.Linux | OsType.Windows, currentStorageNames: string[]) {
     this.storagePathValidator = new StoragePathValidator(this._ts, os);
+    this.uniqueStorageNameValidator = new UniqueStorageNameValidator(this._ts, currentStorageNames);
     this.form = this._fb.group({
+      name: [
+        '',
+        [
+          this.requiredValidator.validate.bind(this.requiredValidator),
+          this.uniqueStorageNameValidator.validate.bind(this.uniqueStorageNameValidator),
+        ],
+      ],
       configurationOption: ['basic', this.requiredValidator.validate.bind(this.requiredValidator)],
       basicForm: this._getByosFormGroup(os),
       advancedForm: this._getByosFormGroup(os),

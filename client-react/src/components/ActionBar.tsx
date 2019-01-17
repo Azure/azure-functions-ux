@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { style } from 'typestyle';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import IState from 'src/modules/types';
 import { compose } from 'recompose';
+import { style } from 'typestyle';
+
+import { RootState } from '../modules/types';
+import { ThemeExtended } from '../theme/SemanticColorsExtended';
 
 interface StatusMessage {
   message: string;
@@ -103,7 +104,7 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
   );
 };
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     theme: state.portalService.theme,
   };

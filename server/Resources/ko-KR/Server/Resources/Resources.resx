@@ -647,7 +647,7 @@
     <value>관리</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>모니터</value>
+    <value>모니터링</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>입력 바인딩 선택</value>
@@ -2144,7 +2144,7 @@
     <value>{{name}} 키를 갱신하시겠습니까?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Azure Functions는 이벤트 기반의 서버를 사용하지 않는 계산 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
+    <value>Azure Functions는 이벤트 기반의 서버리스 계산 환경으로서 개발을 가속화하며, 요청에 따라 크기를 조정하므로 사용한 리소스에 대해서만 비용을 지불합니다.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Azure Functions에 대한 자세한 정보</value>
@@ -2282,7 +2282,7 @@
     <value>사용 계획은 단일 슬롯에 대해서만 허용됩니다. 둘 이상의 슬롯이 필요한 경우 전용 App Service 계획을 사용하세요.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>검색 함수</value>
+    <value>함수 검색</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>새로 만들기</value>
@@ -2924,10 +2924,10 @@
     <value>슬롯을 만들지 못함</value>
   </data>
   <data name="createTestWebAppSuccess" xml:space="preserve">
-    <value>테스트 환경에 대한 새 웹 응용 프로그램을 만듦</value>
+    <value>테스트 환경에 대한 새 웹 애플리케이션을 만듦</value>
   </data>
   <data name="createTestWebAppFail" xml:space="preserve">
-    <value>테스트 환경에 대한 새 웹 응용 프로그램을 만들지 못함</value>
+    <value>테스트 환경에 대한 새 웹 애플리케이션을 만들지 못함</value>
   </data>
   <data name="disconnectCICDVSOSuccess" xml:space="preserve">
     <value>{0}에 대한 지속적인 업데이트 연결을 끊음</value>
@@ -3217,6 +3217,15 @@
   <data name="pricing_autoScale" xml:space="preserve">
     <value>자동 크기 조정</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>규모 확장.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Vm 크기 계산: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>사용할 수 있는 인스턴스가 부족합니다.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>많은 수의 인스턴스로 크기 조정</value>
   </data>
@@ -3224,7 +3233,10 @@
     <value>최대 100개의 인스턴스입니다.  요청 시 더 많이 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>최대 {0}개의 인스턴스까지 가능합니다.  제공 여부는 변동될 수 있습니다.</value>
+    <value>최대 {0}개의 인스턴스까지 가능합니다. 사용 가능 여부에 따라 달라집니다.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>무제한 인스턴스입니다. 사용 가능 여부에 따라 달라집니다.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>고밀도</value>
@@ -3368,7 +3380,7 @@
     <value>프로젝트 선택</value>
   </data>
   <data name="webAppFramework" xml:space="preserve">
-    <value>웹 응용 프로그램 프레임워크</value>
+    <value>웹 애플리케이션 프레임워크</value>
   </data>
   <data name="selectFramework" xml:space="preserve">
     <value>프레임워크 선택</value>
@@ -3536,7 +3548,7 @@
     <value>사용자 자격 증명</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>사용자 자격 증명이 정의되었으므로 액세스할 수 있는 모든 앱에 이 자격 증명을 사용할 수 있습니다. 이 자격 증명을 FTP, 로컬 Git 및 WebDeploy에 사용할 수 있습니다. 사용자 자격 증명을 사용하여 앱에 연결하는 경우, 사용자 이름을 {0}(으)로 입력해야 합니다.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="appCreds" xml:space="preserve">
@@ -3734,6 +3746,9 @@
   <data name="settingupDeploymentFail" xml:space="preserve">
     <value>배포를 설정하지 못함</value>
   </data>
+  <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
+    <value>배포를 설정하지 못함: {0}</value>
+  </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>배포 연결을 끊는 중</value>
   </data>
@@ -3747,7 +3762,7 @@
     <value>배포 연결을 끊으시겠습니까?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>서버리스 커뮤니티 라이브러리(미리 보기)</value>
+    <value>서버리스 커뮤니티 라이브러리</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>원하는 내용을 찾을 수 없나요? Azure 서버리스 커뮤니티 라이브러리를 확인하세요!</value>
@@ -4047,7 +4062,7 @@
     <value>함수 앱 런타임 스택</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하지 전에 런타임 스택을 설정하세요.</value>
+    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>함수 런타임 스택</value>
@@ -4275,10 +4290,10 @@
     <value>가상 응용 프로그램 및 디렉터리</value>
   </data>
   <data name="appSettingsSaveAriaLabel" xml:space="preserve">
-    <value>웹 응용 프로그램의 모든 설정 저장</value>
+    <value>웹 애플리케이션의 모든 설정 저장</value>
   </data>
   <data name="appSettingsDiscardAriaLabel" xml:space="preserve">
-    <value>웹 응용 프로그램 설정의 변경 내용 모두 취소</value>
+    <value>웹 애플리케이션 설정의 변경 내용 모두 취소</value>
   </data>
   <data name="appSettingsCommandBarAriaLabel" xml:space="preserve">
     <value>왼쪽 및 오른쪽 화살표 키를 사용하여 명령 간 이동</value>
@@ -4293,7 +4308,7 @@
     <value>실제 경로</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>형식</value>
+    <value>Type</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>삭제</value>
@@ -4470,13 +4485,13 @@
     <value>Azure Functions for PowerShell - 시작</value>
   </data>
   <data name="addStorageTitle" xml:space="preserve">
-    <value>Add storage (Preview)</value>
+    <value>스토리지 추가(미리 보기)</value>
   </data>
   <data name="addStorageDescription" xml:space="preserve">
-    <value>Provide Azure Storage Blob or File information to be mounted for your App.</value>
+    <value>사용자 앱에 대해 마운트할 Azure Storage Blob 또는 파일 정보를 제공합니다.</value>
   </data>
   <data name="configurationOption" xml:space="preserve">
-    <value>Configuration option</value>
+    <value>구성 옵션</value>
   </data>
   <data name="basic" xml:space="preserve">
     <value>기본</value>
@@ -4494,13 +4509,13 @@
     <value>스토리지 컨테이너</value>
   </data>
   <data name="storageFileShare" xml:space="preserve">
-    <value>Storage file share</value>
+    <value>스토리지 파일 공유</value>
   </data>
   <data name="blob" xml:space="preserve">
     <value>Blob</value>
   </data>
   <data name="files" xml:space="preserve">
-    <value>파일</value>
+    <value>Files</value>
   </data>
   <data name="chooseContainer" xml:space="preserve">
     <value>저장소 컨테이너 선택</value>
@@ -4515,22 +4530,22 @@
     <value>액세스 키</value>
   </data>
   <data name="chooseFileShare" xml:space="preserve">
-    <value>Choose a File Share</value>
+    <value>파일 공유 선택</value>
   </data>
   <data name="storageType" xml:space="preserve">
     <value>스토리지 유형</value>
   </data>
   <data name="invalidWindowsPath" xml:space="preserve">
-    <value>The path format is not valid for Windows.</value>
+    <value>경로 형식이 Windows에 유효하지 않습니다.</value>
   </data>
   <data name="invalidLinuxPath" xml:space="preserve">
-    <value>The path format is not valid for Linux.</value>
+    <value>경로 형식이 Linux에 유효하지 않습니다.</value>
   </data>
   <data name="mountStorage" xml:space="preserve">
-    <value>Mount storage (Preview)</value>
+    <value>스토리지 마운트(미리 보기)</value>
   </data>
   <data name="addStorageLink" xml:space="preserve">
-    <value>Add storage</value>
+    <value>+ 스토리지 추가</value>
   </data>
   <data name="account" xml:space="preserve">
     <value>계정</value>
@@ -4540,5 +4555,74 @@
   </data>
   <data name="path" xml:space="preserve">
     <value>경로</value>
+  </data>
+  <data name="storageKeysHiddenInfoText" xml:space="preserve">
+    <value>아래의 컨트롤을 사용하여 브라우저에서 숨겨진 스토리지 키를 표시하도록 선택할 수 있습니다.</value>
+  </data>
+  <data name="storageAccounts" xml:space="preserve">
+    <value>스토리지 계정</value>
+  </data>
+  <data name="storageAccountName" xml:space="preserve">
+    <value>스토리지 계정 이름</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>확인</value>
+  </data>
+  <data name="invalidShare" xml:space="preserve">
+    <value>잘못된 공유</value>
+  </data>
+  <data name="invalidCredentials" xml:space="preserve">
+    <value>자격 증명이 잘못되었습니다.</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>형식</value>
+  </data>
+  <data name="files" xml:space="preserve">
+    <value>파일</value>
+  </data>
+  <data name="blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="emptyStorageAccounts" xml:space="preserve">
+    <value>(표시할 스토리지 계정 없음)</value>
+  </data>
+  <data name="byos_storageNameExists" xml:space="preserve">
+    <value>해당 이름의 스토리지 설정이 이미 있습니다.</value>
+  </data>
+  <data name="unableToReachBuild" xml:space="preserve">
+    <value>이 웹앱에 연결된 Azure Pipeline에 연결할 수 없습니다. 이는 이 파이프라인이 Azure Dev Ops Portal에서 제거되었음을 의미합니다. 이런 경우, 이 파이프라인의 연결을 끊고 새 배포 파이프라인을 설정할 수 있습니다.</value>
+  </data>
+  <data name="invalidWindowsPathCdrive" xml:space="preserve">
+    <value>Windows에 대한 경로는 'c:\'로 시작해야 합니다.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>함수 앱이 제한된 상태에 있으므로 모든 데이터를 검색할 수 없습니다.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>제한</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>함수(제한됨)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>모든 함수가 중지되었습니다. 기능을 보려면 앱을 시작하세요.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>이 앱에 쓸 수 있는 권한이 없습니다.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>읽기 전용입니다. 함수를 보려면 쓰기 액세스 권한이 있어야 합니다.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>내부 부하 분산 장치 뒤에서 실행하는 함수는 해당 VNET 외부에서 액세스할 수 없습니다. 함수에 액세스하려면 함수와 동일한 VNET에 있는지 확인하세요.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>프록시(제한됨)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

@@ -24,7 +24,7 @@ import { GroupTabsComponent } from '../../controls/group-tabs/group-tabs.compone
 import { MockPlanService } from '../../test/mocks/plan.service.mock';
 import { PlanService } from '../../shared/services/plan.service';
 
-describe('SpecPickerComponent', () => {
+xdescribe('SpecPickerComponent', () => {
   let component: SpecPickerComponent;
   let fixture: ComponentFixture<SpecPickerComponent>;
   let priceSpecManager: PlanPriceSpecManager;

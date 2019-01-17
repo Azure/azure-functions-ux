@@ -1,14 +1,20 @@
 {
   "name": "azure-functions-ux-build",
   "version": "0.0.0",
-  "scripts": {},
+  "scripts": {
+    "start": "concurrently npm:start:*",
+    "start:react": "cd client-react && npm run start",
+    "start:angular": "cd client && npm run watch",
+    "start:server": "cd server && npm run watch"
+  },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "gulp": "^3.9.1",
-    "gulp-multi-process": "^1.3.1",
-    "shelljs": "^0.8.1",
+    "gulp-inline-source": "~4.0.0",
+    "gulp-prompt": "^1.1.0",
     "husky": "^1.1.0",
-    "pretty-quick": "^1.7.0",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.7.0"
   },
   "prettier": {
     "jsxBracketSameLine": true,
@@ -17,6 +23,13 @@
     "tabWidth": 2,
     "trailingComma": "es5"
   },
+  "private": true,
+  "workspaces": [
+    "client",
+    "client-react",
+    "server",
+    "tests"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"

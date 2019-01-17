@@ -4,21 +4,24 @@
   "private": true,
   "dependencies": {
     "@reach/router": "^1.1.1",
+    "@uifabric/variants": "^6.14.0",
     "axios": "^0.18.0",
-    "formik": "^1.3.1",
+    "formik": "^1.4.2",
     "i18next": "^11.5.0",
     "i18next-chained-backend": "^0.1.2",
     "i18next-localstorage-backend": "^1.1.4",
     "i18next-xhr-backend": "^1.5.1",
+    "lodash-es": "^4.17.11",
     "monaco-editor": "^0.14.3",
-    "office-ui-fabric-react": "^6.104.0",
-    "react": "^16.7.0-alpha.0",
+    "office-ui-fabric-react": "^6.124.2",
+    "react": "16.8.0-alpha.1",
+    "react-app-polyfill": "^0.2.0",
     "react-app-rewired": "^1.6.2",
-    "react-dom": "^16.7.0-alpha.0",
+    "react-dom": "16.8.0-alpha.1",
     "react-i18next": "^7.10.1",
     "react-loadable": "^5.5.0",
     "react-redux": "^5.0.7",
-    "react-scripts-ts": "^3.1.0",
+    "react-scripts": "^2.1.3",
     "react-svg": "^6.0.18",
     "recompose": "^0.28.1",
     "redux": "^4.0.0",
@@ -27,32 +30,36 @@
     "redux-freeze": "^0.1.5",
     "redux-localstorage": "^0.4.1",
     "redux-mock-store": "^1.5.3",
+    "redux-observable": "^1.0.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.3.3",
-    "typesafe-actions": "^2.0.4",
+    "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.0",
-    "lodash-es": "^4.17.11"
+    "yup": "^0.26.6"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
-    "test:ci": "react-scripts-ts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
-    "eject": "react-scripts-ts eject",
-    "start-rw": "react-app-rewired start --scripts-version react-scripts-ts ",
-    "build-rw": "react-app-rewired build --scripts-version react-scripts-ts",
-    "test-rw": "react-app-rewired test --env=jsdom --scripts-version react-scripts-ts"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!(office-ui-fabric-react)/)\"",
+    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
+    "test:debug": "react-scripts  --inspect-brk test --no-cache --verbose=false --runInBand",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^4.1.6",
+    "@storybook/addon-links": "^4.1.6",
+    "@storybook/addons": "^4.1.6",
+    "@storybook/react": "^4.1.6",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/i18next-xhr-backend": "^1.4.1",
-    "@types/jest": "^23.3.1",
-    "@types/node": "^10.5.4",
+    "@types/jest": "^23.3.10",
+    "@types/lodash-es": "^4.17.1",
+    "@types/node": "^10.12.12",
     "@types/reach__router": "^1.2.0",
-    "@types/react": "^16.4.7",
-    "@types/react-dom": "^16.0.9",
+    "@types/react": "^16.7.13",
+    "@types/react-dom": "^16.0.11",
     "@types/react-i18next": "^7.8.2",
     "@types/react-loadable": "^5.4.1",
     "@types/react-redux": "^6.0.5",
@@ -61,29 +68,52 @@
     "@types/recompose": "^0.26.3",
     "@types/webpack-env": "^1.13.6",
     "@types/yup": "^0.24.7",
+    "axios-mock-adapter": "^1.16.0",
+    "core-js": "^2.6.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
+    "jest-date-mock": "^1.0.6",
     "jest-junit": "^5.2.0",
     "jest-mock-axios": "^2.1.11",
     "monaco-editor-webpack-plugin": "^1.4.0",
     "react-test-renderer": "^16.5.2",
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.10.0",
-    "typescript": "^3.0.3",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "@types/lodash-es": "^4.17.1"
+    "typescript": "^3.2.2",
+    "webpack-bundle-analyzer": "^3.0.3"
+  },
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
   },
   "proxy": "https://localhost:44300",
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
+      "src/**/*.{ts}",
+      "!src/**/*.stories.ts",
       "!src/**/*.d.ts",
+      "!src/**/*.styles.ts",
+      "!src/**/*.types.ts",
+      "!src/theme/**",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/"
+      "!src/mocks/**",
+      "!src/*",
+      "!src/models/**",
+      "!src/modules/services.ts",
+      "!src/utils/Guid.ts",
+      "!src/utils/scenario-checker/**"
     ],
     "coverageReporters": [
       "text",
-      "cobertura"
+      "cobertura",
+      "html"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 10",
+    "not op_mini all"
+  ]
 }

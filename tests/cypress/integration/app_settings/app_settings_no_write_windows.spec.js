@@ -10,14 +10,8 @@ context('App Settings Readonly Access', () => {
     cy.get('body')
       .find('.ms-Dropdown')
       .each(el => {
-        if (el[0].id === 'app-settings-stack-dropdown') {
-          expect(el[0].className).not.to.include('is-disabled');
-        } else {
-          expect(el[0].className).to.include('is-disabled');
-        }
-      })
-      .get('#remote-debugging-switch')
-      .should('be.disabled');
+        expect(el[0].className).to.include('is-disabled');
+      });
   });
 
   it('application settings and connection strings should be replaced by warning boxes', () => {

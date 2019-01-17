@@ -45,7 +45,7 @@ export class DynamicSiteEnvironment extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    if (input && input.site) {
+    if (input && input.site && input.site.properties.sku) {
       return input.site.properties.sku.toLowerCase() === 'dynamic';
     }
 

@@ -7,6 +7,7 @@ import { Component, Injector, Input, OnDestroy, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
+import { ARMApiVersions } from './../../shared/models/constants';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
@@ -24,7 +25,6 @@ import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { MountStorageComponent } from './mount-storage/mount-storage.component';
-import { Url } from 'app/shared/Utilities/url';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -100,8 +100,6 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
       .switchMap(r => {
         this._site = r.result;
 
-        this.byosSupported = !!Url.getParameterByName(null, 'appsvc.byos');
-
         if (!ArmUtil.isLinuxApp(this._site)) {
           this.defaultDocumentsSupported = true;
           this.handlerMappingsSupported = true;
@@ -122,6 +120,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         if (this._scenarioService.checkScenario(ScenarioIds.byosSupported, { site: this._site }).status === 'disabled') {
           this.byosSupported = false;
+        } else {
+          this.byosSupported = true;
         }
 
         this._setupForm();
@@ -227,7 +227,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._putArm(saveConfigs.appSettingsArm),
             this._putArm(saveConfigs.connectionStringsArm),
             this._putArm(saveConfigs.siteArm),
-            this._putArm(saveConfigs.siteConfigArm),
+            this._putArm(saveConfigs.siteConfigArm, ARMApiVersions.websiteApiVersion20180201),
             this._putArm(saveConfigs.slotConfigNamesArm),
             this._putArm(saveConfigs.azureStorageAccountsArm)
           );
@@ -287,13 +287,13 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
   }
 
-  private _putArm<T>(armObj: ArmObj<T>): Observable<ArmSaveResult<T>> {
+  private _putArm<T>(armObj: ArmObj<T>, apiVersion?: string): Observable<ArmSaveResult<T>> {
     if (!armObj) {
       return Observable.of(null);
     }
 
     return this._cacheService
-      .putArm(armObj.id, null, armObj)
+      .putArm(armObj.id, apiVersion, armObj)
       .map(res => {
         return {
           success: true,

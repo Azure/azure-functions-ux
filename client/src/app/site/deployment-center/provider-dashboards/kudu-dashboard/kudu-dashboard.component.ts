@@ -239,7 +239,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     return this._tableItems || [];
   }
   get gitCloneUri() {
-    const publishingUsername = this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
     const scmUri = this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
     let siteName = this.deploymentObject && this.deploymentObject.site.name;
 
@@ -247,7 +246,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     if (siteName.includes('/')) {
       siteName = siteName.split('/')[0];
     }
-    return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
+    return this.deploymentObject && `https://${scmUri}:443/${siteName}.git`;
   }
 
   syncScm() {
@@ -282,11 +281,15 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     if (confirmResult) {
       let notificationId = null;
       this._busyManager.setBusy();
-      const webConfig = this._armService.patch(`${this.deploymentObject.site.id}/config/web`, {
-        properties: {
-          scmType: 'None',
+      const webConfig = this._armService.patch(
+        `${this.deploymentObject.site.id}/config/web`,
+        {
+          properties: {
+            scmType: 'None',
+          },
         },
-      }, ARMApiVersions.websiteApiVersion20180201);
+        ARMApiVersions.websiteApiVersion20180201
+      );
       let sourceControlsConfig = of(null);
       if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {
         sourceControlsConfig = this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`);

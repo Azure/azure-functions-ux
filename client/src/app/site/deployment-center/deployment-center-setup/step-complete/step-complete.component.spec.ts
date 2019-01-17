@@ -9,9 +9,8 @@ import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { By } from '@angular/platform-browser';
-import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { WizardForm } from '../wizard-logic/deployment-center-setup-models';
+import { WizardForm, PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { MockPortalService } from '../../../../test/mocks/portal.service.mock';
@@ -20,7 +19,6 @@ describe('StepCompleteComponent', () => {
   let buildStepTest: StepCompleteComponent;
   let testFixture: ComponentFixture<StepCompleteComponent>;
   let wizardService: MockDeploymentCenterStateManager;
-  let broadcastService: BroadcastService;
   let logService: MockLogService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +39,6 @@ describe('StepCompleteComponent', () => {
     testFixture.detectChanges();
 
     wizardService = TestBed.get(DeploymentCenterStateManager);
-    broadcastService = TestBed.get(BroadcastService);
     logService = TestBed.get(LogService);
   });
 
@@ -70,9 +67,9 @@ describe('StepCompleteComponent', () => {
       expect(buildStepTest.SummaryGroups.length).toBe(2);
     });
 
-    it('Vsts build provider should return 4 summary groups', () => {
+    it('Vsts build provider should return 3 summary groups', () => {
       wizardService.wizardValues = { ...wizardService.wizardValues, buildProvider: 'vsts' };
-      expect(buildStepTest.SummaryGroups.length).toBe(4);
+      expect(buildStepTest.SummaryGroups.length).toBe(3);
     });
 
     it('create new vso account', () => {
@@ -153,7 +150,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Bottle',
+            framework: PythonFrameworkType.Bottle,
           },
           applicationFramework: 'Python',
         },
@@ -181,7 +178,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Flask',
+            framework: PythonFrameworkType.Flask,
             flaskProjectName: 'flaskproject',
           },
           applicationFramework: 'Python',
@@ -211,7 +208,7 @@ describe('StepCompleteComponent', () => {
           pythonSettings: {
             ...wizardService.wizardValues.buildSettings.pythonSettings,
             version: 'pythonversion',
-            framework: 'Django',
+            framework: PythonFrameworkType.Django,
             djangoSettingsModule: 'settingsModule',
           },
           applicationFramework: 'Python',
@@ -230,38 +227,6 @@ describe('StepCompleteComponent', () => {
     });
   });
 
-  describe('Load Test Group', () => {
-    it('if disabled should have only one item saying not enabled', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        testEnvironment: {
-          ...wizardService.wizardValues.testEnvironment,
-          enabled: false,
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
-    });
-
-    it('if enabled should say yes to enabled and give app service plan id and web app id', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'vsts',
-        testEnvironment: {
-          ...wizardService.wizardValues.testEnvironment,
-          enabled: true,
-          appServicePlanId: 'aspId',
-          webAppId: 'appId',
-        },
-      };
-      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('aspId');
-      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('appId');
-    });
-  });
-
   describe('Deployment Slot Group', () => {
     it('if disabled should have only one item saying not enabled', () => {
       wizardService.wizardValues = {
@@ -272,8 +237,8 @@ describe('StepCompleteComponent', () => {
           deploymentSlotEnabled: false,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('no');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(1);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('no');
     });
 
     it('if enabled should say yes to enabled and deployment slot name', () => {
@@ -287,10 +252,10 @@ describe('StepCompleteComponent', () => {
           newDeploymentSlot: false,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('no');
-      expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('no');
+      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
     });
 
     it('if enabled and creating new slot should say yes to new slot', () => {
@@ -304,10 +269,10 @@ describe('StepCompleteComponent', () => {
           newDeploymentSlot: true,
         },
       };
-      expect(buildStepTest.SummaryGroups[3].items.length).toBe(3);
-      expect(buildStepTest.SummaryGroups[3].items[0].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[1].value).toBe('yes');
-      expect(buildStepTest.SummaryGroups[3].items[2].value).toBe('slot');
+      expect(buildStepTest.SummaryGroups[2].items.length).toBe(3);
+      expect(buildStepTest.SummaryGroups[2].items[0].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[1].value).toBe('yes');
+      expect(buildStepTest.SummaryGroups[2].items[2].value).toBe('slot');
     });
   });
 
@@ -398,11 +363,9 @@ describe('StepCompleteComponent', () => {
     it('finish button should trigger save', fakeAsync(done => {
       const button = testFixture.debugElement.query(By.css('#step-complete-finish-button')).nativeElement;
       expect(wizardService.deployTriggered).toBeFalsy();
-      const spy = spyOn(broadcastService, 'broadcastEvent');
       button.click();
       tick();
       expect(wizardService.deployTriggered).toBeTruthy();
-      expect(spy).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter);
     }));
 
     it('save failures should clear busy state and log', fakeAsync(() => {
@@ -451,12 +414,6 @@ class MockDeploymentCenterStateManager {
         newDeploymentSlot: [false],
         deploymentSlotEnabled: [false],
         deploymentSlot: ['slot'],
-      }),
-      testEnvironment: _fb.group({
-        enabled: [false],
-        newApp: [true],
-        appServicePlanId: ['aspid'],
-        webAppId: [null],
       }),
     });
   }

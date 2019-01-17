@@ -414,6 +414,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
+    this._globalStateService.clearBusyState();
     this.functionUpdate.unsubscribe();
     this.selectedFileStream.unsubscribe();
     if (this._restartHostSubscription) {
@@ -470,13 +471,19 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       let code = '';
       let clientId = '';
       let queryParams = '';
-      if (key) {
-        code = key;
+
+      // NOTE(michinoy): With existing implementation, the public functionKey is assigned once the component is loaded.
+      // But one could also change the key by selecting the dropdown. This is a currently a safer change instead having to
+      // refactor several areas of this file.
+      const functionKey = key || this.functionKey;
+
+      if (functionKey) {
+        code = functionKey;
       }
 
-      if (this.webHookType && key) {
+      if (this.webHookType && functionKey) {
         const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
-        const keyWithValue = allKeys.find(k => k.value === key);
+        const keyWithValue = allKeys.find(k => k.value === functionKey);
         if (keyWithValue) {
           clientId = keyWithValue.name;
         }

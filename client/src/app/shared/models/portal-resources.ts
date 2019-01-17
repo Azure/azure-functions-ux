@@ -1203,6 +1203,7 @@ export class PortalResources {
   public static settingupDeployment = 'settingupDeployment';
   public static settingupDeploymentSuccess = 'settingupDeploymentSuccess';
   public static settingupDeploymentFail = 'settingupDeploymentFail';
+  public static settingupDeploymentFailWithStatusMessage = 'settingupDeploymentFailWithStatusMessage';
   public static disconnectingDeployment = 'disconnectingDeployment';
   public static disconnectingDeploymentSuccess = 'disconnectingDeploymentSuccess';
   public static disconnectingDeploymentFail = 'disconnectingDeploymentFail';
@@ -1419,10 +1420,10 @@ export class PortalResources {
   public static nameRes = 'nameRes';
   public static value = 'value';
   public static sticky = 'sticky';
+  public static newApplicationSetting = 'newApplicationSetting';
   public static addEditConnectionStringHeader = 'addEditConnectionStringHeader';
   public static newConnectionString = 'newConnectionString';
   public static addEditApplicationSetting = 'addEditApplicationSetting';
-  public static newApplicationSetting = 'newApplicationSetting';
   public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
   public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
@@ -1476,4 +1477,20 @@ export class PortalResources {
   public static invalidShare = 'invalidShare';
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
+  public static byos_storageNameExists = 'byos_storageNameExists';
+  public static unableToReachBuild = 'unableToReachBuild';
+  public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
+  public static limitedMode = 'limitedMode';
+  public static limited = 'limited';
+  public static sideNav_FunctionsLimited = 'sideNav_FunctionsLimited';
+  public static stoppedMode = 'stoppedMode';
+  public static noAccessMode = 'noAccessMode';
+  public static readOnlyMode = 'readOnlyMode';
+  public static nonReachableMode = 'nonReachableMode';
+  public static sideNav_ProxiesLimited = 'sideNav_ProxiesLimited';
+  public static slotSettingNoProdPermission = 'slotSettingNoProdPermission';
+  public static autoSwapSettingPermissionFail = 'autoSwapSettingPermissionFail';
+  public static scriptFunctionApp = 'scriptFunctionApp';
+  public static precompiledDotNetApp = 'precompiledDotNetApp';
+  public static functionAppType = 'functionAppType';
 }

@@ -1,34 +1,30 @@
-import { ArmArray } from '../../../models/WebAppModels';
-import { IAction } from '../../../models/action';
-import { UPDATE_BILLING_METERS_LOADING, UPDATE_BILLING_METERS } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import { BillingMeter } from '../../../models/BillingModels';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IBillingMetersState {
-  loading: boolean;
-  billingMeters: ArmArray<BillingMeter>;
-}
-export const InitialState: IBillingMetersState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  billingMeters: {
+import { BillingMeter } from '../../../models/BillingModels';
+import { ArmArray } from '../../../models/WebAppModels';
+import { metadataReducer } from '../../ApiReducerHelper';
+import { ApiState } from '../../types';
+import * as actions from './actions';
+import { AREA_STRING, BILLING_METERS_FETCH_SUCCESS } from './actionTypes';
+
+export type BillingMetersAction = ActionType<typeof actions>;
+export type BillingMetersState = ApiState<ArmArray<BillingMeter>>;
+
+export const InitialState = {
+  data: {
     value: [],
   },
 };
 
-const billingMeters = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case UPDATE_BILLING_METERS_LOADING:
-      return { ...state, loading: action.payload };
-    case UPDATE_BILLING_METERS:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(60000),
-        billingMeters: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default billingMeters;
+export default combineReducers<BillingMetersState, BillingMetersAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case BILLING_METERS_FETCH_SUCCESS:
+        return action.meters;
+      default:
+        return state;
+    }
+  },
+});

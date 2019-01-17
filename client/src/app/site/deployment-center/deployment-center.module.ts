@@ -11,7 +11,6 @@ import { StepBuildProviderComponent } from 'app/site/deployment-center/deploymen
 import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
 import { DeploymentDetailComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
-import { StepTestComponent } from 'app/site/deployment-center/deployment-center-setup/step-test/step-test.component';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 import { ConfigureDropboxComponent } from './deployment-center-setup/step-configure/configure-dropbox/configure-dropbox.component';
 import { ConfigureOnedriveComponent } from './deployment-center-setup/step-configure/configure-onedrive/configure-onedrive.component';
@@ -28,6 +27,7 @@ import { DeploymentCredentialsComponent } from './provider-dashboards/deployment
 import { LinuxFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/linux-frameworks/linux-frameworks.component';
 import { WindowsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/windows-frameworks/windows-frameworks.component';
 import { NgxDatatableModule } from 'ngx-datatable-accessable';
+import { FunctionsFramworksComponent } from './deployment-center-setup/step-configure/configure-vsts-build/functions-frameworks/functions-frameworks.component';
 
 @NgModule({
   entryComponents: [DeploymentCenterComponent],
@@ -42,7 +42,6 @@ import { NgxDatatableModule } from 'ngx-datatable-accessable';
     StepCompleteComponent,
     StepBuildProviderComponent,
     DeploymentDetailComponent,
-    StepTestComponent,
     ConfigureDropboxComponent,
     ConfigureOnedriveComponent,
     ConfigureGithubComponent,
@@ -55,6 +54,7 @@ import { NgxDatatableModule } from 'ngx-datatable-accessable';
     DeploymentCredentialsComponent,
     LinuxFramworksComponent,
     WindowsFramworksComponent,
+    FunctionsFramworksComponent,
   ],
   imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule, NgxDatatableModule],
   exports: [DeploymentCenterComponent],

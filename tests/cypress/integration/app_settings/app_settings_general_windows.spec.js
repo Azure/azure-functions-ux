@@ -17,15 +17,8 @@ context('App Settings General Settings Windows', () => {
       .should('exist');
   });
 
-  it('Turning on Remote Debug should Trigger showing VS Version Dropdown', () => {
-    cy.get('#remote-debugging-switch')
-      .click()
-      .get('#remote-debugging-version')
-      .should('be.visible');
-  });
-
   it('Remote Debugging being off should Hide VS Version Dropdown', () => {
-    cy.get('#remote-debugging-version').should('not.exist');
+    cy.get('#remote-debugging-version-label').should('not.exist');
   });
 
   it('default stack selection is .Net', () => {
@@ -61,7 +54,7 @@ context('App Settings General Settings Windows', () => {
       .should('exist');
   });
 
-  it('Java stack should show Java Versions, Containers and Container Versions', () => {
+  it('Java stack should show Java Versions, Containers', () => {
     cy.get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')
@@ -71,7 +64,18 @@ context('App Settings General Settings Windows', () => {
       .get('#app-settings-java-minor-verison')
       .should('exist')
       .get('#app-settings-java-container-runtime')
-      .should('exist')
+      .should('exist');
+  });
+
+  it('Java container version should show when a Java Container is selected', () => {
+    cy.get('#app-settings-stack-dropdown-option')
+      .click()
+      .get('#app-settings-stack-dropdown-list3')
+      .click()
+      .get('#app-settings-java-container-runtime-option')
+      .click()
+      .get('#app-settings-java-container-runtime-list0')
+      .click()
       .get('#app-settings-java-container-version')
       .should('exist');
   });
@@ -176,15 +180,15 @@ context('App Settings General Settings Windows', () => {
       .should('exist')
       .get('#app-settings-managed-pipeline-mode')
       .should('exist')
-      .get('#app-settings-web-sockets-enabled')
+      .get('#app-settings-web-sockets-enabled-label')
       .should('exist')
       .get('#app-settings-ftps-state')
       .should('exist')
-      .get('#app-settings-always-on')
+      .get('#app-settings-always-on-label')
       .should('exist')
-      .get('#app-settings-clientAffinityEnabled')
+      .get('#app-settings-clientAffinityEnabled-label')
       .should('exist')
-      .get('#app-settings-http-enabled')
+      .get('#app-settings-http-enabled-label')
       .should('exist');
   });
 });

@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Guid } from 'app/shared/Utilities/Guid';
+import { PythonFrameworkType } from '../wizard-logic/deployment-center-setup-models';
 
 interface SummaryItem {
   label: string;
@@ -53,8 +54,6 @@ export class StepCompleteComponent {
       sourceProvider: this.wizard.wizardValues.sourceProvider,
       deploymentSlotEnabled: `${this.wizard.wizardValues.deploymentSlotSetting.deploymentSlotEnabled}`,
       newDeploymentSlot: `${this.wizard.wizardValues.deploymentSlotSetting.newDeploymentSlot}`,
-      loadTestEnabled: `${this.wizard.wizardValues.testEnvironment.enabled}`,
-      loadTestNewApp: `${this.wizard.wizardValues.testEnvironment.newApp}`,
     });
     this._busyManager.setBusy();
     let notificationId = null;
@@ -71,16 +70,30 @@ export class StepCompleteComponent {
       .subscribe(
         r => {
           this.clearBusy();
-          this._portalService.stopNotification(
-            notificationId,
-            true,
-            this._translateService.instant(PortalResources.settingupDeploymentSuccess)
-          );
-          this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
-          this._portalService.logAction('deploymentcenter', 'save', {
-            id: saveGuid,
-            succeeded: 'true',
-          });
+          if (r.status === 'succeeded') {
+            this._portalService.stopNotification(
+              notificationId,
+              true,
+              this._translateService.instant(PortalResources.settingupDeploymentSuccess)
+            );
+            this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'true',
+            });
+          } else {
+            this._portalService.stopNotification(
+              notificationId,
+              false,
+              this._translateService.instant(PortalResources.settingupDeploymentFailWithStatusMessage).format(r.statusMessage)
+            );
+            this._logService.error(LogCategories.cicd, '/save-cicd', r.statusMessage);
+            this._portalService.logAction('deploymentcenter', 'save', {
+              id: saveGuid,
+              succeeded: 'false',
+              statusMessage: r.statusMessage,
+            });
+          }
         },
         err => {
           this.clearBusy();
@@ -105,7 +118,6 @@ export class StepCompleteComponent {
   get SummaryGroups(): SummaryGroup[] {
     const returnVal = [this._sourceControlGroup(), this._buildControlgroup()];
     if (this.wizard.wizardValues.buildProvider === 'vsts' && !this.wizard.isLinuxApp) {
-      returnVal.push(this._loadTestGroup());
       returnVal.push(this._slotDeploymentGroup());
     }
     return returnVal;
@@ -185,19 +197,31 @@ export class StepCompleteComponent {
           value: buildSettings.pythonSettings.version,
         });
 
+        let frameWorkValue = '';
+        switch (buildSettings.pythonSettings.framework) {
+          case PythonFrameworkType.Bottle:
+            frameWorkValue = 'Bottle';
+            break;
+          case PythonFrameworkType.Flask:
+            frameWorkValue = 'Flask';
+            break;
+          case PythonFrameworkType.Django:
+            frameWorkValue = 'Django';
+            break;
+        }
         returnSummaryItems.push({
           label: this._translateService.instant(PortalResources.pythonVersionLabel),
-          value: buildSettings.pythonSettings.framework,
+          value: frameWorkValue,
         });
 
-        if (wizValues.buildSettings.pythonSettings.framework === 'Flask') {
+        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Flask) {
           returnSummaryItems.push({
             label: this._translateService.instant(PortalResources.flaskProjectName),
             value: buildSettings.pythonSettings.flaskProjectName,
           });
         }
 
-        if (wizValues.buildSettings.pythonSettings.framework === 'Django') {
+        if (wizValues.buildSettings.pythonSettings.framework === PythonFrameworkType.Django) {
           returnSummaryItems.push({
             label: this._translateService.instant(PortalResources.djangoSettings),
             value: buildSettings.pythonSettings.djangoSettingsModule,
@@ -207,32 +231,6 @@ export class StepCompleteComponent {
     }
     return {
       label: this._translateService.instant(PortalResources.buildProvider),
-      items: returnSummaryItems,
-    };
-  }
-
-  private _loadTestGroup() {
-    const wizValues = this.wizard.wizardValues;
-    const testSettings = wizValues.testEnvironment;
-    const returnSummaryItems = [];
-    returnSummaryItems.push({
-      label: this._translateService.instant(PortalResources.enabled),
-      value: testSettings.enabled
-        ? this._translateService.instant(PortalResources.yes)
-        : this._translateService.instant(PortalResources.no),
-    });
-    if (testSettings.enabled) {
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.appServicePlan),
-        value: testSettings.appServicePlanId,
-      });
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.webApp),
-        value: testSettings.webAppId,
-      });
-    }
-    return {
-      label: this._translateService.instant(PortalResources.test),
       items: returnSummaryItems,
     };
   }

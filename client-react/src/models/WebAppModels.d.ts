@@ -2,14 +2,15 @@ export interface ArmObj<T> {
   id: string;
   kind?: string;
   properties: T;
+  type?: string;
   tags?: { [key: string]: string };
-  location: string;
+  location?: string;
   name: string;
 }
 
 export interface ArmArray<T> {
   value: ArmObj<T>[];
-  nextLink?: string;
+  nextLink?: string | null;
   id?: string;
 }
 
@@ -678,7 +679,7 @@ export interface Site {
   storageRecoveryDefaultState: string;
   contentAvailabilityState: number;
   runtimeAvailabilityState: number;
-  siteConfig: SiteConfig;
+  siteConfig: Partial<SiteConfig>;
   deploymentId: string;
   trafficManagerHostNames: string;
   sku: string;
@@ -846,8 +847,9 @@ export interface SkuDescription {
 }
 
 export interface SlotConfigNames {
-  connectionStringNames: string;
-  appSettingNames: string;
+  connectionStringNames: string[] | null;
+  appSettingNames: string[] | null;
+  azureStorageConfigNames: string[] | null;
 }
 
 export interface Snapshot {

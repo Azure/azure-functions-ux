@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Web Config Names Store Reducer initial state should match a snapshot 1`] = `
+Object {
+  "data": Object {
+    "id": "",
+    "kind": "",
+    "location": "",
+    "name": "",
+    "properties": Object {},
+  },
+  "metadata": Object {
+    "fetchError": false,
+    "fetchErrorObject": [Error],
+    "loading": false,
+    "updateError": false,
+    "updateErrorObject": [Error],
+    "updating": false,
+  },
+}
+`;

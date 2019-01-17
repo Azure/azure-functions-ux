@@ -1,9 +1,11 @@
-import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { HandlerMapping } from '../../../../models/WebAppModels';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { formElementStyle } from '../AppSettings.Styles';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import ActionBar from '../../../../components/ActionBar';
+import { HandlerMapping } from '../../../../models/WebAppModels';
+import { formElementStyle } from '../AppSettings.styles';
+
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
   closeBlade: () => void;

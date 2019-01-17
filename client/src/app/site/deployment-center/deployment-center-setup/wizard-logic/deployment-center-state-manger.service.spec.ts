@@ -47,12 +47,6 @@ describe('Deployment State Manager', () => {
         deploymentSlotEnabled: [false],
         deploymentSlot: ['slot'],
       }),
-      testEnvironment: _fb.group({
-        enabled: [false],
-        newApp: [true],
-        appServicePlanId: ['aspid'],
-        webAppId: [null],
-      }),
     });
   };
 
@@ -96,7 +90,6 @@ describe('Deployment State Manager', () => {
       (service: DeploymentCenterStateManager) => {
         service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
         expect(service['_location']).toBe('loc');
-        expect(service['_pricingTier']).toBe('sku');
         expect(service.siteArm.location).toBe('loc');
         expect(service.siteArm.properties.sku).toBe('sku');
       }
@@ -169,21 +162,6 @@ describe('Deployment State Manager', () => {
         expect(service.deploymentSlotSetting).toBeNull();
       }
     ));
-
-    it('should be get test environment settings form group', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        service.wizardForm = starterWizardForm();
-        expect(service.testEnvironmentSettings.value.appServicePlanId).toBe('aspid');
-      }
-    ));
-
-    it('test environment settings returns null if uninitialized', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        expect(service.testEnvironmentSettings).toBeNull();
-      }
-    ));
   });
 
   describe('kudu deployment', () => {
@@ -203,7 +181,7 @@ describe('Deployment State Manager', () => {
         wizardFormValues.sourceSettings.isManualIntegration = false;
         wizardFormValues.sourceProvider = 'external';
         service.wizardValues = wizardFormValues;
-        service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
+        service.deploy().subscribe(({ result }) => expect(result.properties.isManualIntegration).toBeTruthy());
       })
     ));
 
@@ -213,7 +191,7 @@ describe('Deployment State Manager', () => {
         const wizardFormValues = service.wizardValues;
         wizardFormValues.sourceProvider = 'localgit';
         service.wizardValues = wizardFormValues;
-        service.deploy().subscribe(result => expect(result.properties.scmType).toBe('LocalGit'));
+        service.deploy().subscribe(({ result }) => expect(result.properties.scmType).toBe('LocalGit'));
       })
     ));
   });

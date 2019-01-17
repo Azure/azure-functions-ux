@@ -1,4 +1,11 @@
+
 <div *ngIf="form" [formGroup] = "form">
+  <div class="byos-property">
+    <label>{{ '_name' | translate }}</label>
+    <textbox [control] = "form?.controls?.name" [disablePopOverError] = "true"></textbox>
+    <div invalidmessage="name" id="byos-name-error" role="alert"></div>
+  </div>
+
   <div class="byos-property">
     <label>{{ 'configurationOption' | translate }}</label>
     <div>

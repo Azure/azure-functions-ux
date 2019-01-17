@@ -12,6 +12,7 @@ import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { Url } from '../../../../../shared/Utilities/url';
+import { ResponseHeader } from 'app/shared/Utilities/response-header';
 
 @Component({
   selector: 'app-configure-github',
@@ -113,7 +114,7 @@ export class ConfigureGithubComponent implements OnDestroy {
             const linkHeader = r.headers.toJSON().link;
             const pageCalls: Observable<any>[] = [Observable.of(r)];
             if (linkHeader) {
-              const links = this._getLinks(linkHeader);
+              const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
               const lastPageNumber = this._getLastPage(links);
               for (let i = 2; i <= lastPageNumber; i++) {
                 pageCalls.push(
@@ -141,7 +142,7 @@ export class ConfigureGithubComponent implements OnDestroy {
             const linkHeader = r.headers.toJSON().link;
             const pageCalls: Observable<any>[] = [Observable.of(r)];
             if (linkHeader) {
-              const links = this._getLinks(linkHeader);
+              const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
               const lastPageNumber = this._getLastPage(links);
               for (let i = 2; i <= lastPageNumber; i++) {
                 pageCalls.push(
@@ -206,7 +207,7 @@ export class ConfigureGithubComponent implements OnDestroy {
           const linkHeader = r.headers.toJSON().link;
           const pageCalls: Observable<any>[] = [Observable.of(r)];
           if (linkHeader) {
-            const links = this._getLinks(linkHeader);
+            const links = ResponseHeader.getLinksFromLinkHeader(linkHeader);
             const lastPageNumber = this._getLastPage(links);
             for (let i = 2; i <= lastPageNumber; i++) {
               pageCalls.push(
@@ -270,17 +271,5 @@ export class ConfigureGithubComponent implements OnDestroy {
     } else {
       return 1;
     }
-  }
-
-  private _getLinks(linksHeader): any {
-    const links = {};
-    // Parse each part into a named link
-    linksHeader.forEach(part => {
-      const section = part.split(';');
-      const url = section[0].replace(/<(.*)>/, '$1').trim();
-      const name = section[1].replace(/rel="(.*)"/, '$1').trim();
-      links[name] = url;
-    });
-    return links;
   }
 }

@@ -3,7 +3,6 @@ export class WizardForm {
   public buildProvider: sourceControlProvider;
   public sourceSettings: SourceSettings;
   public buildSettings: VstsBuildSettings;
-  public testEnvironment: VstsTestEnvironment;
   public deploymentSlotSetting: DeploymentSLotSettings;
 }
 
@@ -12,18 +11,22 @@ export class DeploymentSLotSettings {
   public deploymentSlot: string;
   public deploymentSlotEnabled: boolean;
 }
-export class VstsTestEnvironment {
-  public enabled: boolean;
-  public newApp: boolean;
-  public appServicePlanId: string;
-  public webAppId: string;
-}
+
 export class VstsBuildSettings {
   public createNewVsoAccount: boolean;
   public vstsAccount: string;
   public vstsProject: string;
   public location: string;
-  public applicationFramework: 'AspNetWap' | 'AspNetCore' | 'Node' | 'PHP' | 'Python' | 'StaticWebapp' | 'Ruby';
+  public applicationFramework:
+    | 'AspNetWap'
+    | 'AspNetCore'
+    | 'Node'
+    | 'PHP'
+    | 'Python'
+    | 'StaticWebapp'
+    | 'Ruby'
+    | 'ScriptFunction'
+    | 'PrecompiledFunction';
   public workingDirectory: string;
   public nodejsTaskRunner: string;
   public pythonSettings: PythonSettings;
@@ -32,7 +35,7 @@ export class VstsBuildSettings {
 }
 
 export class PythonSettings {
-  public framework: 'Bottle' | 'Django' | 'Flask';
+  public framework: PythonFrameworkType;
   public version: string;
   public flaskProjectName: string;
   public djangoSettingsModule: string;
@@ -281,13 +284,22 @@ export enum ApplicationType {
   Java = 14,
   Ruby = 15,
 }
-
+export enum PythonFrameworkType {
+  Undefined = 0,
+  Bottle = 1,
+  Django = 2,
+  Flask = 3,
+}
 export interface BuildConfiguration {
   type: ApplicationType;
   workingDirectory: string;
   version?: string;
   startupCommand?: string;
   rubyFramework?: number;
+  pythonExtensionId?: string;
+  pythonFramework?: number;
+  flaskProjectName?: string;
+  djangoSettingsModule?: string;
 }
 
 export interface CodeRepository {

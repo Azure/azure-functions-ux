@@ -231,7 +231,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     return this.viewInfoEvents
       .switchMap(viewInfo => {
         this._appNode = <AppNode>viewInfo.node;
-        this.isStopped = this.context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
+        this.isStopped =
+          this.context.site.properties.state && this.context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
         this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
 
         return Observable.forkJoin(

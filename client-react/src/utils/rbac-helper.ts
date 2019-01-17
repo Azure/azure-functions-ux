@@ -1,13 +1,14 @@
-import { PermissionsAsRegExp, Permissions, ArmObj, Lock } from 'src/models/WebAppModels';
-import { store } from '../store';
-import axios from 'axios';
+import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
+import MakeArmCall from '../modules/ArmHelper';
+import { RootState } from '../modules/types';
+import { CommonConstants } from './CommonConstants';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
   hasReadOnlyLock(resourceId: string): Promise<boolean>;
 }
 
-export class RbacHelper {
+export default class RbacHelper {
   public static readScope = './read';
   public static writeScope = './write';
   public static deleteScope = './delete';
@@ -16,18 +17,17 @@ export class RbacHelper {
   public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
   public static _wildCardEscapeSequence = '\\*';
-  public static armLocksApiVersion = '2015-01-01';
-  public static async hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean> {
-    const authId = `${resourceId}${this.permissionsSuffix}?api-version=2015-07-01`;
+  public static async hasPermission(state: RootState, resourceId: string, requestedActions: string[]): Promise<boolean> {
+    const authId = `${resourceId}${this.permissionsSuffix}`;
     try {
-      const armEnpoint = store.getState().portalService.startupInfo!.armEndpoint;
-      const armToken = store.getState().portalService.startupInfo!.token;
-      const permissionsSetCall = await axios.get<{ value: Permissions[] }>(`${armEnpoint}${authId}`, {
-        headers: {
-          Authorization: `Bearer ${armToken}`,
-        },
+      const permissionsSetCall = await MakeArmCall<any>({
+        resourceId: authId,
+        commandName: 'RbacCheck',
+        skipBuffer: false,
+        apiVersion: CommonConstants.ApiVersions.armRbacApiVersion,
       });
-      return this.checkPermissions(resourceId, requestedActions, permissionsSetCall.data.value);
+      const t = this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
+      return t;
     } catch (e) {
       return false;
     }
@@ -46,16 +46,15 @@ export class RbacHelper {
       return false;
     }
   }
-
-  private static async getLocks(resourceId: string) {
-    const lockId = `${resourceId}${RbacHelper.authSuffix}?api-version=${this.armLocksApiVersion}`;
-    const armToken = store.getState().portalService.startupInfo!.token;
-    const logCall = await axios.get(lockId, {
-      headers: {
-        Authorization: `Bearer ${armToken}`,
-      },
+  private static async getLocks(resourceId: string): Promise<ArmObj<Lock>[]> {
+    const lockId = `${resourceId}${RbacHelper.authSuffix}`;
+    const logCall = await MakeArmCall<ArmArray<Lock>>({
+      resourceId: lockId,
+      commandName: 'getLocks',
+      apiVersion: CommonConstants.ApiVersions.armLocksApiVersion,
     });
-    return logCall.data as ArmObj<Lock>[];
+
+    return logCall.value;
   }
 
   private static getResourceType(resourceId: string) {

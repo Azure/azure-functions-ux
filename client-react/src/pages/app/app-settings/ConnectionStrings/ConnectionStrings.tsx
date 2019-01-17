@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { IColumn, DetailsListLayoutMode, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
-import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
-import { AppSettingsFormValues } from '../AppSettings.Types';
 import { FormikProps } from 'formik';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { typeValueToString } from './connectionStringTypes';
+
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { AppSettingsFormValues, FormConnectionString } from '../AppSettings.types';
+import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
+import { typeValueToString } from './connectionStringTypes';
 
 interface ConnectionStringsState {
   hideValues: boolean;
   showPanel: boolean;
-  currentConnectionString: IConnectionString | null;
+  currentConnectionString: FormConnectionString | null;
   currentItemIndex: number;
   createNewItem: boolean;
 }
@@ -65,6 +65,7 @@ export class ConnectionStrings extends React.Component<
             connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
+            disableSlotSetting={!values.productionWritePermission}
             closeBlade={this._onCancel}
           />
         </Panel>
@@ -100,10 +101,10 @@ export class ConnectionStrings extends React.Component<
     });
   };
 
-  private _onClosePanel = (currentConnectionString: IConnectionString): void => {
+  private _onClosePanel = (currentConnectionString: FormConnectionString): void => {
     this.setState({ currentConnectionString });
     const { values, setFieldValue } = this.props;
-    const connectionStrings: IConnectionString[] = [...values.connectionStrings];
+    const connectionStrings: FormConnectionString[] = [...values.connectionStrings];
     if (!this.state.createNewItem) {
       connectionStrings[this.state.currentItemIndex] = currentConnectionString;
     } else {
@@ -117,7 +118,7 @@ export class ConnectionStrings extends React.Component<
     this.setState({ createNewItem: false, showPanel: false });
   };
 
-  private _onShowPanel = (item: IConnectionString, index: number): void => {
+  private _onShowPanel = (item: FormConnectionString, index: number): void => {
     this.setState({
       showPanel: true,
       currentConnectionString: item,
@@ -127,12 +128,12 @@ export class ConnectionStrings extends React.Component<
 
   private removeItem(index: number) {
     const { values, setFieldValue } = this.props;
-    const connectionStrings: IConnectionString[] = [...values.connectionStrings];
+    const connectionStrings: FormConnectionString[] = [...values.connectionStrings];
     connectionStrings.splice(index, 1);
     setFieldValue('connectionStrings', connectionStrings);
   }
 
-  private onRenderItemColumn = (item: IConnectionString, index: number, column: IColumn) => {
+  private onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
     }
@@ -185,7 +186,7 @@ export class ConnectionStrings extends React.Component<
         key: 'name',
         name: t('nameRes'),
         fieldName: 'name',
-        minWidth: 210,
+        minWidth: 110,
         maxWidth: 350,
         isRowHeader: true,
         data: 'string',
@@ -197,7 +198,7 @@ export class ConnectionStrings extends React.Component<
         key: 'value',
         name: t('value'),
         fieldName: 'value',
-        minWidth: 210,
+        minWidth: 110,
         isRowHeader: true,
         data: 'string',
         isPadded: true,
