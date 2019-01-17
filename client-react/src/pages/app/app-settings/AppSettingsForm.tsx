@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
+import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { style } from 'typestyle';
@@ -17,6 +17,8 @@ import SlotAutoSwap from './GeneralSettings/SlotAutoSwap';
 import Stacks from './GeneralSettings/Stacks';
 import HandlerMappings from './HandlerMappings/HandlerMappings';
 import VirtualApplications from './VirtualApplications/VirtualApplications';
+import { Icon } from 'office-ui-fabric-react';
+import { isEqual } from 'lodash-es';
 
 export const settingsWrapper = style({
   paddingLeft: '15px',
@@ -66,13 +68,19 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     }
     return '';
   };
+
   private getPathMappings = () => {
     const { t, values } = this.props;
     const props = this.props;
     const { site } = values;
     if (this.scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled') {
       return (
-        <PivotItem itemKey="pathMappings" linkText={t('pathMappings')}>
+        <PivotItem
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            this._customTabRenderer(link, defaultRenderer, this._pathMappingsDirtyCheck)
+          }
+          itemKey="pathMappings"
+          linkText={t('pathMappings')}>
           <h3>{t('handlerMappings')}</h3>
           <HandlerMappings {...props} />
           <h3>{t('virtualApplications')}</h3>
@@ -83,13 +91,58 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     return <></>;
   };
 
+  private _customTabRenderer = (
+    link: IPivotItemProps,
+    defaultRenderer: (link: IPivotItemProps) => JSX.Element,
+    dirtyCheck: () => boolean
+  ) => {
+    return (
+      <span>
+        {defaultRenderer(link)}
+        {dirtyCheck() && (
+          <Icon
+            iconName="Asterisk"
+            style={{ color: 'purple' }}
+            styles={{
+              root: {
+                fontSize: '10px',
+                color: 'puple',
+                paddingLeft: '5px',
+              },
+            }}
+          />
+        )}
+      </span>
+    );
+  };
+  private _defaultDocumentsDirtyCheck = () => {
+    const { values, initialValues } = this.props;
+    return !isEqual(values.config.properties.defaultDocuments, initialValues.config.properties.defaultDocuments);
+  };
+
+  private _pathMappingsDirtyCheck = () => {
+    const { values, initialValues } = this.props;
+    return (
+      !isEqual(values.virtualApplications, initialValues.virtualApplications) ||
+      !isEqual(values.config.properties.handlerMappings, initialValues.config.properties.handlerMappings)
+    );
+  };
+  private _applicationSettingsDirtyCheck = () => {
+    const { values, initialValues } = this.props;
+    return !isEqual(values.connectionStrings, initialValues.connectionStrings) || !isEqual(values.appSettings, initialValues.appSettings);
+  };
   private getDefaultDocuments = () => {
     const { t, values } = this.props;
     const props = this.props;
     const { site } = values;
     if (this.scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled') {
       return (
-        <PivotItem itemKey="defaultDocuments" linkText={t('defaultDocuments')}>
+        <PivotItem
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            this._customTabRenderer(link, defaultRenderer, this._defaultDocumentsDirtyCheck)
+          }
+          itemKey="defaultDocuments"
+          linkText={t('defaultDocuments')}>
           <h3>{t('defaultDocuments')}</h3>
           <div className={defaultDocumentsWrapper}>
             <DefaultDocuments {...props} />
@@ -113,7 +166,12 @@ class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues>
     const { t, values } = this.props;
     const props = this.props;
     return (
-      <PivotItem itemKey="applicationSettings" linkText={t('applicationSettings')}>
+      <PivotItem
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          this._customTabRenderer(link, defaultRenderer, this._applicationSettingsDirtyCheck)
+        }
+        itemKey="applicationSettings"
+        linkText={t('applicationSettings')}>
         <h3>{t('applicationSettings')}</h3>
         {values.siteWritePermission ? (
           <div id="app-settings-application-settings-table">
