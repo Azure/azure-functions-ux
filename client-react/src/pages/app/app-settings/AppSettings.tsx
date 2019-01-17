@@ -18,7 +18,7 @@ const AppSettings: React.SFC<void> = () => {
         <Formik
           initialValues={initialFormValues}
           onSubmit={onSubmit}
-          enableReinitialize={!saving && !loading}
+          enableReinitialize={true}
           validateOnBlur={false}
           validateOnChange={false}>
           {(formProps: FormikProps<AppSettingsFormValues>) => (
