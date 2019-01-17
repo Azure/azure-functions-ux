@@ -17,7 +17,7 @@ export class Constants {
 
   public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
-  public static nodeVersion = '6.5.0'; 
+  public static nodeVersion = '6.5.0';
   public static nodeVersionV2 = '8.11.1';
   public static latest = 'latest';
   public static disabled = 'disabled';
@@ -342,6 +342,7 @@ export class LogCategories {
 
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
+  public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
   public static websiteApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';

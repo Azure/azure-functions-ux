@@ -264,7 +264,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
       return;
     }
 
-    this._armService.post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.websiteApiVersion20181101).subscribe(response => {
+    this._armService.post(`${this.context.site.id}/publishxml`, null, ARMApiVersions.websiteApiVersion20160301).subscribe(response => {
       const publishXml = response.text();
 
       // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
