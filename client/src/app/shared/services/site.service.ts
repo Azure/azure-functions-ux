@@ -114,7 +114,7 @@ export class SiteService {
 
   getPublishingProfile(resourceId: string): Result<string> {
     const getPublishingProfile = this._cacheService
-      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.websiteApiVersion20181101)
+      .postArm(`${resourceId}/publishxml`, true, ARMApiVersions.websiteApiVersion20160301)
       .map(r => r.text());
     return this._client.execute({ resourceId: resourceId }, t => getPublishingProfile);
   }
