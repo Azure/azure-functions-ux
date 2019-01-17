@@ -17,7 +17,7 @@ export class Constants {
 
   public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
   public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
-  public static nodeVersion = '6.5.0'; 
+  public static nodeVersion = '6.5.0';
   public static nodeVersionV2 = '8.11.1';
   public static latest = 'latest';
   public static disabled = 'disabled';
@@ -235,6 +235,7 @@ export class ScenarioIds {
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
