@@ -13,11 +13,8 @@ import { loadTheme } from '@uifabric/styling';
 import './pollyfills';
 import 'react-app-polyfill/ie11';
 import LogService from './utils/LogService';
-import { AppInsights } from 'applicationinsights-js';
 
-if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {
-  AppInsights.downloadAndSetup!({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
-}
+LogService.initialize();
 initializeIcons();
 loadTheme(lightTheme); // make sure we load a custom theme before anything else, custom theme has custom semantic colors
 

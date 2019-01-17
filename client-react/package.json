@@ -5,6 +5,7 @@
   "dependencies": {
     "@reach/router": "^1.1.1",
     "@uifabric/variants": "^6.14.0",
+    "applicationinsights-js": "^1.0.20",
     "axios": "^0.18.0",
     "formik": "^1.4.2",
     "i18next": "^11.5.0",
@@ -35,8 +36,7 @@
     "rxjs": "^6.3.3",
     "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
-    "yup": "^0.26.6",
-    "applicationinsights-js": "^1.0.20"
+    "yup": "^0.26.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -52,6 +52,7 @@
     "@storybook/addon-links": "^4.1.6",
     "@storybook/addons": "^4.1.6",
     "@storybook/react": "^4.1.6",
+    "@types/applicationinsights-js": "^1.0.9",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/i18next-xhr-backend": "^1.4.1",
@@ -69,7 +70,6 @@
     "@types/recompose": "^0.26.3",
     "@types/webpack-env": "^1.13.6",
     "@types/yup": "^0.24.7",
-    "@types/applicationinsights-js": "^1.0.9",
     "axios-mock-adapter": "^1.16.0",
     "core-js": "^2.6.1",
     "enzyme": "^3.7.0",

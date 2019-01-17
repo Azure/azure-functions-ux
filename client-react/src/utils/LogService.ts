@@ -1,7 +1,29 @@
-import { AppInsights as appInsights } from 'applicationinsights-js';
-
+import Url from './url';
+import { AppInsights } from 'applicationinsights-js';
 export default class LogService {
   private static _logToConsole = process.env.NODE_ENV !== 'production';
+
+  public static initialize() {
+    if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {
+      AppInsights.downloadAndSetup!({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
+
+      AppInsights.queue.push(() => {
+        AppInsights.context.application.ver = process.env.REACT_APP_APPLICATION_VERSION || '0.0.0';
+        AppInsights.context.addTelemetryInitializer(envelope => {
+          var telemetryItem = envelope.data.baseData;
+          const sessionId = Url.getParameterByName(null, 'sessionId');
+          const frameId = Url.getParameterByName(null, 'frameId');
+          const shell = Url.getParameterByName(null, 'trustedAuthority');
+          const currentPortal = Url.getHostName();
+          telemetryItem.properties = telemetryItem.properties || {};
+          telemetryItem.properties['sessionId'] = sessionId;
+          telemetryItem.properties['frameId'] = frameId;
+          telemetryItem.properties['shell'] = shell;
+          telemetryItem.properties['currentPortal'] = currentPortal;
+        });
+      });
+    }
+  }
 
   public static error(category: string, id: string, data: any) {
     this._validateCategory(category);
@@ -10,8 +32,8 @@ export default class LogService {
 
     const errorId = `/errors/${category}/${id}`;
 
-    if (appInsights) {
-      appInsights.trackEvent(errorId, data);
+    if (AppInsights) {
+      AppInsights.trackEvent(errorId, data);
     }
     if (this._logToConsole) {
       console.error(`[${category}] - ${data}`);
@@ -25,8 +47,8 @@ export default class LogService {
 
     const warningId = `/warnings/${category}/${id}`;
 
-    if (appInsights) {
-      appInsights.trackEvent(warningId, data);
+    if (AppInsights) {
+      AppInsights.trackEvent(warningId, data);
     }
     if (this._logToConsole) {
       console.warn(`[${category}] - ${data}`);
@@ -40,8 +62,8 @@ export default class LogService {
 
     const warningId = `/event/${category}/${id}`;
 
-    if (appInsights) {
-      appInsights.trackEvent(warningId, data);
+    if (AppInsights) {
+      AppInsights.trackEvent(warningId, data);
     }
     if (this._logToConsole) {
       console.log(`%c[${category}] - ${data}`, 'color: #ff8c00');
@@ -49,8 +71,8 @@ export default class LogService {
   }
 
   public static startTrackPage(pageName: string) {
-    if (appInsights) {
-      appInsights.startTrackPage(pageName);
+    if (AppInsights) {
+      AppInsights.startTrackPage(pageName);
     }
     if (this._logToConsole) {
       console.log(`${this._getTime()} [Start Track Page] - ${pageName}`);
@@ -58,8 +80,8 @@ export default class LogService {
   }
 
   public static stopTrackPage(pageName: string, data: any) {
-    if (appInsights) {
-      appInsights.stopTrackPage(pageName, window.location.href, data);
+    if (AppInsights) {
+      AppInsights.stopTrackPage(pageName, window.location.href, data);
     }
 
     if (this._logToConsole) {
@@ -68,8 +90,8 @@ export default class LogService {
   }
 
   public static startTrackEvent(eventName: string) {
-    if (appInsights) {
-      appInsights.startTrackPage(eventName);
+    if (AppInsights) {
+      AppInsights.startTrackEvent(eventName);
     }
     if (this._logToConsole) {
       console.log(`${this._getTime()} [Start Track Event] - ${eventName}`);
@@ -78,8 +100,8 @@ export default class LogService {
 
   public static stopTrackEvent(eventName: string, data: any) {
     this._validateData(data);
-    if (appInsights) {
-      appInsights.stopTrackEvent(eventName, data);
+    if (AppInsights) {
+      AppInsights.stopTrackEvent(eventName, data);
     }
     if (this._logToConsole) {
       console.log(`${this._getTime()} [Stop Track Event] - ${eventName}`);

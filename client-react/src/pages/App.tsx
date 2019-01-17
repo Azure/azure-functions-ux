@@ -14,7 +14,7 @@ export interface AppProps {
 
 export const App: React.FC<AppProps> = props => {
   if (!props.theme) {
-    return <>'loading'</>;
+    return null;
   }
   return (
     <Fabric>

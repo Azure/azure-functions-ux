@@ -8,9 +8,7 @@ const backendOptions: XHR.BackendOptions = {
   // returning a path:
   // function(lngs, namespaces) { return customPath; }
   // the returned path will interpolate lng, ns if provided like giving a static path
-  loadPath: `${process.env.REACT_APP_SERVER_URL}/api/resources?name={{lng}}&runtime=default&cacheBreaker=${
-    process.env.REACT_APP_CACHE_KEY
-  }`,
+  loadPath: `/api/resources?name={{lng}}&runtime=default&cacheBreaker=${process.env.REACT_APP_CACHE_KEY}`,
 
   // your backend server supports multiloading
   // /locales/resources.json?lng=de+en&ns=ns1+ns2
