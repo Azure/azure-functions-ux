@@ -26,6 +26,7 @@ import { PortalContext } from '../../../PortalContext';
 import { translate, InjectedTranslateProps } from 'react-i18next';
 import LoadingComponent from '../../../components/loading/loading-component';
 import { AxiosError } from 'axios';
+import LogService from '../../../utils/LogService';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {
@@ -140,6 +141,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
 
   const portalContext = useContext(PortalContext);
   const [notificationId, setNotificationId] = useState('');
+  const [loggedStop, setLoggedStop] = useState(false);
   const loadingOrUpdating = isUpdating(props) || isLoading(props);
 
   const [initialLoading, setInitialLoading] = useState(true);
@@ -202,6 +204,11 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
   if (initialLoading) {
     return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
   }
+  if (!loggedStop) {
+    LogService.stopTrackPage('shell', { feature: 'AppSettings' });
+    setLoggedStop(true);
+  }
+
   return (
     <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isUpdating(props), loading: isLoading(props) })}</>
   );
