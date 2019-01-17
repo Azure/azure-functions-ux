@@ -235,6 +235,7 @@ export class ScenarioIds {
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';

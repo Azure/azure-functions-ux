@@ -619,13 +619,19 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_activityLogInfo),
         'image/activity-log.svg',
         {
-          detailBlade: 'ActivityLogBlade',
+          detailBlade:
+            this._scenarioService.checkScenario(ScenarioIds.useOldActivityLogBlade).status === 'enabled'
+              ? 'EventsBrowseBlade'
+              : 'ActivityLogBlade',
           detailBladeInputs: {
             queryInputs: {
               id: site.id,
             },
           },
-          extension: 'Microsoft_Azure_ActivityLog',
+          extension:
+            this._scenarioService.checkScenario(ScenarioIds.useOldActivityLogBlade).status === 'enabled'
+              ? 'Microsoft_Azure_Monitoring'
+              : 'Microsoft_Azure_ActivityLog',
         },
         this._portalService
       )
