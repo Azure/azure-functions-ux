@@ -130,6 +130,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     t,
   } = props;
 
+  const [baseValues, setBaseValues] = useState(convertStateToForm(props));
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     const newValues = convertFormToState(values, metadata.data, slotConfigNames.data);
     updateSite(newValues.site);
@@ -137,6 +138,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
 
     newValues.slotConfigNames && productionWritePermission && updateSlotConfig(newValues.slotConfigNames);
     setNotificationId(portalContext.startNotification(t('configUpdating'), t('configUpdating')));
+    setBaseValues(values);
   };
 
   const portalContext = useContext(PortalContext);
@@ -164,6 +166,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     () => {
       if (!loadingOrUpdating) {
         setInitialLoading(false);
+        setBaseValues(convertStateToForm(props));
       }
 
       if (!loadingOrUpdating && notificationId) {
@@ -209,9 +212,7 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     setLoggedStop(true);
   }
 
-  return (
-    <>{props.children({ onSubmit, initialFormValues: convertStateToForm(props), saving: isUpdating(props), loading: isLoading(props) })}</>
-  );
+  return <>{props.children({ onSubmit, initialFormValues: baseValues, saving: isUpdating(props), loading: isLoading(props) })}</>;
 };
 
 const mapStateToProps = (state: RootState) => {
