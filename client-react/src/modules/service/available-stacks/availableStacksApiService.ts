@@ -5,6 +5,7 @@ import { StacksOS } from './actions';
 
 const availableStacksApiService = {
   fetchAvailableStacks: async (stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
+    console.log(stacksOs);
     const queryString = `?osTypeSelected=${stacksOs}`;
     const resourceId = `/providers/Microsoft.Web/availableStacks`;
     return await MakeArmCall<ArmArray<AvailableStack>>({

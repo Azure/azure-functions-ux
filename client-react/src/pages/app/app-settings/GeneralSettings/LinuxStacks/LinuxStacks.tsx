@@ -41,7 +41,11 @@ export class LinuxStacks extends React.Component<PropsType, any> {
 
     builtInStacks.forEach(availableStackArm => {
       const availableStack: AvailableStack = availableStackArm.properties;
-      linuxFxVersionOptions.push({ key: 'Header', text: availableStack.display, itemType: DropdownMenuItemType.Header });
+      linuxFxVersionOptions.push({
+        key: availableStack.name,
+        text: availableStack.display,
+        itemType: DropdownMenuItemType.Header,
+      });
       availableStack.majorVersions.forEach(majorVersion => {
         linuxFxVersionOptions.push({
           text: majorVersion.displayVersion,
@@ -49,7 +53,7 @@ export class LinuxStacks extends React.Component<PropsType, any> {
         });
       });
 
-      linuxFxVersionOptions.push({ key: 'Header', text: '-', itemType: DropdownMenuItemType.Divider });
+      linuxFxVersionOptions.push({ key: `${availableStack.name}-divider`, text: '-', itemType: DropdownMenuItemType.Divider });
     });
 
     return linuxFxVersionOptions;

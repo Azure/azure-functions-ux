@@ -53,7 +53,7 @@ const armObs$ = armSubject$.pipe(
         requestHeaderDetails: {
           commandName: arm.commandName,
         },
-        url: Url.appendQueryString(arm.resourceId, `api-version=${arm.apiVersion}`),
+        url: Url.appendQueryString(`${arm.resourceId}${arm.queryString || ''}`, `api-version=${arm.apiVersion}`),
       };
     });
     return from(

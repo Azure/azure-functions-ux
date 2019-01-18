@@ -78,7 +78,7 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTra
         linkText={t('applicationSettings')}>
         <ApplicationSettingsPivot {...props} />
       </PivotItem>
-      {enableDefaultDocuments && (
+      {enableDefaultDocuments ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, defaultDocumentsErrorCheck)
@@ -87,9 +87,11 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTra
           linkText={t('defaultDocuments')}>
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
+      ) : (
+        <PivotItem />
       )}
 
-      {enablePathMappings && (
+      {enablePathMappings ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck)
@@ -98,6 +100,8 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTra
           linkText={t('pathMappings')}>
           <PathMappingsPivot {...props} />
         </PivotItem>
+      ) : (
+        <PivotItem />
       )}
     </Pivot>
   );
