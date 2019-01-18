@@ -20,7 +20,7 @@ const CustomTabRenderer = (
       {defaultRenderer(link)}
       {iconState === 'error' && (
         <Icon
-          iconName="ErrorBadge"
+          iconName="CircleFill"
           id={`${link.itemKey}-error-icon`}
           styles={{
             root: {
