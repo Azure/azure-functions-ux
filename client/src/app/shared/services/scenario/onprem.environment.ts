@@ -45,6 +45,27 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.addPushNotifications] = {
+      id: ScenarioIds.addPushNotifications,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
+      id: ScenarioIds.addDiagnoseAndSolve,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.deploymentCenter] = {
+      id: ScenarioIds.deploymentCenter,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
       id: ScenarioIds.remoteDebuggingSupported,
       runCheck: () => {
