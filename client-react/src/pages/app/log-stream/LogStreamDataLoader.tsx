@@ -1,163 +1,153 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { bindActionCreators, Dispatch } from 'redux';
-
-import { fetchSiteRequest } from '../../../modules/site/actions';
-import { SiteState } from '../../../modules/site/reducer';
-import { RootAction, RootState } from '../../../modules/types';
-import { LogEntry, timerInterval } from './LogStream.types';
+import { RootState } from '../../../modules/types';
+import { LogEntry } from './LogStream.types';
 import { translate } from 'react-i18next';
-// import { startStreamingRequest } from './LogStreamData';
+import { processLogs } from './LogStreamData';
+import { fetchSiteRequest } from '../../../modules/site/actions';
 import { store } from '../../../store';
-import { _processLogs } from './LogStreamData';
+import { SiteState } from '../../../modules/site/reducer';
+import LogStream from './LogStream';
 
 export interface LogStreamDataLoaderProps {
-  children: (
-    props: {
-      //Child props including computed in this component
-      reconnect: () => void;
-      pause: () => void;
-      start: () => void;
-      clear: () => void;
-      updateLogOption: (useWebServer: boolean) => void;
-      isStreaming: boolean;
-      site: SiteState;
-      clearLogs: boolean;
-      logEntries: LogEntry[];
-    }
-  ) => JSX.Element;
-
-  //Props passed directly into this component
   fetchSite: () => void;
+  reconnect: () => void;
+  pause: () => void;
+  start: () => void;
+  clear: () => void;
+  updateLogOption: (useWebServer: boolean) => void;
   site: SiteState;
 }
 
-const LogStreamDataLoader: React.SFC<LogStreamDataLoaderProps> = props => {
-  const emptyLogEntries: LogEntry[] = [];
-  const { fetchSite, site } = props;
-  const [isStreaming, setIsStreaming] = React.useState(true);
-  const [clearLogs, setClearLogs] = React.useState(false);
-  const [logEntries, setLogEntries] = React.useState(emptyLogEntries);
+export interface LogStreamDataLoaderState {
+  isStreaming: boolean;
+  logEntries: LogEntry[];
+  clearLogs: boolean;
+}
 
-  let xhReq = new XMLHttpRequest();
-  let timeouts: number[] = [];
-  let logStreamIndex = 0;
-  let webServerLogs = false;
+class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
+  private _currentSiteId = '';
+  private _xhReq: XMLHttpRequest;
+  private _logStreamIndex = 0;
+  private _webServerLogs = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      isStreaming: true,
+      logEntries: [],
+      clearLogs: false,
+    };
+  }
 
-  const reconnect = () => {
-    const hostNameSslStates = site.data.properties.hostNameSslStates;
-    const scmHostName =
-      hostNameSslStates && hostNameSslStates.length > 0 ? hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name : '';
-    const suffix = webServerLogs ? 'http' : '';
+  public componentWillMount() {
+    this.props.fetchSite();
+  }
+
+  public componentDidUpdate() {
+    if (this.props.site.data.id !== this._currentSiteId) {
+      this._currentSiteId = this.props.site.data.id;
+      this._reconnectFunction();
+    }
+  }
+
+  public render() {
+    return (
+      <>
+        <LogStream
+          reconnect={this._reconnectFunction}
+          pause={this._pauseFunction}
+          start={this._startFunction}
+          clear={this._clearFunction}
+          updateLogOption={this._updateLogOptionFunction}
+          isStreaming={this.state.isStreaming}
+          clearLogs={this.state.clearLogs}
+          logEntries={this.state.logEntries}
+          site={this.props.site}
+        />
+      </>
+    );
+  }
+
+  private _pauseFunction = () => {
+    this.setState({
+      isStreaming: false,
+    });
+  };
+
+  private _startFunction = () => {
+    this.setState({
+      isStreaming: true,
+    });
+  };
+
+  private _clearFunction = () => {
+    this.setState({
+      logEntries: [],
+      clearLogs: true,
+    });
+  };
+
+  private _updateLogOptionFunction = (useWebServer: boolean) => {
+    this._webServerLogs = useWebServer;
+    this._clearFunction();
+    this._reconnectFunction();
+  };
+
+  private _reconnectFunction = () => {
+    this._closeStream();
+    this._openStream();
+    this._listenForProgress();
+  };
+
+  private _closeStream = () => {
+    if (this._xhReq) {
+      this._xhReq.abort();
+      this._logStreamIndex = 0;
+    }
+  };
+
+  private _openStream = () => {
+    const hostNameSslStates = this.props.site.data.properties.hostNameSslStates;
+    const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
+    const suffix = this._webServerLogs ? 'http' : '';
     const logUrl = `https://${scmHostName}/api/logstream/${suffix}`;
     const token = store.getState().portalService.startupInfo!.token;
-    if (xhReq) {
-      timeouts.forEach(window.clearTimeout);
-      xhReq.abort();
-      timeouts = [];
-    }
-    xhReq = new XMLHttpRequest();
-    xhReq.open('GET', logUrl, true);
-    xhReq.setRequestHeader('Authorization', `Bearer ${token}`);
-    xhReq.setRequestHeader('FunctionsPortal', '1');
-    xhReq.send(null);
-    callBack();
+    this._xhReq = new XMLHttpRequest();
+    this._xhReq.open('GET', logUrl, true);
+    this._xhReq.setRequestHeader('Authorization', `Bearer ${token}`);
+    this._xhReq.setRequestHeader('FunctionsPortal', '1');
+    this._xhReq.send(null);
   };
 
-  const callBack = () => {
-    if (isStreaming && logStreamIndex !== xhReq.responseText.length) {
-      const newLogStream = xhReq.responseText.substring(logStreamIndex);
-      if (newLogStream !== '') {
-        const oldLogs = logEntries;
-        const newLogs = _processLogs(newLogStream, oldLogs);
-        setLogEntries(newLogs);
-      }
-      logStreamIndex = xhReq.responseText.length;
-      window.setTimeout(() => {
-        const el = document.getElementById('log-body');
-        if (el) {
-          el.scrollTop = el.scrollHeight;
+  private _listenForProgress = () => {
+    this._xhReq.onprogress = () => {
+      const newLogStream = this._xhReq.responseText.substring(this._logStreamIndex);
+      if (this.state.isStreaming) {
+        this._logStreamIndex = this._xhReq.responseText.length;
+        if (newLogStream) {
+          const oldLogs = this.state.logEntries;
+          const newLogs = processLogs(newLogStream, oldLogs);
+          this.setState({
+            logEntries: newLogs,
+          });
         }
-      });
-    }
-    if (xhReq.readyState !== XMLHttpRequest.DONE) {
-      timeouts.push(window.setTimeout(callBack, timerInterval));
-    }
-  };
-
-  // const reconnect = () => {
-  //   startStreamingRequest(
-  //     xhReq,
-  //     setXhReq,
-  //     timeouts,
-  //     setTimeouts,
-  //     logStreamIndex,
-  //     setLogStreamIndex,
-  //     webServerLogs,
-  //     isStreaming,
-  //     logEntries,
-  //     setLogEntries
-  //   );
-  // };
-
-  // const updateRequest = () => {
-  //   sendRequest(xhReq, timeouts, setTimeouts, isStreaming, logStreamIndex, setLogStreamIndex, logEntries, setLogEntries);
-  // };
-
-  const pause = () => {
-    setIsStreaming(false);
-    callBack();
-  };
-
-  const start = () => {
-    setIsStreaming(true);
-    callBack();
-  };
-
-  const clear = () => {
-    setClearLogs(true);
-    setLogEntries([]);
-    callBack();
-  };
-
-  const updateLogOption = (useWebServer: boolean) => {
-    webServerLogs = useWebServer;
-    clear();
-    reconnect();
-  };
-
-  useEffect(() => {
-    fetchSite();
-  }, []);
-
-  useEffect(
-    () => {
-      const site = props.site;
-      if (site && site.data && site.data.properties && site.data.properties.hostNameSslStates) {
-        reconnect();
       }
-    },
-    [site.data.id]
-  );
-
-  return <>{props.children({ reconnect, pause, start, clear, updateLogOption, isStreaming, site, clearLogs, logEntries })}</>;
-};
+    };
+  };
+}
 
 const mapStateToProps = (state: RootState) => {
   return {
     site: state.site,
-    token: state.portalService.startupInfo!.token,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
-  bindActionCreators(
-    {
-      fetchSite: fetchSiteRequest,
-    },
-    dispatch
-  );
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSite: () => dispatch(fetchSiteRequest()),
+  };
+};
 
 export default compose(
   translate('translation'),

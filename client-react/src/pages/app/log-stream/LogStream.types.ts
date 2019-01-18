@@ -22,7 +22,6 @@ export enum LogTypes {
   WebServer = 'webserver',
 }
 
-export const timerInterval: number = 1000;
 export const newLine: string = '\n';
 export const maxLogEntries: number = 1000;
 

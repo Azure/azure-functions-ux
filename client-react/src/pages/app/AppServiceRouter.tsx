@@ -19,7 +19,7 @@ const AppSettingsLoadable: any = Loadable({
   loading: LoadingComponent,
 });
 const LogStreamLoadable: any = Loadable({
-  loader: () => import(/* webpackChunkName:"logstream" */ './log-stream/LogStream'),
+  loader: () => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'),
   loading: LoadingComponent,
 });
 
