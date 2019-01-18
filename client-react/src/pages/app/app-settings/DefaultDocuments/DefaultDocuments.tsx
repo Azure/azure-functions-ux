@@ -20,9 +20,6 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
   });
 
   const { values, setValues, errors, t } = props;
-  const duplicateValidation = (value: string) => {
-    return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? 'This field must be unique.' : null;
-  };
   const removeItem = (index: number) => {
     const defaultDocuments: string[] = JSON.parse(JSON.stringify(values.config.properties.defaultDocuments));
     defaultDocuments.splice(index, 1);
@@ -93,7 +90,6 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
               errors.config.properties.defaultDocuments &&
               errors.config.properties.defaultDocuments[index]
             }
-            validate={duplicateValidation}
             {...props}
           />
           <IconButton

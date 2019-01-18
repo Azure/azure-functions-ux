@@ -18,7 +18,6 @@ import {
   getJavaContainersOptions,
   getFrameworkVersionOptions,
 } from './JavaData';
-import requiredValidation from '../../../../../utils/formValidation/required';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -80,7 +79,6 @@ const JavaStack: React.SFC<Props> = props => {
         component={Dropdown}
         fullpage
         required
-        validate={value => requiredValidation(value, t('required'))}
         disabled={!values.siteWritePermission}
         label={t('javaMinorVersion')}
         id="app-settings-java-minor-verison"
@@ -91,7 +89,6 @@ const JavaStack: React.SFC<Props> = props => {
         component={Dropdown}
         fullpage
         required
-        validate={value => requiredValidation(value, t('required'))}
         label={t('javaContainer')}
         disabled={!values.siteWritePermission}
         id="app-settings-java-container-runtime"
@@ -103,7 +100,6 @@ const JavaStack: React.SFC<Props> = props => {
           component={Dropdown}
           fullpage
           required
-          validate={value => requiredValidation(value, t('required'))}
           disabled={!values.siteWritePermission}
           label={t('javaContainerVersion')}
           id="app-settings-java-container-version"
