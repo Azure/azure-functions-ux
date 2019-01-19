@@ -72,6 +72,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
           styles={{
             root: formElementStyle,
           }}
+          autoFocus
         />
         <TextField
           label={t('value')}

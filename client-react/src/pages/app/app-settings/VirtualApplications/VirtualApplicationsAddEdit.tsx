@@ -82,6 +82,7 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('physicalPath')}
