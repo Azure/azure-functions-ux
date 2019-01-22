@@ -24,6 +24,7 @@ export interface LogStreamDataLoaderState {
   isStreaming: boolean;
   logEntries: LogEntry[];
   clearLogs: boolean;
+  connectionError: boolean;
 }
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
@@ -37,6 +38,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       isStreaming: true,
       logEntries: [],
       clearLogs: false,
+      connectionError: false,
     };
   }
 
@@ -63,6 +65,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           isStreaming={this.state.isStreaming}
           clearLogs={this.state.clearLogs}
           logEntries={this.state.logEntries}
+          connectionError={this.state.connectionError}
           site={this.props.site}
         />
       </>
@@ -79,6 +82,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     this.setState({
       isStreaming: true,
     });
+    this._printNewLogs(true);
   };
 
   private _clearFunction = () => {
@@ -90,13 +94,20 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
 
   private _updateLogOptionFunction = (useWebServer: boolean) => {
     this._webServerLogs = useWebServer;
-    this._clearFunction();
+    this.setState({
+      logEntries: [],
+      clearLogs: false,
+    });
     this._reconnectFunction();
   };
 
   private _reconnectFunction = () => {
+    this.setState({
+      connectionError: false,
+    });
     this._closeStream();
     this._openStream();
+    this._listenForErrors();
     this._listenForProgress();
   };
 
@@ -120,20 +131,32 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     this._xhReq.send(null);
   };
 
+  private _listenForErrors = () => {
+    this._xhReq.onerror = () => {
+      this.setState({
+        connectionError: true,
+      });
+    };
+  };
+
   private _listenForProgress = () => {
     this._xhReq.onprogress = () => {
-      const newLogStream = this._xhReq.responseText.substring(this._logStreamIndex);
-      if (this.state.isStreaming) {
-        this._logStreamIndex = this._xhReq.responseText.length;
-        if (newLogStream) {
-          const oldLogs = this.state.logEntries;
-          const newLogs = processLogs(newLogStream, oldLogs);
-          this.setState({
-            logEntries: newLogs,
-          });
-        }
-      }
+      this._printNewLogs();
     };
+  };
+
+  private _printNewLogs = (dumpLogs?: boolean) => {
+    const newLogStream = this._xhReq.responseText.substring(this._logStreamIndex);
+    if (this.state.isStreaming || dumpLogs) {
+      this._logStreamIndex = this._xhReq.responseText.length;
+      if (newLogStream) {
+        const oldLogs = this.state.logEntries;
+        const newLogs = processLogs(newLogStream, oldLogs);
+        this.setState({
+          logEntries: newLogs,
+        });
+      }
+    }
   };
 }
 

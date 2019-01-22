@@ -13,6 +13,7 @@ interface LogStreamLogContainerProps {
   logEntries: LogEntry[];
   site: ArmObj<Site>;
   updateLogOption: (useWebServer: boolean) => void;
+  connectionError: boolean;
 }
 
 const containerDivStyle = style({
@@ -46,6 +47,13 @@ const connectingDivStyle = style({
   paddingBottom: '5px',
 });
 
+const connectionErrorDivStyle = style({
+  color: '#ff6161',
+  fontWeight: 'bolder',
+  whiteSpace: 'normal',
+  paddingBottom: '5px',
+});
+
 const logEntryDivStyle = style({
   whiteSpace: 'pre-wrap',
   paddingBottom: '5px',
@@ -58,7 +66,7 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
   }
 
   public render() {
-    const { clearLogs, logEntries, site, t } = this.props;
+    const { clearLogs, logEntries, connectionError, site, t } = this.props;
     const scenarioChecker = new ScenarioService(t);
     return (
       <div className={containerDivStyle}>
@@ -82,6 +90,7 @@ class LogStreamLogContainer extends React.Component<LogStreamLogContainerPropsCo
         )}
         <div className={bodyDivStyle}>
           {!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>}
+          {connectionError && !clearLogs && <div className={connectionErrorDivStyle}>{t('feature_logStreamingConnectionError')}</div>}
           {!!logEntries &&
             logEntries.map(logEntry => (
               <div key={logEntry.message} className={logEntryDivStyle} style={{ color: this._getLogTextColor(logEntry.level) }}>

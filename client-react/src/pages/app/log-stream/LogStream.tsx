@@ -14,10 +14,11 @@ export interface LogStreamProps {
   site: SiteState;
   clearLogs: boolean;
   logEntries: LogEntry[];
+  connectionError: boolean;
 }
 
 const LogStream: React.SFC<LogStreamProps> = props => {
-  const { reconnect, pause, start, clear, updateLogOption, isStreaming, site, clearLogs, logEntries } = props;
+  const { reconnect, pause, start, clear, updateLogOption, isStreaming, site, clearLogs, logEntries, connectionError } = props;
   return (
     <>
       <LogStreamCommandBar
@@ -28,7 +29,13 @@ const LogStream: React.SFC<LogStreamProps> = props => {
         isStreaming={isStreaming}
         logEntries={logEntries}
       />
-      <LogStreamLogContainer clearLogs={clearLogs} logEntries={logEntries} site={site.data} updateLogOption={updateLogOption} />
+      <LogStreamLogContainer
+        clearLogs={clearLogs}
+        logEntries={logEntries}
+        site={site.data}
+        updateLogOption={updateLogOption}
+        connectionError={connectionError}
+      />
     </>
   );
 };

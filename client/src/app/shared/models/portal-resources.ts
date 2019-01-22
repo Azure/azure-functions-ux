@@ -1498,4 +1498,5 @@ export class PortalResources {
   public static fieldMustBeUnique = 'fieldMustBeUnique';
   public static addNewVirtualDirectoryV3 = 'addNewVirtualDirectoryV3';
   public static addNewHandler = 'addNewHandler';
+  public static feature_logStreamingConnectionError = 'feature_logStreamingConnectionError';
 }

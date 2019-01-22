@@ -1,4 +1,4 @@
-export class UtilitiesService {
+export class TextUtilitiesService {
   public static fallbackCopyTextToClipboard(text: string) {
     // This way is less reliable but is the only way on older browser versions and IE
     const textArea = document.createElement('textarea');

@@ -7,7 +7,7 @@ import { RootState } from '../../../modules/types';
 import { connect } from 'react-redux';
 import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { LogEntry } from './LogStream.types';
-import { UtilitiesService } from '../../../utils/utilities';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
 
 // tslint:disable-next-line:member-ordering
 
@@ -114,7 +114,7 @@ function _copyLogs(logs: LogEntry[]) {
   logs.forEach(logEntry => {
     logContent += `${logEntry.message}\n`;
   });
-  UtilitiesService.copyContentToClipboard(logContent);
+  TextUtilitiesService.copyContentToClipboard(logContent);
 }
 
 const mapStateToProps = (state: RootState) => ({
