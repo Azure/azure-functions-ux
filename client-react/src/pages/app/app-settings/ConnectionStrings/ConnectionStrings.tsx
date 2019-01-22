@@ -134,6 +134,7 @@ export class ConnectionStrings extends React.Component<
   }
 
   private onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
+    const { t } = this.props;
     if (!column || !item) {
       return null;
     }
@@ -143,7 +144,8 @@ export class ConnectionStrings extends React.Component<
         <IconButton
           iconProps={{ iconName: 'Delete' }}
           id={`app-settings-connection-strings-delete-${index}`}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -153,19 +155,25 @@ export class ConnectionStrings extends React.Component<
         <IconButton
           iconProps={{ iconName: 'Edit' }}
           id={`app-settings-connection-strings-edit-${index}`}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );
     }
     if (column.key === 'sticky') {
       return item.sticky ? (
-        <IconButton id={`app-settings-connection-strings-sticky-${index}`} iconProps={{ iconName: 'CheckMark' }} title="Sticky" />
+        <IconButton
+          id={`app-settings-connection-strings-sticky-${index}`}
+          iconProps={{ iconName: 'CheckMark' }}
+          ariaLabel={t('slotSettingOn')}
+          title={t('sticky')}
+        />
       ) : null;
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        'Hidden value. Click show values button above to view'
+        t('hiddenValueClickAboveToShow')
       ) : (
         <span id={`app-settings-connection-strings-value-${index}`}>{item[column.fieldName!]}</span>
       );

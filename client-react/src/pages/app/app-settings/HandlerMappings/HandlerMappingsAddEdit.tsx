@@ -63,6 +63,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('scriptProcessor')}

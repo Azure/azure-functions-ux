@@ -44,7 +44,7 @@ export class VirtualApplications extends React.Component<
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          New Directory/Application
+          {t('addNewVirtualDirectoryV3')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
@@ -125,7 +125,7 @@ export class VirtualApplications extends React.Component<
   }
 
   private onRenderItemColumn = (item: VirtualApplication, index: number, column: IColumn) => {
-    const { values } = this.props;
+    const { values, t } = this.props;
     if (!column || !item) {
       return null;
     }
@@ -135,7 +135,8 @@ export class VirtualApplications extends React.Component<
         <IconButton
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Delete' }}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -145,13 +146,14 @@ export class VirtualApplications extends React.Component<
         <IconButton
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Edit' }}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );
     }
     if (column.key === 'type') {
-      return item.virtualDirectory ? 'Directory' : 'Application';
+      return item.virtualDirectory ? t('directory') : t('application');
     }
     return <span>{item[column.fieldName!]}</span>;
   };

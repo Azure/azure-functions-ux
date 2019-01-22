@@ -1493,4 +1493,9 @@ export class PortalResources {
   public static scriptFunctionApp = 'scriptFunctionApp';
   public static precompiledDotNetApp = 'precompiledDotNetApp';
   public static functionAppType = 'functionAppType';
+  public static slotSettingOn = 'slotSettingOn';
+  public static hiddenValueClickAboveToShow = 'hiddenValueClickAboveToShow';
+  public static fieldMustBeUnique = 'fieldMustBeUnique';
+  public static addNewVirtualDirectoryV3 = 'addNewVirtualDirectoryV3';
+  public static addNewHandler = 'addNewHandler';
 }
