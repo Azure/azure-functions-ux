@@ -151,7 +151,9 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
   private _reset() {
     this.loadingRegistries = false;
+    this.repositoryItems = [];
     this.loadingRepo = false;
+    this.tagItems = [];
     this.loadingTag = false;
     this.registriesMissing = false;
   }
