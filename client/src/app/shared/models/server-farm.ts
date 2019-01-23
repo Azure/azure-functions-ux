@@ -3,4 +3,5 @@ export interface ServerFarm {
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
   isXenon?: boolean;
+  numberOfWorkers?: number;
 }

@@ -1,12 +1,14 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import ReactSVG from 'react-svg';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ITheme } from '@uifabric/styling';
-import IState from '../../modules/types';
-import { style } from 'typestyle';
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import ReactSVG from 'react-svg';
+import { compose } from 'recompose';
+import { style } from 'typestyle';
+
+import { ITheme } from '@uifabric/styling';
+
+import { RootState } from '../../modules/types';
 
 interface InformationCardProps {
   id: string;
@@ -86,7 +88,7 @@ const InformationCard = (props: InformationCardPropsCombined) => {
   );
 };
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default compose<InformationCardPropsCombined, InformationCardProps>(

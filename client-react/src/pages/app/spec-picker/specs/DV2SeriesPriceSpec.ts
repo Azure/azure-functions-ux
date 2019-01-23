@@ -2,7 +2,7 @@ import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm } from '../../../../mo
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { store } from '../../../../store';
 import axios from 'axios';
-import { ArmProviderInfo } from 'src/models/HttpResult';
+import { ArmProviderInfo } from '../../../../models/HttpResult';
 
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;

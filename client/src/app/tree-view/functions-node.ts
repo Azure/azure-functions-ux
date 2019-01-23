@@ -87,6 +87,7 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
       },
       {
         stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped),
+        limitedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsLimited),
         noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess),
         nonReachableTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsInaccessible),
         readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock),

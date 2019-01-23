@@ -26,6 +26,8 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
   .tiers-header {
     margin: 20px 0px 0px 15px;
+    font-size: 18px;
+    font-weight: 600;
   }
 
   section {

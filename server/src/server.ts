@@ -8,6 +8,7 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as compression from 'compression';
+import axios from 'axios';
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -20,10 +21,10 @@ import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
-import { getAcrRepositories, getAcrTags } from './actions/acr';
 import { validateContainerImage } from './actions/containerValidation';
-
+const hsts = require('hsts');
 const cookieSession = require('cookie-session');
+
 if (process.env.aiInstrumentationKey) {
   appInsights
     .setup(process.env.aiInstrumentationKey)
@@ -44,10 +45,10 @@ configLoader.config();
 app
   .use(compression())
   .use(express.static(path.join(__dirname, 'public')))
+  .use(express.static(path.join(__dirname, 'public', 'react')))
   .use(logger('combined'))
-  .set('view engine', 'pug')
-  .set('views', 'src/views')
-  .set('view cache', true)
+  .set('views', __dirname + '/views')
+  .set('view engine', 'jsx')
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(cookieParser())
@@ -61,8 +62,13 @@ app
         secure: true,
       },
     })
+  )
+  .use(
+    hsts({
+      maxAge: 15552000, // 180 days in seconds
+    })
   );
-
+app.engine('jsx', require('express-react-views').createEngine());
 let packageJson = { version: '0.0.0' };
 //This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
 if (fs.existsSync(path.join(__dirname, 'package.json'))) {
@@ -80,10 +86,48 @@ const redirectToAcom = (req: express.Request, res: express.Response, next: NextF
   }
 };
 
-const renderIndex = (req: express.Request, res: express.Response) => {
+const versionCache: { [key: string]: any } = {};
+const versionConfigPath = path.join(__dirname, 'public', 'ng-min', `${staticConfig.config.version}.json`);
+if (fs.existsSync(versionConfigPath)) {
+  const versionConfig = require(versionConfigPath);
+  versionCache[staticConfig.config.version] = versionConfig;
+}
+const getVersionFiles = async (version: string) => {
+  try {
+    if (versionCache[version]) {
+      return versionCache[version];
+    }
+    const versionCall = await axios.get(`https://functions.azure.com/ng-min/${version}.json`);
+    const versionConfig = versionCall.data;
+    versionCache[version] = versionConfig;
+    return versionConfig;
+  } catch (err) {
+    return null;
+  }
+};
+
+const reactHtmlCache: { [key: string]: string } = {};
+const reactIndexPage = path.join(__dirname, 'public', 'react', 'index.react.html');
+if (fs.existsSync(reactIndexPage)) {
+  const reactHtml = fs.readFileSync(reactIndexPage, 'utf8');
+  reactHtmlCache[staticConfig.config.version] = reactHtml;
+}
+const renderIndex = async (req: express.Request, res: express.Response) => {
   staticConfig.config.clientOptimzationsOff =
     req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
-  res.render('index', staticConfig);
+  const sendReact = req.query['appsvc.react'];
+  const versionReq = req.query['appsvc.version'];
+
+  if (sendReact) {
+    if (reactHtmlCache[staticConfig.config.version]) {
+      res.send(reactHtmlCache[staticConfig.config.version]);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    const versionConfig = await getVersionFiles(versionReq || staticConfig.config.version);
+    res.render('index', { ...staticConfig, version: versionConfig });
+  }
 };
 app.get('/', redirectToAcom, renderIndex);
 
@@ -126,8 +170,6 @@ app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken);
-app.post('/api/getAcrRepositories', getAcrRepositories);
-app.post('/api/getAcrTags', getAcrTags);
 app.post('/api/validateContainerImage', validateContainerImage);
 setupDeploymentCenter(app);
 setupAzureStorage(app);

@@ -66,7 +66,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
   public webSocketsEnabledOptions: SelectOption<boolean>[];
   public alwaysOnOptions: SelectOption<boolean>[];
-  public managedPipelineModeOptions: SelectOption<number>[];
+  public managedPipelineModeOptions: SelectOption<string>[];
   public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
   public remoteDebuggingVersionOptions: SelectOption<string>[];
   public FTPAccessOptions: SelectOption<string>[];
@@ -596,8 +596,8 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     this.alwaysOnOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
 
     this.managedPipelineModeOptions = [
-      { displayLabel: this._translateService.instant(PortalResources.pipelineModeIntegrated), value: 0 },
-      { displayLabel: this._translateService.instant(PortalResources.pipelineModeClassic), value: 1 },
+      { displayLabel: this._translateService.instant(PortalResources.pipelineModeIntegrated), value: 'Integrated' },
+      { displayLabel: this._translateService.instant(PortalResources.pipelineModeClassic), value: 'Classic' },
     ];
 
     this.remoteDebuggingEnabledOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];

@@ -647,7 +647,7 @@
     <value>Gerenciar</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Monitorar</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Escolher uma associação de entrada</value>
@@ -3217,6 +3217,15 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Autoescala</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Aumentar.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Computar o tamanho da VM: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Não há instâncias disponíveis suficientes.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Escalar para um grande número de instâncias</value>
   </data>
@@ -3224,7 +3233,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Até 100 instâncias. Mais são permitidas sob solicitação.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Até {0} instâncias. Sujeito a disponibilidade.</value>
+    <value>Até {0} instâncias. Sujeito à disponibilidade.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Instâncias ilimitadas. Sujeito à disponibilidade.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Alta Densidade</value>
@@ -3750,7 +3762,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Tem certeza de que deseja desconectar a implantação?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Biblioteca Comunitária Sem Servidor (Versão Prévia)</value>
+    <value>Biblioteca Comunitária Sem Servidor</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Não encontrou o que você está procurando? Confira a Biblioteca Comunitária Sem Servidor do Azure!</value>
@@ -4050,7 +4062,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Pilha em tempo de execução do Aplicativo de Funções</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Os Aplicativos de Funções v2 agora são em único idioma. Defina a pilha em tempo de execução antes de adicionar funções ao aplicativo.</value>
+    <value>Os Aplicativos de Funções v2 agora têm em único idioma. Defina a pilha de tempo de execução antes de adicionar funções ao seu aplicativo.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Pilha em Tempo de Execução de Função</value>
@@ -4582,5 +4594,35 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>O caminho para o Windows precisa começar com 'c:\'.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>O aplicativo de funções está em um estado limitado. Não é possível recuperar todos os dados.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limitado</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funções (Limitadas)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Todas as funções estão paradas. Inicie o aplicativo para exibi-las.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Você não tem permissões de gravação neste aplicativo.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Você tem acesso somente leitura. As funções requerem acesso de gravação para serem exibidas.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>As funções em execução por trás de um balanceador de carga interno não podem ser acessadas fora de suas VNETs. Verifique se você está na mesma VNET que as funções para acessá-las.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxies (Limitados)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Para alterar as configurações do slot, você deve ter acesso de gravação no aplicativo de produção.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Para alterar a configuração de troca automática, você deve ter permissões de gravação no aplicativo de produção.</value>
   </data>
 </root>

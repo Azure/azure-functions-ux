@@ -15,9 +15,7 @@ context('App Settings Readonly Access', () => {
         } else {
           expect(el[0].className).to.include('is-disabled');
         }
-      })
-      .get('#ChoiceGroup28-true')
-      .should('be.disabled');
+      });
   });
 
   it('application settings and connection strings should be replaced by warning boxes', () => {

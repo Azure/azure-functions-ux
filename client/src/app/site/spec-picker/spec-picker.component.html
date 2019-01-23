@@ -38,7 +38,7 @@
 
     <section class="centered">
       <ng-container *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0">
-        <h2 class="tiers-header" tabindex="0" >{{'pricing_recommendedTiers' | translate}}</h2>
+        <h3 class="tiers-header" tabindex="0" >{{'pricing_recommendedTiers' | translate}}</h3>
         <spec-list [specGroup]="specManager.selectedSpecGroup"
           [isRecommendedList]="true"
           (onSelectedSpec)="selectSpec($event)"></spec-list>
@@ -58,7 +58,7 @@
       </div>
 
       <ng-container *ngIf="showAllSpecs">
-        <h2 class="tiers-header" tabindex="0">{{'pricing_additionalTiers' | translate}}</h2>
+        <h3 class="tiers-header" tabindex="0">{{'pricing_additionalTiers' | translate}}</h3>
         <spec-list [specGroup]="specManager.selectedSpecGroup"
           [isRecommendedList]="false"
           (onSelectedSpec)="selectSpec($event)"></spec-list>

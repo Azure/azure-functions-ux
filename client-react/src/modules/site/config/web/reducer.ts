@@ -1,46 +1,35 @@
-import { ArmObj, SiteConfig, VirtualApplication } from '../../../../models/WebAppModels';
-import { IAction } from '../../../../models/action';
-import { UPDATE_SITE_CONFIG_WEB, UPDATE_SITE_CONFIG_WEB_NO_CACHE } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IWebConfigState {
-  loading: boolean;
-  config: ArmObj<SiteConfig>;
-  virtualApplications: VirtualApplication[];
-  currentlySelectedStack: string;
-  saving: boolean;
-}
-export const InitialState: IWebConfigState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  saving: false,
-  currentlySelectedStack: '',
-  config: {
+import { ArmObj, SiteConfig } from '../../../../models/WebAppModels';
+import { metadataReducer } from '../../../ApiReducerHelper';
+import { ApiState } from '../../../types';
+import * as actions from './actions';
+import { AREA_STRING, WEB_CONFIG_FETCH_SUCCESS, WEB_CONFIG_UPDATE_SUCCESS } from './actionTypes';
+
+export type ConfigAction = ActionType<typeof actions>;
+
+export type ConfigStateType = ApiState<ArmObj<SiteConfig>>;
+export const InitialState = {
+  data: {
     id: '',
     properties: {} as any,
     name: '',
     location: '',
     kind: '',
   },
-  virtualApplications: [],
 };
 
-const webConfig = (state = InitialState, action: IAction<Partial<IWebConfigState>>) => {
-  switch (action.type) {
-    case UPDATE_SITE_CONFIG_WEB:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(6000),
-        ...action.payload,
-      };
-    case UPDATE_SITE_CONFIG_WEB_NO_CACHE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default webConfig;
+export default combineReducers<ConfigStateType, ConfigAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case WEB_CONFIG_FETCH_SUCCESS:
+        return action.webConfig;
+      case WEB_CONFIG_UPDATE_SUCCESS:
+        return action.webConfig;
+      default:
+        return state;
+    }
+  },
+});

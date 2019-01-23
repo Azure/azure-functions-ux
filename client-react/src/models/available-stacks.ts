@@ -35,7 +35,7 @@ export interface Framework {
 export interface AvailableStack {
   name: string;
   display: string;
-  dependency: string;
+  dependency?: string;
   majorVersions: MajorVersion[];
   frameworks: Framework[];
 }

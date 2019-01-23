@@ -47,12 +47,6 @@ describe('Deployment State Manager', () => {
         deploymentSlotEnabled: [false],
         deploymentSlot: ['slot'],
       }),
-      testEnvironment: _fb.group({
-        enabled: [false],
-        newApp: [true],
-        appServicePlanId: ['aspid'],
-        webAppId: [null],
-      }),
     });
   };
 
@@ -96,7 +90,6 @@ describe('Deployment State Manager', () => {
       (service: DeploymentCenterStateManager) => {
         service.resourceIdStream$.next('/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/site');
         expect(service['_location']).toBe('loc');
-        expect(service['_pricingTier']).toBe('sku');
         expect(service.siteArm.location).toBe('loc');
         expect(service.siteArm.properties.sku).toBe('sku');
       }
@@ -167,21 +160,6 @@ describe('Deployment State Manager', () => {
       [DeploymentCenterStateManager],
       (service: DeploymentCenterStateManager) => {
         expect(service.deploymentSlotSetting).toBeNull();
-      }
-    ));
-
-    it('should be get test environment settings form group', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        service.wizardForm = starterWizardForm();
-        expect(service.testEnvironmentSettings.value.appServicePlanId).toBe('aspid');
-      }
-    ));
-
-    it('test environment settings returns null if uninitialized', inject(
-      [DeploymentCenterStateManager],
-      (service: DeploymentCenterStateManager) => {
-        expect(service.testEnvironmentSettings).toBeNull();
       }
     ));
   });

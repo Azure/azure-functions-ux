@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import Dropdown from '../../../../../components/form-controls/DropDown';
-import IState from '../../../../../modules/types';
-import { ArmObj } from '../../../../../models/WebAppModels';
-import { AvailableStack } from '../../../../../models/available-stacks';
 import { Field, FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../../AppSettings.Types';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
+import { RootState } from '../../../../../modules/types';
+import { AppSettingsFormValues } from '../../AppSettings.types';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -39,10 +40,10 @@ const PhpStack: React.SFC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: IState, ownProps: FormikProps<AppSettingsFormValues>) => {
+const mapStateToProps = (state: RootState, ownProps: FormikProps<AppSettingsFormValues>) => {
   return {
-    stacks: state.stacks.stacks.value,
-    stacksLoading: state.stacks.loading,
+    stacks: state.stacks.data.value,
+    stacksLoading: state.stacks.metadata.loading,
   };
 };
 export default compose(

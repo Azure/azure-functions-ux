@@ -12,7 +12,7 @@ const loadingCSS = style({
   transform: 'translate(-50%, -50%)',
 });
 
-class LoadingComponent extends React.Component<Loadable.LoadingComponentProps & { t: any }, any> {
+export class LoadingComponent extends React.Component<Loadable.LoadingComponentProps & { t: any }, any> {
   public render() {
     const { t, error, retry, pastDelay, timedOut } = this.props;
 

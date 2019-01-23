@@ -34,19 +34,19 @@ export class UrlTemplates {
     } else if (this.isEmbeddedFunctions) {
       return null;
     } else {
-      const scmHostName = this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
+      const scmHostName = this.site.properties.hostNameSslStates && this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
       return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
     }
   }
 
   public getMainUrl() {
-    if (this.configService.isStandalone()) {
-      return `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`;
-    } else if (this.isEmbeddedFunctions) {
-      return null;
-    } else {
-      return `https://${this.site.properties.defaultHostName}`;
+    if (this.site.properties.defaultHostName) {
+      return this.configService.isStandalone()
+        ? `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`
+        : `https://${this.site.properties.defaultHostName}`;
     }
+
+    return null;
   }
 
   get functionsUrl(): string {

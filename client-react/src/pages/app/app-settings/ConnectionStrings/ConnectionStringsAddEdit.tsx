@@ -1,21 +1,25 @@
-import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { IConnectionString } from '../../../../modules/site/config/connectionstrings/actions';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { typeValueToString, DatabaseType } from './connectionStringTypes';
-import { formElementStyle } from '../AppSettings.Styles';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import ActionBar from '../../../../components/ActionBar';
+import { formElementStyle } from '../AppSettings.styles';
+import { FormConnectionString } from '../AppSettings.types';
+import { DatabaseType, typeValueToString } from './connectionStringTypes';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
+
 export interface ConnectionStringAddEditProps {
-  updateConnectionString: (item: IConnectionString) => any;
+  updateConnectionString: (item: FormConnectionString) => any;
   closeBlade: () => void;
-  otherConnectionStrings: IConnectionString[];
-  connectionString: IConnectionString;
+  otherConnectionStrings: FormConnectionString[];
+  connectionString: FormConnectionString;
+  disableSlotSetting: boolean;
 }
 
 const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString } = props;
+  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString, disableSlotSetting } = props;
   const [nameError, setNameError] = React.useState('');
   const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
 
@@ -110,11 +114,19 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         label={t('sticky')}
         id="connection-strings-form-sticky"
         defaultChecked={currentConnectionString.sticky}
+        disabled={disableSlotSetting}
         onChange={updateConnectionStringSticky}
         styles={{
           root: formElementStyle,
         }}
       />
+      {disableSlotSetting && (
+        <div data-cy="connection-string-slot-setting-no-permission-message">
+          <MessageBar messageBarType={MessageBarType.warning} isMultiline={true}>
+            {t('slotSettingNoProdPermission')}
+          </MessageBar>
+        </div>
+      )}
       <ActionBar
         id="connection-string-edit-footer"
         primaryButton={actionBarPrimaryButtonProps}

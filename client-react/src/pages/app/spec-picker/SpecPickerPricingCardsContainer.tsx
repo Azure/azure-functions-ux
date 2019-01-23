@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { style } from 'typestyle';
-import IState from '../../../modules/types';
 import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import { style } from 'typestyle';
+
+import { RootState } from '../../../modules/types';
 import { SpecPickerPricingCard, SpecPickerPricingCardProps } from './SpecPickerPricingCard';
 
 interface SpecPickerPricingCardsContainerProps {
@@ -43,7 +44,7 @@ class SpecPickerPricingCardsContainer extends React.Component<SpecPickerPricingC
   }
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default compose<SpecPickerPricingCardsContainerPropsCombined, SpecPickerPricingCardsContainerProps>(

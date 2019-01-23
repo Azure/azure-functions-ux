@@ -1,24 +1,18 @@
-import { Url } from './url';
+import Url from './url';
 import { LogEntryLevel } from '../models/portal-models';
-import { PortalCommunicator } from '../portal-communicator';
+import PortalCommunicator from '../portal-communicator';
 
 export type LogLevelString = 'error' | 'warning' | 'debug' | 'verbose';
 
-export class LogService {
-  private _logLevel: LogEntryLevel;
+export default class LogService {
+  private _logLevel: number;
   private _categories: string[];
   private _portalCommunicator: PortalCommunicator;
 
   constructor(portalCommunicator: PortalCommunicator) {
     this._portalCommunicator = portalCommunicator;
     const levelStr = Url.getParameterByName(null, 'appsvc.log.level');
-
-    if (levelStr && LogEntryLevel[levelStr]) {
-      this._logLevel = LogEntryLevel[levelStr];
-    } else {
-      this._logLevel = LogEntryLevel.Warning;
-    }
-
+    this._logLevel = this._getLogLevel(levelStr);
     this._categories = Url.getParameterArrayByName(null, 'appsvc.log.category');
   }
 
@@ -82,7 +76,23 @@ export class LogService {
     }
   }
 
-  private _shouldLog(category: string, logLevel: LogEntryLevel) {
+  private _getLogLevel(levelStr: string | null) {
+    switch (levelStr) {
+      case 'custom':
+        return LogEntryLevel.Custom;
+      case 'debug':
+        return LogEntryLevel.Debug;
+      case 'verbose':
+        return LogEntryLevel.Verbose;
+      case 'warning':
+        return LogEntryLevel.Warning;
+      case 'error':
+        return LogEntryLevel.Error;
+      default:
+        return LogEntryLevel.Warning;
+    }
+  }
+  private _shouldLog(category: string, logLevel: number) {
     if (logLevel <= this._logLevel) {
       if (logLevel === LogEntryLevel.Error || logLevel === LogEntryLevel.Warning) {
         return true;

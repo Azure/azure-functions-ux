@@ -1,37 +1,39 @@
 @import '../../../sass/common/variables';
 nav {
-    display: flex;
+  display: flex;
 }
 
 .group-tab {
-    background-color: $border-color;
-    width: calc(100% / 3);
-    text-align: center;
-    height: 83px;
-    padding-top: 7px;
-    box-shadow: $card-box-shadow;
+  background-color: $border-color;
+  width: calc(100% / 3);
+  text-align: center;
+  height: 83px;
+  padding-top: 7px;
+  box-shadow: $card-box-shadow;
 
-    h3 {
-        margin-top: 2px;
-        font-weight: bold;
-    }
+  h1 {
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: bold;
+  }
 
-    h4 {
-        font-size: 12px;
-    }
+  h2 {
+    font-size: 12px;
+    line-height: 0px;
+  }
 
-    &.selected-container {
-        background-color: $body-bg-color;
-    }
+  &.selected-container {
+    background-color: $body-bg-color;
+  }
 }
 
-:host-context(#app-root[theme=dark]) {
-    .group-tab {
-        background-color: lighten($chrome-color-dark, 10%);
-        box-shadow: $card-box-shadow-hover-dark;
+:host-context(#app-root[theme='dark']) {
+  .group-tab {
+    background-color: lighten($chrome-color-dark, 10%);
+    box-shadow: $card-box-shadow-hover-dark;
 
-        &.selected-container{
-            background-color: $chrome-color-dark;
-        }
+    &.selected-container {
+      background-color: $chrome-color-dark;
     }
+  }
 }
