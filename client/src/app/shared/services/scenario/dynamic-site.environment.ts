@@ -52,6 +52,16 @@ export class DynamicSiteEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+          data: translateService.instant(PortalResources.featureNotSupportedConsumption),
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

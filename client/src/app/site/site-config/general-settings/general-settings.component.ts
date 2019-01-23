@@ -419,12 +419,14 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
 
         if (this._sku === 'Dynamic') {
           webSocketsSupported = false;
-          alwaysOnSupported = false;
           clientAffinitySupported = false;
         }
       }
 
-      if (this.isDreamspark) {
+      if (
+        this.isDreamspark ||
+        this._scenarioService.checkScenario(ScenarioIds.alwaysOnSupported, { site: siteArm }).status === 'disabled'
+      ) {
         alwaysOnSupported = false;
       }
 
