@@ -6,6 +6,8 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { DisableInfo } from './feature-item';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
+import { SiteTabIds } from 'app/shared/models/constants';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export interface DisableInfo {
   enabled: boolean;
@@ -138,6 +140,10 @@ export class TabFeature extends FeatureItem {
     private _broadcastService: BroadcastService
   ) {
     super(title, keywords, info, imageUrl, 'image/new-tab.svg');
+
+    if (featureId === SiteTabIds.logicApps) {
+      this.warning = PortalResources.tab_logicAppsDeprecation;
+    }
   }
 
   click() {
