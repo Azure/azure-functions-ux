@@ -4640,4 +4640,25 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionAppType" xml:space="preserve">
     <value>Function App Type</value>
   </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Slot Setting Enabled</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Hidden value. Click show values button above to view</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Field must be unique.</value>
+  </data>
+   <data name="directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>New virtual application or directory</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>New handler</value>
+  </data>
 </root>

@@ -33,10 +33,10 @@ const getItems = (
       key: 'discard',
       name: 'Discard',
       iconProps: {
-        iconName: 'StatusCircleErrorX',
+        iconName: 'ChromeClose',
       },
       disabled: !dirty || disabled,
-      ariaLabel: t('appSettingsSaveAriaLabel'),
+      ariaLabel: t('appSettingsDiscardAriaLabel'),
       onClick: discardFunction,
     },
   ];

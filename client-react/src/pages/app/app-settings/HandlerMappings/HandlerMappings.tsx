@@ -42,7 +42,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          New Handler
+          {t('addNewHandler')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
@@ -144,7 +144,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
   }
 
   private onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
-    const { values } = this.props;
+    const { values, t } = this.props;
     if (!column || !item) {
       return null;
     }
@@ -154,7 +154,8 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         <IconButton
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Delete' }}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -164,7 +165,8 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         <IconButton
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Edit' }}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );

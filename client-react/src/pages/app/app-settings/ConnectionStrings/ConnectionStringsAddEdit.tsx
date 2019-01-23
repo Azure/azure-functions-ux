@@ -77,6 +77,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('value')}
