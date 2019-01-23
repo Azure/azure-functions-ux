@@ -193,12 +193,12 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         if (!this.loadingFailure) {
           this._processLoadingResults(siteResult, slotsResult);
 
-          const srcSlot = this._getSlot(slot => slot.id.toLowerCase() === this._resourceId.toLowerCase());
-          const targetSwapSlot = srcSlot ? srcSlot.properties.targetSwapSlot : null;
+          const currSlot = this._getSlot(slot => slot.id.toLowerCase() === this._resourceId.toLowerCase());
+          const currTargetName = currSlot ? currSlot.properties.targetSwapSlot : null;
 
-          if (!!targetSwapSlot) {
+          if (!!currTargetName) {
             // We're already in Phase2
-            return this._loadPhase2(targetSwapSlot);
+            return this._loadPhase2(currTargetName);
           } else {
             // We're in Phase1
             this._setupPhase1();
@@ -247,25 +247,33 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         value: slot.id,
       };
     });
-    this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
     this.destDropDownOptions = JSON.parse(JSON.stringify(options));
+    options.shift();
+    this.srcDropDownOptions = JSON.parse(JSON.stringify(options));
   }
 
-  private _loadPhase2(targetSwapSlot: string): Observable<void> {
+  private _loadPhase2(currTargetName: string): Observable<void> {
     // TODO (andimarc): Make sure dest slot has targetSwapSlot set and that this value matches src slot(?)
-    const destId =
-      targetSwapSlot.toLowerCase() === 'production' ? this.siteResourceId : this.siteResourceId + '/slots/' + targetSwapSlot.toLowerCase();
+    const currTargetId =
+      currTargetName.toLowerCase() === 'production' ? this.siteResourceId : this.siteResourceId + '/slots/' + currTargetName.toLowerCase();
+    const currSlotDescriptor = new ArmSiteDescriptor(this._resourceId);
+    const currSlotName = currSlotDescriptor.slot || 'production';
 
-    this._diffSubject$.next(`${this._resourceId},${destId}`);
+    const [srcId, srcName, destId, destName] =
+      currSlotName === 'production'
+        ? [currTargetId, currTargetName, this._resourceId, currSlotName]
+        : [this._resourceId, currSlotName, currTargetId, currTargetName];
 
-    this._setupPhase2Loading(this._resourceId, destId);
+    this._diffSubject$.next(`${srcId},${destId}`);
+
+    this._setupPhase2Loading(srcId, destId);
 
     return Observable.zip(
-      this._authZService.hasPermission(this._resourceId, [AuthzService.writeScope]),
+      this._authZService.hasPermission(srcId, [AuthzService.writeScope]),
       this._authZService.hasPermission(destId, [AuthzService.writeScope]),
-      this._authZService.hasPermission(this._resourceId, [AuthzService.actionScope]),
+      this._authZService.hasPermission(srcId, [AuthzService.actionScope]),
       this._authZService.hasPermission(destId, [AuthzService.actionScope]),
-      this._authZService.hasReadOnlyLock(this._resourceId),
+      this._authZService.hasReadOnlyLock(srcId),
       this._authZService.hasReadOnlyLock(destId)
     ).mergeMap(result => {
       const srcWritePermission = result[0];
@@ -275,19 +283,16 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
       const srcReadOnlyLock = result[4];
       const destReadOnlyLock = result[5];
 
-      const srcDescriptor = new ArmSiteDescriptor(this._resourceId);
-      const srcName = srcDescriptor.slot || 'production';
-
       if (!srcWritePermission || !destWritePermission) {
-        const slotNames = this._buildSlotNamesString(srcName, !srcWritePermission, targetSwapSlot, !destWritePermission);
+        const slotNames = this._buildSlotNamesString(srcName, !srcWritePermission, destName, !destWritePermission);
         this.writePermissionsMessage = this._translateService.instant(PortalResources.noWritePermissionOnSlots, { slotNames: slotNames });
       }
       if (!srcSwapPermission || !destSwapPermission) {
-        const slotNames = this._buildSlotNamesString(srcName, !srcSwapPermission, targetSwapSlot, !destSwapPermission);
+        const slotNames = this._buildSlotNamesString(srcName, !srcSwapPermission, destName, !destSwapPermission);
         this.swapPermissionsMessage = this._translateService.instant(PortalResources.noSwapPermissionOnSlots, { slotNames: slotNames });
       }
       if (srcReadOnlyLock || destReadOnlyLock) {
-        const slotNames = this._buildSlotNamesString(srcName, srcReadOnlyLock, targetSwapSlot, destReadOnlyLock);
+        const slotNames = this._buildSlotNamesString(srcName, srcReadOnlyLock, destName, destReadOnlyLock);
         this.readOnlyLockMessage = this._translateService.instant(PortalResources.readOnlyLockOnSlots, { slotNames: slotNames });
       }
 
@@ -403,17 +408,22 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this.swapForm.controls['srcId'].setAsyncValidators(slotSwapSlotIdValidator.validate.bind(slotSwapSlotIdValidator));
     this.swapForm.controls['destId'].setAsyncValidators(slotSwapSlotIdValidator.validate.bind(slotSwapSlotIdValidator));
 
-    const destSlot = this._getSlot(slot => slot.id.toLowerCase() !== this._resourceId.toLowerCase());
+    const currSlotDescriptor = new ArmSiteDescriptor(this._resourceId);
+    const currSlotName = currSlotDescriptor.slot || 'production';
+    const currSlotTarget = this._getSlot(slot => slot.id.toLowerCase() !== this._resourceId.toLowerCase());
+
+    const [srcId, destId] = currSlotName === 'production' ? [currSlotTarget.id, this._resourceId] : [this._resourceId, currSlotTarget.id];
+
     this.swapForm.controls['srcId'].markAsTouched();
-    this.swapForm.controls['srcId'].setValue(this._resourceId);
+    this.swapForm.controls['srcId'].setValue(srcId);
     this.swapForm.controls['destId'].markAsTouched();
-    this.swapForm.controls['destId'].setValue(destSlot.id);
+    this.swapForm.controls['destId'].setValue(destId);
 
     this.currentStep = 'phase1';
     this._updatePhaseTracker('current', 'default');
     this.executeButtonDisabled = false;
 
-    this._diffSubject$.next(`${this._resourceId},${destSlot.id}`);
+    this._diffSubject$.next(`${srcId},${destId}`);
   }
 
   private _setupPhase1Executing() {

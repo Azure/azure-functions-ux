@@ -1,13 +1,14 @@
+import { Field, FormikProps } from 'formik';
+import { Dropdown as OfficeDropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import Dropdown from '../../../../../components/form-controls/DropDown';
-import { IDropdownOption, Dropdown as OfficeDropdown } from 'office-ui-fabric-react/lib/Dropdown';
-import { ArmObj } from '../../../../../models/WebAppModels';
-import { AvailableStack } from '../../../../../models/available-stacks';
-import IState from '../../../../../modules/types';
-import { FormikProps, Field } from 'formik';
-import { AppSettingsFormValues } from '../../AppSettings.Types';
 import { InjectedTranslateProps } from 'react-i18next';
+import { connect } from 'react-redux';
+
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import { AvailableStack } from '../../../../../models/available-stacks';
+import { ArmObj } from '../../../../../models/WebAppModels';
+import { RootState } from '../../../../../modules/types';
+import { AppSettingsFormValues } from '../../AppSettings.types';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -124,12 +125,24 @@ class JavaStack extends React.Component<Props, JavaStackState> {
     return (
       <div>
         <OfficeDropdown
-          label={t('javaVersion')}
+          label={t('javaVersionLabel')}
           selectedKey={this.state.currentJavaMajorVersion}
           id="app-settings-java-major-verison"
           disabled={!values.siteWritePermission}
           options={javaVersions}
           onChange={this.onMajorVersionChange}
+          styles={{
+            label: [
+              {
+                display: 'inline-block',
+              },
+            ],
+            dropdown: [
+              {
+                display: 'inline-block',
+              },
+            ],
+          }}
         />
         <Field
           name="config.properties.javaVersion"
@@ -178,12 +191,12 @@ class JavaStack extends React.Component<Props, JavaStackState> {
   };
 }
 
-const mapStateToProps = (state: IState, ownProps: FormikProps<AppSettingsFormValues>) => {
+const mapStateToProps = (state: RootState, ownProps: FormikProps<AppSettingsFormValues>) => {
   return {
-    stacks: state.stacks.stacks.value,
-    stacksLoading: state.stacks.loading,
-    config: state.webConfig.config,
-    configLoading: state.webConfig.loading,
+    stacks: state.stacks.data.value,
+    stacksLoading: state.stacks.metadata.loading,
+    config: state.webConfig.data,
+    configLoading: state.webConfig.metadata.loading,
   };
 };
 export default connect(

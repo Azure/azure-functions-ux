@@ -1,4 +1,12 @@
-export class Url {
+export default class Url {
+  public static appendQueryString(url: string, queryString): string {
+    if (url.includes('?')) {
+      return `${url}&${queryString}`;
+    } else {
+      return `${url}?${queryString}`;
+    }
+  }
+
   public static getParameterByName(url: string | null, name: string) {
     let urlFull = url;
     if (urlFull === null) {

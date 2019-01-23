@@ -1,34 +1,29 @@
-import { ArmArray } from '../../../models/WebAppModels';
-import { IAction } from '../../../models/action';
-import { UPDATE_AVAILABLE_STACKS_LOADING, UPDATE_AVAILABLE_STACKS } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import { AvailableStack } from '../../../models/available-stacks';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IStacksState {
-  loading: boolean;
-  stacks: ArmArray<AvailableStack>;
-}
-export const InitialState: IStacksState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  stacks: {
+import { AvailableStack } from '../../../models/available-stacks';
+import { ArmArray } from '../../../models/WebAppModels';
+import { metadataReducer } from '../../ApiReducerHelper';
+import { ApiState } from '../../types';
+import * as actions from './actions';
+import { AREA_STRING, STACKS_FETCH_SUCCESS } from './actionTypes';
+
+export type StacksAction = ActionType<typeof actions>;
+export type StacksState = ApiState<ArmArray<AvailableStack>>;
+export const InitialState = {
+  data: {
     value: [],
   },
 };
 
-const stacks = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case UPDATE_AVAILABLE_STACKS_LOADING:
-      return { ...state, loading: action.payload };
-    case UPDATE_AVAILABLE_STACKS:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(60000),
-        stacks: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default stacks;
+export default combineReducers<StacksState, StacksAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case STACKS_FETCH_SUCCESS:
+        return action.stacks;
+      default:
+        return state;
+    }
+  },
+});

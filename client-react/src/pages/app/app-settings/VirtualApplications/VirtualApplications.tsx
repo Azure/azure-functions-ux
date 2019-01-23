@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { AppSettingsFormValues } from '../AppSettings.Types';
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import { VirtualApplication } from '../../../../models/WebAppModels';
-import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { FormikProps } from 'formik';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import DisplayTableWithEmptyMessage from 'src/components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { VirtualApplication } from '../../../../models/WebAppModels';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;

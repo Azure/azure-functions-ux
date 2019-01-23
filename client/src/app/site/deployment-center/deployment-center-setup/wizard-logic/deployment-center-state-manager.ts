@@ -19,7 +19,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
-import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
@@ -43,7 +43,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
   private _vstsApiToken: string;
-  private _pricingTier: string;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -80,7 +79,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
-        this._pricingTier = this.siteArm.properties.sku;
         const siteDesc = new ArmSiteDescriptor(this._resourceId);
         return forkJoin(
           scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
@@ -125,10 +123,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   public get buildSettings(): FormGroup {
     return (this.wizardForm && (this.wizardForm.controls.buildSettings as FormGroup)) || null;
-  }
-
-  public get testEnvironmentSettings(): FormGroup {
-    return (this.wizardForm && (this.wizardForm.controls.testEnvironment as FormGroup)) || null;
   }
 
   public get deploymentSlotSetting(): FormGroup {
@@ -347,9 +341,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   private get _deploymentTargets(): DeploymentTarget[] {
     const deploymentTargets = [];
-    if (this.wizardValues.testEnvironment.enabled) {
-      deploymentTargets.push(this._loadTestTarget);
-    }
     deploymentTargets.push(this._primaryTarget);
     return deploymentTargets;
   }
@@ -382,41 +373,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot,
       };
     }
-    return targetObject;
-  }
-
-  private get _loadTestTarget(): AzureAppServiceDeploymentTarget {
-    const tid = parseToken(this._token).tid;
-    const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
-    const newSiteDescriptor = new ArmSiteDescriptor(this.wizardValues.testEnvironment.webAppId);
-
-    const appServicePlanDescriptor = new ArmPlanDescriptor(this.wizardValues.testEnvironment.appServicePlanId);
-    const targetObject = {
-      provider: DeploymentTargetProvider.Azure,
-      type: this.isLinuxApp ? AzureResourceType.LinuxAppService : AzureResourceType.WindowsAppService,
-      environmentType: TargetEnvironmentType.Test,
-      friendlyName: 'Load Test', // DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
-      subscriptionId: siteDescriptor.subscription,
-      subscriptionName: this.subscriptionName,
-      tenantId: tid,
-      resourceIdentifier: siteDescriptor.site,
-      location: this._location,
-      resourceGroupName: newSiteDescriptor.resourceGroup,
-      authorizationInfo: {
-        scheme: 'Headers',
-        parameters: {
-          Authorization: `Bearer ${this._vstsApiToken}`,
-        },
-      },
-      createOptions: this.wizardValues.testEnvironment.newApp
-        ? {
-            appServicePlanName: appServicePlanDescriptor.name,
-            appServicePricingTier: this._pricingTier,
-            baseAppServiceName: siteDescriptor.site,
-          }
-        : null,
-      slotSwapConfiguration: null,
-    };
     return targetObject;
   }
 

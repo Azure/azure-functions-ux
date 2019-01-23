@@ -1030,9 +1030,13 @@ export class PortalResources {
   public static pricing_rapidScale = 'pricing_rapidScale';
   public static pricing_rapidScaleDesc = 'pricing_rapidScaleDesc';
   public static pricing_autoScale = 'pricing_autoScale';
+  public static pricing_scaleOut = 'pricing_scaleOut';
+  public static pricing_comouteVmSize = 'pricing_comouteVmSize';
+  public static pricing_notEnoughInstances = 'pricing_notEnoughInstances';
   public static pricing_largeScale = 'pricing_largeScale';
   public static pricing_largeScaleDesc = 'pricing_largeScaleDesc';
   public static pricing_scaleDesc = 'pricing_scaleDesc';
+  public static pricing_scaleDescUnlimited = 'pricing_scaleDescUnlimited';
   public static pricing_highDensity = 'pricing_highDensity';
   public static pricing_highDensityDesc = 'pricing_highDensityDesc';
   public static pricing_stagingSlots = 'pricing_stagingSlots';
@@ -1476,4 +1480,14 @@ export class PortalResources {
   public static byos_storageNameExists = 'byos_storageNameExists';
   public static unableToReachBuild = 'unableToReachBuild';
   public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
+  public static limitedMode = 'limitedMode';
+  public static limited = 'limited';
+  public static sideNav_FunctionsLimited = 'sideNav_FunctionsLimited';
+  public static stoppedMode = 'stoppedMode';
+  public static noAccessMode = 'noAccessMode';
+  public static readOnlyMode = 'readOnlyMode';
+  public static nonReachableMode = 'nonReachableMode';
+  public static sideNav_ProxiesLimited = 'sideNav_ProxiesLimited';
+  public static slotSettingNoProdPermission = 'slotSettingNoProdPermission';
+  public static autoSwapSettingPermissionFail = 'autoSwapSettingPermissionFail';
 }

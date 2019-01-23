@@ -20,7 +20,7 @@ import { ArmSubcriptionDescriptor } from '../../../shared/resourceDescriptors';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { MockAuthzService } from './../../../test/mocks/authz.service.mock';
 
-describe('Price Spec Manager', () => {
+xdescribe('Price Spec Manager', () => {
   let specManager: PlanPriceSpecManager;
   let planService: MockPlanService;
   let group1: MockSpecGroup;

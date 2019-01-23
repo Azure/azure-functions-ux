@@ -641,7 +641,7 @@
     <value>Vyvíjet</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrace</value>
+    <value>Integrovat</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
     <value>Spravovat</value>
@@ -1733,10 +1733,10 @@
     <value>Pomocí Kudu můžete prohlížet proměnné prostředí, přistupovat ke konzole ladění, odesílat soubory ZIP, zobrazovat procesy a další.</value>
   </data>
   <data name="feature_appServiceEditorName" xml:space="preserve">
-    <value>App Service Editor</value>
+    <value>Editor služby App Service</value>
   </data>
   <data name="feature_appServiceEditorInfo" xml:space="preserve">
-    <value>App Service Editor poskytuje prostředí pro úpravy kódu v prohlížeči.</value>
+    <value>Editor služby App Service poskytuje možnosti úprav kódu v prohlížeči.</value>
   </data>
   <data name="feature_resourceExplorerName" xml:space="preserve">
     <value>Resource Explorer</value>
@@ -2144,7 +2144,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Opravdu chcete prodloužit platnost klíče {{name}}?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Služba Azure Functions je výpočetní prostředí bez serverů založené na událostech, které urychluje vývoj. Umožňuje škálování podle potřeby, se kterým platíte jenom za prostředky, které spotřebujete.</value>
+    <value>Služba Azure Functions je bezserverové výpočetní prostředí založené na událostech, které urychluje vývoj. Umožňuje škálování podle potřeby, se kterým platíte jenom za prostředky, které spotřebujete.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Další informace o službě Azure Functions</value>
@@ -2462,7 +2462,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Seskupit podle předplatného</value>
   </data>
   <data name="southcentralus" xml:space="preserve">
-    <value>Střed USA – jih</value>
+    <value>Středojižní USA</value>
   </data>
   <data name="northeurope" xml:space="preserve">
     <value>Severní Evropa</value>
@@ -2498,10 +2498,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Východní USA 2</value>
   </data>
   <data name="northcentralus" xml:space="preserve">
-    <value>Střed USA – sever</value>
+    <value>Středoseverní USA</value>
   </data>
   <data name="centralus" xml:space="preserve">
-    <value>Střed USA</value>
+    <value>Střední USA</value>
   </data>
   <data name="brazilsouth" xml:space="preserve">
     <value>Brazílie – jih</value>
@@ -3217,6 +3217,15 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Automatické škálování</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Horizontálně navýšit kapacitu</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Velikost výpočetního virtuálního počítače: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Nedostatek dostupných instancí</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Škálování na velký počet instancí</value>
   </data>
@@ -3225,6 +3234,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
     <value>Až tento počet instancí: {0}. Záleží na dostupnosti.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Neomezený počet instancí. Záleží na dostupnosti.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Vysoká hustota</value>
@@ -3750,7 +3762,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Opravdu chcete odpojit své nasazení?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverless Community Library (Preview)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Nedaří se vám najít to, co hledáte? Podívejte se na knihovnu Azure Serverless Community Library!</value>
@@ -4050,7 +4062,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Zásobník modulu runtime aplikace Function App</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>Function Apps v2 teď používají jeden jazyk. Než do své aplikace přidáte funkce, nastavte prosím zásobník modulu runtime.</value>
+    <value>Aplikace Function App v2 teď používají jeden jazyk. Než do své aplikace přidáte funkce, nastavte prosím zásobník modulu runtime.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>Zásobník modulu runtime funkce</value>
@@ -4582,5 +4594,35 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>Cesta pro Windows musí začínat na c:\.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>Aplikace funkcí se nachází v omezeném režimu. Nepovedlo se načíst všechna data.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Omezené</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Funkce (omezené)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Všechny funkce jsou zastavené. Pokud si chcete zobrazit své funkce, spusťte aplikaci.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Nemáte oprávnění zapisovat do této aplikace.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Máte oprávnění jen ke čtení. Abyste si mohli zobrazit funkce, vyžaduje se oprávnění k zápisu.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Funkce spuštěné za interním nástrojem pro vyrovnávání zatížení nejsou přístupné mimo jejich virtuální síť. Pokud chcete k funkcím získat přístup, ujistěte se, že se nacházíte ve stejné virtuální síti jako tyto funkce.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxy (omezené)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>Pokud chcete změnit nastavení slotů, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>Pokud chcete změnit nastavení automatického prohození, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
   </data>
 </root>

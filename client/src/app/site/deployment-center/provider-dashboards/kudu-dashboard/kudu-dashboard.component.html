@@ -149,6 +149,6 @@
   [animate]="true" 
   [showBackdrop]="true">
     <app-deployment-detail [hidden]="hideCreds" [deploymentObject]="rightPaneItem" [redeployEnabled]="redeployEnabled" (closePanel)="sidebar.close()"></app-deployment-detail>
-    <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId"></app-deployment-credentials>
+    <app-deployment-credentials [hidden]="!hideCreds" [resourceId]="resourceId" [localGit]="sourceLocation === 'Local Git'"></app-deployment-credentials>
   </ng-sidebar>
 </ng-sidebar-container>

@@ -1,12 +1,13 @@
-import * as React from 'react';
 import { FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.Types';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import WindowsStacks from './WindowsStacks/WindowsStacks';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import LinuxStacks from './LinuxStacks/LinuxStacks';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import WindowsStacks from './WindowsStacks/WindowsStacks';
 
 const Stacks: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
   const { t, values } = props;

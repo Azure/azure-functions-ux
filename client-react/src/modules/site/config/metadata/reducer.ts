@@ -1,18 +1,17 @@
-import { ArmObj } from '../../../../models/WebAppModels';
-import { IAction } from '../../../../models/action';
-import { UPDATE_SITE_CONFIG_METADATA, UPDATE_SITE_CONFIG_METADATA_LOADING, UPDATE_SITE_CONFIG_METADATA_SAVING } from './actions';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
+import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
 
-export interface IMetadataConfigState {
-  loading: boolean;
-  metadata: ArmObj<{ [key: string]: string }>;
-  saving: boolean;
-}
-export const InitialState: IMetadataConfigState = {
-  [DEFAULT_KEY]: null,
-  loading: false,
-  saving: false,
-  metadata: {
+import { ArmObj } from '../../../../models/WebAppModels';
+import { metadataReducer } from '../../../ApiReducerHelper';
+import { ApiState } from '../../../types';
+import * as actions from './actions';
+import { AREA_STRING, METADATA_FETCH_SUCCESS, METADATA_UPDATE_SUCCESS, UPDATE_METADATA_FROM_SITE_UPDATE } from './actionTypes';
+
+export type MetadataAction = ActionType<typeof actions>;
+export type Metadata = { [key: string]: string };
+export type MetadataState = ApiState<ArmObj<Metadata>>;
+export const InitialState = {
+  data: {
     id: '',
     properties: {},
     name: '',
@@ -21,21 +20,18 @@ export const InitialState: IMetadataConfigState = {
   },
 };
 
-const metadata = (state = InitialState, action: IAction<any>) => {
-  switch (action.type) {
-    case UPDATE_SITE_CONFIG_METADATA_LOADING:
-      return { ...state, loading: action.payload };
-    case UPDATE_SITE_CONFIG_METADATA_SAVING:
-      return { ...state, saving: action.payload };
-    case UPDATE_SITE_CONFIG_METADATA:
-      return {
-        ...state,
-        [DEFAULT_KEY]: generateCacheTTL(6000),
-        config: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export default metadata;
+export default combineReducers<MetadataState, MetadataAction>({
+  metadata: metadataReducer(AREA_STRING),
+  data: (state = InitialState.data, action) => {
+    switch (action.type) {
+      case METADATA_FETCH_SUCCESS:
+        return action.metadata;
+      case METADATA_UPDATE_SUCCESS:
+        return action.metadata;
+      case UPDATE_METADATA_FROM_SITE_UPDATE:
+        return { ...state, properties: action.metadata ? action.metadata : state.properties };
+      default:
+        return state;
+    }
+  },
+});

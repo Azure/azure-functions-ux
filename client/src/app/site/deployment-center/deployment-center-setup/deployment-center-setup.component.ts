@@ -52,22 +52,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         deploymentSlotEnabled: [false, []],
         deploymentSlot: [null, []],
       }),
-      testEnvironment: this._fb.group({
-        enabled: [false, []],
-        newApp: [true, []],
-        appServicePlanId: [null, []],
-        webAppId: [null, []],
-      }),
     });
-  }
-
-  get showTestStep() {
-    const buildProvider: sourceControlProvider =
-      this.wizard &&
-      this.wizard.wizardForm &&
-      this.wizard.wizardForm.controls['buildProvider'] &&
-      this.wizard.wizardForm.controls['buildProvider'].value;
-    return buildProvider === 'vsts' && !this.wizard.isLinuxApp;
   }
 
   get showDeployStep() {

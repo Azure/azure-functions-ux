@@ -17,13 +17,6 @@ context('App Settings General Settings Windows', () => {
       .should('exist');
   });
 
-  it('Turning on Remote Debug should Trigger showing VS Version Dropdown', () => {
-    cy.get('#remote-debugging-switch-label')
-      .click()
-      .get('#ChoiceGroup28-true')
-      .should('be.visible');
-  });
-
   it('Remote Debugging being off should Hide VS Version Dropdown', () => {
     cy.get('#remote-debugging-version-label').should('not.exist');
   });
