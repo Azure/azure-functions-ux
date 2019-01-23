@@ -1,21 +1,22 @@
-import * as React from 'react';
-import { translate, InjectedTranslateProps } from 'react-i18next';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { style } from 'typestyle';
-import Stacks from './GeneralSettings/Stacks';
-import Platform from './GeneralSettings/Platform';
-import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
-import ApplicationSettings from './ApplicationSettings/ApplicationSettings';
-import { AppSettingsFormValues } from './AppSettings.Types';
 import { FormikProps } from 'formik';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { style } from 'typestyle';
+
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import ApplicationSettings from './ApplicationSettings/ApplicationSettings';
+import { AppSettingsFormValues } from './AppSettings.types';
 import ConnectionStrings from './ConnectionStrings/ConnectionStrings';
 import DefaultDocuments from './DefaultDocuments/DefaultDocuments';
+import Debug from './GeneralSettings/Debugging';
+import Platform from './GeneralSettings/Platform';
+import SlotAutoSwap from './GeneralSettings/SlotAutoSwap';
+import Stacks from './GeneralSettings/Stacks';
 import HandlerMappings from './HandlerMappings/HandlerMappings';
 import VirtualApplications from './VirtualApplications/VirtualApplications';
-import Debug from './GeneralSettings/Debugging';
-import SlotAutoSwap from './GeneralSettings/SlotAutoSwap';
-import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 
 export const settingsWrapper = style({
   paddingLeft: '15px',
@@ -26,7 +27,7 @@ const defaultDocumentsWrapper = style({
   width: '565px',
 });
 class AppSettingsForm extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, any> {
-  private scenarioChecker: ScenarioService;
+  private scenarioChecker!: ScenarioService;
 
   public componentWillMount() {
     this.scenarioChecker = new ScenarioService(this.props.t);

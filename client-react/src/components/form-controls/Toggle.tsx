@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib/Toggle';
 import { FieldProps } from 'formik';
 import { connect } from 'react-redux';
-import { ThemeExtended } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 interface IToggleStateProps {
   theme: ThemeExtended;

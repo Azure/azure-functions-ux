@@ -1,13 +1,14 @@
-import { PermissionsAsRegExp, Permissions, ArmObj, Lock } from 'src/models/WebAppModels';
-import { store } from '../store';
 import axios from 'axios';
+
+import { ArmObj, Lock, Permissions, PermissionsAsRegExp } from '../models/WebAppModels';
+import { store } from '../store';
 
 export interface IAuthzService {
   hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean>;
   hasReadOnlyLock(resourceId: string): Promise<boolean>;
 }
 
-export class RbacHelper {
+export default class RbacHelper {
   public static readScope = './read';
   public static writeScope = './write';
   public static deleteScope = './delete';

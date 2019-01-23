@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { style } from 'typestyle';
-import IState from '../../../modules/types';
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import * as React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import { style } from 'typestyle';
+
+import { RootState } from '../../../modules/types';
 
 interface SpecPickerPricingCardDisabledProps {
   message: string;
@@ -121,7 +122,7 @@ export class SpecPickerPricingCard extends React.Component<SpecPickerPricingCard
   };
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default compose<SpecPickerPricingCardPropsCombined, SpecPickerPricingCardProps>(

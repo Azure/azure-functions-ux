@@ -18,6 +18,8 @@ import {
   IsolatedSpecGroup,
   BannerMessage,
   BannerMessageLevel,
+  GenericSpecGroup,
+  SpecGroup,
 } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
@@ -29,10 +31,12 @@ import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
-import { LogCategories, Links } from '../../../shared/models/constants';
+import { LogCategories, Links, ScenarioIds } from '../../../shared/models/constants';
 import { Tier } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
+import { BillingService } from 'app/shared/services/billing.service';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 export interface SpecPickerInput<T> {
   id: ResourceId;
@@ -82,7 +86,9 @@ export class PlanPriceSpecManager {
     private _portalService: PortalService,
     private _ts: TranslateService,
     private _logService: LogService,
-    private _injector: Injector
+    private _injector: Injector,
+    private _scenarioService: ScenarioService,
+    private _billingService: BillingService
   ) {}
 
   resetGroups() {
@@ -97,13 +103,29 @@ export class PlanPriceSpecManager {
     this._specPicker = inputs.specPicker;
     this._inputs = inputs;
     this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
+
+    let pricingTiers = Observable.of(null);
+    if (this._scenarioService.checkScenario(ScenarioIds.pricingTierApiEnabled).status === 'enabled') {
+      pricingTiers = this._billingService.getPricingTiers(this._subscriptionId);
+    }
+
     this.selectedSpecGroup = this.specGroups[0];
-
     let specInitCalls: Observable<void>[] = [];
-    return this._getPlan(inputs).switchMap(plan => {
-      // plan is null for new plans
-      this._plan = plan;
 
+    return Observable.zip(this._getPlan(inputs), pricingTiers, (plan, pt) => ({
+      plan: plan,
+      pricingTiers: pt,
+    })).flatMap(r => {
+      // plan is null for new plans
+      this._plan = r.plan;
+
+      if (r.pricingTiers) {
+        this.specGroups = [
+          new GenericSpecGroup(this._injector, this, SpecGroup.Development, r.pricingTiers),
+          new GenericSpecGroup(this._injector, this, SpecGroup.Production, r.pricingTiers),
+          new GenericSpecGroup(this._injector, this, SpecGroup.Isolated, r.pricingTiers),
+        ];
+      }
       // Initialize every spec for each spec group.  For most cards this is a no-op, but
       // some require special handling so that we know if we need to hide/disable a card.
       this.specGroups.forEach(g => {
@@ -123,6 +145,10 @@ export class PlanPriceSpecManager {
   }
 
   getSpecCosts() {
+    if (this._scenarioService.checkScenario(ScenarioIds.pricingTierApiEnabled).status === 'enabled') {
+      // Spec costs is supplied by Pricing Tier api in OnPrem Environment
+      return Observable.of(null);
+    }
     return this._getBillingMeters(this._inputs)
       .switchMap(meters => {
         if (!meters) {

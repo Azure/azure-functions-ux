@@ -433,7 +433,11 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       );
   }
 
-  private _createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccountDeprecated): RxSubscription {
+  private _createStorageAccountLock(
+    subscription: string,
+    geoRegion: string,
+    storageAccount: string | StorageAccountDeprecated
+  ): RxSubscription {
     const storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
     const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}`;
     const body = {

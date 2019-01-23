@@ -109,7 +109,7 @@ const semanticColors = {
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
 
   errorText: AzurePortalColors.inlineErrorText,
-  warningText: themePalette.white,
+  warningText: AzurePortalColors.textColor,
   errorBackground: AzurePortalColors.errorBackground,
   blockingBackground: AzurePortalColors.errorBackground,
   warningBackground: AzurePortalColors.warningBackground,
@@ -177,6 +177,11 @@ const semanticColors = {
 
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
+  accentButtonBackground: AzurePortalColors.buttonRest,
+  disabledBodySubtext: AzurePortalColors.disabledText,
+  inputText: AzurePortalColors.textColor,
+  inputTextHovered: AzurePortalColors.textControlOutlineHovered,
+  accentButtonText: AzurePortalColors.textColor,
   menuItemBackgroundChecked: AzurePortalColors.background,
   ...AzurePortalColors,
 };
@@ -276,78 +281,6 @@ const darkModeTheme: Partial<ThemeExtended> = {
   semanticColors,
   isInverted: false,
   disableGlobalClassNames: false,
-  typography: {
-    families: {
-      default:
-        "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-      monospace: 'Menlo, Monaco, "Courier New", monospace',
-    },
-    sizes: {
-      mini: '10px',
-      xSmall: '11px',
-      small: '12px',
-      smallPlus: '13px',
-      medium: '14px',
-      mediumPlus: '15px',
-      large: '17px',
-      xLarge: '21px',
-      xxLarge: '28px',
-      mega: '72px',
-    },
-    weights: { default: 400, regular: 400, light: 100, semibold: 600, bold: 700 },
-    variants: {
-      default: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '14px',
-        weight: 400,
-      },
-      caption: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '11px',
-        weight: 400,
-      },
-      h1: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '72px',
-        weight: 100,
-      },
-      h2: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '28px',
-        weight: 100,
-      },
-      h3: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '21px',
-        weight: 100,
-      },
-      h4: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '17px',
-        weight: 100,
-      },
-      h5: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '15px',
-        weight: 100,
-      },
-      link: {
-        family:
-          "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-        size: '14px',
-        weight: 400,
-        color: 'link',
-        hoverColor: 'linkHovered',
-      },
-    },
-  },
 };
 
 export default darkModeTheme;

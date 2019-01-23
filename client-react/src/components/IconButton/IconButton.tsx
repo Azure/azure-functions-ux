@@ -1,8 +1,10 @@
+import { IButtonProps, IconButton as OfficeIconButton } from 'office-ui-fabric-react/lib/Button';
 import * as React from 'react';
-import { IconButton as OfficeIconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { ITheme } from '@uifabric/styling';
-import IState from '../../modules/types';
 import { connect } from 'react-redux';
+
+import { ITheme } from '@uifabric/styling';
+
+import { RootState } from '../../modules/types';
 
 const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {
   return (
@@ -18,7 +20,7 @@ const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {
   );
 };
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: RootState) => ({
   theme: state.portalService.theme,
 });
 export default connect(

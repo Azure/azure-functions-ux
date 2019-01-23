@@ -221,12 +221,6 @@ class MockDeploymentCenterStateManager {
         deploymentSlotEnabled: [false],
         deploymentSlot: ['slot'],
       }),
-      testEnvironment: _fb.group({
-        enabled: [false],
-        newApp: [true],
-        appServicePlanId: ['aspid'],
-        webAppId: [null],
-      }),
     });
   }
 

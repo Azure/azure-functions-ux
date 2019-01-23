@@ -1,10 +1,12 @@
 import { ArmObj, Site } from '../models/WebAppModels';
+import { AppKind } from './AppKind';
+
 export function isFunctionApp(obj: ArmObj<any>): boolean {
-  return !!obj.kind && obj.kind.toLocaleLowerCase().indexOf('functionapp') !== -1 && obj.kind.toLocaleLowerCase().indexOf('botapp') === -1;
+  return AppKind.hasKinds(obj, ['functionapp']) && !AppKind.hasKinds(obj, ['botapp']);
 }
 
 export function isLinuxApp(obj: ArmObj<any>): boolean {
-  return !!obj && !!obj.kind && obj.kind.toLocaleLowerCase().indexOf('linux') !== -1;
+  return AppKind.hasKinds(obj, ['linux']);
 }
 
 export function isLinuxDynamic(obj: ArmObj<Site>) {
@@ -12,5 +14,5 @@ export function isLinuxDynamic(obj: ArmObj<Site>) {
 }
 
 export function isContainerApp(obj: ArmObj<Site>): boolean {
-  return !!obj && !!obj.kind && obj.kind.toLocaleLowerCase().includes('container');
+  return AppKind.hasKinds(obj, ['container']);
 }

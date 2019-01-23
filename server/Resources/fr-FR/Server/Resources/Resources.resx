@@ -647,7 +647,7 @@
     <value>Gérer</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Moniteur</value>
+    <value>Monitorer</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Choisissez une liaison d'entrée</value>
@@ -2144,7 +2144,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Voulez-vous vraiment renouveler la clé {{name}} ?</value>
   </data>
   <data name="emptyBrowse" xml:space="preserve">
-    <value>Accélérez votre développement avec Azure Functions, une expérience de calcul sans serveur basée sur les événements. Adaptez la mise à l'échelle à la demande et payez uniquement pour les ressources que vous consommez.</value>
+    <value>Accélérez votre développement avec Azure Functions, une expérience de calcul serverless basée sur les événements. Adaptez la mise à l'échelle à la demande et payez uniquement pour les ressources que vous consommez.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>En savoir plus sur Azure Functions</value>
@@ -2282,7 +2282,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Le plan de consommation n'autorise qu'un seul emplacement. Si plusieurs emplacements sont nécessaires, utilisez des plans App Service dédiés.</value>
   </data>
   <data name="functionsList_searchFunctions" xml:space="preserve">
-    <value>Fonctions de recherche</value>
+    <value>Rechercher dans les fonctions</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>Nouveau</value>
@@ -3217,6 +3217,15 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Mise à l'échelle automatique</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Augmentez la taille des instances.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Calculer la taille de machine virtuelle : {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Le nombre d’instances disponibles est insuffisant.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Mettre à l’échelle pour obtenir un grand nombre d'instances</value>
   </data>
@@ -3224,7 +3233,10 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Jusqu'à 100 instances. Un nombre plus élevé est disponible à la demande.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Jusqu'à {0} instances. Sous réserve de disponibilité.</value>
+    <value>Jusqu’à {0} instances. Sous réserve de disponibilité.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Nombre illimité d’instances. Sous réserve de disponibilité.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>Haute densité</value>
@@ -3735,7 +3747,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Échec de la configuration du déploiement</value>
   </data>
   <data name="settingupDeploymentFailWithStatusMessage" xml:space="preserve">
-    <value>Failed to set up deployment: {0}</value>
+    <value>Échec de la configuration du déploiement : {0}</value>
   </data>
   <data name="disconnectingDeployment" xml:space="preserve">
     <value>Déconnexion du déploiement</value>
@@ -3750,7 +3762,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Voulez-vous vraiment déconnecter votre déploiement ?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Bibliothèque de la communauté serverless (préversion)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Vous ne trouvez pas ce que vous recherchez ? Consultez la bibliothèque de la communauté Serverless Azure !</value>
@@ -4575,12 +4587,42 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>(aucun compte de stockage à afficher)</value>
   </data>
   <data name="byos_storageNameExists" xml:space="preserve">
-    <value>Storage setting with that name already exists.</value>
+    <value>Un paramètre de stockage portant ce nom existe déjà.</value>
   </data>
   <data name="unableToReachBuild" xml:space="preserve">
-    <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
+    <value>Nous n’avons pas pu vous connecter au pipeline Azure qui est connecté à cette application web. Cela peut signifier qu’il a été supprimé depuis le portail Azure DevOps. Dans ce cas, vous pouvez déconnecter ce pipeline et configurer un nouveau pipeline de déploiement.</value>
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
-    <value>The path for Windows must begin with 'c:\'.</value>
+    <value>Le chemin d’accès pour Windows doit commencer par « c:\ ».</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>L’application de fonction est dans un état limité. Il est impossible de récupérer toutes les données.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limité</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Fonctions (limité)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>Toutes les fonctions sont arrêtées. Démarrez votre application pour afficher vos fonctions.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>Vous ne disposez pas des autorisations pour écrire dans cette application.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>Vous avez un accès en lecture seule. Pour être affichées, les fonctions requièrent un accès en écriture.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Les fonctions exécutées derrière un équilibreur de charge interne ne sont pas accessibles en dehors de leur réseau virtuel. Vérifiez que vous vous trouvez dans le même réseau virtuel que les fonctions pour y accéder.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Serveurs proxy (limité)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

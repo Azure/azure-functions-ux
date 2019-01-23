@@ -3220,6 +3220,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_autoScale" xml:space="preserve">
     <value>Auto scale</value>
   </data>
+  <data name="pricing_scaleOut" xml:space="preserve">
+    <value>Scale out.</value>
+  </data>
+  <data name="pricing_comouteVmSize" xml:space="preserve">
+    <value>Compute Vm size: {0}</value>
+  </data>
+  <data name="pricing_notEnoughInstances" xml:space="preserve">
+    <value>Not enough available instances.</value>
+  </data>
   <data name="pricing_largeScale" xml:space="preserve">
     <value>Scale to a large number of instances</value>
   </data>
@@ -3227,7 +3236,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Up to 100 instances.  More allowed upon request.</value>
   </data>
   <data name="pricing_scaleDesc" xml:space="preserve">
-    <value>Up to {0} instances.  Subject to availability.</value>
+    <value>Up to {0} instances. Subject to availability.</value>
+  </data>
+  <data name="pricing_scaleDescUnlimited" xml:space="preserve">
+    <value>Unlimited instances. Subject to availability.</value>
   </data>
   <data name="pricing_highDensity" xml:space="preserve">
     <value>High Density</value>
@@ -3753,7 +3765,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Are you sure you want to disconnect your deployment?</value>
   </data>
   <data name="communityTemplatesTitle" xml:space="preserve">
-    <value>Serverless Community Library (Preview)</value>
+    <value>Serverless Community Library</value>
   </data>
   <data name="communityTemplatesDescription" xml:space="preserve">
     <value>Not finding what you're looking for? Check out the Azure Serverless Community Library!</value>
@@ -3765,7 +3777,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Click here for details on storage configuration.</value>
   </data>
   <data name="extensionInstallDocLink" xml:space="preserve">
-    <value>Click here to learn more about toubleshooting extension installation</value>
+    <value>Click here to learn more about troubleshooting extension installation</value>
   </data>
   <data name="pricing_ACU" xml:space="preserve">
     <value>{0} total ACU</value>
@@ -4585,5 +4597,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
     <value>The path for Windows must begin with 'c:\'.</value>
+  </data>
+  <data name="limitedMode" xml:space="preserve">
+    <value>The function app is in a limited state. Unable to retrieve all data.</value>
+  </data>
+  <data name="limited" xml:space="preserve">
+    <value>Limited</value>
+  </data>
+  <data name="sideNav_FunctionsLimited" xml:space="preserve">
+    <value>Functions (Limited)</value>
+  </data>
+  <data name="stoppedMode" xml:space="preserve">
+    <value>All functions are stopped. Start your app to view your functions.</value>
+  </data>
+  <data name="noAccessMode" xml:space="preserve">
+    <value>You do not have write permissions to this app.</value>
+  </data>
+  <data name="readOnlyMode" xml:space="preserve">
+    <value>You have read only access. Functions require write access to view.</value>
+  </data>
+  <data name="nonReachableMode" xml:space="preserve">
+    <value>Functions running behind an internal load balancer are not accessible outside their VNET. Please make sure you are in the same VNET as the functions to access them.</value>
+  </data>
+  <data name="sideNav_ProxiesLimited" xml:space="preserve">
+    <value>Proxies (Limited)</value>
+  </data>
+  <data name="slotSettingNoProdPermission" xml:space="preserve">
+    <value>To change slot settings you must have write access on the production app.</value>
+  </data>
+  <data name="autoSwapSettingPermissionFail" xml:space="preserve">
+    <value>To change the auto swap setting you must have write permissions on the production app.</value>
   </data>
 </root>

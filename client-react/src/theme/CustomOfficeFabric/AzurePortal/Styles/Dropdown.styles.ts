@@ -2,7 +2,7 @@
 import { IDropdownStyleProps, IDropdownStyles } from 'office-ui-fabric-react/lib/Dropdown';
 import { IRawStyle, HighContrastSelector, getGlobalClassNames, IStyle, normalize, FontWeights, FontSizes } from '@uifabric/styling';
 import { IStyleFunction } from '@uifabric/utilities';
-import { ThemeExtended, AzurePortalColors } from 'src/theme/SemanticColorsExtended';
+import { ThemeExtended, AzurePortalColors } from '../../../../theme/SemanticColorsExtended';
 
 const GlobalClassNames = {
   root: 'ms-Dropdown-container',

@@ -51,7 +51,7 @@
     "javaContainer": null,
     "javaContainerVersion": null,
     "appCommandLine": "",
-    "managedPipelineMode": 0,
+    "managedPipelineMode": "Integrated",
     "virtualApplications": [
       {
         "virtualPath": "/",

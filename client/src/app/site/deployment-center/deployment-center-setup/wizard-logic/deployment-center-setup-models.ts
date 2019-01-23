@@ -3,7 +3,6 @@ export class WizardForm {
   public buildProvider: sourceControlProvider;
   public sourceSettings: SourceSettings;
   public buildSettings: VstsBuildSettings;
-  public testEnvironment: VstsTestEnvironment;
   public deploymentSlotSetting: DeploymentSLotSettings;
 }
 
@@ -12,12 +11,7 @@ export class DeploymentSLotSettings {
   public deploymentSlot: string;
   public deploymentSlotEnabled: boolean;
 }
-export class VstsTestEnvironment {
-  public enabled: boolean;
-  public newApp: boolean;
-  public appServicePlanId: string;
-  public webAppId: string;
-}
+
 export class VstsBuildSettings {
   public createNewVsoAccount: boolean;
   public vstsAccount: string;

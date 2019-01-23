@@ -9,6 +9,7 @@ import {
   Links,
   SiteTabIds,
   SubscriptionQuotaIds,
+  FunctionAppVersion,
 } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
@@ -86,7 +87,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   public allLanguages: DropDownElement<string>[] = [];
   public supportedLanguages: DropDownElement<string>[] = [];
   public runtimeVersion: string;
-  public allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
+  public allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'TypeScript'];
   public appSettingsArm: ArmObj<ApplicationSettings>;
   public functionAppLanguage: string;
   public templates: FunctionTemplate[];
@@ -229,7 +230,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
         if (
           this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName) &&
-          this.runtimeVersion === 'V2'
+          this.runtimeVersion === FunctionAppVersion.v2
         ) {
           const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
           this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
@@ -440,9 +441,12 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   }
 
   private _languageIsExperimental(language: string): boolean {
-    return !!this.allExperimentalLanguages.find(l => {
-      return l === language;
-    });
+    return (
+      this.runtimeVersion === FunctionAppVersion.v1 &&
+      !!this.allExperimentalLanguages.find(l => {
+        return l === language;
+      })
+    );
   }
 
   private _languageSort(languages: DropDownElement<string>[]): DropDownElement<string>[] {
@@ -829,7 +833,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
   }
 
   quickstart() {
-    if (this.runtimeVersion === 'V1') {
+    if (this.runtimeVersion === FunctionAppVersion.v1) {
       this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     } else {
       this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);

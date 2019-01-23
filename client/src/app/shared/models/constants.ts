@@ -235,6 +235,7 @@ export class ScenarioIds {
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
   public static readonly javaSupported = 'JavaSupported';
@@ -285,7 +286,6 @@ export class ScenarioIds {
   public static readonly externalSource = 'externalSource';
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';
-  public static readonly openClassicMsi = 'openClassicMsi';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
 }
@@ -462,7 +462,7 @@ export class DeploymentCenterConstants {
   public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
   public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
   public static readonly vstsAccountsFetchUri =
-    'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
+    'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
   // VSTS Validation constants
   // Build definition
@@ -577,6 +577,8 @@ export enum SwapOperationType {
 
 export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
+  public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
+  public static oldDeploymentCenter = 'oldvsts';
 }
 
 export enum FunctionAppVersion {
