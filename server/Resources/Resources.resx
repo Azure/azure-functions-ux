@@ -1300,6 +1300,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>This feature is not supported for slots</value>
   </data>

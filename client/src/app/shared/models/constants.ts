@@ -291,6 +291,7 @@ export class ScenarioIds {
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
   public static readonly addScaleOut = 'addScaleOut';
+  public static readonly alwaysOnSupported = 'alwaysOnSupported';
 }
 
 export class NationalCloudArmUris {
