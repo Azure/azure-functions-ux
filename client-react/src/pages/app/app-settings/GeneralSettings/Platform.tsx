@@ -16,92 +16,142 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
-        <>
-          <Field
-            name="config.properties.use32BitWorkerProcess"
-            component={Dropdown}
-            fullpage
-            label={t('platform')}
-            id="app-settings-worker-process"
-            disabled={!values.siteWritePermission}
-            options={[
-              {
-                key: true,
-                text: '32 Bit',
-              },
-              {
-                key: false,
-                text: '64 Bit',
-              },
-            ]}
-          />
-          <Field
-            name="config.properties.managedPipelineMode"
-            component={Dropdown}
-            fullpage
-            label={t('managedPipelineVersion')}
-            id="app-settings-managed-pipeline-mode"
-            disabled={!values.siteWritePermission}
-            options={[
-              {
-                key: 'Integrated',
-                text: t('integrated'),
-              },
-              {
-                key: 'Classic',
-                text: t('classic'),
-              },
-            ]}
-          />
-        </>
+        <Field
+          name="config.properties.use32BitWorkerProcess"
+          component={Dropdown}
+          fullpage
+          label={t('platform')}
+          id="app-settings-worker-process"
+          disabled={
+            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'
+          }
+          options={[
+            {
+              key: true,
+              text: '32 Bit',
+            },
+            {
+              key: false,
+              text: '64 Bit',
+            },
+          ]}
+        />
       )}
-      <Field
-        name="config.properties.ftpsState"
-        component={Dropdown}
-        fullpage
-        label={t('ftpState')}
-        id="app-settings-ftps-state"
-        disabled={!values.siteWritePermission}
-        options={[
-          {
-            key: 'AllAllowed',
-            text: t('allAllowed'),
-          },
-          {
-            key: 'FtpsOnly',
-            text: t('ftpsOnly'),
-          },
-          {
-            key: 'Disabled',
-            text: t('disabled'),
-          },
-        ]}
-      />
-      <Field
-        name="config.properties.http20Enabled"
-        component={Dropdown}
-        fullpage
-        label={t('httpVersion')}
-        id="app-settings-http-enabled"
-        disabled={!values.siteWritePermission}
-        options={[
-          {
-            key: true,
-            text: '2.0',
-          },
-          {
-            key: false,
-            text: '1.1',
-          },
-        ]}
-      />
-      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
+      {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.managedPipelineMode"
+          component={Dropdown}
+          fullpage
+          label={t('managedPipelineVersion')}
+          id="app-settings-managed-pipeline-mode"
+          disabled={!values.siteWritePermission}
+          options={[
+            {
+              key: 'Integrated',
+              text: t('integrated'),
+            },
+            {
+              key: 'Classic',
+              text: t('classic'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.addFTPOptions, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.ftpsState"
+          component={Dropdown}
+          fullpage
+          label={t('ftpState')}
+          id="app-settings-ftps-state"
+          disabled={!values.siteWritePermission}
+          options={[
+            {
+              key: 'AllAllowed',
+              text: t('allAllowed'),
+            },
+            {
+              key: 'FtpsOnly',
+              text: t('ftpsOnly'),
+            },
+            {
+              key: 'Disabled',
+              text: t('disabled'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.addHTTPSwitch, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.http20Enabled"
+          component={Dropdown}
+          fullpage
+          label={t('httpVersion')}
+          id="app-settings-http-enabled"
+          disabled={!values.siteWritePermission}
+          options={[
+            {
+              key: true,
+              text: '2.0',
+            },
+            {
+              key: false,
+              text: '1.1',
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
           fullpage
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
+          disabled={
+            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'
+          }
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.alwaysOnSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.alwaysOn"
+          component={RadioButton}
+          label={t('alwaysOn')}
+          id="app-settings-always-on"
+          disabled={
+            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'
+          }
+          fullpage
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.clientAffinitySupported, { site }).status !== 'disabled' && (
+        <Field
+          name="site.properties.clientAffinityEnabled"
+          component={RadioButton}
+          fullpage
+          label={t('clientAffinityEnabledLabel')}
+          id="app-settings-clientAffinityEnabled"
           disabled={!values.siteWritePermission}
           options={[
             {
@@ -115,42 +165,6 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           ]}
         />
       )}
-      <Field
-        name="config.properties.alwaysOn"
-        component={RadioButton}
-        label={t('alwaysOn')}
-        id="app-settings-always-on"
-        disabled={!values.siteWritePermission}
-        fullpage
-        options={[
-          {
-            key: true,
-            text: t('on'),
-          },
-          {
-            key: false,
-            text: t('off'),
-          },
-        ]}
-      />
-      <Field
-        name="site.properties.clientAffinityEnabled"
-        component={RadioButton}
-        fullpage
-        label={t('clientAffinityEnabledLabel')}
-        id="app-settings-clientAffinityEnabled"
-        disabled={!values.siteWritePermission}
-        options={[
-          {
-            key: true,
-            text: t('on'),
-          },
-          {
-            key: false,
-            text: t('off'),
-          },
-        ]}
-      />
     </div>
   );
 };

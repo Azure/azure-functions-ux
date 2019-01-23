@@ -38,6 +38,19 @@ export class DynamicSiteEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
