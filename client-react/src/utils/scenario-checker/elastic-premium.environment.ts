@@ -1,7 +1,7 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-export class FunctionAppEnvironment extends Environment {
-  public name = 'FunctionApp';
+export class ElasticPremiumAppEnvironment extends Environment {
+  public name = 'ElasticPremiumApp';
 
   constructor(t: (string) => string) {
     super();
