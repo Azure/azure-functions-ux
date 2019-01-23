@@ -16,7 +16,7 @@ const formStyle = style({
 
 const validate = (values: AppSettingsFormValues, t: TranslationFunction, scenarioChecker: ScenarioService) => {
   const duplicateDefaultDocumentsValidation = (value: string) => {
-    return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? 'This field must be unique.' : null;
+    return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? t('fieldMustBeUnique') : null;
   };
   const hasDuplicates = array => {
     return new Set(array).size !== array.length;
