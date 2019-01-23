@@ -779,6 +779,8 @@ export interface SiteConfig {
   javaContainer: string;
   javaContainerVersion: string;
   managedPipelineMode: number;
+  ftpsState?: 'AllAllowed' | 'FtpsOnly' | 'Disabled';
+  http20Enabled?: boolean;
   virtualApplications: VirtualApplication[];
   winAuthAdminState: number;
   winAuthTenantState: number;
