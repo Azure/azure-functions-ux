@@ -138,6 +138,13 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
         color: $default-text-color;
       }
     }
+
+    .disabledMessageDiv {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
   }
 
   .spec-expander {
