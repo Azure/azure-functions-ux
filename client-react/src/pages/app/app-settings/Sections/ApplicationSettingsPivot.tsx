@@ -16,7 +16,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & In
       <h3>{t('applicationSettings')}</h3>
       {values.siteWritePermission ? (
         <div id="app-settings-application-settings-table">
-          <ApplicationSettings {...props} />
+          <ApplicationSettings {...props} /> 
         </div>
       ) : (
         <div id="app-settings-app-settings-rbac-message">
