@@ -20,7 +20,6 @@ import { XenonSiteEnvironment } from 'app/shared/services/scenario/xenon-site.en
 import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 import { FunctionAppEnvironment } from './function-app.environment';
 import { WindowsCodeEnvironment } from './windows-code.environment';
-import { FunctionLinuxAppEnvironment } from './function-linux-app.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -41,7 +40,6 @@ export class ScenarioService implements IScenarioService {
     new DynamicLinuxEnvironment(),
     new FunctionAppEnvironment(this._injector),
     new WindowsCodeEnvironment(),
-    new FunctionLinuxAppEnvironment(),
   ];
 
   constructor(

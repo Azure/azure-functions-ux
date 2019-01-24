@@ -9,7 +9,7 @@ import { Injector } from '@angular/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
 
 export class FunctionAppEnvironment extends Environment {
-  name = 'DynamicSite';
+  name = 'FunctionApp';
   private _ts: TranslateService;
 
   constructor(injector: Injector) {
@@ -29,14 +29,29 @@ export class FunctionAppEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.vstsDeploymentHide] = {
+      id: ScenarioIds.vstsDeploymentHide,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (this._isLinux(input.site)) {
+          return { status: 'disabled' };
+        }
+
+        return null;
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input && input.site) {
-      return input.site.kind.toLowerCase().includes(Kinds.functionApp);
+      return input.site.kind && input.site.kind.toLowerCase().includes(Kinds.functionApp);
     }
 
     return false;
+  }
+
+  private _isLinux(site: ArmObj<Site>) {
+    return site.kind && site.kind.toLowerCase().includes(Kinds.linux);
   }
 
   private _isDynamic(site: ArmObj<Site>) {
