@@ -21,7 +21,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & In
       ) : (
         <div id="app-settings-app-settings-rbac-message">
           <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-            You do not have permission to view application settings on this web app //TODO: GET BETTER STRING
+            {t('applicationSettingsNoPermission')}
           </MessageBar>
         </div>
       )}
@@ -33,7 +33,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & In
       ) : (
         <div id="app-settings-connection-strings-rbac-message">
           <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
-            You do not have permission to view connection strings on this web app //TODO: GET BETTER STRING
+            {t('connectionStringsNoPermissions')}
           </MessageBar>
         </div>
       )}
