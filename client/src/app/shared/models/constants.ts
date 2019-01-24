@@ -220,6 +220,7 @@ export class ScenarioIds {
   public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
   public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
+  public static readonly enableDiagnosticLogs = 'EnableDiagnosticLogs';
   public static readonly enableAuth = 'EnableAuth';
   public static readonly enableNetworking = 'EnableNetworking';
   public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';

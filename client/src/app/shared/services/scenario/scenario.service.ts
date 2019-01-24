@@ -39,7 +39,7 @@ export class ScenarioService implements IScenarioService {
     new AzureTryEnvironment(),
     new EmbeddedFunctionsEnvironment(this._portalService),
     new DynamicLinuxEnvironment(),
-    new FunctionAppEnvironment(),
+    new FunctionAppEnvironment(this._injector),
     new WindowsCodeEnvironment(),
     new FunctionLinuxAppEnvironment(),
   ];
@@ -80,8 +80,8 @@ export class ScenarioService implements IScenarioService {
         if (check.runCheck) {
           const result = check.runCheck(input);
           return <ScenarioCheckResult>{
-            status: result.status,
-            data: result.data,
+            status: result && result.status,
+            data: result && result.data,
             environmentName: env.name,
             id: id,
           };

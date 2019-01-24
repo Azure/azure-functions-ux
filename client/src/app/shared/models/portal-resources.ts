@@ -1499,5 +1499,8 @@ export class PortalResources {
   public static addNewVirtualDirectoryV3 = 'addNewVirtualDirectoryV3';
   public static addNewHandler = 'addNewHandler';
   public static feature_logStreamingConnectionError = 'feature_logStreamingConnectionError';
+  public static applicationSettingsNoPermission = 'applicationSettingsNoPermission';
+  public static connectionStringsNoPermissions = 'connectionStringsNoPermissions';
   public static tab_logicAppsDeprecation = 'tab_logicAppsDeprecation';
+  public static diagnosticLogsDisabled = 'diagnosticLogsDisabled';
 }

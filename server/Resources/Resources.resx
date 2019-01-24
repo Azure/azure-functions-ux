@@ -4673,4 +4673,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
     <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
   </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan.  For runtime logging please use Application Insights.</value>
+  </data>
 </root>
