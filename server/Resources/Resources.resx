@@ -4670,4 +4670,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
     <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+  </data>
 </root>
