@@ -4665,6 +4665,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Unable to open a connection to your app. This may be due to any network security groups or IP restriction rules that you have placed on your app. To use log streaming, please make sure you are able to access your app directly from your current network.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>The Logic Apps Tab will be removed in 2019</value>
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
   </data>
 </root>
