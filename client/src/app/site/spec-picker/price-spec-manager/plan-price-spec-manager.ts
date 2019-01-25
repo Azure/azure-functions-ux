@@ -50,9 +50,9 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
+  isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;
-  isElastic?: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
