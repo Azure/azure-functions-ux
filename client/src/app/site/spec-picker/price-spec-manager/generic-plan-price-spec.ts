@@ -41,7 +41,7 @@ export class GenericPlanPriceSpec extends PriceSpec {
     }
     this.cssClass = GenericPlanPriceSpec.colorToCssSpec[pricingTier.skuSettings];
     this.topLevelFeatures.push(this._ts.instant(PortalResources.pricing_memory).format(pricingTier.memorySize / 1024));
-    this.topLevelFeatures.push(this._ts.instant(PortalResources.pricing_comouteVmSize).format(pricingTier.ComputeVmSize + ''));
+    this.topLevelFeatures.push(this._ts.instant(PortalResources.pricing_comouteVmSize).format(pricingTier.computeVmSize + ''));
 
     this._setFeatureItems(pricingTier);
     this._sethardwareItems(pricingTier);

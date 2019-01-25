@@ -3,7 +3,7 @@ export interface PricingTier {
   skuName: string;
   workerTierName: string;
   workerTierId: number;
-  ComputeVmSize: string;
+  computeVmSize: string;
   estimatedPrice: number;
   currencyCode: string;
   isLinux: boolean;
