@@ -3226,7 +3226,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Scale out.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Compute Vm size: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">

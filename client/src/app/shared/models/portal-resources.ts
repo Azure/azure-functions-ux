@@ -1032,7 +1032,7 @@ export class PortalResources {
   public static pricing_rapidScaleDesc = 'pricing_rapidScaleDesc';
   public static pricing_autoScale = 'pricing_autoScale';
   public static pricing_scaleOut = 'pricing_scaleOut';
-  public static pricing_comouteVmSize = 'pricing_comouteVmSize';
+  public static pricing_computeVmSize = 'pricing_computeVmSize';
   public static pricing_notEnoughInstances = 'pricing_notEnoughInstances';
   public static pricing_largeScale = 'pricing_largeScale';
   public static pricing_largeScaleDesc = 'pricing_largeScaleDesc';
