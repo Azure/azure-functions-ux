@@ -41,7 +41,7 @@ const logFetchActionFailure: Epic = action$ =>
     tap(action => {
       const actionArea = action.type.split('/')[0];
       LogService.stopTrackEvent(`${actionArea} - fetch`, {
-        error: action.error,
+        error: JSON.stringify(action.error),
         success: false,
       });
     }),
@@ -78,7 +78,7 @@ const logUpdateActionFailure: Epic = action$ =>
       const actionArea = action.type.split('/')[0];
       LogService.stopTrackEvent(`${actionArea} - update`, {
         success: false,
-        error: action.error,
+        error: JSON.stringify(action.error),
       });
     }),
     ignoreElements()
