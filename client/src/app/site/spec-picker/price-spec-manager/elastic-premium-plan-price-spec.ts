@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, FeatureFlags } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
@@ -7,6 +7,7 @@ import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { PlanSpecPickerData } from './plan-price-spec-manager';
+import { Url } from 'app/shared/Utilities/url';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   tier = Tier.elasticPremium;
@@ -69,7 +70,10 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || data.isXenon || data.isLinux || !data.isFunctionApp;
+    if (Url.getParameterByName(null, FeatureFlags.EnableElasticPremium) === 'true') {
+      return !!data.hostingEnvironmentName || data.isXenon || data.isLinux || !data.isFunctionApp;
+    }
+    return true;
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {

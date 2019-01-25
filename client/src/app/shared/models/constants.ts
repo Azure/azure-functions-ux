@@ -585,6 +585,7 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
+  public static EnableElasticPremium = 'EnableElasticPremium';
 }
 
 export class SupportedFeatures {
