@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Questa funzionalità non è supportata per le app con un piano a consumo</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Questa funzionalità non è supportata per gli slot</value>
   </data>
@@ -2720,7 +2723,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Questo modello richiede le estensioni seguenti.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installazione delle dipendenze del modello. Al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 2 minuti. Durante questo periodo è possibile chiudere il pannello e continuare a usare il portale.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Scale Out.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Dimensioni macchina virtuale di calcolo: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Dettagli della distribuzione</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installazione delle dipendenze del modello. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 2 minuti. Durante questo periodo è possibile uscire da questa pagina e continuare a usare il portale.</value>
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Nascondi valori</value>
@@ -4323,7 +4326,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Applicazione</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Precaricamento abilitato</value>
@@ -4402,6 +4405,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Impostazione slot</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Aggiungi/Modifica stringa di connessione</value>
@@ -4624,5 +4630,56 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Per modificare l'impostazione di scambio automatico è necessario disporre delle autorizzazioni di scrittura sull'app di produzione.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>App per le funzioni script</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>App per le funzioni .NET precompilata</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Tipo di app per le funzioni</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Impostazione slot abilitata</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Valore nascosto. Per visualizzarlo, fare clic sul pulsante Mostra valori sopra</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Il campo deve essere univoco.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Applicazione</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nuova directory o applicazione virtuale</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Nuovo gestore</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Non è possibile aprire una connessione all'app corrente. Il problema può essere causato da eventuali gruppi di sicurezza di rete o regole di restrizione per gli indirizzi IP applicate all'app. Per usare i log in streaming, assicurarsi di poter accedere all'app direttamente dalla rete corrente.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>La scheda 'App per la logica' verrà rimossa nel corso dei prossimi mesi. È possibile continuare a esplorare le app per la logica tramite la funzione di esplorazione del portale di Azure.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Aumenta istanze</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>
