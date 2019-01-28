@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Bu özellik, Tüketim planlarındaki uygulamalarda desteklenmez</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Bu özellik yuvalar için desteklenmiyor</value>
   </data>
@@ -2720,7 +2723,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu şablon aşağıdaki uzantıları gerektirir.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Şablon bağımlılıkları yükleniyor. Bu tamamlandıktan sonra bir işlev oluşturabileceksiniz. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu dikey pencereyi kapatıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Çalışma zamanı uzantısını yükleyemiyoruz. Yükleme kimliği {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Ölçeği genişlet.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>İşlem VM boyutu: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtım Ayrıntıları</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu sayfadan ayrılıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Değerleri Gizle</value>
@@ -4320,10 +4323,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dizin veya Uygulama</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Dizin</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Uygulama</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Önyükleme etkin</value>
@@ -4402,6 +4405,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Yuva ayarı</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Bağlantı dizesi ekle/düzenle</value>
@@ -4620,9 +4626,60 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ara Sunucular (Sınırlı)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>Yuva ayarlarını değiştirmek için üretim uygulaması üzerinde yazma erişiminiz olmalıdır.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Otomatik değiştirme ayarlarını değiştirmek için üretim uygulaması üzerinde yazma izinleriniz olmalıdır.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Betik İşlev Uygulaması</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Önceden derlenmiş .NET İşlev Uygulaması</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>İşlev Uygulaması Türü</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Yuva Ayarı Etkin</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Gizli değer. Görüntülemek için yukarıdaki Değerleri göster düğmesine tıklayın</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Alan benzersiz olmalıdır.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Dizin</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Yeni sanal uygulama veya dizin</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Yeni işleyici</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Uygulamanız ile bağlantı kurulamıyor. Bunun nedeni, uygulamanızda yürürlüğe koyduğunuz ağ güvenlik grupları veya IP kısıtlama kuralları olabilir. Günlük akışını kullanmak için lütfen geçerli ağınızdan uygulamanıza erişebildiğinizden emin olun.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Ölçeği genişlet</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>

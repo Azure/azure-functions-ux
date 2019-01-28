@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Dieses Feature wird für Apps in einem Verbrauchstarif nicht unterstützt.</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Dieses Feature wird für Slots noch nicht unterstützt.</value>
   </data>
@@ -2720,7 +2723,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Diese Vorlage erfordert die folgenden Erweiterungen.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Sobald dieser Vorgang abgeschlossen wurde, können Sie eine Funktion erstellen. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 2 Minuten dauern. Sie können dieses Blatt schließen und währenddessen das Portal weiter nutzen.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Die Laufzeiterweiterung kann nicht installiert werden. Installations-ID: {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Horizontal hochskalieren.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Compute-VM-Größe: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Bereitstellungsdetails</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 2 Minuten dauern. Sie können diese Seite schließen und währenddessen das Portal weiter nutzen.</value>
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Werte ausblenden</value>
@@ -4320,10 +4323,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Verzeichnis oder Anwendung</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Verzeichnis</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Anwendung</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Vorabladen aktiviert</value>
@@ -4402,6 +4405,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Sloteinstellung</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Verbindungszeichenfolge hinzufügen/bearbeiten</value>
@@ -4624,5 +4630,56 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Um die Einstellungen für den automatischen Tausch zu ändern, müssen Sie über Schreibberechtigungen für die Produktions-App verfügen.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Skriptfunktions-App</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Vorkompilierte .NET-Funktions-App</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Typ der Funktions-App</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Sloteinstellung aktiviert</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Ausgeblendete Wert. Klicken Sie oben auf die Schaltfläche "Werte anzeigen", um den Wert anzuzeigen.</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Das Feld muss eindeutig sein.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Verzeichnis</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Neue virtuelle Anwendung oder neues virtuelles Verzeichnis</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Neuer Handler</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Es kann keine Verbindung mit Ihrer App hergestellt werden. Dies kann auf Netzwerksicherheitsgruppen oder IP-Einschränkungsregeln zurückzuführen sein, die für Ihre App konfiguriert wurden. Um das Protokollstreaming nutzen zu können, stellen Sie sicher, dass Sie direkt aus dem aktuellen Netzwerk auf Ihre App zugreifen können.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Die Registerkarte "Logic Apps" wird in den nächsten Monaten entfernt. Sie können Ihre Logik-Apps weiterhin über die Suchfunktion im Azure-Portal durchsuchen.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Horizontal hochskalieren</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>

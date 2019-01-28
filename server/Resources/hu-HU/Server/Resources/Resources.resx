@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>A használatalapú csomag alkalmazásai nem támogatják ezt a funkciót</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Ez a funkció még nem támogatott tárolóhelyek esetén</value>
   </data>
@@ -2720,7 +2723,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Folyamatban van a sablonfüggőségek telepítése. Ennek befejezése után tud majd függvényt létrehozni. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt bezárhatja ezt a panelt, és tovább használhatja a portált.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -3220,7 +3223,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Horizontális felskálázás.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Virtuálisgép-méret kiszámítása: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Példány részletei</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Folyamatban van a sablonfüggőségek telepítése. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt elhagyhatja ezt a lapot, és tovább használhatja a portált.</value>
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Értékek elrejtése</value>
@@ -4320,10 +4323,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Címtár vagy alkalmazás</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Címtár</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Alkalmazás</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Előzetes betöltés engedélyezve</value>
@@ -4402,6 +4405,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Tárhelybeállítás</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Kapcsolati sztring hozzáadása vagy szerkesztése</value>
@@ -4620,9 +4626,60 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Proxyk (korlátozott)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>A tárolóhely-beállítások módosításához írási hozzáféréssel kell rendelkeznie az üzemi alkalmazáshoz.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Az automatikus felcserélési beállítás módosításához írási engedélyekkel kell rendelkeznie az üzemi alkalmazásra vonatkozóan.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Szkriptes függvényalkalmazás</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Előfordított .NET-függvényalkalmazás</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Függvényalkalmazás típusa</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Tárhelybeállítás engedélyezve</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Rejtett érték. A megtekintéshez kattintson a fenti értékek megjelenítése gombra</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>A mezőnek egyedinek kell lennie.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Címtár</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Új virtuális alkalmazás vagy címtár</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Új kezelő</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Nem sikerült kapcsolatot létesíteni az alkalmazással. Ennek oka lehet bármely, az alkalmazására alkalmazott hálózati biztonsági csoport vagy IP-címkorlátozási szabály. A folyamatos átvitelű naplózás használatához győződjön meg róla, hogy eléri az alkalmazást a közvetlenül a jelenlegi hálózatról.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Horizontális felskálázás</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>
