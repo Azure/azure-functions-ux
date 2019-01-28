@@ -45,7 +45,7 @@ export class ApplicationSettings extends React.Component<
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          {t('addEditApplicationSetting')}
+          {t('newApplicationSetting')}
         </ActionButton>
         <ActionButton
           id="app-settings-application-settings-show-hide"
@@ -139,6 +139,7 @@ export class ApplicationSettings extends React.Component<
         <IconButton
           id={`app-settings-application-settings-delete-${index}`}
           iconProps={{ iconName: 'Delete' }}
+          ariaLabel={t('delete')}
           title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
@@ -149,6 +150,7 @@ export class ApplicationSettings extends React.Component<
         <IconButton
           id={`app-settings-application-settings-edit-${index}`}
           iconProps={{ iconName: 'Edit' }}
+          ariaLabel={t('edit')}
           title={t('edit')}
           onClick={() => this.onShowPanel(item, index)}
         />
@@ -156,20 +158,25 @@ export class ApplicationSettings extends React.Component<
     }
     if (column.key === 'sticky') {
       return item.sticky ? (
-        <IconButton id={`app-settings-application-settings-sticky-${index}`} iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} />
+        <IconButton
+          id={`app-settings-application-settings-sticky-${index}`}
+          iconProps={{ iconName: 'CheckMark' }}
+          title={t('sticky')}
+          ariaLabel={t('slotSettingOn')}
+        />
       ) : null;
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        'Hidden value. Click show values button above to view'
+        t('hiddenValueClickAboveToShow')
       ) : (
-        <span id={`app-settings-application-settings-value-${index}`}>{item[column.fieldName!]}</span>
+        <div id={`app-settings-application-settings-value-${index}`}>{item[column.fieldName!]}</div>
       );
     }
     if (column.key === 'name') {
-      return <span id={`app-settings-application-settings-name-${index}`}>{item[column.fieldName!]}</span>;
+      return <div id={`app-settings-application-settings-name-${index}`}>{item[column.fieldName!]}</div>;
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering

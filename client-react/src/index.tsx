@@ -12,12 +12,15 @@ import lightTheme from './theme/light';
 import { loadTheme } from '@uifabric/styling';
 import './pollyfills';
 import 'react-app-polyfill/ie11';
+import LogService from './utils/LogService';
 
+LogService.initialize();
 initializeIcons();
 loadTheme(lightTheme); // make sure we load a custom theme before anything else, custom theme has custom semantic colors
+
+LogService.startTrackPage('shell');
 const portalCommunicator = new PortalCommunicator(i18n);
 portalCommunicator.initializeIframe();
-
 ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>

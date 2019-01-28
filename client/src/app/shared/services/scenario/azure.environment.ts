@@ -107,6 +107,13 @@ export class AzureEnvironment extends Environment {
       runCheckAsync: (input: ScenarioCheckInput) => this._vstsPermissionsCheck(input),
     };
 
+    this.scenarioChecks[ScenarioIds.addScaleOut] = {
+      id: ScenarioIds.addScaleOut,
+      runCheck: (input: ScenarioCheckInput) => {
+        return this._enableIfBasicOrHigher(input);
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.canScaleForSlots] = {
       id: ScenarioIds.canScaleForSlots,
       runCheck: (input: ScenarioCheckInput) => {
@@ -118,6 +125,20 @@ export class AzureEnvironment extends Environment {
             input.site.properties.sku === Tier.basic ||
             input.site.properties.sku === Tier.standard);
         return { status: enabled ? 'enabled' : 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        const sku = input && input.site && input.site.properties.sku;
+        if (sku === Tier.elasticPremium || sku === Tier.elasticIsolated) {
+          return <ScenarioResult>{
+            status: 'disabled',
+            data: this._translateService.instant(PortalResources.featureNotSupportedElastic),
+          };
+        }
+        return <ScenarioResult>{ status: 'enabled' };
       },
     };
   }

@@ -20,9 +20,6 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
   });
 
   const { values, setValues, errors, t } = props;
-  const duplicateValidation = (value: string) => {
-    return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? 'This field must be unique.' : null;
-  };
   const removeItem = (index: number) => {
     const defaultDocuments: string[] = JSON.parse(JSON.stringify(values.config.properties.defaultDocuments));
     defaultDocuments.splice(index, 1);
@@ -68,44 +65,45 @@ const DefaultDocuments: React.SFC<FormikProps<AppSettingsFormValues> & InjectedT
         iconProps={{ iconName: 'Add' }}>
         {t('newDocument')}
       </ActionButton>
-      {values.config.properties.defaultDocuments.map((value, index) => (
-        <div key={index} style={{ marginBottom: '5px' }}>
-          <Field
-            name={`config.properties.defaultDocuments[${index}]`}
-            component={TextField}
-            componentRef={field => {
-              lastFieldRef = field;
-            }}
-            disabled={!values.siteWritePermission}
-            styles={{
-              root: {
-                display: 'inline-block',
-                width: 'calc(100% - 20px)',
-              },
-            }}
-            id={`app-settings-document-text-${index}`}
-            ariaLabel={t('defaultDocuments')}
-            underlined
-            errorMessage={
-              errors &&
-              errors.config &&
-              errors.config.properties &&
-              errors.config.properties.defaultDocuments &&
-              errors.config.properties.defaultDocuments[index]
-            }
-            validate={duplicateValidation}
-            {...props}
-          />
-          <IconButton
-            id={`app-settings-document-delete-${index}`}
-            disabled={!values.siteWritePermission}
-            style={{ display: 'inline-block', width: '16px' }}
-            iconProps={{ iconName: 'Delete' }}
-            title={t('delete')}
-            onClick={() => removeItem(index)}
-          />
-        </div>
-      ))}
+      <ol>
+        {values.config.properties.defaultDocuments.map((value, index) => (
+          <li key={index} style={{ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' }}>
+            <Field
+              name={`config.properties.defaultDocuments[${index}]`}
+              component={TextField}
+              componentRef={field => {
+                lastFieldRef = field;
+              }}
+              disabled={!values.siteWritePermission}
+              styles={{
+                root: {
+                  display: 'inline-block',
+                  width: 'calc(100% - 20px)',
+                },
+              }}
+              id={`app-settings-document-text-${index}`}
+              ariaLabel={t('defaultDocuments')}
+              underlined
+              errorMessage={
+                errors &&
+                errors.config &&
+                errors.config.properties &&
+                errors.config.properties.defaultDocuments &&
+                errors.config.properties.defaultDocuments[index]
+              }
+              {...props}
+            />
+            <IconButton
+              id={`app-settings-document-delete-${index}`}
+              disabled={!values.siteWritePermission}
+              style={{ display: 'inline-block', width: '16px' }}
+              iconProps={{ iconName: 'Delete' }}
+              title={t('delete')}
+              onClick={() => removeItem(index)}
+            />
+          </li>
+        ))}
+      </ol>
     </>
   );
 };

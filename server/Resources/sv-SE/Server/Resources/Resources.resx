@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Den här funktionen stöds inte för platser</value>
   </data>
@@ -2720,7 +2723,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Den här mallen kräver följande tillägg.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Mallberoenden installeras. Du kan skapa en funktion så fort det här är klart. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga det här bladet och fortsätta använda portalen under tiden.</value>
+    <value>Installera mallberoenden. Du kan skapa en funktion när detta är klart. Beroendeinstallation sker i bakgrunden och kan ta upp till 2 minuter. Appen försätts i offlineläge tills installationen har slutförts. Du kan fortsätta att använda portalen under tiden, men om du stänger portalen innan installationen har slutförts hamnar appen i offlineläge.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Vi kunde inte installera runtime-tillägget. Installations-ID {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Skala ut.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Beräkna VM-storlek: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Distributionsinformation</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installera mallberoenden. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga den här sidan och fortsätta använda portalen under tiden.</value>
+    <value>Installera mallberoenden. Beroendeinstallation sker i bakgrunden och kan ta upp till 2 minuter. Appen försätts i offlineläge tills installationen har slutförts. Du kan fortsätta att använda portalen under tiden, men om du stänger portalen innan installationen har slutförts hamnar appen i offlineläge.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Dölj värden</value>
@@ -4320,10 +4323,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Katalog eller program</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Katalog</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Program</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Förhandsinläsning aktiverad</value>
@@ -4402,6 +4405,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Platsinställning</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Lägg till/redigera anslutningssträng</value>
@@ -4624,5 +4630,56 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Om du vill ändra inställningen för automatisk växling måste du ha behörigheter till produktionsappen.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Skriptfunktionsapp</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Förkompilerad .NET-funktionsapp</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Funktionsapptyp</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Fackinställning har aktiverats</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Dolt värde. Visa genom att klicka på knappen Visa värden ovan</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Fält måste vara unika.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nytt virtuellt program eller katalog</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Ny hanterare</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Det går inte att öppna någon anslutning till din app. Detta kan bero på någon nätverkssäkerhetsgrupp eller IP-begränsningsregel som du har placerat i din app. Om du vill använda loggdirektuppspelning, så se till att du att du har åtkomst till din app från det aktuella nätverket.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Programinställningar kan innehålla hemligheter. Läs/skrivbehörigheter krävs för att visa och redigera det här avsnittet.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Anslutningssträngar innehåller hemligheter. Läs/skrivbehörigheter krävs om du ska kunna visa och redigera det här avsnittet.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Fliken Logic Apps kommer att tas bort inom några månader. Du kan fortsätta att bläddra i dina logikappar med bläddringsfunktionen i Azure Portal.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Den här funktionen är bara tillgänglig för funktionsappar som körs enligt en Linux App Service-plan. Använd Application Insights för CLR-loggning.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Skala ut</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>

@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Pro aplikace v plánu Consumption se tato funkce nepodporuje.</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Tato funkce se pro aplikace v plánu Elastic nepodporuje.</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Tato funkce se pro sloty nepodporuje.</value>
   </data>
@@ -2720,7 +2723,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Tato šablona vyžaduje následující rozšíření.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Instalují se závislosti šablony. Až to bude hotové, budete moct vytvořit funkci. Instalace závislostí probíhá na pozadí a může trvat až 2 minuty. Během instalace můžete toto okno zavřít a dále pracovat na portálu.</value>
+    <value>Instalují se závislosti šablony. Až se to dokončí, budete moct vytvořit funkci. Závislost se instaluje na pozadí a může to trvat až 2 minuty. Dokud se instalace nedokončí, vaše aplikace bude v režimu offline. Můžete během ní i nadále používat portál, ale když ho zavřete dříve, než se instalace dokončí, zůstane vaše aplikace v režimu offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nepovedlo se nám nainstalovat rozšíření modulu runtime. ID instalace: {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Horizontálně navýšit kapacitu</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Velikost výpočetního virtuálního počítače: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Podrobnosti o nasazení</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Instalují se závislosti šablony. Instalace závislostí probíhá na pozadí a může trvat až 2 minuty. Během instalace můžete tuto stránku opustit a dále pracovat na portálu.</value>
+    <value>Instalují se závislosti šablony. Závislost se instaluje na pozadí a může to trvat až 2 minuty. Dokud se instalace nedokončí, vaše aplikace bude v režimu offline. Můžete během ní i nadále používat portál, ale když ho zavřete dříve, než se instalace dokončí, zůstane vaše aplikace v režimu offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Skrýt hodnoty</value>
@@ -4320,10 +4323,10 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Adresář nebo aplikace</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Adresář</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Aplikace</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Přednačtení je povolené.</value>
@@ -4402,6 +4405,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Nastavení slotu</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Přidat nebo upravit připojovací řetězec</value>
@@ -4624,5 +4630,56 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Pokud chcete změnit nastavení automatického prohození, musíte mít v produkční aplikaci oprávnění k zápisu.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Aplikace funkcí skriptu</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Předkompilovaná aplikace funkcí .NET</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Typ aplikace funkcí</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Nastavení slotu se povolila.</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Skrytá hodnota. Pokud si ji chcete zobrazit, klikněte výše na tlačítko Zobrazit hodnoty.</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Pole musí být jedinečné.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Adresář</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nová virtuální aplikace nebo adresář</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Nová obslužná rutina</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Nepovedlo se navázat spojení s vaší aplikací. Příčinou může být kterákoli skupina zabezpečení sítě nebo pravidlo omezení IP adres, které jste zavedli do své aplikace. Pokud chcete použít streamování protokolů, ujistěte se prosím, že z aktuální sítě máte přímý přístup k aplikaci.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Nastavení aplikace může obsahovat tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Připojovací řetězce obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Karta Logic Apps se během několika příštích měsíců odebere. Své aplikace Logic Apps můžete i nadále procházet pomocí funkce Procházet na portálu Azure Portal.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Tato funkce je k dispozici jen pro aplikace Function App spuštěné v linuxovém plánu služby App Service. Pokud chcete protokolovat modul runtime, použijte prosím Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Horizontálně navýšit kapacitu</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Umožňuje nakonfigurovat nastavení škálování na více systémů pro váš plán služby App Service.</value>
   </data>
 </root>

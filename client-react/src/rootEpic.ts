@@ -7,5 +7,17 @@ import slotConfigNames from './modules/site/config/slotConfigNames/epics';
 import webConfig from './modules/site/config/web/epics';
 import site from './modules/site/epics';
 import slots from './modules/site/slots/epics';
-
-export default combineEpics(site, appSettings, connectionStrings, metadata, slotConfigNames, webConfig, slots, stacks);
+import portal from './modules/portal/epics';
+import loggingEpics from './LoggingEpics';
+export default combineEpics(
+  site,
+  appSettings,
+  connectionStrings,
+  metadata,
+  slotConfigNames,
+  webConfig,
+  slots,
+  stacks,
+  portal,
+  loggingEpics
+);

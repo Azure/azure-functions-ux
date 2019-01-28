@@ -96,13 +96,30 @@ export class ContainerACRService {
     // NOTE(michinoy): expand operator is used to make recursive calls to follow next links.
     // good starting point for understanding:
     // https://stackoverflow.com/questions/44981974/angular-correctly-using-rxjs-expand-operator-to-make-recursive-http-calls
-    return this._cacheService.get(url, true, headers).expand(response => {
-      const nextLink = this.getNextLink(loginServer, response);
-      if (nextLink) {
-        return this._cacheService.get(nextLink, true, headers);
-      } else {
-        return Observable.empty();
-      }
-    });
+    // Also we are using the passthrough API allowing us to make the calls to ACR service without having to worry about CORS.
+    return this._cacheService
+      .post(`/api/passthrough?q=${url}`, false, headers, this._generatePassthroughObject(url, headers))
+      .expand(response => {
+        const nextLink = this.getNextLink(loginServer, response);
+        if (nextLink) {
+          return this._cacheService.post(
+            `/api/passthrough?q=${nextLink}`,
+            false,
+            headers,
+            this._generatePassthroughObject(nextLink, headers)
+          );
+        } else {
+          return Observable.empty();
+        }
+      });
+  }
+
+  private _generatePassthroughObject(url: string, headers: Headers) {
+    return {
+      method: 'GET',
+      url: url,
+      body: null,
+      headers: headers,
+    };
   }
 }

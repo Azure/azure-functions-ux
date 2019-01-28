@@ -6,6 +6,7 @@ import {
   unFlattenVirtualApplicationsList,
   getCurrentStackString,
   convertFormToState,
+  getConfigWithStackSettings,
 } from './AppSettingsFormData';
 import { mockSite, mockWebConfig, mockConnectionStrings, mockMetadata, mockAppSettings, mockSlotConfigName } from '../../../mocks/ArmMocks';
 import { VirtualApplication } from '../../../models/WebAppModels';
@@ -101,6 +102,39 @@ describe('Get Current Stack', () => {
     metadata.properties['CURRENT_STACK'] = 'python';
     const currentStack = getCurrentStackString(configData, metadata);
     expect(currentStack).toBe('java');
+  });
+});
+
+describe('getConfigWithStackSettings', () => {
+  it("removes java settings if currentlySelectedStack isn't java", () => {
+    const configData = {
+      ...mockProps.config.data,
+      properties: {
+        javaContainer: 'test',
+        javaContainerVersion: 'test',
+        javaVersion: 'test',
+      },
+    } as any;
+    const values = { currentlySelectedStack: 'notjava' } as any;
+    const configBack = getConfigWithStackSettings(configData, values);
+    expect(configBack.properties.javaContainer).toBe('');
+    expect(configBack.properties.javaContainerVersion).toBe('');
+    expect(configBack.properties.javaVersion).toBe('');
+  });
+  it('leaves java settings if currently selected stack is java', () => {
+    const configData = {
+      ...mockProps.config.data,
+      properties: {
+        javaContainer: 'test',
+        javaContainerVersion: 'test',
+        javaVersion: 'test',
+      },
+    } as any;
+    const values = { currentlySelectedStack: 'java' } as any;
+    const configBack = getConfigWithStackSettings(configData, values);
+    expect(configBack.properties.javaContainer).toBe('test');
+    expect(configBack.properties.javaContainerVersion).toBe('test');
+    expect(configBack.properties.javaVersion).toBe('test');
   });
 });
 

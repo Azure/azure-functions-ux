@@ -397,6 +397,7 @@ export class PortalResources {
   public static siteSummary_restartNotifySuccess = 'siteSummary_restartNotifySuccess';
   public static siteSummary_restartNotifyFail = 'siteSummary_restartNotifyFail';
   public static featureNotSupportedConsumption = 'featureNotSupportedConsumption';
+  public static featureNotSupportedElastic = 'featureNotSupportedElastic';
   public static featureNotSupportedForSlots = 'featureNotSupportedForSlots';
   public static featureNotSupportedForLinuxApps = 'featureNotSupportedForLinuxApps';
   public static featureRequiresWritePermissionOnApp = 'featureRequiresWritePermissionOnApp';
@@ -1031,7 +1032,7 @@ export class PortalResources {
   public static pricing_rapidScaleDesc = 'pricing_rapidScaleDesc';
   public static pricing_autoScale = 'pricing_autoScale';
   public static pricing_scaleOut = 'pricing_scaleOut';
-  public static pricing_comouteVmSize = 'pricing_comouteVmSize';
+  public static pricing_computeVmSize = 'pricing_computeVmSize';
   public static pricing_notEnoughInstances = 'pricing_notEnoughInstances';
   public static pricing_largeScale = 'pricing_largeScale';
   public static pricing_largeScaleDesc = 'pricing_largeScaleDesc';
@@ -1420,10 +1421,10 @@ export class PortalResources {
   public static nameRes = 'nameRes';
   public static value = 'value';
   public static sticky = 'sticky';
+  public static newApplicationSetting = 'newApplicationSetting';
   public static addEditConnectionStringHeader = 'addEditConnectionStringHeader';
   public static newConnectionString = 'newConnectionString';
   public static addEditApplicationSetting = 'addEditApplicationSetting';
-  public static newApplicationSetting = 'newApplicationSetting';
   public static containerACRCrossSubscriptionRegistry = 'containerACRCrossSubscriptionRegistry';
   public static sideNav_Functions_ReadOnly = 'sideNav_Functions_ReadOnly';
   public static sideNav_FunctionsInaccessible = 'sideNav_FunctionsInaccessible';
@@ -1490,4 +1491,19 @@ export class PortalResources {
   public static sideNav_ProxiesLimited = 'sideNav_ProxiesLimited';
   public static slotSettingNoProdPermission = 'slotSettingNoProdPermission';
   public static autoSwapSettingPermissionFail = 'autoSwapSettingPermissionFail';
+  public static scriptFunctionApp = 'scriptFunctionApp';
+  public static precompiledDotNetApp = 'precompiledDotNetApp';
+  public static functionAppType = 'functionAppType';
+  public static slotSettingOn = 'slotSettingOn';
+  public static hiddenValueClickAboveToShow = 'hiddenValueClickAboveToShow';
+  public static fieldMustBeUnique = 'fieldMustBeUnique';
+  public static addNewVirtualDirectoryV3 = 'addNewVirtualDirectoryV3';
+  public static addNewHandler = 'addNewHandler';
+  public static feature_logStreamingConnectionError = 'feature_logStreamingConnectionError';
+  public static applicationSettingsNoPermission = 'applicationSettingsNoPermission';
+  public static connectionStringsNoPermissions = 'connectionStringsNoPermissions';
+  public static tab_logicAppsDeprecation = 'tab_logicAppsDeprecation';
+  public static diagnosticLogsDisabled = 'diagnosticLogsDisabled';
+  public static scaleOut = 'scaleOut';
+  public static scaleOutDescription = 'scaleOutDescription';
 }

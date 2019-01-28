@@ -1,4 +1,3 @@
-import mockAxios from 'jest-mock-axios';
 import { ActionsObservable } from 'redux-observable';
 import { toArray } from 'rxjs/operators';
 
@@ -8,7 +7,7 @@ import { IStartupInfo } from '../../../models/portal-models';
 import { ArmArray } from '../../../models/WebAppModels';
 import { getStartupInfoAction } from '../../portal/actions';
 import { updateResourceId } from '../../site/actions';
-import { RootState, Services } from '../../types';
+import { Services } from '../../types';
 import { StacksOS } from '../available-stacks/actions';
 import { fetchBillingMetersFailure, fetchBillingMetersRequest, fetchBillingMetersSuccess } from './actions';
 import { BILLING_METERS_FETCH_FAILURE, BILLING_METERS_FETCH_SUCCESS } from './actionTypes';
@@ -16,6 +15,8 @@ import api from './billingMetersApiService';
 import { fetchBillingMeters } from './epics';
 import reducer from './reducer';
 
+jest.mock('../../ArmHelper');
+import MakeArmCall from '../../ArmHelper';
 const testResult: ArmArray<BillingMeter> = {
   value: [
     {
@@ -34,12 +35,7 @@ const testResult: ArmArray<BillingMeter> = {
 describe('Billing Meters Store Epics', () => {
   const successDeps = {
     billingMetersApi: {
-      fetchBillingMeters: async (
-        state: RootState,
-        subscriptionId: string,
-        osType?: StacksOS,
-        location?: string
-      ): Promise<ArmArray<BillingMeter>> => {
+      fetchBillingMeters: async (subscriptionId: string, osType?: StacksOS, location?: string): Promise<ArmArray<BillingMeter>> => {
         testResult.id = `${osType}/${subscriptionId}/${location}`;
         return testResult;
       },
@@ -48,12 +44,7 @@ describe('Billing Meters Store Epics', () => {
 
   const failDeps = {
     billingMetersApi: {
-      fetchBillingMeters: async (
-        state: RootState,
-        subscriptionId: string,
-        osType?: StacksOS,
-        location?: string
-      ): Promise<ArmArray<BillingMeter>> => {
+      fetchBillingMeters: async (subscriptionId: string, osType?: StacksOS, location?: string): Promise<ArmArray<BillingMeter>> => {
         throw new Error('failuremessage');
       },
     },
@@ -123,103 +114,43 @@ describe('Billing Meters Store Reducer', () => {
 });
 
 describe('Billing Meters Service', () => {
-  const initialState = rootReducer(undefined, {} as any);
-  const catchFn = jest.fn();
-  const thenFn = jest.fn();
-  let state;
-  beforeEach(() => {
-    const updateResourceIdAction = updateResourceId('resourceid');
-    const updateSUIAction = getStartupInfoAction({
-      token: 'testtoken',
-      armEndpoint: 'testEndpoint',
-    } as IStartupInfo);
-
-    state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
-  });
   afterEach(() => {
-    mockAxios.reset();
-    thenFn.mockClear();
-    catchFn.mockClear();
+    jest.clearAllMocks();
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with only subscription id', async () => {
+    api.fetchBillingMeters('subid');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '',
+      commandName: 'fetchBillingMeters',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id and location', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', undefined, 'testloc');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with only subscription id and location', async () => {
+    api.fetchBillingMeters('subid', undefined, 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?billingLocation=testloc',
+      commandName: 'fetchBillingMeters',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
   });
 
-  it('Fetch Api calls api with appropriate info with only subscription id and osType', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', 'Windows');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url: 'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?osType=Windows&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with only subscription id and osType', async () => {
+    api.fetchBillingMeters('subid', 'Windows');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?osType=Windows',
+      commandName: 'fetchBillingMeters',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
   });
 
-  it('Fetch Api calls api with appropriate info with all options', async () => {
-    const fetcher = api.fetchBillingMeters(state, 'subid', 'Windows', 'testloc');
-    expect(mockAxios).toHaveBeenCalledWith({
-      method: 'GET',
-      url:
-        'testEndpoint/subscriptions/subid/providers/Microsoft.Web/billingMeters?billingLocation=testloc&osType=Windows&api-version=2018-02-01',
-      data: null,
-      headers: {
-        Authorization: `Bearer testtoken`,
-      },
+  it('fetch Api calls api with appropriate info with all options', async () => {
+    api.fetchBillingMeters('subid', 'Windows', 'testloc');
+    expect(MakeArmCall).toHaveBeenCalledWith({
+      resourceId: '/subscriptions/subid/providers/Microsoft.Web/billingMeters',
+      queryString: '?billingLocation=testloc&osType=Windows',
+      commandName: 'fetchBillingMeters',
     });
-    mockAxios.mockResponse({ data: testResult });
-    const result = await fetcher;
-    expect(result.value.length).toBe(1);
-  });
-
-  it('Fetch Api should throw on error', async () => {
-    const catchFn = jest.fn();
-    const thenFn = jest.fn();
-    const updateResourceIdAction = updateResourceId('resourceid');
-    const updateSUIAction = getStartupInfoAction({
-      token: 'testtoken',
-      armEndpoint: 'testEndpoint',
-    } as IStartupInfo);
-
-    const state = rootReducer(rootReducer(initialState, updateResourceIdAction), updateSUIAction);
-    const fetcher = api
-      .fetchBillingMeters(state, 'subid')
-      .then(thenFn)
-      .catch(catchFn);
-    mockAxios.mockError(new Error('errorMessage'));
-    await fetcher;
-    expect(thenFn).not.toHaveBeenCalled();
-    expect(catchFn).toHaveBeenCalled();
   });
 });

@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Este recurso não tem suporte para aplicativos em um Plano de consumo</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Este recurso não oferece suporte para slots</value>
   </data>
@@ -2720,7 +2723,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Este modelo requer as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Instalando dependências do modelo. Será possível criar uma função assim que isso for feito. A instalação das dependências ocorre em segundo plano e pode levar até 2 minutos. É possível fechar essa folha e continuar a usar o portal durante esse período.</value>
+    <value>Instalando dependências do modelo. Será possível criar uma função uma vez que isso seja concluído. A instalação da dependência ocorre em segundo plano e pode levar até 2 minutos. O aplicativo entrará no modo offline até que a instalação seja concluída. É possível continuar a usar o portal durante esse período, mas fechar o portal antes de concluída a instalação deixará o aplicativo no modo offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão de tempo de execução. Instale a ID {{installationId}}</value>
@@ -3220,7 +3223,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Aumentar.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Computar o tamanho da VM: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4230,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Detalhes de Implantação</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Instalando dependências do modelo. A instalação das dependências ocorre em segundo plano e pode levar até 2 minutos. É possível fechar essa página e continuar a usar o portal durante esse período.</value>
+    <value>Instalando as dependências do modelo. A instalação da dependência ocorre em segundo plano e pode levar até 2 minutos. O aplicativo entrará no modo offline até que a instalação seja concluída. É possível continuar a usar o portal durante esse período, mas fechar o portal antes de concluída a instalação deixará o aplicativo no modo offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Ocultar Valores</value>
@@ -4320,10 +4323,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Diretório ou Aplicativo</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Diretório</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Aplicativo</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Pré-carregamento habilitado</value>
@@ -4402,6 +4405,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Configuração do slot</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Adicionar/Editar cadeia de conexão</value>
@@ -4624,5 +4630,56 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Para alterar a configuração de troca automática, você deve ter permissões de gravação no aplicativo de produção.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Aplicativo de Funções de Script</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Aplicativo de Funções .NET Pré-Compilado</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Tipo de Aplicativo de Funções</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Configuração de Slot Habilitada</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Valor oculto. Clique no botão Mostrar valores acima para exibi-lo</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>O campo deve ser exclusivo.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Diretório</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplicativo</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Novo diretório ou aplicativo virtual</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Novo manipulador</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Não é possível abrir uma conexão com o seu aplicativo. Isso pode acontecer por causa de qualquer grupo de segurança de rede ou das regras de restrição de IP que você tenha colocado no seu aplicativo. Para usar o streaming de log, verifique se você consegue acessar o aplicativo diretamente de sua rede atual.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>As configurações do aplicativo podem conter segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>As cadeias de conexão contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>A guia 'Aplicativos Lógicos' será removida nos próximos meses. Você pode continuar a navegar em seus aplicativos lógicos usando o recurso de navegação do Portal do Azure.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Este recurso está disponível somente para Aplicativos de função em execução em um plano de Serviço de Aplicativo do Linux. Para registrar em log o tempo de execução, use o Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Escalar horizontalmente</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
   </data>
 </root>

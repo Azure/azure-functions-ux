@@ -22,7 +22,7 @@
       </div>
 
       <div *ngIf="spec.state === 'disabled'">
-        <div>{{spec.disabledMessage}}</div>
+        <div class="disabledMessageDiv" title="{{ spec.disabledMessage }}">{{spec.disabledMessage}}</div>
         <div *ngIf="spec.disabledInfoLink"><a [href]="spec.disabledInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a></div>
       </div>
     </div>

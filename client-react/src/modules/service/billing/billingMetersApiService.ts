@@ -1,26 +1,20 @@
 import { BillingMeter } from '../../../models/BillingModels';
 import { ArmArray } from '../../../models/WebAppModels';
 import Url from '../../../utils/url';
-import { MakeArmCall } from '../../ApiHelpers';
-import * as Types from '../../types';
+import MakeArmCall from '../../ArmHelper';
 import { StacksOS } from '../available-stacks/actions';
-
 const billingMetersApiService = {
-  fetchBillingMeters: async (
-    state: Types.RootState,
-    subscriptionId: string,
-    osType?: StacksOS,
-    location?: string
-  ): Promise<ArmArray<BillingMeter>> => {
+  fetchBillingMeters: async (subscriptionId: string, osType?: StacksOS, location?: string): Promise<ArmArray<BillingMeter>> => {
+    let queryString = '';
     let resourceId = `/subscriptions/${subscriptionId}/providers/Microsoft.Web/billingMeters`;
     if (location) {
-      resourceId = Url.appendQueryString(resourceId, `billingLocation=${location.replace(/\s/g, '')}`);
+      queryString = Url.appendQueryString(queryString, `billingLocation=${location.replace(/\s/g, '')}`);
     }
 
     if (osType) {
-      resourceId = Url.appendQueryString(resourceId, `osType=${osType}`);
+      queryString = Url.appendQueryString(queryString, `osType=${osType}`);
     }
-    return await MakeArmCall(state, resourceId);
+    return await MakeArmCall({ resourceId, queryString, commandName: 'fetchBillingMeters' });
   },
 };
 

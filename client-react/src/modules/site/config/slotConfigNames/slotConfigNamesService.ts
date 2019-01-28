@@ -1,5 +1,5 @@
 import { ArmObj, SlotConfigNames } from '../../../../models/WebAppModels';
-import { MakeArmCall } from '../../../ApiHelpers';
+import MakeArmCall from '../../../ArmHelper';
 import { RootState } from '../../../types';
 
 const slotConfigNamesApiService = {
@@ -9,7 +9,7 @@ const slotConfigNamesApiService = {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
     const resourceId = `${productionResourceId}/config/slotconfignames`;
-    return await MakeArmCall(state, resourceId);
+    return await MakeArmCall({ resourceId, commandName: 'fetchSlotConfig' });
   },
   updateSlotConfig: async (state: RootState, newConfigName: ArmObj<SlotConfigNames>): Promise<ArmObj<SlotConfigNames>> => {
     let productionResourceId = state.site.resourceId;
@@ -17,7 +17,7 @@ const slotConfigNamesApiService = {
       productionResourceId = productionResourceId.split('/slots/')[0];
     }
     const resourceId = `${productionResourceId}/config/slotconfignames`;
-    return await MakeArmCall(state, resourceId, 'PUT', newConfigName);
+    return await MakeArmCall({ resourceId, commandName: 'updateSlotConfig', method: 'PUT', body: newConfigName });
   },
 };
 

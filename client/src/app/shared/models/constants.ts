@@ -220,6 +220,7 @@ export class ScenarioIds {
   public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
   public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
+  public static readonly enableDiagnosticLogs = 'EnableDiagnosticLogs';
   public static readonly enableAuth = 'EnableAuth';
   public static readonly enableNetworking = 'EnableNetworking';
   public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
@@ -235,6 +236,7 @@ export class ScenarioIds {
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
@@ -288,6 +290,8 @@ export class ScenarioIds {
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
+  public static readonly addScaleOut = 'addScaleOut';
+  public static readonly alwaysOnSupported = 'alwaysOnSupported';
 }
 
 export class NationalCloudArmUris {
@@ -342,7 +346,9 @@ export class LogCategories {
 
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
+  public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
+  public static websiteApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
@@ -579,6 +585,11 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
+  public static EnableElasticPremium = 'EnableElasticPremium';
+}
+
+export class SupportedFeatures {
+  public static ElasticScaleOut = 'ElasticScaleOut';
 }
 
 export enum FunctionAppVersion {

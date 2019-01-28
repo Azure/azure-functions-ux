@@ -13,7 +13,7 @@ const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {
       styles={{
         root: {
           color: props.theme.semanticColors.bodyText,
-          backgroundColor: 'rgba(0, 0, 0, 0.0)',
+          background: 'none',
         },
       }}
     />

@@ -1,13 +1,17 @@
 import { AvailableStack } from '../../../models/available-stacks';
 import { ArmArray } from '../../../models/WebAppModels';
-import { MakeArmCall } from '../../ApiHelpers';
-import * as Types from '../../types';
+import MakeArmCall from '../../ArmHelper';
 import { StacksOS } from './actions';
 
 const availableStacksApiService = {
-  fetchAvailableStacks: async (state: Types.RootState, stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
-    const resourceId = `/providers/Microsoft.Web/availableStacks?osTypeSelected=${stacksOs}`;
-    return await MakeArmCall<ArmArray<AvailableStack>>(state, resourceId);
+  fetchAvailableStacks: async (stacksOs: StacksOS): Promise<ArmArray<AvailableStack>> => {
+    const queryString = `?osTypeSelected=${stacksOs}`;
+    const resourceId = `/providers/Microsoft.Web/availableStacks`;
+    return await MakeArmCall<ArmArray<AvailableStack>>({
+      resourceId,
+      queryString,
+      commandName: 'fetchAvailableStacks',
+    });
   },
 };
 

@@ -87,4 +87,6 @@ export class ScenarioIds {
   public static readonly linuxAppStack = 'linuxAppStack';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
+  public static readonly clientAffinitySupported = 'clientAffinitySupported';
+  public static readonly alwaysOnSupported = 'alwaysOnSupported';
 }

@@ -110,6 +110,13 @@ export class XenonSiteEnvironment extends Environment {
         return scenarioResult;
       },
     };
+
+    this.scenarioChecks[ScenarioIds.addMsi] = {
+      id: ScenarioIds.addMsi,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   private _enableIfStandardOrHigher(input: ScenarioCheckInput) {
