@@ -4,7 +4,7 @@ import { AbstractWindowsComponent } from '../shared/components/abstract.windows.
 
 @Component({
   selector: 'app-powershell',
-  templateUrl: './powershell.component.html',
+  templateUrl: '././../shared/templates/abstract.console.component.html',
   styleUrls: ['./../console.component.scss', './powershell.component.scss'],
   providers: [],
 })
