@@ -59,29 +59,31 @@ const AppSettings: React.SFC<InjectedTranslateProps> = props => {
   const scenarioChecker = scenarioCheckerRef.current!;
   return (
     <AppSettingsDataLoader>
-      {({ initialFormValues, saving, loading, onSubmit }) => (
-        <Formik
-          initialValues={initialFormValues}
-          onSubmit={onSubmit}
-          enableReinitialize={true}
-          validate={values => validate(values, t, scenarioChecker)}
-          validateOnBlur={false}
-          validateOnChange={false}>
-          {(formProps: FormikProps<AppSettingsFormValues>) => (
-            <form>
-              <AppSettingsCommandBar
-                submitForm={formProps.submitForm}
-                resetForm={formProps.resetForm}
-                disabled={!formProps.values.siteWritePermission || saving || loading}
-                dirty={formProps.dirty}
-              />
-              <div className={formStyle}>
-                <AppSettingsForm {...formProps} />
-              </div>
-            </form>
-          )}
-        </Formik>
-      )}
+      {({ initialFormValues, saving, loading, onSubmit }) =>
+        (console.log(initialFormValues) as any) || (
+          <Formik
+            initialValues={initialFormValues}
+            onSubmit={onSubmit}
+            enableReinitialize={true}
+            validate={values => validate(values, t, scenarioChecker)}
+            validateOnBlur={false}
+            validateOnChange={false}>
+            {(formProps: FormikProps<AppSettingsFormValues>) => (
+              <form>
+                <AppSettingsCommandBar
+                  submitForm={formProps.submitForm}
+                  resetForm={formProps.resetForm}
+                  disabled={!formProps.values.siteWritePermission || saving || loading}
+                  dirty={formProps.dirty}
+                />
+                <div className={formStyle}>
+                  <AppSettingsForm {...formProps} />
+                </div>
+              </form>
+            )}
+          </Formik>
+        )
+      }
     </AppSettingsDataLoader>
   );
 };

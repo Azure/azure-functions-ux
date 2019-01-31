@@ -1506,4 +1506,15 @@ export class PortalResources {
   public static diagnosticLogsDisabled = 'diagnosticLogsDisabled';
   public static scaleOut = 'scaleOut';
   public static scaleOutDescription = 'scaleOutDescription';
+  public static accountName = 'accountName';
+  public static azureBlob = 'azureBlob';
+  public static azureFiles = 'azureFiles';
+  public static newAzureStorageMount = 'newAzureStorageMount';
+  public static emptyAzureStorageMount = 'emptyAzureStorageMount';
+  public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
+  public static configurationOptions = 'configurationOptions';
+  public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
+  public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
+  public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
+  public static selectAnOption = 'selectAnOption';
 }

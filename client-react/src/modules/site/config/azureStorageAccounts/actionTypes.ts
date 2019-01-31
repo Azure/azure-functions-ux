@@ -1,0 +1,10 @@
+export const AREA_STRING = '@azureStorageMount';
+export const AZURE_STORAGE_MOUNT_FETCH_REQUEST = '@azureStorageMount/FETCH_REQUEST';
+export const AZURE_STORAGE_MOUNT_FETCH_SUCCESS = '@azureStorageMount/FETCH_SUCCESS';
+export const AZURE_STORAGE_MOUNT_FETCH_FAILURE = '@azureStorageMount/FETCH_FAILURE';
+
+export const AZURE_STORAGE_MOUNT_UPDATE_REQUEST = '@azureStorageMount/UPDATE_REQUEST';
+export const AZURE_STORAGE_MOUNT_UPDATE_SUCCESS = '@azureStorageMount/UPDATE_SUCCESS';
+export const AZURE_STORAGE_MOUNT_UPDATE_FAILURE = '@azureStorageMount/UPDATE_FAILURE';
+
+export const UPDATE_AZURE_STORAGE_MOUNT_FROM_SITE_UPDATE = '@azureStorageMount/UPDATE_AZURE_STORAGE_MOUNT_FROM_SITE_UPDATE';

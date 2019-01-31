@@ -5,15 +5,31 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import HandlerMappings from '../HandlerMappings/HandlerMappings';
 import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
-const DefaultDocumentsPivot: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t } = props;
+import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
+
+interface PathMappingsPivotProps {
+  enablePathMappings: boolean;
+  enableAzureStorageMount: boolean;
+}
+const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps & PathMappingsPivotProps> = props => {
+  const { t, enablePathMappings, enableAzureStorageMount } = props;
 
   return (
     <>
-      <h3>{t('handlerMappings')}</h3>
-      <HandlerMappings {...props} />
-      <h3>{t('virtualApplications')}</h3>
-      <VirtualApplications {...props} />
+      {enablePathMappings && (
+        <>
+          <h3>{t('handlerMappings')}</h3>
+          <HandlerMappings {...props} />
+          <h3>{t('virtualApplications')}</h3>
+          <VirtualApplications {...props} />
+        </>
+      )}
+      {enableAzureStorageMount && (
+        <>
+          <h3>{t('mountStorage')}</h3>
+          <AzureStorageMounts {...props} />
+        </>
+      )}
     </>
   );
 };
@@ -25,4 +41,4 @@ export const pathMappingsDirty = (values: AppSettingsFormValues, initialValues: 
   );
 };
 
-export default translate('translation')(DefaultDocumentsPivot);
+export default translate('translation')(PathMappingsPivot);

@@ -1,3 +1,5 @@
+import { ArmAzureStorageMount } from '../modules/site/config/azureStorageAccounts/reducer';
+
 export interface ArmObj<T> {
   id: string;
   kind?: string;
@@ -770,6 +772,7 @@ export interface SiteConfig {
   metadata: NameValuePair[];
   connectionStrings: ConnStringInfo[];
   handlerMappings: HandlerMapping[];
+  azureStorageAccounts?: ArmAzureStorageMount;
   documentRoot: string;
   scmType: string;
   use32BitWorkerProcess: boolean;
@@ -1037,12 +1040,12 @@ export interface MetricName {
 }
 
 export interface StorageAccount {
-  accessTier: string;
-  creationTime: Date;
-  primaryEndpoints: Primaryendpoints;
+  primaryEndpoints: { [key: string]: string };
   primaryLocation: string;
   provisioningState: string;
+  secondaryLocation: string;
   statusOfPrimary: string;
+  statusOfSecondary: string;
 }
 
 export interface Primaryendpoints {

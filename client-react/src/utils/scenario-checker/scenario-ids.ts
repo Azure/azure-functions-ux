@@ -89,4 +89,5 @@ export class ScenarioIds {
   public static readonly configureAADSupported = 'configureAADSupported';
   public static readonly clientAffinitySupported = 'clientAffinitySupported';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
+  public static readonly azureStorageMount = 'azureStorageMount';
 }
