@@ -231,7 +231,6 @@ const AppSettingsDataLoader: React.SFC<AppSettingsDataLoaderProps & InjectedTran
     setLoggedStop(true);
   }
 
-  console.log(baseValues);
   return <>{props.children({ onSubmit, initialFormValues: baseValues, saving: isUpdating(props), loading: isLoading(props) })}</>;
 };
 
