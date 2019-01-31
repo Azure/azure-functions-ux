@@ -25,6 +25,7 @@ import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Url } from 'app/shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmUtil } from '../../shared/Utilities/arm-utils';
+import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'site-manage',
@@ -394,27 +395,46 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     ];
 
     if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
-      networkFeatures.push(
-        new BladeFeature(
-          this._translateService.instant(PortalResources.feature_msiName),
-          this._translateService.instant(PortalResources.feature_msiName) +
-            this._translateService.instant(PortalResources.authentication) +
-            'MSI',
-          this._translateService.instant(PortalResources.feature_msiInfo),
-          'image/msi.svg',
-          {
-            detailBlade: 'AzureResourceIdentitiesBladeV2',
-            extension: 'Microsoft_Azure_ManagedServiceIdentity',
-            detailBladeInputs: {
-              resourceId: site.id,
-              apiVersion: ARMApiVersions.websiteApiVersion20180201,
-              systemAssignedStatus: 2, // IdentityStatus.Supported
-              userAssignedStatus: 2, // IdentityStatus.Supported
+      if (NationalCloudEnvironment.isBlackforest()) {
+        networkFeatures.push(
+          new BladeFeature(
+            this._translateService.instant(PortalResources.feature_msiName),
+            this._translateService.instant(PortalResources.feature_msiName) +
+              this._translateService.instant(PortalResources.authentication) +
+              'MSI',
+            this._translateService.instant(PortalResources.feature_msiInfo),
+            'image/msi.svg',
+            {
+              detailBlade: 'MSIBlade',
+              detailBladeInputs: { resourceUri: site.id },
+              openAsContextBlade: true,
             },
-          },
-          this._portalService
-        )
-      );
+            this._portalService
+          )
+        );
+      } else {
+        networkFeatures.push(
+          new BladeFeature(
+            this._translateService.instant(PortalResources.feature_msiName),
+            this._translateService.instant(PortalResources.feature_msiName) +
+              this._translateService.instant(PortalResources.authentication) +
+              'MSI',
+            this._translateService.instant(PortalResources.feature_msiInfo),
+            'image/msi.svg',
+            {
+              detailBlade: 'AzureResourceIdentitiesBladeV2',
+              extension: 'Microsoft_Azure_ManagedServiceIdentity',
+              detailBladeInputs: {
+                resourceId: site.id,
+                apiVersion: ARMApiVersions.websiteApiVersion20180201,
+                systemAssignedStatus: 2, // IdentityStatus.Supported
+                userAssignedStatus: 2, // IdentityStatus.Supported
+              },
+            },
+            this._portalService
+          )
+        );
+      }
     }
 
     if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {
