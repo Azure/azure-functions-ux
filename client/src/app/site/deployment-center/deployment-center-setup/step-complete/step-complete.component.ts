@@ -62,11 +62,11 @@ export class StepCompleteComponent {
         this._translateService.instant(PortalResources.settingupDeployment),
         this._translateService.instant(PortalResources.settingupDeployment)
       )
+      .take(1)
       .do(notification => {
         notificationId = notification.id;
       })
       .concatMap(() => this.wizard.deploy())
-      .first()
       .subscribe(
         r => {
           this.clearBusy();

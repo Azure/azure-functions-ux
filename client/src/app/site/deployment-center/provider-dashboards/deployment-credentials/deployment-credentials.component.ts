@@ -140,10 +140,12 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.saving = true))
       .switchMap(() =>
-        this._portalService.startNotification(
-          this._translateService.instant(PortalResources.savingCredentials),
-          this._translateService.instant(PortalResources.savingCredentials)
-        )
+        this._portalService
+          .startNotification(
+            this._translateService.instant(PortalResources.savingCredentials),
+            this._translateService.instant(PortalResources.savingCredentials)
+          )
+          .take(1)
       )
       .switchMap(notificationInfo => {
         saveUserCredentialsNotificationId = notificationInfo.id;
