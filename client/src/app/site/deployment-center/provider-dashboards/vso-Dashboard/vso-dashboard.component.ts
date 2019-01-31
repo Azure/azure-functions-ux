@@ -591,6 +591,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       .format(this.deploymentObject.site.name);
     this._portalService
       .startNotification(title, description)
+      .take(1)
       .concatMap(notificationId => {
         const syncUrl = `${collectionUrl}/${this.deploymentObject.VSOData.project.id}/_apis/build/Builds?api-version=3.1`;
         return this._cacheService

@@ -258,6 +258,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
       .format(this.deploymentObject.site.name);
     this._portalService
       .startNotification(title, description)
+      .take(1)
       .concatMap(notificationId => {
         return this._cacheService
           .postArm(`${this.resourceId}/sync`, true)
@@ -300,6 +301,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
           this._translateService.instant(PortalResources.disconnectingDeployment),
           this._translateService.instant(PortalResources.disconnectingDeployment)
         )
+        .take(1)
         .do(notification => {
           notificationId = notification.id;
         })
