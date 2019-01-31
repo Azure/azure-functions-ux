@@ -1,5 +1,5 @@
 {
-  "name": "app-service-fusion",
+  "name": "app-service-fusion", 
   "version": "0.1.0",
   "private": true,
   "dependencies": {
