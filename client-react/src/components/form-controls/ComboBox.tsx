@@ -19,7 +19,6 @@ interface CustomComboBoxStateProps {
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps & CustomComboBoxStateProps) => {
   const { field, form, options, learnMore, subLabel, fullpage, theme, ...rest } = props;
-  //const dirty = get(form.initialValues, field.name, null) !== field.value;
 
   const onChange = (e: unknown, option: IComboBoxOption) => {
     form.setFieldValue(field.name, option.key);
@@ -34,32 +33,6 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps & Cus
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       {...rest}
-      // styles={{
-      //   title: dirty && {
-      //     borderColor: theme.semanticColors.controlDirtyOutline,
-      //   },
-      //   label: [
-      //     fullpage && {
-      //       display: 'inline-block',
-      //     },
-      //   ],
-      //   errorMessage: [
-      //     fullpage && {
-      //       paddingLeft: '200px',
-      //     },
-      //   ],
-      //   dropdown: [
-      //     fullpage && {
-      //       display: 'inline-block',
-      //     },
-      //     dirty && {
-      //       selectors: {
-      //         ['&:focus .ms-ComboBox-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-      //         ['&:hover .ms-ComboBox-title']: [{ borderColor: theme.semanticColors.controlDirtyOutline }],
-      //       },
-      //     },
-      //   ],
-      //}}
     />
   );
 };
