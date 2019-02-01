@@ -123,7 +123,6 @@ export class PlanPriceSpecManager {
         this.specGroups = [
           new GenericSpecGroup(this._injector, this, SpecGroup.Development, r.pricingTiers),
           new GenericSpecGroup(this._injector, this, SpecGroup.Production, r.pricingTiers),
-          new GenericSpecGroup(this._injector, this, SpecGroup.Isolated, r.pricingTiers),
         ];
       }
       // Initialize every spec for each spec group.  For most cards this is a no-op, but
