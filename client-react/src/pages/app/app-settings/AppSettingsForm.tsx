@@ -60,6 +60,7 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTra
   };
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
+  const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   return (
     <Pivot getTabId={getPivotTabId}>
       <PivotItem
@@ -88,20 +89,20 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTra
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
       ) : (
-        <PivotItem />
+        <></>
       )}
 
-      {enablePathMappings ? (
+      {enablePathMappings || enableAzureStorageMount ? (
         <PivotItem
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck)
           }
           itemKey="pathMappings"
           linkText={t('pathMappings')}>
-          <PathMappingsPivot {...props} />
+          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
         </PivotItem>
       ) : (
-        <PivotItem />
+        <></>
       )}
     </Pivot>
   );

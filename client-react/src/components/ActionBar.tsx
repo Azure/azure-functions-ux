@@ -9,6 +9,7 @@ import { style } from 'typestyle';
 
 import { RootState } from '../modules/types';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
+import { SpinnerSize, Spinner } from 'office-ui-fabric-react/lib/Spinner';
 
 interface StatusMessage {
   message: string;
@@ -27,6 +28,7 @@ interface ActionBarProps {
   primaryButton: ActionBarButtonProps;
   secondaryButton?: ActionBarButtonProps;
   statusMessage?: StatusMessage;
+  validating?: boolean;
 }
 
 interface ActionBarState {
@@ -60,7 +62,16 @@ const statusMessageDiv = style({
 });
 
 type ActionBarPropsCombined = ActionBarProps & InjectedTranslateProps & ActionBarState;
-const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, t, id, theme, statusMessage, ...props }) => {
+const ActionBar: React.SFC<ActionBarPropsCombined> = ({
+  primaryButton,
+  secondaryButton,
+  validating,
+  t,
+  id,
+  theme,
+  statusMessage,
+  ...props
+}) => {
   return (
     <div className={elementWrapperStyle(theme)}>
       <div className={buttonsWrapperStyle}>
@@ -98,6 +109,28 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
               </Link>
             )}
           </MessageBar>
+        )}
+        {validating && (
+          <Spinner
+            size={SpinnerSize.medium}
+            label={t('validating')}
+            ariaLive="assertive"
+            styles={{
+              root: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                justifyItems: 'center',
+                paddingTop: '10px',
+                paddingLeft: '5px',
+              },
+              label: {
+                alignSelf: 'center',
+                paddingLeft: '5px',
+                marginTop: '0px',
+              },
+            }}
+          />
         )}
       </div>
     </div>

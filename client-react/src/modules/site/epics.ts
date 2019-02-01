@@ -10,6 +10,7 @@ import { updateAppSettingsFromSiteUpdate } from './config/appsettings/actions';
 import { AnyAction } from 'redux';
 import { updateConnectionStringsFromSiteUpdate } from './config/connectionstrings/actions';
 import { updateMetadataFromSiteUpdate } from './config/metadata/actions';
+import { updateAzureStorageMountFromSiteUpdate } from './config/azureStorageAccounts/actions';
 
 export const fetchSiteFlow: Epic<SiteAction, SiteAction, RootState, Services> = (action$, store, { siteApi }) =>
   action$.pipe(
@@ -32,7 +33,8 @@ export const updateSiteFlow: Epic<SiteAction, AnyAction, RootState, Services> = 
             of(updateSiteSuccess(updatedSite)),
             of(updateAppSettingsFromSiteUpdate(action.site)),
             of(updateConnectionStringsFromSiteUpdate(action.site)),
-            of(updateMetadataFromSiteUpdate(action.site))
+            of(updateMetadataFromSiteUpdate(action.site)),
+            of(updateAzureStorageMountFromSiteUpdate(action.site))
           );
         }),
         catchError(err => of(updateSiteFailure(err)))

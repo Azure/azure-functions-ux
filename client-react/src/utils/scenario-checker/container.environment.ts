@@ -22,6 +22,14 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.azureStorageMount] = {
+      id: ScenarioIds.azureStorageMount,
+      runCheck: () => {
+        return {
+          status: 'enabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
