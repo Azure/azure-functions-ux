@@ -426,7 +426,7 @@ export class ContainerSettingsManager {
   }
 
   private _resetImageSourceOptions(containerSettingInfo: ContainerSettingsData) {
-    if (containerSettingInfo.fromMenu) {
+    if (containerSettingInfo.fromMenu || containerSettingInfo.isFunctionApp) {
       this.containerImageSourceOptions = [];
     } else {
       this.containerImageSourceOptions = [
