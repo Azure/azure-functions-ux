@@ -1297,6 +1297,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Deze functie wordt niet ondersteund voor apps in een verbruiksabonnement</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Deze functie wordt niet ondersteund voor apps in een elastisch abonnement</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Deze functie wordt niet ondersteund voor sleuven</value>
   </data>
@@ -2720,7 +2723,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voor dit sjabloon zijn de volgende extensies vereist.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Sjabloonafhankelijkheden installeren. U kunt een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze blade sluiten en tijdens deze bewerking de portal blijven gebruiken.</value>
+    <value>Sjabloonafhankelijkheden installeren. U kunt een functie maken wanneer dit is voltooid. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. Uw app gaat offline totdat de installatie is voltooid. Intussen kunt u de portal blijven gebruiken. Als u de portal echter sluit voordat de installatie is voltooid, blijft uw app offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>De runtime-extensie kan niet worden geïnstalleerd. Installatie-id {{installationId}}
@@ -3221,7 +3224,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Uitschalen.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>VM-grootte berekenen: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4228,7 +4231,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Implementatiedetails</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Sjabloonafhankelijkheden installeren. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. U kunt deze pagina verlaten en tijdens deze bewerking de portal blijven gebruiken.</value>
+    <value>Sjabloonafhankelijkheden installeren. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot twee minuten duren. Uw app gaat offline totdat de installatie is voltooid. Intussen kunt u de portal blijven gebruiken. Als u de portal echter sluit voordat de installatie is voltooid, blijft uw app offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Waarden verbergen</value>
@@ -4321,10 +4324,10 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Directory of Toepassing</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Map</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Toepassing</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Vooraf laden ingeschakeld</value>
@@ -4403,6 +4406,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Instelling voor site</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Verbindingsreeks toevoegen/bewerken</value>
@@ -4625,5 +4631,56 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Als u de instelling voor automatisch wisselen wilt wijzigen, hebt u schrijfmachtigingen nodig voor de productie-app.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Script functie-app</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Vooraf gecompileerde .NET functie-app</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Type functie-app</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Site-instelling ingeschakeld</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Verborgen waarde. Klik op de bovenstaande knop Waarden weergeven om de waarde weer te geven</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Het veld moet uniek zijn.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Toepassing</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nieuwe virtuele toepassing of map</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Nieuwe handler</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Kan geen verbinding maken met uw app. Dit kan komen door netwerkbeveiligingsgroepen of IP-beperkingsregels die u in uw app hebt geplaatst. Zorg ervoor dat u rechtstreeks vanaf uw huidige netwerk toegang hebt tot uw app om logboekstreaming te gebruiken.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Deze functie is alleen beschikbaar voor de functie-apps die worden uitgevoerd in een Linux App Service-abonnement. Gebruik Application Insights voor runtime logboekregistratie.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Uitschalen</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configureer uitbreidingsinstellingen voor uw App Service-plan.</value>
   </data>
 </root>

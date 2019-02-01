@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Kinds, Links } from './../../../shared/models/constants';
+import { Kinds, Links, FeatureFlags } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { ServerFarm } from './../../../shared/models/server-farm';
@@ -7,6 +7,7 @@ import { Sku, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { DV2SeriesPriceSpec } from './dV2series-price-spec';
 import { PlanSpecPickerData } from './plan-price-spec-manager';
+import { Url } from 'app/shared/Utilities/url';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   tier = Tier.elasticPremium;
@@ -69,7 +70,10 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    return !!data.hostingEnvironmentName || data.isXenon || !data.isElastic;
+    if (Url.getParameterByName(null, FeatureFlags.EnableElasticPremium) === 'true') {
+      return !!data.hostingEnvironmentName || data.isXenon || data.isLinux || !data.isFunctionApp;
+    }
+    return true;
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
@@ -79,6 +83,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
 
 export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP1;
+  billingSkuCode = SkuCode.PremiumV2.P1V2;
   legacySkuName = 'small_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('210'),
@@ -96,6 +101,7 @@ export class ElasticPremiumSmallPlanPriceSpec extends ElasticPremiumPlanPriceSpe
 
 export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP2;
+  billingSkuCode = SkuCode.PremiumV2.P2V2;
   legacySkuName = 'medium_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('420'),
@@ -113,6 +119,7 @@ export class ElasticPremiumMediumPlanPriceSpec extends ElasticPremiumPlanPriceSp
 
 export class ElasticPremiumLargePlanPriceSpec extends ElasticPremiumPlanPriceSpec {
   skuCode = SkuCode.ElasticPremium.EP3;
+  billingSkuCode = SkuCode.PremiumV2.P3V2;
   legacySkuName = 'large_elastic_premium';
   topLevelFeatures = [
     this._ts.instant(PortalResources.pricing_ACU).format('840'),

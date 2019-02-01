@@ -10,13 +10,13 @@ export class FlightingUtil {
   private static config = {
     OldDeploymentCenter: {
       seed: 422209594,
-      percentofUsers: 50,
+      percentofUsers: 25,
       forceOnFlag: FeatureFlags.oldDeploymentCenter,
       forceOffFlag: null,
     },
     NewDeploymentSlots: {
       seed: 187465135,
-      percentofUsers: 25,
+      percentofUsers: 50,
       forceOnFlag: FeatureFlags.UseNewSlotsBlade,
       forceOffFlag: FeatureFlags.ShowLegacySlotsBlade,
     },

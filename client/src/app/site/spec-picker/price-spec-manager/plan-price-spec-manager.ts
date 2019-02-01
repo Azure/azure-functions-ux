@@ -50,9 +50,9 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
+  isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;
-  isElastic?: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
@@ -529,10 +529,15 @@ export class PlanPriceSpecManager {
       throw Error('Spec must contain a specResourceSet with one firstParty item defined');
     }
 
-    const billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
-
+    let billingMeter: ArmObj<BillingMeter>;
+    if (!!spec.skuCode) {
+      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
+    }
+    if (!billingMeter && !!spec.billingSkuCode) {
+      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.billingSkuCode.toLowerCase());
+    }
     if (!billingMeter) {
-      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.meterFriendlyName}`);
+      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
       return;
     }
 

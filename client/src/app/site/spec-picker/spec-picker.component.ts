@@ -8,8 +8,9 @@ import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { SiteTabIds, KeyCodes, LogCategories } from '../../shared/models/constants';
 import { BroadcastMessageId } from '../../shared/models/portal';
+import { LogService, LogLevel } from 'app/shared/services/log.service';
 
 export interface StatusMessage {
   message: string;
@@ -79,6 +80,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     public specManager: PlanPriceSpecManager,
     private _ts: TranslateService,
     private _portalService: PortalService,
+    private _logService: LogService,
     injector: Injector
   ) {
     super('SpecPickerComponent', injector, SiteTabIds.scaleUp);
@@ -154,6 +156,11 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
     // This is an existing plan, so just upgrade in-place
     if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode)) {
+      this._logService.log(LogLevel.debug, LogCategories.specPicker, {
+        isCreateScenario: false,
+        isLinux: this._input.data.isLinux,
+        sku: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
+      });
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
       this.isUpdating = true;
       this.disableUpdates = true;
@@ -167,6 +174,11 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       });
     } else {
       // This is a new plan, so return plan information to parent blade
+      this._logService.log(LogLevel.debug, LogCategories.specPicker, {
+        isCreateScenario: true,
+        isLinux: this._input.data.isLinux,
+        sku: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
+      });
       this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
     }
   }

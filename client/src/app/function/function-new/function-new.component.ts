@@ -613,7 +613,18 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
         this.sidePanelOpened = true;
       } else {
-        window.open(Links.communityTemplatesLink, '_blank');
+        let url = Links.communityTemplatesLink;
+        switch (this.functionAppLanguage) {
+          case 'C#':
+            url = `${url}&language=csharp`;
+            break;
+          case 'JavaScript':
+            url = `${url}&language=javascript`;
+            break;
+          default:
+            break;
+        }
+        window.open(url, '_blank');
       }
     }
   }

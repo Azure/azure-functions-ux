@@ -397,6 +397,7 @@ export class PortalResources {
   public static siteSummary_restartNotifySuccess = 'siteSummary_restartNotifySuccess';
   public static siteSummary_restartNotifyFail = 'siteSummary_restartNotifyFail';
   public static featureNotSupportedConsumption = 'featureNotSupportedConsumption';
+  public static featureNotSupportedElastic = 'featureNotSupportedElastic';
   public static featureNotSupportedForSlots = 'featureNotSupportedForSlots';
   public static featureNotSupportedForLinuxApps = 'featureNotSupportedForLinuxApps';
   public static featureRequiresWritePermissionOnApp = 'featureRequiresWritePermissionOnApp';
@@ -1503,4 +1504,6 @@ export class PortalResources {
   public static connectionStringsNoPermissions = 'connectionStringsNoPermissions';
   public static tab_logicAppsDeprecation = 'tab_logicAppsDeprecation';
   public static diagnosticLogsDisabled = 'diagnosticLogsDisabled';
+  public static scaleOut = 'scaleOut';
+  public static scaleOutDescription = 'scaleOutDescription';
 }
