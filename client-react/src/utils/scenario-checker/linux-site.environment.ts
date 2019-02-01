@@ -11,6 +11,11 @@ export class LinuxSiteEnvironment extends Environment {
       data: t('featureNotSupportedForLinuxApps'),
     };
 
+    this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
+      id: ScenarioIds.classicPipelineModeSupported,
+      runCheck: () => disabledResult,
+    };
+
     this.scenarioChecks[ScenarioIds.enableAuth] = {
       id: ScenarioIds.enableAuth,
       runCheck: () => disabledResult,
