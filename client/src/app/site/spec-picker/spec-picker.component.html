@@ -25,7 +25,7 @@
         [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"
         [infoActionFn]="specManager.selectedSpecGroup.bannerMessage.infoActionFn"></info-box>
 
-      <info-box *ngIf="!specManager.selectedSpecGroup.bannerMessage?.infoLink && !specManager.selectedSpecGroup.bannerMessage?.infoActionFn"
+      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage && !specManager.selectedSpecGroup.bannerMessage.infoLink && !specManager.selectedSpecGroup.bannerMessage.infoActionFn"
         [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
         [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"></info-box>
     </section>
