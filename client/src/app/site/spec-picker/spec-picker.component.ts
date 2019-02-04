@@ -158,7 +158,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     if (!this._input.data || (this._input.data && !!this._input.data.selectedSkuCode)) {
       this._logService.log(LogLevel.debug, LogCategories.specPicker, {
         isCreateScenario: false,
-        isLinux: this._input.data.isLinux,
+        isLinux: this._input.data && this._input.data.isLinux,
         sku: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
       });
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
