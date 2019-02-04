@@ -5,15 +5,15 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
-import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo';
+import { VSORepo } from 'app/site/deployment-center/Models/vso-repo';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
+import { LogCategories } from 'app/shared/models/constants';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { VstsValidators } from '../../validators/vsts-validators';
-import { parseToken } from 'app/pickers/microsoft-graph/microsoft-graph-helper';
+import { AzureDevOpsService } from '../../wizard-logic/azure-devops.service';
 
 @Component({
   selector: 'app-configure-vsts-source',
@@ -46,7 +46,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public wizard: DeploymentCenterStateManager,
     private _cacheService: CacheService,
     private _logService: LogService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private _azureDevOpsService: AzureDevOpsService
   ) {
     this.setupSubscriptions();
     this.populate();
@@ -60,6 +61,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
   }
 
   private populate() {
+    //  .subscribe(x => {});
     this._memberIdSubscription.next();
   }
 
@@ -88,26 +90,16 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     this._memberIdSubscription
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.accountListLoading = true))
-      .concatMap(() => this.wizard.fetchVSTSProfile())
-      .map(r => r.json())
-      .switchMap(r => this.fetchAccounts(r.id))
+      .concatMap(() => this._azureDevOpsService.getUserContext())
       .switchMap(r => {
         if (r.length === 0) {
           this.hasAccounts = false;
         } else {
           this.hasAccounts = true;
         }
-        const projectCalls: Observable<VSORepo[]>[] = [];
+        const projectCalls: Observable<any>[] = [];
         r.forEach(account => {
-          projectCalls.push(
-            this._cacheService
-              .get(
-                `https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`,
-                true,
-                this.wizard.getVstsDirectHeaders()
-              )
-              .map(res => res.json().value)
-          );
+          projectCalls.push(this._azureDevOpsService.getRepositoriesForAccount(account));
         });
         return forkJoin(projectCalls);
       })
@@ -121,11 +113,14 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
           }
           this._vstsRepositories = [];
           r.forEach(repoList => {
-            repoList.forEach(repo => {
+            repoList.value.forEach(repo => {
               this._vstsRepositories.push({
                 name: repo.name,
                 remoteUrl: repo.remoteUrl,
-                account: repo.remoteUrl.split('.')[0].replace('https://', ''),
+                account: repo.remoteUrl
+                  .split('.')[0]
+                  .replace('https://', '')
+                  .split('@')[0],
                 project: repo.project,
                 id: repo.id,
               });
@@ -155,11 +150,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
           const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri);
           const repoId = repoObj.id;
           const account = repoObj.account;
-          return this._cacheService.get(
-            `https://${account}.visualstudio.com/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
-            true,
-            this.wizard.getVstsDirectHeaders()
-          );
+          return this._azureDevOpsService.getBranchesForRepo(account, repoId);
         } else {
           return Observable.of(null);
         }
@@ -199,25 +190,25 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     window.open('https://go.microsoft.com/fwlink/?linkid=2014379');
   }
 
-  private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-    const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
-    const currentTid = parseToken(this.wizard.getToken()).tid;
-    return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
-      const accounts = r.json().value as VSOAccount[];
-      this.wizard.vsoAccounts = accounts;
-      if (this.isKudu) {
-        return Observable.of(
-          accounts.filter(
-            x => x.isAccountOwner && (x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
-          )
-        );
-      } else {
-        return Observable.of(
-          accounts.filter(x => x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
-        );
-      }
-    });
-  }
+  // private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
+  //   const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
+  //   const currentTid = parseToken(this.wizard.getToken()).tid;
+  //   return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
+  //     const accounts = r.json().value as VSOAccount[];
+  //     this.wizard.vsoAccounts = accounts;
+  //     if (this.isKudu) {
+  //       return Observable.of(
+  //         accounts.filter(
+  //           x => x.isAccountOwner && (x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
+  //         )
+  //       );
+  //     } else {
+  //       return Observable.of(
+  //         accounts.filter(x => x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
+  //       );
+  //     }
+  //   });
+  // }
 
   accountChanged(accountName: DropDownElement<string>) {
     this.projectList = uniqBy(

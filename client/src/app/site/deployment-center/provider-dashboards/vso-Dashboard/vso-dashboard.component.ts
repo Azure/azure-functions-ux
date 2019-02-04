@@ -17,6 +17,7 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
+import { Headers } from '@angular/http';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -91,7 +92,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
           const accountName = endpointUri.pathname.split('/')[1];
           buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
         }
-        return this._cacheService.get(buildDefUrl).catch((err, caught) => {
+        return this._cacheService.get(buildDefUrl, null, new Headers()).catch((err, caught) => {
           this._busyManager.clearBusy();
           this.deploymentObject = null;
           this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
