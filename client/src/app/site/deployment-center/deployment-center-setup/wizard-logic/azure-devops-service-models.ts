@@ -18,22 +18,13 @@ export interface AuthenticatedUser {
   metaTypeId: number;
 }
 
-export interface Account2 {
-  $type: string;
-  $value: string;
-}
-
-export interface Properties2 {
-  Account: Account2;
-}
-
 export interface AuthorizedUser {
   id: string;
   descriptor: string;
   subjectDescriptor: string;
   providerDisplayName: string;
   isActive: boolean;
-  properties: Properties2;
+  properties: Properties;
   resourceVersion: number;
   metaTypeId: number;
 }
