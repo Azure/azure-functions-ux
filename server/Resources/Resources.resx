@@ -4718,4 +4718,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="selectAnOption" xml:space="preserve">
     <value>Select an option</value>
   </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+  </data>
 </root>

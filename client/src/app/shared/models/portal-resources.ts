@@ -1517,4 +1517,5 @@ export class PortalResources {
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
+  public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
 }
