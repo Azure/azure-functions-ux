@@ -1,6 +1,6 @@
 export enum DatabaseType {
   MySql = 'MySql',
-  SQLServer = 'SQLServer',
+  SQLServer = 'SQLServer', 
   SQLAzure = 'SQLAzure',
   Custom = 'Custom',
   NotificationHub = 'NotificationHub',
