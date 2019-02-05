@@ -133,6 +133,7 @@ export class LinuxFramworksComponent implements OnDestroy {
   }
 
   private setupValidators(stack: string) {
+    // Regex value comes from Azure Devops team for validation
     const validator = RegexValidator.create(
       new RegExp('^$|^(node|pm2|ng)\\s+\\w+'),
       this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
