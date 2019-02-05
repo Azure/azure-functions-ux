@@ -3,7 +3,6 @@ export interface VSORepo {
   name: string;
   project: VsoProject;
   id: string;
-  account: string;
 }
 
 export interface VSOAccount {

@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
 import { VSORepo } from 'app/site/deployment-center/Models/vso-repo';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
@@ -32,13 +31,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
   // Subscriptions
   private _memberIdSubscription = new Subject();
+  private _accountSubscription = new Subject<string>();
   private _branchSubscription = new Subject<string>();
-
+  private _selectedAccount = '';
   public selectedAccount = '';
   public selectedProject = '';
   public selectedRepo = '';
   public selectedBranch = '';
   public accountListLoading = false;
+  public respositoriesLoading = false;
   public branchesLoading = false;
   public hasRepos = true;
   public hasAccounts = true;
@@ -55,13 +56,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
       .distinctUntilChanged()
       .takeUntil(this._ngUnsubscribe$)
       .subscribe(r => {
+        this.updateFormValidation();
         this.populate();
       });
-    this.updateFormValidation();
   }
 
   private populate() {
-    //  .subscribe(x => {});
     this._memberIdSubscription.next();
   }
 
@@ -78,6 +78,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
           ).bind(this)
         );
       this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
+    } else {
     }
     const required = new RequiredValidator(this._translateService, false);
     this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
@@ -90,57 +91,60 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     this._memberIdSubscription
       .takeUntil(this._ngUnsubscribe$)
       .do(() => (this.accountListLoading = true))
-      .concatMap(() => this._azureDevOpsService.getUserContext())
-      .switchMap(r => {
-        if (r.length === 0) {
-          this.hasAccounts = false;
-        } else {
-          this.hasAccounts = true;
-        }
-        const projectCalls: Observable<any>[] = [];
-        r.forEach(account => {
-          projectCalls.push(this._azureDevOpsService.getRepositoriesForAccount(account));
-        });
-        return forkJoin(projectCalls);
-      })
+      .concatMap(() => this._azureDevOpsService.getAccounts())
       .do(() => (this.accountListLoading = false))
       .subscribe(
         r => {
           if (r.length === 0) {
-            this.hasRepos = false;
+            this.hasAccounts = false;
           } else {
-            this.hasRepos = true;
+            this.hasAccounts = true;
           }
-          this._vstsRepositories = [];
-          r.forEach(repoList => {
-            repoList.value.forEach(repo => {
-              this._vstsRepositories.push({
-                name: repo.name,
-                remoteUrl: repo.remoteUrl,
-                account: repo.remoteUrl
-                  .split('.')[0]
-                  .replace('https://', '')
-                  .split('@')[0],
-                project: repo.project,
-                id: repo.id,
-              });
-            });
-          });
-          this.accountList = uniqBy(
-            this._vstsRepositories.map(repo => {
-              return {
-                displayLabel: repo.account,
-                value: repo.account,
-              };
-            }),
-            'value'
-          );
+
+          this.accountList = r.map(account => ({
+            displayLabel: account.AccountName,
+            value: account.AccountName,
+          }));
         },
         err => {
           this.hasAccounts = false;
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
         }
       );
+
+    this._accountSubscription
+      .takeUntil(this._ngUnsubscribe$)
+      .do(() => (this.respositoriesLoading = true))
+      .switchMap(r => this._azureDevOpsService.getRepositoriesForAccount(r))
+      .do(() => (this.respositoriesLoading = false))
+      .subscribe((r: any) => {
+        this._vstsRepositories = [];
+
+        if (r.length === 0) {
+          this.hasRepos = false;
+        } else {
+          this.hasRepos = true;
+        }
+
+        r.value.forEach(repo => {
+          this._vstsRepositories.push({
+            name: repo.name,
+            remoteUrl: repo.remoteUrl,
+            project: repo.project,
+            id: repo.id,
+          });
+        });
+
+        this.projectList = uniqBy(
+          this._vstsRepositories.map(repo => {
+            return {
+              displayLabel: `${repo.project.name} (${repo.project.id})`,
+              value: repo.project.id,
+            };
+          }),
+          'value'
+        );
+      });
 
     this._branchSubscription
       .takeUntil(this._ngUnsubscribe$)
@@ -149,7 +153,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         if (repoUri) {
           const repoObj = this._vstsRepositories.find(x => x.remoteUrl === repoUri);
           const repoId = repoObj.id;
-          const account = repoObj.account;
+          const account = this._selectedAccount;
           return this._azureDevOpsService.getBranchesForRepo(account, repoId);
         } else {
           return Observable.of(null);
@@ -159,7 +163,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
       .subscribe(
         r => {
           if (r) {
-            const branchList = r.json().value;
+            const branchList = r.value;
             this.branchList = branchList.map(x => {
               const item: DropDownElement<string> = {
                 displayLabel: x.name.replace('refs/heads/', ''),
@@ -190,36 +194,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     window.open('https://go.microsoft.com/fwlink/?linkid=2014379');
   }
 
-  // private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-  //   const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
-  //   const currentTid = parseToken(this.wizard.getToken()).tid;
-  //   return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
-  //     const accounts = r.json().value as VSOAccount[];
-  //     this.wizard.vsoAccounts = accounts;
-  //     if (this.isKudu) {
-  //       return Observable.of(
-  //         accounts.filter(
-  //           x => x.isAccountOwner && (x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
-  //         )
-  //       );
-  //     } else {
-  //       return Observable.of(
-  //         accounts.filter(x => x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === currentTid)
-  //       );
-  //     }
-  //   });
-  // }
-
   accountChanged(accountName: DropDownElement<string>) {
-    this.projectList = uniqBy(
-      this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
-        return {
-          displayLabel: `${repo.project.name} (${repo.project.id})`,
-          value: repo.project.id,
-        };
-      }),
-      'value'
-    );
+    this._selectedAccount = accountName.value;
+    this._accountSubscription.next(accountName.value);
     this.selectedProject = '';
     this.selectedRepo = '';
     this.branchList = [];

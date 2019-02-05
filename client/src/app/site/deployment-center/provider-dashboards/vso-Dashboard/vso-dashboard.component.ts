@@ -17,7 +17,7 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
-import { Headers } from '@angular/http';
+import { AzureDevOpsService } from '../../deployment-center-setup/wizard-logic/azure-devops.service';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -27,6 +27,7 @@ class VSODeploymentObject extends DeploymentData {
   selector: 'app-vso-dashboard',
   templateUrl: './vso-dashboard.component.html',
   styleUrls: ['./vso-dashboard.component.scss'],
+  providers: [AzureDevOpsService],
 })
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
   @Input()
@@ -49,7 +50,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _armService: ArmService,
     private _logService: LogService,
     private _translateService: TranslateService,
-    private _broadcastService: BroadcastService
+    private _broadcastService: BroadcastService,
+    private _azureDevOpsService: AzureDevOpsService
   ) {
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this.viewInfoStream$ = new Subject<string>();
@@ -86,13 +88,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         const endpointUri = new URL(endpoint);
         const projectId = vstsMetaData['VSTSRM_ProjectId'];
         const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
-
-        let buildDefUrl = `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+        let accountName = '';
         if (endpointUri.host.includes(this._devAzureCom)) {
-          const accountName = endpointUri.pathname.split('/')[1];
-          buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+          accountName = endpointUri.pathname.split('/')[1];
+        } else {
+          accountName = endpointUri.hostname.split('.')[0];
         }
-        return this._cacheService.get(buildDefUrl, null, new Headers()).catch((err, caught) => {
+        return this._azureDevOpsService.getBuildDef(accountName, projectId, buildId).catch((err, caught) => {
           this._busyManager.clearBusy();
           this.deploymentObject = null;
           this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
@@ -104,7 +106,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         r => {
           if (!!r) {
             this._busyManager.clearBusy();
-            this.deploymentObject.VSOData = r.json();
+            this.deploymentObject.VSOData = r;
           }
         },
         err => {

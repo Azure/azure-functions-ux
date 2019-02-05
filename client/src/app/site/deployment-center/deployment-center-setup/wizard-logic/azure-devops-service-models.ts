@@ -67,4 +67,21 @@ export interface DevOpsAccount {
   StatusReason?: string;
   LastUpdatedBy: string;
   Properties: any;
+  ForceMsaPassThrough: boolean;
+}
+
+export interface DevOpsProject {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  state: string;
+  revision: number;
+  visibility: string;
+  lastUpdateTime: Date;
+}
+
+export interface DevOpsList<T> {
+  count: number;
+  value: T[];
 }

@@ -19,11 +19,11 @@ export function setupVsoPassthroughAuthentication(app: Application) {
     delete body.authToken;
     try {
       let headers: { [key: string]: string } = {
-        Authorization: passHeaders.vstsauthorization as string,
+        Authorization: passHeaders.authorization as string,
         'Content-Type': 'application/json',
         accept: 'application/json;api-version=4.1-preview.1',
       };
-      if (passHeaders.msapassthrough === 'true') {
+      if (passHeaders['x-vss-forcemsapassthrough'] === 'true') {
         headers['X-VSS-ForceMsaPassThrough'] = 'true';
       }
       const result = await axios.post(uri, body, {
