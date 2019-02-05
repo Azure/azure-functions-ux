@@ -113,10 +113,13 @@ export class LinuxFramworksComponent implements OnDestroy {
         };
       });
 
-      this.wizard.buildSettings.get('applicationFramework').valueChanges.subscribe(val => {
-        this.setupValidators(val);
-      });
-      this.wizard.siteArmObj$.subscribe(site => {
+      this.wizard.buildSettings
+        .get('applicationFramework')
+        .valueChanges.takeUntil(this._ngUnsubscribe$)
+        .subscribe(val => {
+          this.setupValidators(val);
+        });
+      this.wizard.siteArmObj$.takeUntil(this._ngUnsubscribe$).subscribe(site => {
         const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
         if (linuxFxVersionObj) {
           const linuxFxVersion = linuxFxVersionObj.value.split('|');
