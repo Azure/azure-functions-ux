@@ -161,14 +161,14 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     const deployments = this.deploymentObject.deployments.value;
     const tableItems = deployments.map(value => {
       const item = value.properties;
-      const date: Date = new Date(item.received_time);
+      const date: moment.Moment = moment(item.received_time);
       const t = moment(date);
 
       const commitId = item.id.substr(0, 7);
       const author = item.author;
       const row: KuduTableItem = {
         type: 'row',
-        time: date,
+        time: date.toDate(),
         date: t.format('M/D/YY'),
         commit: commitId,
         checkinMessage: item.message,

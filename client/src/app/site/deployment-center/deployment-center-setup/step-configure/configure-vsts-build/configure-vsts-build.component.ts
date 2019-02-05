@@ -3,9 +3,6 @@ import { SelectOption } from '../../../../../shared/models/select-option';
 import { DeploymentCenterStateManager } from '../../wizard-logic/deployment-center-state-manager';
 import { Subject } from 'rxjs/Subject';
 import { CacheService } from '../../../../../shared/services/cache.service';
-import { Observable } from 'rxjs/Observable';
-import { VSOAccount, VsoProject } from '../../../Models/vso-repo';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
 import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/models/constants';
@@ -13,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { PortalResources } from '../../../../../shared/models/portal-resources';
 import { VstsValidators } from '../../validators/vsts-validators';
-import { parseToken } from 'app/pickers/microsoft-graph/microsoft-graph-helper';
+import { AzureDevOpsService } from '../../wizard-logic/azure-devops.service';
 
 @Component({
   selector: 'app-configure-vsts-build',
@@ -29,8 +26,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   public projectList: DropDownElement<string>[];
   public locationList: DropDownElement<string>[];
   public accountListLoading = false;
-
-  private vsoAccountToProjectMap: { [key: string]: DropDownElement<string>[] } = {};
+  public projectListLoading = false;
+  private _memberIdSubscription = new Subject();
+  private _accountSubscription = new Subject<string>();
 
   selectedAccount = '';
   selectedProject = '';
@@ -40,7 +38,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _cacheService: CacheService,
     public wizard: DeploymentCenterStateManager,
-    private _logService: LogService
+    private _logService: LogService,
+    private _azureDevOpsService: AzureDevOpsService
   ) {
     this.newVsoAccountOptions = [
       { displayLabel: this._translateService.instant(PortalResources.new), value: true },
@@ -48,6 +47,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     ];
 
     this.setupSubscriptions();
+    this._memberIdSubscription.next();
     const val = this.wizard.wizardValues;
     val.buildSettings.createNewVsoAccount = false;
     this.wizard.wizardValues = val;
@@ -106,50 +106,34 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setupSubscriptions() {
     this.accountListLoading = true;
-    this.wizard
-      .fetchVSTSProfile()
-      .map(r => r.json())
-      .switchMap(r => this.fetchAccounts(r.id))
+    this._memberIdSubscription
+      .takeUntil(this._ngUnsubscribe$)
+      .do(() => (this.accountListLoading = true))
+      .concatMap(() => this._azureDevOpsService.getAccounts())
       .do(() => (this.accountListLoading = false))
-      .switchMap(r => {
-        this.accountList = r.map(account => {
-          return {
-            displayLabel: account.accountName,
-            value: account.accountName,
-          };
-        });
-        const projectCalls: Observable<{ account: string; projects: VsoProject[] }>[] = [];
-        r.forEach(account => {
-          projectCalls.push(
-            this._cacheService
-              .get(DeploymentCenterConstants.vstsProjectsApi.format(account.accountName), true, this.wizard.getVstsDirectHeaders())
-              .map(res => {
-                return {
-                  account: account.accountName,
-                  projects: res.json().value,
-                };
-              })
-          );
-        });
-        return forkJoin(projectCalls);
-      })
       .subscribe(
         r => {
-          this.vsoAccountToProjectMap = {};
-          r.forEach(projectList => {
-            this.vsoAccountToProjectMap[projectList.account] = projectList.projects.map(project => {
-              return {
-                displayLabel: project.name,
-                value: project.name,
-              };
-            });
-          });
+          this.accountList = r.map(account => ({
+            displayLabel: account.AccountName,
+            value: account.AccountName,
+          }));
         },
         err => {
-          this.accountListLoading = false;
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
         }
       );
+
+    this._accountSubscription
+      .takeUntil(this._ngUnsubscribe$)
+      .do(() => (this.projectListLoading = true))
+      .switchMap(r => this._azureDevOpsService.getProjectsForAccount(r))
+      .do(() => (this.projectListLoading = false))
+      .subscribe(r => {
+        this.projectList = r.value.map(x => ({
+          displayLabel: x.name,
+          value: x.name,
+        }));
+      });
 
     this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders()).subscribe(
       r => {
@@ -167,27 +151,12 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     );
   }
 
-  private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-    const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
-    return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
-      const accounts = r.json().value as VSOAccount[];
-      this.wizard.vsoAccounts = accounts;
-      return Observable.of(
-        accounts.filter(
-          x =>
-            x.isAccountOwner &&
-            (x.accountTenantId === DeploymentCenterConstants.EmptyGuid || x.accountTenantId === parseToken(this.wizard.getToken()).tid)
-        )
-      );
-    });
-  }
-
   createOrExistingChanged(event) {
     this.setUpformValidators();
   }
 
   accountChanged(accountName: DropDownElement<string>) {
-    this.projectList = this.vsoAccountToProjectMap[accountName.value];
+    this._accountSubscription.next(accountName.value);
     this.selectedProject = '';
   }
 

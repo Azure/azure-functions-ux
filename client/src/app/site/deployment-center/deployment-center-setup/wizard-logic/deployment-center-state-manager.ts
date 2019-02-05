@@ -23,7 +23,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -33,6 +33,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { AuthzService } from '../../../../shared/services/authz.service';
 import { VSOAccount } from '../../Models/vso-repo';
+import { AzureDevOpsService } from './azure-devops.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -58,6 +59,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
+    private _azureDevOpsService: AzureDevOpsService,
     siteService: SiteService,
     userService: UserService,
     portalService: PortalService,
@@ -205,17 +207,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       source: this._deploymentSource,
       targets: this._deploymentTargets,
     };
-    let msaPassthrough = false;
-    const account = this.vsoAccounts.find(x => x.accountName === this.wizardValues.buildSettings.vstsAccount);
-    if (account) {
-      msaPassthrough = !account.accountTenantId || account.accountTenantId === DeploymentCenterConstants.EmptyGuid;
-    }
-    const setupvsoCall = this._cacheService.post(
-      `${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
-      true,
-      this.getVstsPassthroughHeaders(msaPassthrough),
-      deploymentObject
-    );
+
+    const setupvsoCall = this._azureDevOpsService.startDeployment(this.wizardValues.buildSettings.vstsAccount, deploymentObject);
 
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService
@@ -230,10 +223,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
           }
         )
         .switchMap(r => setupvsoCall)
-        .switchMap(r => Observable.of(r.json().id));
+        .switchMap(r => Observable.of(r.id));
     }
     return setupvsoCall.switchMap(r => {
-      return Observable.of(r.json().id);
+      return Observable.of(r.id);
     });
   }
   private get _ciConfig(): CiConfiguration {
