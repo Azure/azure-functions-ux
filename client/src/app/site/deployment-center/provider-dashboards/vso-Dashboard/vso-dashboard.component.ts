@@ -209,7 +209,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   private _populateActivityDetails(item: Deployment) {
-    const date: Date = new Date(item.end_time);
+    const date: moment.Moment = moment(item.end_time);
     const message: string = item.message;
 
     // populate activity details according to the message format
@@ -236,7 +236,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   private _createDeploymentLogFromJSONMessage(
     item: any,
     messageJSON: KuduLogMessage,
-    date: Date,
+    date: moment.Moment,
     logType: VSTSLogMessageType,
     targetApp?: string
   ): ActivityDetailsLog {
@@ -249,7 +249,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       // grouping is done by date therefore time information is excluded
       date: t.format('YYYY/M/D'),
 
-      time: date,
+      time: date.toDate(),
       message: this._getMessage(messageJSON, item.status, logType, targetApp),
       urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
     };
@@ -424,22 +424,22 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
     return urlInfo;
   }
-  private _createDeploymentLogFromStringMessage(item: any, date: Date): ActivityDetailsLog {
+  private _createDeploymentLogFromStringMessage(item: any, date: moment.Moment): ActivityDetailsLog {
     const messageString: string = item.message;
     /* messageString is of the format
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_build?buildId=[buildId]&_a=summary"
             OR
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_apps/hub/ms.vss-releaseManagement-web.hub-explorer?releaseId=[releaseId]&_a=release-summary"
         */
-    const t = moment(date);
+
     return {
       id: item.id,
       icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
       type: 'row',
       // grouping is done by date therefore time information is excluded
-      date: t.format('YY/M/D'),
+      date: date.format('YY/M/D'),
 
-      time: date,
+      time: date.toDate(),
       message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
       urlInfo: this._getUrlInfoFromStringMessage(messageString),
