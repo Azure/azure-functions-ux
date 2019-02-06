@@ -3,7 +3,9 @@ import { DetailsListLayoutMode, SelectionMode, IColumn } from 'office-ui-fabric-
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
@@ -156,6 +158,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
@@ -167,6 +170,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
@@ -175,7 +179,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         />
       );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering
@@ -192,6 +196,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'mountPath',
@@ -203,6 +208,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'type',
@@ -214,6 +220,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'accountName',
@@ -225,6 +232,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'shareName',
@@ -236,6 +244,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'delete',

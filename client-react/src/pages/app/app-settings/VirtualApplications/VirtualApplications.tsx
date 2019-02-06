@@ -5,7 +5,9 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { VirtualApplication } from '../../../../models/WebAppModels';
 import { AppSettingsFormValues } from '../AppSettings.types';
@@ -133,6 +135,7 @@ export class VirtualApplications extends React.Component<
     if (column.key === 'delete') {
       return item.virtualPath === '/' ? null : (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
@@ -144,6 +147,7 @@ export class VirtualApplications extends React.Component<
     if (column.key === 'edit') {
       return item.virtualPath === '/' ? null : (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
@@ -153,9 +157,9 @@ export class VirtualApplications extends React.Component<
       );
     }
     if (column.key === 'type') {
-      return item.virtualDirectory ? t('directory') : t('application');
+      return <div className={defaultCellStyle}>{item.virtualDirectory ? t('directory') : t('application')}</div>;
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   private _getColumns = () => {
@@ -171,6 +175,7 @@ export class VirtualApplications extends React.Component<
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'physicalPath',
@@ -182,6 +187,7 @@ export class VirtualApplications extends React.Component<
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
 
       {
