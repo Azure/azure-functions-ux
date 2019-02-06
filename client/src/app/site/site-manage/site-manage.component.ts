@@ -485,7 +485,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_metricsInfo),
         'image/quotas.svg',
         {
-          detailBlade: 'MetricsBladeV2',
+          detailBlade: 'MetricsBladeV3',
           detailBladeInputs: {
             id: site.id,
           },
