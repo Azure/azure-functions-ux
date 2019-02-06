@@ -5,7 +5,9 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
@@ -137,6 +139,7 @@ export class ApplicationSettings extends React.Component<
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
           id={`app-settings-application-settings-delete-${index}`}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
@@ -148,6 +151,7 @@ export class ApplicationSettings extends React.Component<
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
           id={`app-settings-application-settings-edit-${index}`}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
@@ -159,6 +163,7 @@ export class ApplicationSettings extends React.Component<
     if (column.key === 'sticky') {
       return item.sticky ? (
         <IconButton
+          className={defaultCellStyle}
           id={`app-settings-application-settings-sticky-${index}`}
           iconProps={{ iconName: 'CheckMark' }}
           title={t('sticky')}
@@ -168,15 +173,21 @@ export class ApplicationSettings extends React.Component<
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        t('hiddenValueClickAboveToShow')
+        <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
       ) : (
-        <div id={`app-settings-application-settings-value-${index}`}>{item[column.fieldName!]}</div>
+        <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
+          {item[column.fieldName!]}
+        </div>
       );
     }
     if (column.key === 'name') {
-      return <div id={`app-settings-application-settings-name-${index}`}>{item[column.fieldName!]}</div>;
+      return (
+        <div className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`}>
+          {item[column.fieldName!]}
+        </div>
+      );
     }
-    return <div>{item[column.fieldName!]}</div>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering

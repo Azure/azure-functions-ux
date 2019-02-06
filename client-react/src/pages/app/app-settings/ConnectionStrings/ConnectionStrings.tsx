@@ -5,7 +5,9 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormConnectionString } from '../AppSettings.types';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
@@ -142,6 +144,7 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
           iconProps={{ iconName: 'Delete' }}
           id={`app-settings-connection-strings-delete-${index}`}
           ariaLabel={t('delete')}
@@ -153,6 +156,7 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
           iconProps={{ iconName: 'Edit' }}
           id={`app-settings-connection-strings-edit-${index}`}
           ariaLabel={t('edit')}
@@ -164,6 +168,7 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'sticky') {
       return item.sticky ? (
         <IconButton
+          className={defaultCellStyle}
           id={`app-settings-connection-strings-sticky-${index}`}
           iconProps={{ iconName: 'CheckMark' }}
           ariaLabel={t('slotSettingOn')}
@@ -173,18 +178,28 @@ export class ConnectionStrings extends React.Component<
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        t('hiddenValueClickAboveToShow')
+        <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
       ) : (
-        <span id={`app-settings-connection-strings-value-${index}`}>{item[column.fieldName!]}</span>
+        <span id={`app-settings-connection-strings-value-${index}`} className={defaultCellStyle}>
+          {item[column.fieldName!]}
+        </span>
       );
     }
     if (column.key === 'type') {
-      return <span id={`app-settings-connection-strings-type-${index}`}>{typeValueToString(item[column.fieldName!])}</span>;
+      return (
+        <span id={`app-settings-connection-strings-type-${index}`} className={defaultCellStyle}>
+          {typeValueToString(item[column.fieldName!])}
+        </span>
+      );
     }
     if (column.key === 'name') {
-      return <span id={`app-settings-connection-strings-name-${index}`}>{item[column.fieldName!]}</span>;
+      return (
+        <div id={`app-settings-connection-strings-name-${index}`} className={defaultCellStyle}>
+          {item[column.fieldName!]}
+        </div>
+      );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   private _getColumns = () => {

@@ -5,7 +5,9 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import * as React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import { AppSettingsFormValues } from '../AppSettings.types';
@@ -152,6 +154,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
@@ -163,6 +166,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
           disabled={!values.siteWritePermission}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
@@ -171,7 +175,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         />
       );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering
@@ -188,6 +192,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'scriptProcessor',
@@ -199,6 +204,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'arguments',
@@ -210,6 +216,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'delete',

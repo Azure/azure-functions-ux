@@ -61,7 +61,7 @@ const themePalette = {
   black: '#111111',
   white: AzurePortalColors.background,
   blackTranslucent40: 'rgba(0,0,0,.4)',
-  neutralSecondaryAlt: '#767676',
+  neutralSecondaryAlt: 'rgb(54, 54, 54)',
   accent: '#0078d4',
   whiteTranslucent40: 'rgba(255,255,255,.4)',
   yellow: '#ffb900',
