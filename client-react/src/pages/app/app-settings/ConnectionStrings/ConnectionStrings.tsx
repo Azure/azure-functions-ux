@@ -59,7 +59,7 @@ export class ConnectionStrings extends React.Component<
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          type={PanelType.smallFixedFar}
           onDismiss={this._onCancel}
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}>

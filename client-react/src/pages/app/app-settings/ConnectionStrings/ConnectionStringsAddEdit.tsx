@@ -54,7 +54,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('save'),
+    title: t('update'),
     onClick: save,
     disable: !!nameError,
   };
@@ -105,10 +105,34 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
             key: DatabaseType.SQLAzure,
             text: typeValueToString(DatabaseType.SQLAzure),
           },
+          {
+            key: DatabaseType.PostgreSQL,
+            text: typeValueToString(DatabaseType.PostgreSQL),
+          },
+          {
+            key: DatabaseType.Custom,
+            text: typeValueToString(DatabaseType.Custom),
+          },
         ]}
         onChange={updateConnectionStringType}
         styles={{
           root: formElementStyle,
+          dropdown: {
+            maxWidth: '300px',
+          },
+          title: {
+            height: 32,
+            lineHeight: 30,
+            padding: `0 32px 0 12px`,
+          },
+          caretDownWrapper: {
+            height: 32,
+            lineHeight: 30,
+          },
+          dropdownItemHeader: {
+            height: 32,
+            lineHeight: 32,
+          },
         }}
       />
       <Checkbox
