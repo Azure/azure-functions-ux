@@ -58,7 +58,7 @@ export class ApplicationSettings extends React.Component<
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          type={PanelType.smallFixedFar}
           onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
