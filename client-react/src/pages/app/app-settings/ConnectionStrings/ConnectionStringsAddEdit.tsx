@@ -105,6 +105,14 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
             key: DatabaseType.SQLAzure,
             text: typeValueToString(DatabaseType.SQLAzure),
           },
+          {
+            key: DatabaseType.PostgreSQL,
+            text: typeValueToString(DatabaseType.PostgreSQL),
+          },
+          {
+            key: DatabaseType.Custom,
+            text: typeValueToString(DatabaseType.Custom),
+          },
         ]}
         onChange={updateConnectionStringType}
         styles={{
