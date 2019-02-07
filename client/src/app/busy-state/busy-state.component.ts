@@ -27,7 +27,8 @@ export type BusyStateName =
   | 'deployment-slots-swap'
   | 'deployment-slots-create'
   | 'standalone-config'
-  | 'quickstart';
+  | 'quickstart'
+  | 'site-console';
 
 @Component({
   selector: 'busy-state',

@@ -27,6 +27,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   public commandInParts = { leftCmd: '', middleCmd: ' ', rightCmd: '' }; // commands to left, right and on the pointer
   public dir: string;
   public initialized = false;
+  public cleared = false;
   protected enterPressed = false;
   protected site: ArmObj<Site>;
   protected publishingCredentials: ArmObj<PublishingCredentials>;
@@ -69,6 +70,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     });
     this.initializeConsole();
     this.initialized = true;
+    this.addPromptComponent();
     this.focusConsole();
   }
 
@@ -296,6 +298,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
       this._messageComponent = this._componentFactoryResolver.resolveComponentFactory(MessageComponent);
     }
     const msgComponent = this._prompt.createComponent(this._messageComponent);
+    msgComponent.instance.isCommand = message ? false : true;
     msgComponent.instance.loading = message ? false : true;
     msgComponent.instance.message = message ? message : this.getConsoleLeft() + this.command;
     this._msgComponents.push(msgComponent);
