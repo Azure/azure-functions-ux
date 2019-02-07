@@ -91,6 +91,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/byos',
         loadChildren: 'app/site/byos/byos-shell/byos-shell.module#ByosShellModule',
       },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/console',
+        loadChildren: 'app/ibiza-feature/console-shell/console-shell.module#ConsoleShellModule',
+      },
+      {
+        path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/console',
+        loadChildren: 'app/ibiza-feature/console-shell/console-shell.module#ConsoleShellModule',
+      },
     ],
   },
 ]);

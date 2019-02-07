@@ -26,6 +26,7 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlyLocalCache = false;
   public readOnlyLinuxDynamic = false;
   public readOnlyBYOC = false;
+  public isEmpty = true;
 
   constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) {}
 
@@ -34,6 +35,7 @@ export class EditModeWarningComponent implements OnInit {
       this._functionAppService.getFunctionAppEditMode(this.context).subscribe(editModeResult => {
         if (editModeResult.isSuccessful) {
           const editMode = editModeResult.result;
+          let isEmpty = false;
           if (editMode === FunctionAppEditMode.ReadOnly) {
             this.readOnly = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
@@ -54,7 +56,10 @@ export class EditModeWarningComponent implements OnInit {
             this.readOnlyLinuxDynamic = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
             this.readOnlyBYOC = true;
+          } else {
+            isEmpty = true;
           }
+          this.isEmpty = isEmpty;
         }
       });
     }

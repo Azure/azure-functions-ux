@@ -1,5 +1,9 @@
 @import '../../../../sass/common/variables';
 
-div.console div.console-inner{
-    background-color: $powershell-background-color;
+div.console div.console-inner {
+  background-color: $powershell-background-color;
+}
+
+div.console-message-header span {
+  color: $console-default-msg-color;
 }

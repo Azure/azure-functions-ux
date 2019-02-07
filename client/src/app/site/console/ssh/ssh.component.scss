@@ -1,9 +1,13 @@
 @import '../../../../sass/common/variables';
 
 #ssh {
-    width: 100%;
-    height: 100%;
-    min-height: 20%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 20%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#console-container {
+  background-color: $console-background-color;
 }
