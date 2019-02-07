@@ -41,7 +41,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('save'),
+    title: t('update'),
     onClick: save,
     disable: false,
   };
