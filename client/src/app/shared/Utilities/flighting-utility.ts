@@ -16,7 +16,7 @@ export class FlightingUtil {
     },
     NewDeploymentSlots: {
       seed: 187465135,
-      percentofUsers: 50,
+      percentofUsers: 75,
       forceOnFlag: FeatureFlags.UseNewSlotsBlade,
       forceOffFlag: FeatureFlags.ShowLegacySlotsBlade,
     },
