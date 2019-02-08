@@ -53,10 +53,11 @@ export class DisableableFeature extends FeatureItem {
     keywords: string,
     info: string,
     imageUrl: string,
+    superScriptIconUrl?: string,
     _disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult // If the feature is known to be disabled before any async logic, then use this disable immediately
   ) {
-    super(title, keywords, info, imageUrl);
+    super(title, keywords, info, imageUrl, superScriptIconUrl);
 
     if (overrideDisableInfo) {
       // Assumes that all scenario results for feature items are a black list
@@ -95,7 +96,7 @@ export class DisableableBladeFeature extends DisableableFeature {
     disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult
   ) {
-    super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
+    super(title, keywords, info, imageUrl, null, disableInfoStream, overrideDisableInfo);
   }
 
   click() {
@@ -162,7 +163,7 @@ export class DisableableTabFeature extends DisableableFeature {
     disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult
   ) {
-    super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
+    super(title, keywords, info, imageUrl, 'image/new-tab.svg', disableInfoStream, overrideDisableInfo);
   }
 
   click() {
