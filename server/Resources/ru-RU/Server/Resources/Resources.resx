@@ -1298,7 +1298,7 @@
     <value>Эта функция не поддерживается для приложений, которые используют план потребления</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Эта функция не поддерживается для приложений в эластичном плане.</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Эта функция не поддерживается для слотов</value>
@@ -2402,7 +2402,7 @@
     <value>Включить параметры приложения при скачивании</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>При этом будет добавлен файл local.settings.json со значениями параметров вашего приложения. Файл не будет зашифрован при скачивании; это можно сделать в командной строке основных инструментов Функций Azure.</value>
+    <value>При этом будет добавлен файл local.settings.json со значениями параметров вашего приложения. Файл не будет зашифрован при скачивании; это можно сделать в командной строке Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Содержимое сайта</value>
@@ -2723,7 +2723,7 @@
     <value>Для шаблона требуются следующие расширения.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Устанавливаются зависимости шаблонов. Вы сможете создать функцию по завершении этого процесса. Установка зависимостей выполняется в фоновом режиме и может занять до двух минут. Приложение перейдет в автономный режим, пока установка не завершится. В это время можно по-прежнему использовать портал, но если вы закроете его до завершения установки, приложение останется в автономном режиме.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
@@ -3888,7 +3888,7 @@
     <value>Использование Visual Studio Code для создания функций</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Написание функций с помощью удобного редактора и основных инструментов для Функций Azure</value>
+    <value>Написание функций с помощью удобного вам редактора и Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Написание функций Java с помощью удобного редактора: IntelliJ, Eclipse или Maven</value>
@@ -3912,7 +3912,7 @@
     <value>Публикация напрямую из VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Публикация напрямую из основных инструментов для Функций Azure</value>
+    <value>Публикация напрямую из Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Публикация напрямую из Maven</value>
@@ -4230,7 +4230,7 @@
     <value>Сведения о развертывании</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Устанавливаются зависимости шаблонов. Установка зависимостей выполняется в фоновом режиме и может занять до двух минут. Приложение перейдет в автономный режим, пока установка не завершится. В это время можно по-прежнему использовать портал, но если вы закроете его до завершения установки, приложение останется в автономном режиме.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Скрыть значения</value>
@@ -4674,12 +4674,48 @@
     <value>Вкладка "Приложения логики" будет удалена через несколько месяцев. Вы можете продолжить просматривать свои приложения логики с помощью функции обзора на портале Azure.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Эта функция доступна только для приложений-функций, выполняющихся в плане службы приложений Linux. Для ведения журналов среды выполнения используйте Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Горизонтальное масштабирование</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Настройка параметров масштабирования для плана службы приложений.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Имя учетной записи</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>BLOB-объект Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Файлы Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Новое подключение для службы хранилища Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Пустое подключение для службы хранилища Azure</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Имена подключений для службы хранилища Azure должны быть уникальными</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Параметры конфигурации</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Имя учетной записи хранения должно состоять из строчных букв</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Эта учетная запись хранения не содержит контейнеров BLOB-объектов или общих файловых ресурсов</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>У вас нет доступа на запись к этой учетной записи хранения. Если вы знаете ключ доступа, можете перевести ее в расширенный режим.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Выбрать вариант</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Команды запуска для NodeJS должны использовать ng, node или pm2</value>
   </data>
 </root>

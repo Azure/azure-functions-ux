@@ -1298,7 +1298,7 @@
     <value>Este recurso não tem suporte para aplicativos em um Plano de consumo</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Não há suporte para este recurso em aplicativos em um plano Elástico</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Este recurso não oferece suporte para slots</value>
@@ -2402,7 +2402,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Incluir configurações do aplicativo no download</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Isso incluirá um arquivo chamado local.settings.json que terá os valores de sua configuração do aplicativo. Esse arquivo não será criptografado no download, mas pode ser criptografado usando a linha de comando das Ferramentas Principais do Azure Functions.</value>
+    <value>Isso incluirá um arquivo chamado local.settings.json que terá os valores de sua configuração do aplicativo. Esse arquivo não será criptografado no download, mas pode ser criptografado usando a linha de comando do Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Conteúdo do site</value>
@@ -3149,10 +3149,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Os tipos de preço isolados dentro de um Ambiente do Serviço de Aplicativo (ASE) não estão disponíveis para sua configuração. Um ASE é uma oferta de recursos avançados do Serviço de Aplicativo do Azure que oferece isolamento de rede e melhores capacidades de dimensionamento.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Os tipos de preço de Desenvolvimento/Teste não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de Desenvolvimento/Teste não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente do Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Os tipos de preço de produção não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de produção não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente do Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Não há suporte para a versão premium V2 para esta unidade de dimensionamento. Considere reimplantar ou clonar o aplicativo.</value>
@@ -3287,7 +3287,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Acesso privado ao aplicativo</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Usando um Ambiente de Serviço de Aplicativo com ILB (Balanceamento de Carga Interno).</value>
+    <value>Usando um Ambiente do Serviço de Aplicativo com ILB (Balanceamento de Carga Interno).</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
     <value>{0} GB de memória</value>
@@ -3912,7 +3912,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Publicar diretamente do VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publicar diretamente das Ferramentas Principais do Azure Functions</value>
+    <value>Publicar diretamente do Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publicar diretamente do Maven</value>
@@ -4680,6 +4680,42 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Escalar horizontalmente</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Configure as configurações de expansão para o Plano do Serviço de Aplicativo.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nome da Conta</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Blob do Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Arquivos do Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nova Montagem do Armazenamento do Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Montagem de Armazenamento do Azure Vazio</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Os nomes de montagem do armazenamento do Azure precisam ser exclusivos</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opções de configuração</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>O nome da conta de armazenamento deve estar em minúsculas</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Esta conta de armazenamento não tem contêineres de blob nem compartilhamentos de arquivos</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Você não tem acesso de gravação a esta conta de armazenamento. Se você souber a chave de acesso, poderá colocá-la no modo avançado.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Selecionar uma opção</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Os comandos de inicialização para NodeJS precisam usar ng, nó ou pm2</value>
   </data>
 </root>
