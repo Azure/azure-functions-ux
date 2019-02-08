@@ -808,6 +808,7 @@ export class OpenKuduFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
       _translateService.instant(PortalResources.feature_advancedToolsInfo),
       'image/advanced-tools.svg',
+      null,
       disableInfoStream
     );
   }
@@ -830,6 +831,7 @@ export class OpenEditorFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_appServiceEditorName),
       _translateService.instant(PortalResources.feature_appServiceEditorInfo),
       'image/appsvc-editor.svg',
+      null,
       disabledInfoStream,
       scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site })
     );
