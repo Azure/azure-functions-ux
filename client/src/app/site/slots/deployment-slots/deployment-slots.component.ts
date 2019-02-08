@@ -385,7 +385,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.swapSlotsCommandDisabled =
       this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.relativeSlotsArm || !this.relativeSlotsArm.length;
 
-    this.navigationDisabled = this._addControlsOpen || this._swapControlsOpen;
+    this.navigationDisabled = this._isSlot || this._addControlsOpen || this._swapControlsOpen;
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
