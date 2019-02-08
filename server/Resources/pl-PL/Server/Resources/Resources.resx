@@ -1298,7 +1298,7 @@
     <value>Ta funkcja nie jest obsługiwana w przypadku aplikacji w ramach planu Zużycie</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Ta funkcja jest nieobsługiwana dla aplikacji w planie elastycznym</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Ta funkcja nie jest jeszcze obsługiwana dla miejsc</value>
@@ -2402,7 +2402,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Uwzględnij ustawienia aplikacji w pobieraniu</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Spowoduje to uwzględnienie pliku local.settings.json, który będzie zawierać wartości ustawień aplikacji. Ten plik nie będzie szyfrowany przy pobieraniu, ale można go zaszyfrować za pomocą wiersza polecenia podstawowych narzędzi usługi Azure Functions.</value>
+    <value>Spowoduje to uwzględnienie pliku local.settings.json, który będzie zawierać wartości ustawień aplikacji. Ten plik nie będzie szyfrowany przy pobieraniu, ale można go zaszyfrować za pomocą wiersza polecenia narzędzi Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Zawartość witryny</value>
@@ -2723,7 +2723,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ten szablon wymaga następujących rozszerzeń.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Trwa instalowanie zależności szablonu. Utworzenie funkcji będzie możliwe po zakończeniu tej operacji. Instalacja zależności przebiega w tle i może potrwać do dwóch minut. Twoja aplikacja przejdzie w tryb offline do czasu zakończenia instalacji. W tym czasie możesz nadal korzystać z portalu, ale zamknięcie portalu przed ukończeniem instalacji spowoduje pozostawienie aplikacji w trybie offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nie możemy zainstalować rozszerzenia środowiska uruchomieniowego. Identyfikator instalacji: {{installationId}}</value>
@@ -3888,7 +3888,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Twórz funkcje za pomocą programu Visual Studio Code</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Pisz funkcje przy użyciu swojego ulubionego edytora i podstawowych narzędzi usługi Azure Functions</value>
+    <value>Pisz funkcje przy użyciu swojego ulubionego edytora i narzędzi Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Pisz funkcje w języku Java przy użyciu swojego ulubionego edytora, takiego jak IntelliJ lub Eclipse, i programu Maven</value>
@@ -3912,7 +3912,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Publikuj bezpośrednio z programu VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publikuj bezpośrednio z podstawowych narzędzi usługi Azure Functions</value>
+    <value>Publikuj bezpośrednio z narzędzi Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publikowanie bezpośrednio z programu Maven</value>
@@ -4230,7 +4230,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Szczegóły wdrożenia</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Instalowanie zależności szablonu. Instalacja zależności przebiega w tle i może potrwać do 2 minut. Twoja aplikacja przejdzie w tryb offline do czasu zakończenia instalacji. W tym czasie możesz nadal korzystać z portalu, ale zamknięcie portalu przed ukończeniem instalacji spowoduje pozostawienie aplikacji w trybie offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Ukryj wartości</value>
@@ -4674,12 +4674,48 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Karta „Aplikacje logiki” zostanie usunięta w ciągu kilku kolejnych miesięcy. Aplikacje logiki możesz nadal przeglądać przy użyciu funkcji przeglądania witryny Azure Portal.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Ta funkcja jest dostępna tylko dla aplikacji funkcji uruchamianych w planie usługi App Service dla systemu Linux. Do rejestrowania w czasie wykonywania użyj usługi Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Skaluj w poziomie</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Skonfiguruj ustawienia skalowania w poziomie dla planu usługi App Service.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nazwa konta</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Obiekt blob platformy Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Pliki Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nowa instalacja magazynu platformy Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Pusta instalacja magazynu platformy Azure</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Nazwa instalacji magazynu platformy Azure musi być unikatowa</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opcje konfiguracji</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Nazwa konta magazynu musi zawierać małe litery</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>To konto magazynu nie ma kontenerów obiektów blob lub udziałów plików</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Nie masz dostępu do tego konta magazynu z możliwością zapisu. Jeśli znasz klucz dostępu, możesz podać go w trybie zaawansowanym.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Wybierz opcję</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Polecenia uruchamiania dla platformy NodeJS muszą korzystać z poleceń ng, node lub pm2</value>
   </data>
 </root>

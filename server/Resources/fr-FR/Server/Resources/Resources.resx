@@ -1298,7 +1298,7 @@
     <value>Cette fonctionnalité n'est pas prise en charge pour les applications d'un plan Consommation</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Cette fonctionnalité n’est pas prise en charge pour les applications dans un plan Élastique</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Cette fonctionnalité n'est pas prise en charge pour les emplacements</value>
@@ -2402,7 +2402,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Inclure les paramètres d'application dans le téléchargement</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Cette opération ajoute un fichier nommé local.settings.json qui contient les valeurs de vos paramètres d'application. Ce fichier n'est pas chiffré lors du téléchargement, mais peut l'être à l'aide de la ligne de commande des outils principaux d'Azure Functions.</value>
+    <value>Cette opération ajoute un fichier nommé local.settings.json qui contient les valeurs de vos paramètres d'application. Ce fichier n'est pas chiffré lors du téléchargement, mais peut l'être à l'aide de la ligne de commande Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Contenu du site</value>
@@ -2723,7 +2723,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Ce modèle nécessite les extensions suivantes.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Installation des dépendances du modèle. Vous pouvez créer une fonction une fois que vous avez effectué cette opération. L’installation des dépendances se produit en arrière-plan et peut prendre jusqu’à deux minutes. Votre application va passer en mode hors connexion jusqu’à ce que l’installation soit terminée. Vous pouvez continuer à utiliser le portail pendant ce temps, mais si vous fermez le portail avant la fin de l’installation, votre application restera en mode hors connexion.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Impossible d'installer l'extension de runtime. ID d'installation {{installationId}}</value>
@@ -3146,7 +3146,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Les niveaux tarifaires Isolé dans un environnement App Service ne sont pas disponibles pour votre configuration. L'environnement App Service est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
+    <value>Les niveaux tarifaires Isolé dans un environnement App Service (ASE) ne sont pas disponibles pour votre configuration. Un environnement App Service (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Les niveaux tarifaires Dev/Test ne sont pas disponibles pour votre configuration et ils sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
@@ -4230,7 +4230,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Détails du déploiement</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Installation des dépendances du modèle. L’installation des dépendances se produit en arrière-plan et peut prendre jusqu’à deux minutes. Votre application va passer en mode hors connexion jusqu’à ce que l’installation soit terminée. Vous pouvez continuer à utiliser le portail pendant ce temps, mais si vous fermez le portail avant la fin de l’installation, votre application restera en mode hors connexion.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Masquer les valeurs</value>
@@ -4662,24 +4662,60 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Nouveau gestionnaire</value>
   </data>
   <data name="feature_logStreamingConnectionError" xml:space="preserve">
-    <value>Unable to open a connection to your app. This may be due to any network security groups or IP restriction rules that you have placed on your app. To use log streaming, please make sure you are able to access your app directly from your current network.</value>
+    <value>Impossible d’ouvrir une connexion à votre application. Cela peut être dû à des groupes de sécurité réseau ou à des règles de restriction IP que vous avez placés dans votre application. Pour utiliser le streaming des journaux, vérifiez que vous êtes en mesure d’accéder à votre application directement à partir de votre réseau actuel.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Les paramètres de l’application peuvent contenir des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Les chaînes de connexion contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+    <value>L’onglet « Logic Apps » sera supprimé dans les prochains mois. Vous pouvez continuer à parcourir vos applications logiques à l’aide de la fonctionnalité Parcourir du portail Azure.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Cette fonctionnalité est disponible uniquement pour les applications de fonction exécutées sur un abonnement Linux App Service. Pour la connexion au runtime, veuillez utiliser Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Monter en charge</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Configurez les paramètres de scale-out pour votre plan App Service.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nom du compte</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>objet blob Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nouveau montage de stockage Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Montage de stockage Azure vide</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Les noms de montage de stockage Azure doivent être uniques</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Options de configuration</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Le nom de compte de stockage doit être en minuscules</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Ce compte de stockage n’a aucun conteneur de blob ni partage de fichiers</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Vous n’avez pas d’accès en écriture à ce compte de stockage. Si vous connaissez la clé d’accès, vous pouvez l’indiquer en mode avancé.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Sélectionner une option</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
   </data>
 </root>

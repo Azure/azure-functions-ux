@@ -3913,7 +3913,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Publiceer rechtstreeks vanuit VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publiceer rechtstreeks vanuit Azure Functions Core</value>
+    <value>Publiceer rechtstreeks vanuit Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publiceer rechtstreeks vanuit Maven</value>
@@ -4666,13 +4666,13 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Kan geen verbinding maken met uw app. Dit kan komen door netwerkbeveiligingsgroepen of IP-beperkingsregels die u in uw app hebt geplaatst. Zorg ervoor dat u rechtstreeks vanaf uw huidige netwerk toegang hebt tot uw app om logboekstreaming te gebruiken.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Toepassingsinstellingen kunnen geheimen bevatten. Lees/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Verbindingsreeksen bevatten geheimen. Lees/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+    <value>Tabblad Logische apps wordt in de komende maanden verwijderd. U kunt doorgaan met het bladeren in uw logische apps met de browsefunctie in Azure Portal.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
     <value>Deze functie is alleen beschikbaar voor de functie-apps die worden uitgevoerd in een Linux App Service-abonnement. Gebruik Application Insights voor runtime logboekregistratie.</value>
@@ -4682,5 +4682,41 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
     <value>Configureer uitbreidingsinstellingen voor uw App Service-plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Accountnaam</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nieuwe koppeling van Azure-opslag</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Lege koppeling van Azure-opslag</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>De namen voor de koppeling van Azure-opslag moeten uniek zijn</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Configuratieopties</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>De opslagaccountnaam mag alleen kleine letters bevatten</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Dit opslagaccount heeft geen blobcontainers of bestandsshares</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>U hebt geen schrijftoegang tot dit opslagaccount. Als u de toegangssleutel weet, kunt u deze in de geavanceerde modus plaatsen.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Een optie selecteren</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Opstartopdrachten voor NodeJS moeten ng, node of pm2 gebruiken</value>
   </data>
 </root>

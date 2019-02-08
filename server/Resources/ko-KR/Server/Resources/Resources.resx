@@ -2402,7 +2402,7 @@
     <value>다운로드에서 앱 설정 포함</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>앱 설정 값을 가진 local.settings.json이라는 파일을 포함합니다. 이 파일은 다운로드에서 암호화되지 않지만 Azure Functions 핵심 도구 명령줄을 사용하여 암호화할 수 있습니다.</value>
+    <value>앱 설정 값을 가진 local.settings.json이라는 파일을 포함합니다. 이 파일은 다운로드에서 암호화되지 않지만 Azure Functions Core Tools 명령줄을 사용하여 암호화할 수 있습니다.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>사이트 콘텐츠</value>
@@ -3149,10 +3149,10 @@
     <value>ASE(App Service Environment) 내에서 격리된 가격 책정 계층은 구성에 사용할 수 없습니다. ASE는 네트워크 격리 및 개선된 규모 기능을 제공하는 Azure App Service의 강력한 기능 제공입니다.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>개발/테스트 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service 환경 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
+    <value>개발/테스트 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service Environment 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>프로덕션 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service 환경 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
+    <value>프로덕션 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service Environment 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2는 이 배율 단위에는 지원되지 않습니다. 앱 재배포 또는 복제를 고려하세요.</value>
@@ -3888,7 +3888,7 @@
     <value>Visual Studio Code를 사용하여 함수 작성</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>원하는 편집기 및 Azure Functions 핵심 도구를 사용하여 함수 작성</value>
+    <value>원하는 편집기 및 Azure Functions Core Tools를 사용하여 함수 작성</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>IntelliJ 또는 Eclipse 및 Maven와 같은 원하는 편집기를 사용하여 Java 함수 작성</value>
@@ -3912,7 +3912,7 @@
     <value>VS Code에서 직접 게시</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Azure Functions 핵심 도구에서 직접 게시</value>
+    <value>Azure Functions Core Tools에서 직접 게시</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Maven에서 직접 게시</value>
@@ -4681,5 +4681,41 @@
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
     <value>App Service 플랜의 규모 확장 설정을 구성합니다.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>계정 이름</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>New Azure Storage Mount</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Empty Azure Storage Mount</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure storage mount names must be unique</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Configuration options</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Storage account name must be lower case</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>This storage account has no blob containers or file shares</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>옵션 선택</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
   </data>
 </root>

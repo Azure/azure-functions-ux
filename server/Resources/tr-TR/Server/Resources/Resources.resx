@@ -1298,7 +1298,7 @@
     <value>Bu özellik, Tüketim planlarındaki uygulamalarda desteklenmez</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Bu özellik, bir Elastik planındaki uygulamalarda desteklenmiyor</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Bu özellik yuvalar için desteklenmiyor</value>
@@ -2402,7 +2402,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Uygulama ayarlarını indirmeye dahil et</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Bu, uygulama ayarı değerlerinizi içeren local.settings.json adlı bir dosyayı ekler. Bu dosya indirildiğinde şifrelenmez ancak Azure İşlevleri Çekirdek Araçları komut satırı kullanılarak şifrelenebilir.</value>
+    <value>Bu, uygulama ayarı değerlerinizi içeren local.settings.json adlı bir dosyayı ekler. Bu dosya indirildiğinde şifrelenmez ancak Azure Functions Core Tools komut satırı kullanılarak şifrelenebilir.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Site içeriği</value>
@@ -2723,7 +2723,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu şablon aşağıdaki uzantıları gerektirir.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Şablon bağımlılıkları yükleniyor. Bu işlem tamamlandıktan sonra işlev oluşturabileceksiniz. Bağımlılık yükleme işlemi arka planda gerçekleşir ve 2 dakikaya kadar sürebilir. Yükleme işlemi tamamlanana kadar uygulamanız çevrimdışı moduna geçer. Bu süre içinde portalı kullanmaya devam edebilirsiniz ancak yükleme tamamlanmadan önce portalı kapatmak uygulamanızı çevrimdışı modda bırakacaktır.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Çalışma zamanı uzantısını yükleyemiyoruz. Yükleme kimliği {{installationId}}</value>
@@ -3149,10 +3149,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
+    <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
+    <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
@@ -3888,7 +3888,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlevlerinizi yazmak için Visual Studio Code'u kullanın</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Sevdiğiniz düzenleyiciyi ve Azure İşlevleri Çekirdek Araçları'nı kullanarak işlev yazın</value>
+    <value>Sevdiğiniz düzenleyiciyi ve Azure Functions Core Tools'u kullanarak işlev yazın</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>IntelliJ veya Eclipse ve Maven gibi sevdiğiniz düzenleyicileri kullanarak Java işlevleri yazın</value>
@@ -3912,7 +3912,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Doğrudan VS Code'dan yayımla</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Doğrudan Azure İşlevleri Core Tools'tan yayımla</value>
+    <value>Doğrudan Azure Functions Core Tools'tan yayımla</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Doğrudan Maven'den yayımla</value>
@@ -4230,7 +4230,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtım Ayrıntıları</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yükleme işlemi arka planda gerçekleşir ve 2 dakikaya kadar sürebilir. Yükleme işlemi tamamlanana kadar uygulamanız çevrimdışı moduna geçer. Bu süre içinde portalı kullanmaya devam edebilirsiniz ancak yükleme tamamlanmadan önce portalı kapatmak, uygulamanızı çevrimdışı modda bırakacaktır.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Değerleri Gizle</value>
@@ -4665,21 +4665,57 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Uygulamanız ile bağlantı kurulamıyor. Bunun nedeni, uygulamanızda yürürlüğe koyduğunuz ağ güvenlik grupları veya IP kısıtlama kuralları olabilir. Günlük akışını kullanmak için lütfen geçerli ağınızdan uygulamanıza erişebildiğinizden emin olun.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Uygulama ayarları gizli diziler içerebilir. Bu bölümü görüntülemek/düzenlemek için Okuma/Yazma izinleri gereklidir.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Bağlantı dizeleri gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için Okuma/Yazma izinleri gereklidir.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+    <value>'Logic Apps' sekmesi birkaç ay içinde kaldırılacak. Azure Portal'daki göz atma özelliğini kullanarak mantıksal uygulamalarınıza göz atmaya devam edebilirsiniz.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Bu özellik yalnızca bir Linux App Service planı üzerinde çalıştırılan İşlev uygulamaları için kullanılabilir. Çalışma zamanında günlük kaydı için lütfen Application Insights kullanın.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Ölçeği genişlet</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>App Service Planınız için ölçeği genişletme ayarlarını yapılandırın.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Hesap Adı</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blobu</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Dosyaları</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Yeni Azure Depolama Bağlama</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Azure Depolama Bağlamayı Boşalt</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure depolama bağlama adları benzersiz olmalıdır</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Yapılandırma seçenekleri</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Depolama hesabı adı küçük harflerden oluşmalıdır</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Bu depolama hesabında blob kapsayıcısı veya dosya paylaşımı yok</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Bu depolama hesabına yazma erişiminiz yok. Erişim anahtarını biliyorsanız hesabı gelişmiş moda geçirebilirsiniz.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Bir seçenek belirleyin</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS için başlangıç komutları ng, node veya pm2 kullanmalıdır</value>
   </data>
 </root>

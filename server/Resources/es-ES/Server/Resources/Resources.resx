@@ -1298,7 +1298,7 @@
     <value>Esta característica no es compatible con aplicaciones en un plan de consumo</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Esta característica no es compatible con las aplicaciones que cuenten con un plan elástico.</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Esta característica no se admite para los espacios.</value>
@@ -2402,7 +2402,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Incluir la configuración de la aplicación en la descarga</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Esta opción incluirá un archivo llamado local.settings.json que contendrá los valores de configuración de la aplicación. Este archivo no se cifrará en la descarga, pero se puede cifrar mediante la línea de comando de las herramientas principales de Azure Functions.</value>
+    <value>Esta opción incluirá un archivo llamado local.settings.json que contendrá los valores de configuración de la aplicación. Este archivo no se cifrará en la descarga, pero se puede cifrar mediante la línea de comando de Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Contenido del sitio</value>
@@ -2723,7 +2723,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Esta plantilla requiere las extensiones siguientes.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Se están instalando las dependencias de la plantilla. Podrá crear una función cuando esta operación se complete. La instalación de las dependencias se realiza en segundo plano y puede tardar hasta dos minutos. La aplicación pasará al modo sin conexión hasta que la instalación se haya completado. Puede seguir usando el portal mientras tanto, pero, si lo cierra antes de que la instalación se complete, la aplicación se quedará en modo sin conexión.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>No se puede instalar la extensión en tiempo de ejecución. Identificador de instalación {{installationId}}</value>
@@ -3149,10 +3149,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Los planes de tarifa aislados en una instancia de App Service Environment (ASE) no están disponibles para su configuración. ASE es una oferta de características eficaces de Azure App Service que proporciona aislamiento de red y funcionalidades de escalado mejoradas.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Los planes de tarifa de desarrollo y pruebas no están disponibles para su configuración y solo están disponibles para los planes que no están hospedados en un entorno de App Service.</value>
+    <value>Los planes de tarifa de desarrollo y pruebas no están disponibles para su configuración y solo están disponibles para los planes que no están hospedados en una instancias de App Service Environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Los planes de tarifa de producción no están disponibles para su configuración y están solo disponibles para los planes que no están hospedados en un entorno de App Service.</value>
+    <value>Los planes de tarifa de producción no están disponibles para su configuración y están solo disponibles para los planes que no están hospedados en una instancia de App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>No se admite Premium V2 para esta unidad de escalado. Considere la posibilidad de volver a implementar la aplicación o de clonarla.</value>
@@ -3287,7 +3287,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Acceso privado a la aplicación</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Uso de un entorno de App Service con equilibrio de carga interno (ILB).</value>
+    <value>Uso de una instancia de App Service Environment con equilibrio de carga interno (ILB).</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
     <value>{0} GB de memoria</value>
@@ -3888,7 +3888,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Permite usar Visual Studio Code para crear las funciones.</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Permite escribir funciones con su editor favorito y las herramientas principales de Azure Functions.</value>
+    <value>Permite escribir funciones con su editor favorito y Azure Functions Core Tools.</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Permite escribir funciones de Java con su editor favorito, como IntelliJ o Eclipse y Maven.</value>
@@ -3912,7 +3912,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Publica directamente desde VS Code.</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publica directamente desde las herramientas principales de Azure Functions.</value>
+    <value>Publica directamente desde Azure Functions Core Tools.</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publicar directamente desde Maven</value>
@@ -4230,7 +4230,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Detalles de la implementación</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Se están instalando las dependencias de la plantilla. La instalación de las dependencias se realiza en segundo plano y puede tardar hasta dos minutos. La aplicación pasará al modo sin conexión hasta que la instalación se haya completado. Puede seguir usando el portal mientras tanto, pero, si lo cierra antes de que la instalación se complete, la aplicación se quedará en modo sin conexión.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Ocultar los valores</value>
@@ -4665,21 +4665,57 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se puede abrir una conexión a la aplicación. Puede deberse a los grupos de seguridad de red o reglas de restricción de IP que haya definido en la aplicación. Para usar la transmisión de registros, compruebe que puede acceder a la aplicación directamente desde la red actual.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>La configuración de la aplicación puede contener secretos. Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Las cadenas de conexión contienen secretos. Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+    <value>La pestaña "Logic Apps" se quitará en los próximos meses. Para seguir examinando sus aplicaciones lógicas, puede usar la característica de exploración de Azure Portal.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Esta característica solo está disponible para las aplicaciones de función que se ejecutan en un plan de App Service de Linux. Para el registro del tiempo de ejecución, use Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Escalar horizontalmente</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Permite establecer la configuración de escalado horizontal en el plan de App Service.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nombre de cuenta</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Blob de Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nuevo montaje de Azure Storage</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Montaje de Azure Storage vacío</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Los nombres de montaje de Azure Storage deben ser únicos.</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opciones de configuración</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>El nombre de la cuenta de almacenamiento debe estar en minúsculas.</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Esta cuenta de almacenamiento no tiene ningún contenedor de blobs ni recursos compartidos de archivos.</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>No tiene acceso de escritura a esta cuenta de almacenamiento. Si conoce la clave de acceso, puede ponerla en modo avanzado.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Seleccionar una opción</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Los comandos de inicio para NodeJS deben usar ng, node o pm2.</value>
   </data>
 </root>

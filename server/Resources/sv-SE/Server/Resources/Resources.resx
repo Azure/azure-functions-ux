@@ -1298,7 +1298,7 @@
     <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Den här funktionen stöds inte för appar i en elastisk plan.</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Den här funktionen stöds inte för platser</value>
@@ -2402,7 +2402,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Ta med appinställningar i nedladdningen</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Detta omfattar en fil som heter local.settings.json och som innehåller appinställningsvärdena. Filen krypteras inte vid nedladdning, men kan krypteras med kommandoraden Azure Functions Core Tools.</value>
+    <value>Detta omfattar en fil som heter local.settings.json och som innehåller appinställningsvärdena. Filen krypteras inte vid nedladdning, men kan krypteras med kommandoraden i Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Webbplatsinnehåll</value>
@@ -3888,7 +3888,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Använd Visual Studio Code när du skapar dina funktioner</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Skriv funktioner med hjälp av ditt favoritredigeringsprogram och Azure Functions kärnverktyg</value>
+    <value>Skriv funktioner med hjälp av ditt favoritredigeringsprogram och Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Skriv Java-funktioner med hjälp av ditt favoritredigeringsprogram, t.ex. IntelliJ, Eclipse eller Maven</value>
@@ -3912,7 +3912,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Publicera direkt från VS-kod</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publicera direkt från Azure Functions-kärnverktyg</value>
+    <value>Publicera direkt från Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publicera direkt från Maven</value>
@@ -4680,6 +4680,42 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Skala ut</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Konfigurera inställningar för utskalning för din App Service-Plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Kontonamn</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-blobb</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Ny Azure Storage-monteringspunkt</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Tom Azure Storage-monteringspunkt</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Namnen på Azure Storage-monteringspunkter måste vara unika</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Konfigurationsalternativ</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Namnet på Storage-kontot måste vara i gemener</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Det här lagringskontot har inga blob-behållare eller filresurser</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Du har inte skrivbehörighet för det här lagringskontot. Om du kan åtkomstnyckeln så kan du sätta den i avancerat läge.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Välj ett alternativ</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startkommandon för NodeJS måste använda ng, node eller pm2</value>
   </data>
 </root>

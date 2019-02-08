@@ -1298,7 +1298,7 @@
     <value>A használatalapú csomag alkalmazásai nem támogatják ezt a funkciót</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Ez a funkció a rugalmas csomagok alkalmazásaiban nem támogatott</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Ez a funkció még nem támogatott tárolóhelyek esetén</value>
@@ -2723,7 +2723,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Sablonfüggőségek telepítése. Azután fog tudni függvényeket létrehozni, hogy ez befejeződött. A függőségek telepítése a háttérben történik, és legfeljebb 2 percet vesz igénybe. Az alkalmazás a telepítés befejeződéséig kapcsolat nélküli üzemmódra vált. Ezalatt is tovább használhatja a portált, de ha a portált a telepítés befejeződése előtt bezárja, az alkalmazás kapcsolat nélküli üzemmódban marad.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -3146,13 +3146,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Az App Service Environment (ASE) csomagbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
+    <value>Az App Service Environment- (ASE-) környezetbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
+    <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Az éles tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
+    <value>Az éles tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ez a skálázási egység nem támogatja a Premium V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
@@ -4230,7 +4230,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Példány részletei</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Sablonfüggőségek telepítése. A függőségek telepítése a háttérben történik, és legfeljebb 2 percet vesz igénybe. Az alkalmazás a telepítés befejeződéséig kapcsolat nélküli üzemmódra vált. Ezalatt is tovább használhatja a portált, de ha a portált a telepítés befejeződése előtt bezárja, az alkalmazás kapcsolat nélküli üzemmódban marad.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Értékek elrejtése</value>
@@ -4665,21 +4665,57 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem sikerült kapcsolatot létesíteni az alkalmazással. Ennek oka lehet bármely, az alkalmazására alkalmazott hálózati biztonsági csoport vagy IP-címkorlátozási szabály. A folyamatos átvitelű naplózás használatához győződjön meg róla, hogy eléri az alkalmazást a közvetlenül a jelenlegi hálózatról.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Az alkalmazásbeállítások titkos kódokat tartalmazhatnak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási, illetve írási engedélyek szükségesek.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>A kapcsolati sztringek titkos kódokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási, illetve írási engedélyek szükségesek.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
-    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+    <value>A Logic Apps lap a következő néhány hónap során megszűnik. Továbbra is tallózhat a logikai alkalmazások között az Azure Portal tallózási funkciójával.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Ez a funkció csak Linux rendszerű App Service-csomagokban futó függvényalkalmazások esetében érhető el. Futásidejű naplózáshoz használja az Application Insights szolgáltatást.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Horizontális felskálázás</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Az App Service-csomag horizontális felskálázási beállításainak konfigurálása.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Fiók neve</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>New Azure Storage Mount</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Empty Azure Storage Mount</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure storage mount names must be unique</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Konfigurációs lehetőségek</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Csak kisbetűs lehet a tárfiókok neve</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Ennek a tárfióknak nincsenek blobtárolói és fájlmegosztásai</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Nincs írási hozzáférése ehhez a tárfiókhoz. Ha ismeri a hozzáférési kulcsot, Speciális módban beírhatja.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Válasszon egy beállítást</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
   </data>
 </root>
