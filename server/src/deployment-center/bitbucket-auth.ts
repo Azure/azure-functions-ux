@@ -16,6 +16,7 @@ export function setupBitbucketAuthentication(app: Application) {
     if (!tokenData.authenticated) {
       LogHelper.warn('bitbucket-passthrough-unauthorized', {});
       res.sendStatus(401);
+      return;
     }
     try {
       const response = await axios.get(req.body.url, {
