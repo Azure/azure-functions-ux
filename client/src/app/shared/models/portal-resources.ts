@@ -400,6 +400,7 @@ export class PortalResources {
   public static featureNotSupportedElastic = 'featureNotSupportedElastic';
   public static featureNotSupportedForSlots = 'featureNotSupportedForSlots';
   public static featureNotSupportedForLinuxApps = 'featureNotSupportedForLinuxApps';
+  public static featureNotSupportedForLinuxConsumptionApps = 'featureNotSupportedForLinuxConsumptionApps';
   public static featureRequiresWritePermissionOnApp = 'featureRequiresWritePermissionOnApp';
   public static featureDisabledReadOnlyLockOnApp = 'featureDisabledReadOnlyLockOnApp';
   public static featureDisabledNoPermissionToPlan = 'featureDisabledNoPermissionToPlan';
