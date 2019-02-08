@@ -25,7 +25,7 @@ export function setupGithubAuthentication(app: Application) {
         },
       });
       if (response.headers.link) {
-        res.setHeader('lwink', response.headers.link);
+        res.setHeader('link', response.headers.link);
       }
       res.json(response.data);
     } catch (err) {
