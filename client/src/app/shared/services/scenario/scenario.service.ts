@@ -37,7 +37,7 @@ export class ScenarioService implements IScenarioService {
     new XenonSiteEnvironment(this._injector),
     new AzureTryEnvironment(),
     new EmbeddedFunctionsEnvironment(this._portalService),
-    new DynamicLinuxEnvironment(),
+    new DynamicLinuxEnvironment(this._translateService),
     new FunctionAppEnvironment(this._injector),
     new WindowsCodeEnvironment(),
   ];

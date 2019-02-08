@@ -210,8 +210,6 @@ export class ScenarioIds {
   public static readonly addMsi = 'AddMsi';
   public static readonly addTinfoil = 'AddTinfoil';
   public static readonly addSiteQuotas = 'ShowSiteQuotas';
-  public static readonly addConsole = 'AddConsole';
-  public static readonly addSsh = 'AddSsh';
   public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
   public static readonly addLogicApps = 'AddLogicApps';
   public static readonly appInsightsConfigurable = 'AppInsightsConfigurable';
@@ -292,6 +290,7 @@ export class ScenarioIds {
   public static readonly configureAADSupported = 'configureAADSupported';
   public static readonly addScaleOut = 'addScaleOut';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
+  public static readonly enableConsole = 'EnableConsole';
 }
 
 export class NationalCloudArmUris {

@@ -191,31 +191,28 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       );
     }
 
-    if (
-      this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
-      this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
-    ) {
-      developmentToolFeatures.push(
-        new TabFeature(
-          this._getConsoleName(site),
-          this._translateService.instant(PortalResources.feature_consoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_cmdConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_bashConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_sshConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.debug),
-          this._translateService.instant(PortalResources.feature_consoleInfo),
-          'image/console.svg',
-          SiteTabIds.console,
-          this._broadcastService
-        )
-      );
-    }
+    developmentToolFeatures.push(
+      new DisableableTabFeature(
+        this._getConsoleName(site),
+        this._translateService.instant(PortalResources.feature_consoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_cmdConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_bashConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_sshConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.debug),
+        this._translateService.instant(PortalResources.feature_consoleInfo),
+        'image/console.svg',
+        SiteTabIds.console,
+        this._broadcastService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableConsole, { site: site })
+      )
+    );
 
     developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
     developmentToolFeatures.push(

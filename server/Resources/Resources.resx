@@ -1309,6 +1309,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>This feature is not supported for Linux apps</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps on a Consumption plan</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
