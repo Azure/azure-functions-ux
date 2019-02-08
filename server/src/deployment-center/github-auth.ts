@@ -16,6 +16,7 @@ export function setupGithubAuthentication(app: Application) {
     if (!tokenData.authenticated) {
       LogHelper.warn('github-passthrough-unauthorized', {});
       res.sendStatus(401);
+      return;
     }
     try {
       const response = await axios.get(req.body.url, {
@@ -24,7 +25,7 @@ export function setupGithubAuthentication(app: Application) {
         },
       });
       if (response.headers.link) {
-        res.setHeader('link', response.headers.link);
+        res.setHeader('lwink', response.headers.link);
       }
       res.json(response.data);
     } catch (err) {

@@ -16,6 +16,7 @@ export function setupOnedriveAuthentication(app: Application) {
     if (!tokenData.authenticated) {
       LogHelper.warn('onedrive-passthrough-unauthorized', {});
       res.sendStatus(401);
+      return;
     }
     try {
       const response = await axios.get(req.body.url, {
