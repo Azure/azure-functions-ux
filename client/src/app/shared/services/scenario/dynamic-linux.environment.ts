@@ -1,13 +1,20 @@
-import { ScenarioCheckInput } from './scenario.models';
+import { TranslateService } from '@ngx-translate/core';
 import { ScenarioIds } from './../../models/constants';
-import { Environment } from './scenario.models';
+import { PortalResources } from './../../models/portal-resources';
 import { ArmUtil } from '../../Utilities/arm-utils';
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
 
 export class DynamicLinuxEnvironment extends Environment {
   name = 'DynamicLinux';
 
-  constructor() {
+  constructor(translateService: TranslateService) {
     super();
+
+    const disabledResult: ScenarioResult = {
+      status: 'disabled',
+      data: translateService.instant(PortalResources.featureNotSupportedForLinuxConsumptionApps),
+    };
+
     this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
       id: ScenarioIds.listExtensionsArm,
       runCheck: () => {
@@ -27,6 +34,11 @@ export class DynamicLinuxEnvironment extends Environment {
       runCheck: () => {
         return { status: 'disabled' };
       },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableConsole] = {
+      id: ScenarioIds.enableConsole,
+      runCheck: () => disabledResult,
     };
   }
 

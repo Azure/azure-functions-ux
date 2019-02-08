@@ -10,7 +10,7 @@ context('App Settings Linux Basic', () => {
     cy.get('#app-settings-general-settings-tab')
       .should('exist')
       .get('#app-settings-path-mappings-tab')
-      .should('not.exist')
+      .should('exist')
       .get('#app-settings-default-documents-tab')
       .should('not.exist')
       .get('#app-settings-application-settings-tab')

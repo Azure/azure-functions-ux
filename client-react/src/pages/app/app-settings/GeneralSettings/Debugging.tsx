@@ -39,10 +39,6 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
             disabled={!values.siteWritePermission}
             options={[
               {
-                key: 'VS2012',
-                text: '2012',
-              },
-              {
                 key: 'VS2015',
                 text: '2015',
               },

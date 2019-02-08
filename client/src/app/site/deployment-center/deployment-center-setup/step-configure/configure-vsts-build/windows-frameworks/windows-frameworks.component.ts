@@ -4,6 +4,8 @@ import { Subject } from 'rxjs/Subject';
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
 import { CacheService } from 'app/shared/services/cache.service';
 import { PythonFrameworkType } from '../../../wizard-logic/deployment-center-setup-models';
+import { RequiredValidator } from '../../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 export const TaskRunner = {
   None: 'None',
@@ -84,11 +86,50 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
   selectedFramework = WebAppFramework.AspNetWap;
   selectedPythonFramework = this.defaultPythonFramework;
   selectedTaskRunner = this.defaultNodeTaskRunner;
+  requiredValidator: RequiredValidator;
 
-  constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService) {}
+  constructor(
+    public wizard: DeploymentCenterStateManager,
+    private _cacheService: CacheService,
+    private _translateService: TranslateService
+  ) {
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('framework')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(val => {
+        this.setupValidators(val);
+      });
+  }
 
   get getFramework() {
     return this.selectedPythonFramework;
+  }
+  private setupValidators(val) {
+    this.requiredValidator = new RequiredValidator(this._translateService, false);
+    if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Django) {
+      this.wizard.buildSettings
+        .get('pythonSettings')
+        .get('djangoSettingsModule')
+        .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+      this.wizard.buildSettings
+        .get('pythonSettings')
+        .get('djangoSettingsModule')
+        .updateValueAndValidity();
+    } else {
+      this.removeValidators();
+    }
+  }
+
+  private removeValidators() {
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('djangoSettingsModule')
+      .setValidators([]);
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('djangoSettingsModule')
+      .updateValueAndValidity();
   }
 
   ngOnInit(): void {

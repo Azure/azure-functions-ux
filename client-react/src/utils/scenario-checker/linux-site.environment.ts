@@ -11,6 +11,11 @@ export class LinuxSiteEnvironment extends Environment {
       data: t('featureNotSupportedForLinuxApps'),
     };
 
+    this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
+      id: ScenarioIds.classicPipelineModeSupported,
+      runCheck: () => disabledResult,
+    };
+
     this.scenarioChecks[ScenarioIds.enableAuth] = {
       id: ScenarioIds.enableAuth,
       runCheck: () => disabledResult,
@@ -136,6 +141,15 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => {
         return {
           status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.azureStorageMount] = {
+      id: ScenarioIds.azureStorageMount,
+      runCheck: () => {
+        return {
+          status: 'enabled',
         };
       },
     };

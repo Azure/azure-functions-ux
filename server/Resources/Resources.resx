@@ -1309,6 +1309,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>This feature is not supported for Linux apps</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps on a Consumption plan</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
@@ -4684,5 +4687,41 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
     <value>Configure scale out settings for your App Service Plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Account Name</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>New Azure Storage Mount</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Empty Azure Storage Mount</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure storage mount names must be unique</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Configuration options</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Storage account name must be lower case</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>This storage account has no blob containers or file shares</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
+  </data>
+    <data name="selectAnOption" xml:space="preserve">
+    <value>Select an option</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
   </data>
 </root>

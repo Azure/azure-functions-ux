@@ -4682,4 +4682,40 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="scaleOutDescription" xml:space="preserve">
     <value>Umožňuje nakonfigurovat nastavení škálování na více systémů pro váš plán služby App Service.</value>
   </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Název účtu</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Soubory Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nové připojení Azure Storage</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Prázdné připojení Azure Storage</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Názvy připojení Azure Storage musí být jedinečné.</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Možnosti konfigurace</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Název účtu úložiště musí být malými písmeny.</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Tento účet úložiště nemá žádné kontejnery objektů blob ani sdílené složky.</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Nemáte oprávnění zapisovat do tohoto účtu úložiště. Pokud znáte přístupový klíč, můžete ho vložit v rozšířeném režimu.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Vyberte některou možnost.</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Spouštěcí příkazy pro NodeJS musí používat ng, node nebo pm2.</value>
+  </data>
 </root>

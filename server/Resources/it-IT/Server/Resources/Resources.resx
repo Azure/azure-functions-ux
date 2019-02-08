@@ -1298,7 +1298,7 @@
     <value>Questa funzionalità non è supportata per le app con un piano a consumo</value>
   </data>
   <data name="featureNotSupportedElastic" xml:space="preserve">
-    <value>This feature is not supported for apps on an Elastic plan</value>
+    <value>Questa funzionalità non è supportata per le app con un piano Elastico</value>
   </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Questa funzionalità non è supportata per gli slot</value>
@@ -2723,7 +2723,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Questo modello richiede le estensioni seguenti.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Installazione delle dipendenze del modello. Al termine dell'operazione, sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può richiedere fino a 2 minuti. L'app passerà alla modalità offline fino al completamento dell'installazione. Durante questo periodo sarà comunque possibile usare il portale, ma se si chiude il portale prima del completamento dell'installazione, l'app rimarrà nella modalità offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
@@ -4230,7 +4230,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Dettagli della distribuzione</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
+    <value>Installazione delle dipendenze del modello. L'installazione delle dipendenze viene eseguita in background e può richiedere fino a 2 minuti. L'app passerà alla modalità offline fino al completamento dell'installazione. Durante questo periodo sarà comunque possibile usare il portale, ma se si chiude il portale prima del completamento dell'installazione, l'app rimarrà nella modalità offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Nascondi valori</value>
@@ -4665,21 +4665,57 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Non è possibile aprire una connessione all'app corrente. Il problema può essere causato da eventuali gruppi di sicurezza di rete o regole di restrizione per gli indirizzi IP applicate all'app. Per usare i log in streaming, assicurarsi di poter accedere all'app direttamente dalla rete corrente.</value>
   </data>
   <data name="applicationSettingsNoPermission" xml:space="preserve">
-    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Le impostazioni dell'applicazione possono contenere segreti. Per visualizzare/modificare questa sezione, sono necessarie autorizzazioni di lettura/scrittura.</value>
   </data>
   <data name="connectionStringsNoPermissions" xml:space="preserve">
-    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Le stringhe di connessione contengono segreti. Per visualizzare/modificare questa sezione, sono necessarie autorizzazioni di lettura/scrittura.</value>
   </data>
   <data name="tab_logicAppsDeprecation" xml:space="preserve">
     <value>La scheda 'App per la logica' verrà rimossa nel corso dei prossimi mesi. È possibile continuare a esplorare le app per la logica tramite la funzione di esplorazione del portale di Azure.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+    <value>Questa funzionalità è disponibile solo per le app per le funzioni in esecuzione in un piano di servizio app per Linux. Per la registrazione del runtime, usare Application Insights.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>Aumenta istanze</value>
   </data>
   <data name="scaleOutDescription" xml:space="preserve">
-    <value>Configure scale out settings for your App Service Plan.</value>
+    <value>Configurare le impostazioni di scalabilità per il piano di servizio app.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nome dell'account</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>BLOB di Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>File di Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nuovo montaggio di Archiviazione di Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Il montaggio di Archiviazione di Azure è vuoto</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>I nomi di montaggio di Archiviazione di Azure devono essere univoci</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opzioni di configurazione</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Il nome dell'account di archiviazione deve contenere solo lettere minuscole</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>In questo account di archiviazione non sono presenti contenitori BLOB o condivisioni file</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Non si dispone dell'accesso in scrittura a questo account di archiviazione. Se si conosce la chiave di accesso è possibile specificarla nella modalità avanzata.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Selezionare un'opzione</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>I comandi di avvio per NodeJS devono usare ng, node o pm2</value>
   </data>
 </root>

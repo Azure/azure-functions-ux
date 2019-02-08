@@ -58,6 +58,7 @@
           <ng-select 
             aria-describedby="dc-vsts-project-error"
             aria-labeledBy="dc-vsts-build-project-label" 
+            [loading]="projectListLoading"
             class="custom-select" 
             [items]="projectList" 
             bindLabel="displayLabel" 

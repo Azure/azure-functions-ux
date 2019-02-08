@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
 import { DeploymentCenterConstants } from '../../../../shared/models/constants';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-
 export class VstsValidators {
   static createVstsAccountNameValidator(
     _wizard: DeploymentCenterStateManager,

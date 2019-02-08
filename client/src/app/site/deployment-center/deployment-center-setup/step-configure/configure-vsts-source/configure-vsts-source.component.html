@@ -30,6 +30,7 @@
         <ng-select
           aria-labelledby="dc-vsts-source-vsts-project" 
           aria-describedby="dc-vsts-source-project-error"
+          [loading]="respositoriesLoading"
           class="custom-select" 
           [items]="projectList" 
           bindLabel="displayLabel" 

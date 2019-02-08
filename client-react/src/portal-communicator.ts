@@ -77,6 +77,7 @@ export default class PortalCommunicator {
       };
       // This is a required message. It tells the shell that your iframe is ready to receive messages.
       PortalCommunicator.postMessage(Verbs.ready, null);
+      PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
       PortalCommunicator.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
     }
   }

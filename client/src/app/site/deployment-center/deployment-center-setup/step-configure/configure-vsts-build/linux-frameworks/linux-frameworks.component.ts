@@ -4,6 +4,9 @@ import { Subject } from 'rxjs/Subject';
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
 import { SiteService } from '../../../../../../shared/services/site.service';
 import { OsType } from 'app/shared/models/arm/stacks';
+import { RegexValidator } from 'app/shared/validators/regexValidator';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export const TaskRunner = {
   None: 'None',
@@ -68,7 +71,7 @@ export class LinuxFramworksComponent implements OnDestroy {
   dotNetCoreFrameworkVersions: DropDownElement<string>[] = [];
   phpFrameworkVersions: DropDownElement<string>[] = [];
   rubyFrameworkVersions: DropDownElement<string>[] = [];
-  constructor(public wizard: DeploymentCenterStateManager, siteService: SiteService) {
+  constructor(public wizard: DeploymentCenterStateManager, siteService: SiteService, private _translateService: TranslateService) {
     siteService.getAvailableStacks(OsType.Linux).subscribe(vals => {
       const stacks = vals.result.value;
       const rubyStack = stacks.find(x => x.name.toLowerCase() === 'ruby');
@@ -110,7 +113,13 @@ export class LinuxFramworksComponent implements OnDestroy {
         };
       });
 
-      this.wizard.siteArmObj$.subscribe(site => {
+      this.wizard.buildSettings
+        .get('applicationFramework')
+        .valueChanges.takeUntil(this._ngUnsubscribe$)
+        .subscribe(val => {
+          this.setupValidators(val);
+        });
+      this.wizard.siteArmObj$.takeUntil(this._ngUnsubscribe$).subscribe(site => {
         const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
         if (linuxFxVersionObj) {
           const linuxFxVersion = linuxFxVersionObj.value.split('|');
@@ -123,7 +132,27 @@ export class LinuxFramworksComponent implements OnDestroy {
     });
   }
 
+  private setupValidators(stack: string) {
+    // Regex value comes from Azure Devops team for validation
+    const validator = RegexValidator.create(
+      new RegExp('^$|^(node|pm2|ng)\\s+\\w+'),
+      this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
+    );
+    if (stack === WebAppFramework.Node) {
+      this.wizard.buildSettings.get('startupCommand').setValidators([validator]);
+      this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+    } else {
+      this.removeValidators();
+    }
+  }
+
+  private removeValidators() {
+    this.wizard.buildSettings.get('startupCommand').setValidators([]);
+    this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+  }
+
   ngOnDestroy(): void {
     this._ngUnsubscribe$.next();
+    this.removeValidators();
   }
 }

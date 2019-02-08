@@ -191,31 +191,28 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       );
     }
 
-    if (
-      this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
-      this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
-    ) {
-      developmentToolFeatures.push(
-        new TabFeature(
-          this._getConsoleName(site),
-          this._translateService.instant(PortalResources.feature_consoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_cmdConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_bashConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_sshConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.debug),
-          this._translateService.instant(PortalResources.feature_consoleInfo),
-          'image/console.svg',
-          SiteTabIds.console,
-          this._broadcastService
-        )
-      );
-    }
+    developmentToolFeatures.push(
+      new DisableableTabFeature(
+        this._getConsoleName(site),
+        this._translateService.instant(PortalResources.feature_consoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_cmdConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_bashConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_sshConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.debug),
+        this._translateService.instant(PortalResources.feature_consoleInfo),
+        'image/console.svg',
+        SiteTabIds.console,
+        this._broadcastService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableConsole, { site: site })
+      )
+    );
 
     developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
     developmentToolFeatures.push(
@@ -485,7 +482,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_metricsInfo),
         'image/quotas.svg',
         {
-          detailBlade: 'MetricsBladeV2',
+          detailBlade: 'MetricsBladeV3',
           detailBladeInputs: {
             id: site.id,
           },
@@ -811,6 +808,7 @@ export class OpenKuduFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
       _translateService.instant(PortalResources.feature_advancedToolsInfo),
       'image/advanced-tools.svg',
+      null,
       disableInfoStream
     );
   }
@@ -833,6 +831,7 @@ export class OpenEditorFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_appServiceEditorName),
       _translateService.instant(PortalResources.feature_appServiceEditorInfo),
       'image/appsvc-editor.svg',
+      null,
       disabledInfoStream,
       scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site })
     );
