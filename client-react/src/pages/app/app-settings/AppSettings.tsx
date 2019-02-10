@@ -76,12 +76,19 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
           validateOnChange={false}>
           {(formProps: FormikProps<AppSettingsFormValues>) => (
             <form>
-              <AppSettingsCommandBar
-                submitForm={formProps.submitForm}
-                resetForm={formProps.resetForm}
-                disabled={!app_write || saving}
-                dirty={formProps.dirty}
-              />
+              <div
+                style={{
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
+                }}>
+                <AppSettingsCommandBar
+                  submitForm={formProps.submitForm}
+                  resetForm={formProps.resetForm}
+                  disabled={!app_write || saving}
+                  dirty={formProps.dirty}
+                />
+              </div>
               <div className={formStyle}>
                 <AppSettingsForm {...formProps} />
               </div>
