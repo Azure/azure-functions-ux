@@ -14,7 +14,7 @@ Object {
       "autoHealEnabled": false,
       "autoHealRules": null,
       "autoSwapSlotName": null,
-      "azureStorageAccounts": Object {},
+      "azureStorageAccounts": undefined,
       "connectionStrings": null,
       "cors": null,
       "customAppPoolIdentityAdminState": false,
@@ -219,11 +219,12 @@ Object {
             "value": "TEST_VALUE",
           },
         ],
+        "azureStorageAccounts": Object {},
         "connectionStrings": Array [
           Object {
             "connectionString": "TEST_CONNECTION_VALUE",
             "name": "TEST_CONNECTION",
-            "type": 1,
+            "type": "MySql",
           },
         ],
         "metadata": Array [

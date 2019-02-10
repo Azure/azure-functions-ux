@@ -23,7 +23,7 @@ describe('Convert State to Form Data', () => {
 
 describe('Get Form App Setting', () => {
   it('Converts app settings to app settings with slot config tick', () => {
-    const mockAppSettingsForm = getFormAppSetting(mockProps.appSettings.data, mockProps.slotConfigNames.data);
+    const mockAppSettingsForm = getFormAppSetting(mockProps.appSettings, mockProps.slotConfigNames);
     expect(mockAppSettingsForm.length).toBe(2);
     expect(mockAppSettingsForm.filter(x => x.sticky).length).toBe(1);
   });
@@ -32,14 +32,14 @@ describe('Get Form App Setting', () => {
 describe('Get Arm App Setting Objects', () => {
   it('Converts app settings to app settings with slot config tick', () => {
     const mockFormData = convertStateToForm(mockProps as any);
-    const newObjs = convertFormToState(mockFormData, mockProps.metadata.data, mockProps.slotConfigNames.data);
+    const newObjs = convertFormToState(mockFormData, mockProps.metadata, mockProps.slotConfigNames);
     expect(newObjs).toMatchSnapshot();
   });
 });
 
 describe('Get Form Connection Strings', () => {
   it('Converts connection strings to connection strings with slot config tick', () => {
-    const mockConnectionStringsForm = getFormConnectionStrings(mockProps.connectionStrings.data, mockProps.slotConfigNames.data);
+    const mockConnectionStringsForm = getFormConnectionStrings(mockProps.connectionStrings, mockProps.slotConfigNames);
     expect(mockConnectionStringsForm.length).toBe(1);
     expect(mockConnectionStringsForm.filter(x => x.sticky).length).toBe(1);
   });
@@ -47,7 +47,7 @@ describe('Get Form Connection Strings', () => {
 
 describe('Flatten Virtual Applications List', () => {
   it('converts API virtual application list to form virtual application list', () => {
-    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.data.properties
+    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.properties
       .virtualApplications as VirtualApplication[]);
     expect(mockVirtualApplicationForm.length).toBe(3);
     expect(mockVirtualApplicationForm.filter(x => x.virtualDirectory).length).toBe(1);
@@ -61,7 +61,7 @@ describe('Flatten Virtual Applications List', () => {
 
 describe('Unflatten Virtual Applications List', () => {
   it('converts Form virtual application list back to api virtual application list', () => {
-    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.data.properties
+    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.properties
       .virtualApplications as VirtualApplication[]);
     const mockVirtualApplicationApi = unFlattenVirtualApplicationsList(mockVirtualApplicationForm);
     expect(mockVirtualApplicationApi.length).toBe(2);
@@ -71,24 +71,24 @@ describe('Unflatten Virtual Applications List', () => {
 
 describe('Get Current Stack', () => {
   it('returns java if java version is there', () => {
-    const configData = { ...mockProps.config.data } as any;
-    const metadata = { ...mockProps.metadata.data };
+    const configData = { ...mockProps.config } as any;
+    const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
     const currentStack = getCurrentStackString(configData, metadata);
     expect(currentStack).toBe('java');
   });
 
   it('returns .net as default is nothing else is there', () => {
-    const configData = { ...mockProps.config.data } as any;
-    const metadata = { ...mockProps.metadata.data };
+    const configData = { ...mockProps.config } as any;
+    const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
     const currentStack = getCurrentStackString(configData, metadata);
     expect(currentStack).toBe('dotnet');
   });
 
   it('returns what is stored in metadata absent a java version', () => {
-    const configData = { ...mockProps.config.data } as any;
-    const metadata = { ...mockProps.metadata.data };
+    const configData = { ...mockProps.config } as any;
+    const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
     metadata.properties['CURRENT_STACK'] = 'python';
     const currentStack = getCurrentStackString(configData, metadata);
@@ -96,8 +96,8 @@ describe('Get Current Stack', () => {
   });
 
   it('java version takes precidense over metadata', () => {
-    const configData = { ...mockProps.config.data } as any;
-    const metadata = { ...mockProps.metadata.data };
+    const configData = { ...mockProps.config } as any;
+    const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
     metadata.properties['CURRENT_STACK'] = 'python';
     const currentStack = getCurrentStackString(configData, metadata);
@@ -108,7 +108,7 @@ describe('Get Current Stack', () => {
 describe('getConfigWithStackSettings', () => {
   it("removes java settings if currentlySelectedStack isn't java", () => {
     const configData = {
-      ...mockProps.config.data,
+      ...mockProps.config,
       properties: {
         javaContainer: 'test',
         javaContainerVersion: 'test',
@@ -123,7 +123,7 @@ describe('getConfigWithStackSettings', () => {
   });
   it('leaves java settings if currently selected stack is java', () => {
     const configData = {
-      ...mockProps.config.data,
+      ...mockProps.config,
       properties: {
         javaContainer: 'test',
         javaContainerVersion: 'test',
@@ -139,11 +139,10 @@ describe('getConfigWithStackSettings', () => {
 });
 
 const mockProps = {
-  site: { data: mockSite },
-  config: { data: mockWebConfig },
-  appSettings: { data: mockAppSettings },
-  connectionStrings: { data: mockConnectionStrings },
-  metadata: { data: mockMetadata },
-  siteWritePermission: true,
-  slotConfigNames: { data: mockSlotConfigName },
+  site: mockSite,
+  config: mockWebConfig,
+  appSettings: mockAppSettings,
+  connectionStrings: mockConnectionStrings,
+  metadata: mockMetadata,
+  slotConfigNames: mockSlotConfigName,
 };
