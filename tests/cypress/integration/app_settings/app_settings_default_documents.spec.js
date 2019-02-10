@@ -31,7 +31,7 @@ context('Default Documents', () => {
   });
 
   //removing until I work out a way to do it without wait time
-  it('Validation fails if duplicate document names are used', () => {
+  xit('Validation fails if duplicate document names are used', () => {
     cy.get('#app-settings-document-text-0')
       .type('l')
       .wait(500)
