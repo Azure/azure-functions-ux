@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormikProps } from 'formik';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import HandlerMappings from '../HandlerMappings/HandlerMappings';
 import VirtualApplications from '../VirtualApplications/VirtualApplications';
 import { isEqual } from 'lodash-es';
@@ -11,9 +11,9 @@ interface PathMappingsPivotProps {
   enablePathMappings: boolean;
   enableAzureStorageMount: boolean;
 }
-const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps & PathMappingsPivotProps> = props => {
-  const { t, enablePathMappings, enableAzureStorageMount } = props;
-
+const PathMappingsPivot: React.FC<FormikProps<AppSettingsFormValues> & PathMappingsPivotProps> = props => {
+  const { enablePathMappings, enableAzureStorageMount } = props;
+  const { t } = useTranslation();
   return (
     <>
       {enablePathMappings && (
@@ -41,4 +41,4 @@ export const pathMappingsDirty = (values: AppSettingsFormValues, initialValues: 
   );
 };
 
-export default translate('translation')(PathMappingsPivot);
+export default PathMappingsPivot;

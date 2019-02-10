@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor';
 import * as PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import './monaco-editor.css';
 
 class MonacoEditor extends React.Component<any, any> {

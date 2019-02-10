@@ -1,6 +1,6 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -8,12 +8,16 @@ import DotNetStack from './DotNetStack';
 import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
+import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 
-const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t, values } = props;
-  const readonly = !values.siteWritePermission;
+const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { values } = props;
+  const { t } = useTranslation();
+  const { app_write } = useContext(PermissionsContext);
+  const readonly = !app_write;
   const javaSelected = values.currentlySelectedStack === 'java';
   const showNonJavaAnyway = readonly && !javaSelected;
+  const { value } = useContext(AvailableStacksContext);
   return (
     <>
       {!readonly && (
@@ -43,12 +47,12 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues> & InjectedTrans
           id="app-settings-stack-dropdown"
         />
       )}
-      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack {...props} /> : null}
-      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack {...props} /> : null}
-      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack {...props} /> : null}
-      {javaSelected ? <JavaStack {...props} /> : null}
+      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack stacks={value} {...props} /> : null}
+      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack stacks={value} {...props} /> : null}
+      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack stacks={value} {...props} /> : null}
+      {javaSelected ? <JavaStack stacks={value} {...props} /> : null}
     </>
   );
 };
 
-export default translate('translation')(WindowsStacks);
+export default WindowsStacks;

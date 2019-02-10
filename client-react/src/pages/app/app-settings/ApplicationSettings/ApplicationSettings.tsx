@@ -2,8 +2,8 @@ import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
@@ -11,6 +11,7 @@ import DisplayTableWithEmptyMessage, {
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
+import { PermissionsContext } from '../Contexts';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
@@ -20,10 +21,9 @@ interface ApplicationSettingsState {
   createNewItem: boolean;
 }
 
-export class ApplicationSettings extends React.Component<
-  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
-  ApplicationSettingsState
-> {
+export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
+  public static contextType = PermissionsContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +64,7 @@ export class ApplicationSettings extends React.Component<
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
-            disableSlotSetting={!this.props.values.productionWritePermission}
+            disableSlotSetting={!this.context.production_write}
             otherAppSettings={this.props.values.appSettings}
             updateAppSetting={this.onClosePanel.bind(this)}
             closeBlade={this.onCancel}
@@ -253,4 +253,4 @@ export class ApplicationSettings extends React.Component<
   };
 }
 
-export default translate('translation')(ApplicationSettings);
+export default withTranslation('translation')(ApplicationSettings);

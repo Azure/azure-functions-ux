@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import { connect } from 'react-redux';
-import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
 interface CustomDropdownProps {
   fullpage?: boolean;
   id: string;
@@ -13,12 +12,10 @@ interface CustomDropdownProps {
     learnMoreText: string;
   };
 }
-interface CustomDropdownStateProps {
-  theme: ThemeExtended;
-}
 
-const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & CustomDropdownStateProps) => {
-  const { field, form, options, learnMore, subLabel, fullpage, theme, ...rest } = props;
+const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
+  const { field, form, options, learnMore, subLabel, fullpage, ...rest } = props;
+  const theme = useContext(ThemeContext);
   const dirty = get(form.initialValues, field.name, null) !== field.value;
 
   const onChange = (e: unknown, option: IDropdownOption) => {
@@ -64,13 +61,4 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps & Cus
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    theme: state.portalService && state.portalService.theme,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(Dropdown);
+export default Dropdown;

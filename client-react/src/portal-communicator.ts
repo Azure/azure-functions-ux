@@ -21,20 +21,21 @@ import {
   Verbs,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
-import { getStartupInfoAction, setupIFrameAction, updateTheme, updateToken } from './modules/portal/actions';
-import { updateResourceId } from './modules/site/actions';
-import { store } from './store';
 import darkModeTheme from './theme/dark';
 import lightTheme from './theme/light';
 import { Guid } from './utils/Guid';
 import Url from './utils/url';
+import { Dispatch, SetStateAction } from 'react';
+import { ThemeExtended } from './theme/SemanticColorsExtended';
+import { updateAuthToken, updateEndpoint } from './ArmHelper';
 
 export default class PortalCommunicator {
+  public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
   private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
+
   private static postMessage(verb: string, data: string | null) {
-    const shellSrc = store.getState().portalService.shellSrc;
     if (Url.getParameterByName(null, 'appsvc.bladetype') === 'appblade') {
       window.parent.postMessage(
         {
@@ -42,7 +43,7 @@ export default class PortalCommunicator {
           kind: verb,
           signature: this.portalSignature,
         },
-        shellSrc
+        this.shellSrc
       );
     } else {
       window.parent.postMessage(
@@ -51,7 +52,7 @@ export default class PortalCommunicator {
           kind: verb,
           signature: this.portalSignatureFrameBlade,
         },
-        shellSrc
+        this.shellSrc
       );
     }
   }
@@ -61,16 +62,25 @@ export default class PortalCommunicator {
   private notificationStartStream = new Subject<INotificationStartedInfo>();
   private frameId;
   private i18n: any;
-  constructor(i18n: any = null) {
+
+  private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
+  private setArmToken: Dispatch<SetStateAction<string>>;
+  private setStartupInfo: Dispatch<SetStateAction<IStartupInfo>>;
+  public initializeIframe(
+    setTheme: Dispatch<SetStateAction<ThemeExtended>>,
+    setArmToken: Dispatch<SetStateAction<string>>,
+    setStartupInfo: Dispatch<SetStateAction<IStartupInfo>>,
+    i18n: any = null
+  ): void {
     this.frameId = Url.getParameterByName(null, 'frameId');
     this.i18n = i18n;
-  }
-
-  public initializeIframe(): void {
+    this.setTheme = setTheme;
+    this.setArmToken = setArmToken;
+    this.setStartupInfo = setStartupInfo;
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
     const shellUrl = decodeURI(window.location.href);
     const shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority') || '';
-    store.dispatch(setupIFrameAction(shellSrc));
+    PortalCommunicator.shellSrc = shellSrc;
     if (shellSrc) {
       const getStartupInfoObj = {
         iframeHostName: null,
@@ -151,9 +161,9 @@ export default class PortalCommunicator {
 
   public startNotification(title: string, description: string) {
     const payload: INotificationInfo = {
-      id: Guid.newTinyGuid(),
       title,
       description,
+      id: Guid.newTinyGuid(),
       state: 'start',
     };
 
@@ -244,23 +254,32 @@ export default class PortalCommunicator {
       if (this.currentTheme !== startupInfo.theme) {
         const newTheme = startupInfo.theme === 'dark' ? darkModeTheme : lightTheme;
         loadTheme(newTheme);
-        store.dispatch(updateTheme(newTheme as any));
+        this.setTheme(newTheme as ThemeExtended);
         this.currentTheme = startupInfo.theme;
       }
+      this.setArmEndpointInternal(startupInfo.armEndpoint);
+      this.setArmTokenInternal(startupInfo.token);
       this.i18n.changeLanguage(startupInfo.acceptLanguage);
-      store.dispatch(getStartupInfoAction(startupInfo));
+      this.setStartupInfo(startupInfo);
     } else if (methodName === Verbs.sendToken) {
-      store.dispatch(updateToken(data));
+      this.setArmTokenInternal(data);
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
-    } else if (methodName === Verbs.sendInputs) {
-      store.dispatch(updateResourceId(data.resourceId));
     } else if (methodName === Verbs.sendData) {
       this.operationStream.next(data);
     }
   }
-  private packageData(data: any) {
+
+  private setArmTokenInternal = (token: string) => {
+    this.setArmToken(token);
+    updateAuthToken(token);
+  };
+
+  private setArmEndpointInternal = (endpoint: string) => {
+    updateEndpoint(endpoint);
+  };
+  private packageData = (data: any) => {
     data.frameId = this.frameId;
     return JSON.stringify(data);
-  }
+  };
 }

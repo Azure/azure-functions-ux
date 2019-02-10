@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { translate, InjectedTranslateProps } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
+import { PermissionsContext } from '../Contexts';
 
-const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t, values } = props;
-
+const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { t } = useTranslation();
+  const { app_write } = useContext(PermissionsContext);
   return (
     <>
       <h3>{t('applicationSettings')}</h3>
-      {values.siteWritePermission ? (
+      {app_write ? (
         <div id="app-settings-application-settings-table">
-          <ApplicationSettings {...props} /> 
+          <ApplicationSettings {...props} />
         </div>
       ) : (
         <div id="app-settings-app-settings-rbac-message">
@@ -26,7 +27,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & In
         </div>
       )}
       <h3>{t('connectionStrings')}</h3>
-      {values.siteWritePermission ? (
+      {app_write ? (
         <div id="app-settings-connection-strings-table">
           <ConnectionStrings {...props} />
         </div>
@@ -44,4 +45,4 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues> & In
 export const applicationSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
   return !isEqual(values.connectionStrings, initialValues.connectionStrings) || !isEqual(values.appSettings, initialValues.appSettings);
 };
-export default translate('translation')(ApplicationSettingsPivot);
+export default ApplicationSettingsPivot;

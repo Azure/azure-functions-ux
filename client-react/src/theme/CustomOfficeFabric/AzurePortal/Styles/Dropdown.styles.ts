@@ -238,20 +238,6 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
       },
       calloutClassName,
     ],
-    panel: [
-      globalClassnames.panel,
-      {
-        // #5689: use subcomponentstyles when panel is converted to use js styling.
-        selectors: {
-          '& .ms-Panel-main': {
-            // Force drop shadow even under medium breakpoint
-            boxShadow: '-30px 0px 30px -30px rgba(0,0,0,0.2)',
-          },
-          '& .ms-Panel-contentInner': { padding: '0 0 20px' },
-        },
-      },
-      panelClassName,
-    ],
     dropdownItemsWrapper: { selectors: { '&:focus': { outline: 0 } } },
     dropdownItems: [globalClassnames.dropdownItems, { display: 'block' }],
     dropdownItem: [
@@ -311,6 +297,16 @@ export const DropdownStyles: IStyleFunction<StyleProps, IDropdownStyles> = props
         textAlign: 'left',
       },
     ],
-    subComponentStyles: { label: { root: { display: 'inline-block' } } },
+    subComponentStyles: {
+      label: { root: { display: 'inline-block' } },
+      panel: {
+        root: [panelClassName],
+        main: {
+          // Force drop shadow even under medium breakpoint
+          boxShadow: '-30px 0px 30px -30px rgba(0,0,0,0.2)',
+        },
+        contentInner: { padding: '0 0 20px' },
+      },
+    },
   };
 };

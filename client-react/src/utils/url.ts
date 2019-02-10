@@ -2,9 +2,8 @@ export default class Url {
   public static appendQueryString(url: string, queryString): string {
     if (url.includes('?')) {
       return `${url}&${queryString}`;
-    } else {
-      return `${url}?${queryString}`;
     }
+    return `${url}?${queryString}`;
   }
 
   public static getParameterByName(url: string | null, name: string) {

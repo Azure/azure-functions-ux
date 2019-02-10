@@ -1,9 +1,19 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
+import { setupWindow } from '../../utilities/window';
 
 context('App Settings Application Settings and Connection Strings with windows', () => {
   beforeEach(() => {
-    startVisit('windows', 'allow')
+    startVisit()
+      .visit(
+        `/feature/subscriptions/1489df65-b065-4cc3-b5c2-4b37cc88b703/resourcegroups/test-ux/providers/microsoft.web/sites/test-windows-app-ux/settings?trustedAuthority=test`,
+        {
+          onBeforeLoad(win) {
+            setupWindow(win);
+            cy.spy(win.parent, 'postMessage').as('spyPostMessage');
+          },
+        }
+      )
       .get('#app-settings-application-settings-tab')
       .click();
   });

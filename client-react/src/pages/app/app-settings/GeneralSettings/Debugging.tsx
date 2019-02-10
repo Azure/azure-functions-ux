@@ -1,14 +1,16 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
+import { PermissionsContext } from '../Contexts';
 
-const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t, values } = props;
+const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { t } = useTranslation();
+  const { app_write } = useContext(PermissionsContext);
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
@@ -18,7 +20,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
-          disabled={!values.siteWritePermission}
+          disabled={!app_write}
           id="remote-debugging-switch"
           options={[
             {
@@ -36,7 +38,7 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
             fullpage
-            disabled={!values.siteWritePermission}
+            disabled={!app_write}
             options={[
               {
                 key: 'VS2015',
@@ -56,4 +58,4 @@ const Debug: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslatePro
   );
 };
 
-export default translate('translation')(Debug);
+export default Debug;

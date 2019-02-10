@@ -1,6 +1,5 @@
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
-import MakeArmCall from '../modules/ArmHelper';
-import { RootState } from '../modules/types';
+import MakeArmCall from '../ArmHelper';
 import { CommonConstants } from './CommonConstants';
 
 export interface IAuthzService {
@@ -17,7 +16,7 @@ export default class RbacHelper {
   public static permissionsSuffix = '/providers/microsoft.authorization/permissions';
   public static authSuffix = '/providers/Microsoft.Authorization/locks';
   public static _wildCardEscapeSequence = '\\*';
-  public static async hasPermission(state: RootState, resourceId: string, requestedActions: string[]): Promise<boolean> {
+  public static async hasPermission(resourceId: string, requestedActions: string[]): Promise<boolean> {
     const authId = `${resourceId}${this.permissionsSuffix}`;
     try {
       const permissionsSetCall = await MakeArmCall<any>({
@@ -26,7 +25,7 @@ export default class RbacHelper {
         skipBuffer: false,
         apiVersion: CommonConstants.ApiVersions.armRbacApiVersion,
       });
-      const t = this.checkPermissions(resourceId, requestedActions, permissionsSetCall.value);
+      const t = this.checkPermissions(resourceId, requestedActions, permissionsSetCall.data.value);
       return t;
     } catch (e) {
       return false;
@@ -54,7 +53,7 @@ export default class RbacHelper {
       apiVersion: CommonConstants.ApiVersions.armLocksApiVersion,
     });
 
-    return logCall.value;
+    return logCall.data.value;
   }
 
   private static getResourceType(resourceId: string) {

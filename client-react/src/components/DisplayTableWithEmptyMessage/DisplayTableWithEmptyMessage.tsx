@@ -1,14 +1,12 @@
 import { DetailsList, IDetailsListProps } from 'office-ui-fabric-react/lib/DetailsList';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import { style } from 'typestyle';
 
-import { RootState } from '../../modules/types';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
 
 interface DisplayTableWithEmptyMessageProps {
   emptyMessage?: string;
-  theme: ThemeExtended;
 }
 const emptyTableMessageStyle = (theme: ThemeExtended) =>
   style({
@@ -26,7 +24,8 @@ export const defaultCellStyle = style({
 });
 type Props = DisplayTableWithEmptyMessageProps & IDetailsListProps;
 const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
-  const { emptyMessage, theme, ...rest } = props;
+  const theme = useContext(ThemeContext);
+  const { emptyMessage, ...rest } = props;
   return (
     <>
       <DetailsList {...rest} />
@@ -35,12 +34,4 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    theme: state.portalService.theme,
-  };
-};
-export default connect(
-  mapStateToProps,
-  null
-)(DisplayTableWithEmptyMessage);
+export default DisplayTableWithEmptyMessage;

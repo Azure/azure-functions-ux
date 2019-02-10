@@ -1,7 +1,6 @@
 import React from 'react';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
-import { SiteState } from '../../../modules/site/reducer';
 import { LogEntry } from './LogStream.types';
 
 export interface LogStreamProps {
@@ -11,14 +10,13 @@ export interface LogStreamProps {
   clear: () => void;
   updateLogOption: (useWebServer: boolean) => void;
   isStreaming: boolean;
-  site: SiteState;
   clearLogs: boolean;
   logEntries: LogEntry[];
   connectionError: boolean;
 }
 
 const LogStream: React.SFC<LogStreamProps> = props => {
-  const { reconnect, pause, start, clear, updateLogOption, isStreaming, site, clearLogs, logEntries, connectionError } = props;
+  const { reconnect, pause, start, clear, updateLogOption, isStreaming, clearLogs, logEntries, connectionError } = props;
   return (
     <>
       <LogStreamCommandBar
@@ -32,7 +30,7 @@ const LogStream: React.SFC<LogStreamProps> = props => {
       <LogStreamLogContainer
         clearLogs={clearLogs}
         logEntries={logEntries}
-        site={site.data}
+        site={{} as any}
         updateLogOption={updateLogOption}
         connectionError={connectionError}
       />

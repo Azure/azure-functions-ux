@@ -1,7 +1,7 @@
 import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
-import MakeArmCall from '../../../../modules/ArmHelper';
+import MakeArmCall from '../../../../ArmHelper';
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;
@@ -45,7 +45,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       });
 
       const result = availableSkuFetch;
-      this.state = result.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
+      this.state = result.data.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
 
       if (this.state === 'disabled') {
         this.disabledMessage = this._skuNotAvailableMessage;
@@ -78,9 +78,9 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
     const result = providerLocationsFetch;
     const resource =
       result &&
-      result.value &&
-      result.value.resourceTypes &&
-      result.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
+      result.data.value &&
+      result.data.value.resourceTypes &&
+      result.data.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
 
     return !!resource ? resource.locations : [];
   }
@@ -96,7 +96,7 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       commandName: '_getProviderLocations',
     });
 
-    return geoRegionsFetch.value;
+    return geoRegionsFetch.data.value;
   }
 
   private _getAvailableGeoRegionsList(providerLocations: string[], geoRegions: ArmObj<GeoRegion>[]) {

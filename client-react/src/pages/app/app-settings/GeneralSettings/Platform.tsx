@@ -1,18 +1,20 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { AppSettingsFormValues } from '../AppSettings.types';
+import { PermissionsContext } from '../Contexts';
 
-const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t, values } = props;
+const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { values } = props;
   const { site } = values;
+  const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
-
+  const { app_write } = useContext(PermissionsContext);
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
@@ -22,9 +24,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('platform')}
           id="app-settings-worker-process"
-          disabled={
-            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'
-          }
+          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'}
           options={[
             {
               key: true,
@@ -44,7 +44,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write}
           options={[
             {
               key: 'Integrated',
@@ -64,7 +64,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('ftpState')}
           id="app-settings-ftps-state"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write}
           options={[
             {
               key: 'AllAllowed',
@@ -88,7 +88,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('httpVersion')}
           id="app-settings-http-enabled"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write}
           options={[
             {
               key: true,
@@ -108,9 +108,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
-          disabled={
-            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'
-          }
+          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'}
           options={[
             {
               key: true,
@@ -129,9 +127,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           component={RadioButton}
           label={t('alwaysOn')}
           id="app-settings-always-on"
-          disabled={
-            !values.siteWritePermission || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'
-          }
+          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'}
           fullpage
           options={[
             {
@@ -152,7 +148,7 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
           fullpage
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write}
           options={[
             {
               key: true,
@@ -168,4 +164,4 @@ const Platform: React.SFC<FormikProps<AppSettingsFormValues> & InjectedTranslate
     </div>
   );
 };
-export default translate('translation')(Platform);
+export default Platform;

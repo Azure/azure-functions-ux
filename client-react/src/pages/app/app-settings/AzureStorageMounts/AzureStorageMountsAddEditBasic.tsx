@@ -1,37 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import MakeArmCall from '../../../../modules/ArmHelper';
+import MakeArmCall from '../../../../ArmHelper';
 import axios from 'axios';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import { useTranslation } from 'react-i18next';
+import { StorageAccountsContext } from '../Contexts';
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { t, errors } = props;
+  const { errors } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
   const [accountError, setAccountError] = useState('');
-  const accountOptions = props.storageAccounts.data.value.map(val => ({ key: val.name, text: val.name }));
-
+  const storageAccounts = useContext(StorageAccountsContext);
+  const accountOptions = storageAccounts.value.map(val => ({ key: val.name, text: val.name }));
+  const { t } = useTranslation();
   const setAccessKey = (accessKey: string) => {
     props.setValues({ ...props.values, accessKey });
   };
   useEffect(
     () => {
-      const storageAccountId = props.storageAccounts.data.value.find(x => x.name === props.values.accountName);
+      const storageAccountId = storageAccounts.value.find(x => x.name === props.values.accountName);
       setAccountError('');
       if (storageAccountId) {
         setAccountSharesBlob([]);
         setAccountSharesFiles([]);
         setSharesLoading(true);
         MakeArmCall({ resourceId: `${storageAccountId.id}/listKeys`, commandName: 'listStorageKeys', method: 'POST' })
-          .then(async (value: any) => {
-            setAccessKey(value.keys[0].value);
+          .then(async ({ data }: any) => {
+            setAccessKey(data.keys[0].value);
             const payload = {
               accountName: props.values.accountName,
-              accessKey: value.keys[0].value,
+              accessKey: data.keys[0].value,
             };
             try {
               const blobCall = axios.post(

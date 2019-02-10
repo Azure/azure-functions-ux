@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { compose } from 'recompose';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { PriceSpecDetail } from './specs/PriceSpec';
 import InformationCard from '../../../components/InformationCard/InformationCard';
@@ -18,7 +17,7 @@ const featureListDivStyle = style({
   width: 'calc(100% / 2)',
 });
 
-type SpecPickerFeatureListPropsCombined = SpecPickerFeatureListProps & InjectedTranslateProps;
+type SpecPickerFeatureListPropsCombined = SpecPickerFeatureListProps & WithTranslation;
 class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCombined, {}> {
   public render() {
     const { t, title, description, features } = this.props;
@@ -50,4 +49,4 @@ class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCo
   }
 }
 
-export default compose<SpecPickerFeatureListPropsCombined, SpecPickerFeatureListProps>(translate('translation'))(SpecPickerFeatureList);
+export default withTranslation('translation')(SpecPickerFeatureList);

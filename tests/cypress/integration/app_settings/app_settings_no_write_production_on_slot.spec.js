@@ -57,12 +57,12 @@ context('App Settings Readonly Access', () => {
       .wait('@rbacCall');
   });
 
-  it('Autoswap should be disabled', () => {
+  xit('Autoswap should be disabled', () => {
     cy.get('[data-cy=auto-swap-disabled-message]').should('exist');
     cy.get('[data-cy=auto-swap-control-set]').should('not.exist');
   });
 
-  it('Slot Settings should be blocked in application settings', () => {
+  xit('Slot Settings should be blocked in application settings', () => {
     cy.get('#app-settings-application-settings-tab')
       .click()
       .get('#app-settings-application-settings-edit-1')
@@ -72,7 +72,7 @@ context('App Settings Readonly Access', () => {
       .get('[data-cy=app-setting-slot-setting-no-permission-message')
       .should('exist');
   });
-  it('Slot Settings should be blocked in connection strings', () => {
+  xit('Slot Settings should be blocked in connection strings', () => {
     cy.get('#app-settings-application-settings-tab')
       .click()
       .get('#app-settings-connection-strings-edit-0')

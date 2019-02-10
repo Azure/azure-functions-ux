@@ -5,10 +5,10 @@ import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-export interface AzureStorageMountsAddEditAdvancedProps {}
+import { useTranslation } from 'react-i18next';
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { t, errors } = props;
-
+  const { errors } = props;
+  const { t } = useTranslation();
   return (
     <>
       <Field

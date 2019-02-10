@@ -6,7 +6,7 @@ import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/
 import { style } from 'typestyle';
 import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
-import MakeArmCall from '../../../../../modules/ArmHelper';
+import MakeArmCall from '../../../../../ArmHelper';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   constructor(t: (string) => string) {
@@ -95,10 +95,10 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
         // ASE permissions to scale their plan.
         if (
-          result.value.isSuccessful &&
-          result.value.result &&
-          result.value.result.kind &&
-          result.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1
+          result.data.value.isSuccessful &&
+          result.data.value.result &&
+          result.data.value.result.kind &&
+          result.data.value.result.kind.toLowerCase().indexOf(CommonConstants.Kinds.aseV2.toLowerCase()) === -1
         ) {
           this.state = 'hidden';
         }

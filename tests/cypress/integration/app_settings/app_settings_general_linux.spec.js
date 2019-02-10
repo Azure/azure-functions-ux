@@ -1,9 +1,18 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
+import { setupWindow } from '../../utilities/window';
 
 context('App Settings Linux Basic', () => {
   beforeEach(() => {
-    startVisit('linux', 'allow').wait('@getAvailableStacks');
+    startVisit().visit(
+      `/feature/subscriptions/1489df65-b065-4cc3-b5c2-4b37cc88b703/resourcegroups/test-ux/providers/microsoft.web/sites/test-linux-app-ux/settings?trustedAuthority=test`,
+      {
+        onBeforeLoad(win) {
+          setupWindow(win);
+          cy.spy(win.parent, 'postMessage').as('spyPostMessage');
+        },
+      }
+    );
   });
 
   it('Should contain all settings tabs for linux app settings', () => {
