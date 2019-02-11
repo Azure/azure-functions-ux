@@ -21,7 +21,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
   const [currentVirtualApplication, setCurrentVirtualApplication] = useState(virtualApplication);
 
   const validateVirtualPathUniqueness = (value: string) => {
-    return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? "Virtual Path's must be unique" : '';
+    return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? t('virtualPathUnique') : '';
   };
 
   const updatePhysicalPath = (e: any, physicalPath: string) => {
