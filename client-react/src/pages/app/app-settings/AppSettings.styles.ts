@@ -1,5 +1,6 @@
 import { IButtonProps } from 'office-ui-fabric-react';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import { style } from 'typestyle';
 
 export const formElementStyle = {
   paddingBottom: '16px',
@@ -14,4 +15,10 @@ export const CommandBarButtonStyle = (props: IButtonProps, theme: ThemeExtended)
   rootDisabled: {
     backgroundColor: theme.semanticColors.bodyBackground,
   },
+});
+
+export const commandBarSticky = style({
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
 });

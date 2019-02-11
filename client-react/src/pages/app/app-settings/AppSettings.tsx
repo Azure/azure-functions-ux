@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext } from './Contexts';
+import { commandBarSticky } from './AppSettings.styles';
 
 const formStyle = style({
   padding: '5px 20px',
@@ -76,12 +77,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
           validateOnChange={false}>
           {(formProps: FormikProps<AppSettingsFormValues>) => (
             <form>
-              <div
-                style={{
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: 1,
-                }}>
+              <div className={commandBarSticky}>
                 <AppSettingsCommandBar
                   submitForm={formProps.submitForm}
                   resetForm={formProps.resetForm}
