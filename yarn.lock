@@ -5873,6 +5873,11 @@ cyclist@~0.2.2:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
+cypress-plugin-retries@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cypress-plugin-retries/-/cypress-plugin-retries-1.0.3.tgz#e5eb7c864391b620615afb6a12b10d19154daa40"
+  integrity sha512-2aqpe9bZ/oCdZfSxWxr0XCrz7reB/0m9J8CHZPwUrIqfZsrKqnNnqPHeBgdIloVF6AiZWoK1b4vyMjf/pBzCww==
+
 cypress@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-3.1.5.tgz#5227b2ce9306c47236d29e703bad9055d7218042"
