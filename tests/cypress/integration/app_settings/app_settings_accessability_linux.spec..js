@@ -2,7 +2,7 @@
 import { startVisit } from '../../utilities/app-settings-utils';
 import { setupWindow } from '../../utilities/window';
 
-context('Windows App Settings Accessability', () => {
+context('Linux App Settings Accessability', () => {
   beforeEach(() => {
     startVisit()
       .visit(

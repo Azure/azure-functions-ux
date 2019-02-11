@@ -15,6 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+import 'cypress-plugin-retries';
 import axe from 'axe-core';
 
 Cypress.Commands.add('injectAxe', () => {
