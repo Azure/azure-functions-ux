@@ -3,7 +3,7 @@
   "projectId": "rwcr7y",
   "reporter": "junit",
   "chromeWebSecurity": false,
-  "defaultCommandTimeout": 10000,
+  "defaultCommandTimeout": 20000,
   "reporterOptions": {
     "mochaFile": "cypress/results/results-[hash].xml"
   }
