@@ -1,6 +1,5 @@
 import { Formik, FormikProps } from 'formik';
 import React, { useRef, useContext } from 'react';
-import { style } from 'typestyle';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
@@ -10,11 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
 import { PermissionsContext } from './Contexts';
-import { commandBarSticky } from './AppSettings.styles';
-
-const formStyle = style({
-  padding: '5px 20px',
-});
+import { commandBarSticky, formStyle } from './AppSettings.styles';
 
 const validate = (values: AppSettingsFormValues, t: i18n.TFunction, scenarioChecker: ScenarioService) => {
   const duplicateDefaultDocumentsValidation = (value: string) => {

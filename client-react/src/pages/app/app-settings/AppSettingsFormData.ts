@@ -25,7 +25,7 @@ interface StateToFormParams {
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
   return {
-    site, // site.data,
+    site,
     config,
     appSettings: getFormAppSetting(appSettings, slotConfigNames),
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),

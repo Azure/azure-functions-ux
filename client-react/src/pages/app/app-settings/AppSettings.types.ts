@@ -31,8 +31,6 @@ export interface AppSettingsFormValues {
   azureStorageMounts: FormAzureStorageMounts[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
-  // siteWritePermission: boolean;
-  // productionWritePermission: boolean;
 }
 
 export interface FormState {

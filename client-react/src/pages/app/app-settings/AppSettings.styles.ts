@@ -22,3 +22,7 @@ export const commandBarSticky = style({
   top: 0,
   zIndex: 1,
 });
+
+export const formStyle = style({
+  padding: '5px 20px',
+});

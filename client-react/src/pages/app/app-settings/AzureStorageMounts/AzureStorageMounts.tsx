@@ -43,9 +43,6 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   public render() {
     const { values, t } = this.props;
-    // if (azureStorageMountsProp.metadata.loading) {
-    //  return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
-    // }
     if (!this.context.app_write) {
       return (
         <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
