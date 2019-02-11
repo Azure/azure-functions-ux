@@ -27,7 +27,7 @@ import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
-import { updateAuthToken, updateEndpoint } from './ArmHelper';
+import { updateAuthToken, updateEndpoint } from './ApiHelpers/ArmHelper';
 
 export default class PortalCommunicator {
   public static shellSrc: string;

@@ -14,13 +14,11 @@ import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureS
 interface StateToFormParams {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
-  appSettings?: ArmObj<{ [key: string]: string }>;
-  connectionStrings?: ArmObj<{ [key: string]: { type: string; value: string } }>;
-  siteWritePermission: boolean;
-  productionWritePermission: boolean;
-  azureStorageMounts?: ArmObj<ArmAzureStorageMount>;
-  slotConfigNames?: ArmObj<SlotConfigNames>;
-  metadata?: ArmObj<{ [key: string]: string }>;
+  appSettings: ArmObj<{ [key: string]: string }> | null;
+  connectionStrings: ArmObj<{ [key: string]: { type: string; value: string } }> | null;
+  azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
+  slotConfigNames: ArmObj<SlotConfigNames>;
+  metadata: ArmObj<{ [key: string]: string }> | null;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
@@ -93,7 +91,7 @@ export function getStickySettings(
     },
   };
 }
-export function getFormAppSetting(settingsData?: ArmObj<{ [key: string]: string }>, slotConfigNames?: ArmObj<SlotConfigNames>) {
+export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }> | null, slotConfigNames?: ArmObj<SlotConfigNames>) {
   if (!settingsData || !slotConfigNames) {
     return [];
   }
@@ -105,7 +103,7 @@ export function getFormAppSetting(settingsData?: ArmObj<{ [key: string]: string 
   }));
 }
 
-export function getFormAzureStorageMount(storageData?: ArmObj<ArmAzureStorageMount>) {
+export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount> | null) {
   if (!storageData) {
     return [];
   }
@@ -139,8 +137,8 @@ export function getMetadataToSet(currentMetadata: ArmObj<{ [key: string]: string
   }));
 }
 export function getFormConnectionStrings(
-  settingsData?: ArmObj<{ [key: string]: { type: string; value: string } }>,
-  slotConfigNames?: ArmObj<SlotConfigNames>
+  settingsData: ArmObj<{ [key: string]: { type: string; value: string } }> | null,
+  slotConfigNames: ArmObj<SlotConfigNames> | null
 ) {
   if (!settingsData || !slotConfigNames) {
     return [];
@@ -203,7 +201,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<{ [key: string]: string }>): string {
+export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<{ [key: string]: string }> | null): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }

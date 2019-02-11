@@ -6,7 +6,7 @@ import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/
 import { style } from 'typestyle';
 import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
-import MakeArmCall from '../../../../../ArmHelper';
+import MakeArmCall from '../../../../../ApiHelpers/ArmHelper';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   constructor(t: (string) => string) {

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
-import { fetchApplicationSettingValues, updateSite, updateWebConfig, updateSlotConfigNames, fetchSlots } from './AppSettings.service';
+import { fetchApplicationSettingValues, fetchSlots, updateSite, updateWebConfig, updateSlotConfigNames } from './AppSettings.service';
 import { ArmArray, ArmObj, SlotConfigNames, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext } from './Contexts';
@@ -52,7 +52,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
 
-    if (applicationSettings.metadata.status === 403) {
+    if (
+      applicationSettings.metadata.status === 403 || // failing RBAC permissions
+      applicationSettings.metadata.status === 409 // Readonly locked
+    ) {
       setAppPermissions(false);
       if (!resourceId.includes('/slots/')) {
         setProductionPermissions(false);
@@ -67,13 +70,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       convertStateToForm({
         site: site.data,
         config: webConfig.data,
-        metadata: metadata.metadata.success ? metadata.data : undefined,
-        connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : undefined,
-        appSettings: applicationSettings.metadata.success ? applicationSettings.data : undefined,
+        metadata: metadata.metadata.success ? metadata.data : null,
+        connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
+        appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
         slotConfigNames: slotConfigNames.data,
-        siteWritePermission: true,
-        productionWritePermission: true,
-        azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : undefined,
+        azureStorageMounts: azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
       })
     );
     if (site.data.kind!.includes('linux')) {

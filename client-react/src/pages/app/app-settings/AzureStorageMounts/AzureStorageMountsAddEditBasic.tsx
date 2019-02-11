@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import MakeArmCall from '../../../../ArmHelper';
+import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import axios from 'axios';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';

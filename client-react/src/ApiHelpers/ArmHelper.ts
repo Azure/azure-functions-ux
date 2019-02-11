@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
-import { CommonConstants } from './utils/CommonConstants';
+import { CommonConstants } from '../utils/CommonConstants';
 import { Subject, from } from 'rxjs';
 import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
-import { Guid } from './utils/Guid';
+import { Guid } from '../utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
-import Url from './utils/url';
-import { MethodTypes, ArmRequestObject, HttpResponseObject } from './ArmHelper.types';
-import LogService from './utils/LogService';
+import Url from '../utils/url';
+import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
+import LogService from '../utils/LogService';
 
 let endpoint = '';
 let authToken = '';
@@ -96,13 +96,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosRespo
   } catch (err) {
     // This shouldn't be hit since we're telling axios to not throw on error
     LogService.error('ArmHelper', 'makeArmRequest', err);
-    return {
-      status: 500,
-      statusText: '',
-      headers: {},
-      config: {},
-      data: err,
-    };
+    throw err;
   }
 };
 

@@ -1,5 +1,5 @@
 import { ArmObj, Lock, Permissions, PermissionsAsRegExp, ArmArray } from '../models/WebAppModels';
-import MakeArmCall from '../ArmHelper';
+import MakeArmCall from '../ApiHelpers/ArmHelper';
 import { CommonConstants } from './CommonConstants';
 
 export interface IAuthzService {

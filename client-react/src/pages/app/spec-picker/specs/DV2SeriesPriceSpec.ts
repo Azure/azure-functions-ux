@@ -1,7 +1,7 @@
 import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
-import MakeArmCall from '../../../../ArmHelper';
+import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;

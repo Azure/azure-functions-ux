@@ -1,4 +1,4 @@
-import MockCall from './ArmHelper';
+import MockCall from './ApiHelpers/ArmHelper';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 

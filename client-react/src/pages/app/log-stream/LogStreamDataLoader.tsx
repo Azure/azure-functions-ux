@@ -4,7 +4,7 @@ import { processLogs } from './LogStreamData';
 import LogStream from './LogStream';
 import { ArmTokenContext } from '../../../ArmTokenContext';
 import { ArmObj, Site } from '../../../models/WebAppModels';
-import MakeArmCall from '../../../ArmHelper';
+import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
