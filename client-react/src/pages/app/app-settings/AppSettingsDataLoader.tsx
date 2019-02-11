@@ -9,7 +9,7 @@ import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext } from './Contexts';
 import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
-import { ArmResponseObject } from '../../../ArmHelper.types';
+import { HttpResponseObject } from '../../../ArmHelper.types';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {
@@ -100,7 +100,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
     const configUpdate = updateWebConfig(resourceId, config);
-    let slotConfigUpdates: Promise<ArmResponseObject<unknown>> | undefined;
+    let slotConfigUpdates: Promise<HttpResponseObject<unknown>> | undefined;
     if (productionPermissions) {
       slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);
     }

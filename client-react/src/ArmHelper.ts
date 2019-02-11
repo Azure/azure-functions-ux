@@ -5,7 +5,7 @@ import { bufferTime, filter, concatMap, share, take } from 'rxjs/operators';
 import { Guid } from './utils/Guid';
 import { async } from 'rxjs/internal/scheduler/async';
 import Url from './utils/url';
-import { MethodTypes, ArmRequestObject, ArmResponseObject } from './ArmHelper.types';
+import { MethodTypes, ArmRequestObject, HttpResponseObject } from './ArmHelper.types';
 import LogService from './utils/LogService';
 
 let endpoint = '';
@@ -106,7 +106,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosRespo
   }
 };
 
-const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<ArmResponseObject<T>> => {
+const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
   const { skipBuffer, method, resourceId, body, apiVersion, commandName, queryString } = requestObject;
 
   const id = Guid.newGuid();
@@ -134,7 +134,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<ArmRe
     });
     const res = await fetchFromBatch;
     const resSuccess = res.httpStatusCode < 300;
-    const ret: ArmResponseObject<T> = {
+    const ret: HttpResponseObject<T> = {
       metadata: {
         success: resSuccess,
         status: res.httpStatusCode,
@@ -147,7 +147,7 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<ArmRe
   }
   const response = await makeArmRequest<T>(armBatchObject);
   const responseSuccess = response.status < 300;
-  const retObj: ArmResponseObject<T> = {
+  const retObj: HttpResponseObject<T> = {
     metadata: {
       success: responseSuccess,
       status: response.status,

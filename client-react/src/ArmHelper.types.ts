@@ -8,7 +8,7 @@ export interface ArmRequestObject<T> {
   apiVersion?: string;
   queryString?: string;
 }
-export interface ArmResponseObject<T> {
+export interface HttpResponseObject<T> {
   metadata: {
     success: boolean;
     status: number;
