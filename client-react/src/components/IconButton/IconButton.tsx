@@ -1,18 +1,16 @@
 import { IButtonProps, IconButton as OfficeIconButton } from 'office-ui-fabric-react/lib/Button';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 
-import { ITheme } from '@uifabric/styling';
+import { ThemeContext } from '../../ThemeContext';
 
-import { RootState } from '../../modules/types';
-
-const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {
+const IconButton: React.SFC<IButtonProps> = props => {
+  const theme = useContext(ThemeContext);
   return (
     <OfficeIconButton
       {...props}
       styles={{
         root: {
-          color: props.theme.semanticColors.bodyText,
+          color: theme.semanticColors.bodyText,
           background: 'none',
         },
       }}
@@ -20,10 +18,4 @@ const IconButton: React.SFC<IButtonProps & { theme: ITheme }> = props => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  theme: state.portalService.theme,
-});
-export default connect(
-  mapStateToProps,
-  null
-)(IconButton);
+export default IconButton;

@@ -1,40 +1,46 @@
-import { ArmObj, SiteConfig, SlotConfigNames, VirtualApplication, Site, NameValuePair, ConnStringInfo } from '../../../models/WebAppModels';
-import { AppSettings } from '../../../modules/site/config/appsettings/reducer';
-import { ConnectionString } from '../../../modules/site/config/connectionstrings/reducer';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
-import { AppSettingsDataLoaderProps } from './AppSettingsDataLoader';
-import { Metadata } from '../../../modules/site/config/metadata/reducer';
-import { ArmAzureStorageMount } from '../../../modules/site/config/azureStorageAccounts/reducer';
+import {
+  ArmObj,
+  SiteConfig,
+  SlotConfigNames,
+  VirtualApplication,
+  Site,
+  NameValuePair,
+  ConnStringInfo,
+  ArmAzureStorageMount,
+} from '../../../models/WebAppModels';
 
-export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettingsFormValues => {
-  const {
+import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+
+interface StateToFormParams {
+  site: ArmObj<Site>;
+  config: ArmObj<SiteConfig>;
+  appSettings: ArmObj<{ [key: string]: string }> | null;
+  connectionStrings: ArmObj<{ [key: string]: { type: string; value: string } }> | null;
+  azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
+  slotConfigNames: ArmObj<SlotConfigNames>;
+  metadata: ArmObj<{ [key: string]: string }> | null;
+}
+export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  return {
     site,
     config,
-    appSettings,
-    connectionStrings,
-    metadata,
-    siteWritePermission,
-    slotConfigNames,
-    productionWritePermission,
-    azureStorageMounts,
-  } = props;
-  return {
-    site: site.data,
-    config: config.data,
-    appSettings: getFormAppSetting(appSettings.data, slotConfigNames.data),
-    connectionStrings: getFormConnectionStrings(connectionStrings.data, slotConfigNames.data),
-    siteWritePermission,
-    productionWritePermission,
-    virtualApplications:
-      config.data && config.data && config.data.properties && flattenVirtualApplicationsList(config.data.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config.data, metadata.data),
-    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts.data),
+    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
+    virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
+    currentlySelectedStack: getCurrentStackString(config, metadata),
+    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
-type ApiSetupReturn = { site: ArmObj<Site>; config: ArmObj<SiteConfig>; slotConfigNames?: ArmObj<SlotConfigNames> };
+
+export interface ApiSetupReturn {
+  site: ArmObj<Site>;
+  config: ArmObj<SiteConfig>;
+  slotConfigNames: ArmObj<SlotConfigNames>;
+}
 export const convertFormToState = (
   values: AppSettingsFormValues,
-  currentMetadata: ArmObj<Metadata>,
+  currentMetadata: ArmObj<{ [key: string]: string }>,
   oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
   const config = values.config;
@@ -85,7 +91,10 @@ export function getStickySettings(
     },
   };
 }
-export function getFormAppSetting(settingsData: ArmObj<AppSettings>, slotConfigNames: ArmObj<SlotConfigNames>) {
+export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }> | null, slotConfigNames?: ArmObj<SlotConfigNames>) {
+  if (!settingsData || !slotConfigNames) {
+    return [];
+  }
   const { appSettingNames } = slotConfigNames.properties;
   return Object.keys(settingsData.properties).map(key => ({
     name: key,
@@ -94,7 +103,10 @@ export function getFormAppSetting(settingsData: ArmObj<AppSettings>, slotConfigN
   }));
 }
 
-export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount>) {
+export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount> | null) {
+  if (!storageData) {
+    return [];
+  }
   return Object.keys(storageData.properties).map(key => ({
     name: key,
     ...storageData.properties[key],
@@ -114,7 +126,7 @@ export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValue
   return appSettings.map(({ name, value }) => ({ name, value }));
 }
 
-export function getMetadataToSet(currentMetadata: ArmObj<Metadata>, currentStack: String) {
+export function getMetadataToSet(currentMetadata: ArmObj<{ [key: string]: string }>, currentStack: string) {
   const properties = {
     ...currentMetadata.properties,
     CURRENT_STACK: currentStack,
@@ -124,7 +136,13 @@ export function getMetadataToSet(currentMetadata: ArmObj<Metadata>, currentStack
     value: properties[md],
   }));
 }
-export function getFormConnectionStrings(settingsData: ArmObj<ConnectionString>, slotConfigNames: ArmObj<SlotConfigNames>) {
+export function getFormConnectionStrings(
+  settingsData: ArmObj<{ [key: string]: { type: string; value: string } }> | null,
+  slotConfigNames: ArmObj<SlotConfigNames> | null
+) {
+  if (!settingsData || !slotConfigNames) {
+    return [];
+  }
   const { connectionStringNames } = slotConfigNames.properties;
   return Object.keys(settingsData.properties).map(key => ({
     name: key,
@@ -183,7 +201,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmObj<Metadata>): string {
+export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<{ [key: string]: string }> | null): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }

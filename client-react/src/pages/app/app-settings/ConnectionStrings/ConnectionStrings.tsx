@@ -2,16 +2,17 @@ import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormConnectionString } from '../AppSettings.types';
+import { AppSettingsFormValues, FormConnectionString, Permissions } from '../AppSettings.types';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { typeValueToString } from './connectionStringTypes';
+import { PermissionsContext } from '../Contexts';
 
 interface ConnectionStringsState {
   hideValues: boolean;
@@ -21,10 +22,9 @@ interface ConnectionStringsState {
   createNewItem: boolean;
 }
 
-export class ConnectionStrings extends React.Component<
-  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
-  ConnectionStringsState
-> {
+export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ConnectionStringsState> {
+  public static contextType = PermissionsContext;
+  public context: Permissions;
   constructor(props) {
     super(props);
     this.state = {
@@ -67,7 +67,7 @@ export class ConnectionStrings extends React.Component<
             connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
-            disableSlotSetting={!values.productionWritePermission}
+            disableSlotSetting={!this.context.production_write}
             closeBlade={this._onCancel}
           />
         </Panel>
@@ -92,7 +92,7 @@ export class ConnectionStrings extends React.Component<
     const blankConnectionString = {
       name: '',
       value: '',
-      type: 0,
+      type: 'MySql',
       sticky: false,
     };
     this.setState({
@@ -276,4 +276,4 @@ export class ConnectionStrings extends React.Component<
   };
 }
 
-export default translate('translation')(ConnectionStrings);
+export default withTranslation('translation')(ConnectionStrings);

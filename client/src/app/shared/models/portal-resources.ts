@@ -1513,6 +1513,7 @@ export class PortalResources {
   public static newAzureStorageMount = 'newAzureStorageMount';
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
+  public static virtualPathUnique = 'virtualPathUnique';
   public static configurationOptions = 'configurationOptions';
   public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';

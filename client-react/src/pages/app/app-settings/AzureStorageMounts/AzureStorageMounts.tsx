@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { DetailsListLayoutMode, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
@@ -12,12 +12,9 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
-import { StorageType, AzureStorageMountState } from '../../../../modules/site/config/azureStorageAccounts/reducer';
-import compose from 'recompose/compose';
-import { RootState } from '../../../../modules/types';
-import { connect } from 'react-redux';
-import LoadingComponent from '../../../../components/loading/loading-component';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { StorageType, ArmAzureStorageMount } from '../../../../models/WebAppModels';
+import { PermissionsContext } from '../Contexts';
 
 export interface AzureStorageMountLocalState {
   showPanel: boolean;
@@ -27,11 +24,13 @@ export interface AzureStorageMountLocalState {
 }
 
 interface StateProps {
-  azureStorageMountsProp: AzureStorageMountState;
+  azureStorageMountsProp: ArmAzureStorageMount;
 }
 
-type CombinedProps = FormikProps<AppSettingsFormValues> & InjectedTranslateProps & StateProps;
+type CombinedProps = FormikProps<AppSettingsFormValues> & WithTranslation & StateProps;
 export class AzureStorageMounts extends React.Component<CombinedProps, AzureStorageMountLocalState> {
+  public static contextType = PermissionsContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,11 +42,8 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
   }
 
   public render() {
-    const { values, t, azureStorageMountsProp } = this.props;
-    if (azureStorageMountsProp.metadata.loading) {
-      return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
-    }
-    if (!values.siteWritePermission) {
+    const { values, t } = this.props;
+    if (!this.context.app_write) {
       return (
         <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
           {t('applicationSettingsNoPermission')}
@@ -58,7 +54,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       <>
         <ActionButton
           id="app-settings-new-azure-storage-mount-button"
-          disabled={!values.siteWritePermission}
+          disabled={!this.context.app_write}
           onClick={this._createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
@@ -150,7 +146,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
   }
 
   private onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
-    const { values, t } = this.props;
+    const { t } = this.props;
     if (!column || !item) {
       return null;
     }
@@ -159,7 +155,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!values.siteWritePermission}
+          disabled={!this.context.app_write}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
@@ -171,7 +167,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!values.siteWritePermission}
+          disabled={!this.context.app_write}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}
@@ -270,12 +266,4 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
   };
 }
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    azureStorageMountsProp: state.azureStorageMount,
-  };
-};
-export default compose(
-  connect(mapStateToProps),
-  translate('translation')
-)(AzureStorageMounts);
+export default withTranslation('translation')(AzureStorageMounts);

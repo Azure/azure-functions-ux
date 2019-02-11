@@ -1,13 +1,10 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { compose } from 'recompose';
-import { RootState } from '../../../modules/types';
-import { connect } from 'react-redux';
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import { useTranslation } from 'react-i18next';
 import { LogEntry } from './LogStream.types';
 import { TextUtilitiesService } from '../../../utils/textUtilities';
+import { ThemeContext } from '../../../ThemeContext';
 
 // tslint:disable-next-line:member-ordering
 
@@ -65,22 +62,20 @@ interface LogStreamCommandBarProps {
   logEntries: LogEntry[];
 }
 
-interface IStateProps {
-  theme: ITheme;
-}
+type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps;
 
-type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps & InjectedTranslateProps & IStateProps;
+export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = props => {
+  const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
+  const { reconnect, pause, start, clear, isStreaming, logEntries } = props;
 
-export const LogStreamCommandBar: React.SFC<LogStreamCommandBarPropsCombined> = props => {
-  const { reconnect, pause, start, clear, isStreaming, logEntries, t, theme } = props;
-
-  const customButton = (props: IButtonProps) => {
+  const customButton = (buttonProps: IButtonProps) => {
     return (
       <CommandBarButton
-        {...props}
-        onClick={props.onClick}
+        {...buttonProps}
+        onClick={buttonProps.onClick}
         styles={{
-          ...props.styles,
+          ...buttonProps.styles,
           root: {
             backgroundColor: theme.semanticColors.bodyBackground,
             border: '1px solid transparent',
@@ -117,14 +112,4 @@ function _copyLogs(logs: LogEntry[]) {
   TextUtilitiesService.copyContentToClipboard(logContent);
 }
 
-const mapStateToProps = (state: RootState) => ({
-  theme: state.portalService.theme,
-});
-
-export default compose<LogStreamCommandBarPropsCombined, LogStreamCommandBarProps>(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(LogStreamCommandBar);
+export default LogStreamCommandBar;

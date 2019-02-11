@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ChoiceGroup, IChoiceGroupProps, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { FieldProps } from 'formik';
 import { Shimmer, Label } from 'office-ui-fabric-react';

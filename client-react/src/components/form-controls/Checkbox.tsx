@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Checkbox as OfficeCheckbox, ICheckboxProps } from 'office-ui-fabric-react/lib/Checkbox';
 import { FieldProps } from 'formik';
 

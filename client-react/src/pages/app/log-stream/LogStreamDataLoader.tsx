@@ -1,23 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { RootState } from '../../../modules/types';
 import { LogEntry } from './LogStream.types';
-import { translate } from 'react-i18next';
 import { processLogs } from './LogStreamData';
-import { fetchSiteRequest } from '../../../modules/site/actions';
-import { store } from '../../../store';
-import { SiteState } from '../../../modules/site/reducer';
 import LogStream from './LogStream';
+import { ArmTokenContext } from '../../../ArmTokenContext';
+import { ArmObj, Site } from '../../../models/WebAppModels';
+import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 
 export interface LogStreamDataLoaderProps {
-  fetchSite: () => void;
-  reconnect: () => void;
-  pause: () => void;
-  start: () => void;
-  clear: () => void;
-  updateLogOption: (useWebServer: boolean) => void;
-  site: SiteState;
+  resourceId: string;
 }
 
 export interface LogStreamDataLoaderState {
@@ -25,13 +15,16 @@ export interface LogStreamDataLoaderState {
   logEntries: LogEntry[];
   clearLogs: boolean;
   connectionError: boolean;
+  site?: ArmObj<Site>;
 }
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
+  public static contextType = ArmTokenContext;
   private _currentSiteId = '';
   private _xhReq: XMLHttpRequest;
   private _logStreamIndex = 0;
   private _webServerLogs = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,16 +32,25 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       logEntries: [],
       clearLogs: false,
       connectionError: false,
+      site: {
+        id: '',
+        name: '',
+        properties: {} as any,
+      },
     };
   }
 
-  public componentWillMount() {
-    this.props.fetchSite();
+  public async componentWillMount() {
+    const { resourceId } = this.props;
+    const siteCall = await MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
+    if (siteCall.metadata.success) {
+      this.setState({ site: siteCall.data });
+    }
   }
 
   public componentDidUpdate() {
-    if (this.props.site.data.id !== this._currentSiteId) {
-      this._currentSiteId = this.props.site.data.id;
+    if (this.props.resourceId !== this._currentSiteId) {
+      this._currentSiteId = this.props.resourceId;
       this._reconnectFunction();
     }
   }
@@ -66,7 +68,6 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           clearLogs={this.state.clearLogs}
           logEntries={this.state.logEntries}
           connectionError={this.state.connectionError}
-          site={this.props.site}
         />
       </>
     );
@@ -119,11 +120,14 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _openStream = () => {
-    const hostNameSslStates = this.props.site.data.properties.hostNameSslStates;
+    if (!this.state.site) {
+      return;
+    }
+    const hostNameSslStates = this.state.site.properties.hostNameSslStates;
     const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
     const suffix = this._webServerLogs ? 'http' : '';
     const logUrl = `https://${scmHostName}/api/logstream/${suffix}`;
-    const token = store.getState().portalService.startupInfo!.token;
+    const token = this.context;
     this._xhReq = new XMLHttpRequest();
     this._xhReq.open('GET', logUrl, true);
     this._xhReq.setRequestHeader('Authorization', `Bearer ${token}`);
@@ -160,22 +164,4 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 }
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    site: state.site,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchSite: () => dispatch(fetchSiteRequest()),
-  };
-};
-
-export default compose(
-  translate('translation'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(LogStreamDataLoader);
+export default LogStreamDataLoader;

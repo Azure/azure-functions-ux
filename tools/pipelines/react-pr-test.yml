@@ -39,6 +39,11 @@ steps:
     displayName: 'Run Cypress tests'
     env:
       CYPRESS_RECORD_KEY: $(cypresskey)
+      CYPRESS_AD_DIRECTORY_ID: $(directoryId)
+      CYPRESS_AD_APPLICATION_ID: $(applicationId)
+      CYPRESS_AD_APPLICATION_SECRET: $(applicationSecret)
+      CYPRESS_RETRIES: 3
+
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'

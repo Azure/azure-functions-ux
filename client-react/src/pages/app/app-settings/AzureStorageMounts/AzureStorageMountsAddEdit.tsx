@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useState, useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { RootState } from '../../../../modules/types';
-import { StorageAccountsState } from '../../../../modules/storageAccounts/reducer';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
+import { StorageAccountsContext } from '../Contexts';
 
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
@@ -21,16 +18,12 @@ export interface AzureStorageMountsAddEditProps {
   azureStorageMount: FormAzureStorageMounts;
 }
 
-interface AzureStorageMountsAddEditStateProps {
-  storageAccounts: StorageAccountsState;
-}
-
-export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps &
-  InjectedTranslateProps &
-  AzureStorageMountsAddEditStateProps;
+export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
 const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombined> = props => {
-  const { t, closeBlade, storageAccounts, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount } = props;
+  const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount } = props;
+  const storageAccounts = useContext(StorageAccountsContext);
   const [confiurationOption, setConfigurationOption] = useState('basic');
+  const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
   const cancel = () => {
@@ -51,10 +44,10 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   };
 
   useEffect(() => {
-    if (storageAccounts.data.value.length === 0) {
+    if (storageAccounts.value.length === 0) {
       setConfigurationOption('advanced');
       setBasicDisabled(true);
-    } else if (azureStorageMount.accountName && !storageAccounts.data.value.find(x => x.name === azureStorageMount.accountName)) {
+    } else if (azureStorageMount.accountName && !storageAccounts.value.find(x => x.name === azureStorageMount.accountName)) {
       setConfigurationOption('advanced');
     }
   }, []);
@@ -142,12 +135,4 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    storageAccounts: state.azureStorageAccounts,
-  };
-};
-export default compose<AzureStorageMountsAddEditPropsCombined, AzureStorageMountsAddEditProps>(
-  translate('translation'),
-  connect(mapStateToProps)
-)(AzureStorageMountsAddEdit);
+export default AzureStorageMountsAddEdit;

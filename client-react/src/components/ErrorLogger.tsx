@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { LogEntryLevel } from '../models/portal-models';
 import PortalCommunicator from '../portal-communicator';

@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { compose } from 'recompose';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
 interface SpecPickerExpanderProps {
@@ -17,7 +16,7 @@ const expanderDivStyle = style({
   width: '100%',
 });
 
-type SpecPickerExpanderPropsCombined = SpecPickerExpanderProps & InjectedTranslateProps;
+type SpecPickerExpanderPropsCombined = SpecPickerExpanderProps & WithTranslation;
 class SpecPickerExpander extends React.Component<SpecPickerExpanderPropsCombined, ISpecPickerExpanderState> {
   constructor(props) {
     super(props);
@@ -45,4 +44,4 @@ class SpecPickerExpander extends React.Component<SpecPickerExpanderPropsCombined
   };
 }
 
-export default compose<SpecPickerExpanderPropsCombined, SpecPickerExpanderProps>(translate('translation'))(SpecPickerExpander);
+export default withTranslation('translation')(SpecPickerExpander);

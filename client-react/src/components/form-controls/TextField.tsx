@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';

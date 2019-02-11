@@ -1,7 +1,7 @@
 import { Checkbox } from 'office-ui-fabric-react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { VirtualApplication } from '../../../../models/WebAppModels';
@@ -14,13 +14,14 @@ export interface HandlerMappingAddEditProps {
   virtualApplication: VirtualApplication;
 }
 
-const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateVirtualApplication, otherVirtualApplications, t, closeBlade, virtualApplication } = props;
-  const [pathError, setPathError] = React.useState('');
-  const [currentVirtualApplication, setCurrentVirtualApplication] = React.useState(virtualApplication);
+const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props => {
+  const { updateVirtualApplication, otherVirtualApplications, closeBlade, virtualApplication } = props;
+  const { t } = useTranslation();
+  const [pathError, setPathError] = useState('');
+  const [currentVirtualApplication, setCurrentVirtualApplication] = useState(virtualApplication);
 
   const validateVirtualPathUniqueness = (value: string) => {
-    return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? "Virtual Path's must be unique" : '';
+    return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? t('virtualPathUnique') : '';
   };
 
   const updatePhysicalPath = (e: any, physicalPath: string) => {
@@ -122,4 +123,4 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   );
 };
 
-export default translate('translation')(VirtualApplicationsAddEdit);
+export default VirtualApplicationsAddEdit;

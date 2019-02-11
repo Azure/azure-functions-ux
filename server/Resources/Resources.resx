@@ -4706,6 +4706,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Azure storage mount names must be unique</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtual paths must be unique</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Configuration options</value>
   </data>

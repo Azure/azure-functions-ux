@@ -1,9 +1,12 @@
 import { FormikProps } from 'formik';
 
 import { AvailableStack } from '../../../models/available-stacks';
-import { ArmObj, Site, SiteConfig, VirtualApplication } from '../../../models/WebAppModels';
-import { AzureStorageMount } from '../../../modules/site/config/azureStorageAccounts/reducer';
+import { ArmObj, Site, SiteConfig, VirtualApplication, AzureStorageMount } from '../../../models/WebAppModels';
 
+export interface Permissions {
+  production_write: boolean;
+  app_write: boolean;
+}
 export interface FormAppSetting {
   name: string;
   value: string;
@@ -13,7 +16,7 @@ export interface FormAppSetting {
 export interface FormConnectionString {
   name: string;
   value: string;
-  type: number;
+  type: string;
   sticky: boolean;
 }
 
@@ -28,8 +31,6 @@ export interface AppSettingsFormValues {
   azureStorageMounts: FormAzureStorageMounts[];
   virtualApplications: VirtualApplication[];
   currentlySelectedStack: string;
-  siteWritePermission: boolean;
-  productionWritePermission: boolean;
 }
 
 export interface FormState {

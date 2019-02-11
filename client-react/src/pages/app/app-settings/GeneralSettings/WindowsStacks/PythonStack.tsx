@@ -1,18 +1,15 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
 import { ArmObj } from '../../../../../models/WebAppModels';
-import { RootState } from '../../../../../modules/types';
 import { AppSettingsFormValues, FormApi, FormState } from '../../AppSettings.types';
+import { PermissionsContext } from '../../Contexts';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
-  stacksLoading: boolean;
 }
 
 export interface OwnProps {
@@ -20,10 +17,12 @@ export interface OwnProps {
   formApi: FormApi;
 }
 
-type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
+type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const PythonStack: React.StatelessComponent<Props> = props => {
-  const { stacks, t, values } = props;
+  const { stacks } = props;
+  const { app_write } = useContext(PermissionsContext);
+  const { t } = useTranslation();
   const pythonStack = stacks.find(x => x.name === 'python');
   if (!pythonStack) {
     return null;
@@ -41,7 +40,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
       name="config.properties.pythonVersion"
       component={Dropdown}
       fullpage
-      disabled={!values.siteWritePermission}
+      disabled={!app_write}
       label={t('pythonVersion')}
       id="pythonVersion"
       options={pythonVersions}
@@ -49,16 +48,4 @@ const PythonStack: React.StatelessComponent<Props> = props => {
   );
 };
 
-const mapStateToProps = (state: RootState): StateProps => {
-  return {
-    stacks: state.stacks.data.value,
-    stacksLoading: state.stacks.metadata.loading,
-  };
-};
-export default compose(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(PythonStack);
+export default PythonStack;

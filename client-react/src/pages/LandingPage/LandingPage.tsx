@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { style } from 'typestyle';
 import { RouteComponentProps } from '@reach/router';
 import ReactSVG from 'react-svg';
