@@ -41,6 +41,11 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
+    this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
+      id: ScenarioIds.webSocketsSupported,
+      runCheck: () => disabledResult,
+    };
+
     this.scenarioChecks[ScenarioIds.addSsh] = {
       id: ScenarioIds.addSsh,
       runCheck: () => {
