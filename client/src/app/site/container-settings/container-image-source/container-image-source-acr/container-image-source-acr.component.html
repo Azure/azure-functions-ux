@@ -9,6 +9,11 @@
         [infoText]="'containerACRCrossSubscriptionRegistry' | translate">
     </info-box>
 
+    <info-box *ngIf="!!credentialsErrorMessage"
+        typeClass="error"
+        [infoText]="credentialsErrorMessage">
+    </info-box>
+
     <div *ngIf = "!registriesMissing">
         <div class="container-setting-property">
             <label>{{ 'containerACRRegistry' | translate }}</label>
