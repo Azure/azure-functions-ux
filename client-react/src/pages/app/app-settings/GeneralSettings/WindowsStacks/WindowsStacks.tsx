@@ -13,7 +13,7 @@ import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
   const { t } = useTranslation();
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const readonly = !app_write;
   const javaSelected = values.currentlySelectedStack === 'java';
   const showNonJavaAnyway = readonly && !javaSelected;
@@ -24,6 +24,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="currentlySelectedStack"
           component={Dropdown}
+          disabled={!editable}
           fullpage
           options={[
             {

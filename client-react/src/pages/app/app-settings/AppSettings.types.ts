@@ -6,6 +6,7 @@ import { ArmObj, Site, SiteConfig, VirtualApplication, AzureStorageMount } from 
 export interface Permissions {
   production_write: boolean;
   app_write: boolean;
+  editable: boolean; // Can show write-only fields like app settings but can't edit anything
 }
 export interface FormAppSetting {
   name: string;

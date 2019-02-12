@@ -23,7 +23,7 @@ const ChioceGroupStyle = style({
 export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const slots = useContext(SlotsListContext);
   const { t } = useTranslation();
-  const { production_write } = useContext(PermissionsContext);
+  const { production_write, editable } = useContext(PermissionsContext);
   const onToggleChange = (e: any, newValue: IChoiceGroupOption) => {
     if (newValue.key === 'off') {
       props.setFieldValue('config.properties.autoSwapSlotName', '');
@@ -77,6 +77,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
                 className={ChioceGroupStyle}
+                disabled={!editable}
                 selectedKey={!!props.values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[
                   {
@@ -99,6 +100,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
               {!!props.values.config.properties.autoSwapSlotName && (
                 <Field
                   name="config.properties.autoSwapSlotName"
+                  disabled={!editable}
                   component={Dropdown}
                   fullpage
                   label={t('autoSwapSlot')}

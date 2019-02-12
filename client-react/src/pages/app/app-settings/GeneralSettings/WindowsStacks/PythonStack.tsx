@@ -21,7 +21,7 @@ type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const PythonStack: React.StatelessComponent<Props> = props => {
   const { stacks } = props;
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const { t } = useTranslation();
   const pythonStack = stacks.find(x => x.name === 'python');
   if (!pythonStack) {
@@ -40,7 +40,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
       name="config.properties.pythonVersion"
       component={Dropdown}
       fullpage
-      disabled={!app_write}
+      disabled={!app_write || !editable}
       label={t('pythonVersion')}
       id="pythonVersion"
       options={pythonVersions}

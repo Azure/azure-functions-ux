@@ -17,7 +17,7 @@ type Props = StateProps & FormikProps<AppSettingsFormValues>;
 const PhpStack: React.SFC<Props> = props => {
   const { stacks } = props;
   const { t } = useTranslation();
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const phpStack = stacks.find(x => x.name === 'php');
   if (!phpStack) {
     return null;
@@ -29,7 +29,7 @@ const PhpStack: React.SFC<Props> = props => {
       fullpage
       label={t('phpVersion')}
       id="phpVersion"
-      disabled={!app_write}
+      disabled={!app_write || !editable}
       options={phpStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
         text: x.displayVersion,

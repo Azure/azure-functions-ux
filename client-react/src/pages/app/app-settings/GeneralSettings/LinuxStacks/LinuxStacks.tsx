@@ -33,7 +33,7 @@ const parseLinuxBuiltInStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
 };
 
 const LinuxStacks: React.FC<PropsType> = props => {
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const stacks = useContext(AvailableStacksContext);
   const options = parseLinuxBuiltInStacks(stacks.value);
   return (
@@ -41,7 +41,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
       name="config.properties.linuxFxVersion"
       component={Dropdown}
       fullpage
-      disabled={!app_write}
+      disabled={!app_write || !editable}
       label="Runtime Stack"
       id="linux-fx-version-runtime"
       options={options}
