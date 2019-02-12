@@ -4728,6 +4728,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Startup commands for NodeJS must use ng, node or pm2</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
-    <value>Azuure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
 </root>
