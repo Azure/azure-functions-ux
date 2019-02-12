@@ -13,7 +13,7 @@ import * as pako from 'pako';
 import { LocalStorageService } from './local-storage.service';
 import { MonitorViewItem } from '../models/localStorage/local-storage';
 import * as moment from 'moment-mini-ts';
-
+ 
 @Injectable()
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
@@ -162,7 +162,7 @@ export class ApplicationInsightsService {
     return (
       `requests ` +
       `| where timestamp >= ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
       `| summarize count=count() by success`
     );
   }
@@ -172,9 +172,9 @@ export class ApplicationInsightsService {
     this._validateFunctionName(functionName);
     return (
       `requests ` +
-      `| project timestamp, id, name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
+      `| project timestamp, id, operation_Name, success, resultCode, duration, operation_Id, cloud_RoleName ` +
       `| where timestamp > ago(30d) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and name == '${functionName}' ` +
+      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name == '${functionName}' ` +
       `| order by timestamp desc | take ${top}`
     );
   }
