@@ -12,7 +12,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   const [focusLast, setFocusLast] = useState(false);
   const { t } = useTranslation();
   let lastFieldRef: HTMLInputElement;
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   // This is a hook that is run after render if finished
   useEffect(() => {
     if (focusLast) {
@@ -61,7 +61,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
     <>
       <ActionButton
         id="app-settings-new-default-document-button"
-        disabled={!app_write}
+        disabled={!app_write || !editable}
         onClick={createNewItem}
         styles={{ root: { marginTop: '5px' } }}
         iconProps={{ iconName: 'Add' }}>
@@ -76,7 +76,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
               componentRef={field => {
                 lastFieldRef = field;
               }}
-              disabled={!app_write}
+              disabled={!app_write || !editable}
               styles={{
                 root: {
                   display: 'inline-block',
@@ -97,7 +97,7 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
             />
             <IconButton
               id={`app-settings-document-delete-${index}`}
-              disabled={!app_write}
+              disabled={!app_write || !editable}
               style={{ display: 'inline-block', width: '16px' }}
               iconProps={{ iconName: 'Delete' }}
               title={t('delete')}

@@ -35,6 +35,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { values, t } = this.props;
+    const { editable, app_write } = this.context;
     if (!values.virtualApplications) {
       return null;
     }
@@ -42,7 +43,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
       <>
         <ActionButton
           id="app-settings-new-virtual-app-button"
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
@@ -128,6 +129,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
 
   private onRenderItemColumn = (item: VirtualApplication, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable, app_write } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -136,7 +138,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
       return item.virtualPath === '/' ? null : (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
@@ -148,7 +150,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
       return item.virtualPath === '/' ? null : (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}

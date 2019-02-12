@@ -1,6 +1,7 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import StorageService from '../../../ApiHelpers/StorageService';
 import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
+import RbacHelper from '../../../utils/rbac-helper';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [
@@ -54,4 +55,14 @@ export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfi
 
 export const updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
   return SiteService.updateSlotConfigNames(resourceId, slotConfigNames);
+};
+
+export const getProductionAppWritePermissions = async (resourceId: string) => {
+  const productionResourceId = SiteService.getProductionId(resourceId);
+  const [hasRbacPermission, hasReadonlyLock] = await Promise.all([
+    RbacHelper.hasPermission(productionResourceId, [RbacHelper.writeScope]),
+    RbacHelper.hasReadOnlyLock(productionResourceId),
+  ]);
+
+  return hasRbacPermission && !hasReadonlyLock;
 };

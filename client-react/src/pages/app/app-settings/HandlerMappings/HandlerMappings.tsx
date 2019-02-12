@@ -36,6 +36,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
   public render() {
     const { values, t } = this.props;
+    const { app_write, editable } = this.context;
     if (!values.config) {
       return null;
     }
@@ -43,7 +44,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       <>
         <ActionButton
           id="app-settings-new-handler-mappings-button"
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
@@ -150,6 +151,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
   private onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable, app_write } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -158,7 +160,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
@@ -170,7 +172,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}

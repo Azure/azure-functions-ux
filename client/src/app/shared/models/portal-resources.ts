@@ -1520,4 +1520,5 @@ export class PortalResources {
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
+  public static storageMountsNoPermissions = 'storageMountsNoPermissions';
 }

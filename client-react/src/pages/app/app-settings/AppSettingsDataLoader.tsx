@@ -3,7 +3,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
-import { fetchApplicationSettingValues, fetchSlots, updateSite, updateWebConfig, updateSlotConfigNames } from './AppSettings.service';
+import {
+  fetchApplicationSettingValues,
+  fetchSlots,
+  updateSite,
+  updateWebConfig,
+  updateSlotConfigNames,
+  getProductionAppWritePermissions,
+} from './AppSettings.service';
 import { ArmArray, ArmObj, SlotConfigNames, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext } from './Contexts';
@@ -28,6 +35,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [currentAvailableStacks, setCurrentAvailableStacks] = useState<ArmArray<AvailableStack>>({ value: [] });
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
+  const [editable, setEditable] = useState<boolean>(true);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({ name: '', id: '', properties: {} });
   const [slotConfigNamesFromApi, setSlotConfigNamesFromApi] = useState<ArmObj<SlotConfigNames>>({
     name: '',
@@ -59,12 +67,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setAppPermissions(false);
       if (!resourceId.includes('/slots/')) {
         setProductionPermissions(false);
+      } else {
+        const productionPermission = await getProductionAppWritePermissions(resourceId);
+        setProductionPermissions(productionPermission);
       }
     } else {
       setMetadataFromApi(metadata.data);
       setSlotConfigNamesFromApi(slotConfigNames.data);
     }
 
+    if (site.data.properties.targetSwapSlot) {
+      setEditable(false);
+    }
     setStorageAccountsState(storageAccounts.data);
     setInitialValues(
       convertStateToForm({
@@ -125,7 +139,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   }
   return (
     <AvailableStacksContext.Provider value={currentAvailableStacks}>
-      <PermissionsContext.Provider value={{ app_write: appPermissions, production_write: productionPermissions }}>
+      <PermissionsContext.Provider value={{ editable, app_write: appPermissions, production_write: productionPermissions }}>
         <StorageAccountsContext.Provider value={storageAccountsState}>
           <SlotsListContext.Provider value={slotList}>
             {children({ onSubmit, initialFormValues: initialValues, saving: false })}

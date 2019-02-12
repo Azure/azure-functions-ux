@@ -38,6 +38,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
 
   public render() {
     const { values, t } = this.props;
+    const { editable, production_write } = this.context;
     if (!values.connectionStrings) {
       return null;
     }
@@ -46,6 +47,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         <ActionButton
           id="app-settings-connection-strings-add"
           onClick={this.createNewItem}
+          disabled={!editable}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
           {t('newConnectionString')}
@@ -67,7 +69,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
-            disableSlotSetting={!this.context.production_write}
+            disableSlotSetting={!production_write}
             closeBlade={this._onCancel}
           />
         </Panel>
@@ -137,6 +139,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
 
   private onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -145,6 +148,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
       return (
         <IconButton
           className={defaultCellStyle}
+          disabled={!editable}
           iconProps={{ iconName: 'Delete' }}
           id={`app-settings-connection-strings-delete-${index}`}
           ariaLabel={t('delete')}
@@ -157,6 +161,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
       return (
         <IconButton
           className={defaultCellStyle}
+          disabled={!editable}
           iconProps={{ iconName: 'Edit' }}
           id={`app-settings-connection-strings-edit-${index}`}
           ariaLabel={t('edit')}

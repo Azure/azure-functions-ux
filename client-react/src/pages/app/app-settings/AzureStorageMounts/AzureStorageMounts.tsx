@@ -43,6 +43,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   public render() {
     const { values, t } = this.props;
+    const { editable } = this.context;
     if (!this.context.app_write) {
       return (
         <MessageBar messageBarType={MessageBarType.warning} isMultiline={false}>
@@ -54,7 +55,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       <>
         <ActionButton
           id="app-settings-new-azure-storage-mount-button"
-          disabled={!this.context.app_write}
+          disabled={!editable}
           onClick={this._createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
@@ -147,6 +148,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
 
   private onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -155,7 +157,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!editable}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
@@ -167,7 +169,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
       return (
         <IconButton
           className={defaultCellStyle}
-          disabled={!this.context.app_write}
+          disabled={!editable}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}

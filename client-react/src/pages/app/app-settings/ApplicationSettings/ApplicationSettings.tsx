@@ -37,6 +37,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   public render() {
     const { t } = this.props;
+    const { production_write, editable } = this.context;
     if (!this.props.values.appSettings) {
       return null;
     }
@@ -45,6 +46,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <ActionButton
           id="app-settings-application-settings-add"
           onClick={this.createNewItem}
+          disabled={!editable}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
           {t('newApplicationSetting')}
@@ -64,7 +66,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
-            disableSlotSetting={!this.context.production_write}
+            disableSlotSetting={!production_write}
             otherAppSettings={this.props.values.appSettings}
             updateAppSetting={this.onClosePanel.bind(this)}
             closeBlade={this.onCancel}
@@ -132,6 +134,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   private onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -140,6 +143,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       return (
         <IconButton
           className={defaultCellStyle}
+          disabled={!editable}
           id={`app-settings-application-settings-delete-${index}`}
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
@@ -152,6 +156,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       return (
         <IconButton
           className={defaultCellStyle}
+          disabled={!editable}
           id={`app-settings-application-settings-edit-${index}`}
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}

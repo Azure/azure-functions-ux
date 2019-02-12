@@ -57,7 +57,7 @@ interface AppSettingsProps {
 const AppSettings: React.FC<AppSettingsProps> = props => {
   const { resourceId } = props;
   const { t } = useTranslation();
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   return (
@@ -76,7 +76,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                 <AppSettingsCommandBar
                   submitForm={formProps.submitForm}
                   resetForm={formProps.resetForm}
-                  disabled={!app_write || saving}
+                  disabled={!app_write || !editable || saving}
                   dirty={formProps.dirty}
                 />
               </div>

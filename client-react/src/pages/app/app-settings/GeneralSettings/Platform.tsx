@@ -14,7 +14,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { site } = values;
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
@@ -24,7 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('platform')}
           id="app-settings-worker-process"
-          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'}
           options={[
             {
               key: true,
@@ -44,7 +44,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
-          disabled={!app_write}
+          disabled={!app_write || !editable}
           options={[
             {
               key: 'Integrated',
@@ -64,7 +64,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('ftpState')}
           id="app-settings-ftps-state"
-          disabled={!app_write}
+          disabled={!app_write || !editable}
           options={[
             {
               key: 'AllAllowed',
@@ -88,7 +88,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('httpVersion')}
           id="app-settings-http-enabled"
-          disabled={!app_write}
+          disabled={!app_write || !editable}
           options={[
             {
               key: true,
@@ -108,7 +108,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
-          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'}
           options={[
             {
               key: true,
@@ -127,7 +127,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           label={t('alwaysOn')}
           id="app-settings-always-on"
-          disabled={!app_write || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'}
           fullpage
           options={[
             {
@@ -148,7 +148,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           fullpage
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
-          disabled={!app_write}
+          disabled={!app_write || !editable}
           options={[
             {
               key: true,

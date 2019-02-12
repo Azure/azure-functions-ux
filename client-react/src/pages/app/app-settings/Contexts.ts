@@ -8,6 +8,7 @@ export const AvailableStacksContext = createContext<ArmArray<AvailableStack>>({ 
 export const PermissionsContext = createContext<Permissions>({
   production_write: true,
   app_write: true,
+  editable: true,
 });
 
 export const StorageAccountsContext = createContext<ArmArray<StorageAccount>>({ value: [] });

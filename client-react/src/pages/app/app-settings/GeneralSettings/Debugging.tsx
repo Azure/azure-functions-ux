@@ -10,7 +10,7 @@ import { PermissionsContext } from '../Contexts';
 
 const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
-  const { app_write } = useContext(PermissionsContext);
+  const { app_write, editable } = useContext(PermissionsContext);
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
@@ -20,7 +20,7 @@ const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           fullpage
           label={t('remoteDebuggingEnabledLabel')}
-          disabled={!app_write}
+          disabled={!app_write || !editable}
           id="remote-debugging-switch"
           options={[
             {
@@ -38,7 +38,7 @@ const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
             fullpage
-            disabled={!app_write}
+            disabled={!app_write || !editable}
             options={[
               {
                 key: 'VS2015',
