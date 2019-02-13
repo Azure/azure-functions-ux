@@ -1521,4 +1521,5 @@ export class PortalResources {
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
+  public static willBeReadOnlyPython = 'willBeReadOnlyPython';
 }
