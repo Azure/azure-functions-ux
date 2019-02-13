@@ -1,6 +1,14 @@
 import { GlobalStateService } from './global-state.service';
 import { Host, HostV2 } from './../models/host';
-import { HttpMethods, HttpConstants, LogCategories, ContainerConstants, ARMApiVersions, FunctionAppVersion } from './../models/constants';
+import {
+  HttpMethods,
+  HttpConstants,
+  LogCategories,
+  ContainerConstants,
+  ARMApiVersions,
+  FunctionAppVersion,
+  WorkerRuntimeLanguages,
+} from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
@@ -898,6 +906,8 @@ export class FunctionAppService {
           const hasSlots = result.hasSlots.result;
           const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
           const isContainerApp = appSettings && appSettings.properties[ContainerConstants.appServiceStorageSetting] === 'false';
+          const workerRuntime = appSettings && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+          const isPython = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.python;
 
           const resolveReadOnlyMode = () => {
             if (sourceControlled) {
@@ -943,6 +953,8 @@ export class FunctionAppService {
             return FunctionAppEditMode.ReadOnlyLinuxDynamic;
           } else if (isContainerApp) {
             return FunctionAppEditMode.ReadOnlyBYOC;
+          } else if (isPython) {
+            return FunctionAppEditMode.WillBeReadOnlyPython;
           } else if (editModeSettingString === Constants.ReadWriteMode) {
             return resolveReadWriteMode();
           } else if (editModeSettingString === Constants.ReadOnlyMode) {

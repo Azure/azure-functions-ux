@@ -134,6 +134,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
             this._functionAppService
               .createFunction(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
               .subscribe(res => {
+                this._globalStateService.clearBusyState();
                 if (res.isSuccessful) {
                   this._broadcastService.broadcastEvent(BroadcastEvent.CloseTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
@@ -148,10 +149,12 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
               errorId: errorIds.unableToCreateFunction,
               resourceId: this.context.site.id,
             });
+            this._globalStateService.clearBusyState();
           }
         }
+      } else {
+        this._globalStateService.clearBusyState();
       }
-      this._globalStateService.clearBusyState();
     }
   }
 
