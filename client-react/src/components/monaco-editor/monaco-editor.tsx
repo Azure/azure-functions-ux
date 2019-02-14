@@ -1,7 +1,7 @@
 import * as monaco from 'monaco-editor';
 import * as PropTypes from 'prop-types';
 import React from 'react';
-import './monaco-editor.css';
+import { editorStyle } from './monaco-editor.styles';
 
 class MonacoEditor extends React.Component<any, any> {
   public static propTypes: any;
@@ -96,7 +96,7 @@ class MonacoEditor extends React.Component<any, any> {
   };
 
   public render() {
-    return <div ref={this.assignRef} className="react-monaco-editor-container editorSizing" />;
+    return <div ref={this.assignRef} className={editorStyle} />;
   }
 
   public updateDimensions() {

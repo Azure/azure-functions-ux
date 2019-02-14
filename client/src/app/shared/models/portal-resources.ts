@@ -1522,4 +1522,13 @@ export class PortalResources {
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static willBeReadOnlyPython = 'willBeReadOnlyPython';
+  public static valuesMustBeAnArray = 'valuesMustBeAnArray';
+  public static nameIsRequired = 'nameIsRequired';
+  public static valueIsRequired = 'valueIsRequired';
+  public static valueMustBeAString = 'valueMustBeAString';
+  public static nameMustBeAString = 'nameMustBeAString';
+  public static slotSettingMustBeBoolean = 'slotSettingMustBeBoolean';
+  public static invalidAppSettingProperty = 'invalidAppSettingProperty';
+  public static appSettingNamesUnique = 'appSettingNamesUnique';
+  public static jsonInvalid = 'jsonInvalid';
 }

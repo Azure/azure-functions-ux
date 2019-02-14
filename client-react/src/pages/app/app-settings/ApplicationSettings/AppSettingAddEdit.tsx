@@ -35,7 +35,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   const validateAppSettingName = (value: string) => {
-    return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? 'App setting names must be unique' : '';
+    return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('appSettingNamesUnique') : '';
   };
 
   const save = () => {
