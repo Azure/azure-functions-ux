@@ -155,6 +155,8 @@ export class Kinds {
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
   public static readonly elastic = 'elastic'; // only applies to server farm
+  public static readonly api = 'api';
+  public static readonly app = 'app';
 }
 
 export class LocalStorageKeys {
