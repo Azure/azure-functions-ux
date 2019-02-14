@@ -12,10 +12,12 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
+import AppSettingsBulkEdit from './AppSettingsBulkEdit';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
   showPanel: boolean;
+  panelItem: 'add' | 'bulk';
   currentAppSetting: FormAppSetting | null;
   currentItemIndex: number;
   createNewItem: boolean;
@@ -29,6 +31,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.state = {
       hideValues: true,
       showPanel: false,
+      panelItem: 'add',
       currentAppSetting: null,
       currentItemIndex: -1,
       createNewItem: false,
@@ -56,10 +59,18 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           onClick={this.flipHideSwitch}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
-          {this.state.hideValues ? 'Show Values' : 'Hide Values'}
+          {this.state.hideValues ? t('showValues') : t('hideValues')}
+        </ActionButton>
+        <ActionButton
+          id="app-settings-application-settings-bulk-edit"
+          onClick={this._openBulkEdit}
+          disabled={!editable}
+          styles={{ root: { marginTop: '5px' } }}
+          iconProps={{ iconName: 'Edit' }}>
+          {t('advancedEdit')}
         </ActionButton>
         <Panel
-          isOpen={this.state.showPanel}
+          isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.smallFixedFar}
           onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
@@ -70,6 +81,17 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             otherAppSettings={this.props.values.appSettings}
             updateAppSetting={this.onClosePanel.bind(this)}
             closeBlade={this.onCancel}
+          />
+        </Panel>
+        <Panel
+          isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
+          type={PanelType.medium}
+          onDismiss={this.onCancel}
+          closeButtonAriaLabel={t('close')}>
+          <AppSettingsBulkEdit
+            updateAppSetting={this._saveBulkEdit}
+            closeBlade={this.onCancel}
+            appSettings={this.props.values.appSettings}
           />
         </Panel>
         <DisplayTableWithEmptyMessage
@@ -89,6 +111,17 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.setState({ hideValues: !this.state.hideValues });
   };
 
+  private _openBulkEdit = () => {
+    this.setState({
+      showPanel: true,
+      panelItem: 'bulk',
+    });
+  };
+
+  private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
+    this.props.setFieldValue('appSettings', appSettings);
+    this.setState({ createNewItem: false, showPanel: false });
+  };
   private createNewItem = () => {
     const blankAppSetting = {
       name: '',
@@ -97,6 +130,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     };
     this.setState({
       showPanel: true,
+      panelItem: 'add',
       currentAppSetting: blankAppSetting,
       createNewItem: true,
       currentItemIndex: -1,

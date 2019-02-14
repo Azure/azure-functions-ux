@@ -4733,4 +4733,37 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="willBeReadOnlyPython" xml:space="preserve">
     <value>In-portal editing for Python will soon be deprecated. Please use the CLI or VS Code for development</value>
   </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>App setting values must be an array</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a name</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a value</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>All app setting value properties must be of type string</value>
+  </data>
+   <data name="nameMustBeAString" xml:space="preserve">
+    <value>All app setting name properties must be of type string</value>
+  </data>
+   <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>All app setting slot setting properties must be of type boolean</value>
+  </data>
+   <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} is an invalid app setting property</value>
+  </data>
+   <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>App setting names must be unqiue</value>
+  </data>
+   <data name="jsonInvalid" xml:space="preserve">
+    <value>Invalid JSON object</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Advanced Edit</value>
+  </data>
 </root>
