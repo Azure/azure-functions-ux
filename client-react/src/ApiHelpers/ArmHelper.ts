@@ -98,6 +98,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosRespo
 
       validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
     });
+    LogService.trackEvent('ArmHelper', 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
     return result;
   } catch (err) {
     // This shouldn't be hit since we're telling axios to not throw on error
