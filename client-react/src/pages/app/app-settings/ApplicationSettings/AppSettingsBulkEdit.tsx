@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FormAppSetting } from '../AppSettings.types';
 import ActionBar from '../../../../components/ActionBar';
 import { MessageBarType } from 'office-ui-fabric-react';
-import { getErrorMessage, formAppSettingToCustomerFacing, customerFacingToFormAppSetting } from './AppplicationSettings.utils';
+import { getErrorMessage, formAppSettingToUseSlotSetting, formAppSettingToUseStickySetting } from './ApplicationSettings.utils';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 
 interface AppSettingsBulkEditProps {
@@ -15,14 +15,14 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
   const { t } = useTranslation();
   const { updateAppSetting, closeBlade, appSettings } = props;
   const [errorMessage, setErrorMessage] = useState('');
-  const [appSettingsState, setAppSettingsState] = useState(formAppSettingToCustomerFacing(appSettings));
+  const [appSettingsState, setAppSettingsState] = useState(formAppSettingToUseSlotSetting(appSettings));
 
   const validate = newValue => {
     const err = getErrorMessage(newValue, t);
     setErrorMessage(err);
   };
   const save = () => {
-    updateAppSetting(customerFacingToFormAppSetting(appSettingsState));
+    updateAppSetting(formAppSettingToUseStickySetting(appSettingsState));
   };
 
   const cancel = () => {

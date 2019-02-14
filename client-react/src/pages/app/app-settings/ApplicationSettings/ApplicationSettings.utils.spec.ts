@@ -1,4 +1,4 @@
-import { getErrorMessage, formAppSettingToCustomerFacing, customerFacingToFormAppSetting } from './AppplicationSettings.utils';
+import { getErrorMessage, formAppSettingToUseSlotSetting, formAppSettingToUseStickySetting } from './ApplicationSettings.utils';
 describe('getErrorMessage', () => {
   it('Should validate true in valid app settings object', () => {
     const appSettings = JSON.stringify([
@@ -158,7 +158,7 @@ describe('getErrorMessage', () => {
   });
 });
 
-describe('formAppSettingToCustomerFacing', () => {
+describe('formAppSettingToUseSlotSetting', () => {
   it('Should swap sticky property to be slotSetting', () => {
     const testVal = [
       {
@@ -168,7 +168,7 @@ describe('formAppSettingToCustomerFacing', () => {
       },
     ];
 
-    const testOut = formAppSettingToCustomerFacing(testVal);
+    const testOut = formAppSettingToUseSlotSetting(testVal);
     expect(testOut).toEqual(
       JSON.stringify(
         [
@@ -185,7 +185,7 @@ describe('formAppSettingToCustomerFacing', () => {
   });
 });
 
-describe('customerFacingToFormAppSetting', () => {
+describe('formAppSettingToUseStickySetting', () => {
   it('Should slotSetting property to be sticky', () => {
     const testVal = JSON.stringify([
       {
@@ -195,7 +195,7 @@ describe('customerFacingToFormAppSetting', () => {
       },
     ]);
 
-    const testOut = customerFacingToFormAppSetting(testVal);
+    const testOut = formAppSettingToUseStickySetting(testVal);
     expect(testOut).toEqual([
       {
         name: 'test',

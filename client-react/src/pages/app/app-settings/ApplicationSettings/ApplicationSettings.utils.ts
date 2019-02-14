@@ -48,7 +48,7 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
   }
 };
 
-export const formAppSettingToCustomerFacing = (appSettings: FormAppSetting[]): string => {
+export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[]): string => {
   return JSON.stringify(
     appSettings.map(x => ({
       name: x.name,
@@ -60,7 +60,7 @@ export const formAppSettingToCustomerFacing = (appSettings: FormAppSetting[]): s
   );
 };
 
-export const customerFacingToFormAppSetting = (appSettings: string): FormAppSetting[] => {
+export const formAppSettingToUseStickySetting = (appSettings: string): FormAppSetting[] => {
   return JSON.parse(appSettings).map(x => ({
     name: x.name,
     value: x.value,

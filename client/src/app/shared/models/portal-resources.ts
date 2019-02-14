@@ -1531,4 +1531,5 @@ export class PortalResources {
   public static invalidAppSettingProperty = 'invalidAppSettingProperty';
   public static appSettingNamesUnique = 'appSettingNamesUnique';
   public static jsonInvalid = 'jsonInvalid';
+  public static advancedEdit = 'advancedEdit';
 }
