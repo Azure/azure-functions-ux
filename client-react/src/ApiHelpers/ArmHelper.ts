@@ -19,7 +19,7 @@ export const updateAuthToken = newToken => {
 };
 
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
-
+const sessionId = Url.getParameterByName(null, 'sessionId');
 interface InternalArmRequest {
   method: MethodTypes;
   resourceId: string;
@@ -63,7 +63,7 @@ const armObs$ = armSubject$.pipe(
         resourceId: '/batch',
         body: { requests: batchBody },
         apiVersion: CommonConstants.ApiVersions.armBatchApi,
-        id: '',
+        id: Guid.newGuid(),
       })
     ).pipe(
       concatMap(result => {
@@ -82,16 +82,23 @@ const armObs$ = armSubject$.pipe(
 const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosResponse<T>> => {
   const { method, resourceId, body, apiVersion, queryString } = armObj;
   const url = Url.appendQueryString(`${endpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
+  const headers: { [key: string]: string } = {
+    Authorization: `Bearer ${authToken}`,
+    'x-ms-client-request-id': armObj.id,
+  };
+  if (sessionId) {
+    headers['x-ms-client-session-id'] = sessionId;
+  }
   try {
     const result = await axios({
       url,
       method,
+      headers,
       data: body,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
+
       validateStatus: () => true, // never throw on an error, we can check the status and handle the error in the UI
     });
+    LogService.trackEvent('ArmHelper', 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
     return result;
   } catch (err) {
     // This shouldn't be hit since we're telling axios to not throw on error
