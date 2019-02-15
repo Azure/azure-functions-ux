@@ -1532,4 +1532,7 @@ export class PortalResources {
   public static appSettingNamesUnique = 'appSettingNamesUnique';
   public static jsonInvalid = 'jsonInvalid';
   public static advancedEdit = 'advancedEdit';
+  public static coachMarkAriaDescription = 'coachMarkAriaDescription';
+  public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
+  public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
 }

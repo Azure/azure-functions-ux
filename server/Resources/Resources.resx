@@ -4766,4 +4766,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="advancedEdit" xml:space="preserve">
     <value>Advanced Edit</value>
   </data>
+   <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Press enter or alt + C to open the coachmark notification</value>
+  </data>
+   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>A coachmark has appeared</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
+  </data>
 </root>
