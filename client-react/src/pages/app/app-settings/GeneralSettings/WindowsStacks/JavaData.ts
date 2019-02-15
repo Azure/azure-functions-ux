@@ -26,17 +26,30 @@ export const getJavaVersionAsDropdownOptions = (javaStack: ArmObj<AvailableStack
 export const getJavaMajorVersionObject = (javaStack: ArmObj<AvailableStack>, currentJavaMajorVersion: string) =>
   javaStack.properties.majorVersions.find(x => x.runtimeVersion === currentJavaMajorVersion);
 
-export const getJavaMinorVersionOptions = (currentJavaMajorVersion: string, javaStack: ArmObj<AvailableStack>, newestLabel: string) => {
+export const getJavaMinorVersionOptions = (
+  currentJavaMajorVersion: string,
+  javaStack: ArmObj<AvailableStack>,
+  newestLabel: string,
+  autoUpdateLabel: string
+) => {
   const currentJavaMajorVersionOnject = getJavaMajorVersionObject(javaStack, currentJavaMajorVersion);
   let javaMinorVersionOptions: IDropdownOption[] = [];
   if (currentJavaMajorVersionOnject) {
-    javaMinorVersionOptions = currentJavaMajorVersionOnject.minorVersions.map(val => {
-      const newest = val.isDefault ? `(${newestLabel})` : '';
-      return {
-        key: val.runtimeVersion,
-        text: `${val.displayVersion}${newest}`,
-      };
-    });
+    const version = [
+      {
+        key: currentJavaMajorVersionOnject.runtimeVersion,
+        text: `${currentJavaMajorVersionOnject.displayVersion} (${autoUpdateLabel})`,
+      },
+    ];
+    javaMinorVersionOptions = version.concat(
+      currentJavaMajorVersionOnject.minorVersions.map(val => {
+        const newest = val.isDefault ? ` (${newestLabel})` : '';
+        return {
+          key: val.runtimeVersion,
+          text: `${val.displayVersion}${newest}`,
+        };
+      })
+    );
   }
   return javaMinorVersionOptions;
 };
@@ -49,11 +62,7 @@ export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>)
     };
   });
 
-export const getFrameworkVersionOptions = (
-  javaContainers: ArmObj<AvailableStack>,
-  config: ArmObj<SiteConfig>,
-  latestMinorVersionLabel: string
-) => {
+export const getFrameworkVersionOptions = (javaContainers: ArmObj<AvailableStack>, config: ArmObj<SiteConfig>, autoUpdateLabel: string) => {
   const currentFramework =
     config.properties.javaContainer &&
     javaContainers.properties.frameworks.find(x => x.name.toLowerCase() === config.properties.javaContainer.toLowerCase());
@@ -63,7 +72,7 @@ export const getFrameworkVersionOptions = (
       const version = [
         {
           key: val.runtimeVersion,
-          text: `${val.displayVersion} (${latestMinorVersionLabel})`,
+          text: `${val.displayVersion} (${autoUpdateLabel})`,
         },
       ];
       return version.concat(

@@ -1227,7 +1227,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     });
 
     javaMinorVersionOptions.push({
-      displayLabel: this._translateService.instant(PortalResources.latest),
+      displayLabel: this._translateService.instant(PortalResources.autoUpdate),
       value: '',
       default: false,
     });
@@ -1261,7 +1261,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         });
 
         javaWebContainerOptions.push({
-          displayLabel: this._translateService.instant(PortalResources.versionLatest, {
+          displayLabel: this._translateService.instant(PortalResources.versionAutoUpdate, {
             version: `${framework.display} ${majorVersion.displayVersion}`,
           }),
           value: JSON.stringify({
