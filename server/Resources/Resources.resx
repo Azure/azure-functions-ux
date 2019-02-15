@@ -4481,11 +4481,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Latest</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Auto-Update</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (latest)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (auto-update)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
