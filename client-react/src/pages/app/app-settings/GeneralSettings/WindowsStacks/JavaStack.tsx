@@ -44,11 +44,11 @@ const JavaStack: React.SFC<Props> = props => {
 
   // Java Versions
   const javaMajorVersionOptions = getJavaVersionAsDropdownOptions(javaStack);
-  const javaMinorVersionOptions = getJavaMinorVersionOptions(currentJavaMajorVersion, javaStack, t('newest'));
+  const javaMinorVersionOptions = getJavaMinorVersionOptions(currentJavaMajorVersion, javaStack, t('newest'), t('autoUpdate'));
 
   // container versions
   const frameworks = getJavaContainersOptions(javaContainers);
-  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t('latestMinorVersion'));
+  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t('autoUpdate'));
   const onMajorVersionChange = (e: unknown, option: IDropdownOption) => {
     setCurrentJavaMajorVersion(option.key as string);
   };
