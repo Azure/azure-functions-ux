@@ -1,9 +1,10 @@
 import { CommandBarButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../ThemeContext';
 import { CommandBarButtonStyle } from './AppSettings.styles';
+import { PortalContext } from '../../../PortalContext';
 
 // Data for CommandBar
 const getItems = (
@@ -57,7 +58,13 @@ type AppSettingsCommandBarPropsCombined = AppSettingsCommandBarProps;
 const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = props => {
   const { submitForm, resetForm, dirty, disabled } = props;
   const { t } = useTranslation();
-
+  const portalCommunicator = useContext(PortalContext);
+  useEffect(
+    () => {
+      portalCommunicator.updateDirtyState(dirty);
+    },
+    [dirty]
+  );
   return (
     <CommandBar
       items={getItems(submitForm, () => resetForm(), dirty, disabled, t)}
