@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React from 'react';
@@ -13,6 +13,9 @@ import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
 import AppSettingsBulkEdit from './AppSettingsBulkEdit';
+import { Coachmark } from 'office-ui-fabric-react/lib/Coachmark';
+import { TeachingBubbleContent } from 'office-ui-fabric-react/lib/TeachingBubble';
+import { DirectionalHint } from 'office-ui-fabric-react';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
@@ -21,11 +24,12 @@ interface ApplicationSettingsState {
   currentAppSetting: FormAppSetting | null;
   currentItemIndex: number;
   createNewItem: boolean;
+  coachMarkVisible: boolean;
 }
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
-
+  private _targetButton = React.createRef<HTMLDivElement>();
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +39,34 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       currentAppSetting: null,
       currentItemIndex: -1,
       createNewItem: false,
+      coachMarkVisible: false,
     };
   }
+
+  public componentDidMount = () => {
+    let showCoachMark = false;
+    if (window.localStorage) {
+      const localStorageKey = 'app-settings-bulk-edit-coachmark';
+      const hasShownCoachmark = window.localStorage.getItem(localStorageKey);
+      showCoachMark = !hasShownCoachmark;
+      window.localStorage.setItem(localStorageKey, 'true');
+    }
+    if (showCoachMark) {
+      setTimeout(() => {
+        this.setState({
+          coachMarkVisible: true,
+        });
+      }, 1000);
+    }
+  };
 
   public render() {
     const { t } = this.props;
     const { production_write, editable } = this.context;
+    const buttonProps: IButtonProps = {
+      text: t('dismiss'),
+      onClick: this._onDismissCoachmark,
+    };
     if (!this.props.values.appSettings) {
       return null;
     }
@@ -57,18 +83,24 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <ActionButton
           id="app-settings-application-settings-show-hide"
           onClick={this.flipHideSwitch}
+          componentRef={ref => {
+            (this._targetButton.current as any) = ref;
+          }}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
           {this.state.hideValues ? t('showValues') : t('hideValues')}
         </ActionButton>
-        <ActionButton
-          id="app-settings-application-settings-bulk-edit"
-          onClick={this._openBulkEdit}
-          disabled={!editable}
-          styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Edit' }}>
-          {t('advancedEdit')}
-        </ActionButton>
+
+        <div ref={this._targetButton} style={{ display: 'inline-block' }}>
+          <ActionButton
+            id="app-settings-application-settings-bulk-edit"
+            onClick={this._openBulkEdit}
+            disabled={!editable}
+            styles={{ root: { marginTop: '5px' } }}
+            iconProps={{ iconName: 'Edit' }}>
+            {t('advancedEdit')}
+          </ActionButton>
+        </div>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.smallFixedFar}
@@ -94,6 +126,25 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
             appSettings={this.props.values.appSettings}
           />
         </Panel>
+        {this.state.coachMarkVisible && (
+          <Coachmark
+            target={this._targetButton.current}
+            positioningContainerProps={{
+              directionalHint: DirectionalHint.rightCenter,
+              doNotLayer: false,
+            }}
+            ariaAlertText={t('aCoachmarkHasAppearedAriaAlert')}
+            ariaDescribedByText={t('coachMarkAriaDescription')}>
+            <TeachingBubbleContent
+              headline={t('advancedEdit')}
+              hasCloseIcon={true}
+              closeButtonAriaLabel={t('close')}
+              primaryButtonProps={buttonProps}
+              onDismiss={this._onDismissCoachmark}>
+              {t('advancedEditCoachmarkDesc')}
+            </TeachingBubbleContent>
+          </Coachmark>
+        )}
         <DisplayTableWithEmptyMessage
           items={this.props.values.appSettings}
           columns={this.getColumns()}
@@ -108,7 +159,13 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   }
 
   private flipHideSwitch = () => {
-    this.setState({ hideValues: !this.state.hideValues });
+    this.setState({ hideValues: !this.state.hideValues, coachMarkVisible: true });
+  };
+
+  private _onDismissCoachmark = (): void => {
+    this.setState({
+      coachMarkVisible: false,
+    });
   };
 
   private _openBulkEdit = () => {
@@ -155,6 +212,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   private onShowPanel = (item: FormAppSetting, index: number): void => {
     this.setState({
       showPanel: true,
+      panelItem: 'add',
       currentAppSetting: item,
       currentItemIndex: index,
     });

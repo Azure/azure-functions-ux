@@ -4481,11 +4481,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Latest</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Auto-Update</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (latest)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (auto-update)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
@@ -4765,5 +4765,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
     <value>Advanced Edit</value>
+  </data>
+   <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Press enter or alt + C to open the coachmark notification</value>
+  </data>
+   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>A coachmark has appeared</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
   </data>
 </root>

@@ -1444,8 +1444,8 @@ export class PortalResources {
   public static savingCredentialsSucccess = 'savingCredentialsSucccess';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
   public static notSelected = 'notSelected';
-  public static latest = 'latest';
-  public static versionLatest = 'versionLatest';
+  public static autoUpdate = 'autoUpdate';
+  public static versionAutoUpdate = 'versionAutoUpdate';
   public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
   public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
   public static quickstartPowershellTitle = 'quickstartPowershellTitle';
@@ -1532,4 +1532,7 @@ export class PortalResources {
   public static appSettingNamesUnique = 'appSettingNamesUnique';
   public static jsonInvalid = 'jsonInvalid';
   public static advancedEdit = 'advancedEdit';
+  public static coachMarkAriaDescription = 'coachMarkAriaDescription';
+  public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
+  public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
 }
