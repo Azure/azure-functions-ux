@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../ThemeContext';
 import { CommandBarButtonStyle } from './AppSettings.styles';
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../PortalContext';
 
 // Data for CommandBar
@@ -69,6 +70,7 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
     <CommandBar
       items={getItems(submitForm, () => resetForm(), dirty, disabled, t)}
       aria-role="nav"
+      styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomButton}
     />

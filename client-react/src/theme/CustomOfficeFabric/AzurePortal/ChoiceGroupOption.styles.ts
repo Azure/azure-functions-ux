@@ -1,7 +1,7 @@
 import { FontSizes, FontWeights, HighContrastSelector, IStyle, IPalette, getGlobalClassNames } from '@uifabric/styling';
 import { IsFocusVisibleClassName } from '@uifabric/utilities';
 import { IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles } from 'office-ui-fabric-react';
-import { ThemeExtended } from '../../../SemanticColorsExtended';
+import { ThemeExtended } from '../../SemanticColorsExtended';
 
 const GlobalClassNames = {
   root: 'ms-ChoiceField',
