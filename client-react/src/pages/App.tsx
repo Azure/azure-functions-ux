@@ -4,8 +4,6 @@ import React, { useState, useEffect } from 'react';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorLogger';
-import { AzurePortalCustomizations } from '../theme/CustomOfficeFabric';
-import { Customizer } from 'office-ui-fabric-react/lib/Utilities';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../utils/i18n';
 import { PortalContext } from '../PortalContext';
@@ -33,15 +31,13 @@ export const App: React.FC = () => {
           <StartupInfoContext.Provider value={startupInfo}>
             <PortalContext.Provider value={portalCommunicator}>
               <Fabric>
-                <Customizer {...AzurePortalCustomizations}>
-                  <ErrorLogger>
-                    <Router>
-                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-                      <LandingPage path="/*" />
-                    </Router>
-                  </ErrorLogger>
-                </Customizer>
+                <ErrorLogger>
+                  <Router>
+                    <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+                    <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+                    <LandingPage path="/*" />
+                  </Router>
+                </ErrorLogger>
               </Fabric>
             </PortalContext.Provider>
           </StartupInfoContext.Provider>
