@@ -1,5 +1,4 @@
 // tslint:disable:prefer-template
-// import { IStyle } from '@uifabric/styling';
 import { ThemeExtended } from '../../SemanticColorsExtended';
 import { getGlobalClassNames, IStyle } from '@uifabric/styling';
 

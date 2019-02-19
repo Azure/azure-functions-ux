@@ -25,7 +25,7 @@ const ChioceGroupStyle = style({
 });
 
 const fieldStyle = style({
-  marginRight: 10,
+  marginRight: '10px',
 });
 const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> = props => {
   const { field, form, options, learnMore, label, subLabel, fullpage, theme, ...rest } = props;
