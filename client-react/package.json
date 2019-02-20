@@ -14,7 +14,7 @@
     "i18next-xhr-backend": "^2.0.0",
     "lodash-es": "^4.17.11",
     "monaco-editor": "^0.15.6",
-    "office-ui-fabric-react": "^6.136.0",
+    "office-ui-fabric-react": "^6.141.1",
     "react": "16.8.1",
     "react-app-polyfill": "^0.2.0",
     "react-dom": "16.8.1",
@@ -26,7 +26,6 @@
     "rxjs": "^6.4.0",
     "tslint": "^5.12.1",
     "tslint-react-hooks": "^1.1.0",
-    "typesafe-actions": "^3.0.0",
     "typestyle": "^2.0.1",
     "yup": "^0.26.10"
   },
