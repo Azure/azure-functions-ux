@@ -1535,4 +1535,6 @@ export class PortalResources {
   public static coachMarkAriaDescription = 'coachMarkAriaDescription';
   public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
+  public static physicalPathLocationError = 'physicalPathLocationError';
+  public static virtualDirectoryPathError = 'virtualDirectoryPathError';
 }
