@@ -135,7 +135,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         }));
       });
 
-    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders()).subscribe(
+    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders(false)).subscribe(
       r => {
         const locationArray: any[] = r.json().value;
         this.locationList = locationArray.map(v => {

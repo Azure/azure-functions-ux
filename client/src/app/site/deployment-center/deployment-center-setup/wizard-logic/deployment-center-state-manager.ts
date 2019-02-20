@@ -145,9 +145,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public fetchVSTSProfile() {
     // if the first get fails, it's likely because the user doesn't have an account in vsts yet
     // the fix for this is to do an empty post call on the same url and then get it
-    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders()).catch(() => {
-      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders()).switchMap(() => {
-        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders());
+    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).catch(() => {
+      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).switchMap(() => {
+        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false));
       });
     });
   }
@@ -191,14 +191,21 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _pollVstsCheck(id: string) {
-    return this._cacheService.get(
-      `https://${
-        this.wizardValues.buildSettings.vstsAccount
-      }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
-      true,
-      this.getVstsDirectHeaders()
-    );
+    return this._azureDevOpsService.getAccounts().switchMap(r => {
+      const appendMsaPassthroughHeader = r.find(
+        x => x.AccountName.toLowerCase() === this.wizardValues.buildSettings.vstsAccount.toLowerCase()
+      )!.ForceMsaPassThrough;
+
+      return this._cacheService.get(
+        `https://${
+          this.wizardValues.buildSettings.vstsAccount
+        }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
+        true,
+        this.getVstsDirectHeaders(appendMsaPassthroughHeader)
+      );
+    });
   }
+
   private _startVstsDeployment() {
     const deploymentObject: ProvisioningConfiguration = {
       authToken: this.getToken(),
@@ -217,7 +224,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             this.wizardValues.buildSettings.vstsAccount
           }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
           true,
-          this.getVstsDirectHeaders(),
+          this.getVstsDirectHeaders(false),
           {
             'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
           }
@@ -403,12 +410,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return headers;
   }
 
-  public getVstsDirectHeaders(): Headers {
+  public getVstsDirectHeaders(appendMsaPassthroughHeader: boolean = true): Headers {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     headers.append('Authorization', this.getToken());
-    headers.append('X-VSS-ForceMsaPassThrough', 'true');
+    headers.append('X-VSS-ForceMsaPassThrough', `${appendMsaPassthroughHeader}`);
     return headers;
   }
 
