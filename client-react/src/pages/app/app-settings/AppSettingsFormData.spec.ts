@@ -53,6 +53,7 @@ describe('Flatten Virtual Applications List', () => {
     expect(mockVirtualApplicationForm.filter(x => x.virtualDirectory).length).toBe(1);
     expect(mockVirtualApplicationForm.filter(x => !x.virtualDirectory).length).toBe(2);
   });
+
   it('null api value returns empty array', () => {
     const mockVirtualApplicationForm = flattenVirtualApplicationsList(null);
     expect(mockVirtualApplicationForm.length).toBe(0);
@@ -66,6 +67,119 @@ describe('Unflatten Virtual Applications List', () => {
     const mockVirtualApplicationApi = unFlattenVirtualApplicationsList(mockVirtualApplicationForm);
     expect(mockVirtualApplicationApi.length).toBe(2);
     expect(mockVirtualApplicationApi[0].virtualDirectories!.length).toBe(1);
+  });
+
+  it("Handles virtual paths that don't start with /", () => {
+    const virtualApplicationsFormData = [
+      {
+        virtualPath: '/',
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectory: false,
+      },
+      {
+        virtualPath: '/testapp',
+        physicalPath: 'site\\testapp',
+        preloadEnabled: false,
+        virtualDirectory: false,
+        virtualDirectories: [],
+      },
+      {
+        virtualPath: 'test2',
+        physicalPath: 'site\\wwwroot\\dir',
+        virtualDirectory: true,
+      },
+    ];
+    const expectedVirtualApplicationsApiData = [
+      { physicalPath: 'site\\testapp', preloadEnabled: false, virtualDirectories: [], virtualDirectory: false, virtualPath: '/testapp' },
+      {
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectories: [{ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' }],
+        virtualDirectory: false,
+        virtualPath: '/',
+      },
+    ];
+    const unflattenedData = unFlattenVirtualApplicationsList(virtualApplicationsFormData);
+    expect(unflattenedData).toEqual(expectedVirtualApplicationsApiData);
+  });
+
+  it('Handles virtual paths that does start with /', () => {
+    const virtualApplicationsFormData = [
+      {
+        virtualPath: '/',
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectory: false,
+      },
+      {
+        virtualPath: '/testapp',
+        physicalPath: 'site\\testapp',
+        preloadEnabled: false,
+        virtualDirectory: false,
+        virtualDirectories: [],
+      },
+      {
+        virtualPath: '/test2',
+        physicalPath: 'site\\wwwroot\\dir',
+        virtualDirectory: true,
+      },
+    ];
+    const expectedVirtualApplicationsApiData = [
+      { physicalPath: 'site\\testapp', preloadEnabled: false, virtualDirectories: [], virtualDirectory: false, virtualPath: '/testapp' },
+      {
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectories: [{ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' }],
+        virtualDirectory: false,
+        virtualPath: '/',
+      },
+    ];
+    const unflattenedData = unFlattenVirtualApplicationsList(virtualApplicationsFormData);
+    expect(unflattenedData).toEqual(expectedVirtualApplicationsApiData);
+  });
+
+  it('Handles virtual paths that has mixed / usage', () => {
+    const virtualApplicationsFormData = [
+      {
+        virtualPath: '/',
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectory: false,
+      },
+      {
+        virtualPath: '/testapp',
+        physicalPath: 'site\\testapp',
+        preloadEnabled: false,
+        virtualDirectory: false,
+        virtualDirectories: [],
+      },
+      {
+        virtualPath: '/test2',
+        physicalPath: 'site\\wwwroot\\dir',
+        virtualDirectory: true,
+      },
+      {
+        virtualPath: 'test3',
+        physicalPath: 'site\\wwwroot\\dir',
+        virtualDirectory: true,
+      },
+    ];
+    const expectedVirtualApplicationsApiData = [
+      { physicalPath: 'site\\testapp', preloadEnabled: false, virtualDirectories: [], virtualDirectory: false, virtualPath: '/testapp' },
+      {
+        physicalPath: 'site\\wwwroot',
+        preloadEnabled: true,
+        virtualDirectories: [
+          { physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' },
+          { physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test3' },
+        ],
+        virtualDirectory: false,
+        virtualPath: '/',
+      },
+    ];
+    const unflattenedData = unFlattenVirtualApplicationsList(virtualApplicationsFormData);
+    expect(unflattenedData).toEqual(expectedVirtualApplicationsApiData);
   });
 });
 
