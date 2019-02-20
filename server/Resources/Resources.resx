@@ -4776,7 +4776,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be location within site\</value>
+    <value>Physical path must be a location within site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>Virtual Directory path must exist within an application path</value>
