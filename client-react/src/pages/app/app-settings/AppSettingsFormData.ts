@@ -165,16 +165,21 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
   const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
+  virtualDirectories.forEach(vd => {
+    const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
-  virtualDirectories.forEach(virtualDirectory => {
-    let appFound = false;
-    const dirPathLen = virtualDirectory.virtualPath.length;
-    for (let i = 0; i < virtualApplications.length && !appFound; i = i + 1) {
-      const appPathLen = virtualApplications[i].virtualPath.length;
-      if (appPathLen < dirPathLen && virtualDirectory.virtualPath.startsWith(virtualApplications[i].virtualPath)) {
-        appFound = true;
-        virtualDirectory.virtualPath = virtualDirectory.virtualPath.substring(appPathLen);
-        virtualApplications[i].virtualDirectories!.push(virtualDirectory);
+    const va = virtualApplications.find(v => {
+      return virtualPath.startsWith(v.virtualPath);
+    });
+
+    if (va) {
+      const regex = new RegExp(`${va.virtualPath}(.*)`);
+      const match = regex.exec(virtualPath);
+      vd.virtualPath = match![1];
+      if (va.virtualDirectories) {
+        va.virtualDirectories.push(vd);
+      } else {
+        va.virtualDirectories = [vd];
       }
     }
   });
