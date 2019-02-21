@@ -13,6 +13,7 @@ import { AppSettingsFormValues, FormConnectionString, Permissions } from '../App
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { typeValueToString } from './connectionStringTypes';
 import { PermissionsContext } from '../Contexts';
+import { sortBy } from 'lodash-es';
 
 interface ConnectionStringsState {
   hideValues: boolean;
@@ -114,7 +115,8 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     } else {
       connectionStrings.push(currentConnectionString);
     }
-    setFieldValue('connectionStrings', connectionStrings);
+    const sortedConnectionStrings = sortBy(connectionStrings, o => o.name.toLowerCase());
+    setFieldValue('connectionStrings', sortedConnectionStrings);
     this.setState({ createNewItem: false, showPanel: false });
   };
 

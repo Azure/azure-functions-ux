@@ -10,6 +10,7 @@ import {
 } from '../../../models/WebAppModels';
 
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+import { sortBy } from 'lodash-es';
 
 interface StateToFormParams {
   site: ArmObj<Site>;
@@ -96,21 +97,27 @@ export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }
     return [];
   }
   const { appSettingNames } = slotConfigNames.properties;
-  return Object.keys(settingsData.properties).map(key => ({
-    name: key,
-    value: settingsData.properties[key],
-    sticky: !!appSettingNames && appSettingNames.indexOf(key) > -1,
-  }));
+  return sortBy(
+    Object.keys(settingsData.properties).map(key => ({
+      name: key,
+      value: settingsData.properties[key],
+      sticky: !!appSettingNames && appSettingNames.indexOf(key) > -1,
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
 export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount> | null) {
   if (!storageData) {
     return [];
   }
-  return Object.keys(storageData.properties).map(key => ({
-    name: key,
-    ...storageData.properties[key],
-  }));
+  return sortBy(
+    Object.keys(storageData.properties).map(key => ({
+      name: key,
+      ...storageData.properties[key],
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
@@ -144,12 +151,15 @@ export function getFormConnectionStrings(
     return [];
   }
   const { connectionStringNames } = slotConfigNames.properties;
-  return Object.keys(settingsData.properties).map(key => ({
-    name: key,
-    value: settingsData.properties[key].value,
-    type: settingsData.properties[key].type,
-    sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
-  }));
+  return sortBy(
+    Object.keys(settingsData.properties).map(key => ({
+      name: key,
+      value: settingsData.properties[key].value,
+      type: settingsData.properties[key].type,
+      sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
 export function getConnectionStringsFromForm(connectionStrings: FormConnectionString[]): ConnStringInfo[] {
