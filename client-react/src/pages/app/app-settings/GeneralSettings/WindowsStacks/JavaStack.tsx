@@ -77,7 +77,6 @@ const JavaStack: React.SFC<Props> = props => {
       <Field
         name="config.properties.javaVersion"
         component={Dropdown}
-        fullpage
         required
         disabled={!app_write || !editable}
         label={t('javaMinorVersion')}
@@ -87,7 +86,6 @@ const JavaStack: React.SFC<Props> = props => {
       <Field
         name="config.properties.javaContainer"
         component={Dropdown}
-        fullpage
         required
         label={t('javaContainer')}
         disabled={!app_write || !editable}
@@ -98,7 +96,6 @@ const JavaStack: React.SFC<Props> = props => {
         <Field
           name="config.properties.javaContainerVersion"
           component={Dropdown}
-          fullpage
           required
           disabled={!app_write || !editable}
           label={t('javaContainerVersion')}

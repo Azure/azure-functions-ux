@@ -38,7 +38,7 @@ export const dropdownContainerStyle = (upsellIcon: boolean) =>
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const LabelStyle = (upsellIcon: boolean) =>
+export const labelStyle = (upsellIcon: boolean) =>
   style({
     width: upsellIcon ? '220px' : '200px',
   });

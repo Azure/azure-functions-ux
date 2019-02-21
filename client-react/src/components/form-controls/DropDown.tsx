@@ -4,7 +4,7 @@ import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { ThemeContext } from '../../ThemeContext';
 import { Stack, Label } from 'office-ui-fabric-react';
-import { styleOverride, dropdownContainerStyle, upsellIconStyle } from './DropDown.override.styles';
+import { styleOverride, dropdownContainerStyle, upsellIconStyle, labelStyle } from './DropDown.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 interface CustomDropdownProps {
   id: string;
@@ -27,7 +27,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   const errorMessage = get(form.errors, field.name, '') as string;
   return (
     <Stack horizontal verticalAlign="center" className={dropdownContainerStyle(!!upsellMessage)}>
-      <Stack horizontal verticalAlign="center" style={{ width: '220px' }}>
+      <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage)}>
         {upsellMessage && (
           <div className={upsellIconStyle}>
             <UpsellIcon upsellMessage={upsellMessage} />

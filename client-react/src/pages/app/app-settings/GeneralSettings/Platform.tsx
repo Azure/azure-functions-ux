@@ -15,15 +15,19 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable } = useContext(PermissionsContext);
+  const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
+  const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
+  const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.use32BitWorkerProcess"
           component={Dropdown}
+          upsellMessage={platformOptionEnable.data}
           label={t('platform')}
           id="app-settings-worker-process"
-          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || platformOptionEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -101,9 +105,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
+          fullpage
+          upsellMessage={websocketsEnable.data}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
-          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || websocketsEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -120,9 +126,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.alwaysOn"
           component={RadioButton}
+          fullpage
+          upsellMessage={alwaysOnEnable}
           label={t('alwaysOn')}
           id="app-settings-always-on"
-          disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'}
+          disabled={!app_write || !editable || alwaysOnEnable.status === 'disabled'}
           options={[
             {
               key: true,
@@ -139,6 +147,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="site.properties.clientAffinityEnabled"
           component={RadioButton}
+          fullpage
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
           disabled={!app_write || !editable}

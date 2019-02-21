@@ -26,7 +26,6 @@ const PhpStack: React.SFC<Props> = props => {
     <Field
       name="config.properties.phpVersion"
       component={Dropdown}
-      fullpage
       label={t('phpVersion')}
       id="phpVersion"
       disabled={!app_write || !editable}
