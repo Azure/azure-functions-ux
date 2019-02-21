@@ -27,8 +27,7 @@ import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
-import { updateAuthToken, updateEndpoint } from './ApiHelpers/ArmHelper';
-
+import LogService from './utils/LogService';
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
@@ -62,7 +61,6 @@ export default class PortalCommunicator {
   private notificationStartStream = new Subject<INotificationStartedInfo>();
   private frameId;
   private i18n: any;
-
   private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
   private setArmToken: Dispatch<SetStateAction<string>>;
   private setStartupInfo: Dispatch<SetStateAction<IStartupInfo>>;
@@ -247,7 +245,7 @@ export default class PortalCommunicator {
     const data = event.data.data;
     const methodName = event.data.kind;
 
-    console.log(`[iFrame-${this.frameId}] Received mesg: ${methodName}  for frameId: ${event.data.data && event.data.data.frameId}`);
+    LogService.debug(`iFrame-${this.frameId}]`, `Received mesg: ${methodName}  for frameId: ${event.data.data && event.data.data.frameId}`);
 
     if (methodName === Verbs.sendStartupInfo) {
       const startupInfo = data as IStartupInfo;
@@ -261,8 +259,8 @@ export default class PortalCommunicator {
       this.setArmTokenInternal(startupInfo.token);
       this.i18n.changeLanguage(startupInfo.acceptLanguage);
       this.setStartupInfo(startupInfo);
-    } else if (methodName === Verbs.sendToken) {
-      this.setArmTokenInternal(data);
+    } else if (methodName === Verbs.sendToken2) {
+      this.setArmTokenInternal(data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
@@ -272,11 +270,11 @@ export default class PortalCommunicator {
 
   private setArmTokenInternal = (token: string) => {
     this.setArmToken(token);
-    updateAuthToken(token);
+    window.authToken = token;
   };
 
   private setArmEndpointInternal = (endpoint: string) => {
-    updateEndpoint(endpoint);
+    window.armEndpoint = endpoint;
   };
   private packageData = (data: any) => {
     data.frameId = this.frameId;
