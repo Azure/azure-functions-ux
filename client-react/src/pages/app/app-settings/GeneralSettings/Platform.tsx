@@ -24,6 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.use32BitWorkerProcess"
           component={Dropdown}
+          fullpage
           upsellMessage={platformOptionEnable.data}
           label={t('platform')}
           id="app-settings-worker-process"
@@ -44,6 +45,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.managedPipelineMode"
           component={Dropdown}
+          fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
           disabled={!app_write || !editable}
@@ -63,6 +65,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.ftpsState"
           component={Dropdown}
+          fullpage
           label={t('ftpState')}
           id="app-settings-ftps-state"
           disabled={!app_write || !editable}
@@ -86,6 +89,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.http20Enabled"
           component={Dropdown}
+          fullpage
           label={t('httpVersion')}
           id="app-settings-http-enabled"
           disabled={!app_write || !editable}
@@ -127,7 +131,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.alwaysOn"
           component={RadioButton}
           fullpage
-          upsellMessage={alwaysOnEnable}
+          upsellMessage={alwaysOnEnable.data}
           label={t('alwaysOn')}
           id="app-settings-always-on"
           disabled={!app_write || !editable || alwaysOnEnable.status === 'disabled'}

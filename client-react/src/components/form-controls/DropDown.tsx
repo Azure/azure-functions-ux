@@ -4,12 +4,13 @@ import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { ThemeContext } from '../../ThemeContext';
 import { Stack, Label } from 'office-ui-fabric-react';
-import { styleOverride, dropdownContainerStyle, upsellIconStyle, labelStyle } from './DropDown.override.styles';
+import { dropdownStyleOverrides, controlContainerStyle, upsellIconStyle, labelStyle } from './formControl.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
 interface CustomDropdownProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
+  fullpage: boolean;
   learnMore?: {
     learnMoreLink: string;
     learnMoreText: string;
@@ -17,7 +18,7 @@ interface CustomDropdownProps {
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
-  const { field, form, options, learnMore, upsellMessage, label, ...rest } = props;
+  const { field, form, options, learnMore, upsellMessage, fullpage, label, ...rest } = props;
   const theme = useContext(ThemeContext);
   const dirty = get(form.initialValues, field.name, null) !== field.value;
 
@@ -26,24 +27,25 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   };
   const errorMessage = get(form.errors, field.name, '') as string;
   return (
-    <Stack horizontal verticalAlign="center" className={dropdownContainerStyle(!!upsellMessage)}>
-      <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage)}>
+    <Stack horizontal={fullpage} verticalAlign="center" className={controlContainerStyle(!!upsellMessage, fullpage)}>
+      <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage, fullpage)}>
         {upsellMessage && (
           <div className={upsellIconStyle}>
             <UpsellIcon upsellMessage={upsellMessage} />
           </div>
         )}
-        <Label>{label}</Label>
+        <Label id={`${props.id}-label`}>{label}</Label>
       </Stack>
       <OfficeDropdown
         selectedKey={field.value === undefined ? 'null' : field.value}
+        aria-labelledby={`${props.id}-label`}
         ariaLabel={props.label}
         options={options}
         onChange={onChange}
         onBlur={field.onBlur}
         errorMessage={errorMessage}
         {...rest}
-        styles={styleOverride(dirty, theme)}
+        styles={dropdownStyleOverrides(dirty, theme, fullpage)}
       />
     </Stack>
   );

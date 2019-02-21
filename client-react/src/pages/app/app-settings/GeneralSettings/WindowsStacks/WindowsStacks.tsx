@@ -24,6 +24,7 @@ const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="currentlySelectedStack"
           component={Dropdown}
+          fullpage
           disabled={!editable}
           options={[
             {

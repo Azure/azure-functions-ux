@@ -2,7 +2,7 @@ import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropd
 import { IDropdownStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 
-export const styleOverride = (dirty, theme) => styleProps => {
+export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => {
   const baseStyle = DropDownStyles(styleProps);
   return {
     ...baseStyle,
@@ -14,7 +14,7 @@ export const styleOverride = (dirty, theme) => styleProps => {
     ],
     errorMessage: [
       ...baseStyle.errorMessage,
-      {
+      fullpage && {
         paddingLeft: '200px',
       },
     ],
@@ -33,12 +33,12 @@ export const styleOverride = (dirty, theme) => styleProps => {
   } as IDropdownStyles;
 };
 
-export const dropdownContainerStyle = (upsellIcon: boolean) =>
-  style({ marginBottom: '15px', marginLeft: upsellIcon ? '-20px' : undefined });
+export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
+  style({ marginBottom: '15px', marginLeft: upsellIcon && fullpage ? '-20px' : undefined });
 
 export const upsellIconStyle = style({ marginRight: '6px' });
 
-export const labelStyle = (upsellIcon: boolean) =>
+export const labelStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
-    width: upsellIcon ? '220px' : '200px',
+    width: upsellIcon && fullpage ? '220px' : '200px',
   });

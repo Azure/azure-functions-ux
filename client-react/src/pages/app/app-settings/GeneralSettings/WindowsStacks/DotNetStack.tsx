@@ -26,6 +26,7 @@ const DotNetStack: React.SFC<Props> = props => {
     <Field
       name="config.properties.netFrameworkVersion"
       component={Dropdown}
+      fullpage
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
       disabled={!app_write || !editable}

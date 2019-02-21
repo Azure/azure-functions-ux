@@ -102,6 +102,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                   name="config.properties.autoSwapSlotName"
                   disabled={!editable}
                   component={Dropdown}
+                  fullpage
                   label={t('autoSwapSlot')}
                   id="app-settings-auto-swap-slot-name"
                   options={slotDropDownItems}
