@@ -16,6 +16,7 @@ import AppSettingsBulkEdit from './AppSettingsBulkEdit';
 import { Coachmark } from 'office-ui-fabric-react/lib/Coachmark';
 import { TeachingBubbleContent } from 'office-ui-fabric-react/lib/TeachingBubble';
 import { DirectionalHint } from 'office-ui-fabric-react';
+import { sortBy } from 'lodash-es';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
@@ -176,7 +177,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   };
 
   private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
-    this.props.setFieldValue('appSettings', appSettings);
+    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
     this.setState({ createNewItem: false, showPanel: false });
   };
   private createNewItem = () => {
@@ -201,7 +202,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     } else {
       appSettings.push(item);
     }
-    this.props.setFieldValue('appSettings', appSettings);
+    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
     this.setState({ createNewItem: false, showPanel: false });
   };
 

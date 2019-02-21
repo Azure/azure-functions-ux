@@ -15,7 +15,7 @@ import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import { StorageType, ArmAzureStorageMount } from '../../../../models/WebAppModels';
 import { PermissionsContext } from '../Contexts';
-
+import { sortBy } from 'lodash-es';
 export interface AzureStorageMountLocalState {
   showPanel: boolean;
   currentAzureStorageMount: FormAzureStorageMounts | null;
@@ -110,17 +110,14 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
     const azureStorageMounts = [...azureStorageMountsItem];
     if (!this.state.createNewItem) {
       azureStorageMounts[this.state.currentItemIndex!] = item;
-      setValues({
-        ...values,
-        azureStorageMounts,
-      });
     } else {
       azureStorageMounts.push(item);
-      setValues({
-        ...values,
-        azureStorageMounts,
-      });
     }
+    const sortedAzureStorageMounts = sortBy(azureStorageMounts, o => o.name.toLowerCase());
+    setValues({
+      ...values,
+      azureStorageMounts: sortedAzureStorageMounts,
+    });
     this.setState({ createNewItem: false, showPanel: false });
   };
 
