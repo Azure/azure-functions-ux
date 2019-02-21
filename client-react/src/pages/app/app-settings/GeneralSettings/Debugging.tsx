@@ -37,7 +37,6 @@ const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           <Field
             name="config.properties.remoteDebuggingVersion"
             component={Dropdown}
-            fullpage
             disabled={!app_write || !editable}
             options={[
               {

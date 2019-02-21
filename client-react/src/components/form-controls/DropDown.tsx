@@ -4,11 +4,9 @@ import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { ThemeContext } from '../../ThemeContext';
 import { Stack, Label } from 'office-ui-fabric-react';
-import { styleOverride, dropdownContainerStyle } from './DropDown.override.styles';
+import { styleOverride, dropdownContainerStyle, upsellIconStyle } from './DropDown.override.styles';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
-import InfoIcon from '../TooltipIcons/InfoIcon';
 interface CustomDropdownProps {
-  fullpage?: boolean;
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
@@ -19,7 +17,7 @@ interface CustomDropdownProps {
 }
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
-  const { field, form, options, learnMore, upsellMessage, label, fullpage, ...rest } = props;
+  const { field, form, options, learnMore, upsellMessage, label, ...rest } = props;
   const theme = useContext(ThemeContext);
   const dirty = get(form.initialValues, field.name, null) !== field.value;
 
@@ -28,15 +26,14 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   };
   const errorMessage = get(form.errors, field.name, '') as string;
   return (
-    <Stack horizontal verticalAlign="center" className={dropdownContainerStyle(!upsellMessage)}>
+    <Stack horizontal verticalAlign="center" className={dropdownContainerStyle(!!upsellMessage)}>
       <Stack horizontal verticalAlign="center" style={{ width: '220px' }}>
-        <div style={{ marginRight: '6px' }}>
-          <UpsellIcon upsellMessage="Hello World" />
-        </div>
+        {upsellMessage && (
+          <div className={upsellIconStyle}>
+            <UpsellIcon upsellMessage={upsellMessage} />
+          </div>
+        )}
         <Label>{label}</Label>
-        <div style={{ marginLeft: '6px' }}>
-          <InfoIcon upsellMessage="Hello World" />
-        </div>
       </Stack>
       <OfficeDropdown
         selectedKey={field.value === undefined ? 'null' : field.value}
@@ -46,7 +43,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
         onBlur={field.onBlur}
         errorMessage={errorMessage}
         {...rest}
-        styles={styleOverride(dirty, theme, fullpage)}
+        styles={styleOverride(dirty, theme)}
       />
     </Stack>
   );

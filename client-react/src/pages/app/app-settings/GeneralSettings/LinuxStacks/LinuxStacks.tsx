@@ -40,7 +40,6 @@ const LinuxStacks: React.FC<PropsType> = props => {
     <Field
       name="config.properties.linuxFxVersion"
       component={Dropdown}
-      fullpage
       disabled={!app_write || !editable}
       label="Runtime Stack"
       id="linux-fx-version-runtime"

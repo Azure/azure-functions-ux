@@ -21,7 +21,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.use32BitWorkerProcess"
           component={Dropdown}
-          fullpage
           label={t('platform')}
           id="app-settings-worker-process"
           disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site }).status === 'disabled'}
@@ -41,7 +40,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.managedPipelineMode"
           component={Dropdown}
-          fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
           disabled={!app_write || !editable}
@@ -61,7 +59,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.ftpsState"
           component={Dropdown}
-          fullpage
           label={t('ftpState')}
           id="app-settings-ftps-state"
           disabled={!app_write || !editable}
@@ -85,7 +82,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.http20Enabled"
           component={Dropdown}
-          fullpage
           label={t('httpVersion')}
           id="app-settings-http-enabled"
           disabled={!app_write || !editable}
@@ -105,7 +101,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
-          fullpage
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
           disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site }).status === 'disabled'}
@@ -128,7 +123,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('alwaysOn')}
           id="app-settings-always-on"
           disabled={!app_write || !editable || scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site }).status === 'disabled'}
-          fullpage
           options={[
             {
               key: true,
@@ -145,7 +139,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="site.properties.clientAffinityEnabled"
           component={RadioButton}
-          fullpage
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
           disabled={!app_write || !editable}
