@@ -37,6 +37,7 @@ export class VstsValidators {
       }
     };
   }
+
   static createProjectPermissionsValidator(
     _wizard: DeploymentCenterStateManager,
     _translateService: TranslateService,
@@ -49,8 +50,9 @@ export class VstsValidators {
       const vstsProjectValue: string = projectControl.value;
       if (vstsAccountValue && vstsProjectValue) {
         return _azureDevOpsService.getAccounts().switchMap(r => {
-          const msaPassthrough = r.find(x => x.AccountName.toLowerCase() === vstsAccountValue.toLowerCase())!.ForceMsaPassThrough;
-          const callHeaders = _wizard.getVstsDirectHeaders(msaPassthrough);
+          const appendMsaPassthroughHeader = r.find(x => x.AccountName.toLowerCase() === vstsAccountValue.toLowerCase())!
+            .ForceMsaPassThrough;
+          const callHeaders = _wizard.getVstsDirectHeaders(appendMsaPassthroughHeader);
           return _cacheService
             .get(DeploymentCenterConstants.vstsProjectsApi.format(vstsAccountValue), true, callHeaders)
             .concatMap(r => {
