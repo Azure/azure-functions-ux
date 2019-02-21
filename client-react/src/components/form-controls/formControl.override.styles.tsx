@@ -1,6 +1,7 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
 import { IDropdownStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => {
   const baseStyle = DropDownStyles(styleProps);
@@ -42,3 +43,17 @@ export const labelStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({
     width: upsellIcon && fullpage ? '220px' : '200px',
   });
+
+export const infoMessageStyle = (fullpage: boolean) =>
+  style({
+    paddingLeft: fullpage ? '10px' : 0,
+    paddingTop: fullpage ? 0 : '5px',
+  });
+
+export const infoIconStyle = (theme: ThemeExtended) =>
+  style({
+    color: theme.semanticColors.infoIcon,
+    paddingRight: '5px',
+  });
+
+export const learnMoreLinkStyle = style({ paddingLeft: '5px' });

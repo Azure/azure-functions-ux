@@ -39,7 +39,8 @@ const PythonStack: React.StatelessComponent<Props> = props => {
     <Field
       name="config.properties.pythonVersion"
       component={Dropdown}
-      fullpage
+      infoBubbleMessage={t('pythonInfoTextNoClick')}
+      learnMoreLink="https://go.microsoft.com/fwlink/?linkid=852196"
       disabled={!app_write || !editable}
       label={t('pythonVersion')}
       id="pythonVersion"

@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import { Dropdown as OfficeDropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useState, useEffect, useContext } from 'react';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -17,6 +17,7 @@ import {
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
 import { PermissionsContext } from '../../Contexts';
+import DropdownNoFormik from '../../../../../components/form-controls/DropDown.noFormik';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -54,25 +55,13 @@ const JavaStack: React.SFC<Props> = props => {
   };
   return (
     <div>
-      <OfficeDropdown
+      <DropdownNoFormik
         label={t('javaVersionLabel')}
-        selectedKey={currentJavaMajorVersion}
+        value={currentJavaMajorVersion}
         id="app-settings-java-major-verison"
         disabled={!app_write || !editable}
         options={javaMajorVersionOptions}
         onChange={onMajorVersionChange}
-        styles={{
-          label: [
-            {
-              display: 'inline-block',
-            },
-          ],
-          dropdown: [
-            {
-              display: 'inline-block',
-            },
-          ],
-        }}
       />
       <Field
         name="config.properties.javaVersion"
