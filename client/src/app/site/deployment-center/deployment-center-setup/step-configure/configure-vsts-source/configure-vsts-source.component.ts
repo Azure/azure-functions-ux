@@ -74,6 +74,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             this.wizard,
             this._translateService,
             this._cacheService,
+            this._azureDevOpsService,
             this.wizard.buildSettings.get('vstsAccount')
           ).bind(this)
         );
