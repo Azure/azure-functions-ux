@@ -8,16 +8,6 @@ import Url from '../utils/url';
 import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
 import LogService from '../utils/LogService';
 
-let endpoint = '';
-let authToken = '';
-export const updateEndpoint = newEndpoint => {
-  endpoint = newEndpoint;
-};
-
-export const updateAuthToken = newToken => {
-  authToken = newToken;
-};
-
 const alwaysSkipBatch = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
 interface InternalArmRequest {
@@ -81,9 +71,9 @@ const armObs$ = armSubject$.pipe(
 
 const makeArmRequest = async <T>(armObj: InternalArmRequest): Promise<AxiosResponse<T>> => {
   const { method, resourceId, body, apiVersion, queryString } = armObj;
-  const url = Url.appendQueryString(`${endpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
+  const url = Url.appendQueryString(`${window.armEndpoint}${resourceId}${queryString || ''}`, `api-version=${apiVersion}`);
   const headers: { [key: string]: string } = {
-    Authorization: `Bearer ${authToken}`,
+    Authorization: `Bearer ${window.authToken}`,
     'x-ms-client-request-id': armObj.id,
   };
   if (sessionId) {
