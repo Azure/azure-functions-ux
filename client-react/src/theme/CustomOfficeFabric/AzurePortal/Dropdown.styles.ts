@@ -68,7 +68,6 @@ export const DropDownStyles = props => {
     root: [
       {
         marginTop: '0px',
-        marginBottom: '15px',
       },
     ],
     label: [
@@ -119,6 +118,7 @@ export const DropDownStyles = props => {
     callout: [
       {
         border: `1px solid ${semanticColors.standardControlOutlineRest}`,
+        backgroundColor: semanticColors.bodyBackground,
       },
     ],
     dropdownItem: [
