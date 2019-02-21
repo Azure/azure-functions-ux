@@ -259,8 +259,8 @@ export default class PortalCommunicator {
       this.setArmTokenInternal(startupInfo.token);
       this.i18n.changeLanguage(startupInfo.acceptLanguage);
       this.setStartupInfo(startupInfo);
-    } else if (methodName === Verbs.sendToken || methodName === Verbs.sendToken2) {
-      this.setArmTokenInternal(data);
+    } else if (methodName === Verbs.sendToken2) {
+      this.setArmTokenInternal(data.token);
     } else if (methodName === Verbs.sendNotificationStarted) {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
