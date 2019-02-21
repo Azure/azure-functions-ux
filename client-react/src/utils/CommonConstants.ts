@@ -34,4 +34,7 @@ export class CommonConstants {
     armLocksApiVersion: '2015-01-01',
     armRbacApiVersion: '2015-07-01',
   };
+  public static readonly NonThemeColors = {
+    upsell: '#804998',
+  };
 }
