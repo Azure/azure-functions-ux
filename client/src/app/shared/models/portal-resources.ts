@@ -453,6 +453,7 @@ export class PortalResources {
   public static pythonVersionLabel = 'pythonVersionLabel';
   public static pythonVersionLabelHelp = 'pythonVersionLabelHelp';
   public static pythonInfoText = 'pythonInfoText';
+  public static pythonInfoTextNoClick = 'pythonInfoTextNoClick';
   public static javaVersionLabel = 'javaVersionLabel';
   public static javaVersionLabelHelp = 'javaVersionLabelHelp';
   public static javaMinorVersionLabel = 'javaMinorVersionLabel';

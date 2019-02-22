@@ -50,6 +50,7 @@ export const DropDownStyles = props => {
     },
   ];
   const dropdownItemSelected: IStyle = [
+    ...dropdownItemStyle,
     {
       backgroundColor: palette.neutralQuaternaryAlt,
       color: palette.black,
@@ -57,6 +58,7 @@ export const DropDownStyles = props => {
   ];
 
   const dropdownItemDisabled: IStyle = [
+    ...dropdownItemStyle,
     {
       color: semanticColors.disabledText,
       cursor: 'default',
@@ -114,6 +116,7 @@ export const DropDownStyles = props => {
       },
     ],
     caretDown: [{ color: semanticColors.textColor }],
+    caretDownWrapper: [{ height: `${DROPDOWN_HEIGHT}px`, lineHeight: `${DROPDOWN_HEIGHT}px` }],
     errorMessage: [{ color: semanticColors.inlineErrorText }],
     callout: [
       {

@@ -1474,6 +1474,9 @@
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
   </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
   </data>

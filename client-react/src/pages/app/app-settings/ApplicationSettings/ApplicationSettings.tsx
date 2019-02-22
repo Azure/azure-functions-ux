@@ -160,7 +160,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   }
 
   private flipHideSwitch = () => {
-    this.setState({ hideValues: !this.state.hideValues, coachMarkVisible: true });
+    this.setState({ hideValues: !this.state.hideValues });
   };
 
   private _onDismissCoachmark = (): void => {

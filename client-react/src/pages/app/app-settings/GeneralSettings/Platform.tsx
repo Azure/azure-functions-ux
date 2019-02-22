@@ -24,7 +24,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.use32BitWorkerProcess"
           component={Dropdown}
-          fullpage
           upsellMessage={platformOptionEnable.data}
           label={t('platform')}
           id="app-settings-worker-process"
