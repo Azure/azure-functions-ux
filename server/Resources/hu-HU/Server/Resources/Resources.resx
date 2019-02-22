@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>A Linux-alkalmazások nem támogatják ezt a funkciót</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>A használatalapú csomag Linux-alkalmazásai nem támogatják ezt a funkciót</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>A funkció használatához írási engedélyekkel kell rendelkeznie a jelenlegi alkalmazásban</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Az App Service a Python újabb verzióinak telepítését támogatja. További információért kattintson ide.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-verzió</value>
@@ -4475,11 +4481,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="notSelected" xml:space="preserve">
     <value>Nincs kijelölve</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Legutóbbi</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatikus frissítés</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (legújabb)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatikus frissítés)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Az alkalmazás a(Z) {{defaultJavaVersion}} legújabb verzióját fogja használni.</value>
@@ -4692,13 +4698,16 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Azure Files</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
-    <value>New Azure Storage Mount</value>
+    <value>Új Azure Storage-kötet</value>
   </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
-    <value>Empty Azure Storage Mount</value>
+    <value>Üres Azure Storage-kötet</value>
   </data>
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
-    <value>Azure storage mount names must be unique</value>
+    <value>Az Azure Storage-kötetek nevének egyedinek kell lennie</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>A virtuális elérési utaknak egyedinek kell lenniük</value>
   </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Konfigurációs lehetőségek</value>
@@ -4716,6 +4725,60 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Válasszon egy beállítást</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>A NodeJS indítási parancsainak az ng, a node vagy a pm2 utasítást kell használniuk</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>A Python portálon belüli szerkesztése hamarosan elavul. Fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Az Azure Storage-csatlakozások titkos kulcsokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási/írási jogosultság szükséges.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Az alkalmazásbeállítási értékeknek tömbnek kell lenniük</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási objektumnak rendelkeznie kell névvel</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási objektumnak rendelkeznie kell értékkel</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási értéktulajdonságnak sztring típusúnak kell lennie</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási névtulajdonságnak sztring típusúnak kell lennie</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási tárhelybeállítás-tulajdonságnak logikai típusúnak kell lennie</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>A(z) {0} érvénytelen alkalmazásbeállítási tulajdonság</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Az alkalmazásbeállításoknak egyedi névvel kell rendelkezniük</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Érvénytelen JSON-objektum</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Speciális szerkesztés</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Nyomja meg az Enter billentyűt vagy az Alt + C billentyűket a Coachmark-értesítés megnyitásához</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Coachmark jelent meg</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>A speciális szerkesztéssel tömeges szerkesztheti az alkalmazásbeállításokat. A kulcsok és az értékek egyszerű szöveges JSON-formátumban szerkeszthetők</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

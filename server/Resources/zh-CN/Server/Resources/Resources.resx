@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux 应用不支持此功能</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>消耗计划上的 Linux 应用不支持此功能</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>必须具有当前应用的写入权限才可使用此功能</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>应用服务支持安装较新版本的 Python。单击此处了解详细信息。</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -4475,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>未选定</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>最新</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>自动更新</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (最新)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (自动更新)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>你的应用将使用最新版本的 {{defaultJavaVersion}}。</value>
@@ -4692,30 +4698,87 @@
     <value>Azure 文件</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
-    <value>New Azure Storage Mount</value>
+    <value>新的 Azure 存储装入</value>
   </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
-    <value>Empty Azure Storage Mount</value>
+    <value>空 Azure 存储装入</value>
   </data>
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
-    <value>Azure storage mount names must be unique</value>
+    <value>Azure 存储装入名称必须是唯一的</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>虚拟路径必须唯一</value>
   </data>
   <data name="configurationOptions" xml:space="preserve">
-    <value>Configuration options</value>
+    <value>配置选项</value>
   </data>
   <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
-    <value>Storage account name must be lower case</value>
+    <value>存储帐户名必须采用小写形式</value>
   </data>
   <data name="noBlobsOrFilesShares" xml:space="preserve">
-    <value>This storage account has no blob containers or file shares</value>
+    <value>此存储帐户没有 blob 容器或文件共享</value>
   </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
-    <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
+    <value>你没有针对此存储帐户的写权限。如果你知道访问密钥，可在高级模式下提供该访问密钥。</value>
   </data>
   <data name="selectAnOption" xml:space="preserve">
     <value>选择选项</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>NodeJS 启动命令必须使用 ng、节点或 pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>即将弃用针对 Python 的门户内编辑功能。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解详细信息&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure 存储装载包含机密。需要读取/写入权限才能查看/编辑此分区。</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>应用设置值必须是一个数组</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>所有应用设置对象都必须具有一个名称</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>所有应用设置对象都必须具有一个值</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>所有应用设置值属性必须为字符串类型</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>所有应用设置名称属性必须为字符串类型</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>所有应用设置槽设置属性必须为布尔类型</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} 是无效的应用设置属性</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>应用设置名称必须唯一</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>JSON 对象无效</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>高级编辑</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>按 Enter 或 Alt+C 可打开教练标记通知</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>出现教练标记</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>借助高级编辑，可批量编辑应用设置。可按纯文本 JSON 格式编辑键和值</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>物理路径必须是 site\ 内的位置</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>虚拟目录路径必须存在于应用程序路径中</value>
   </data>
 </root>

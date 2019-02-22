@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Dieses Feature wird für Linux-Apps nicht unterstützt.</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Dieses Feature wird für Linux-Apps in einem Verbrauchstarif nicht unterstützt.</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Sie benötigen Schreibberechtigungen für die aktuelle App, um dieses Feature zu verwenden.</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service unterstützt die Installation neuerer Versionen von Python. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-Version</value>
@@ -4475,11 +4481,11 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="notSelected" xml:space="preserve">
     <value>Nicht ausgewählt</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Neueste</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatische Aktualisierung</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (aktuell)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatische Aktualisierung)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Ihre App verwendet die aktuelle Version von {{defaultJavaVersion}}.</value>
@@ -4700,6 +4706,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Die Namen von Azure-Speicherbereitstellungen müssen eindeutig sein.</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuelle Pfade müssen eindeutig sein.</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Konfigurationsoptionen</value>
   </data>
@@ -4716,6 +4725,60 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Option auswählen</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>Die Startbefehle für NodeJS müssen "ng", "node" oder "pm2" verwenden.</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Die Portalbearbeitung für Python wird in Kürze eingestellt. Verwenden Sie zur Entwicklung die CLI oder VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure-Speichereinbindungen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Die App-Einstellungswerte müssen ein Array sein.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alle App-Einstellungsobjekte müssen einen Namen aufweisen.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alle Objekte der App-Einstellung müssen einen Wert aufweisen.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Alle Werteigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alle Namenseigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alle Sloteinstellungseigenschaften der App-Einstellung müssen vom Typ "boolean" sein.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>"{0}" ist eine ungültige App-Einstellungseigenschaft.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Die Namen von App-Einstellungen müssen eindeutig sein.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Ungültiges JSON-Objekt.</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Erweiterte Bearbeitung</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Drücken Sie die EINGABETASTE oder Alt+C, um die Benachrichtigung zum Coachmark zu öffnen.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Es wurde Coachmark gefunden.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Mit der erweiterten Bearbeitung können Sie eine Massenbearbeitung für Ihre App-Einstellungen durchführen. Schlüssel und Werte können im Nur-Text-JSON-Format bearbeitet werden.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

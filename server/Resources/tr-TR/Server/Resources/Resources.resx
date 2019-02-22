@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Bu özellik Linux uygulamalarında desteklenmiyor</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Bu özellik, Tüketim planındaki Linux uygulamalarında desteklenmez</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Bu özelliği kullanabilmek için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service, daha yeni Python sürümleri yüklemeyi destekler. Daha fazla bilgi için buraya tıklayın.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java sürümü</value>
@@ -4475,11 +4481,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="notSelected" xml:space="preserve">
     <value>Seçili değil</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>En son</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Otomatik Güncelleştirme</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (en son)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (otomatik güncelleştirme)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Uygulamanız {{defaultJavaVersion}} yazılımının en son sürümünü kullanacak.</value>
@@ -4700,6 +4706,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Azure depolama bağlama adları benzersiz olmalıdır</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Sanal yollar benzersiz olmalıdır</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Yapılandırma seçenekleri</value>
   </data>
@@ -4717,5 +4726,59 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>NodeJS için başlangıç komutları ng, node veya pm2 kullanmalıdır</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python için portal içinde düzenleme yakında kullanım dışı bırakılacaktır. Lütfen geliştirme için CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Tüm uygulama ayarı nesnelerinin bir adı olmalıdır</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Tüm uygulama ayarı nesnelerinin bir değeri olmalıdır</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Tüm uygulama ayarı değer özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Tüm uygulama ayarı adı özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Tüm uygulama ayarı yuva ayarı özellikleri boole türünde olmalıdır</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} geçersiz bir uygulama ayarı özelliği</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Uygulama ayarı adları benzersiz olmalıdır</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>JSON nesnesi geçersiz</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Gelişmiş Düzenleme</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Coachmark bildirimlerini açmak için Enter veya Alt + C tuşlarına basın</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Bir coachmark göründü</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Gelişmiş düzenleme, uygulama ayarlarınızı toplu olarak düzenlemenizi sağlar. Anahtarlar ve değerler düz metin JSON biçiminde düzenlenebilir</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>
