@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Den här funktionen stöds inte för Linux-appar</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Du måste ha skrivbehörighet för den aktuella appen för att kunna använda den här funktionen</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service har funktioner för att installera senare versioner av Python. Klicka här för mer information.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-version</value>
@@ -4475,11 +4481,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="notSelected" xml:space="preserve">
     <value>Ej valt</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Senaste</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatisk uppdatering</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (senaste)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatisk uppdatering)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Appen använder den senaste versionen av {{defaultJavaVersion}}.</value>
@@ -4700,6 +4706,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Namnen på Azure Storage-monteringspunkter måste vara unika</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuella sökvägar måste vara unika</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Konfigurationsalternativ</value>
   </data>
@@ -4717,5 +4726,59 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Startkommandon för NodeJS måste använda ng, node eller pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Redigering i portalen för Python kommer snart att vara inaktuellt. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Appinställningsvärden måste vara en matris</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett namn</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett värde</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsvärde måste vara av strängtyp</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsnamn vara av strängtyp</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsfack måste vara av boolesk typ</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} är en ogiltig appinställningsegenskap</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Appinställningsnamn måste vara unika</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Ogiltigt JSON-objekt</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Avancerad redigering</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Tryck på retur eller alt+C för att öppna coachmark-meddelandet</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>En coachmark har uppstått</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Avancerad redigering låter dig massredigera dina appinställningar. Nycklar och värden kan redigeras i JSON-format i klartext</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

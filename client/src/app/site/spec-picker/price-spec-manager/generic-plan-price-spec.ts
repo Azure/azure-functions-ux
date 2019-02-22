@@ -13,6 +13,8 @@ export class GenericPlanPriceSpec extends PriceSpec {
   featureItems = [];
   hardwareItems = [];
   specResourceSet = null;
+  computeMode?: number = null;
+
   private static readonly colorToCssSpec = {
     darkOrchid: 'spec premium-spec',
     mediumBlue: 'spec standard-spec',
@@ -22,6 +24,9 @@ export class GenericPlanPriceSpec extends PriceSpec {
 
   meterFriendlyName = 'App Service';
   runInitialization(input: PriceSpecInput): Observable<void> {
+    if (input.specPickerInput && input.specPickerInput.data && input.specPickerInput.data.forbiddenComputeMode === this.computeMode) {
+      this.state = 'hidden';
+    }
     return Observable.of(null);
   }
 
@@ -30,6 +35,7 @@ export class GenericPlanPriceSpec extends PriceSpec {
     this.legacySkuName = pricingTier.name;
     this.skuCode = pricingTier.name;
     this.tier = pricingTier.workerTierName;
+    this.computeMode = pricingTier.computeMode;
     if (pricingTier.estimatedPrice === 0) {
       this.priceString = this._ts.instant(PortalResources.free);
     } else if (pricingTier.estimatedPrice > 0) {

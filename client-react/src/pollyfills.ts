@@ -2,7 +2,7 @@
  * BROWSER POLYFILLS
  */
 
-/** IE9, IE10 and IE11 requires all of the following polyfills. **/
+// IE9, IE10 and IE11 requires all of the following polyfills.
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';
@@ -18,7 +18,7 @@ import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es7/array';
 
-/** Evergreen browsers require these. **/
+// Evergreen browsers require these.
 import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
 import './polyfills';

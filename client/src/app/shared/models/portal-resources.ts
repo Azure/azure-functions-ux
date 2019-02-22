@@ -453,6 +453,7 @@ export class PortalResources {
   public static pythonVersionLabel = 'pythonVersionLabel';
   public static pythonVersionLabelHelp = 'pythonVersionLabelHelp';
   public static pythonInfoText = 'pythonInfoText';
+  public static pythonInfoTextNoClick = 'pythonInfoTextNoClick';
   public static javaVersionLabel = 'javaVersionLabel';
   public static javaVersionLabelHelp = 'javaVersionLabelHelp';
   public static javaMinorVersionLabel = 'javaMinorVersionLabel';
@@ -1444,8 +1445,8 @@ export class PortalResources {
   public static savingCredentialsSucccess = 'savingCredentialsSucccess';
   public static containerPrivateRegistryDescription = 'containerPrivateRegistryDescription';
   public static notSelected = 'notSelected';
-  public static latest = 'latest';
-  public static versionLatest = 'versionLatest';
+  public static autoUpdate = 'autoUpdate';
+  public static versionAutoUpdate = 'versionAutoUpdate';
   public static functionsJavaMajorVersionWarning = 'functionsJavaMajorVersionWarning';
   public static functionsJavaMinorVersionWarning = 'functionsJavaMinorVersionWarning';
   public static quickstartPowershellTitle = 'quickstartPowershellTitle';
@@ -1513,10 +1514,28 @@ export class PortalResources {
   public static newAzureStorageMount = 'newAzureStorageMount';
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
+  public static virtualPathUnique = 'virtualPathUnique';
   public static configurationOptions = 'configurationOptions';
   public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
+  public static storageMountsNoPermissions = 'storageMountsNoPermissions';
+  public static willBeReadOnlyPython = 'willBeReadOnlyPython';
+  public static valuesMustBeAnArray = 'valuesMustBeAnArray';
+  public static nameIsRequired = 'nameIsRequired';
+  public static valueIsRequired = 'valueIsRequired';
+  public static valueMustBeAString = 'valueMustBeAString';
+  public static nameMustBeAString = 'nameMustBeAString';
+  public static slotSettingMustBeBoolean = 'slotSettingMustBeBoolean';
+  public static invalidAppSettingProperty = 'invalidAppSettingProperty';
+  public static appSettingNamesUnique = 'appSettingNamesUnique';
+  public static jsonInvalid = 'jsonInvalid';
+  public static advancedEdit = 'advancedEdit';
+  public static coachMarkAriaDescription = 'coachMarkAriaDescription';
+  public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
+  public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
+  public static physicalPathLocationError = 'physicalPathLocationError';
+  public static virtualDirectoryPathError = 'virtualDirectoryPathError';
 }

@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Deze functie wordt niet ondersteund voor Linux-apps</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Deze functie wordt niet ondersteund voor Linux-apps in een verbruiksabonnement</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>U moet schrijfbevoegdheden voor de huidige app hebben als u functie wilt gebruiken</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service ondersteunt de installatie van nieuwere versies van Python. Klik hier voor meer informatie.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-versie</value>
@@ -4476,11 +4482,11 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="notSelected" xml:space="preserve">
     <value>Niet geselecteerd</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Meest recent</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatisch bijwerken</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (nieuwste)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatisch bijwerken)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Uw app gaat de nieuwste versie gebruiken van {{defaultJavaVersion}}.</value>
@@ -4701,6 +4707,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>De namen voor de koppeling van Azure-opslag moeten uniek zijn</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuele paden moeten uniek zijn</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Configuratieopties</value>
   </data>
@@ -4718,5 +4727,59 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Opstartopdrachten voor NodeJS moeten ng, node of pm2 gebruiken</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Bewerken in de portal voor Python wordt binnenkort afgeschaft. Gebruik CLI of VS Code om te ontwikkelen. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure-opslagkoppeling bevat geheimen. Lees-/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>De waarden voor de app-instellingen moeten een matrix zijn</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alle objecten voor de app-instellingen moeten een naam hebben</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alle objecten voor de app-instellingen moeten een waarde hebben</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Alle waarde-eigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alle naameigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alle eigenschappen van sleufinstellingen voor de app-instellingen moeten van het type booleaans zijn</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} is een ongeldige eigenschap voor app-instellingen</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Namen voor de app-instellingen moeten uniek zijn</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Ongeldig JSON-object</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Geavanceerd bewerken</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Druk op Enter of Alt+C om de coachmark-melding te openen</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Er wordt een coachmark weergegeven</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Met geavanceerd bewerken kunt u bulkbewerkingen voor uw app-instellingen uitvoeren. Sleutels en waarden kunnen worden bewerkt in de JSON-indeling voor tekst zonder opmaak</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

@@ -1,8 +1,6 @@
 import Url from './url';
 import { AppInsights } from 'applicationinsights-js';
 export default class LogService {
-  private static _logToConsole = process.env.NODE_ENV !== 'production';
-
   public static initialize() {
     if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {
       AppInsights.downloadAndSetup!({ instrumentationKey: process.env.REACT_APP_APPLICATION_INSIGHTS_KEY });
@@ -10,7 +8,7 @@ export default class LogService {
       AppInsights.queue.push(() => {
         AppInsights.context.application.ver = process.env.REACT_APP_APPLICATION_VERSION || '0.0.0';
         AppInsights.context.addTelemetryInitializer(envelope => {
-          var telemetryItem = envelope.data.baseData;
+          const telemetryItem = envelope.data.baseData;
           const sessionId = Url.getParameterByName(null, 'sessionId');
           const frameId = Url.getParameterByName(null, 'frameId');
           const shell = Url.getParameterByName(null, 'trustedAuthority');
@@ -116,6 +114,7 @@ export default class LogService {
       console.debug(`${this._getTime()} %c[${category}] - ${data}`);
     }
   }
+  private static _logToConsole = process.env.NODE_ENV !== 'production';
 
   private static _getTime() {
     const now = new Date();

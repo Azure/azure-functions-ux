@@ -14,7 +14,47 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+import 'cypress-plugin-retries';
+import axe from 'axe-core';
 
+Cypress.Commands.add('injectAxe', () => {
+  cy.window({ log: false }).then(window => {
+    window.eval(axe.source);
+  });
+});
+
+Cypress.Commands.add('checkA11y', () => {
+  cy.window({ log: false })
+    .then(win => {
+      const axeOptions = {
+        rules: {
+          'page-has-heading-one': { enabled: false }, //This is not needed since we're in an iFrame and H1 is provided by the Shell
+        },
+      };
+      return win.axe.run(win.document, axeOptions);
+    })
+    .then(({ violations }) => {
+      if (violations.length) {
+        cy.wrap(violations, { log: false }).each(v => {
+          Cypress.log({
+            name: 'a11y error!',
+            consoleProps: () => v,
+            message: `    ${v.id} on ${v.nodes.length} Node${v.nodes.length === 1 ? '' : 's'}`,
+          });
+        });
+      }
+      return cy.wrap(violations, { log: false });
+    })
+    .then(violations => {
+      assert.equal(
+        violations.length,
+        0,
+        `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${
+          violations.length === 1 ? 'was' : 'were'
+        } detected`
+      );
+    });
+});
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

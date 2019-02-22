@@ -155,6 +155,8 @@ export class Kinds {
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
   public static readonly elastic = 'elastic'; // only applies to server farm
+  public static readonly api = 'api';
+  public static readonly app = 'app';
 }
 
 export class LocalStorageKeys {
@@ -585,6 +587,7 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static EnableElasticPremium = 'EnableElasticPremium';
+  public static ShowVNetIntegration = 'ShowVNetIntegration';
 }
 
 export class SupportedFeatures {

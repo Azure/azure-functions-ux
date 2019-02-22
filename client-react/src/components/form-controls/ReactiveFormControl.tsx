@@ -1,0 +1,59 @@
+import React, { ReactNode, useContext } from 'react';
+import { Stack, Label, Link, Icon } from 'office-ui-fabric-react';
+import {
+  controlContainerStyle,
+  upsellIconStyle,
+  labelStyle,
+  infoMessageStyle,
+  infoIconStyle,
+  learnMoreLinkStyle,
+} from './formControl.override.styles';
+import UpsellIcon from '../TooltipIcons/UpsellIcon';
+import { useWindowSize } from 'react-use';
+import { useTranslation } from 'react-i18next';
+import { ThemeContext } from '../../ThemeContext';
+
+interface ReactiveFormControlProps {
+  children: ReactNode;
+  id: string;
+  upsellMessage?: string;
+  infoBubbleMessage?: string;
+  label: string;
+  learnMoreLink?: string;
+}
+
+const ReactiveFormControl = (props: ReactiveFormControlProps) => {
+  const { upsellMessage, label, infoBubbleMessage, learnMoreLink } = props;
+  const { width } = useWindowSize();
+  const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
+  const fullpage = width > 1000;
+  return (
+    <Stack horizontal={fullpage} verticalAlign="center" className={controlContainerStyle(!!upsellMessage, fullpage)}>
+      <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage, fullpage)}>
+        {upsellMessage && (
+          <div className={upsellIconStyle}>
+            <UpsellIcon upsellMessage={upsellMessage} />
+          </div>
+        )}
+        <Label id={`${props.id}-label`}>{label}</Label>
+      </Stack>
+      {props.children}
+      {infoBubbleMessage && (
+        <div className={infoMessageStyle(fullpage)}>
+          <Stack horizontal verticalAlign="center">
+            <Icon iconName="Info" className={infoIconStyle(theme)} />
+            {infoBubbleMessage}
+            {learnMoreLink && (
+              <Link href={learnMoreLink} target="_blank" className={learnMoreLinkStyle}>
+                {t('learnMore')}
+              </Link>
+            )}
+          </Stack>
+        </div>
+      )}
+    </Stack>
+  );
+};
+
+export default ReactiveFormControl;

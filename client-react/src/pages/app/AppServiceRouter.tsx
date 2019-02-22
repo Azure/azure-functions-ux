@@ -1,57 +1,44 @@
-import * as React from 'react';
-import Loadable from 'react-loadable';
-import { connect } from 'react-redux';
-
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
-
-import LoadingComponent from '../../components/loading/loading-component';
-import { updateResourceId } from '../../modules/site/actions';
-
+import AppSettings from './app-settings/AppSettings';
+import { StartupInfoContext } from '../../StartupInfoContext';
+import LogStreamDataLoader from './log-stream/LogStreamDataLoader';
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;
   siteName?: string;
   slotName?: string;
   resourcegroup?: string;
-  updateResourceId: (resourceId: string) => any;
 }
-const AppSettingsLoadable: any = Loadable({
-  loader: () => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'),
-  loading: LoadingComponent,
-});
-const LogStreamLoadable: any = Loadable({
-  loader: () => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'),
-  loading: LoadingComponent,
-});
+const AppSettingsLoadable: any = AppSettings;
 
-export class AppServiceRouter extends React.Component<RouteComponentProps<AppSeriviceRouterProps>, any> {
-  public componentWillMount() {
-    let resourceId = `/subscriptions/${this.props.subscriptionId}/resourcegroups/${
-      this.props.resourcegroup
-    }/providers/Microsoft.Web/sites/${this.props.siteName}`;
-    if (this.props.slotName) {
-      resourceId = `${resourceId}/slots/${this.props.slotName}`;
+const LogStreamLoadable: any = LogStreamDataLoader;
+
+const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
+  const [resourceId, setResourceId] = useState('');
+  useEffect(() => {
+    const { subscriptionId, resourcegroup, siteName, slotName } = props;
+    let id = `/subscriptions/${subscriptionId}/resourcegroups/${resourcegroup}/providers/Microsoft.Web/sites/${siteName}`;
+    if (slotName) {
+      id = `${id}/slots/${slotName}`;
     }
-    this.props.updateResourceId!(resourceId);
-  }
-  public render() {
-    return (
-      <main>
-        <Router>
-          <AppSettingsLoadable path="/settings" />
-          <LogStreamLoadable path="/log-stream" />
-        </Router>
-      </main>
-    );
-  }
-}
+    setResourceId(id);
+  }, []);
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateResourceId: resourceId => dispatch(updateResourceId(resourceId)),
-  };
+  return (
+    <main>
+      <StartupInfoContext.Consumer>
+        {value => {
+          return (
+            value.token && (
+              <Router>
+                <AppSettingsLoadable resourceId={resourceId} path="/settings" />
+                <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
+              </Router>
+            )
+          );
+        }}
+      </StartupInfoContext.Consumer>
+    </main>
+  );
 };
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(AppServiceRouter);
+export default AppServiceRouter;

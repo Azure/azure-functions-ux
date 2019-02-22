@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Pro linuxové aplikace se tato funkce nepodporuje.</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Pro aplikace pro Linux v plánu Consumption se tato funkce nepodporuje.</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Abyste mohli tuto funkci používat, musíte mít v aktuální aplikaci oprávnění zapisovat.</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service podporuje instalaci novějších verzí Pythonu. Další informace najdete, když kliknete sem.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Verze Javy</value>
@@ -4475,11 +4481,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="notSelected" xml:space="preserve">
     <value>Nevybráno</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Nejnovější</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatická aktualizace</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (nejnovější)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatická aktualizace)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Vaše aplikace bude používat nejnovější verzi {{defaultJavaVersion}}.</value>
@@ -4700,6 +4706,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Názvy připojení Azure Storage musí být jedinečné.</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuální cesty musí být jedinečné.</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Možnosti konfigurace</value>
   </data>
@@ -4717,5 +4726,59 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Spouštěcí příkazy pro NodeJS musí používat ng, node nebo pm2.</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Úpravy pro Python na portálu se zanedlouho přestanou používat. Pro vývoj prosím použijte příkazový řádek nebo VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Připojení Azure Storage obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Hodnoty nastavení aplikace musí být pole.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Všechny objekty nastavení aplikací musí mít název.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Všechny objekty nastavení aplikací musí mít hodnotu.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Všechny vlastnosti hodnoty nastavení aplikace musí být typu string.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Všechny vlastnosti názvu nastavení aplikace musí být typu string.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Všechny vlastnosti nastavení slotu nastavení aplikace musí být typu boolean.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} je neplatná vlastnost nastavení aplikace.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Názvy nastavení aplikací musí být jedinečné.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Neplatný objekt JSON</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Rozšířené úpravy</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Pokud chcete otevřít oznámení o průvodním popisku, stiskněte Enter nebo ALT+C.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Objevil se průvodní popisek.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Rozšířené úpravy umožňují hromadně upravit nastavení aplikace. Klíče a hodnoty se dají upravit ve formátu JSON jako prostý text.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Fyzická cesta musí představovat umístění v rámci site\.</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Cesta k virtuálnímu adresáři musí existovat v rámci cesty k aplikaci.</value>
   </data>
 </root>

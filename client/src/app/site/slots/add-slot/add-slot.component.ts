@@ -185,7 +185,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
       ];
       this._slotsArm.forEach(s => {
         options.push({
-          displayLabel: s.properties.name,
+          displayLabel: s.name ? s.name.replace('/', '-') : '-',
           value: s.id,
         });
       });

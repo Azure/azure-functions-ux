@@ -3,7 +3,7 @@ import Platform from '../GeneralSettings/Platform';
 import SlotAutoSwap from '../GeneralSettings/SlotAutoSwap';
 import Stacks from '../GeneralSettings/Stacks';
 import { settingsWrapper } from '../AppSettingsForm';
-import { translate, InjectedTranslateProps } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { FormikProps } from 'formik';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
@@ -11,9 +11,9 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import Debug from '../GeneralSettings/Debugging';
 import { isEqual } from 'lodash-es';
 
-const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps> = props => {
-  const { t, values } = props;
-
+const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { values } = props;
+  const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
 
@@ -91,4 +91,4 @@ export const generalSettingsError = (errors: any) => {
   return stackError(errors);
 };
 
-export default translate('translation')(GeneralSettings);
+export default GeneralSettings;

@@ -1,9 +1,18 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
+import { setupWindow } from '../../utilities/window';
 
 context('App Settings General Settings Windows', () => {
   beforeEach(() => {
-    startVisit('windows', 'allow');
+    startVisit().visit(
+      `/feature/subscriptions/1489df65-b065-4cc3-b5c2-4b37cc88b703/resourcegroups/test-ux/providers/microsoft.web/sites/test-windows-app-ux/settings?trustedAuthority=test`,
+      {
+        onBeforeLoad(win) {
+          setupWindow(win);
+          cy.spy(win.parent, 'postMessage').as('spyPostMessage');
+        },
+      }
+    );
   });
 
   it('Should contain all settings tabs for windows app settings', () => {
@@ -80,7 +89,7 @@ context('App Settings General Settings Windows', () => {
       .should('exist');
   });
 
-  it('Java options are filled in from available stacks api', () => {
+  xit('Java options are filled in from available stacks api', () => {
     cy.get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')

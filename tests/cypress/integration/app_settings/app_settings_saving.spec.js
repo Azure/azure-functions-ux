@@ -1,5 +1,6 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
+import { setupWindow } from '../../utilities/window';
 
 context('App Settings Save/Notification', () => {
   beforeEach(() => {

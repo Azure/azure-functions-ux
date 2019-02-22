@@ -1,19 +1,11 @@
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { RootState } from '../../../modules/types';
-import { SpecPickerPricingCard, SpecPickerPricingCardProps } from './SpecPickerPricingCard';
+import SpecPickerPricingCard, { SpecPickerPricingCardProps } from './SpecPickerPricingCard';
 
 interface SpecPickerPricingCardsContainerProps {
   pricingCards: SpecPickerPricingCardProps[];
-}
-
-interface IStateProps {
-  theme: ITheme;
 }
 
 const containerDivStyle = style({
@@ -24,33 +16,19 @@ const containerDivStyle = style({
   justifyContent: 'flex-start',
 });
 
-type SpecPickerPricingCardsContainerPropsCombined = SpecPickerPricingCardsContainerProps & InjectedTranslateProps & IStateProps;
-class SpecPickerPricingCardsContainer extends React.Component<SpecPickerPricingCardsContainerPropsCombined, {}> {
-  public render() {
-    const { t, theme, pricingCards } = this.props;
-
-    const pricingCardElements: JSX.Element[] = [];
-
-    for (const pricingCard of pricingCards) {
-      const pricingCardProps = {
-        t,
-        theme,
-        ...pricingCard,
-      };
-      pricingCardElements.push(<SpecPickerPricingCard {...pricingCardProps} />);
-    }
-
-    return <div className={containerDivStyle}>{pricingCardElements}</div>;
+type SpecPickerPricingCardsContainerPropsCombined = SpecPickerPricingCardsContainerProps;
+const SpecPickerPricingCardsContainer: React.FC<SpecPickerPricingCardsContainerPropsCombined> = props => {
+  const { pricingCards } = props;
+  const { t } = useTranslation();
+  const pricingCardElements: JSX.Element[] = [];
+  for (const pricingCard of pricingCards) {
+    const pricingCardProps = {
+      t,
+      ...pricingCard,
+    };
+    pricingCardElements.push(<SpecPickerPricingCard {...pricingCardProps} />);
   }
-}
+  return <div className={containerDivStyle}>{pricingCardElements}</div>;
+};
 
-const mapStateToProps = (state: RootState) => ({
-  theme: state.portalService.theme,
-});
-export default compose<SpecPickerPricingCardsContainerPropsCombined, SpecPickerPricingCardsContainerProps>(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(SpecPickerPricingCardsContainer);
+export default SpecPickerPricingCardsContainer;

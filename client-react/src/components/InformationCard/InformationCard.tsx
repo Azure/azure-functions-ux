@@ -1,14 +1,9 @@
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import ReactSVG from 'react-svg';
-import { compose } from 'recompose';
 import { style } from 'typestyle';
 
-import { ITheme } from '@uifabric/styling';
-
-import { RootState } from '../../modules/types';
+import { ThemeContext } from '../../ThemeContext';
 
 interface InformationCardProps {
   id: string;
@@ -21,11 +16,7 @@ interface InformationCardProps {
   };
 }
 
-interface IStateProps {
-  theme: ITheme;
-}
-
-type InformationCardPropsCombined = InformationCardProps & InjectedTranslateProps & IStateProps;
+type InformationCardPropsCombined = InformationCardProps;
 
 const iconDivStyle = style({
   display: 'inline-block',
@@ -62,7 +53,8 @@ const additionalInfoLinkStyle = style({
 });
 
 const InformationCard = (props: InformationCardPropsCombined) => {
-  const { id, icon, title, description, additionalInfoLink, theme } = props;
+  const theme = useContext(ThemeContext);
+  const { id, icon, title, description, additionalInfoLink } = props;
   const titleHeaderId = `${id}-title`;
   const informationCardDivStyle = style({ backgroundColor: theme.semanticColors.defaultStateBackground, margin: '5px 0' });
 
@@ -88,13 +80,4 @@ const InformationCard = (props: InformationCardPropsCombined) => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  theme: state.portalService.theme,
-});
-export default compose<InformationCardPropsCombined, InformationCardProps>(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(InformationCard);
+export default InformationCard;

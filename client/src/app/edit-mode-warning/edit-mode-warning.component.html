@@ -67,3 +67,10 @@
     [innerHtml]="('readOnlyBYOC' | translate)">
   </div>
 </div>
+
+<div *ngIf="willBeReadOnlyPython">
+    <br />
+    <div class="alert alert-warning alert-dismissible" role="alert"
+      [innerHtml]="('willBeReadOnlyPython' | translate)">
+    </div>
+</div>

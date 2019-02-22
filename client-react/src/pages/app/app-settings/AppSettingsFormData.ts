@@ -1,40 +1,47 @@
-import { ArmObj, SiteConfig, SlotConfigNames, VirtualApplication, Site, NameValuePair, ConnStringInfo } from '../../../models/WebAppModels';
-import { AppSettings } from '../../../modules/site/config/appsettings/reducer';
-import { ConnectionString } from '../../../modules/site/config/connectionstrings/reducer';
-import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
-import { AppSettingsDataLoaderProps } from './AppSettingsDataLoader';
-import { Metadata } from '../../../modules/site/config/metadata/reducer';
-import { ArmAzureStorageMount } from '../../../modules/site/config/azureStorageAccounts/reducer';
+import {
+  ArmObj,
+  SiteConfig,
+  SlotConfigNames,
+  VirtualApplication,
+  Site,
+  NameValuePair,
+  ConnStringInfo,
+  ArmAzureStorageMount,
+} from '../../../models/WebAppModels';
 
-export const convertStateToForm = (props: AppSettingsDataLoaderProps): AppSettingsFormValues => {
-  const {
+import { AppSettingsFormValues, FormAppSetting, FormConnectionString, FormAzureStorageMounts } from './AppSettings.types';
+import { sortBy } from 'lodash-es';
+
+interface StateToFormParams {
+  site: ArmObj<Site>;
+  config: ArmObj<SiteConfig>;
+  appSettings: ArmObj<{ [key: string]: string }> | null;
+  connectionStrings: ArmObj<{ [key: string]: { type: string; value: string } }> | null;
+  azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
+  slotConfigNames: ArmObj<SlotConfigNames>;
+  metadata: ArmObj<{ [key: string]: string }> | null;
+}
+export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
+  const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
+  return {
     site,
     config,
-    appSettings,
-    connectionStrings,
-    metadata,
-    siteWritePermission,
-    slotConfigNames,
-    productionWritePermission,
-    azureStorageMounts,
-  } = props;
-  return {
-    site: site.data,
-    config: config.data,
-    appSettings: getFormAppSetting(appSettings.data, slotConfigNames.data),
-    connectionStrings: getFormConnectionStrings(connectionStrings.data, slotConfigNames.data),
-    siteWritePermission,
-    productionWritePermission,
-    virtualApplications:
-      config.data && config.data && config.data.properties && flattenVirtualApplicationsList(config.data.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config.data, metadata.data),
-    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts.data),
+    appSettings: getFormAppSetting(appSettings, slotConfigNames),
+    connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
+    virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
+    currentlySelectedStack: getCurrentStackString(config, metadata),
+    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
-type ApiSetupReturn = { site: ArmObj<Site>; config: ArmObj<SiteConfig>; slotConfigNames?: ArmObj<SlotConfigNames> };
+
+export interface ApiSetupReturn {
+  site: ArmObj<Site>;
+  config: ArmObj<SiteConfig>;
+  slotConfigNames: ArmObj<SlotConfigNames>;
+}
 export const convertFormToState = (
   values: AppSettingsFormValues,
-  currentMetadata: ArmObj<Metadata>,
+  currentMetadata: ArmObj<{ [key: string]: string }>,
   oldSlotNameSettings: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
   const config = values.config;
@@ -85,20 +92,32 @@ export function getStickySettings(
     },
   };
 }
-export function getFormAppSetting(settingsData: ArmObj<AppSettings>, slotConfigNames: ArmObj<SlotConfigNames>) {
+export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }> | null, slotConfigNames?: ArmObj<SlotConfigNames>) {
+  if (!settingsData || !slotConfigNames) {
+    return [];
+  }
   const { appSettingNames } = slotConfigNames.properties;
-  return Object.keys(settingsData.properties).map(key => ({
-    name: key,
-    value: settingsData.properties[key],
-    sticky: !!appSettingNames && appSettingNames.indexOf(key) > -1,
-  }));
+  return sortBy(
+    Object.keys(settingsData.properties).map(key => ({
+      name: key,
+      value: settingsData.properties[key],
+      sticky: !!appSettingNames && appSettingNames.indexOf(key) > -1,
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
-export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount>) {
-  return Object.keys(storageData.properties).map(key => ({
-    name: key,
-    ...storageData.properties[key],
-  }));
+export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount> | null) {
+  if (!storageData) {
+    return [];
+  }
+  return sortBy(
+    Object.keys(storageData.properties).map(key => ({
+      name: key,
+      ...storageData.properties[key],
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
@@ -114,7 +133,7 @@ export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValue
   return appSettings.map(({ name, value }) => ({ name, value }));
 }
 
-export function getMetadataToSet(currentMetadata: ArmObj<Metadata>, currentStack: String) {
+export function getMetadataToSet(currentMetadata: ArmObj<{ [key: string]: string }>, currentStack: string) {
   const properties = {
     ...currentMetadata.properties,
     CURRENT_STACK: currentStack,
@@ -124,14 +143,23 @@ export function getMetadataToSet(currentMetadata: ArmObj<Metadata>, currentStack
     value: properties[md],
   }));
 }
-export function getFormConnectionStrings(settingsData: ArmObj<ConnectionString>, slotConfigNames: ArmObj<SlotConfigNames>) {
+export function getFormConnectionStrings(
+  settingsData: ArmObj<{ [key: string]: { type: string; value: string } }> | null,
+  slotConfigNames: ArmObj<SlotConfigNames> | null
+) {
+  if (!settingsData || !slotConfigNames) {
+    return [];
+  }
   const { connectionStringNames } = slotConfigNames.properties;
-  return Object.keys(settingsData.properties).map(key => ({
-    name: key,
-    value: settingsData.properties[key].value,
-    type: settingsData.properties[key].type,
-    sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
-  }));
+  return sortBy(
+    Object.keys(settingsData.properties).map(key => ({
+      name: key,
+      value: settingsData.properties[key].value,
+      type: settingsData.properties[key].type,
+      sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
+    })),
+    o => o.name.toLowerCase()
+  );
 }
 
 export function getConnectionStringsFromForm(connectionStrings: FormConnectionString[]): ConnStringInfo[] {
@@ -147,16 +175,21 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
   const virtualDirectories = virtualApps.filter(x => x.virtualDirectory);
 
   virtualApplications.sort((a, b) => b.virtualPath.length - a.virtualPath.length);
+  virtualDirectories.forEach(vd => {
+    const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
-  virtualDirectories.forEach(virtualDirectory => {
-    let appFound = false;
-    const dirPathLen = virtualDirectory.virtualPath.length;
-    for (let i = 0; i < virtualApplications.length && !appFound; i = i + 1) {
-      const appPathLen = virtualApplications[i].virtualPath.length;
-      if (appPathLen < dirPathLen && virtualDirectory.virtualPath.startsWith(virtualApplications[i].virtualPath)) {
-        appFound = true;
-        virtualDirectory.virtualPath = virtualDirectory.virtualPath.substring(appPathLen);
-        virtualApplications[i].virtualDirectories!.push(virtualDirectory);
+    const va = virtualApplications.find(v => {
+      return virtualPath.startsWith(v.virtualPath);
+    });
+
+    if (va) {
+      const regex = new RegExp(`${va.virtualPath}(.*)`);
+      const match = regex.exec(virtualPath);
+      vd.virtualPath = match![1];
+      if (va.virtualDirectories) {
+        va.virtualDirectories.push(vd);
+      } else {
+        va.virtualDirectories = [vd];
       }
     }
   });
@@ -183,7 +216,7 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
   return newList;
 }
 
-export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata: ArmObj<Metadata>): string {
+export function getCurrentStackString(config: ArmObj<SiteConfig>, metadata?: ArmObj<{ [key: string]: string }> | null): string {
   if (!!config.properties.javaVersion) {
     return 'java';
   }

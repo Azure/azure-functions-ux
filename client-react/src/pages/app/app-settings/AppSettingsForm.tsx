@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useRef, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
 import { AppSettingsFormValues } from './AppSettings.types';
@@ -11,27 +11,19 @@ import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/A
 import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
 import CustomTabRenderer from './Sections/CustomTabRenderer';
-import { useRef } from 'react';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { RootState } from '../../../modules/types';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-
+import { ThemeContext } from '../../../ThemeContext';
 export const settingsWrapper = style({
   paddingLeft: '15px',
   padding: '5px 20px',
 });
 
-interface StateProps {
-  theme: ThemeExtended;
-}
-
-const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues> & InjectedTranslateProps & StateProps> = props => {
-  const { t, values, initialValues, errors, theme } = props;
+const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const theme = useContext(ThemeContext);
+  const { values, initialValues, errors } = props;
   const { site } = values;
-
+  const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
 
@@ -122,13 +114,4 @@ const getPivotTabId = (itemKey: string, index: number) => {
   return '';
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    theme: state.portalService.theme,
-  };
-};
-
-export default compose(
-  connect(mapStateToProps),
-  translate('translation')
-)(AppSettingsForm);
+export default AppSettingsForm;

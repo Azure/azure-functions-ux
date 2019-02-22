@@ -1,106 +1,71 @@
-<ng-sidebar-container class="sidebar-container" [animate]="true">
-    <div ng-sidebar-content>
-        <command-bar>
-            <command displayText="{{ 'newFunction' | translate }}" 
-                    iconUrl="image/add.svg" 
-                    (click)="onNewFunctionClick()" 
-                    [fnWriteAccess]="context"></command>
-        </command-bar>
+<command-bar>
+    <command displayText="{{ 'newFunction' | translate }}" 
+        iconUrl="image/add.svg" 
+        (click)="onNewFunctionClick()" 
+        [fnWriteAccess]="context">
+    </command>
+</command-bar>
 
-        <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
+<div class="browse-container">
+    <app-edit-mode-warning *ngIf="!!context"
+        [context]="context">
+    </app-edit-mode-warning>
 
-        <div class="browse-container">
-            <img src="image/function_f.svg" />
-            <h2 *ngIf="!isEmbedded">{{ 'functions' | translate }}</h2>
-            <h2 *ngIf="isEmbedded">{{ 'functionsPreviewTitle' | translate }}</h2>
-            <i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
-
-            <div class="search-box-container">
-                <search-box (onInputChange)="searchChanged($event)" 
-                            (onClear)="searchCleared()" 
-                            [placeholder]="'functionsList_searchFunctions' | translate">
-                </search-box>
-            </div>
-            <tbl [items]="functions" #table="tbl">
-                <tr>
-                    <th name="name">
-                        <tbl-th name="functionInfo.name">{{ '_name' | translate }}</tbl-th>
-                    </th>
-                    <th *ngIf="isEmbedded" name="entity">
-                        <tbl-th name="functionInfo.entity">{{ 'entity' | translate }}</tbl-th>
-                    </th>
-                    <th *ngIf="!isEmbedded" name="status">
-                        <tbl-th name="functionInfo.config.disabled">{{ 'status' | translate }}</tbl-th>
-                    </th>
-                    <th class="icon" name="delete"></th>
-                </tr>
-
-                <tr *ngFor="let item of table.items">
-                    <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
-                    <td *ngIf="isEmbedded">
-                        <span>{{item.functionInfo.entity}}</span>
-                    </td>
-                    <td *ngIf="!isEmbedded">
-                        <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="context">
-                            <slide-toggle
-                                [on]="!item.functionInfo.config.disabled"
-                                [isCommand]="true"
-                                [name]="'status' | translate"
-                                [ariaLabelFormat]="'nameAndStateName'"
-                                (change)="enableChange(item, $event)">
-                            </slide-toggle>
-                        </div>
-                        <div *ngIf="runtimeVersion === 'V2'">
-                            <slide-toggle
-                                [on]="!item.functionInfo.config.disabled"
-                                [isCommand]="true"
-                                [name]="'status' | translate"
-                                [ariaLabelFormat]="'nameAndStateName'"
-                                (change)="enableChange(item, $event)">
-                            </slide-toggle>
-                        </div>
-                    </td>
-                    <td class="icon-cell">
-                        <div [fnWriteAccess]="context">
-                            <span role="button"
-                                class="icon-small"
-                                load-image="image/delete.svg"
-                                [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
-                                (click)="clickDelete(item)">
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr *ngIf="table.items.length === 0 || isLoading">
-                    <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
-                    <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
-                </tr>
-            </tbl>
-        </div>
+    <img src="image/function_f.svg" />
+    <h2>{{ 'functions' | translate }}</h2>
+    <i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+    <div class="search-box-container">
+        <search-box (onInputChange)="searchChanged($event)" 
+                    (onClear)="searchCleared()" 
+                    [placeholder]="'functionsList_searchFunctions' | translate">
+        </search-box>
     </div>
-
-    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" 
-                [mode]="'over'" 
-                [position]="'right'" 
-                [closeOnClickOutside]="false" 
-                [trapFocus]="false"
-                [autoFocus]="true" 
-                [sidebarClass]="'sidebar-new-function'" 
-                [ariaLabel]="'Create Function'" 
-                [animate]="true" 
-                [closeOnClickBackdrop]="false" 
-                [showBackdrop]="true">
-
-        <function-new-detail *ngIf="sidePanelOpened" 
-                [functionCard]="createFunctionCard" 
-                [functionLanguage]="createFunctionLanguage"
-                [functionsInfo]="functionsInfo"
-                [appNode]="appNode"
-                [functionsNode]="_functionsNode"
-                [context]="context"
-                (closePanel) ="closeSidePanel()"
-                [viewInfo]="viewInfo">
-        </function-new-detail>
-    </ng-sidebar>
-</ng-sidebar-container>
+    <tbl [items]="functions" #table="tbl">
+        <tr>
+            <th name="name">
+                <tbl-th name="functionInfo.name">{{ '_name' | translate }}</tbl-th>
+            </th>
+            <th name="status">
+                <tbl-th name="functionInfo.config.disabled">{{ 'status' | translate }}</tbl-th>
+            </th>
+            <th class="icon" name="delete"></th>
+        </tr>
+        <tr *ngFor="let item of table.items">
+            <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
+            <td>
+                <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="context">
+                    <slide-toggle
+                        [on]="!item.functionInfo.config.disabled"
+                        [isCommand]="true"
+                        [name]="'status' | translate"
+                        [ariaLabelFormat]="'nameAndStateName'"
+                        (change)="enableChange(item, $event)">
+                    </slide-toggle>
+                </div>
+                <div *ngIf="runtimeVersion === 'V2'">
+                    <slide-toggle
+                        [on]="!item.functionInfo.config.disabled"
+                        [isCommand]="true"
+                        [name]="'status' | translate"
+                        [ariaLabelFormat]="'nameAndStateName'"
+                        (change)="enableChange(item, $event)">
+                    </slide-toggle>
+                </div>
+            </td>
+            <td class="icon-cell">
+                <div [fnWriteAccess]="context">
+                    <span role="button"
+                        class="icon-small"
+                        load-image="image/delete.svg"
+                        [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
+                        (click)="clickDelete(item)">
+                    </span>
+                </div>
+            </td>
+        </tr>
+        <tr *ngIf="table.items.length === 0 || isLoading">
+            <td *ngIf="isLoading" colspan="3">{{'functionMonitor_loading' | translate}}</td>
+            <td *ngIf="!isLoading && table.items.length === 0" colspan="3">{{'noResults' | translate}}</td>
+        </tr>
+    </tbl>
+</div>

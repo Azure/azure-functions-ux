@@ -1,7 +1,7 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
@@ -15,11 +15,11 @@ export interface AppSettingAddEditProps {
   appSetting: FormAppSetting;
   disableSlotSetting: boolean;
 }
-const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateAppSetting, t, otherAppSettings, closeBlade, appSetting, disableSlotSetting } = props;
-  const [nameError, setNameError] = React.useState('');
-  const [currentAppSetting, setCurrentAppSetting] = React.useState(appSetting);
-
+const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
+  const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting } = props;
+  const [nameError, setNameError] = useState('');
+  const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
+  const { t } = useTranslation();
   const updateAppSettingName = (e: any, name: string) => {
     const error = validateAppSettingName(name);
     setNameError(error);
@@ -35,7 +35,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   };
 
   const validateAppSettingName = (value: string) => {
-    return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? 'App setting names must be unique' : '';
+    return otherAppSettings.filter(v => v.name.toLowerCase() === value.toLowerCase()).length >= 1 ? t('appSettingNamesUnique') : '';
   };
 
   const save = () => {
@@ -110,4 +110,4 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps & InjectedTranslatePro
   );
 };
 
-export default translate('translation')(AppSettingAddEdit);
+export default AppSettingAddEdit;

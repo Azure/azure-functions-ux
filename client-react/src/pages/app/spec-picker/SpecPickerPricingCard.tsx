@@ -1,12 +1,8 @@
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-
-import { RootState } from '../../../modules/types';
+import { ThemeContext } from '../../../ThemeContext';
 
 interface SpecPickerPricingCardDisabledProps {
   message: string;
@@ -28,10 +24,6 @@ interface ISpecPickerPricingCardState {
   isSelected: boolean;
 }
 
-interface IStateProps {
-  theme: ITheme;
-}
-
 const divStyle = style({
   padding: '10px',
   height: '90px',
@@ -51,8 +43,9 @@ const featuresDivStyle = style({
   transform: 'translateY(-50%)',
 });
 
-type SpecPickerPricingCardPropsCombined = SpecPickerPricingCardProps & InjectedTranslateProps & IStateProps;
+type SpecPickerPricingCardPropsCombined = SpecPickerPricingCardProps & WithTranslation;
 export class SpecPickerPricingCard extends React.Component<SpecPickerPricingCardPropsCombined, ISpecPickerPricingCardState> {
+  public static contextType = ThemeContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -61,9 +54,10 @@ export class SpecPickerPricingCard extends React.Component<SpecPickerPricingCard
   }
 
   public render() {
-    const { t, theme, topFeatures, priceString, cssClassName, id, skuCode, disabledProps } = this.props;
+    const { t, topFeatures, priceString, cssClassName, id, skuCode, disabledProps } = this.props;
     const { isSelected } = this.state;
 
+    const theme = this.context;
     const selectedDivStyle = style({
       outlineColor: theme.semanticColors.warningText,
       outlineWidth: '3px',
@@ -122,13 +116,4 @@ export class SpecPickerPricingCard extends React.Component<SpecPickerPricingCard
   };
 }
 
-const mapStateToProps = (state: RootState) => ({
-  theme: state.portalService.theme,
-});
-export default compose<SpecPickerPricingCardPropsCombined, SpecPickerPricingCardProps>(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(SpecPickerPricingCard);
+export default withTranslation('translation')(SpecPickerPricingCard);

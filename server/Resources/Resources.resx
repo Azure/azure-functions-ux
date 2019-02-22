@@ -1474,6 +1474,9 @@
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
   </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
   </data>
@@ -4481,11 +4484,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Latest</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Auto-Update</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (latest)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (auto-update)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
@@ -4706,6 +4709,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Azure storage mount names must be unique</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtual paths must be unique</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Configuration options</value>
   </data>
@@ -4723,5 +4729,59 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Startup commands for NodeJS must use ng, node or pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>In-portal editing for Python will soon be deprecated. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>App setting values must be an array</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a name</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a value</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>All app setting value properties must be of type string</value>
+  </data>
+   <data name="nameMustBeAString" xml:space="preserve">
+    <value>All app setting name properties must be of type string</value>
+  </data>
+   <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>All app setting slot setting properties must be of type boolean</value>
+  </data>
+   <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} is an invalid app setting property</value>
+  </data>
+   <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>App setting names must be unqiue</value>
+  </data>
+   <data name="jsonInvalid" xml:space="preserve">
+    <value>Invalid JSON object</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Advanced Edit</value>
+  </data>
+   <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Press enter or alt + C to open the coachmark notification</value>
+  </data>
+   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>A coachmark has appeared</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

@@ -252,7 +252,7 @@ export const mockConnectionStrings = {
   properties: {
     TEST_CONNECTION: {
       value: 'TEST_CONNECTION_VALUE',
-      type: 1,
+      type: 'MySql',
     },
   },
 };

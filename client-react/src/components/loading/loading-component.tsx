@@ -1,7 +1,7 @@
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
-import * as React from 'react';
-import { translate } from 'react-i18next';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle/lib';
 import * as Loadable from 'react-loadable';
 
@@ -12,27 +12,25 @@ const loadingCSS = style({
   transform: 'translate(-50%, -50%)',
 });
 
-export class LoadingComponent extends React.Component<Loadable.LoadingComponentProps & { t: any }, any> {
-  public render() {
-    const { t, error, retry, pastDelay, timedOut } = this.props;
-
-    if (error || timedOut) {
-      return (
-        <div className={loadingCSS}>
-          Failed to load! <DefaultButton onClick={retry}>Retry</DefaultButton>
-        </div>
-      );
-    }
-    if (pastDelay) {
-      return (
-        <div className={loadingCSS}>
-          <Spinner size={SpinnerSize.large} label={t('loading')} ariaLive="assertive" />
-        </div>
-      );
-    }
-
-    return null;
+const LoadingComponent: React.FC<Loadable.LoadingComponentProps> = props => {
+  const { error, retry, pastDelay, timedOut } = props;
+  const { t } = useTranslation();
+  if (error || timedOut) {
+    return (
+      <div className={loadingCSS}>
+        Failed to load! <DefaultButton onClick={retry}>Retry</DefaultButton>
+      </div>
+    );
   }
-}
+  if (pastDelay) {
+    return (
+      <div className={loadingCSS}>
+        <Spinner size={SpinnerSize.large} label={t('loading')} ariaLive="assertive" />
+      </div>
+    );
+  }
 
-export default translate('translation')(LoadingComponent);
+  return null;
+};
+
+export default LoadingComponent;

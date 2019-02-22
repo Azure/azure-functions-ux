@@ -1,6 +1,6 @@
 import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures, FeatureFlags } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -325,6 +325,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   }
 
   private _initCol2Groups(site: ArmObj<Site>) {
+    const showVNetIntegration = Url.getParameterByName(null, FeatureFlags.ShowVNetIntegration) === 'true';
+
     const networkFeatures: FeatureItem[] = [
       new DisableableBladeFeature(
         this._translateService.instant(PortalResources.feature_networkingName),
@@ -342,7 +344,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         },
         this._portalService,
         this._hasSiteWritePermissionStream,
-        this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
+        showVNetIntegration ? null : this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
       ),
 
       new DisableableBladeFeature(

@@ -1,20 +1,17 @@
 import { Formik, FormikProps } from 'formik';
-import * as React from 'react';
-import { style } from 'typestyle';
+import React, { useRef, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
 import AppSettingsForm from './AppSettingsForm';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { translate, InjectedTranslateProps, TranslationFunction } from 'react-i18next';
-import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import i18n from 'i18next';
+import { PermissionsContext } from './Contexts';
+import { commandBarSticky, formStyle } from './AppSettings.styles';
 
-const formStyle = style({
-  padding: '5px 20px',
-});
-
-const validate = (values: AppSettingsFormValues, t: TranslationFunction, scenarioChecker: ScenarioService) => {
+const validate = (values: AppSettingsFormValues, t: i18n.TFunction, scenarioChecker: ScenarioService) => {
   const duplicateDefaultDocumentsValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? t('fieldMustBeUnique') : null;
   };
@@ -25,7 +22,7 @@ const validate = (values: AppSettingsFormValues, t: TranslationFunction, scenari
   const defaultDocumentsEnabled =
     scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site: values.site }).status !== 'disabled';
   let hasAnyError = false;
-  let errors = {
+  const errors = {
     config: {
       properties: {} as any,
     },
@@ -53,13 +50,19 @@ const validate = (values: AppSettingsFormValues, t: TranslationFunction, scenari
   return hasAnyError ? errors : {};
 };
 
-const AppSettings: React.SFC<InjectedTranslateProps> = props => {
-  const { t } = props;
+interface AppSettingsProps {
+  resourceId: string;
+}
+
+const AppSettings: React.FC<AppSettingsProps> = props => {
+  const { resourceId } = props;
+  const { t } = useTranslation();
+  const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
   return (
-    <AppSettingsDataLoader>
-      {({ initialFormValues, saving, loading, onSubmit }) => (
+    <AppSettingsDataLoader resourceId={resourceId}>
+      {({ initialFormValues, saving, onSubmit }) => (
         <Formik
           initialValues={initialFormValues}
           onSubmit={onSubmit}
@@ -69,12 +72,14 @@ const AppSettings: React.SFC<InjectedTranslateProps> = props => {
           validateOnChange={false}>
           {(formProps: FormikProps<AppSettingsFormValues>) => (
             <form>
-              <AppSettingsCommandBar
-                submitForm={formProps.submitForm}
-                resetForm={formProps.resetForm}
-                disabled={!formProps.values.siteWritePermission || saving || loading}
-                dirty={formProps.dirty}
-              />
+              <div className={commandBarSticky}>
+                <AppSettingsCommandBar
+                  submitForm={formProps.submitForm}
+                  resetForm={formProps.resetForm}
+                  disabled={!app_write || !editable || saving}
+                  dirty={formProps.dirty}
+                />
+              </div>
               <div className={formStyle}>
                 <AppSettingsForm {...formProps} />
               </div>
@@ -86,4 +91,4 @@ const AppSettings: React.SFC<InjectedTranslateProps> = props => {
   );
 };
 
-export default translate('translation')(AppSettings);
+export default AppSettings;
