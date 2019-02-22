@@ -50,6 +50,7 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
+  forbiddenComputeMode?: number;
   isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;
