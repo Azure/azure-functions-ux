@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Loadable from 'react-loadable';
-
 import { RouteComponentProps, Router } from '@reach/router';
-
-import LoadingComponent from '../../components/loading/loading-component';
+import AppSettings from './app-settings/AppSettings';
 import { StartupInfoContext } from '../../StartupInfoContext';
-
+import LogStreamDataLoader from './log-stream/LogStreamDataLoader';
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;
   siteName?: string;
   slotName?: string;
   resourcegroup?: string;
 }
-const AppSettingsLoadable: any = Loadable({
-  loader: () => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'),
-  loading: LoadingComponent,
-});
-const LogStreamLoadable: any = Loadable({
-  loader: () => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'),
-  loading: LoadingComponent,
-});
+const AppSettingsLoadable: any = AppSettings;
+
+const LogStreamLoadable: any = LogStreamDataLoader;
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');
