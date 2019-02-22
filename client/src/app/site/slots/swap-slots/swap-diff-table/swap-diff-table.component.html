@@ -10,7 +10,7 @@
             [class.selected]="previewSource"
             [attr.role]="previewSource ? null : 'button'"
             [tabindex]="previewSource ? -1 : 0"
-            (click)="previewSource=!previewSource"
+            (click)="previewSource=true"
             [activate-with-keys]>
 
             <div class="bullet src"></div>
@@ -22,7 +22,7 @@
             [class.selected]="!previewSource"
             [attr.role]="!previewSource ? null : 'button'"
             [tabindex]="!previewSource ? -1 : 0"
-            (click)="previewSource=!previewSource"
+            (click)="previewSource=false"
             [activate-with-keys]>
 
             <div class="bullet dest"></div>

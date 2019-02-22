@@ -59,6 +59,7 @@ th {
   background-color: $primary-color;
   color: $default-text-color-dark;
   font-weight: bold;
+  text-align: center;
 }
 
 .preview-changes-container {
@@ -68,24 +69,16 @@ th {
     .preview-toggle-button {
       width: 50%;
       float: left;
-      padding: 3px 0 3px 5px;
+      padding: 3px 0 8px 5px;
       background-color: transparent;
-      color: $default-text-color;
+      color: $primary-color;
       font-weight: bold;
-
-      &.src {
-        border-right: 1px solid $border-color;
-      }
-
-      &.dest {
-        border-left: 1px solid $border-color;
-      }
+      text-align: center;
+      border-bottom: 1px solid $border-color;
 
       &.selected {
-        background-color: $primary-color;
-        color: $default-text-color-dark;
-        border-bottom: 1px solid $border-color;
-        outline: none;
+        color: $default-text-color;
+        box-shadow: 0px -5px $primary-color inset;
       }
     }
   }
@@ -128,11 +121,11 @@ th {
   .preview-changes-container {
     .preview-toggle-container {
       .preview-toggle-button {
-        color: $default-text-color-dark;
+        color: $primary-color-dark;
 
         &.selected {
-          background-color: $primary-color-dark;
-          color: $body-bg-color-dark;
+          color: $default-text-color-dark;
+          box-shadow: 0px -5px $primary-color-dark inset;
         }
       }
     }
