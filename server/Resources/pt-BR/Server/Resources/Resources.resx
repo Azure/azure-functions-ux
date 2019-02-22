@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Este recurso não é compatível com aplicativos Linux</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Não há suporte para este recurso em aplicativos Linux em um Plano de consumo</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Você deve ter permissões de gravação no aplicativo atual para usar este recurso</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>O Serviço do Aplicativo oferece suporte à instalação de versões mais recentes do Python. Clique aqui para saber mais.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão Java</value>
@@ -4475,11 +4481,11 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="notSelected" xml:space="preserve">
     <value>Não Selecionado</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Mais Recente</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Atualização Automática</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (mais recente)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (atualização automática)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Seu aplicativo usará a versão mais recente do {{defaultJavaVersion}}.</value>
@@ -4700,6 +4706,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Os nomes de montagem do armazenamento do Azure precisam ser exclusivos</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Os caminhos virtuais devem ser exclusivos</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Opções de configuração</value>
   </data>
@@ -4717,5 +4726,59 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Os comandos de inicialização para NodeJS precisam usar ng, nó ou pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>A edição no portal para Python será preterida em breve. Use o CLI ou o VS Code para desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>As montagens de armazenamento do Azure contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Os valores de configuração de aplicativo precisam ser uma matriz</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Todos os objetos de configuração de aplicativo precisam ter um nome</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Todos os objetos de configuração de aplicativo precisam ter um valor</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Todas as propriedades de valor de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Todas as propriedades de nome de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Todas as propriedades de configuração de slot de configuração de aplicativo precisam ser do tipo booliano</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} é uma propriedade de configuração de aplicativo inválida</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Os nomes de configuração de aplicativo precisam ser exclusivos</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Objeto JSON inválido</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Edição Avançada</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Pressione enter ou alt + C para abrir a notificação de coachmark</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Apareceu um coachmark</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>A edição avançada permite a edição em massa das configurações do seu aplicativo. As chaves e os valores podem ser editados no formato JSON de texto sem formatação</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>O caminho físico precisa ser um local dentro do site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>O caminho do Diretório Virtual precisa existir em um caminho de aplicativo</value>
   </data>
 </root>

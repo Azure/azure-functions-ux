@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Эта функция не поддерживается для приложений Linux</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Эта функция не поддерживается для приложений Linux с планом потребления.</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Для использования этой функции у вас должны быть разрешения на запись для текущего приложения</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Служба приложений поддерживает установку более новых версий Python. Щелкните здесь, чтобы узнать подробности.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Версия Java</value>
@@ -4475,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>Не выбрано</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Последний</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Автоматическое обновление</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (последняя)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (автоматическое обновление)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Ваше приложение будет использовать последнюю версию {{defaultJavaVersion}}.</value>
@@ -4700,6 +4706,9 @@
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
     <value>Имена подключений для службы хранилища Azure должны быть уникальными</value>
   </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Виртуальные пути должны быть уникальными</value>
+  </data>
   <data name="configurationOptions" xml:space="preserve">
     <value>Параметры конфигурации</value>
   </data>
@@ -4717,5 +4726,59 @@
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
     <value>Команды запуска для NodeJS должны использовать ng, node или pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Возможность редактирования на портале для Python скоро станет нерекомендуемой. Используйте для разработки интерфейс командной строки или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Подключенные ресурсы хранилища Azure содержат секреты. Для просмотра и изменения этого раздела требуются разрешения на чтение и запись.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Значения параметров приложения должны быть массивом.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Все объекты параметров приложения должны иметь имена.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Все объекты параметров приложения должны иметь значения.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Все свойства значений в параметрах приложения должны иметь строковый тип.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Все свойства имен в параметрах приложения должны иметь строковый тип.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Все свойства слотов в параметрах приложения должны иметь логический тип.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} является недопустимым свойством параметров приложения.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Имена параметров приложения должны быть уникальными.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Недопустимый объект JSON</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Расширенное редактирование</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Нажмите клавишу ВВОД или ALT+C, чтобы открыть уведомление о новости.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Появилась новость.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Расширенное редактирование позволяет массово изменять параметры вашего приложения. Ключи и значения можно редактировать в формате JSON в виде обычного текста.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

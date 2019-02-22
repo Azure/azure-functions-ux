@@ -1306,6 +1306,9 @@
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux アプリでは、この機能はサポートされていません</value>
   </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>この機能は、従量課金プランの Linux アプリではサポートされていません</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>この機能を使用するには、現在のアプリに対する書き込みアクセス許可が必要です</value>
   </data>
@@ -1467,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java バージョン</value>
@@ -4475,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>未選択</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>最新</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>自動更新</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (最新)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (自動更新)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>アプリでは {{defaultJavaVersion}} の最新版を使用します。</value>
@@ -4692,30 +4698,87 @@
     <value>Azure Files</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
-    <value>New Azure Storage Mount</value>
+    <value>新しい Azure Storage マウント</value>
   </data>
   <data name="emptyAzureStorageMount" xml:space="preserve">
-    <value>Empty Azure Storage Mount</value>
+    <value>空の Azure Storage マウント</value>
   </data>
   <data name="azureStorageMountMustBeUnique" xml:space="preserve">
-    <value>Azure storage mount names must be unique</value>
+    <value>Azure Storage のマウント名は一意である必要があります</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>仮想パスは、一意である必要があります</value>
   </data>
   <data name="configurationOptions" xml:space="preserve">
-    <value>Configuration options</value>
+    <value>構成オプション</value>
   </data>
   <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
-    <value>Storage account name must be lower case</value>
+    <value>ストレージ アカウント名は小文字にする必要があります</value>
   </data>
   <data name="noBlobsOrFilesShares" xml:space="preserve">
-    <value>This storage account has no blob containers or file shares</value>
+    <value>このストレージ アカウントに BLOB コンテナーまたはファイル共有はありません</value>
   </data>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
-    <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
+    <value>このストレージ アカウントへの書き込みアクセス権がありません。アクセス キーがわかっている場合は、詳細設定モードで指定できます。</value>
   </data>
   <data name="selectAnOption" xml:space="preserve">
     <value>オプションの選択</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>NodeJS のスタートアップ コマンドには、ng、node、pm2 のいずれかを使用する必要があります</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python のポータル内編集は間もなく非推奨になる予定です。開発には CLI または VS Code をご使用ください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>アプリ設定値は配列である必要があります</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに名前が必要です</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに値が必要です</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>すべてのアプリ設定値のプロパティは文字列型である必要があります</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>すべてのアプリ設定名のプロパティを文字列型にする必要があります</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>すべてのアプリ設定スロットの設定プロパティはブール値型である必要があります</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} は無効なアプリ設定プロパティです</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>アプリ設定名は一意である必要があります</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>無効な JSON オブジェクト</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>高度な編集</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Enter キーまたは Alt+C キーを押して coachmark 通知を開きます</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Coachmark が表示されました</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>高度な編集を使用すると、アプリ設定を一括編集できます。キーと値はプレーン テキストの JSON 形式で編集できます</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>物理パスは site\ 内の場所にある必要があります</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>仮想ディレクトリ パスは、アプリケーション パス内に存在する必要があります</value>
   </data>
 </root>
