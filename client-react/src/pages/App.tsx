@@ -1,6 +1,6 @@
 import { Router } from '@reach/router';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorLogger';
@@ -14,6 +14,7 @@ import { ThemeContext } from '../ThemeContext';
 import { ArmTokenContext } from '../ArmTokenContext';
 import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
+import LoadingComponent from '../components/loading/loading-component';
 
 const portalCommunicator = new PortalCommunicator();
 
@@ -25,25 +26,28 @@ export const App: React.FC = () => {
     portalCommunicator.initializeIframe(setTheme, setArmToken, setStartupInfo, i18n);
   }, []);
   return (
-    <I18nextProvider i18n={i18n}>
-      <ThemeContext.Provider value={theme}>
-        <ArmTokenContext.Provider value={armToken}>
-          <StartupInfoContext.Provider value={startupInfo}>
-            <PortalContext.Provider value={portalCommunicator}>
-              <Fabric>
-                <ErrorLogger>
-                  <Router>
-                    <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-                    <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-                    <LandingPage path="/*" />
-                  </Router>
-                </ErrorLogger>
-              </Fabric>
-            </PortalContext.Provider>
-          </StartupInfoContext.Provider>
-        </ArmTokenContext.Provider>
-      </ThemeContext.Provider>
-    </I18nextProvider>
+    // tslint:disable-next-line: no-empty
+    <Suspense fallback={<LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => {}} />}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeContext.Provider value={theme}>
+          <ArmTokenContext.Provider value={armToken}>
+            <StartupInfoContext.Provider value={startupInfo}>
+              <PortalContext.Provider value={portalCommunicator}>
+                <Fabric>
+                  <ErrorLogger>
+                    <Router>
+                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+                      <LandingPage path="/*" />
+                    </Router>
+                  </ErrorLogger>
+                </Fabric>
+              </PortalContext.Provider>
+            </StartupInfoContext.Provider>
+          </ArmTokenContext.Provider>
+        </ThemeContext.Provider>
+      </I18nextProvider>
+    </Suspense>
   );
 };
 
