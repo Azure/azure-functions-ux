@@ -949,12 +949,12 @@ export class FunctionAppService {
             return FunctionAppEditMode.ReadOnlyRunFromZip;
           } else if (usingLocalCache) {
             return FunctionAppEditMode.ReadOnlyLocalCache;
+          } else if (isPython) {
+            return FunctionAppEditMode.ReadOnlyPython;
           } else if (isLinuxDynamic) {
             return FunctionAppEditMode.ReadOnlyLinuxDynamic;
           } else if (isContainerApp) {
             return FunctionAppEditMode.ReadOnlyBYOC;
-          } else if (isPython) {
-            return FunctionAppEditMode.WillBeReadOnlyPython;
           } else if (editModeSettingString === Constants.ReadWriteMode) {
             return resolveReadWriteMode();
           } else if (editModeSettingString === Constants.ReadOnlyMode) {

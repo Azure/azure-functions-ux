@@ -140,10 +140,7 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
   }
 
   private _pythonEnvironmentCards(): DevEnvironmentCard[] {
-    if (this.isLinuxConsumption) {
-      return [this.vsCodeCard, this.coreToolsCard];
-    }
-    return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
+    return [this.vsCodeCard, this.coreToolsCard];
   }
 
   private _javaEnvironmentCards(): DevEnvironmentCard[] {
