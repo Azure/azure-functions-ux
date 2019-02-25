@@ -14,7 +14,6 @@ import { ThemeContext } from '../ThemeContext';
 import { ArmTokenContext } from '../ArmTokenContext';
 import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
-import LoadingComponent from '../components/loading/loading-component';
 
 const portalCommunicator = new PortalCommunicator();
 
@@ -26,10 +25,8 @@ export const App: React.FC = () => {
     portalCommunicator.initializeIframe(setTheme, setArmToken, setStartupInfo, i18n);
   }, []);
   return (
-    // tslint:disable-next-line: no-empty
-
-    <I18nextProvider i18n={i18n}>
-      <Suspense fallback={<LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => {}} />}>
+    <Suspense fallback={<></>}>
+      <I18nextProvider i18n={i18n}>
         <ThemeContext.Provider value={theme}>
           <ArmTokenContext.Provider value={armToken}>
             <StartupInfoContext.Provider value={startupInfo}>
@@ -47,8 +44,8 @@ export const App: React.FC = () => {
             </StartupInfoContext.Provider>
           </ArmTokenContext.Provider>
         </ThemeContext.Provider>
-      </Suspense>
-    </I18nextProvider>
+      </I18nextProvider>
+    </Suspense>
   );
 };
 
