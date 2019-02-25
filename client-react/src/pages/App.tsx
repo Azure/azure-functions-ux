@@ -27,8 +27,9 @@ export const App: React.FC = () => {
   }, []);
   return (
     // tslint:disable-next-line: no-empty
-    <Suspense fallback={<LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => {}} />}>
-      <I18nextProvider i18n={i18n}>
+
+    <I18nextProvider i18n={i18n}>
+      <Suspense fallback={<LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => {}} />}>
         <ThemeContext.Provider value={theme}>
           <ArmTokenContext.Provider value={armToken}>
             <StartupInfoContext.Provider value={startupInfo}>
@@ -46,8 +47,8 @@ export const App: React.FC = () => {
             </StartupInfoContext.Provider>
           </ArmTokenContext.Provider>
         </ThemeContext.Provider>
-      </I18nextProvider>
-    </Suspense>
+      </Suspense>
+    </I18nextProvider>
   );
 };
 
