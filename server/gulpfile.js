@@ -362,10 +362,10 @@ gulp.task('build-templates', function(cb) {
   const templateRuntimeVersions = getSubDirectories('templates');
   templateRuntimeVersions.forEach(version => {
     let templateListJson = [];
-    const templates = getSubDirectories(path.join(__dirname, 'templates', version, 'templates'));
+    const templates = getSubDirectories(path.join(__dirname, 'templates', version, 'Templates'));
     templates.forEach(template => {
       let templateObj = {};
-      const filePath = path.join(__dirname, 'templates', version, 'templates', template);
+      const filePath = path.join(__dirname, 'templates', version, 'Templates', template);
       let files = getFilesWithContent(filePath, ['function.json', 'metadata.json']);
 
       templateObj.id = template;
