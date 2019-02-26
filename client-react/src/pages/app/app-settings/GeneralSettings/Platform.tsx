@@ -24,7 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.use32BitWorkerProcess"
           component={Dropdown}
-          upsellMessage={platformOptionEnable.data}
+          upsellMessage={platformOptionEnable.status === 'disabled' ? platformOptionEnable.data : ''}
           label={t('platform')}
           id="app-settings-worker-process"
           disabled={!app_write || !editable || platformOptionEnable.status === 'disabled'}
@@ -109,7 +109,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
           fullpage
-          upsellMessage={websocketsEnable.data}
+          upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
           disabled={!app_write || !editable || websocketsEnable.status === 'disabled'}
@@ -130,7 +130,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.alwaysOn"
           component={RadioButton}
           fullpage
-          upsellMessage={alwaysOnEnable.data}
+          upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
           disabled={!app_write || !editable || alwaysOnEnable.status === 'disabled'}
