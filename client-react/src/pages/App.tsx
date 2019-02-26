@@ -14,6 +14,7 @@ import { ThemeContext } from '../ThemeContext';
 import { ArmTokenContext } from '../ArmTokenContext';
 import { IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
+import LoadingComponent from '../components/loading/loading-component';
 
 const portalCommunicator = new PortalCommunicator();
 
@@ -25,7 +26,7 @@ export const App: React.FC = () => {
     portalCommunicator.initializeIframe(setTheme, setArmToken, setStartupInfo, i18n);
   }, []);
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<LoadingComponent />}>
       <I18nextProvider i18n={i18n}>
         <ThemeContext.Provider value={theme}>
           <ArmTokenContext.Provider value={armToken}>
