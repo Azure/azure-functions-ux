@@ -1538,4 +1538,6 @@ export class PortalResources {
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
   public static physicalPathLocationError = 'physicalPathLocationError';
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
+  public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
+  public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
 }

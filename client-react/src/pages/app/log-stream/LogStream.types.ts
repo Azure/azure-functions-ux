@@ -16,7 +16,7 @@ export enum LogLevel {
   Warning = 4,
 }
 
-export enum LogTypes {
+export enum LogType {
   Application = 'application',
   WebServer = 'webserver',
 }
