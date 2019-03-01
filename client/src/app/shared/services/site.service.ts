@@ -47,7 +47,7 @@ export class SiteService {
 
   getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
     const getSiteConfig = this._cacheService
-      .getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20180201)
+      .getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20181101)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
@@ -178,7 +178,7 @@ export class SiteService {
   }
 
   updateSiteConfig(resourceId: string, siteConfig: ArmObj<SiteConfig>) {
-    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, siteConfig);
+    const putSiteConfig = this._cacheService.putArm(`${resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfig);
     return this._client.execute({ resourceId: resourceId }, t => putSiteConfig);
   }
 

@@ -474,7 +474,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
-          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, siteConfigArm);
+          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfigArm);
         })
         .do(null, error => {
           this.dirtyMessage = null;
