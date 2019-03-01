@@ -1,4 +1,6 @@
-import { LogEntry, newLine, LogLevel, LogRegex, maxLogEntries } from './LogStream.types';
+import { SiteLogsConfig } from './../../../models/WebAppModels';
+import { LogEntry, newLine, LogLevel, LogRegex, maxLogEntries, LogsEnabled } from './LogStream.types';
+import { Site } from '../../../models/WebAppModels';
 
 export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] {
   let updatedLogs = oldLogs;
@@ -8,6 +10,20 @@ export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] 
     updatedLogs = _addLogEntry(logMessage, logLevel, updatedLogs);
   });
   return updatedLogs;
+}
+
+export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEnabled {
+  let appLogs = false;
+  let webLogs = false;
+
+  if (site.kind.includes('linux')) {
+    appLogs = logsConfig.httpLogs.fileSystem.enabled;
+  } else {
+    appLogs = logsConfig.applicationLogs.fileSystem.level !== 'OFF';
+    webLogs = logsConfig.httpLogs.fileSystem.enabled;
+  }
+
+  return { applicationLogs: appLogs, webServerLogs: webLogs };
 }
 
 function _getLogLevel(message: string): LogLevel {

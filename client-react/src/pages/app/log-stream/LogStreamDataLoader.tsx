@@ -1,10 +1,10 @@
 import React from 'react';
-import { LogEntry } from './LogStream.types';
-import { processLogs } from './LogStreamData';
+import { LogEntry, LogsEnabled } from './LogStream.types';
+import { processLogs, processLogConfig } from './LogStreamData';
 import LogStream from './LogStream';
 import { ArmTokenContext } from '../../../ArmTokenContext';
 import { ArmObj, Site } from '../../../models/WebAppModels';
-import MakeArmCall from '../../../ApiHelpers/ArmHelper';
+import SiteService from '../../../ApiHelpers/SiteService';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -15,7 +15,8 @@ export interface LogStreamDataLoaderState {
   logEntries: LogEntry[];
   clearLogs: boolean;
   connectionError: boolean;
-  site?: ArmObj<Site>;
+  site: ArmObj<Site>;
+  logsEnabled: LogsEnabled;
 }
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
@@ -35,16 +36,19 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       site: {
         id: '',
         name: '',
-        properties: {} as any,
+        properties: {} as Site,
       },
+      logsEnabled: { applicationLogs: false, webServerLogs: false },
     };
   }
 
   public async componentWillMount() {
     const { resourceId } = this.props;
-    const siteCall = await MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
-    if (siteCall.metadata.success) {
+    const [siteCall, logsConfigCall] = await Promise.all([SiteService.fetchSite(resourceId), SiteService.fetchLogsConfig(resourceId)]);
+
+    if (siteCall.metadata.success && logsConfigCall.metadata.success) {
       this.setState({ site: siteCall.data });
+      this.setState({ logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties) });
     }
   }
 
@@ -65,6 +69,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           clear={this._clearFunction}
           updateLogOption={this._updateLogOptionFunction}
           isStreaming={this.state.isStreaming}
+          site={this.state.site}
           clearLogs={this.state.clearLogs}
           logEntries={this.state.logEntries}
           connectionError={this.state.connectionError}
