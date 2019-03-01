@@ -160,7 +160,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
     if (this.wizardValues.sourceProvider === 'localgit') {
       return this._cacheService
-        .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, {
+        .patchArm(`${this._resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, {
           properties: {
             scmType: 'LocalGit',
           },

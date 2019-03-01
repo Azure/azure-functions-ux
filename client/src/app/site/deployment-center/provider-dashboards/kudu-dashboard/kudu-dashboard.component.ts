@@ -78,7 +78,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
       .switchMap(resourceId => {
         return Observable.zip(
           this._cacheService.getArm(resourceId, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.websiteApiVersion20180201),
+          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.websiteApiVersion20181101),
           this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/deployments`, true),
@@ -289,7 +289,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             scmType: 'None',
           },
         },
-        ARMApiVersions.websiteApiVersion20180201
+        ARMApiVersions.websiteApiVersion20181101
       );
       let sourceControlsConfig = of(null);
       if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {

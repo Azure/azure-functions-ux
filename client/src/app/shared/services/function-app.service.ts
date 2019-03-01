@@ -801,7 +801,7 @@ export class FunctionAppService {
     return this.azure.executeWithConditions(
       [],
       { resourceId: context.site.id },
-      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20180201).map(r => {
+      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20181101).map(r => {
         const config: ArmObj<SiteConfig> = r.json();
         return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
       })

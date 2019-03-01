@@ -400,7 +400,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
   private addorUpdateApiDefinitionURL(url: string) {
     return this._cacheService
-      .getArm(`${this.context.site.id}/config/web`, true, ARMApiVersions.websiteApiVersion20180201)
+      .getArm(`${this.context.site.id}/config/web`, true, ARMApiVersions.websiteApiVersion20181101)
       .map(r => r.json())
       .mergeMap(config => {
         let configChange = false;
@@ -429,7 +429,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
         if (configChange) {
           return this._cacheService
-            .putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(config))
+            .putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20181101, JSON.stringify(config))
             .map(r => r.json());
         }
 
