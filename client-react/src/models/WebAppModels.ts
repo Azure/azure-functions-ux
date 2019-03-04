@@ -53,7 +53,7 @@ export interface AutoHealTriggers {
 }
 
 export interface AzureBlobStorageApplicationLogsConfig {
-  level: number;
+  level: string;
   sasUrl: string;
   retentionInDays: number;
 }
@@ -65,7 +65,7 @@ export interface AzureBlobStorageHttpLogsConfig {
 }
 
 export interface AzureTableStorageApplicationLogsConfig {
-  level: number;
+  level: string;
   sasUrl: string;
 }
 
@@ -353,7 +353,7 @@ export interface Experiments {
 }
 
 export interface FileSystemApplicationLogsConfig {
-  level: number;
+  level: string;
 }
 
 export interface FileSystemHttpLogsConfig {

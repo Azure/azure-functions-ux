@@ -1,5 +1,5 @@
 import MakeArmCall from './ArmHelper';
-import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmArray, ArmAzureStorageMount } from '../models/WebAppModels';
+import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmArray, ArmAzureStorageMount, SiteLogsConfig } from '../models/WebAppModels';
 import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 
@@ -81,5 +81,10 @@ export default class SiteService {
   public static fetchSlots = (resourceId: string) => {
     const id = `${SiteService.getProductionId(resourceId)}/slots`;
     return MakeArmCall<ArmArray<Site>>({ resourceId: id, commandName: 'fetchSlots' });
+  };
+
+  public static fetchLogsConfig = (resourceId: string) => {
+    const id = `${SiteService.getProductionId(resourceId)}/config/logs`;
+    return MakeArmCall<ArmObj<SiteLogsConfig>>({ resourceId: id, commandName: 'fetchLogsConfig' });
   };
 }
