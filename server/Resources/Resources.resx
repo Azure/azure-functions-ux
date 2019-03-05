@@ -1222,6 +1222,9 @@
   <data name="notAvailable" xml:space="preserve">
     <value>Not available</value>
   </data>
+  <data name="notAvailableShort" xml:space="preserve">
+    <value>N/A</value>
+  </data>
   <data name="enabledFeatures_header" xml:space="preserve">
     <value>Configured features</value>
   </data>

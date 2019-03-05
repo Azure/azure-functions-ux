@@ -199,7 +199,7 @@
                         <div class="pct-wrapper">
                             <textbox
                                 [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
-                                [placeholder]="0"
+                                [placeholder]="'notAvailableShort' | translate"
                                 [highlightDirty]="true">
                             </textbox>
                         </div>

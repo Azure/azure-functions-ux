@@ -371,6 +371,7 @@ export class PortalResources {
   public static noAccess = 'noAccess';
   public static notApplicable = 'notApplicable';
   public static notAvailable = 'notAvailable';
+  public static notAvailableShort = 'notAvailableShort';
   public static enabledFeatures_header = 'enabledFeatures_header';
   public static enabledFeatures_description = 'enabledFeatures_description';
   public static siteDashboard_confirmLoseChanges = 'siteDashboard_confirmLoseChanges';
