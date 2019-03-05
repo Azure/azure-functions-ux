@@ -1,40 +1,73 @@
 import { FormikProps } from 'formik';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
+import { PermissionsContext } from '../Contexts';
+import AppSettingsBulkEdit from './AppSettingsBulkEdit';
+import { Coachmark } from 'office-ui-fabric-react/lib/Coachmark';
+import { TeachingBubbleContent } from 'office-ui-fabric-react/lib/TeachingBubble';
+import { DirectionalHint } from 'office-ui-fabric-react';
+import { sortBy } from 'lodash-es';
 
 interface ApplicationSettingsState {
   hideValues: boolean;
   showPanel: boolean;
+  panelItem: 'add' | 'bulk';
   currentAppSetting: FormAppSetting | null;
   currentItemIndex: number;
   createNewItem: boolean;
+  coachMarkVisible: boolean;
 }
 
-export class ApplicationSettings extends React.Component<
-  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
-  ApplicationSettingsState
-> {
+export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
+  public static contextType = PermissionsContext;
+  private _targetButton = React.createRef<HTMLDivElement>();
   constructor(props) {
     super(props);
     this.state = {
       hideValues: true,
       showPanel: false,
+      panelItem: 'add',
       currentAppSetting: null,
       currentItemIndex: -1,
       createNewItem: false,
+      coachMarkVisible: false,
     };
   }
 
+  public componentDidMount = () => {
+    let showCoachMark = false;
+    if (window.localStorage) {
+      const localStorageKey = 'app-settings-bulk-edit-coachmark';
+      const hasShownCoachmark = window.localStorage.getItem(localStorageKey);
+      showCoachMark = !hasShownCoachmark;
+      window.localStorage.setItem(localStorageKey, 'true');
+    }
+    if (showCoachMark) {
+      setTimeout(() => {
+        this.setState({
+          coachMarkVisible: true,
+        });
+      }, 1000);
+    }
+  };
+
   public render() {
     const { t } = this.props;
+    const { production_write, editable } = this.context;
+    const buttonProps: IButtonProps = {
+      text: t('dismiss'),
+      onClick: this._onDismissCoachmark,
+    };
     if (!this.props.values.appSettings) {
       return null;
     }
@@ -43,31 +76,76 @@ export class ApplicationSettings extends React.Component<
         <ActionButton
           id="app-settings-application-settings-add"
           onClick={this.createNewItem}
+          disabled={!editable}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          {t('addEditApplicationSetting')}
+          {t('newApplicationSetting')}
         </ActionButton>
         <ActionButton
           id="app-settings-application-settings-show-hide"
           onClick={this.flipHideSwitch}
+          componentRef={ref => {
+            (this._targetButton.current as any) = ref;
+          }}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
-          {this.state.hideValues ? 'Show Values' : 'Hide Values'}
+          {this.state.hideValues ? t('showValues') : t('hideValues')}
         </ActionButton>
+
+        <div ref={this._targetButton} style={{ display: 'inline-block' }}>
+          <ActionButton
+            id="app-settings-application-settings-bulk-edit"
+            onClick={this._openBulkEdit}
+            disabled={!editable}
+            styles={{ root: { marginTop: '5px' } }}
+            iconProps={{ iconName: 'Edit' }}>
+            {t('advancedEdit')}
+          </ActionButton>
+        </div>
         <Panel
-          isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          isOpen={this.state.showPanel && this.state.panelItem === 'add'}
+          type={PanelType.smallFixedFar}
           onDismiss={this.onCancel}
           headerText={t('newApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
-            disableSlotSetting={!this.props.values.productionWritePermission}
+            disableSlotSetting={!production_write}
             otherAppSettings={this.props.values.appSettings}
             updateAppSetting={this.onClosePanel.bind(this)}
             closeBlade={this.onCancel}
           />
         </Panel>
+        <Panel
+          isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
+          type={PanelType.medium}
+          onDismiss={this.onCancel}
+          closeButtonAriaLabel={t('close')}>
+          <AppSettingsBulkEdit
+            updateAppSetting={this._saveBulkEdit}
+            closeBlade={this.onCancel}
+            appSettings={this.props.values.appSettings}
+          />
+        </Panel>
+        {this.state.coachMarkVisible && (
+          <Coachmark
+            target={this._targetButton.current}
+            positioningContainerProps={{
+              directionalHint: DirectionalHint.rightCenter,
+              doNotLayer: false,
+            }}
+            ariaAlertText={t('aCoachmarkHasAppearedAriaAlert')}
+            ariaDescribedByText={t('coachMarkAriaDescription')}>
+            <TeachingBubbleContent
+              headline={t('advancedEdit')}
+              hasCloseIcon={true}
+              closeButtonAriaLabel={t('close')}
+              primaryButtonProps={buttonProps}
+              onDismiss={this._onDismissCoachmark}>
+              {t('advancedEditCoachmarkDesc')}
+            </TeachingBubbleContent>
+          </Coachmark>
+        )}
         <DisplayTableWithEmptyMessage
           items={this.props.values.appSettings}
           columns={this.getColumns()}
@@ -85,6 +163,23 @@ export class ApplicationSettings extends React.Component<
     this.setState({ hideValues: !this.state.hideValues });
   };
 
+  private _onDismissCoachmark = (): void => {
+    this.setState({
+      coachMarkVisible: false,
+    });
+  };
+
+  private _openBulkEdit = () => {
+    this.setState({
+      showPanel: true,
+      panelItem: 'bulk',
+    });
+  };
+
+  private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
+    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
+    this.setState({ createNewItem: false, showPanel: false });
+  };
   private createNewItem = () => {
     const blankAppSetting = {
       name: '',
@@ -93,6 +188,7 @@ export class ApplicationSettings extends React.Component<
     };
     this.setState({
       showPanel: true,
+      panelItem: 'add',
       currentAppSetting: blankAppSetting,
       createNewItem: true,
       currentItemIndex: -1,
@@ -106,7 +202,7 @@ export class ApplicationSettings extends React.Component<
     } else {
       appSettings.push(item);
     }
-    this.props.setFieldValue('appSettings', appSettings);
+    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
     this.setState({ createNewItem: false, showPanel: false });
   };
 
@@ -117,6 +213,7 @@ export class ApplicationSettings extends React.Component<
   private onShowPanel = (item: FormAppSetting, index: number): void => {
     this.setState({
       showPanel: true,
+      panelItem: 'add',
       currentAppSetting: item,
       currentItemIndex: index,
     });
@@ -130,6 +227,7 @@ export class ApplicationSettings extends React.Component<
 
   private onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const { t } = this.props;
+    const { editable } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -137,8 +235,11 @@ export class ApplicationSettings extends React.Component<
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
+          disabled={!editable}
           id={`app-settings-application-settings-delete-${index}`}
           iconProps={{ iconName: 'Delete' }}
+          ariaLabel={t('delete')}
           title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
@@ -147,8 +248,11 @@ export class ApplicationSettings extends React.Component<
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
+          disabled={!editable}
           id={`app-settings-application-settings-edit-${index}`}
           iconProps={{ iconName: 'Edit' }}
+          ariaLabel={t('edit')}
           title={t('edit')}
           onClick={() => this.onShowPanel(item, index)}
         />
@@ -156,20 +260,32 @@ export class ApplicationSettings extends React.Component<
     }
     if (column.key === 'sticky') {
       return item.sticky ? (
-        <IconButton id={`app-settings-application-settings-sticky-${index}`} iconProps={{ iconName: 'CheckMark' }} title={t('sticky')} />
+        <IconButton
+          className={defaultCellStyle}
+          id={`app-settings-application-settings-sticky-${index}`}
+          iconProps={{ iconName: 'CheckMark' }}
+          title={t('sticky')}
+          ariaLabel={t('slotSettingOn')}
+        />
       ) : null;
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        'Hidden value. Click show values button above to view'
+        <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
       ) : (
-        <span id={`app-settings-application-settings-value-${index}`}>{item[column.fieldName!]}</span>
+        <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
+          {item[column.fieldName!]}
+        </div>
       );
     }
     if (column.key === 'name') {
-      return <span id={`app-settings-application-settings-name-${index}`}>{item[column.fieldName!]}</span>;
+      return (
+        <div className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`}>
+          {item[column.fieldName!]}
+        </div>
+      );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering
@@ -235,4 +351,4 @@ export class ApplicationSettings extends React.Component<
   };
 }
 
-export default translate('translation')(ApplicationSettings);
+export default withTranslation('translation')(ApplicationSettings);

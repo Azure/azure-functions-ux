@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>사용 계획의 앱에 대해 이 기능은 지원되지 않습니다.</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>이 기능을 탄력적 플랜에 있는 앱에 사용할 수 없습니다.</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>이 기능은 슬롯에 대해 지원되지 않습니다.</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux 앱에 대해 이 기능은 지원되지 않습니다.</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>사용 플랜의 Linux 앱에는 이 기능이 지원되지 않습니다.</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>이 기능을 사용하려면 현재 앱에 대한 쓰기 권한이 있어야 합니다.</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service는 최신 버전의 Python 설치를 지원합니다. 자세히 알아보려면 여기를 클릭하세요.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 버전</value>
@@ -2399,7 +2408,7 @@
     <value>다운로드에서 앱 설정 포함</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>앱 설정 값을 가진 local.settings.json이라는 파일을 포함합니다. 이 파일은 다운로드에서 암호화되지 않지만 Azure Functions 핵심 도구 명령줄을 사용하여 암호화할 수 있습니다.</value>
+    <value>앱 설정 값을 가진 local.settings.json이라는 파일을 포함합니다. 이 파일은 다운로드에서 암호화되지 않지만 Azure Functions Core Tools 명령줄을 사용하여 암호화할 수 있습니다.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>사이트 콘텐츠</value>
@@ -2720,7 +2729,7 @@
     <value>이 템플릿에는 다음의 확장이 필요합니다.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>템플릿 종속성을 설치하는 중입니다. 템플릿 종속성이 설치되면 함수를 만들 수 있습니다. 종속성 설치는 백그라운드에서 이루어지며 최대 2분이 걸릴 수 있습니다. 그동안 이 블레이드를 닫고 포털을 계속 사용할 수 있습니다.</value>
+    <value>템플릿 종속성을 설치하는 중입니다. 템플릿 종속성이 설치되면 함수를 만들 수 있습니다. 종속성 설치는 백그라운드에서 이루어지며 최대 2분이 걸릴 수 있습니다. 설치가 완료될 때까지 앱은 오프라인 모드가 됩니다. 이 시간 동안 포털을 계속 사용할 수 있지만, 설치가 완료되기 전에 포털을 닫으면 앱이 오프라인 모드 상태로 남습니다.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>런타임 확장을 설치할 수 없습니다. 설치 ID: {{installationId}}</value>
@@ -3146,10 +3155,10 @@
     <value>ASE(App Service Environment) 내에서 격리된 가격 책정 계층은 구성에 사용할 수 없습니다. ASE는 네트워크 격리 및 개선된 규모 기능을 제공하는 Azure App Service의 강력한 기능 제공입니다.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>개발/테스트 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service 환경 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
+    <value>개발/테스트 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service Environment 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>프로덕션 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service 환경 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
+    <value>프로덕션 가격 책정 계층은 현재 구성에서 사용할 수 없고, App Service Environment 내에서 호스팅되지 않는 계획에서만 사용할 수 있습니다.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2는 이 배율 단위에는 지원되지 않습니다. 앱 재배포 또는 복제를 고려하세요.</value>
@@ -3220,7 +3229,7 @@
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>규모 확장.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Vm 크기 계산: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3885,7 +3894,7 @@
     <value>Visual Studio Code를 사용하여 함수 작성</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>원하는 편집기 및 Azure Functions 핵심 도구를 사용하여 함수 작성</value>
+    <value>원하는 편집기 및 Azure Functions Core Tools를 사용하여 함수 작성</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>IntelliJ 또는 Eclipse 및 Maven와 같은 원하는 편집기를 사용하여 Java 함수 작성</value>
@@ -3909,7 +3918,7 @@
     <value>VS Code에서 직접 게시</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Azure Functions 핵심 도구에서 직접 게시</value>
+    <value>Azure Functions Core Tools에서 직접 게시</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Maven에서 직접 게시</value>
@@ -4227,7 +4236,7 @@
     <value>배포 정보</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>템플릿 종속성을 설치하는 중입니다. 종속성 설치는 백그라운드에서 이루어지며 최대 2분이 걸릴 수 있습니다. 그동안 이 페이지를 나가서 포털을 계속 사용할 수 있습니다.</value>
+    <value>템플릿 종속성을 설치하는 중입니다. 종속성 설치는 백그라운드에서 이루어지며 최대 2분이 걸릴 수 있습니다. 설치가 완료될 때까지 앱은 오프라인 모드가 됩니다. 이 시간 동안 포털을 계속 사용할 수 있지만, 설치가 완료되기 전에 포털을 닫으면 앱이 오프라인 모드 상태로 남습니다.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>값 숨기기</value>
@@ -4320,10 +4329,10 @@
     <value>디렉터리 또는 응용 프로그램</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>디렉터리</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>응용 프로그램</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>미리 로드 사용</value>
@@ -4371,7 +4380,7 @@
     <value>모두 허용</value>
   </data>
   <data name="ftpsOnly" xml:space="preserve">
-    <value>FTP만</value>
+    <value>FTPS만</value>
   </data>
   <data name="alwaysOn" xml:space="preserve">
     <value>항상 설정됨</value>
@@ -4402,6 +4411,9 @@
   </data>
   <data name="sticky" xml:space="preserve">
     <value>슬롯 설정</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>연결 문자열 추가/편집</value>
@@ -4469,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>선택되지 않음</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>최신</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>자동 업데이트</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}}(최신)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}}(자동 업데이트)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>앱에서 최신 버전의 {{defaultJavaVersion}}을(를) 사용합니다.</value>
@@ -4620,9 +4632,153 @@
     <value>프록시(제한됨)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>슬롯 설정을 변경하려면 프로덕션 앱에서 쓰기 권한이 있어야 합니다.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>자동 교환 설정을 변경하려면 프로덕션 앱에서 쓰기 권한이 있어야 합니다.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>스크립트 함수 앱</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>미리 컴파일된 .NET 함수 앱</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>함수 앱 종류</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>슬롯 설정을 사용하도록 설정함</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>숨겨진 값입니다. 보려면 위에서 값 표시 단추를 클릭하세요.</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>필드는 고유해야 합니다.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>디렉터리</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>응용 프로그램</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>새 가상 애플리케이션 또는 디렉터리</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>새 처리기</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>애플리케이션에 대한 연결을 열 수 없습니다. 앱에 적용된 네트워크 보안 그룹 또는 IP 제한 규칙이 원인일 수 있습니다. 로그 스트리밍을 사용하려면 현재 네트워크에서 앱에 직접 액세스할 수 있는지 확인하세요.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>애플리케이션 설정에 비밀을 포함할 수 있습니다. 이 섹션을 보거나 편집하려면 .읽기/쓰기 권한이 필요합니다.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>연결 문자열에 기밀 정보가 있습니다. 이 섹션을 보거나 편집하려면 읽기/쓰기 권한이 필요합니다.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'논리 앱'이 햔후 몇 개월 내에 제거됩니다. Azure Portal 찾아보기를 사용하여 논리 앱을 계속 찾아볼 수 있습니다.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>이 기능은 Linux App Service 플랜에서 실행하는 함수 앱에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>규모 확장</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>App Service 플랜의 규모 확장 설정을 구성합니다.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>계정 이름</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>새 Azure Storage 탑재</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>빈 Azure Storage 탑재</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure Storage 탑재 이름은 고유해야 합니다.</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>가상 경로는 고유해야 합니다.</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>구성 옵션</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>스토리지 계정 이름은 소문자여야 합니다.</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>이 스토리지 계정에 blob 컨테이너 또는 파일 공유가 없습니다.</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>이 스토리지 계정에 대한 쓰기 액세스 권한이 없습니다. 액세스 키를 알고 있는 경우 고급 모드에서 입력하세요.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>옵션 선택</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS의 시작 명령은 ng, 노드 또는 pm2를 사용해야 합니다.</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python의 포털 내 편집이 곧 사용 중지됩니다. 개발에 CLI 또는 VS Code를 사용하세요. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;자세한 정보&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure 스토리지 마운트에 기밀 정보가 있습니다. 이 섹션을 보거나 편집하려면 읽기/쓰기 권한이 필요합니다.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>앱 설정 값이 배열이어야 합니다.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>모든 앱 설정 개체에는 이름이 있어야 합니다.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>모든 앱 설정 개체에는 값이 있어야 합니다.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>모든 앱 설정 값 속성은 문자열 형식이어야 합니다.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>모든 앱 설정 이름 속성은 문자열 형식이어야 합니다.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>모든 앱 슬롯 설정 속성은 부울 형식이어야 합니다.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0}은(는) 잘못된 앱 설정 속성입니다.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>앱 설정 이름은 고유해야 합니다.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>잘못된 JSON 개체</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>고급 편집</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Coachmark 알림을 열려면 &amp;lt;Enter&amp;gt; 키 또는 &amp;lt;alt + C&amp;gt;를 누르세요.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Coachmark가 표시되었습니다.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>고급 편집을 사용하면 앱 설정을 대량 편집할 수 있습니다. 키와 값을 일반 텍스트 JSON 형식으로 편집할 수 있습니다.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

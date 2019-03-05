@@ -1,4 +1,4 @@
 {
-  "recommendations": ["github.vscode-pull-request-github", "eg2.tslint", "esbenp.prettier-vscode"],
+  "recommendations": ["github.vscode-pull-request-github", "ms-vscode.vscode-typescript-tslint-plugin", "esbenp.prettier-vscode"],
   "unwantedRecommendations": []
 }

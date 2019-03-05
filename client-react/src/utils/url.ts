@@ -2,9 +2,8 @@ export default class Url {
   public static appendQueryString(url: string, queryString): string {
     if (url.includes('?')) {
       return `${url}&${queryString}`;
-    } else {
-      return `${url}?${queryString}`;
     }
+    return `${url}?${queryString}`;
   }
 
   public static getParameterByName(url: string | null, name: string) {
@@ -55,15 +54,15 @@ export default class Url {
   }
 
   // https://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
-  public static getPath(url: string) {
+  public static getPath(url?: string) {
     const l = document.createElement('a');
-    l.href = url;
+    l.href = url || window.location.href;
     return l.pathname;
   }
 
-  public static getHostName(url: string) {
+  public static getHostName(url?: string) {
     const l = document.createElement('a');
-    l.href = url;
+    l.href = url || window.location.href;
     return l.hostname;
   }
 

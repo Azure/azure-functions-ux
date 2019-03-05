@@ -1,6 +1,6 @@
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { HandlerMapping } from '../../../../models/WebAppModels';
@@ -12,9 +12,10 @@ export interface HandlerMappingAddEditProps {
   handlerMapping: HandlerMapping;
 }
 
-const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateHandlerMapping, t, closeBlade, handlerMapping } = props;
-  const [currentHandlerMapping, setCurrentHandlerMapping] = React.useState(handlerMapping);
+const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
+  const { updateHandlerMapping, closeBlade, handlerMapping } = props;
+  const { t } = useTranslation();
+  const [currentHandlerMapping, setCurrentHandlerMapping] = useState(handlerMapping);
 
   const updateHandlerMappingExtension = (e: any, extension: string) => {
     setCurrentHandlerMapping({ ...currentHandlerMapping, extension });
@@ -41,7 +42,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('save'),
+    title: t('update'),
     onClick: save,
     disable: false,
   };
@@ -63,6 +64,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('scriptProcessor')}
@@ -90,4 +92,4 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTra
     </form>
   );
 };
-export default translate('translation')(HandlerMappingsAddEdit);
+export default HandlerMappingsAddEdit;

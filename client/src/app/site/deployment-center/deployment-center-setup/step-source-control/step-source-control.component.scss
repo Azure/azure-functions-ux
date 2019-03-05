@@ -1,127 +1,131 @@
 @import '../../../../../sass/common/variables';
 :host {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
-h2{
-    display: inline;
+h2 {
+  display: inline;
 }
 
-h1{
-    text-align: center;
-    opacity: 0.9;
+h1 {
+  text-align: center;
+  opacity: 0.9;
 }
-.sourceContainer{
-     margin-top: 30px;
+.sourceContainer {
+  margin-top: 30px;
 }
 .selectionContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-   
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .cardDisabled {
-    width: 200px;
-    height: 150px;
-    margin: 35px;
-    border-radius: $card-border-radius;
-    border-width: $card-border-width;
-    border-color: $card-border-color;
-    border-style: $card-border-style;
-    box-shadow: $card-box-shadow;
-    float: $card-float;
-    transition: $card-transition;
-    &:hover {
-        cursor: $card-cursor-hover-disabled;
-    }
+  width: 200px;
+  height: 150px;
+  margin: 35px;
+  border-radius: $card-border-radius;
+  border-width: $card-border-width;
+  border-color: $card-border-color;
+  border-style: $card-border-style;
+  box-shadow: $card-box-shadow;
+  float: $card-float;
+  transition: $card-transition;
+  &:hover {
+    cursor: $card-cursor-hover-disabled;
+  }
 }
 
 .cardContainer {
-    width: 200px;
-    height: 150px;
-    margin: 35px;
-    border-radius: $card-border-radius;
-    border-width: $card-border-width;
-    border-color: $card-border-color;
-    border-style: $card-border-style;
-    box-shadow: $card-box-shadow;
-    float: $card-float;
-    transition: $card-transition;
-    position: $card-position;
-    &.selected {
-        border-color: $card-border-color-selected;
-        transition: $card-transition-selected;
-    }
-    &:hover {
-        cursor: $card-cursor-hover;
-        box-shadow: $card-box-shadow-hover;
-    }
-    &:focus {
-        outline-color: $card-outline-color;
-        outline-offset: $card-outline-offset;
-        outline-style: $card-outline-style;
-        outline-width: $card-outline-width;
-    }
+  width: 200px;
+  height: 150px;
+  margin: 35px;
+  border-radius: $card-border-radius;
+  border-width: $card-border-width;
+  border-color: $card-border-color;
+  border-style: $card-border-style;
+  box-shadow: $card-box-shadow;
+  float: $card-float;
+  transition: $card-transition;
+  position: $card-position;
+  &.selected {
+    border-color: $card-border-color-selected;
+    transition: $card-transition-selected;
+  }
+  &:hover {
+    cursor: $card-cursor-hover;
+    box-shadow: $card-box-shadow-hover;
+  }
+  &:focus {
+    outline-color: $card-outline-color;
+    outline-offset: $card-outline-offset;
+    outline-style: $card-outline-style;
+    outline-width: $card-outline-width;
+  }
 
-    .cardHeader{
-        display: $card-header-display;
-        width: $card-header-width;
-        line-height: $card-header-title-line-height;
-        font-size: $card-header-title-font-size;
-        font-weight: $card-header-title-font-weight;
-        height: $card-header-title-height;
-        img {
-            height: $card-header-icon-height;
-            width: $card-header-icon-width;
-            padding: $card-header-icon-padding;
-            margin-right: $card-header-icon-margin-right;
-        }
+  .cardHeader {
+    display: $card-header-display;
+    width: $card-header-width;
+    line-height: $card-header-title-line-height;
+    font-size: $card-header-title-font-size;
+    font-weight: $card-header-title-font-weight;
+    height: $card-header-title-height;
+    img {
+      height: $card-header-icon-height;
+      width: $card-header-icon-width;
+      padding: $card-header-icon-padding;
+      margin-right: $card-header-icon-margin-right;
     }
-    
-    .cardDescription {
-        border-top-style: $card-description-border-top-style;
-        border-top-width: $card-description-border-top-width;
-        border-color: $card-description-border-color;
-        margin-top: $card-description-margin-top;
-        padding: $card-description-padding;
-    }
+  }
 
-    .cardFooter{
-        display: $card-footer-display;
-        max-width: $card-footer-max-width;
-        position: $card-footer-position;
-        bottom: 0;
-        right: 0;
-        padding-right: 10px;
-        padding-bottom: 5px;
-     }
+  .cardDescription {
+    border-top-style: $card-description-border-top-style;
+    border-top-width: $card-description-border-top-width;
+    border-color: $card-description-border-color;
+    margin-top: $card-description-margin-top;
+    padding: $card-description-padding;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    max-height: 85px;
+  }
+
+  .cardFooter {
+    display: $card-footer-display;
+    max-width: $card-footer-max-width;
+    position: $card-footer-position;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
 }
 
-:host-context(#app-root[theme=dark]){
-    .footer {
-        background-color: $body-bg-color-dark;
+:host-context(#app-root[theme='dark']) {
+  .footer {
+    background-color: $body-bg-color-dark;
+  }
+  .cardContainer {
+    &.selected {
+      background-color: $card-color-selected-dark;
     }
-    .cardContainer {
-        &.selected {
-            background-color: $card-color-selected-dark;
-        }
-        &:hover {
-            box-shadow: $card-box-shadow-hover-dark;
-        }
+    &:hover {
+      box-shadow: $card-box-shadow-hover-dark;
     }
+  }
 }
 
 .sidebar-container {
-    height: 100%; 
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }

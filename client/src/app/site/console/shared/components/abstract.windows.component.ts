@@ -107,10 +107,10 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
       data => {
         const { Output, ExitCode, Error } = data.json();
         if (Error !== '') {
-          this.addErrorComponent(`${Error.trim()}${ConsoleConstants.windowsNewLine.repeat(2)}`);
+          this.addErrorComponent(`${Error.trimEnd()}${ConsoleConstants.windowsNewLine.repeat(2)}`);
         } else if (ExitCode === ConsoleConstants.successExitcode && Output !== '') {
           this._updateDirectoryAfterCommand(Output.trim());
-          const msg = Output.split(this.getMessageDelimeter())[0].trim();
+          const msg = Output.split(this.getMessageDelimeter())[0].trimEnd();
           this.addMessageComponent(`${msg}${ConsoleConstants.windowsNewLine.repeat(2)}`);
         }
         this.addPromptComponent();
@@ -140,13 +140,19 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
    * perform action on key pressed.
    */
   protected performAction(): boolean {
+    if (!this.command || !this.command.trim()) {
+      this.addMessageComponent();
+      return false;
+    }
     if (this.command.toLowerCase() === ConsoleConstants.windowsClear || this.command.toLowerCase() === ConsoleConstants.linuxClear) {
       this.removeMsgComponents();
+      this.cleared = true;
       return false;
     }
     if (this.command.toLowerCase() === ConsoleConstants.exit) {
       this.removeMsgComponents();
       this.dir = this._defaultDirectory;
+      this.cleared = true;
       return false;
     }
     return true;

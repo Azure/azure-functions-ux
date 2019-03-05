@@ -25,6 +25,7 @@ import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-i
 import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { BillingService } from 'app/shared/services/billing.service';
+import { Tier } from 'app/shared/models/serverFarmSku';
 
 @Component({
   selector: 'function-edit',
@@ -177,9 +178,12 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
 
       if (result.configResponse) {
         const config = result.configResponse.json();
-        const alwaysOnSetting = config.properties.alwaysOn === true || this.context.site.properties.sku === 'Dynamic';
+        const recommendAlwaysOn =
+          config.properties.alwaysOn !== true &&
+          this.context.site.properties.sku !== Tier.dynamic &&
+          this.context.site.properties.sku !== Tier.elasticPremium;
 
-        if (!alwaysOnSetting && !this.isDreamSpark) {
+        if (recommendAlwaysOn && !this.isDreamSpark) {
           notifications.push({
             id: NotificationIds.alwaysOn,
             message: this._translateService.instant(PortalResources.topBar_alwaysOn),

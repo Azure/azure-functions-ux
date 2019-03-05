@@ -40,6 +40,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
   public selectedTag: string;
   public imageSourceForm: FormGroup;
   public cotainsCrossSubscriptionRegistry = false;
+  public credentialsErrorMessage: string;
 
   constructor(private _acrService: ContainerACRService, private _multiConfigService: ContainerMultiConfigService, injector: Injector) {
     super('ContainerImageSourceACRComponent', injector, 'dashboard');
@@ -116,19 +117,23 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
     this.tagItems = [];
     this.tagDropdownItems = [];
     this.loadingRepo = true;
+    this.credentialsErrorMessage = null;
 
     const acrRegistry = this.registryItems.find(item => item.loginServer === element.value);
 
-    this._acrService.getCredentials(acrRegistry.resourceId).subscribe(credential => {
-      if (credential.isSuccessful) {
-        const username = credential.result.username;
-        const password = credential.result.passwords[0].value;
+    this._acrService.getCredentials(acrRegistry.resourceId).subscribe(credentialResponse => {
+      if (credentialResponse.isSuccessful) {
+        const username = credentialResponse.result.username;
+        const password = credentialResponse.result.passwords[0].value;
 
         if (username && password) {
           this.imageSourceForm.controls.login.setValue(username);
           this.imageSourceForm.controls.password.setValue(password);
           this._loadRepositories();
         }
+      } else {
+        this.credentialsErrorMessage = credentialResponse.error && credentialResponse.error.message;
+        this.loadingRepo = false;
       }
     });
   }
@@ -151,7 +156,9 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
 
   private _reset() {
     this.loadingRegistries = false;
+    this.repositoryItems = [];
     this.loadingRepo = false;
+    this.tagItems = [];
     this.loadingTag = false;
     this.registriesMissing = false;
   }

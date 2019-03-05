@@ -6,6 +6,8 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { DisableInfo } from './feature-item';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
+import { SiteTabIds } from 'app/shared/models/constants';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export interface DisableInfo {
   enabled: boolean;
@@ -51,10 +53,11 @@ export class DisableableFeature extends FeatureItem {
     keywords: string,
     info: string,
     imageUrl: string,
+    superScriptIconUrl?: string,
     _disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult // If the feature is known to be disabled before any async logic, then use this disable immediately
   ) {
-    super(title, keywords, info, imageUrl);
+    super(title, keywords, info, imageUrl, superScriptIconUrl);
 
     if (overrideDisableInfo) {
       // Assumes that all scenario results for feature items are a black list
@@ -93,7 +96,7 @@ export class DisableableBladeFeature extends DisableableFeature {
     disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult
   ) {
-    super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
+    super(title, keywords, info, imageUrl, null, disableInfoStream, overrideDisableInfo);
   }
 
   click() {
@@ -138,6 +141,10 @@ export class TabFeature extends FeatureItem {
     private _broadcastService: BroadcastService
   ) {
     super(title, keywords, info, imageUrl, 'image/new-tab.svg');
+
+    if (featureId === SiteTabIds.logicApps) {
+      this.warning = PortalResources.tab_logicAppsDeprecation;
+    }
   }
 
   click() {
@@ -156,7 +163,7 @@ export class DisableableTabFeature extends DisableableFeature {
     disableInfoStream?: Subject<DisableInfo>,
     overrideDisableInfo?: ScenarioResult
   ) {
-    super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
+    super(title, keywords, info, imageUrl, 'image/new-tab.svg', disableInfoStream, overrideDisableInfo);
   }
 
   click() {

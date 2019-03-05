@@ -139,7 +139,7 @@ export class Links {
   public static updateExtensionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2013353';
   public static deploymentSlotsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2014035';
   public static dynamicLinuxPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2022864';
-  public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552';
+  public static communityTemplatesLink = 'https://go.microsoft.com/fwlink/?linkid=2022552&type=functionapp';
   public static linuxContainersLearnMore = 'https://go.microsoft.com/fwlink/?linkid=861969';
   public static premiumV2NotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2009376';
   public static azureComputeUnitLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2027465';
@@ -155,6 +155,8 @@ export class Kinds {
   public static readonly functionApp = 'functionapp';
   public static readonly botapp = 'botapp';
   public static readonly elastic = 'elastic'; // only applies to server farm
+  public static readonly api = 'api';
+  public static readonly app = 'app';
 }
 
 export class LocalStorageKeys {
@@ -210,8 +212,6 @@ export class ScenarioIds {
   public static readonly addMsi = 'AddMsi';
   public static readonly addTinfoil = 'AddTinfoil';
   public static readonly addSiteQuotas = 'ShowSiteQuotas';
-  public static readonly addConsole = 'AddConsole';
-  public static readonly addSsh = 'AddSsh';
   public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
   public static readonly addLogicApps = 'AddLogicApps';
   public static readonly appInsightsConfigurable = 'AppInsightsConfigurable';
@@ -220,6 +220,7 @@ export class ScenarioIds {
   public static readonly addDiagnoseAndSolve = 'AddDiagnoseAndSolve';
   public static readonly addWebServerLogging = 'AddWebServerLogging';
   public static readonly enablePushNotifications = 'EnablePushNotifications';
+  public static readonly enableDiagnosticLogs = 'EnableDiagnosticLogs';
   public static readonly enableAuth = 'EnableAuth';
   public static readonly enableNetworking = 'EnableNetworking';
   public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
@@ -235,6 +236,7 @@ export class ScenarioIds {
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
   public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
@@ -288,6 +290,9 @@ export class ScenarioIds {
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
+  public static readonly addScaleOut = 'addScaleOut';
+  public static readonly alwaysOnSupported = 'alwaysOnSupported';
+  public static readonly enableConsole = 'EnableConsole';
 }
 
 export class NationalCloudArmUris {
@@ -342,7 +347,9 @@ export class LogCategories {
 
 export class ARMApiVersions {
   public static websiteApiVersion = '2015-08-01';
+  public static websiteApiVersion20160301 = '2016-03-01';
   public static websiteApiVersion20180201 = '2018-02-01';
+  public static websiteApiVersion20181101 = '2018-11-01';
   public static armApiVersion = '2014-04-01';
   public static acrApiversion = '2017-03-01';
   public static acrWebhookApiVersion = '2017-10-01';
@@ -579,6 +586,12 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
+  public static EnableElasticPremium = 'EnableElasticPremium';
+  public static ShowVNetIntegration = 'ShowVNetIntegration';
+}
+
+export class SupportedFeatures {
+  public static ElasticScaleOut = 'ElasticScaleOut';
 }
 
 export enum FunctionAppVersion {

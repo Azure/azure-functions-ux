@@ -19,6 +19,13 @@ export async function proxy(req: Request, res: Response) {
       headers,
       data: body,
     });
+
+    if (result.headers) {
+      Object.keys(result.headers).forEach(key => {
+        res.setHeader(key, result.headers[key]);
+      });
+    }
+
     res.status(result.status).send(result.data);
   } catch (err) {
     if (err.response) {

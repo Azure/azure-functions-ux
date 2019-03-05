@@ -1,14 +1,13 @@
 import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 
-import { RootState } from '../modules/types';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
+import { SpinnerSize, Spinner } from 'office-ui-fabric-react/lib/Spinner';
+import { ThemeContext } from '../ThemeContext';
 
 interface StatusMessage {
   message: string;
@@ -27,11 +26,9 @@ interface ActionBarProps {
   primaryButton: ActionBarButtonProps;
   secondaryButton?: ActionBarButtonProps;
   statusMessage?: StatusMessage;
+  validating?: boolean;
 }
 
-interface ActionBarState {
-  theme: ThemeExtended;
-}
 const elementWrapperStyle = (theme: ThemeExtended) =>
   style({
     position: 'absolute',
@@ -41,6 +38,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
     right: '0px',
     overflow: 'hidden',
     borderTop: `1px solid ${theme.palette.neutralDark}`,
+    zIndex: 1,
   });
 
 const buttonsWrapperStyle = style({
@@ -59,8 +57,10 @@ const statusMessageDiv = style({
   marginTop: '5px',
 });
 
-type ActionBarPropsCombined = ActionBarProps & InjectedTranslateProps & ActionBarState;
-const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, t, id, theme, statusMessage, ...props }) => {
+type ActionBarPropsCombined = ActionBarProps;
+const ActionBar: React.FC<ActionBarPropsCombined> = ({ primaryButton, secondaryButton, validating, id, statusMessage }) => {
+  const theme = useContext(ThemeContext);
+  const { t } = useTranslation();
   return (
     <div className={elementWrapperStyle(theme)}>
       <div className={buttonsWrapperStyle}>
@@ -99,20 +99,30 @@ const ActionBar: React.SFC<ActionBarPropsCombined> = ({ primaryButton, secondary
             )}
           </MessageBar>
         )}
+        {validating && (
+          <Spinner
+            size={SpinnerSize.medium}
+            label={t('validating')}
+            ariaLive="assertive"
+            styles={{
+              root: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                justifyItems: 'center',
+                paddingTop: '10px',
+                paddingLeft: '5px',
+              },
+              label: {
+                alignSelf: 'center',
+                paddingLeft: '5px',
+                marginTop: '0px',
+              },
+            }}
+          />
+        )}
       </div>
     </div>
   );
 };
-
-const mapStateToProps = (state: RootState) => {
-  return {
-    theme: state.portalService.theme,
-  };
-};
-export default compose<ActionBarPropsCombined, ActionBarProps>(
-  translate('translation'),
-  connect(
-    mapStateToProps,
-    null
-  )
-)(ActionBar);
+export default ActionBar;

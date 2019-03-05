@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Este recurso não tem suporte para aplicativos em um Plano de consumo</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Não há suporte para este recurso em aplicativos em um plano Elástico</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Este recurso não oferece suporte para slots</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Este recurso não é compatível com aplicativos Linux</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Não há suporte para este recurso em aplicativos Linux em um Plano de consumo</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Você deve ter permissões de gravação no aplicativo atual para usar este recurso</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>O Serviço do Aplicativo oferece suporte à instalação de versões mais recentes do Python. Clique aqui para saber mais.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão Java</value>
@@ -2399,7 +2408,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Incluir configurações do aplicativo no download</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Isso incluirá um arquivo chamado local.settings.json que terá os valores de sua configuração do aplicativo. Esse arquivo não será criptografado no download, mas pode ser criptografado usando a linha de comando das Ferramentas Principais do Azure Functions.</value>
+    <value>Isso incluirá um arquivo chamado local.settings.json que terá os valores de sua configuração do aplicativo. Esse arquivo não será criptografado no download, mas pode ser criptografado usando a linha de comando do Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Conteúdo do site</value>
@@ -2720,7 +2729,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Este modelo requer as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Instalando dependências do modelo. Será possível criar uma função assim que isso for feito. A instalação das dependências ocorre em segundo plano e pode levar até 2 minutos. É possível fechar essa folha e continuar a usar o portal durante esse período.</value>
+    <value>Instalando dependências do modelo. Será possível criar uma função uma vez que isso seja concluído. A instalação da dependência ocorre em segundo plano e pode levar até 2 minutos. O aplicativo entrará no modo offline até que a instalação seja concluída. É possível continuar a usar o portal durante esse período, mas fechar o portal antes de concluída a instalação deixará o aplicativo no modo offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão de tempo de execução. Instale a ID {{installationId}}</value>
@@ -3146,10 +3155,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Os tipos de preço isolados dentro de um Ambiente do Serviço de Aplicativo (ASE) não estão disponíveis para sua configuração. Um ASE é uma oferta de recursos avançados do Serviço de Aplicativo do Azure que oferece isolamento de rede e melhores capacidades de dimensionamento.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Os tipos de preço de Desenvolvimento/Teste não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de Desenvolvimento/Teste não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente do Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Os tipos de preço de produção não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente de Serviço de Aplicativo.</value>
+    <value>Os tipos de preço de produção não estão disponíveis para sua configuração e somente estão disponíveis para os planos não hospedados em um ambiente do Serviço de Aplicativo.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Não há suporte para a versão premium V2 para esta unidade de dimensionamento. Considere reimplantar ou clonar o aplicativo.</value>
@@ -3220,7 +3229,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Aumentar.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Computar o tamanho da VM: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3284,7 +3293,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Acesso privado ao aplicativo</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Usando um Ambiente de Serviço de Aplicativo com ILB (Balanceamento de Carga Interno).</value>
+    <value>Usando um Ambiente do Serviço de Aplicativo com ILB (Balanceamento de Carga Interno).</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
     <value>{0} GB de memória</value>
@@ -3909,7 +3918,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Publicar diretamente do VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publicar diretamente das Ferramentas Principais do Azure Functions</value>
+    <value>Publicar diretamente do Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publicar diretamente do Maven</value>
@@ -4227,7 +4236,7 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Detalhes de Implantação</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Instalando dependências do modelo. A instalação das dependências ocorre em segundo plano e pode levar até 2 minutos. É possível fechar essa página e continuar a usar o portal durante esse período.</value>
+    <value>Instalando as dependências do modelo. A instalação da dependência ocorre em segundo plano e pode levar até 2 minutos. O aplicativo entrará no modo offline até que a instalação seja concluída. É possível continuar a usar o portal durante esse período, mas fechar o portal antes de concluída a instalação deixará o aplicativo no modo offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Ocultar Valores</value>
@@ -4320,10 +4329,10 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Diretório ou Aplicativo</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Diretório</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Aplicativo</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Pré-carregamento habilitado</value>
@@ -4403,6 +4412,9 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="sticky" xml:space="preserve">
     <value>Configuração do slot</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Adicionar/Editar cadeia de conexão</value>
   </data>
@@ -4469,11 +4481,11 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="notSelected" xml:space="preserve">
     <value>Não Selecionado</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Mais Recente</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Atualização Automática</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (mais recente)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (atualização automática)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Seu aplicativo usará a versão mais recente do {{defaultJavaVersion}}.</value>
@@ -4624,5 +4636,149 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Para alterar a configuração de troca automática, você deve ter permissões de gravação no aplicativo de produção.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Aplicativo de Funções de Script</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Aplicativo de Funções .NET Pré-Compilado</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Tipo de Aplicativo de Funções</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Configuração de Slot Habilitada</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Valor oculto. Clique no botão Mostrar valores acima para exibi-lo</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>O campo deve ser exclusivo.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Diretório</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplicativo</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Novo diretório ou aplicativo virtual</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Novo manipulador</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Não é possível abrir uma conexão com o seu aplicativo. Isso pode acontecer por causa de qualquer grupo de segurança de rede ou das regras de restrição de IP que você tenha colocado no seu aplicativo. Para usar o streaming de log, verifique se você consegue acessar o aplicativo diretamente de sua rede atual.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>As configurações do aplicativo podem conter segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>As cadeias de conexão contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>A guia 'Aplicativos Lógicos' será removida nos próximos meses. Você pode continuar a navegar em seus aplicativos lógicos usando o recurso de navegação do Portal do Azure.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Este recurso está disponível somente para Aplicativos de função em execução em um plano de Serviço de Aplicativo do Linux. Para registrar em log o tempo de execução, use o Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Escalar horizontalmente</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure as configurações de expansão para o Plano do Serviço de Aplicativo.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nome da Conta</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Blob do Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Arquivos do Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nova Montagem do Armazenamento do Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Montagem de Armazenamento do Azure Vazio</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Os nomes de montagem do armazenamento do Azure precisam ser exclusivos</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Os caminhos virtuais devem ser exclusivos</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opções de configuração</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>O nome da conta de armazenamento deve estar em minúsculas</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Esta conta de armazenamento não tem contêineres de blob nem compartilhamentos de arquivos</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Você não tem acesso de gravação a esta conta de armazenamento. Se você souber a chave de acesso, poderá colocá-la no modo avançado.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Selecionar uma opção</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Os comandos de inicialização para NodeJS precisam usar ng, nó ou pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>A edição no portal para Python será preterida em breve. Use o CLI ou o VS Code para desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>As montagens de armazenamento do Azure contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Os valores de configuração de aplicativo precisam ser uma matriz</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Todos os objetos de configuração de aplicativo precisam ter um nome</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Todos os objetos de configuração de aplicativo precisam ter um valor</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Todas as propriedades de valor de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Todas as propriedades de nome de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Todas as propriedades de configuração de slot de configuração de aplicativo precisam ser do tipo booliano</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} é uma propriedade de configuração de aplicativo inválida</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Os nomes de configuração de aplicativo precisam ser exclusivos</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Objeto JSON inválido</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Edição Avançada</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Pressione enter ou alt + C para abrir a notificação de coachmark</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Apareceu um coachmark</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>A edição avançada permite a edição em massa das configurações do seu aplicativo. As chaves e os valores podem ser editados no formato JSON de texto sem formatação</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>O caminho físico precisa ser um local dentro do site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>O caminho do Diretório Virtual precisa existir em um caminho de aplicativo</value>
   </data>
 </root>

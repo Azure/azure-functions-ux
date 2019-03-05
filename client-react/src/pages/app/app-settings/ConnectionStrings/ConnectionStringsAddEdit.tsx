@@ -1,8 +1,8 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
@@ -18,11 +18,11 @@ export interface ConnectionStringAddEditProps {
   disableSlotSetting: boolean;
 }
 
-const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & InjectedTranslateProps> = props => {
-  const { updateConnectionString, otherConnectionStrings, t, closeBlade, connectionString, disableSlotSetting } = props;
-  const [nameError, setNameError] = React.useState('');
-  const [currentConnectionString, setCurrentConnectionString] = React.useState(connectionString);
-
+const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props => {
+  const { updateConnectionString, otherConnectionStrings, closeBlade, connectionString, disableSlotSetting } = props;
+  const [nameError, setNameError] = useState('');
+  const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
+  const { t } = useTranslation();
   const validateConnectionStringName = (value: string) => {
     return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? 'Connection string names must be unique' : '';
   };
@@ -37,7 +37,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   };
 
   const updateConnectionStringType = (e: any, typeOption: IDropdownOption) => {
-    setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as number });
+    setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as string });
   };
 
   const updateConnectionStringSticky = (e: any, sticky: boolean) => {
@@ -54,7 +54,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('save'),
+    title: t('update'),
     onClick: save,
     disable: !!nameError,
   };
@@ -77,6 +77,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('value')}
@@ -104,10 +105,34 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
             key: DatabaseType.SQLAzure,
             text: typeValueToString(DatabaseType.SQLAzure),
           },
+          {
+            key: DatabaseType.PostgreSQL,
+            text: typeValueToString(DatabaseType.PostgreSQL),
+          },
+          {
+            key: DatabaseType.Custom,
+            text: typeValueToString(DatabaseType.Custom),
+          },
         ]}
         onChange={updateConnectionStringType}
         styles={{
           root: formElementStyle,
+          dropdown: {
+            maxWidth: '300px',
+          },
+          title: {
+            height: 32,
+            lineHeight: 30,
+            padding: `0 32px 0 12px`,
+          },
+          caretDownWrapper: {
+            height: 32,
+            lineHeight: 30,
+          },
+          dropdownItemHeader: {
+            height: 32,
+            lineHeight: 32,
+          },
         }}
       />
       <Checkbox
@@ -136,4 +161,4 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps & Injecte
   );
 };
 
-export default translate('translation')(ConnectionStringsAddEdit);
+export default ConnectionStringsAddEdit;

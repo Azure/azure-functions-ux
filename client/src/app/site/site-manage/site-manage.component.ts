@@ -1,6 +1,6 @@
-import { SiteService } from 'app/shared/services/site.service';
+import { SiteService } from '../../shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { ScenarioIds, SiteTabIds, ARMApiVersions } from './../../shared/models/constants';
+import { ScenarioIds, SiteTabIds, ARMApiVersions, SupportedFeatures, FeatureFlags } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -22,9 +22,10 @@ import { PortalService } from '../../shared/services/portal.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { Url } from 'app/shared/Utilities/url';
+import { Url } from '../../shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmUtil } from '../../shared/Utilities/arm-utils';
+import { OpenBladeInfo } from '../../shared/models/portal';
 import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
@@ -191,31 +192,28 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       );
     }
 
-    if (
-      this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled' ||
-      this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
-    ) {
-      developmentToolFeatures.push(
-        new TabFeature(
-          this._getConsoleName(site),
-          this._translateService.instant(PortalResources.feature_consoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_cmdConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_bashConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.feature_sshConsoleName) +
-            ' ' +
-            this._translateService.instant(PortalResources.debug),
-          this._translateService.instant(PortalResources.feature_consoleInfo),
-          'image/console.svg',
-          SiteTabIds.console,
-          this._broadcastService
-        )
-      );
-    }
+    developmentToolFeatures.push(
+      new DisableableTabFeature(
+        this._getConsoleName(site),
+        this._translateService.instant(PortalResources.feature_consoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_cmdConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_bashConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_powerShellConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.feature_sshConsoleName) +
+          ' ' +
+          this._translateService.instant(PortalResources.debug),
+        this._translateService.instant(PortalResources.feature_consoleInfo),
+        'image/console.svg',
+        SiteTabIds.console,
+        this._broadcastService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableConsole, { site: site })
+      )
+    );
 
     developmentToolFeatures.push(new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService));
     developmentToolFeatures.push(
@@ -327,6 +325,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
   }
 
   private _initCol2Groups(site: ArmObj<Site>) {
+    const showVNetIntegration = Url.getParameterByName(null, FeatureFlags.ShowVNetIntegration) === 'true';
+
     const networkFeatures: FeatureItem[] = [
       new DisableableBladeFeature(
         this._translateService.instant(PortalResources.feature_networkingName),
@@ -344,7 +344,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         },
         this._portalService,
         this._hasSiteWritePermissionStream,
-        this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
+        showVNetIntegration ? null : this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
       ),
 
       new DisableableBladeFeature(
@@ -456,6 +456,21 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     const monitoringFeatures = [
+      new DisableableBladeFeature(
+        this._translateService.instant(PortalResources.feature_diagnosticLogsName),
+        this._translateService.instant(PortalResources.feature_diagnosticLogsName),
+        this._translateService.instant(PortalResources.feature_diagnosticLogsInfo),
+        'image/diagnostic-logs.svg',
+        {
+          detailBlade: 'WebsiteLogsBlade',
+          detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() },
+          openAsContextBlade: true,
+        },
+        this._portalService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableDiagnosticLogs, { site: site })
+      ),
+
       new TabFeature(
         this._translateService.instant(PortalResources.feature_logStreamingName),
         this._translateService.instant(PortalResources.feature_logStreamingName) +
@@ -489,7 +504,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_metricsInfo),
         'image/quotas.svg',
         {
-          detailBlade: 'MetricsBladeV2',
+          detailBlade: 'MetricsBladeV3',
           detailBladeInputs: {
             id: site.id,
           },
@@ -569,6 +584,21 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
       ),
     ];
 
+    if (Url.getParameterByName(null, SupportedFeatures.ElasticScaleOut) === 'true') {
+      appServicePlanFeatures.push(
+        new DisableableBladeFeature(
+          this._translateService.instant(PortalResources.scaleOut),
+          this._translateService.instant(PortalResources.appServicePlan) + ' ' + this._translateService.instant(PortalResources.scale),
+          this._translateService.instant(PortalResources.scaleOutDescription),
+          'image/scale-out.svg',
+          this._getScaleOutBladeInfo(site),
+          this._portalService,
+          this._hasPlanReadPermissionStream,
+          this._scenarioService.checkScenario(ScenarioIds.addScaleOut, { site: site })
+        )
+      );
+    }
+
     if (this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled') {
       appServicePlanFeatures.push(
         new DisableableBladeFeature(
@@ -639,13 +669,19 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_activityLogInfo),
         'image/activity-log.svg',
         {
-          detailBlade: 'ActivityLogBlade',
+          detailBlade:
+            this._scenarioService.checkScenario(ScenarioIds.useOldActivityLogBlade).status === 'enabled'
+              ? 'EventsBrowseBlade'
+              : 'ActivityLogBlade',
           detailBladeInputs: {
             queryInputs: {
               id: site.id,
             },
           },
-          extension: 'Microsoft_Azure_ActivityLog',
+          extension:
+            this._scenarioService.checkScenario(ScenarioIds.useOldActivityLogBlade).status === 'enabled'
+              ? 'Microsoft_Azure_Monitoring'
+              : 'Microsoft_Azure_ActivityLog',
         },
         this._portalService
       )
@@ -747,6 +783,33 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     ];
   }
 
+  private _getScaleOutBladeInfo(site: ArmObj<Site>): OpenBladeInfo {
+    if (ArmUtil.isElastic(site)) {
+      return {
+        detailBlade: 'ElasticScaleOutApp',
+        detailBladeInputs: {
+          siteUri: site.id,
+          serverFarmUri: site.properties.serverFarmId,
+          options: {
+            hideIcon: false,
+          },
+        },
+        openAsContextBlade: false,
+      };
+    }
+
+    return {
+      detailBlade: 'AutoScaleSettingsBlade',
+      detailBladeInputs: {
+        WebHostingPlanId: site.properties.serverFarmId,
+        resourceId: site.properties.serverFarmId,
+        apiVersion: ARMApiVersions.websiteApiVersion,
+        options: null,
+      },
+      extension: 'Microsoft_Azure_Monitoring',
+    };
+  }
+
   private _getConsoleName(site: ArmObj<Site>): string {
     const console = this._translateService.instant(PortalResources.feature_consoleName);
     if (ArmUtil.isLinuxApp(site)) {
@@ -767,6 +830,7 @@ export class OpenKuduFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
       _translateService.instant(PortalResources.feature_advancedToolsInfo),
       'image/advanced-tools.svg',
+      null,
       disableInfoStream
     );
   }
@@ -789,6 +853,7 @@ export class OpenEditorFeature extends DisableableFeature {
       _translateService.instant(PortalResources.feature_appServiceEditorName),
       _translateService.instant(PortalResources.feature_appServiceEditorInfo),
       'image/appsvc-editor.svg',
+      null,
       disabledInfoStream,
       scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site })
     );

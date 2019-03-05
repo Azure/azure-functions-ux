@@ -2,14 +2,17 @@ import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { VirtualApplication } from '../../../../models/WebAppModels';
-import { AppSettingsFormValues } from '../AppSettings.types';
+import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
+import { PermissionsContext } from '../Contexts';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;
@@ -17,10 +20,9 @@ export interface VirtualApplicationsState {
   currentItemIndex: number | null;
   createNewItem: boolean;
 }
-export class VirtualApplications extends React.Component<
-  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
-  VirtualApplicationsState
-> {
+export class VirtualApplications extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, VirtualApplicationsState> {
+  public static contextType = PermissionsContext;
+  public context: Permissions;
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +35,7 @@ export class VirtualApplications extends React.Component<
 
   public render() {
     const { values, t } = this.props;
+    const { editable, app_write } = this.context;
     if (!values.virtualApplications) {
       return null;
     }
@@ -40,15 +43,15 @@ export class VirtualApplications extends React.Component<
       <>
         <ActionButton
           id="app-settings-new-virtual-app-button"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          New Directory/Application
+          {t('addNewVirtualDirectoryV3')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          type={PanelType.smallFixedFar}
           onDismiss={this.onCancelPanel}
           headerText={t('newApp')}
           closeButtonAriaLabel={t('close')}>
@@ -125,7 +128,8 @@ export class VirtualApplications extends React.Component<
   }
 
   private onRenderItemColumn = (item: VirtualApplication, index: number, column: IColumn) => {
-    const { values } = this.props;
+    const { t } = this.props;
+    const { editable, app_write } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -133,9 +137,11 @@ export class VirtualApplications extends React.Component<
     if (column.key === 'delete') {
       return item.virtualPath === '/' ? null : (
         <IconButton
-          disabled={!values.siteWritePermission}
+          className={defaultCellStyle}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Delete' }}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -143,17 +149,19 @@ export class VirtualApplications extends React.Component<
     if (column.key === 'edit') {
       return item.virtualPath === '/' ? null : (
         <IconButton
-          disabled={!values.siteWritePermission}
+          className={defaultCellStyle}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Edit' }}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );
     }
     if (column.key === 'type') {
-      return item.virtualDirectory ? 'Directory' : 'Application';
+      return <div className={defaultCellStyle}>{item.virtualDirectory ? t('directory') : t('application')}</div>;
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   private _getColumns = () => {
@@ -169,6 +177,7 @@ export class VirtualApplications extends React.Component<
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'physicalPath',
@@ -180,6 +189,7 @@ export class VirtualApplications extends React.Component<
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
 
       {
@@ -218,4 +228,4 @@ export class VirtualApplications extends React.Component<
   };
 }
 
-export default translate('translation')(VirtualApplications);
+export default withTranslation('translation')(VirtualApplications);

@@ -88,10 +88,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
           }
         });
       }
-    } else if (
-      input.specPickerInput.data &&
-      (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon || input.specPickerInput.data.isElastic)
-    ) {
+    } else if (input.specPickerInput.data && (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon)) {
       this.state = 'hidden';
     }
 

@@ -139,7 +139,7 @@
                 <tr *ngIf="siteArm" table-row>
 
                     <td class="one-quarter-col padded-col" table-cell>
-                        {{ siteArm ? siteArm.properties.name : '-' }}
+                        {{ (siteArm && siteArm.name) ? siteArm.name.replace('/', '-') : '-' }}
                         <div
                             *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
                             class="pill">
@@ -175,10 +175,10 @@
                             tabindex="0"
                             (click)="openSlotBlade(relativeSlotArm.id)"
                             [activate-with-keys]>
-                            {{ relativeSlotArm.properties.name }}
+                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
                         </a>
                         <span *ngIf="!!navigationDisabled">
-                            {{ relativeSlotArm.properties.name }}
+                            {{ relativeSlotArm.name ? relativeSlotArm.name.replace('/', '-') : '-' }}
                         </span>
                         <div
                             *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"

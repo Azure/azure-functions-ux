@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Bu özellik, Tüketim planlarındaki uygulamalarda desteklenmez</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Bu özellik, bir Elastik planındaki uygulamalarda desteklenmiyor</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Bu özellik yuvalar için desteklenmiyor</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Bu özellik Linux uygulamalarında desteklenmiyor</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Bu özellik, Tüketim planındaki Linux uygulamalarında desteklenmez</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Bu özelliği kullanabilmek için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service, daha yeni Python sürümleri yüklemeyi destekler. Daha fazla bilgi için buraya tıklayın.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java sürümü</value>
@@ -2399,7 +2408,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Uygulama ayarlarını indirmeye dahil et</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Bu, uygulama ayarı değerlerinizi içeren local.settings.json adlı bir dosyayı ekler. Bu dosya indirildiğinde şifrelenmez ancak Azure İşlevleri Çekirdek Araçları komut satırı kullanılarak şifrelenebilir.</value>
+    <value>Bu, uygulama ayarı değerlerinizi içeren local.settings.json adlı bir dosyayı ekler. Bu dosya indirildiğinde şifrelenmez ancak Azure Functions Core Tools komut satırı kullanılarak şifrelenebilir.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Site içeriği</value>
@@ -2720,7 +2729,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu şablon aşağıdaki uzantıları gerektirir.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Şablon bağımlılıkları yükleniyor. Bu tamamlandıktan sonra bir işlev oluşturabileceksiniz. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu dikey pencereyi kapatıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+    <value>Şablon bağımlılıkları yükleniyor. Bu işlem tamamlandıktan sonra işlev oluşturabileceksiniz. Bağımlılık yükleme işlemi arka planda gerçekleşir ve 2 dakikaya kadar sürebilir. Yükleme işlemi tamamlanana kadar uygulamanız çevrimdışı moduna geçer. Bu süre içinde portalı kullanmaya devam edebilirsiniz ancak yükleme tamamlanmadan önce portalı kapatmak uygulamanızı çevrimdışı modda bırakacaktır.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Çalışma zamanı uzantısını yükleyemiyoruz. Yükleme kimliği {{installationId}}</value>
@@ -3146,10 +3155,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
+    <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service ortamında barındırılmayan planlarda kullanılabilir.</value>
+    <value>Üretim fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.</value>
@@ -3220,7 +3229,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Ölçeği genişlet.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>İşlem VM boyutu: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3885,7 +3894,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlevlerinizi yazmak için Visual Studio Code'u kullanın</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Sevdiğiniz düzenleyiciyi ve Azure İşlevleri Çekirdek Araçları'nı kullanarak işlev yazın</value>
+    <value>Sevdiğiniz düzenleyiciyi ve Azure Functions Core Tools'u kullanarak işlev yazın</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>IntelliJ veya Eclipse ve Maven gibi sevdiğiniz düzenleyicileri kullanarak Java işlevleri yazın</value>
@@ -3909,7 +3918,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Doğrudan VS Code'dan yayımla</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Doğrudan Azure İşlevleri Core Tools'tan yayımla</value>
+    <value>Doğrudan Azure Functions Core Tools'tan yayımla</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Doğrudan Maven'den yayımla</value>
@@ -4227,7 +4236,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dağıtım Ayrıntıları</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yüklemesi arka planda gerçekleşir ve 2 dakika kadar sürebilir. Bu sayfadan ayrılıp bu süre boyunca portalı kullanmaya devam edebilirsiniz.</value>
+    <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yükleme işlemi arka planda gerçekleşir ve 2 dakikaya kadar sürebilir. Yükleme işlemi tamamlanana kadar uygulamanız çevrimdışı moduna geçer. Bu süre içinde portalı kullanmaya devam edebilirsiniz ancak yükleme tamamlanmadan önce portalı kapatmak, uygulamanızı çevrimdışı modda bırakacaktır.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Değerleri Gizle</value>
@@ -4320,10 +4329,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dizin veya Uygulama</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Dizin</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Uygulama</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Önyükleme etkin</value>
@@ -4403,6 +4412,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="sticky" xml:space="preserve">
     <value>Yuva ayarı</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Bağlantı dizesi ekle/düzenle</value>
   </data>
@@ -4469,11 +4481,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="notSelected" xml:space="preserve">
     <value>Seçili değil</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>En son</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Otomatik Güncelleştirme</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (en son)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (otomatik güncelleştirme)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Uygulamanız {{defaultJavaVersion}} yazılımının en son sürümünü kullanacak.</value>
@@ -4620,9 +4632,153 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ara Sunucular (Sınırlı)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>Yuva ayarlarını değiştirmek için üretim uygulaması üzerinde yazma erişiminiz olmalıdır.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Otomatik değiştirme ayarlarını değiştirmek için üretim uygulaması üzerinde yazma izinleriniz olmalıdır.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Betik İşlev Uygulaması</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Önceden derlenmiş .NET İşlev Uygulaması</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>İşlev Uygulaması Türü</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Yuva Ayarı Etkin</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Gizli değer. Görüntülemek için yukarıdaki Değerleri göster düğmesine tıklayın</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Alan benzersiz olmalıdır.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Dizin</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Yeni sanal uygulama veya dizin</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Yeni işleyici</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Uygulamanız ile bağlantı kurulamıyor. Bunun nedeni, uygulamanızda yürürlüğe koyduğunuz ağ güvenlik grupları veya IP kısıtlama kuralları olabilir. Günlük akışını kullanmak için lütfen geçerli ağınızdan uygulamanıza erişebildiğinizden emin olun.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Uygulama ayarları gizli diziler içerebilir. Bu bölümü görüntülemek/düzenlemek için Okuma/Yazma izinleri gereklidir.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Bağlantı dizeleri gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için Okuma/Yazma izinleri gereklidir.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' sekmesi birkaç ay içinde kaldırılacak. Azure Portal'daki göz atma özelliğini kullanarak mantıksal uygulamalarınıza göz atmaya devam edebilirsiniz.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Bu özellik yalnızca bir Linux App Service planı üzerinde çalıştırılan İşlev uygulamaları için kullanılabilir. Çalışma zamanında günlük kaydı için lütfen Application Insights kullanın.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Ölçeği genişlet</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>App Service Planınız için ölçeği genişletme ayarlarını yapılandırın.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Hesap Adı</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blobu</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Dosyaları</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Yeni Azure Depolama Bağlama</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Azure Depolama Bağlamayı Boşalt</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure depolama bağlama adları benzersiz olmalıdır</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Sanal yollar benzersiz olmalıdır</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Yapılandırma seçenekleri</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Depolama hesabı adı küçük harflerden oluşmalıdır</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Bu depolama hesabında blob kapsayıcısı veya dosya paylaşımı yok</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Bu depolama hesabına yazma erişiminiz yok. Erişim anahtarını biliyorsanız hesabı gelişmiş moda geçirebilirsiniz.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Bir seçenek belirleyin</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS için başlangıç komutları ng, node veya pm2 kullanmalıdır</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python için portal içinde düzenleme yakında kullanım dışı bırakılacaktır. Lütfen geliştirme için CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Tüm uygulama ayarı nesnelerinin bir adı olmalıdır</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Tüm uygulama ayarı nesnelerinin bir değeri olmalıdır</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Tüm uygulama ayarı değer özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Tüm uygulama ayarı adı özellikleri dize türünde olmalıdır</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Tüm uygulama ayarı yuva ayarı özellikleri boole türünde olmalıdır</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} geçersiz bir uygulama ayarı özelliği</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Uygulama ayarı adları benzersiz olmalıdır</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>JSON nesnesi geçersiz</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Gelişmiş Düzenleme</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Coachmark bildirimlerini açmak için Enter veya Alt + C tuşlarına basın</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Bir coachmark göründü</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Gelişmiş düzenleme, uygulama ayarlarınızı toplu olarak düzenlemenizi sağlar. Anahtarlar ve değerler düz metin JSON biçiminde düzenlenebilir</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

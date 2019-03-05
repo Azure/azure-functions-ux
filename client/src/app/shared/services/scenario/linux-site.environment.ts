@@ -1,8 +1,7 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ScenarioIds } from './../../models/constants';
 import { PortalResources } from './../../models/portal-resources';
-import { TranslateService } from '@ngx-translate/core';
-import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { Environment } from './scenario.models';
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
 
 export class LinuxSiteEnvironment extends Environment {
   name = 'LinuxSite';
@@ -33,18 +32,6 @@ export class LinuxSiteEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.enablePushNotifications] = {
       id: ScenarioIds.enablePushNotifications,
       runCheck: () => disabledResult,
-    };
-
-    this.scenarioChecks[ScenarioIds.addConsole] = {
-      id: ScenarioIds.addConsole,
-      runCheck: () => disabledResult,
-    };
-
-    this.scenarioChecks[ScenarioIds.addSsh] = {
-      id: ScenarioIds.addSsh,
-      runCheck: () => {
-        return { status: 'enabled' };
-      },
     };
 
     this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {

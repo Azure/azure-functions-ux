@@ -1,5 +1,5 @@
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { ScenarioIds } from '../../models/constants';
+import { ScenarioIds, Kinds } from '../../models/constants';
 import { Environment } from './scenario.models';
 
 export class WindowsCodeEnvironment extends Environment {
@@ -20,6 +20,10 @@ export class WindowsCodeEnvironment extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    return !!input && !!input.site && input.site.kind!.toLowerCase() === 'app';
+    return (
+      !!input &&
+      !!input.site &&
+      (input.site.kind!.toLowerCase() === Kinds.app.toLowerCase() || input.site.kind!.toLowerCase() === Kinds.api.toLowerCase())
+    );
   }
 }

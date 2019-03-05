@@ -1,11 +1,12 @@
 import { Checkbox } from 'office-ui-fabric-react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { VirtualApplication } from '../../../../models/WebAppModels';
 import { formElementStyle } from '../AppSettings.styles';
+import { isEqual } from 'lodash-es';
+import StringUtils from '../../../../utils/string';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -13,16 +14,56 @@ export interface HandlerMappingAddEditProps {
   otherVirtualApplications: VirtualApplication[];
   virtualApplication: VirtualApplication;
 }
-
-const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & InjectedTranslateProps> = props => {
-  const { updateVirtualApplication, otherVirtualApplications, t, closeBlade, virtualApplication } = props;
-  const [pathError, setPathError] = React.useState('');
-  const [currentVirtualApplication, setCurrentVirtualApplication] = React.useState(virtualApplication);
-
-  const validateVirtualPathUniqueness = (value: string) => {
-    return otherVirtualApplications.filter(v => v.virtualPath === value).length >= 1 ? "Virtual Path's must be unique" : '';
+const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props => {
+  const { updateVirtualApplication, otherVirtualApplications, closeBlade, virtualApplication } = props;
+  const { t } = useTranslation();
+  const [virtualPathError, setVirtualPathError] = useState('');
+  const [physicalPathError, setPhysicalPathError] = useState('');
+  const [currentVirtualApplication, setCurrentVirtualApplication] = useState(virtualApplication);
+  const dirty = () => {
+    return !isEqual(virtualApplication, currentVirtualApplication);
   };
 
+  const validateVirtualPathUniqueness = () => {
+    if (currentVirtualApplication.virtualPath === virtualApplication.virtualPath) {
+      // unchanged, don't check for uniquness
+      return '';
+    }
+    const currentVirtualPath = StringUtils.trimChar(currentVirtualApplication.virtualPath, '/');
+    return otherVirtualApplications.filter(v => StringUtils.trimChar(v.virtualPath, '/') === currentVirtualPath).length >= 1
+      ? t('virtualPathUnique')
+      : '';
+  };
+
+  const validateVirtualPath = () => {
+    let err = '';
+    if (currentVirtualApplication.virtualDirectory) {
+      err =
+        otherVirtualApplications
+          .filter(v => !v.virtualDirectory)
+          .map(v => v.virtualPath)
+          .filter(v => currentVirtualApplication.virtualPath.startsWith(v) || `/${currentVirtualApplication.virtualPath}`.startsWith(v))
+          .length === 0
+          ? t('virtualDirectoryPathError')
+          : '';
+    }
+    return err || validateVirtualPathUniqueness();
+  };
+
+  const validatePhysicalPath = () => {
+    return !currentVirtualApplication.physicalPath.startsWith('site\\') ? t('physicalPathLocationError') : '';
+  };
+
+  // validation
+  useEffect(
+    () => {
+      if (dirty()) {
+        setVirtualPathError(validateVirtualPath());
+        setPhysicalPathError(validatePhysicalPath());
+      }
+    },
+    [currentVirtualApplication]
+  );
   const updatePhysicalPath = (e: any, physicalPath: string) => {
     setCurrentVirtualApplication({
       ...currentVirtualApplication,
@@ -31,8 +72,6 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   };
 
   const updateVirtualPath = (e: any, virtualPath: string) => {
-    const error = validateVirtualPathUniqueness(virtualPath);
-    setPathError(error);
     setCurrentVirtualApplication({ ...currentVirtualApplication, virtualPath });
   };
 
@@ -59,9 +98,9 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
 
   const actionBarPrimaryButtonProps = {
     id: 'save',
-    title: t('save'),
+    title: t('update'),
     onClick: save,
-    disable: !!pathError,
+    disable: !!virtualPathError || !!physicalPathError || !dirty(),
   };
 
   const actionBarSecondaryButtonProps = {
@@ -77,17 +116,19 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
         label={t('virtualPath')}
         id="va-virtual-path"
         value={currentVirtualApplication.virtualPath}
-        errorMessage={pathError}
+        errorMessage={virtualPathError}
         onChange={updateVirtualPath}
         styles={{
           root: formElementStyle,
         }}
+        autoFocus
       />
       <TextField
         label={t('physicalPath')}
         id="va-physical-path"
         value={currentVirtualApplication.physicalPath}
         onChange={updatePhysicalPath}
+        errorMessage={physicalPathError}
         styles={{
           root: formElementStyle,
         }}
@@ -121,4 +162,4 @@ const VirtualApplicationsAddEdit: React.SFC<HandlerMappingAddEditProps & Injecte
   );
 };
 
-export default translate('translation')(VirtualApplicationsAddEdit);
+export default VirtualApplicationsAddEdit;

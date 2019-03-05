@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>“消耗”计划上的应用不支持此功能</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>弹性计划上的应用不支持此功能</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>槽不支持此功能</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux 应用不支持此功能</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>消耗计划上的 Linux 应用不支持此功能</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>必须具有当前应用的写入权限才可使用此功能</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>应用服务支持安装较新版本的 Python。单击此处了解详细信息。</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -2399,7 +2408,7 @@
     <value>在下载中包括应用设置</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>这将包含一个名为 local.settings.json 的文件，该文件将包含你的应用设置值。此文件不会在下载时加密，但可使用 Azure Functions 核心工具命令行进行加密。</value>
+    <value>这将包含一个名为 local.settings.json 的文件，该文件将包含你的应用设置值。此文件不会在下载时加密，但可使用 Azure Functions Core Tools 命令行进行加密。</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>站点工具</value>
@@ -2720,7 +2729,7 @@
     <value>此模板需要以下扩展。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>安装模板依赖项。安装完成后即可创建函数。依赖项安装在后台进行，最多可能需要 2 分钟。在此期间，可关闭此边栏选项卡并继续使用门户。</value>
+    <value>正在安装模板依赖项。完成后，你将能够创建函数。依赖项在后台进行安装，最多耗时 2 分钟。在安装完成之前，你的应用将转入脱机模式。在此期间，你可继续使用门户，但如果在安装完成前关闭门户，则你的应用将保留在脱机模式下。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>我们无法安装运行时扩展。安装 ID {{installationId}}</value>
@@ -3220,7 +3229,7 @@
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>扩大。</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>计算 VM 大小: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@
     <value>部署详细信息</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>安装模板依赖项。依赖项安装在后台进行，最多可能需要 2 分钟。在此期间，可离开此页并继续使用门户。</value>
+    <value>正在安装模板依赖项。依赖项在后台进行安装，最多耗时 2 分钟。在安装完成之前，你的应用将转入脱机模式。在此期间，你可继续使用门户，但如果在安装完成前关闭门户，则你的应用将保留在脱机模式下。</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>隐藏值</value>
@@ -4320,10 +4329,10 @@
     <value>目录或应用程序</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>目录</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>应用程序</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>预加载已启用</value>
@@ -4403,6 +4412,9 @@
   <data name="sticky" xml:space="preserve">
     <value>插槽设置</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>添加/编辑连接字符串</value>
   </data>
@@ -4469,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>未选定</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>最新</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>自动更新</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (最新)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (自动更新)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>你的应用将使用最新版本的 {{defaultJavaVersion}}。</value>
@@ -4624,5 +4636,149 @@
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>要更改自动交换设置，则必须对生产应用具有写入权限。</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>脚本函数应用</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>预编译的 .NET 函数应用</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>函数应用类型</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>插槽设置已启用</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>隐藏值。单击上方的“显示值”按钮查看</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>字段必须是唯一的。</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>应用程序</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>新虚拟应用程序或目录</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>新处理程序</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>无法打开与你的应用的连接。这可能由你在应用中设置的某些网络安全组或 IP 限制规则引起。要使用日志流式处理，请确保能够从当前网络直接访问你的应用。</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>应用程序设置可包含机密。需要读取/写入权限才能查看/编辑此分区。</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>连接字符串包含机密信息。需要读取/写入权限才能查看/编辑此分区。</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>将在接下来的几个月内删除“逻辑应用”选项卡。你可继续使用 Azure 门户浏览功能来浏览逻辑应用。</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>此功能仅适用于在 Linux 应用服务计划上运行的 Function App。有关运行时记录，请使用 Application Insights。</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>扩大</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>为应用服务计划配置横向扩展设置。</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>帐户名称</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure 文件</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>新的 Azure 存储装入</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>空 Azure 存储装入</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure 存储装入名称必须是唯一的</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>虚拟路径必须唯一</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>配置选项</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>存储帐户名必须采用小写形式</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>此存储帐户没有 blob 容器或文件共享</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>你没有针对此存储帐户的写权限。如果你知道访问密钥，可在高级模式下提供该访问密钥。</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>选择选项</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS 启动命令必须使用 ng、节点或 pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>即将弃用针对 Python 的门户内编辑功能。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解详细信息&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure 存储装载包含机密。需要读取/写入权限才能查看/编辑此分区。</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>应用设置值必须是一个数组</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>所有应用设置对象都必须具有一个名称</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>所有应用设置对象都必须具有一个值</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>所有应用设置值属性必须为字符串类型</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>所有应用设置名称属性必须为字符串类型</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>所有应用设置槽设置属性必须为布尔类型</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} 是无效的应用设置属性</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>应用设置名称必须唯一</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>JSON 对象无效</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>高级编辑</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>按 Enter 或 Alt+C 可打开教练标记通知</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>出现教练标记</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>借助高级编辑，可批量编辑应用设置。可按纯文本 JSON 格式编辑键和值</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>物理路径必须是 site\ 内的位置</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>虚拟目录路径必须存在于应用程序路径中</value>
   </data>
 </root>

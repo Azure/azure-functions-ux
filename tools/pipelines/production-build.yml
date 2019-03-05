@@ -71,8 +71,13 @@ jobs:
 
       - script: |
           cd client-react
+          export REACT_APP_CACHE_KEY=$(uuidgen)
           yarn build
         displayName: 'build production react'
+        env:
+          REACT_APP_RUNETIME_TYPE: $(reactRuntimeType)
+          REACT_APP_APPLICATION_INSIGHTS_KEY: $(applicationInsightsKey)
+          REACT_APP_APPLICATION_VERSION: ${BUILD_BUILDID}
 
       - script: |
           cd client-react/build

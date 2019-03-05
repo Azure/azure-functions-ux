@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Den här funktionen stöds inte för appar i en elastisk plan.</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Den här funktionen stöds inte för platser</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Den här funktionen stöds inte för Linux-appar</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Du måste ha skrivbehörighet för den aktuella appen för att kunna använda den här funktionen</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service har funktioner för att installera senare versioner av Python. Klicka här för mer information.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-version</value>
@@ -2399,7 +2408,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Ta med appinställningar i nedladdningen</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Detta omfattar en fil som heter local.settings.json och som innehåller appinställningsvärdena. Filen krypteras inte vid nedladdning, men kan krypteras med kommandoraden Azure Functions Core Tools.</value>
+    <value>Detta omfattar en fil som heter local.settings.json och som innehåller appinställningsvärdena. Filen krypteras inte vid nedladdning, men kan krypteras med kommandoraden i Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Webbplatsinnehåll</value>
@@ -2720,7 +2729,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Den här mallen kräver följande tillägg.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Mallberoenden installeras. Du kan skapa en funktion så fort det här är klart. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga det här bladet och fortsätta använda portalen under tiden.</value>
+    <value>Installera mallberoenden. Du kan skapa en funktion när detta är klart. Beroendeinstallation sker i bakgrunden och kan ta upp till 2 minuter. Appen försätts i offlineläge tills installationen har slutförts. Du kan fortsätta att använda portalen under tiden, men om du stänger portalen innan installationen har slutförts hamnar appen i offlineläge.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Vi kunde inte installera runtime-tillägget. Installations-ID {{installationId}}</value>
@@ -3220,7 +3229,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Skala ut.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Beräkna VM-storlek: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3885,7 +3894,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Använd Visual Studio Code när du skapar dina funktioner</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Skriv funktioner med hjälp av ditt favoritredigeringsprogram och Azure Functions kärnverktyg</value>
+    <value>Skriv funktioner med hjälp av ditt favoritredigeringsprogram och Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Skriv Java-funktioner med hjälp av ditt favoritredigeringsprogram, t.ex. IntelliJ, Eclipse eller Maven</value>
@@ -3909,7 +3918,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Publicera direkt från VS-kod</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publicera direkt från Azure Functions-kärnverktyg</value>
+    <value>Publicera direkt från Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publicera direkt från Maven</value>
@@ -4227,7 +4236,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Distributionsinformation</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installera mallberoenden. Installationen av beroenden sker i bakgrunden och kan ta upp till 2 minuter. Du kan stänga den här sidan och fortsätta använda portalen under tiden.</value>
+    <value>Installera mallberoenden. Beroendeinstallation sker i bakgrunden och kan ta upp till 2 minuter. Appen försätts i offlineläge tills installationen har slutförts. Du kan fortsätta att använda portalen under tiden, men om du stänger portalen innan installationen har slutförts hamnar appen i offlineläge.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Dölj värden</value>
@@ -4320,10 +4329,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Katalog eller program</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Katalog</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Program</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Förhandsinläsning aktiverad</value>
@@ -4403,6 +4412,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="sticky" xml:space="preserve">
     <value>Platsinställning</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Lägg till/redigera anslutningssträng</value>
   </data>
@@ -4469,11 +4481,11 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="notSelected" xml:space="preserve">
     <value>Ej valt</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Senaste</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatisk uppdatering</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (senaste)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatisk uppdatering)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Appen använder den senaste versionen av {{defaultJavaVersion}}.</value>
@@ -4624,5 +4636,149 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Om du vill ändra inställningen för automatisk växling måste du ha behörigheter till produktionsappen.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Skriptfunktionsapp</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Förkompilerad .NET-funktionsapp</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Funktionsapptyp</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Fackinställning har aktiverats</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Dolt värde. Visa genom att klicka på knappen Visa värden ovan</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Fält måste vara unika.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nytt virtuellt program eller katalog</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Ny hanterare</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Det går inte att öppna någon anslutning till din app. Detta kan bero på någon nätverkssäkerhetsgrupp eller IP-begränsningsregel som du har placerat i din app. Om du vill använda loggdirektuppspelning, så se till att du att du har åtkomst till din app från det aktuella nätverket.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Programinställningar kan innehålla hemligheter. Läs/skrivbehörigheter krävs för att visa och redigera det här avsnittet.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Anslutningssträngar innehåller hemligheter. Läs/skrivbehörigheter krävs om du ska kunna visa och redigera det här avsnittet.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Fliken Logic Apps kommer att tas bort inom några månader. Du kan fortsätta att bläddra i dina logikappar med bläddringsfunktionen i Azure Portal.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Den här funktionen är bara tillgänglig för funktionsappar som körs enligt en Linux App Service-plan. Använd Application Insights för CLR-loggning.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Skala ut</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Konfigurera inställningar för utskalning för din App Service-Plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Kontonamn</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-blobb</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Ny Azure Storage-monteringspunkt</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Tom Azure Storage-monteringspunkt</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Namnen på Azure Storage-monteringspunkter måste vara unika</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuella sökvägar måste vara unika</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Konfigurationsalternativ</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Namnet på Storage-kontot måste vara i gemener</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Det här lagringskontot har inga blob-behållare eller filresurser</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Du har inte skrivbehörighet för det här lagringskontot. Om du kan åtkomstnyckeln så kan du sätta den i avancerat läge.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Välj ett alternativ</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startkommandon för NodeJS måste använda ng, node eller pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Redigering i portalen för Python kommer snart att vara inaktuellt. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Appinställningsvärden måste vara en matris</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett namn</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett värde</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsvärde måste vara av strängtyp</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsnamn vara av strängtyp</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsfack måste vara av boolesk typ</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} är en ogiltig appinställningsegenskap</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Appinställningsnamn måste vara unika</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Ogiltigt JSON-objekt</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Avancerad redigering</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Tryck på retur eller alt+C för att öppna coachmark-meddelandet</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>En coachmark har uppstått</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Avancerad redigering låter dig massredigera dina appinställningar. Nycklar och värden kan redigeras i JSON-format i klartext</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

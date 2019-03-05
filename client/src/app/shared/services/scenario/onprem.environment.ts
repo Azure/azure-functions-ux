@@ -45,6 +45,27 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.addPushNotifications] = {
+      id: ScenarioIds.addPushNotifications,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
+      id: ScenarioIds.addDiagnoseAndSolve,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.deploymentCenter] = {
+      id: ScenarioIds.deploymentCenter,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
       id: ScenarioIds.remoteDebuggingSupported,
       runCheck: () => {
@@ -54,6 +75,13 @@ export class OnPremEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.useOldScaleUpBlade] = {
       id: ScenarioIds.useOldScaleUpBlade,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.useOldActivityLogBlade] = {
+      id: ScenarioIds.useOldActivityLogBlade,
       runCheck: () => {
         return { status: 'enabled' };
       },

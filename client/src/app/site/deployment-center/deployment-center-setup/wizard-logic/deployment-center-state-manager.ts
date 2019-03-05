@@ -23,7 +23,7 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
+import { ARMApiVersions, ScenarioIds, DeploymentCenterConstants, Kinds } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -33,6 +33,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { AuthzService } from '../../../../shared/services/authz.service';
 import { VSOAccount } from '../../Models/vso-repo';
+import { AzureDevOpsService } from './azure-devops.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -53,10 +54,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public hideBuild = false;
   public hideVstsBuildConfigure = false;
   public isLinuxApp = false;
+  public isFunctionApp = false;
   public vstsKuduOnly = false;
   public vsoAccounts: VSOAccount[] = [];
   constructor(
     private _cacheService: CacheService,
+    private _azureDevOpsService: AzureDevOpsService,
     siteService: SiteService,
     userService: UserService,
     portalService: PortalService,
@@ -76,6 +79,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const [site, sub] = result;
         this.siteArm = site.result;
         this.isLinuxApp = this.siteArm.kind.toLowerCase().includes(Kinds.linux);
+        this.isFunctionApp = this.siteArm.kind.toLowerCase().includes(Kinds.functionApp);
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
@@ -141,9 +145,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public fetchVSTSProfile() {
     // if the first get fails, it's likely because the user doesn't have an account in vsts yet
     // the fix for this is to do an empty post call on the same url and then get it
-    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders()).catch(() => {
-      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders()).switchMap(() => {
-        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders());
+    return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).catch(() => {
+      return this._cacheService.post(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false)).switchMap(() => {
+        return this._cacheService.get(DeploymentCenterConstants.vstsProfileUri, true, this.getVstsDirectHeaders(false));
       });
     });
   }
@@ -187,14 +191,21 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private _pollVstsCheck(id: string) {
-    return this._cacheService.get(
-      `https://${
-        this.wizardValues.buildSettings.vstsAccount
-      }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
-      true,
-      this.getVstsDirectHeaders()
-    );
+    return this._azureDevOpsService.getAccounts().switchMap(r => {
+      const appendMsaPassthroughHeader = r.find(
+        x => x.AccountName.toLowerCase() === this.wizardValues.buildSettings.vstsAccount.toLowerCase()
+      )!.ForceMsaPassThrough;
+
+      return this._cacheService.get(
+        `https://${
+          this.wizardValues.buildSettings.vstsAccount
+        }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
+        true,
+        this.getVstsDirectHeaders(appendMsaPassthroughHeader)
+      );
+    });
   }
+
   private _startVstsDeployment() {
     const deploymentObject: ProvisioningConfiguration = {
       authToken: this.getToken(),
@@ -203,17 +214,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
       source: this._deploymentSource,
       targets: this._deploymentTargets,
     };
-    let msaPassthrough = false;
-    const account = this.vsoAccounts.find(x => x.accountName === this.wizardValues.buildSettings.vstsAccount);
-    if (account) {
-      msaPassthrough = !account.accountTenantId || account.accountTenantId === DeploymentCenterConstants.EmptyGuid;
-    }
-    const setupvsoCall = this._cacheService.post(
-      `${Constants.serviceHost}api/setupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`,
-      true,
-      this.getVstsPassthroughHeaders(msaPassthrough),
-      deploymentObject
-    );
+
+    const setupvsoCall = this._azureDevOpsService.startDeployment(this.wizardValues.buildSettings.vstsAccount, deploymentObject);
 
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService
@@ -222,16 +224,16 @@ export class DeploymentCenterStateManager implements OnDestroy {
             this.wizardValues.buildSettings.vstsAccount
           }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
           true,
-          this.getVstsDirectHeaders(),
+          this.getVstsDirectHeaders(false),
           {
             'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
           }
         )
         .switchMap(r => setupvsoCall)
-        .switchMap(r => Observable.of(r.json().id));
+        .switchMap(r => Observable.of(r.id));
     }
     return setupvsoCall.switchMap(r => {
-      return Observable.of(r.json().id);
+      return Observable.of(r.id);
     });
   }
   private get _ciConfig(): CiConfiguration {
@@ -390,6 +392,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return ApplicationType.Python;
       case 'Ruby':
         return ApplicationType.Ruby;
+      case 'ScriptFunction':
+        return ApplicationType.ScriptFunctionApp;
+      case 'PrecompiledFunction':
+        return ApplicationType.DotNetPreCompiledFunctionApp;
       default:
         return ApplicationType.StaticWebapp;
     }
@@ -404,12 +410,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return headers;
   }
 
-  public getVstsDirectHeaders(): Headers {
+  public getVstsDirectHeaders(appendMsaPassthroughHeader: boolean = true): Headers {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     headers.append('Authorization', this.getToken());
-    headers.append('X-VSS-ForceMsaPassThrough', 'true');
+    headers.append('X-VSS-ForceMsaPassThrough', `${appendMsaPassthroughHeader}`);
     return headers;
   }
 

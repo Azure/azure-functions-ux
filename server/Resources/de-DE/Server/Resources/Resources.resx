@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Dieses Feature wird für Apps in einem Verbrauchstarif nicht unterstützt.</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Dieses Feature wird für Apps in einem elastischen Tarif nicht unterstützt.</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Dieses Feature wird für Slots noch nicht unterstützt.</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Dieses Feature wird für Linux-Apps nicht unterstützt.</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Dieses Feature wird für Linux-Apps in einem Verbrauchstarif nicht unterstützt.</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Sie benötigen Schreibberechtigungen für die aktuelle App, um dieses Feature zu verwenden.</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service unterstützt die Installation neuerer Versionen von Python. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-Version</value>
@@ -2399,7 +2408,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>App-Einstellungen in Download einschließen</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Dies schließt eine Datei mit dem Namen "local.settings.json" ein, die Ihre App-Einstellungswerte enthält. Die Datei wird beim Download nicht verschlüsselt, kann aber über die Befehlszeile der Azure Functions Core-Tools verschlüsselt werden.</value>
+    <value>Dies schließt eine Datei mit dem Namen "local.settings.json" ein, die Ihre App-Einstellungswerte enthält. Die Datei wird beim Download nicht verschlüsselt, kann aber über die Befehlszeile der Azure Functions Core Tools verschlüsselt werden.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Inhalt der Website</value>
@@ -2720,7 +2729,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Diese Vorlage erfordert die folgenden Erweiterungen.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Sobald dieser Vorgang abgeschlossen wurde, können Sie eine Funktion erstellen. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 2 Minuten dauern. Sie können dieses Blatt schließen und währenddessen das Portal weiter nutzen.</value>
+    <value>Vorlagenabhängigkeiten werden installiert. Anschließend können Sie eine Funktion erstellen. Die Abhängigkeitsinstallation erfolgt im Hintergrund und kann bis zu zwei Minuten dauern. Ihre App wechselt in den Offlinemodus, bis die Installation abgeschlossen ist. Sie können während dieses Zeitraums weiterhin das Portal verwenden. Wenn Sie das Portal jedoch vor Abschluss der Installation schließen, verbleibt Ihre App im Offlinemodus.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Die Laufzeiterweiterung kann nicht installiert werden. Installations-ID: {{installationId}}</value>
@@ -3220,7 +3229,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Horizontal hochskalieren.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Compute-VM-Größe: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Bereitstellungsdetails</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Zurzeit werden Vorlagenabhängigkeiten installiert. Die Installation der Abhängigkeiten erfolgt im Hintergrund und kann bis zu 2 Minuten dauern. Sie können diese Seite schließen und währenddessen das Portal weiter nutzen.</value>
+    <value>Vorlagenabhängigkeiten werden installiert. Die Abhängigkeitsinstallation erfolgt im Hintergrund und kann bis zu zwei Minuten dauern. Ihre App wechselt in den Offlinemodus, bis die Installation abgeschlossen ist. Sie können während dieses Zeitraums weiterhin das Portal verwenden. Wenn Sie das Portal jedoch vor Abschluss der Installation schließen, verbleibt Ihre App im Offlinemodus.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Werte ausblenden</value>
@@ -4320,10 +4329,10 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Verzeichnis oder Anwendung</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Verzeichnis</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Anwendung</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Vorabladen aktiviert</value>
@@ -4403,6 +4412,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="sticky" xml:space="preserve">
     <value>Sloteinstellung</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Verbindungszeichenfolge hinzufügen/bearbeiten</value>
   </data>
@@ -4469,11 +4481,11 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="notSelected" xml:space="preserve">
     <value>Nicht ausgewählt</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Neueste</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatische Aktualisierung</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (aktuell)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatische Aktualisierung)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Ihre App verwendet die aktuelle Version von {{defaultJavaVersion}}.</value>
@@ -4624,5 +4636,149 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Um die Einstellungen für den automatischen Tausch zu ändern, müssen Sie über Schreibberechtigungen für die Produktions-App verfügen.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Skriptfunktions-App</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Vorkompilierte .NET-Funktions-App</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Typ der Funktions-App</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Sloteinstellung aktiviert</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Ausgeblendete Wert. Klicken Sie oben auf die Schaltfläche "Werte anzeigen", um den Wert anzuzeigen.</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Das Feld muss eindeutig sein.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Verzeichnis</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Neue virtuelle Anwendung oder neues virtuelles Verzeichnis</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Neuer Handler</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Es kann keine Verbindung mit Ihrer App hergestellt werden. Dies kann auf Netzwerksicherheitsgruppen oder IP-Einschränkungsregeln zurückzuführen sein, die für Ihre App konfiguriert wurden. Um das Protokollstreaming nutzen zu können, stellen Sie sicher, dass Sie direkt aus dem aktuellen Netzwerk auf Ihre App zugreifen können.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Anwendungseinstellungen können Geheimnisse enthalten. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Verbindungszeichenfolgen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Die Registerkarte "Logic Apps" wird in den nächsten Monaten entfernt. Sie können Ihre Logik-Apps weiterhin über die Suchfunktion im Azure-Portal durchsuchen.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Dieses Feature steht nur für Funktionen-Apps zur Verfügung, die in einem Linux-App Service-Plan ausgeführt werden. Verwenden Sie zur Runtimeprotokollierung Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Horizontal hochskalieren</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Hiermit konfigurieren Sie die Einstellungen zum horizontalen Hochskalieren für Ihren App Service-Plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Kontoname</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-BLOB</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Neue Azure-Speicherbereitstellung</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Leere Azure-Speicherbereitstellung</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Die Namen von Azure-Speicherbereitstellungen müssen eindeutig sein.</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtuelle Pfade müssen eindeutig sein.</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Konfigurationsoptionen</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Der Name des Speicherkontos muss in Kleinbuchstaben vorliegen.</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Dieses Speicherkonto weist keine Blobcontainer oder Dateifreigaben auf.</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Sie besitzen für dieses Speicherkonto keinen Schreibzugriff. Wenn Sie den Zugriffsschlüssel kennen, können Sie zum erweiterten Modus wechseln.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Option auswählen</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Die Startbefehle für NodeJS müssen "ng", "node" oder "pm2" verwenden.</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Die Portalbearbeitung für Python wird in Kürze eingestellt. Verwenden Sie zur Entwicklung die CLI oder VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure-Speichereinbindungen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Die App-Einstellungswerte müssen ein Array sein.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alle App-Einstellungsobjekte müssen einen Namen aufweisen.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alle Objekte der App-Einstellung müssen einen Wert aufweisen.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Alle Werteigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alle Namenseigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Alle Sloteinstellungseigenschaften der App-Einstellung müssen vom Typ "boolean" sein.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>"{0}" ist eine ungültige App-Einstellungseigenschaft.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Die Namen von App-Einstellungen müssen eindeutig sein.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Ungültiges JSON-Objekt.</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Erweiterte Bearbeitung</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Drücken Sie die EINGABETASTE oder Alt+C, um die Benachrichtigung zum Coachmark zu öffnen.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Es wurde Coachmark gefunden.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Mit der erweiterten Bearbeitung können Sie eine Massenbearbeitung für Ihre App-Einstellungen durchführen. Schlüssel und Werte können im Nur-Text-JSON-Format bearbeitet werden.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

@@ -1,6 +1,6 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../../AppSettings.types';
@@ -8,25 +8,24 @@ import DotNetStack from './DotNetStack';
 import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
+import { AvailableStacksContext, PermissionsContext } from '../../Contexts';
 
-interface StacksState {
-  currentStack: string;
-}
-class WindowsStacks extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, StacksState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentStack: 'dotnet',
-    };
-  }
-  public render() {
-    const { t } = this.props;
-    return (
-      <>
+const WindowsStacks: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { values } = props;
+  const { t } = useTranslation();
+  const { app_write, editable } = useContext(PermissionsContext);
+  const readonly = !app_write;
+  const javaSelected = values.currentlySelectedStack === 'java';
+  const showNonJavaAnyway = readonly && !javaSelected;
+  const { value } = useContext(AvailableStacksContext);
+  return (
+    <>
+      {!readonly && (
         <Field
           name="currentlySelectedStack"
           component={Dropdown}
           fullpage
+          disabled={!editable}
           options={[
             {
               key: 'dotnet',
@@ -48,13 +47,13 @@ class WindowsStacks extends React.Component<FormikProps<AppSettingsFormValues> &
           label={t('stack')}
           id="app-settings-stack-dropdown"
         />
-        {this.props.values.currentlySelectedStack === 'dotnet' ? <DotNetStack {...this.props} /> : null}
-        {this.props.values.currentlySelectedStack === 'php' ? <PhpStack {...this.props} /> : null}
-        {this.props.values.currentlySelectedStack === 'python' ? <PythonStack {...this.props} /> : null}
-        {this.props.values.currentlySelectedStack === 'java' ? <JavaStack {...this.props} /> : null}
-      </>
-    );
-  }
-}
+      )}
+      {values.currentlySelectedStack === 'dotnet' || showNonJavaAnyway ? <DotNetStack stacks={value} {...props} /> : null}
+      {values.currentlySelectedStack === 'php' || showNonJavaAnyway ? <PhpStack stacks={value} {...props} /> : null}
+      {values.currentlySelectedStack === 'python' || showNonJavaAnyway ? <PythonStack stacks={value} {...props} /> : null}
+      {javaSelected ? <JavaStack stacks={value} {...props} /> : null}
+    </>
+  );
+};
 
-export default translate('translation')(WindowsStacks);
+export default WindowsStacks;

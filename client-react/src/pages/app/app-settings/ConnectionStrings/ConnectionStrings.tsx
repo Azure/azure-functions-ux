@@ -2,14 +2,18 @@ import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues, FormConnectionString } from '../AppSettings.types';
+import { AppSettingsFormValues, FormConnectionString, Permissions } from '../AppSettings.types';
 import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
 import { typeValueToString } from './connectionStringTypes';
+import { PermissionsContext } from '../Contexts';
+import { sortBy } from 'lodash-es';
 
 interface ConnectionStringsState {
   hideValues: boolean;
@@ -19,10 +23,9 @@ interface ConnectionStringsState {
   createNewItem: boolean;
 }
 
-export class ConnectionStrings extends React.Component<
-  FormikProps<AppSettingsFormValues> & InjectedTranslateProps,
-  ConnectionStringsState
-> {
+export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ConnectionStringsState> {
+  public static contextType = PermissionsContext;
+  public context: Permissions;
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +39,7 @@ export class ConnectionStrings extends React.Component<
 
   public render() {
     const { values, t } = this.props;
+    const { editable, production_write } = this.context;
     if (!values.connectionStrings) {
       return null;
     }
@@ -44,6 +48,7 @@ export class ConnectionStrings extends React.Component<
         <ActionButton
           id="app-settings-connection-strings-add"
           onClick={this.createNewItem}
+          disabled={!editable}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
           {t('newConnectionString')}
@@ -57,7 +62,7 @@ export class ConnectionStrings extends React.Component<
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          type={PanelType.smallFixedFar}
           onDismiss={this._onCancel}
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}>
@@ -65,7 +70,7 @@ export class ConnectionStrings extends React.Component<
             connectionString={this.state.currentConnectionString!}
             otherConnectionStrings={values.connectionStrings}
             updateConnectionString={this._onClosePanel.bind(this)}
-            disableSlotSetting={!values.productionWritePermission}
+            disableSlotSetting={!production_write}
             closeBlade={this._onCancel}
           />
         </Panel>
@@ -90,7 +95,7 @@ export class ConnectionStrings extends React.Component<
     const blankConnectionString = {
       name: '',
       value: '',
-      type: 0,
+      type: 'MySql',
       sticky: false,
     };
     this.setState({
@@ -110,7 +115,8 @@ export class ConnectionStrings extends React.Component<
     } else {
       connectionStrings.push(currentConnectionString);
     }
-    setFieldValue('connectionStrings', connectionStrings);
+    const sortedConnectionStrings = sortBy(connectionStrings, o => o.name.toLowerCase());
+    setFieldValue('connectionStrings', sortedConnectionStrings);
     this.setState({ createNewItem: false, showPanel: false });
   };
 
@@ -134,6 +140,8 @@ export class ConnectionStrings extends React.Component<
   }
 
   private onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
+    const { t } = this.props;
+    const { editable } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -141,9 +149,12 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'delete') {
       return (
         <IconButton
+          className={defaultCellStyle}
+          disabled={!editable}
           iconProps={{ iconName: 'Delete' }}
           id={`app-settings-connection-strings-delete-${index}`}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -151,32 +162,51 @@ export class ConnectionStrings extends React.Component<
     if (column.key === 'edit') {
       return (
         <IconButton
+          className={defaultCellStyle}
+          disabled={!editable}
           iconProps={{ iconName: 'Edit' }}
           id={`app-settings-connection-strings-edit-${index}`}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );
     }
     if (column.key === 'sticky') {
       return item.sticky ? (
-        <IconButton id={`app-settings-connection-strings-sticky-${index}`} iconProps={{ iconName: 'CheckMark' }} title="Sticky" />
+        <IconButton
+          className={defaultCellStyle}
+          id={`app-settings-connection-strings-sticky-${index}`}
+          iconProps={{ iconName: 'CheckMark' }}
+          ariaLabel={t('slotSettingOn')}
+          title={t('sticky')}
+        />
       ) : null;
     }
     if (column.key === 'value') {
       return this.state.hideValues ? (
-        'Hidden value. Click show values button above to view'
+        <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
       ) : (
-        <span id={`app-settings-connection-strings-value-${index}`}>{item[column.fieldName!]}</span>
+        <span id={`app-settings-connection-strings-value-${index}`} className={defaultCellStyle}>
+          {item[column.fieldName!]}
+        </span>
       );
     }
     if (column.key === 'type') {
-      return <span id={`app-settings-connection-strings-type-${index}`}>{typeValueToString(item[column.fieldName!])}</span>;
+      return (
+        <span id={`app-settings-connection-strings-type-${index}`} className={defaultCellStyle}>
+          {typeValueToString(item[column.fieldName!])}
+        </span>
+      );
     }
     if (column.key === 'name') {
-      return <span id={`app-settings-connection-strings-name-${index}`}>{item[column.fieldName!]}</span>;
+      return (
+        <div id={`app-settings-connection-strings-name-${index}`} className={defaultCellStyle}>
+          {item[column.fieldName!]}
+        </div>
+      );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   private _getColumns = () => {
@@ -253,4 +283,4 @@ export class ConnectionStrings extends React.Component<
   };
 }
 
-export default translate('translation')(ConnectionStrings);
+export default withTranslation('translation')(ConnectionStrings);

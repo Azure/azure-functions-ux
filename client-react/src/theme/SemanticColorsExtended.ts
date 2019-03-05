@@ -35,6 +35,7 @@ export interface AzurePortalColors {
   standardControlOutlineAccent: string;
   controlErrorStateOutline: string;
   controlDirtyOutline: string;
+  disabledControlBackground: string;
 }
 export interface SemanticColorsExtended extends ISemanticColors, AzurePortalColors {}
 export interface ThemeExtended extends ITheme {

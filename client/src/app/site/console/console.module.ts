@@ -14,6 +14,7 @@ import { SSHComponent } from './ssh/ssh.component';
 import { ConsoleComponent } from './console.component';
 import { SanitizeURL } from './shared/directives/sanitizeURL.pipe';
 import { SharedFunctionsModule } from '../../shared/shared-functions.module';
+import { ConsoleShellComponent } from '../../ibiza-feature/console-shell/console-shell.component';
 
 @NgModule({
   entryComponents: [
@@ -38,6 +39,7 @@ import { SharedFunctionsModule } from '../../shared/shared-functions.module';
     ClickOutsideDirective,
     ErrorComponent,
     MessageComponent,
+    ConsoleShellComponent,
   ],
   providers: [ConsoleService],
   exports: [CmdComponent, PowershellComponent, BashComponent, SSHComponent],

@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>A használatalapú csomag alkalmazásai nem támogatják ezt a funkciót</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Ez a funkció a rugalmas csomagok alkalmazásaiban nem támogatott</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Ez a funkció még nem támogatott tárolóhelyek esetén</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>A Linux-alkalmazások nem támogatják ezt a funkciót</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>A használatalapú csomag Linux-alkalmazásai nem támogatják ezt a funkciót</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>A funkció használatához írási engedélyekkel kell rendelkeznie a jelenlegi alkalmazásban</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Az App Service a Python újabb verzióinak telepítését támogatja. További információért kattintson ide.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-verzió</value>
@@ -2720,7 +2729,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Folyamatban van a sablonfüggőségek telepítése. Ennek befejezése után tud majd függvényt létrehozni. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt bezárhatja ezt a panelt, és tovább használhatja a portált.</value>
+    <value>Sablonfüggőségek telepítése. Azután fog tudni függvényeket létrehozni, hogy ez befejeződött. A függőségek telepítése a háttérben történik, és legfeljebb 2 percet vesz igénybe. Az alkalmazás a telepítés befejeződéséig kapcsolat nélküli üzemmódra vált. Ezalatt is tovább használhatja a portált, de ha a portált a telepítés befejeződése előtt bezárja, az alkalmazás kapcsolat nélküli üzemmódban marad.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -3143,13 +3152,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A Windows-tárolók előzetes verziójában a tárolók díjaiból 50%-os kedvezményt adunk.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Az App Service Environment (ASE) csomagbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
+    <value>Az App Service Environment- (ASE-) környezetbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
+    <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Az éles tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service-környezetben üzemeltetett csomagok esetében érhetők el.</value>
+    <value>Az éles tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Ez a skálázási egység nem támogatja a Premium V2-őt. Fontolja meg az alkalmazás újbóli üzembe helyezését vagy klónozását.</value>
@@ -3220,7 +3229,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Horizontális felskálázás.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Virtuálisgép-méret kiszámítása: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Példány részletei</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Folyamatban van a sablonfüggőségek telepítése. A függőségek telepítése a háttérben történik, és akár 2 percig is eltarthat. Ez idő alatt elhagyhatja ezt a lapot, és tovább használhatja a portált.</value>
+    <value>Sablonfüggőségek telepítése. A függőségek telepítése a háttérben történik, és legfeljebb 2 percet vesz igénybe. Az alkalmazás a telepítés befejeződéséig kapcsolat nélküli üzemmódra vált. Ezalatt is tovább használhatja a portált, de ha a portált a telepítés befejeződése előtt bezárja, az alkalmazás kapcsolat nélküli üzemmódban marad.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Értékek elrejtése</value>
@@ -4320,10 +4329,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Címtár vagy alkalmazás</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Címtár</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Alkalmazás</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Előzetes betöltés engedélyezve</value>
@@ -4403,6 +4412,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="sticky" xml:space="preserve">
     <value>Tárhelybeállítás</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Kapcsolati sztring hozzáadása vagy szerkesztése</value>
   </data>
@@ -4469,11 +4481,11 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="notSelected" xml:space="preserve">
     <value>Nincs kijelölve</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Legutóbbi</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatikus frissítés</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (legújabb)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatikus frissítés)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Az alkalmazás a(Z) {{defaultJavaVersion}} legújabb verzióját fogja használni.</value>
@@ -4620,9 +4632,153 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Proxyk (korlátozott)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>A tárolóhely-beállítások módosításához írási hozzáféréssel kell rendelkeznie az üzemi alkalmazáshoz.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Az automatikus felcserélési beállítás módosításához írási engedélyekkel kell rendelkeznie az üzemi alkalmazásra vonatkozóan.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Szkriptes függvényalkalmazás</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Előfordított .NET-függvényalkalmazás</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Függvényalkalmazás típusa</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Tárhelybeállítás engedélyezve</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Rejtett érték. A megtekintéshez kattintson a fenti értékek megjelenítése gombra</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>A mezőnek egyedinek kell lennie.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Címtár</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Új virtuális alkalmazás vagy címtár</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Új kezelő</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Nem sikerült kapcsolatot létesíteni az alkalmazással. Ennek oka lehet bármely, az alkalmazására alkalmazott hálózati biztonsági csoport vagy IP-címkorlátozási szabály. A folyamatos átvitelű naplózás használatához győződjön meg róla, hogy eléri az alkalmazást a közvetlenül a jelenlegi hálózatról.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Az alkalmazásbeállítások titkos kódokat tartalmazhatnak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási, illetve írási engedélyek szükségesek.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>A kapcsolati sztringek titkos kódokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási, illetve írási engedélyek szükségesek.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>A Logic Apps lap a következő néhány hónap során megszűnik. Továbbra is tallózhat a logikai alkalmazások között az Azure Portal tallózási funkciójával.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Ez a funkció csak Linux rendszerű App Service-csomagokban futó függvényalkalmazások esetében érhető el. Futásidejű naplózáshoz használja az Application Insights szolgáltatást.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Horizontális felskálázás</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Az App Service-csomag horizontális felskálázási beállításainak konfigurálása.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Fiók neve</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure-blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Új Azure Storage-kötet</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Üres Azure Storage-kötet</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Az Azure Storage-kötetek nevének egyedinek kell lennie</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>A virtuális elérési utaknak egyedinek kell lenniük</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Konfigurációs lehetőségek</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Csak kisbetűs lehet a tárfiókok neve</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Ennek a tárfióknak nincsenek blobtárolói és fájlmegosztásai</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Nincs írási hozzáférése ehhez a tárfiókhoz. Ha ismeri a hozzáférési kulcsot, Speciális módban beírhatja.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Válasszon egy beállítást</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>A NodeJS indítási parancsainak az ng, a node vagy a pm2 utasítást kell használniuk</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>A Python portálon belüli szerkesztése hamarosan elavul. Fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Az Azure Storage-csatlakozások titkos kulcsokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási/írási jogosultság szükséges.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Az alkalmazásbeállítási értékeknek tömbnek kell lenniük</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási objektumnak rendelkeznie kell névvel</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási objektumnak rendelkeznie kell értékkel</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási értéktulajdonságnak sztring típusúnak kell lennie</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási névtulajdonságnak sztring típusúnak kell lennie</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Minden alkalmazásbeállítási tárhelybeállítás-tulajdonságnak logikai típusúnak kell lennie</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>A(z) {0} érvénytelen alkalmazásbeállítási tulajdonság</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Az alkalmazásbeállításoknak egyedi névvel kell rendelkezniük</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Érvénytelen JSON-objektum</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Speciális szerkesztés</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Nyomja meg az Enter billentyűt vagy az Alt + C billentyűket a Coachmark-értesítés megnyitásához</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Coachmark jelent meg</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>A speciális szerkesztéssel tömeges szerkesztheti az alkalmazásbeállításokat. A kulcsok és az értékek egyszerű szöveges JSON-formátumban szerkeszthetők</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

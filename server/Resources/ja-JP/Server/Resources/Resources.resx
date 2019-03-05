@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>従量課金プランのアプリでは、この機能がサポートされていません</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Elastic プランのアプリでは、この機能はサポートされていません。</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>スロットではこの機能がサポートされていません。</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux アプリでは、この機能はサポートされていません</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>この機能は、従量課金プランの Linux アプリではサポートされていません</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>この機能を使用するには、現在のアプリに対する書き込みアクセス許可が必要です</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java バージョン</value>
@@ -2720,7 +2729,7 @@
     <value>このテンプレートには次の拡張機能が必要です。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>テンプレート依存関係をインストールしています。インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このブレードを閉じて、ポータルを引き続き使用できます。</value>
+    <value>テンプレートの依存関係をインストールしています。これが完了すると、関数を作成できるようになります。依存関係のインストールはバックグラウンドで行われ、最大 2 分かかる可能性があります。インストールが完了するまで、ご使用のアプリはオフライン モードに切り替わります。この間、引き続きポータルを使用できますが、インストールが完了する前にポータルを閉じると、ご使用のアプリはオフライン モードのままになります。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>ランタイム拡張機能をインストールできません。インストール ID: {{installationId}}</value>
@@ -3146,10 +3155,10 @@
     <value>ご使用の構成では、App Service Environment (ASE) 内の Isolated 価格レベルは利用できません。ASE は Azure App Service で提供されている強力な機能で、ネットワーク分離と向上したスケーリング機能が備わっています。</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>お客様の構成では開発/テストの価格レベルを利用できません。これは、App Service 環境でホストされていないプランでしか利用できません。</value>
+    <value>お客様の構成では開発/テストの価格レベルを利用できません。これは、App Service Environment でホストされていないプランでしか利用できません。</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>お客様の構成では運用の価格レベルを利用できません。これは、App Service 環境でホストされていないプランでしか利用できません。</value>
+    <value>お客様の構成では運用の価格レベルを利用できません。これは、App Service Environment でホストされていないプランでしか利用できません。</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>このスケール ユニットでは Premium V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。</value>
@@ -3220,7 +3229,7 @@
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>スケールアウト。</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>コンピューティング VM サイズ: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@
     <value>デプロイの詳細</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>テンプレート依存関係をインストールしています。依存関係のインストールはバックグラウンドで発生し、最大 2 分かかる可能性があります。この間、このページはそのままにして、ポータルを引き続き使用できます。</value>
+    <value>テンプレートの依存関係をインストールしています。依存関係のインストールはバックグラウンドで行われ、最大 2 分かかる可能性があります。インストールが完了するまで、ご使用のアプリはオフライン モードに切り替わります。この間、引き続きポータルを使用できますが、インストールが完了する前にポータルを閉じると、ご使用のアプリはオフライン モードのままになります。</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>値を非表示にします</value>
@@ -4320,10 +4329,10 @@
     <value>ディレクトリまたはアプリケーション</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>ディレクトリ</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>アプリケーション</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>プリロードが有効</value>
@@ -4403,6 +4412,9 @@
   <data name="sticky" xml:space="preserve">
     <value>スロットの設定</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>接続文字列の追加/編集</value>
   </data>
@@ -4469,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>未選択</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>最新</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>自動更新</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (最新)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (自動更新)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>アプリでは {{defaultJavaVersion}} の最新版を使用します。</value>
@@ -4624,5 +4636,149 @@
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>自動スワップ設定を変更するには、運用アプリにおける書き込みアクセス許可が必要です。</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>スクリプト Function App</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>プリコンパイル済み .NET Function App</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Function App の種類</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>スロットの設定が有効です</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>非表示の値。表示するには、上記の [値を表示する] ボタンをクリックします</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>フィールドは一意にする必要があります。</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>ディレクトリ</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>アプリケーション</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>新しい仮想アプリケーションまたはディレクトリ</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>新しいハンドラー</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>アプリへの接続を開くことができません。アプリに設定されたネットワーク セキュリティ グループまたは IP 制限ルールが原因である可能性があります。ログ ストリーミングを使用するには、現在のネットワークからアプリに直接アクセスできることをご確認ください。</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>アプリケーション設定に秘密を含めることができます。このセクションを表示または編集するには、読み取りまたは書き込みアクセス許可が必要です。</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>接続文字列に秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みアクセス許可が必要です。</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' タブは数か月以内に削除されます。Azure portal 参照機能を使用して、ロジック アプリの参照を続行することができます。</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>この関数は、Linux App Service プランで実行されている関数アプリでのみ使用できます。ランタイムのログ記録の場合は、Application Insights を使用してください。</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>スケールアウト</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>ご使用の App Service プランのスケールアウト設定を構成します。</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>アカウント名</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure BLOB</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>新しい Azure Storage マウント</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>空の Azure Storage マウント</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure Storage のマウント名は一意である必要があります</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>仮想パスは、一意である必要があります</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>構成オプション</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>ストレージ アカウント名は小文字にする必要があります</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>このストレージ アカウントに BLOB コンテナーまたはファイル共有はありません</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>このストレージ アカウントへの書き込みアクセス権がありません。アクセス キーがわかっている場合は、詳細設定モードで指定できます。</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>オプションの選択</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS のスタートアップ コマンドには、ng、node、pm2 のいずれかを使用する必要があります</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python のポータル内編集は間もなく非推奨になる予定です。開発には CLI または VS Code をご使用ください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>アプリ設定値は配列である必要があります</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに名前が必要です</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに値が必要です</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>すべてのアプリ設定値のプロパティは文字列型である必要があります</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>すべてのアプリ設定名のプロパティを文字列型にする必要があります</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>すべてのアプリ設定スロットの設定プロパティはブール値型である必要があります</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} は無効なアプリ設定プロパティです</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>アプリ設定名は一意である必要があります</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>無効な JSON オブジェクト</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>高度な編集</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Enter キーまたは Alt+C キーを押して coachmark 通知を開きます</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Coachmark が表示されました</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>高度な編集を使用すると、アプリ設定を一括編集できます。キーと値はプレーン テキストの JSON 形式で編集できます</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>物理パスは site\ 内の場所にある必要があります</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>仮想ディレクトリ パスは、アプリケーション パス内に存在する必要があります</value>
   </data>
 </root>

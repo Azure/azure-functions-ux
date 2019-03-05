@@ -1,14 +1,11 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib/Toggle';
 import { FieldProps } from 'formik';
-import { connect } from 'react-redux';
-import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
 
-interface IToggleStateProps {
-  theme: ThemeExtended;
-}
-const Toggle = (props: FieldProps & IToggleProps & IToggleStateProps) => {
-  const { field, form, theme, ...rest } = props;
+const Toggle = (props: FieldProps & IToggleProps) => {
+  const { field, form, ...rest } = props;
+  const theme = useContext(ThemeContext);
   const onChange = (e: any, newValue: boolean) => {
     form.setFieldValue(field.name, newValue);
     field.onChange(e);
@@ -33,13 +30,4 @@ const Toggle = (props: FieldProps & IToggleProps & IToggleStateProps) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    theme: state.portalService && state.portalService.theme,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(Toggle);
+export default Toggle;

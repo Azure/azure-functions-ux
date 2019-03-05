@@ -161,14 +161,14 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     const deployments = this.deploymentObject.deployments.value;
     const tableItems = deployments.map(value => {
       const item = value.properties;
-      const date: Date = new Date(item.received_time);
+      const date: moment.Moment = moment(item.received_time);
       const t = moment(date);
 
       const commitId = item.id.substr(0, 7);
       const author = item.author;
       const row: KuduTableItem = {
         type: 'row',
-        time: date,
+        time: date.toDate(),
         date: t.format('M/D/YY'),
         commit: commitId,
         checkinMessage: item.message,
@@ -258,6 +258,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
       .format(this.deploymentObject.site.name);
     this._portalService
       .startNotification(title, description)
+      .take(1)
       .concatMap(notificationId => {
         return this._cacheService
           .postArm(`${this.resourceId}/sync`, true)
@@ -300,6 +301,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
           this._translateService.instant(PortalResources.disconnectingDeployment),
           this._translateService.instant(PortalResources.disconnectingDeployment)
         )
+        .take(1)
         .do(notification => {
           notificationId = notification.id;
         })

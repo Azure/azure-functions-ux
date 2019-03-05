@@ -1,15 +1,15 @@
 export enum DatabaseType {
-  MySql = 0,
-  SQLServer = 1,
-  SQLAzure = 2,
-  Custom = 3,
-  NotificationHub = 4,
-  ServiceBus = 5,
-  EventHub = 6,
-  ApiHub = 7,
-  DocDb = 8,
-  RedisCache = 9,
-  PostgreSQL = 10,
+  MySql = 'MySql',
+  SQLServer = 'SQLServer', 
+  SQLAzure = 'SQLAzure',
+  Custom = 'Custom',
+  NotificationHub = 'NotificationHub',
+  ServiceBus = 'ServiceBus',
+  EventHub = 'EventHub',
+  ApiHub = 'ApiHub',
+  DocDb = 'DocDb',
+  RedisCache = 'RedisCache',
+  PostgreSQL = 'PostgreSQL',
 }
 
 export function typeValueToString(val: DatabaseType) {

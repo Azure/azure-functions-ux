@@ -1,24 +1,23 @@
 import { Field, FormikProps } from 'formik';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { AvailableStack } from '../../../../../models/available-stacks';
 import { ArmObj } from '../../../../../models/WebAppModels';
-import { RootState } from '../../../../../modules/types';
 import { AppSettingsFormValues } from '../../AppSettings.types';
+import { PermissionsContext } from '../../Contexts';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
-  stacksLoading: boolean;
 }
 
-type Props = StateProps & FormikProps<AppSettingsFormValues> & InjectedTranslateProps;
+type Props = StateProps & FormikProps<AppSettingsFormValues>;
 
 const DotNetStack: React.SFC<Props> = props => {
-  const { stacks, stacksLoading, values, t } = props;
+  const { stacks } = props;
+  const { app_write, editable } = useContext(PermissionsContext);
+  const { t } = useTranslation();
   const aspNetStack = stacks.find(x => x.name === 'aspnet');
   if (!aspNetStack) {
     return null;
@@ -30,8 +29,7 @@ const DotNetStack: React.SFC<Props> = props => {
       fullpage
       label={t('netFrameWorkVersionLabel')}
       id="netValidationVersion"
-      disabled={!values.siteWritePermission}
-      Loading={stacksLoading}
+      disabled={!app_write || !editable}
       options={aspNetStack!.properties.majorVersions.map(x => ({
         key: x.runtimeVersion,
         text: x.displayVersion,
@@ -39,17 +37,4 @@ const DotNetStack: React.SFC<Props> = props => {
     />
   );
 };
-
-const mapStateToProps = (state: RootState) => {
-  return {
-    stacks: state.stacks.data.value,
-    stacksLoading: state.stacks.metadata.loading,
-  };
-};
-export default compose(
-  connect(
-    mapStateToProps,
-    null
-  ),
-  translate('translation')
-)(DotNetStack);
+export default DotNetStack;

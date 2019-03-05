@@ -2,14 +2,17 @@ import { FormikProps } from 'formik';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import * as React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { HandlerMapping } from '../../../../models/WebAppModels';
-import { AppSettingsFormValues } from '../AppSettings.types';
+import { AppSettingsFormValues, Permissions } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
+import { PermissionsContext } from '../Contexts';
 
 export interface HandlerMappingState {
   showPanel: boolean;
@@ -18,7 +21,9 @@ export interface HandlerMappingState {
   createNewItem: boolean;
 }
 
-export class HandlerMappings extends React.Component<FormikProps<AppSettingsFormValues> & InjectedTranslateProps, HandlerMappingState> {
+export class HandlerMappings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, HandlerMappingState> {
+  public static contextType = PermissionsContext;
+  public context: Permissions;
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +36,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
 
   public render() {
     const { values, t } = this.props;
+    const { app_write, editable } = this.context;
     if (!values.config) {
       return null;
     }
@@ -38,15 +44,15 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
       <>
         <ActionButton
           id="app-settings-new-handler-mappings-button"
-          disabled={!values.siteWritePermission}
+          disabled={!app_write || !editable}
           onClick={this.createNewItem}
           styles={{ root: { marginTop: '5px' } }}
           iconProps={{ iconName: 'Add' }}>
-          New Handler
+          {t('addNewHandler')}
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.medium}
+          type={PanelType.smallFixedFar}
           onDismiss={this._onCancel}
           headerText={t('newHandlerMapping')}
           closeButtonAriaLabel={t('close')}>
@@ -144,7 +150,8 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
   }
 
   private onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
-    const { values } = this.props;
+    const { t } = this.props;
+    const { editable, app_write } = this.context;
     if (!column || !item) {
       return null;
     }
@@ -152,9 +159,11 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     if (column.key === 'delete') {
       return (
         <IconButton
-          disabled={!values.siteWritePermission}
+          className={defaultCellStyle}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Delete' }}
-          title="Delete"
+          ariaLabel={t('delete')}
+          title={t('delete')}
           onClick={() => this.removeItem(index)}
         />
       );
@@ -162,14 +171,16 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
     if (column.key === 'edit') {
       return (
         <IconButton
-          disabled={!values.siteWritePermission}
+          className={defaultCellStyle}
+          disabled={!app_write || !editable}
           iconProps={{ iconName: 'Edit' }}
-          title="Edit"
+          ariaLabel={t('edit')}
+          title={t('edit')}
           onClick={() => this._onShowPanel(item, index)}
         />
       );
     }
-    return <span>{item[column.fieldName!]}</span>;
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
   // tslint:disable-next-line:member-ordering
@@ -186,6 +197,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'scriptProcessor',
@@ -197,6 +209,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'arguments',
@@ -208,6 +221,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         data: 'string',
         isPadded: true,
         isResizable: true,
+        onRender: this.onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -233,4 +247,4 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
   };
 }
 
-export default translate('translation')(HandlerMappings);
+export default withTranslation('translation')(HandlerMappings);

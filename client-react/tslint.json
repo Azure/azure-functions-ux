@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint-config-airbnb", "tslint:recommended", "tslint-config-prettier"],
+  "extends": ["tslint-react-hooks", "tslint-config-airbnb", "tslint:recommended", "tslint-config-prettier"],
   "rules": {
     "object-literal-sort-keys": false,
     "no-console": false,
@@ -15,7 +15,9 @@
     "interface-name": false,
     "array-type": false,
     "function-name": false,
-    "no-unused-variable": true
+    "react-hooks-nesting": "error",
+    "no-string-literal": false,
+    "member-access": [true]
   },
   "linterOptions": {
     "exclude": ["config/**/*.js", "node_modules/**/*.ts", "node_modules/**/*.js"]

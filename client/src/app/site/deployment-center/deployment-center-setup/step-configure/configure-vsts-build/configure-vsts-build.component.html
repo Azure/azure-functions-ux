@@ -58,6 +58,7 @@
           <ng-select 
             aria-describedby="dc-vsts-project-error"
             aria-labeledBy="dc-vsts-build-project-label" 
+            [loading]="projectListLoading"
             class="custom-select" 
             [items]="projectList" 
             bindLabel="displayLabel" 
@@ -73,5 +74,6 @@
     
   </div>
 </div>
-<app-linux-frameworks *ngIf="wizard.isLinuxApp" ></app-linux-frameworks>
-<app-windows-frameworks *ngIf="!wizard.isLinuxApp" ></app-windows-frameworks>
+<app-linux-frameworks *ngIf="wizard.isLinuxApp && !wizard.isFunctionApp" ></app-linux-frameworks>
+<app-windows-frameworks *ngIf="!wizard.isLinuxApp && !wizard.isFunctionApp" ></app-windows-frameworks>
+<app-functions-frameworks *ngIf="wizard.isFunctionApp"></app-functions-frameworks>

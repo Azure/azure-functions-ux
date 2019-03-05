@@ -1,9 +1,19 @@
 /// <reference types="Cypress" />
 import { startVisit } from '../../utilities/app-settings-utils';
+import { setupWindow } from '../../utilities/window';
 
 context('App Settings Application Settings and Connection Strings with windows', () => {
   beforeEach(() => {
-    startVisit('windows', 'allow')
+    startVisit()
+      .visit(
+        `/feature/subscriptions/1489df65-b065-4cc3-b5c2-4b37cc88b703/resourcegroups/test-ux/providers/microsoft.web/sites/test-windows-app-ux/settings?trustedAuthority=test`,
+        {
+          onBeforeLoad(win) {
+            setupWindow(win);
+            cy.spy(win.parent, 'postMessage').as('spyPostMessage');
+          },
+        }
+      )
       .get('#app-settings-application-settings-tab')
       .click();
   });
@@ -38,7 +48,7 @@ context('App Settings Application Settings and Connection Strings with windows',
       .get('#app-settings-edit-value')
       .type('_NEW')
       .get('#app-settings-edit-sticky')
-      .click()
+      .click({ force: true })
       .get('#app-settings-edit-footer-save')
       .click()
       .get('#app-settings-application-settings-name-1')
@@ -108,7 +118,7 @@ context('App Settings Application Settings and Connection Strings with windows',
       .get('#connection-strings-form-type-list0')
       .click()
       .get('#connection-strings-form-sticky')
-      .click()
+      .click({ force: true })
       .get('#connection-string-edit-footer-save')
       .click()
       .get('#app-settings-connection-strings-name-0')
@@ -135,7 +145,7 @@ context('App Settings Application Settings and Connection Strings with windows',
       .get('#connection-strings-form-type-list0')
       .click()
       .get('#connection-strings-form-sticky')
-      .click()
+      .click({ force: true })
       .get('#connection-string-edit-footer-save')
       .click()
       .get('#app-settings-connection-strings-name-1')

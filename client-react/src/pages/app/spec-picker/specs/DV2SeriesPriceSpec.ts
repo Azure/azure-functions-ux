@@ -1,23 +1,16 @@
-import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm } from '../../../../models/WebAppModels';
+import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../../../../models/WebAppModels';
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
-import { store } from '../../../../store';
-import axios from 'axios';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
-
+import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;
   private readonly _skuNotAvailableLink: string;
-  private readonly _armEndpoint: string;
-  private readonly _armToken: string;
-
   constructor(t: (string) => string, sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
     super(t);
     this._sku = sku;
     this._skuNotAvailableMessage = skuNotAvailableMessage;
     this._skuNotAvailableLink = skuNotAvailableLink;
-    this._armEndpoint = store.getState().portalService.startupInfo!.armEndpoint;
-    this._armToken = store.getState().portalService.startupInfo!.token;
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
@@ -46,14 +39,13 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _checkIfSkuEnabledOnStamp(resourceId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      const availableSkuFetch = await axios.get<{ value: AvailableSku[] }>(`${this._armEndpoint}${resourceId}`, {
-        headers: {
-          Authorization: `Bearer ${this._armToken}`,
-        },
+      const availableSkuFetch = await MakeArmCall<{ value: AvailableSku[] }>({
+        resourceId,
+        commandName: '_checkIfSkuEnabledOnStamp',
       });
 
-      const result = availableSkuFetch.data;
-      this.state = result.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
+      const result = availableSkuFetch;
+      this.state = result.data.value.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
 
       if (this.state === 'disabled') {
         this.disabledMessage = this._skuNotAvailableMessage;
@@ -78,18 +70,17 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
 
   private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
     const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
-    const providerLocationsFetch = await axios.get<{ value: ArmProviderInfo }>(`${this._armEndpoint}${resourceId}`, {
-      headers: {
-        Authorization: `Bearer ${this._armToken}`,
-      },
+    const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>({
+      resourceId,
+      commandName: '_getProviderLocations',
     });
 
-    const result = providerLocationsFetch.data;
+    const result = providerLocationsFetch;
     const resource =
       result &&
-      result.value &&
-      result.value.resourceTypes &&
-      result.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
+      result.data.value &&
+      result.data.value.resourceTypes &&
+      result.data.value.resourceTypes.find(t => t.resourceType.toLowerCase() === resourceType.toLowerCase());
 
     return !!resource ? resource.locations : [];
   }
@@ -100,10 +91,9 @@ export abstract class DV2SeriesPriceSpec extends PriceSpec {
       id += '&linuxWorkersEnabled=true';
     }
 
-    const geoRegionsFetch = await axios.get<{ value: ArmObj<GeoRegion>[] }>(`${this._armEndpoint}${id}`, {
-      headers: {
-        Authorization: `Bearer ${this._armToken}`,
-      },
+    const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
+      resourceId: id,
+      commandName: '_getProviderLocations',
     });
 
     return geoRegionsFetch.data.value;

@@ -243,7 +243,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     this._slotsList = [siteResult.result, ...slotsResult.result.value];
     const options: DropDownElement<string>[] = this._slotsList.map(slot => {
       return {
-        displayLabel: slot.properties.name,
+        displayLabel: slot.name ? slot.name.replace('/', '-') : '-',
         value: slot.id,
       };
     });

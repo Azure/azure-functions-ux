@@ -50,9 +50,10 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
+  forbiddenComputeMode?: number;
+  isFunctionApp?: boolean;
   isLinux: boolean;
   isXenon: boolean;
-  isElastic?: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }
@@ -123,7 +124,6 @@ export class PlanPriceSpecManager {
         this.specGroups = [
           new GenericSpecGroup(this._injector, this, SpecGroup.Development, r.pricingTiers),
           new GenericSpecGroup(this._injector, this, SpecGroup.Production, r.pricingTiers),
-          new GenericSpecGroup(this._injector, this, SpecGroup.Isolated, r.pricingTiers),
         ];
       }
       // Initialize every spec for each spec group.  For most cards this is a no-op, but
@@ -529,10 +529,15 @@ export class PlanPriceSpecManager {
       throw Error('Spec must contain a specResourceSet with one firstParty item defined');
     }
 
-    const billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
-
+    let billingMeter: ArmObj<BillingMeter>;
+    if (!!spec.skuCode) {
+      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
+    }
+    if (!billingMeter && !!spec.billingSkuCode) {
+      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.billingSkuCode.toLowerCase());
+    }
     if (!billingMeter) {
-      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.meterFriendlyName}`);
+      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
       return;
     }
 

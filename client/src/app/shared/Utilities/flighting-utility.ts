@@ -3,20 +3,14 @@ import { Url } from './url';
 
 export class FlightingUtil {
   public static Features = {
-    OldDeploymentCenter: 'OldDeploymentCenter',
     NewDeploymentSlots: 'NewDeploymentSlots',
   };
 
   private static config = {
-    OldDeploymentCenter: {
-      seed: 422209594,
-      percentofUsers: 50,
-      forceOnFlag: FeatureFlags.oldDeploymentCenter,
-      forceOffFlag: null,
-    },
+    // TODO (andimarc): Remove 'NewDeploymentSlots' in S108
     NewDeploymentSlots: {
       seed: 187465135,
-      percentofUsers: 25,
+      percentofUsers: 100,
       forceOnFlag: FeatureFlags.UseNewSlotsBlade,
       forceOffFlag: FeatureFlags.ShowLegacySlotsBlade,
     },
@@ -48,6 +42,14 @@ export class FlightingUtil {
 
     if (Url.getParameterByName(null, config.forceOnFlag) === 'true') {
       return true;
+    }
+
+    if (config.percentofUsers === 100) {
+      return true;
+    }
+
+    if (config.percentofUsers === 0) {
+      return false;
     }
 
     const hash = this.murmurhash3_32_gc(subscription, config.seed);

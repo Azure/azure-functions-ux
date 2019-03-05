@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Ta funkcja nie jest obsługiwana w przypadku aplikacji w ramach planu Zużycie</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Ta funkcja jest nieobsługiwana dla aplikacji w planie elastycznym</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Ta funkcja nie jest jeszcze obsługiwana dla miejsc</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Ta funkcja nie jest obsługiwana w przypadku aplikacji systemu Linux</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Ta funkcja nie jest obsługiwana w przypadku aplikacji systemu Linux w ramach planu Zużycie</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Aby korzystać z tej funkcji, musisz mieć uprawnienia do zapisu dla bieżącej aplikacji</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Usługa App Service obsługuje instalowanie nowszych wersji języka Python. Kliknij tutaj, aby dowiedzieć się więcej.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Wersja języka Java</value>
@@ -2399,7 +2408,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Uwzględnij ustawienia aplikacji w pobieraniu</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Spowoduje to uwzględnienie pliku local.settings.json, który będzie zawierać wartości ustawień aplikacji. Ten plik nie będzie szyfrowany przy pobieraniu, ale można go zaszyfrować za pomocą wiersza polecenia podstawowych narzędzi usługi Azure Functions.</value>
+    <value>Spowoduje to uwzględnienie pliku local.settings.json, który będzie zawierać wartości ustawień aplikacji. Ten plik nie będzie szyfrowany przy pobieraniu, ale można go zaszyfrować za pomocą wiersza polecenia narzędzi Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Zawartość witryny</value>
@@ -2720,7 +2729,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Ten szablon wymaga następujących rozszerzeń.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Zależności szablonu są instalowane. Gdy to zostanie zrobione, będzie można utworzyć funkcję. Instalacja zależności przebiega w tle i może potrwać do 2 minut. W tym czasie możesz zamknąć ten blok i nadal korzystać z portalu.</value>
+    <value>Trwa instalowanie zależności szablonu. Utworzenie funkcji będzie możliwe po zakończeniu tej operacji. Instalacja zależności przebiega w tle i może potrwać do dwóch minut. Twoja aplikacja przejdzie w tryb offline do czasu zakończenia instalacji. W tym czasie możesz nadal korzystać z portalu, ale zamknięcie portalu przed ukończeniem instalacji spowoduje pozostawienie aplikacji w trybie offline.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nie możemy zainstalować rozszerzenia środowiska uruchomieniowego. Identyfikator instalacji: {{installationId}}</value>
@@ -3220,7 +3229,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Zwiększ skalę w poziomie.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Oblicz rozmiar maszyny wirtualnej: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3885,7 +3894,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Twórz funkcje za pomocą programu Visual Studio Code</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Pisz funkcje przy użyciu swojego ulubionego edytora i podstawowych narzędzi usługi Azure Functions</value>
+    <value>Pisz funkcje przy użyciu swojego ulubionego edytora i narzędzi Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Pisz funkcje w języku Java przy użyciu swojego ulubionego edytora, takiego jak IntelliJ lub Eclipse, i programu Maven</value>
@@ -3909,7 +3918,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Publikuj bezpośrednio z programu VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Publikuj bezpośrednio z podstawowych narzędzi usługi Azure Functions</value>
+    <value>Publikuj bezpośrednio z narzędzi Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Publikowanie bezpośrednio z programu Maven</value>
@@ -4227,7 +4236,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Szczegóły wdrożenia</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Zależności szablonu są instalowane. Instalacja zależności przebiega w tle i może potrwać do 2 minut. W tym czasie możesz zamknąć tę stronę i nadal korzystać z portalu.</value>
+    <value>Instalowanie zależności szablonu. Instalacja zależności przebiega w tle i może potrwać do 2 minut. Twoja aplikacja przejdzie w tryb offline do czasu zakończenia instalacji. W tym czasie możesz nadal korzystać z portalu, ale zamknięcie portalu przed ukończeniem instalacji spowoduje pozostawienie aplikacji w trybie offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Ukryj wartości</value>
@@ -4320,10 +4329,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Katalog lub aplikacja</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Katalog</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Aplikacja</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Włączono wstępne ładowanie</value>
@@ -4403,6 +4412,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="sticky" xml:space="preserve">
     <value>Ustawienie miejsca</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Dodaj/edytuj parametry połączenia</value>
   </data>
@@ -4469,11 +4481,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="notSelected" xml:space="preserve">
     <value>Nie wybrano</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Najnowsze</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Automatyczna aktualizacja</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (najnowsza)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (automatyczna aktualizacja)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Twoja aplikacja użyje najnowszej wersji oprogramowania {{defaultJavaVersion}}.</value>
@@ -4624,5 +4636,149 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Aby zmienić ustawienia automatycznej wymiany, musisz mieć dostęp do zapisu w aplikacji produkcyjnej.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Skryptowa aplikacja funkcji</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Wstępnie skompilowana aplikacja funkcji .NET</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Typ aplikacji funkcji</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Włączono ustawienie miejsca</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Ukryta wartość. Kliknij przycisk Pokaż wartości powyżej, aby wyświetlić</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Pole musi być unikatowe.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Katalog</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Aplikacja</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nowa aplikacja wirtualna lub katalog wirtualny</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Nowa procedura obsługi</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Nie można otworzyć połączenia z aplikacją. Może to być spowodowane sieciowymi grupami zabezpieczeń lub regułami ograniczeń adresów IP określonymi dla aplikacji. Aby korzystać z przesyłania strumieniowego dzienników, upewnij się, że masz dostęp do aplikacji bezpośrednio z bieżącej sieci.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Ustawienia aplikacji mogą zawierać wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Parametry połączeń zawierają wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Karta „Aplikacje logiki” zostanie usunięta w ciągu kilku kolejnych miesięcy. Aplikacje logiki możesz nadal przeglądać przy użyciu funkcji przeglądania witryny Azure Portal.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Ta funkcja jest dostępna tylko dla aplikacji funkcji uruchamianych w planie usługi App Service dla systemu Linux. Do rejestrowania w czasie wykonywania użyj usługi Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Skaluj w poziomie</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Skonfiguruj ustawienia skalowania w poziomie dla planu usługi App Service.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nazwa konta</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Obiekt blob platformy Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Pliki Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nowa instalacja magazynu platformy Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Pusta instalacja magazynu platformy Azure</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Nazwa instalacji magazynu platformy Azure musi być unikatowa</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Ścieżki wirtualne muszą być unikatowe</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Opcje konfiguracji</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Nazwa konta magazynu musi zawierać małe litery</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>To konto magazynu nie ma kontenerów obiektów blob lub udziałów plików</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Nie masz dostępu do tego konta magazynu z możliwością zapisu. Jeśli znasz klucz dostępu, możesz podać go w trybie zaawansowanym.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Wybierz opcję</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Polecenia uruchamiania dla platformy NodeJS muszą korzystać z poleceń ng, node lub pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Edytowanie w portalu dla języka Python wkrótce zostanie wycofane. Do programowania używaj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Instalacje magazynów platformy Azure zawierają wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Wartości ustawień aplikacji muszą być tablicami</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Wszystkie obiekty ustawień aplikacji muszą mieć nazwę</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Wszystkie obiekty ustawień aplikacji muszą mieć wartość</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Wszystkie wartości nazw ustawień aplikacji muszą być ciągami</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Wszystkie właściwości nazw ustawień aplikacji muszą być ciągami</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Wszystkie właściwości ustawień miejsc na ustawienia aplikacji muszą być typu logicznego</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} jest nieprawidłową właściwością ustawienia aplikacji</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Nazwy ustawień aplikacji muszą być unikatowe</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Nieprawidłowy obiekt JSON</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Edytowanie zaawansowane</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Naciśnij klawisz Enter lub kombinację Alt+C, aby otworzyć powiadomienie znacznika szkolenia.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Został wyświetlony znacznik szkolenia</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Zaawansowana edycja umożliwia zbiorcze edytowanie ustawień aplikacji. Klucze i wartości mogą być edytowane w formacie zwykłego tekstu JSON</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Ścieżka fizyczna musi być lokalizacją w witrynie\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Ścieżka katalogu wirtualnego musi istnieć w ścieżce aplikacji</value>
   </data>
 </root>

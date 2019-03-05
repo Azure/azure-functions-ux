@@ -1,16 +1,14 @@
-import * as i18n from 'i18next';
+import i18n from 'i18next';
 import Backend from 'i18next-chained-backend';
 import LocalStorageBackend from 'i18next-localstorage-backend';
-import * as XHR from 'i18next-xhr-backend';
+import XHR from 'i18next-xhr-backend';
 
 const backendOptions: XHR.BackendOptions = {
   // path where resources get loaded from, or a function
   // returning a path:
   // function(lngs, namespaces) { return customPath; }
   // the returned path will interpolate lng, ns if provided like giving a static path
-  loadPath: `${process.env.REACT_APP_SERVER_URL}/api/resources?name={{lng}}&runtime=default&cacheBreaker=${
-    process.env.REACT_APP_CACHE_KEY
-  }`,
+  loadPath: `/api/resources?name={{lng}}&runtime=default&cacheBreaker=${process.env.REACT_APP_CACHE_KEY}`,
 
   // your backend server supports multiloading
   // /locales/resources.json?lng=de+en&ns=ns1+ns2

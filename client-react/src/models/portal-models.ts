@@ -83,6 +83,7 @@ export class Verbs {
   // Initialization verbs
   public static message = 'message';
   public static ready = 'ready';
+  public static initializationcomplete = 'initializationcomplete';
 
   // Requests from iframe
   public static getStartupInfo = 'get-startup-info';
@@ -114,6 +115,7 @@ export class Verbs {
   public static sendResourceId = 'send-resourceId';
   public static sendInputs = 'send-inputs';
   public static sendToken = 'send-token';
+  public static sendToken2 = 'send-token2';
   public static sendOAuthInfo = 'send-oauth-info';
   public static sendNotificationStarted = 'send-notification-started';
   public static sendData = 'send-data';

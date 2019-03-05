@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>對使用情況方案上的應用程式，不支援此功能</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>彈性方案中的應用程式無法使用此功能</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>位置不支援此功能</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Linux 應用程式不支援此功能</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>使用了使用量方案的 Linux 應用程式不支援這項功能</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>您必須對目前的應用程式具有寫入權限，才可使用此功能</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service 支援安裝較新版的 Python。若要深入了解，請按一下這裡。</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -2720,7 +2729,7 @@
     <value>此範本需要下列延伸模組。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>正在安裝範本相依性。安裝完成之後，就能建立函式。相依性安裝會在背景執行，最長不超過 2 分鐘。在這段期間內，您可以關閉此刀鋒視窗繼續使用入口網站。</value>
+    <value>正在安裝範本相依性。您可以在完成後建立函式。相依性安裝會在背景執行，時間最長不超過 2 分鐘。安裝完成之前，您的應用程式將會處於離線模式。安裝期間您可以繼續使用入口網站，但若在安裝完成之前關閉入口網站，您的應用程式將會一直處於離線模式。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>無法安裝執行階段延伸模組。安裝識別碼 {{installationId}}</value>
@@ -3220,7 +3229,7 @@
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>向外延展。</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>計算 VM 大小: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@
     <value>部署詳細資料</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>正在安裝範本相依性。相依性安裝會在背景執行，最長不超過 2 分鐘。在這段期間內，您可以不理會此頁面繼續使用入口網站。</value>
+    <value>正在安裝範本相依性。相依性安裝會在背景執行，時間最長不超過 2 分鐘。安裝完成之前，您的應用程式將會處於離線模式。安裝期間您可以繼續使用入口網站，但若在安裝完成之前關閉入口網站，您的應用程式將會一直處於離線模式。</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>隱藏值</value>
@@ -4320,10 +4329,10 @@
     <value>目錄或應用程式</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>目錄</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>應用程式</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>預先載入已啟用</value>
@@ -4403,6 +4412,9 @@
   <data name="sticky" xml:space="preserve">
     <value>位置設定</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>新增/編輯連接字串</value>
   </data>
@@ -4469,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>未選取</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>最新</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>自動更新</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (最新)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (自動更新)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>您的應用程式將使用最新的 {{defaultJavaVersion}} 版本。</value>
@@ -4624,5 +4636,149 @@
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>您必須有生產應用程式的寫入權限，才能變更自動交換設定。</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>指令碼函數應用程式</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>先行編譯的 .NET 函數應用程式</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>函數應用程式類型</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>已啟用位置設定</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>隱藏的值。按一下上方的 [顯示值] 按鈕即可檢視</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>欄位必須是唯一的。</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>目錄</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>新增虛擬應用程式或目錄</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>新增處理常式</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>無法開啟對您應用程式的連線。這可能是您對應用程式設定的任何網路安全性群組或 IP 限制規則所致。若要使用記錄串流，請確認您可直接從目前的網路存取應用程式。</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>應用程式設定可包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>連接字串包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>接下來幾個月將會移除 [邏輯應用程式] 索引標籤。您可以繼續使用 Azure 入口網站瀏覽功能來瀏覽邏輯應用程式。</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>此功能僅適用於 Linux App Service 方案上執行的函數應用程式。若要記錄執行階段，請使用 Application Insights。</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>相應放大</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>為您的 App Service 方案設定向外延展設定。</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>帳戶名稱</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure 檔案</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>新增 Azure 儲存體掛接</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>空白的 Azure 儲存體掛接</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure 儲存體掛接名稱必須是唯一的</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>必須是唯一的虛擬路徑</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>設定選項</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>儲存體帳戶名稱必須是小寫</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>這個儲存體帳戶沒有 Blob 容器或檔案共用</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>您沒有這個儲存體帳戶的寫入權限。如果您知道存取金鑰，就可以使其進入進階模式。</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>選取選項</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>NodeJS 的啟動命令必須使用 ng、node 或 pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python 的入口網站內編輯即將淘汰。請使用 CLI 或 VS Code 進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure 儲存體掛接包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>應用程式設定值必須是陣列</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>所有應用程式設定物件都必須要有名稱</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>所有應用程式設定物件都必須要有值</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>所有應用程式設定值屬性都必須為字串類型</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>所有應用程式設定名稱屬性都必須為字串類型</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>所有應用程式設定位置設定屬性都必須為布林值類型</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} 是無效的應用程式設定屬性</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>應用程式設定名稱必須是唯一的</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>JSON 物件無效</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>進階編輯</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>按 EENTER 或 ALT + C 來開啟 coachmark (指導標記) 通知</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>已出現 coachmark (指導標記)</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>進階編輯可讓您大量編輯應用程式設定。可以純文字 JSON 格式編輯索引鍵與值</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>實體路徑必須是網站中的位置\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>虛擬目錄路徑必須位於應用程式路徑內</value>
   </data>
 </root>

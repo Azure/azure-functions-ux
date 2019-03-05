@@ -1300,11 +1300,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>This feature is not supported for apps on an Elastic plan</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>This feature is not supported for slots</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>This feature is not supported for Linux apps</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps on a Consumption plan</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
@@ -1467,6 +1473,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
@@ -2723,7 +2732,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. You can close this blade and continue to use the portal during this time.</value>
+    <value>Installing template dependencies. You will be able to create a function once this is done. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -3223,7 +3232,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Scale out.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Compute Vm size: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4230,7 +4239,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deployment Details</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. You can leave this page and continue to use the portal during this time.</value>
+    <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Hide Values</value>
@@ -4374,7 +4383,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>All allowed</value>
   </data>
   <data name="ftpsOnly" xml:space="preserve">
-    <value>Ftps only</value>
+    <value>FTPS only</value>
   </data>
   <data name="alwaysOn" xml:space="preserve">
     <value>Always on</value>
@@ -4405,6 +4414,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="sticky" xml:space="preserve">
     <value>Slot setting</value>
+  </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
   </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Add/Edit connection string</value>
@@ -4472,11 +4484,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Latest</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Auto-Update</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (latest)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (auto-update)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Your app will use the latest version of {{defaultJavaVersion}}.</value>
@@ -4627,5 +4639,149 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>To change the auto swap setting you must have write permissions on the production app.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Script Function App</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Precompiled .NET Function App</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Function App Type</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Slot Setting Enabled</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Hidden value. Click show values button above to view</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Field must be unique.</value>
+  </data>
+   <data name="directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>New virtual application or directory</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>New handler</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Unable to open a connection to your app. This may be due to any network security groups or IP restriction rules that you have placed on your app. To use log streaming, please make sure you are able to access your app directly from your current network.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Application settings can contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Connection strings contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>'Logic Apps' tab will be removed in the next few months. You can continue to browse your logic apps using the Azure Portal browse feature.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>This feature is only available for Function apps running on a Linux App Service plan. For runtime logging please use Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Scale out</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configure scale out settings for your App Service Plan.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Account Name</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>Azure Blob</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>New Azure Storage Mount</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Empty Azure Storage Mount</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Azure storage mount names must be unique</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Virtual paths must be unique</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Configuration options</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Storage account name must be lower case</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>This storage account has no blob containers or file shares</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
+  </data>
+    <data name="selectAnOption" xml:space="preserve">
+    <value>Select an option</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>In-portal editing for Python will soon be deprecated. Please use the CLI or VS Code for development. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>App setting values must be an array</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a name</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>All app setting objects must have a value</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>All app setting value properties must be of type string</value>
+  </data>
+   <data name="nameMustBeAString" xml:space="preserve">
+    <value>All app setting name properties must be of type string</value>
+  </data>
+   <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>All app setting slot setting properties must be of type boolean</value>
+  </data>
+   <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} is an invalid app setting property</value>
+  </data>
+   <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>App setting names must be unqiue</value>
+  </data>
+   <data name="jsonInvalid" xml:space="preserve">
+    <value>Invalid JSON object</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Advanced Edit</value>
+  </data>
+   <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Press enter or alt + C to open the coachmark notification</value>
+  </data>
+   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>A coachmark has appeared</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

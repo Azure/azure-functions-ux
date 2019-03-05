@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Эта функция не поддерживается для приложений, которые используют план потребления</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Эта функция не поддерживается для приложений в эластичном плане.</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Эта функция не поддерживается для слотов</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Эта функция не поддерживается для приложений Linux</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Эта функция не поддерживается для приложений Linux с планом потребления.</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Для использования этой функции у вас должны быть разрешения на запись для текущего приложения</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>Служба приложений поддерживает установку более новых версий Python. Щелкните здесь, чтобы узнать подробности.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Версия Java</value>
@@ -2399,7 +2408,7 @@
     <value>Включить параметры приложения при скачивании</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>При этом будет добавлен файл local.settings.json со значениями параметров вашего приложения. Файл не будет зашифрован при скачивании; это можно сделать в командной строке основных инструментов Функций Azure.</value>
+    <value>При этом будет добавлен файл local.settings.json со значениями параметров вашего приложения. Файл не будет зашифрован при скачивании; это можно сделать в командной строке Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Содержимое сайта</value>
@@ -2720,7 +2729,7 @@
     <value>Для шаблона требуются следующие расширения.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Идет установка зависимостей шаблонов. По завершении вы сможете создать функцию. Установка происходит в фоновом режиме и может занять до 2 минут. В это время вы можете закрыть колонку и продолжить работу с порталом.</value>
+    <value>Устанавливаются зависимости шаблонов. Вы сможете создать функцию по завершении этого процесса. Установка зависимостей выполняется в фоновом режиме и может занять до двух минут. Приложение перейдет в автономный режим, пока установка не завершится. В это время можно по-прежнему использовать портал, но если вы закроете его до завершения установки, приложение останется в автономном режиме.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
@@ -3220,7 +3229,7 @@
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Горизонтальное масштабирование.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Вычислить размер виртуальной машины: {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -3885,7 +3894,7 @@
     <value>Использование Visual Studio Code для создания функций</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>Написание функций с помощью удобного редактора и основных инструментов для Функций Azure</value>
+    <value>Написание функций с помощью удобного вам редактора и Azure Functions Core Tools</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>Написание функций Java с помощью удобного редактора: IntelliJ, Eclipse или Maven</value>
@@ -3909,7 +3918,7 @@
     <value>Публикация напрямую из VS Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Публикация напрямую из основных инструментов для Функций Azure</value>
+    <value>Публикация напрямую из Azure Functions Core Tools</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Публикация напрямую из Maven</value>
@@ -4227,7 +4236,7 @@
     <value>Сведения о развертывании</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Установка зависимостей шаблонов... Установка происходит в фоновом режиме и может занять до 2 минут. В это время вы можете покинуть страницу и продолжить работу с порталом.</value>
+    <value>Устанавливаются зависимости шаблонов. Установка зависимостей выполняется в фоновом режиме и может занять до двух минут. Приложение перейдет в автономный режим, пока установка не завершится. В это время можно по-прежнему использовать портал, но если вы закроете его до завершения установки, приложение останется в автономном режиме.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Скрыть значения</value>
@@ -4320,10 +4329,10 @@
     <value>Каталог или приложение</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Каталог</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
-    <value>Приложение</value>
+    <value>Application</value>
   </data>
   <data name="preloadEnabled" xml:space="preserve">
     <value>Предварительная загрузка включена.</value>
@@ -4403,6 +4412,9 @@
   <data name="sticky" xml:space="preserve">
     <value>Параметр слота</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Добавление или изменение строки подключения</value>
   </data>
@@ -4469,11 +4481,11 @@
   <data name="notSelected" xml:space="preserve">
     <value>Не выбрано</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Последний</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Автоматическое обновление</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (последняя)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (автоматическое обновление)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Ваше приложение будет использовать последнюю версию {{defaultJavaVersion}}.</value>
@@ -4620,9 +4632,153 @@
     <value>Прокси-серверы (с ограничениями)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>Чтобы изменить параметры слота, нужны разрешения на запись в рабочем приложении.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Чтобы изменить параметр автоматической замены, нужны разрешения на запись в рабочем приложении.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Приложение-функция скрипта</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Предкомпилированное приложение-функция .NET</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Тип приложения-функции</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Параметр слота включен.</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Скрытое значение. Для просмотра нажмите кнопку "Показать значения" выше.</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Значение поля должно быть уникальным.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Новое виртуальное приложение или каталог</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Новый обработчик</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Не удалось установить подключение к приложению. Возможно, причина в заданных группах безопасности сети или правилах ограничения IP-адресов. Для потоковой передачи журналов убедитесь, что вы можете подключиться к приложению непосредственно из текущей сети.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Параметры приложения могут содержать секреты. Чтобы просмотреть или изменить этот раздел, требуются разрешения на чтение и запись.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Строки подключения содержат секреты. Чтобы просмотреть или изменить этот раздел, требуются разрешения на чтение и запись.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>Вкладка "Приложения логики" будет удалена через несколько месяцев. Вы можете продолжить просматривать свои приложения логики с помощью функции обзора на портале Azure.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Эта функция доступна только для приложений-функций, выполняющихся в плане службы приложений Linux. Для ведения журналов среды выполнения используйте Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Горизонтальное масштабирование</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Настройка параметров масштабирования для плана службы приложений.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Имя учетной записи</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>BLOB-объект Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Файлы Azure</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Новое подключение для службы хранилища Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Пустое подключение для службы хранилища Azure</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Имена подключений для службы хранилища Azure должны быть уникальными</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Виртуальные пути должны быть уникальными</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Параметры конфигурации</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Имя учетной записи хранения должно состоять из строчных букв</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Эта учетная запись хранения не содержит контейнеров BLOB-объектов или общих файловых ресурсов</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>У вас нет доступа на запись к этой учетной записи хранения. Если вы знаете ключ доступа, можете перевести ее в расширенный режим.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Выбрать вариант</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Команды запуска для NodeJS должны использовать ng, node или pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Возможность редактирования на портале для Python скоро станет нерекомендуемой. Используйте для разработки интерфейс командной строки или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Подключенные ресурсы хранилища Azure содержат секреты. Для просмотра и изменения этого раздела требуются разрешения на чтение и запись.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Значения параметров приложения должны быть массивом.</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Все объекты параметров приложения должны иметь имена.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Все объекты параметров приложения должны иметь значения.</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Все свойства значений в параметрах приложения должны иметь строковый тип.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Все свойства имен в параметрах приложения должны иметь строковый тип.</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Все свойства слотов в параметрах приложения должны иметь логический тип.</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} является недопустимым свойством параметров приложения.</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Имена параметров приложения должны быть уникальными.</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Недопустимый объект JSON</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Расширенное редактирование</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Нажмите клавишу ВВОД или ALT+C, чтобы открыть уведомление о новости.</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Появилась новость.</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>Расширенное редактирование позволяет массово изменять параметры вашего приложения. Ключи и значения можно редактировать в формате JSON в виде обычного текста.</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

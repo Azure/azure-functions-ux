@@ -1,45 +1,52 @@
 import { Router } from '@reach/router';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect, Suspense } from 'react';
 import AppServiceRouter from './app/AppServiceRouter';
 import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorLogger';
-import { AzurePortalCustomizations } from '../theme/CustomOfficeFabric';
-import { Customizer } from 'office-ui-fabric-react/lib/Utilities';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../utils/i18n';
+import { PortalContext } from '../PortalContext';
+import PortalCommunicator from '../portal-communicator';
+import lightTheme from '../theme/light';
+import { ThemeExtended } from '../theme/SemanticColorsExtended';
+import { ThemeContext } from '../ThemeContext';
+import { ArmTokenContext } from '../ArmTokenContext';
+import { IStartupInfo } from '../models/portal-models';
+import { StartupInfoContext } from '../StartupInfoContext';
 
-export interface AppProps {
-  theme: string;
-}
+const portalCommunicator = new PortalCommunicator();
 
-export class App extends React.Component<AppProps, any> {
-  public render() {
-    if (!this.props.theme) {
-      return 'loading';
-    }
-    return (
-      <Fabric>
-        <Customizer {...AzurePortalCustomizations}>
-          <ErrorLogger>
-            <Router>
-              <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
-              <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
-              <LandingPage path="/*" />
-            </Router>
-          </ErrorLogger>
-        </Customizer>
-      </Fabric>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    theme: state.portalService && state.portalService.startupInfo && state.portalService.startupInfo.theme,
-  };
+export const App: React.FC = () => {
+  const [theme, setTheme] = useState(lightTheme as ThemeExtended);
+  const [startupInfo, setStartupInfo] = useState({} as IStartupInfo);
+  const [armToken, setArmToken] = useState('');
+  useEffect(() => {
+    portalCommunicator.initializeIframe(setTheme, setArmToken, setStartupInfo, i18n);
+  }, []);
+  return (
+    <Suspense fallback={<></>}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeContext.Provider value={theme}>
+          <ArmTokenContext.Provider value={armToken}>
+            <StartupInfoContext.Provider value={startupInfo}>
+              <PortalContext.Provider value={portalCommunicator}>
+                <Fabric>
+                  <ErrorLogger>
+                    <Router>
+                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/*" />
+                      <AppServiceRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/*" />
+                      <LandingPage path="/*" />
+                    </Router>
+                  </ErrorLogger>
+                </Fabric>
+              </PortalContext.Provider>
+            </StartupInfoContext.Provider>
+          </ArmTokenContext.Provider>
+        </ThemeContext.Provider>
+      </I18nextProvider>
+    </Suspense>
+  );
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(App);
+export default App;

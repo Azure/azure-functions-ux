@@ -17,6 +17,7 @@ import { BroadcastService } from '../../../../shared/services/broadcast.service'
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { dateTimeComparatorReverse } from '../../../../shared/Utilities/comparators';
 import { of } from 'rxjs/observable/of';
+import { AzureDevOpsService } from '../../deployment-center-setup/wizard-logic/azure-devops.service';
 
 class VSODeploymentObject extends DeploymentData {
   VSOData: VSOBuildDefinition;
@@ -26,6 +27,7 @@ class VSODeploymentObject extends DeploymentData {
   selector: 'app-vso-dashboard',
   templateUrl: './vso-dashboard.component.html',
   styleUrls: ['./vso-dashboard.component.scss'],
+  providers: [AzureDevOpsService],
 })
 export class VsoDashboardComponent implements OnChanges, OnDestroy {
   @Input()
@@ -48,7 +50,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _armService: ArmService,
     private _logService: LogService,
     private _translateService: TranslateService,
-    private _broadcastService: BroadcastService
+    private _broadcastService: BroadcastService,
+    private _azureDevOpsService: AzureDevOpsService
   ) {
     this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
     this.viewInfoStream$ = new Subject<string>();
@@ -85,13 +88,13 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         const endpointUri = new URL(endpoint);
         const projectId = vstsMetaData['VSTSRM_ProjectId'];
         const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
-
-        let buildDefUrl = `https://${endpointUri.host}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+        let accountName = '';
         if (endpointUri.host.includes(this._devAzureCom)) {
-          const accountName = endpointUri.pathname.split('/')[1];
-          buildDefUrl = `https://${endpointUri.host}/${accountName}/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+          accountName = endpointUri.pathname.split('/')[1];
+        } else {
+          accountName = endpointUri.hostname.split('.')[0];
         }
-        return this._cacheService.get(buildDefUrl).catch((err, caught) => {
+        return this._azureDevOpsService.getBuildDef(accountName, projectId, buildId).catch((err, caught) => {
           this._busyManager.clearBusy();
           this.deploymentObject = null;
           this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
@@ -103,7 +106,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         r => {
           if (!!r) {
             this._busyManager.clearBusy();
-            this.deploymentObject.VSOData = r.json();
+            this.deploymentObject.VSOData = r;
           }
         },
         err => {
@@ -206,7 +209,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   }
 
   private _populateActivityDetails(item: Deployment) {
-    const date: Date = new Date(item.end_time);
+    const date: moment.Moment = moment(item.end_time);
     const message: string = item.message;
 
     // populate activity details according to the message format
@@ -233,7 +236,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
   private _createDeploymentLogFromJSONMessage(
     item: any,
     messageJSON: KuduLogMessage,
-    date: Date,
+    date: moment.Moment,
     logType: VSTSLogMessageType,
     targetApp?: string
   ): ActivityDetailsLog {
@@ -246,7 +249,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       // grouping is done by date therefore time information is excluded
       date: t.format('YYYY/M/D'),
 
-      time: date,
+      time: date.toDate(),
       message: this._getMessage(messageJSON, item.status, logType, targetApp),
       urlInfo: this._getUrlInfoFromJSONMessage(messageJSON),
     };
@@ -421,22 +424,22 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
     return urlInfo;
   }
-  private _createDeploymentLogFromStringMessage(item: any, date: Date): ActivityDetailsLog {
+  private _createDeploymentLogFromStringMessage(item: any, date: moment.Moment): ActivityDetailsLog {
     const messageString: string = item.message;
     /* messageString is of the format
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_build?buildId=[buildId]&_a=summary"
             OR
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_apps/hub/ms.vss-releaseManagement-web.hub-explorer?releaseId=[releaseId]&_a=release-summary"
         */
-    const t = moment(date);
+
     return {
       id: item.id,
       icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
       type: 'row',
       // grouping is done by date therefore time information is excluded
-      date: t.format('YY/M/D'),
+      date: date.format('YY/M/D'),
 
-      time: date,
+      time: date.toDate(),
       message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
       urlInfo: this._getUrlInfoFromStringMessage(messageString),
@@ -591,6 +594,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
       .format(this.deploymentObject.site.name);
     this._portalService
       .startNotification(title, description)
+      .take(1)
       .concatMap(notificationId => {
         const syncUrl = `${collectionUrl}/${this.deploymentObject.VSOData.project.id}/_apis/build/Builds?api-version=3.1`;
         return this._cacheService

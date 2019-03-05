@@ -1297,11 +1297,17 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Cette fonctionnalité n'est pas prise en charge pour les applications d'un plan Consommation</value>
   </data>
+  <data name="featureNotSupportedElastic" xml:space="preserve">
+    <value>Cette fonctionnalité n’est pas prise en charge pour les applications dans un plan Élastique</value>
+  </data>
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>Cette fonctionnalité n'est pas prise en charge pour les emplacements</value>
   </data>
   <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
     <value>Cette fonctionnalité n'est pas prise en charge pour les applications Linux</value>
+  </data>
+  <data name="featureNotSupportedForLinuxConsumptionApps" xml:space="preserve">
+    <value>Cette fonctionnalité n’est pas prise en charge pour les applications Linux dans un plan Consommation</value>
   </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Vous devez disposer d'autorisations d'accès en écriture sur l'application actuelle pour pouvoir utiliser cette fonctionnalité</value>
@@ -1464,6 +1470,9 @@
   </data>
   <data name="pythonInfoText" xml:space="preserve">
     <value>App Service prend en charge l'installation de versions plus récentes de Python. Cliquez ici pour en savoir plus.</value>
+  </data>
+  <data name="pythonInfoTextNoClick" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Version de Java</value>
@@ -2399,7 +2408,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Inclure les paramètres d'application dans le téléchargement</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Cette opération ajoute un fichier nommé local.settings.json qui contient les valeurs de vos paramètres d'application. Ce fichier n'est pas chiffré lors du téléchargement, mais peut l'être à l'aide de la ligne de commande des outils principaux d'Azure Functions.</value>
+    <value>Cette opération ajoute un fichier nommé local.settings.json qui contient les valeurs de vos paramètres d'application. Ce fichier n'est pas chiffré lors du téléchargement, mais peut l'être à l'aide de la ligne de commande Azure Functions Core Tools.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Contenu du site</value>
@@ -2720,7 +2729,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Ce modèle nécessite les extensions suivantes.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Une fois que vous avez installé les dépendances du modèle, vous pouvez créer une fonction. L'installation de dépendance se produit en arrière-plan et peut prendre jusqu'à 2 minutes. Vous pouvez fermer ce panneau et continuer à utiliser le portail pendant ce temps.</value>
+    <value>Installation des dépendances du modèle. Vous pouvez créer une fonction une fois que vous avez effectué cette opération. L’installation des dépendances se produit en arrière-plan et peut prendre jusqu’à deux minutes. Votre application va passer en mode hors connexion jusqu’à ce que l’installation soit terminée. Vous pouvez continuer à utiliser le portail pendant ce temps, mais si vous fermez le portail avant la fin de l’installation, votre application restera en mode hors connexion.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Impossible d'installer l'extension de runtime. ID d'installation {{installationId}}</value>
@@ -3143,7 +3152,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Les niveaux tarifaires Isolé dans un environnement App Service ne sont pas disponibles pour votre configuration. L'environnement App Service est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
+    <value>Les niveaux tarifaires Isolé dans un environnement App Service (ASE) ne sont pas disponibles pour votre configuration. Un environnement App Service (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Les niveaux tarifaires Dev/Test ne sont pas disponibles pour votre configuration et ils sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
@@ -3220,7 +3229,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="pricing_scaleOut" xml:space="preserve">
     <value>Augmentez la taille des instances.</value>
   </data>
-  <data name="pricing_comouteVmSize" xml:space="preserve">
+  <data name="pricing_computeVmSize" xml:space="preserve">
     <value>Calculer la taille de machine virtuelle : {0}</value>
   </data>
   <data name="pricing_notEnoughInstances" xml:space="preserve">
@@ -4227,7 +4236,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Détails du déploiement</value>
   </data>
   <data name="installingExtensionIntegrate" xml:space="preserve">
-    <value>Installation des dépendances du modèle. L'installation de dépendances se produit en arrière-plan et peut prendre jusqu'à 2 minutes. Vous pouvez quitter cette page et continuer à utiliser le portail pendant ce temps.</value>
+    <value>Installation des dépendances du modèle. L’installation des dépendances se produit en arrière-plan et peut prendre jusqu’à deux minutes. Votre application va passer en mode hors connexion jusqu’à ce que l’installation soit terminée. Vous pouvez continuer à utiliser le portail pendant ce temps, mais si vous fermez le portail avant la fin de l’installation, votre application restera en mode hors connexion.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
     <value>Masquer les valeurs</value>
@@ -4320,7 +4329,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Répertoire ou application</value>
   </data>
   <data name="directory" xml:space="preserve">
-    <value>Annuaire</value>
+    <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
     <value>Application</value>
@@ -4403,6 +4412,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="sticky" xml:space="preserve">
     <value>Paramètre d'emplacement</value>
   </data>
+  <data name="newApplicationSetting" xml:space="preserve">
+    <value>New application setting</value>
+  </data>
   <data name="addEditConnectionStringHeader" xml:space="preserve">
     <value>Ajouter/modifier la chaîne de connexion</value>
   </data>
@@ -4469,11 +4481,11 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="notSelected" xml:space="preserve">
     <value>Non sélectionné</value>
   </data>
-  <data name="latest" xml:space="preserve">
-    <value>Le dernier</value>
+  <data name="autoUpdate" xml:space="preserve">
+    <value>Mise à jour automatique</value>
   </data>
-  <data name="versionLatest" xml:space="preserve">
-    <value>{{version}} (la plus récente)</value>
+  <data name="versionAutoUpdate" xml:space="preserve">
+    <value>{{version}} (mise à jour automatique)</value>
   </data>
   <data name="functionsJavaMajorVersionWarning" xml:space="preserve">
     <value>Votre application utilisera la version la plus récente de {{defaultJavaVersion}}.</value>
@@ -4620,9 +4632,153 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Serveurs proxy (limité)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>Pour modifier les paramètres d’emplacement, vous devez disposer d’un accès en écriture sur l’application de production.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
-    <value>To change the auto swap setting you must have write permissions on the production app.</value>
+    <value>Pour modifier le paramètre d’échange automatique, vous devez disposer d’autorisations en écriture sur l’application de production.</value>
+  </data>
+  <data name="scriptFunctionApp" xml:space="preserve">
+    <value>Application de fonction de script</value>
+  </data>
+  <data name="precompiledDotNetApp" xml:space="preserve">
+    <value>Application de fonction .NET précompilée</value>
+  </data>
+  <data name="functionAppType" xml:space="preserve">
+    <value>Type d’application de fonction</value>
+  </data>
+  <data name="slotSettingOn" xml:space="preserve">
+    <value>Définition d’emplacement activée</value>
+  </data>
+  <data name="hiddenValueClickAboveToShow" xml:space="preserve">
+    <value>Valeur masquée. Cliquez ci-dessus sur le bouton Afficher les valeurs pour afficher la valeur</value>
+  </data>
+  <data name="fieldMustBeUnique" xml:space="preserve">
+    <value>Le champ doit être unique.</value>
+  </data>
+  <data name="directory" xml:space="preserve">
+    <value>Annuaire</value>
+  </data>
+  <data name="application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="addNewVirtualDirectoryV3" xml:space="preserve">
+    <value>Nouvelle application virtuelle ou nouveau répertoire virtuel</value>
+  </data>
+  <data name="addNewHandler" xml:space="preserve">
+    <value>Nouveau gestionnaire</value>
+  </data>
+  <data name="feature_logStreamingConnectionError" xml:space="preserve">
+    <value>Impossible d’ouvrir une connexion à votre application. Cela peut être dû à des groupes de sécurité réseau ou à des règles de restriction IP que vous avez placés dans votre application. Pour utiliser le streaming des journaux, vérifiez que vous êtes en mesure d’accéder à votre application directement à partir de votre réseau actuel.</value>
+  </data>
+  <data name="applicationSettingsNoPermission" xml:space="preserve">
+    <value>Les paramètres de l’application peuvent contenir des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
+  </data>
+  <data name="connectionStringsNoPermissions" xml:space="preserve">
+    <value>Les chaînes de connexion contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
+  </data>
+  <data name="tab_logicAppsDeprecation" xml:space="preserve">
+    <value>L’onglet « Logic Apps » sera supprimé dans les prochains mois. Vous pouvez continuer à parcourir vos applications logiques à l’aide de la fonctionnalité Parcourir du portail Azure.</value>
+  </data>
+  <data name="diagnosticLogsDisabled" xml:space="preserve">
+    <value>Cette fonctionnalité est disponible uniquement pour les applications de fonction exécutées sur un abonnement Linux App Service. Pour la connexion au runtime, veuillez utiliser Application Insights.</value>
+  </data>
+  <data name="scaleOut" xml:space="preserve">
+    <value>Monter en charge</value>
+  </data>
+  <data name="scaleOutDescription" xml:space="preserve">
+    <value>Configurez les paramètres de scale-out pour votre plan App Service.</value>
+  </data>
+  <data name="accountName" xml:space="preserve">
+    <value>Nom du compte</value>
+  </data>
+  <data name="azureBlob" xml:space="preserve">
+    <value>objet blob Azure</value>
+  </data>
+  <data name="azureFiles" xml:space="preserve">
+    <value>Azure Files</value>
+  </data>
+  <data name="newAzureStorageMount" xml:space="preserve">
+    <value>Nouveau montage de stockage Azure</value>
+  </data>
+  <data name="emptyAzureStorageMount" xml:space="preserve">
+    <value>Montage de stockage Azure vide</value>
+  </data>
+  <data name="azureStorageMountMustBeUnique" xml:space="preserve">
+    <value>Les noms de montage de stockage Azure doivent être uniques</value>
+  </data>
+  <data name="virtualPathUnique" xml:space="preserve">
+    <value>Les chemins d’accès virtuels doivent être uniques</value>
+  </data>
+  <data name="configurationOptions" xml:space="preserve">
+    <value>Options de configuration</value>
+  </data>
+  <data name="storageAccountNameMustBeLowerCase" xml:space="preserve">
+    <value>Le nom de compte de stockage doit être en minuscules</value>
+  </data>
+  <data name="noBlobsOrFilesShares" xml:space="preserve">
+    <value>Ce compte de stockage n’a aucun conteneur de blob ni partage de fichiers</value>
+  </data>
+  <data name="noWriteAccessStorageAccount" xml:space="preserve">
+    <value>Vous n’avez pas d’accès en écriture à ce compte de stockage. Si vous connaissez la clé d’accès, vous pouvez l’indiquer en mode avancé.</value>
+  </data>
+  <data name="selectAnOption" xml:space="preserve">
+    <value>Sélectionner une option</value>
+  </data>
+  <data name="invalidStartupCommandNodejs" xml:space="preserve">
+    <value>Les commandes de démarrage pour NodeJS doivent utiliser ng, node ou pm2</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
+  </data>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>La modification dans le portail pour Python sera bientôt déconseillée. Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
+  </data>
+  <data name="storageMountsNoPermissions" xml:space="preserve">
+    <value>Les montages Stockage Azure contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
+  </data>
+  <data name="valuesMustBeAnArray" xml:space="preserve">
+    <value>Les valeurs de paramètre d’application doivent être un tableau</value>
+  </data>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Tous les objets de paramètre d’application doivent avoir un nom</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Tous les objets de paramètre d’application doivent avoir une valeur</value>
+  </data>
+  <data name="valueMustBeAString" xml:space="preserve">
+    <value>Toutes les propriétés de valeur de paramètre d’application doivent être de type chaîne</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Toutes les propriétés de nom de paramètre d’application doivent être de type chaîne</value>
+  </data>
+  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+    <value>Toutes les propriétés de paramètre d’emplacement de paramètre d’application doivent être de type booléen</value>
+  </data>
+  <data name="invalidAppSettingProperty" xml:space="preserve">
+    <value>{0} est une propriété de paramètre d’application non valide</value>
+  </data>
+  <data name="appSettingNamesUnique" xml:space="preserve">
+    <value>Les noms de paramètres d’application doivent être uniques</value>
+  </data>
+  <data name="jsonInvalid" xml:space="preserve">
+    <value>Objet JSON non valide</value>
+  </data>
+  <data name="advancedEdit" xml:space="preserve">
+    <value>Modification avancée</value>
+  </data>
+  <data name="coachMarkAriaDescription" xml:space="preserve">
+    <value>Appuyer sur Entrée ou Alt + C pour ouvrir la notification coachmark</value>
+  </data>
+  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+    <value>Une notification coachmark s’est affichée</value>
+  </data>
+  <data name="advancedEditCoachmarkDesc" xml:space="preserve">
+    <value>La modification avancée vous permet de modifier en bloc vos paramètres d’application. Les clés et valeurs peuvent être modifiés au format JSON en texte brut</value>
+  </data>
+  <data name="physicalPathLocationError" xml:space="preserve">
+    <value>Physical path must be a location within site\</value>
+  </data>
+  <data name="virtualDirectoryPathError" xml:space="preserve">
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

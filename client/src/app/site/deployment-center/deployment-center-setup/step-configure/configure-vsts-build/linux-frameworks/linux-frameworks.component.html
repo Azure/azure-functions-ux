@@ -114,7 +114,8 @@
     <div class="setting-wrapper">
       <label class="setting-label">{{'startupCommand' | translate}} </label>
       <div class="setting-control-container">
-        <textbox [ariaLabel]="'startupCommand' | translate" [control]="wizard?.buildSettings?.controls?.startupCommand"></textbox>
+        <textbox [ariaLabel]="'startupCommand' | translate" aria-describedby="dc-linux-startup-command-error" [control]="wizard?.buildSettings?.controls?.startupCommand"></textbox>
+        <div invalidmessage="startupCommand" id="dc-linux-startup-command-error" role="alert"></div>
       </div>
     </div>
 
