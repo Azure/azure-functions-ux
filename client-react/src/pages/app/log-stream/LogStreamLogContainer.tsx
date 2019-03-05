@@ -7,6 +7,8 @@ import { ArmObj, Site } from '../../../models/WebAppModels';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getLogTextColor } from './LogStreamData';
+import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
+// import { ChoiceGroupOptionStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroupOption.styles';
 
 interface LogStreamLogContainerProps {
   clearLogs: boolean;
@@ -78,6 +80,7 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
         scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled' && (
           <div className={toggleDivStyle}>
             <ChoiceGroup
+              styles={ChoiceGroupStyles}
               defaultSelectedKey={logType}
               options={[
                 {
