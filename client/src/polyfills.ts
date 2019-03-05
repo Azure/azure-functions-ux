@@ -27,6 +27,7 @@ import 'core-js/es6/parse-float';
 import 'core-js/es6/number';
 import 'core-js/es6/math';
 import 'core-js/es6/string';
+import 'core-js/es7/string';
 import 'core-js/es6/date';
 import 'core-js/es6/array';
 import 'core-js/es6/regexp';
