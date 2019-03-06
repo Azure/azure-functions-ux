@@ -35,11 +35,15 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
 };
 
 export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
+  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion.toLowerCase() : '';
+  if (linuxFxVersion.includes('|')) {
+    linuxFxVersion = linuxFxVersion.toLowerCase();
+  }
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
     properties: {
       ...config.properties,
-      linuxFxVersion: config.properties.linuxFxVersion ? config.properties.linuxFxVersion.toLowerCase() : '', // not a case sensitive field
+      linuxFxVersion,
     },
   };
   return newConfig;
