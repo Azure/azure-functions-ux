@@ -121,24 +121,32 @@
                 tblClass="tbl fixed stretch"
                 [name]="'feature_deploymentSlotsName' | translate">
 
+                <colgroup>
+                    <col class="one-quarter-col">
+                    <col class="one-quarter-col">
+                    <col class="one-quarter-col">
+                    <col class="pct-value-col">
+                    <col class="pct-enable-col">
+                </colgroup>
+
                 <tr class="header-row" table-row>
-                    <th class="one-quarter-col padded-col" table-cell>
+                    <th class="padded-col" table-cell>
                         {{ 'slotsList_nameHeader' | translate }}
                     </th>
-                    <th class="one-quarter-col padded-col" table-cell>
+                    <th class="padded-col" table-cell>
                         {{ 'slotsList_statusHeader' | translate }}
                     </th>
-                    <th class="one-quarter-col padded-col" table-cell>
+                    <th class="padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th class="one-quarter-col padded-col" table-cell>
-                        {{ 'slotsList_trafficPercentHeader' | translate }}
+                    <th class="padded-col" colspan="2" table-cell>
+                        {{ 'slotsList_trafficRoutingHeader' | translate }}
                     </th>
                 </tr>
 
                 <tr *ngIf="siteArm" table-row>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         {{ (siteArm && siteArm.name) ? siteArm.name.replace('/', '-') : '-' }}
                         <div
                             *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
@@ -147,15 +155,15 @@
                         </div>
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         {{ siteArm ? siteArm.properties.state : '-' }}
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -165,11 +173,20 @@
                         </div>
                     </td>
 
+                    <td class="padded-col" table-cell>
+                        <slide-toggle
+                            [disabled]="true"
+                            [on]="true"
+                            [name]="'slotsList_trafficRoutingHeader' | translate"
+                            [ariaLabelFormat]="'name'">
+                        </slide-toggle>
+                    </td>
+
                 </tr>
 
                 <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
 
                         <a *ngIf="!navigationDisabled"
                             tabindex="0"
@@ -187,22 +204,31 @@
                         </div>
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         {{ relativeSlotArm.properties.state }}
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell>
+                    <td class="padded-col" table-cell>
                         {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td class="one-quarter-col padded-col" table-cell [editable]="true">
+                    <td class="padded-col" table-cell [editable]="true">
                         <div class="pct-wrapper">
                             <textbox
-                                [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
-                                [placeholder]="'notAvailableShort' | translate"
+                                [control]="(rulesGroup && rulesGroup.controls[relativeSlotArm.name]) || null"
                                 [highlightDirty]="true">
                             </textbox>
                         </div>
+                    </td>
+
+                    <td class="padded-col" table-cell>
+                        <slide-toggle
+                            [disabled]="!rulesGroup || !rulesGroup.controls[relativeSlotArm.name]"
+                            [on]="rulesGroup && rulesGroup.controls[relativeSlotArm.name] && rulesGroup.controls[relativeSlotArm.name].enabled"
+                            [name]="'slotsList_trafficRoutingHeader' | translate"
+                            [ariaLabelFormat]="'name'"
+                            (change)="ruleStatusChange(relativeSlotArm.name, $event)">
+                        </slide-toggle>
                     </td>
 
                 </tr>
@@ -211,11 +237,11 @@
                 <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
                 <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
 
-                    <td *ngIf="fetchingContent" class="message-row" colspan="4" table-cell>
+                    <td *ngIf="fetchingContent" class="message-row" colspan="5" table-cell>
                         {{ 'loading' | translate }}
                     </td>
 
-                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" colspan="4" table-cell>
+                    <td *ngIf="!fetchingContent && !siteArm" class="message-row" colspan="5" table-cell>
                         {{ 'error_unableToLoadSlotsList' | translate }}
                     </td>
 

@@ -2281,6 +2281,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotsList_trafficPercentHeader" xml:space="preserve">
     <value>Traffic %</value>
   </data>
+  <data name="slotsList_trafficRoutingHeader" xml:space="preserve">
+    <value>Traffic Rerouting</value>
+  </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
   </data>

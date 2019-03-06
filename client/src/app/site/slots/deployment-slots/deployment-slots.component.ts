@@ -58,6 +58,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public canScaleUp: boolean;
 
   public mainForm: FormGroup;
+  public rulesGroup: FormGroup;
   public hasWriteAccess: boolean;
   public hasSwapAccess: boolean;
 
@@ -357,6 +358,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
       this.mainForm.addControl('rulesGroup', rulesGroup);
 
+      this.rulesGroup = rulesGroup;
+
       this._validateRoutingControls();
 
       setTimeout(_ => {
@@ -378,6 +381,15 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.mainForm.controls['rulesGroup'].disable();
       } else {
         this.mainForm.controls['rulesGroup'].enable();
+        const rulesGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
+        for (const name in rulesGroup.controls) {
+          if (rulesGroup.controls[name]) {
+            const value = rulesGroup.controls[name].value;
+            if (value === undefined || value === null || value === '') {
+              rulesGroup.controls[name].disable();
+            }
+          }
+        }
       }
     }
 
@@ -394,10 +406,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name.toLowerCase() === ruleName.toLowerCase())[0];
 
     const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
-    return this._fb.control(
-      { value: rule ? rule.reroutePercentage : '', disabled: false },
-      decimalRangeValidator.validate.bind(decimalRangeValidator)
-    );
+    const value = rule ? rule.reroutePercentage : '';
+    const disabled = value === undefined || value === null || value === '';
+
+    return this._fb.control({ value: value, disabled: disabled }, decimalRangeValidator.validate.bind(decimalRangeValidator));
   }
 
   private _validateRoutingControls() {
@@ -411,6 +423,26 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         }
       }
       rulesGroup.updateValueAndValidity();
+    }
+  }
+
+  public ruleStatusChange(slotName: string, enabled: boolean) {
+    if (!this.rulesGroup || !this.rulesGroup.controls[slotName]) {
+      return;
+    }
+
+    if (enabled) {
+      this.rulesGroup.controls[slotName].enable();
+      setTimeout(() => {
+        this.rulesGroup.controls[slotName].setValue(0);
+        this.rulesGroup.controls[slotName].markAsDirty();
+      });
+    } else {
+      this.rulesGroup.controls[slotName].setValue('');
+      this.rulesGroup.controls[slotName].markAsDirty();
+      setTimeout(() => {
+        this.rulesGroup.controls[slotName].disable();
+      });
     }
   }
 
