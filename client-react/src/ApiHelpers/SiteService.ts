@@ -25,6 +25,11 @@ export default class SiteService {
 
   public static updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfig>) => {
     const id = `${resourceId}/config/web`;
+
+    if (siteConfig.properties.azureStorageAccounts) {
+      delete siteConfig.properties.azureStorageAccounts;
+    }
+
     return MakeArmCall<ArmObj<SiteConfig>>({
       resourceId: id,
       commandName: 'updateWebConfig',
