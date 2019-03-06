@@ -63,6 +63,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
   private _oldTableHash = 0;
   private _tableItems: KuduTableItem[];
 
+  // Regex: A set of :<characters between>@ but dont use : where / is directly after
   private readonly repoUrlPasswordRegex = /:[^\/]+@/g;
   constructor(
     private _portalService: PortalService,
