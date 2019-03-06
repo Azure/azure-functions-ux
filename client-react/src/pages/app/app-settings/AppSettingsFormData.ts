@@ -35,9 +35,11 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
 };
 
 export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
-  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion.toLowerCase() : '';
-  if (!linuxFxVersion.toLowerCase().includes('docker') && !linuxFxVersion.toLowerCase().includes('kube')) {
-    linuxFxVersion = linuxFxVersion.toLowerCase();
+  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
+  if (linuxFxVersion) {
+    const linuxFxVersionParts = linuxFxVersion.split('|');
+    linuxFxVersionParts[0] = linuxFxVersionParts[0].toLowerCase();
+    linuxFxVersion = linuxFxVersionParts.join('|');
   }
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
