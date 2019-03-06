@@ -432,7 +432,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         .switchMap(s => {
           notificationId = s.id;
 
-          const siteConfigArm = JSON.parse(JSON.stringify(this._siteConfigArm));
+          const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._siteConfigArm));
           const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
 
           const rulesGroup: FormGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
@@ -474,8 +474,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
-          if (siteConfigArm.azureStorageAccounts) {
-            delete siteConfigArm.azureStorageAccounts;
+          if (siteConfigArm.properties && siteConfigArm.properties.azureStorageAccounts) {
+            delete siteConfigArm.properties.azureStorageAccounts;
           }
 
           return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfigArm);

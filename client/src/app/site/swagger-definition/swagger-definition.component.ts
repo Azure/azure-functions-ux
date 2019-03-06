@@ -428,8 +428,8 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         }
 
         if (configChange) {
-          if (config && config.azureStorageAccounts) {
-            delete config.azureStorageAccounts;
+          if (config.properties && config.properties.azureStorageAccounts) {
+            delete config.properties.azureStorageAccounts;
           }
 
           return this._cacheService
