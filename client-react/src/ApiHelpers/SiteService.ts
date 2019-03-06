@@ -3,6 +3,7 @@ import MakeArmCall from './ArmHelper';
 import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmArray, ArmAzureStorageMount } from '../models/WebAppModels';
 
 import { AvailableStack } from '../models/available-stacks';
+import { CommonConstants } from '../utils/CommonConstants';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -22,7 +23,18 @@ export default class SiteService {
 
   public static updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfig>) => {
     const id = `${resourceId}/config/web`;
-    return MakeArmCall<ArmObj<SiteConfig>>({ resourceId: id, commandName: 'updateWebConfig', method: 'PUT', body: siteConfig });
+
+    if (siteConfig.properties.azureStorageAccounts) {
+      delete siteConfig.properties.azureStorageAccounts;
+    }
+
+    return MakeArmCall<ArmObj<SiteConfig>>({
+      resourceId: id,
+      commandName: 'updateWebConfig',
+      method: 'PUT',
+      body: siteConfig,
+      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20180201,
+    });
   };
 
   public static fetchConnectionStrings = (resourceId: string) => {
