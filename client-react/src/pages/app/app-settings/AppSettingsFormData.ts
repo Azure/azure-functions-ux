@@ -36,7 +36,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
 
 export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion.toLowerCase() : '';
-  if (linuxFxVersion.includes('|')) {
+  if (!linuxFxVersion.toLowerCase().includes('docker') && !linuxFxVersion.toLowerCase().includes('kube')) {
     linuxFxVersion = linuxFxVersion.toLowerCase();
   }
   const newConfig: ArmObj<SiteConfig> = {
