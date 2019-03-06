@@ -147,7 +147,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
       );
     }
     if (column.key === 'edit') {
-      return item.virtualPath === '/' ? null : (
+      return (
         <IconButton
           className={defaultCellStyle}
           disabled={!app_write || !editable}
