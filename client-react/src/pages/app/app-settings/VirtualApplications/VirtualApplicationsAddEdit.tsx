@@ -118,6 +118,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
         value={currentVirtualApplication.virtualPath}
         errorMessage={virtualPathError}
         onChange={updateVirtualPath}
+        disabled={virtualApplication.virtualPath === '/'}
         styles={{
           root: formElementStyle,
         }}
@@ -138,6 +139,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
         id="va-directory-or-application"
         defaultChecked={currentVirtualApplication.virtualDirectory}
         onChange={updateVirtualDirectory}
+        disabled={virtualApplication.virtualPath === '/'}
         styles={{
           root: formElementStyle,
         }}
@@ -147,6 +149,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
           label={t('preloadEnabled')}
           id="va-preload-enabled"
           defaultChecked={currentVirtualApplication.preloadEnabled}
+          disabled={virtualApplication.virtualPath === '/'}
           onChange={updatePreloadEnabled}
           styles={{
             root: formElementStyle,
