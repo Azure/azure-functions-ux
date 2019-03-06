@@ -474,6 +474,10 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
+          if (siteConfigArm.azureStorageAccounts) {
+            delete siteConfigArm.azureStorageAccounts;
+          }
+
           return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfigArm);
         })
         .do(null, error => {
