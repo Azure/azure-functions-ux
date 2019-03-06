@@ -8,7 +8,7 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { NavigableComponent } from '../shared/components/navigable-component';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { SiteTabIds } from 'app/shared/models/constants';
+import { SiteTabIds, FunctionAppVersion } from 'app/shared/models/constants';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -47,13 +47,13 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
             .switchMap(context => {
               return Observable.zip(
                 this._functionAppService.getFunctions(context).map(r => (r.isSuccessful ? r.result : [])),
-                this._functionAppService.getFunctionHostStatus(context).map(r => (r.isSuccessful ? r.result.version : '')),
+                this._functionAppService.getRuntimeGeneration(context),
                 (functions, runtime) => ({ functionsInfo: functions, runtimeVersion: runtime })
               );
             })
             .map(r => {
               if (r.functionsInfo.length === 0 && !this._configService.isStandalone()) {
-                if (r.runtimeVersion.startsWith('2.')) {
+                if (r.runtimeVersion === FunctionAppVersion.v2) {
                   this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, SiteTabIds.quickstart);
                   this._broadcastService.broadcastEvent(BroadcastEvent.TreeUpdate, {
                     operation: 'navigate',

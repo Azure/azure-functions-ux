@@ -33,7 +33,7 @@
 
         </div>
 
-        <div *ngIf="runtimeVersion === 'V1'"
+        <div *ngIf="isV1"
              class="quickstart-template"
              #queue
              (click)="onFunctionClicked('QueueTrigger')"
@@ -56,12 +56,12 @@
         <div id="quickstart-lang-radios">
             <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp</label>
             <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript</label>
-            <label *ngIf="runtimeVersion === 'V1'"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
+            <label *ngIf="isV1"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
             <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
         </div>
     </ng-container>
 
-    <div *ngIf="runtimeVersion === 'V1'" id="quickstart-lang-custom">
+    <div *ngIf="isV1" id="quickstart-lang-custom">
         {{ 'intro_ifYou' | translate }}
         <span class="link" 
               role="link" 
@@ -75,7 +75,7 @@
     <div>
         <button class="custom-button"
                 (click)="onCreateNewFunction()"
-                [disabled]="!selectedFunction">
+                [disabled]="!selectedFunction || !isV1">
             {{ 'intro_createThisFunction' | translate }}
         </button>
 
