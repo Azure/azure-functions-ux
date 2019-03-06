@@ -59,6 +59,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
   public mainForm: FormGroup;
   public rulesGroup: FormGroup;
+  public originalRulesGroup: FormGroup;
+  public ruleStates: { [key: string]: boolean };
   public hasWriteAccess: boolean;
   public hasSwapAccess: boolean;
 
@@ -343,26 +345,41 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   private _setupForm() {
     if (!!this.siteArm && !!this.relativeSlotsArm && !!this._siteConfigArm) {
       this.mainForm = this._fb.group({});
+      this.rulesGroup = null;
+      this.originalRulesGroup = null;
+      this.ruleStates = null;
 
       const remainderControl = this._fb.control({ value: '', disabled: false });
 
       const routingSumValidator = new RoutingSumValidator(this._fb, this._translateService);
       const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
+      const originalRulesGroup = this._fb.group({});
+      const ruleStates: { [key: string]: boolean } = {};
 
       this.relativeSlotsArm.forEach(siteArm => {
         const ruleControl = this._generateRuleControl(siteArm);
+        const originalRuleControl = this._fb.control({ value: ruleControl.value, disabled: false });
         rulesGroup.addControl(siteArm.name, ruleControl);
+        originalRulesGroup.addControl(siteArm.name, originalRuleControl);
+        ruleStates[siteArm.name] = ruleControl.value !== '' && ruleControl.value !== null && ruleControl.value !== undefined;
       });
 
       this.mainForm.addControl(RoutingSumValidator.REMAINDER_CONTROL_NAME, remainderControl);
-
       this.mainForm.addControl('rulesGroup', rulesGroup);
+      this.mainForm.addControl('originalRulesGroup', originalRulesGroup);
 
       this.rulesGroup = rulesGroup;
+      this.originalRulesGroup = originalRulesGroup;
+      this.ruleStates = ruleStates;
 
       this._validateRoutingControls();
 
       setTimeout(_ => {
+        for (const name in this.rulesGroup.controls) {
+          if (this.rulesGroup.controls[name] && this.ruleStates[name]) {
+            this.rulesGroup.controls[name].enable();
+          }
+        }
         remainderControl.disable();
       });
     } else {
@@ -407,9 +424,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
     const value = rule ? rule.reroutePercentage : '';
-    const disabled = value === undefined || value === null || value === '';
+    // const disabled = value === undefined || value === null || value === '';
 
-    return this._fb.control({ value: value, disabled: disabled }, decimalRangeValidator.validate.bind(decimalRangeValidator));
+    return this._fb.control({ value: value, disabled: true }, decimalRangeValidator.validate.bind(decimalRangeValidator));
   }
 
   private _validateRoutingControls() {
@@ -427,22 +444,32 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   public ruleStatusChange(slotName: string, enabled: boolean) {
-    if (!this.rulesGroup || !this.rulesGroup.controls[slotName]) {
+    if (
+      !this.rulesGroup ||
+      !this.rulesGroup.controls[slotName] ||
+      !this.originalRulesGroup ||
+      !this.originalRulesGroup.controls[slotName] ||
+      !this.ruleStates
+    ) {
       return;
     }
 
+    this.ruleStates[slotName] = enabled;
+
     if (enabled) {
+      this.rulesGroup.controls[slotName].setValue(0);
       this.rulesGroup.controls[slotName].enable();
-      setTimeout(() => {
-        this.rulesGroup.controls[slotName].setValue(0);
-        this.rulesGroup.controls[slotName].markAsDirty();
-      });
     } else {
+      this.rulesGroup.controls[slotName].disable();
       this.rulesGroup.controls[slotName].setValue('');
+    }
+
+    if (this.originalRulesGroup.controls[slotName].value === this.rulesGroup.controls[slotName].value) {
+      this.originalRulesGroup.controls[slotName].markAsPristine();
+      this.rulesGroup.controls[slotName].markAsPristine();
+    } else {
+      this.originalRulesGroup.controls[slotName].markAsDirty();
       this.rulesGroup.controls[slotName].markAsDirty();
-      setTimeout(() => {
-        this.rulesGroup.controls[slotName].disable();
-      });
     }
   }
 

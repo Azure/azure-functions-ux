@@ -121,32 +121,27 @@
                 tblClass="tbl fixed stretch"
                 [name]="'feature_deploymentSlotsName' | translate">
 
-                <colgroup>
-                    <col class="one-quarter-col">
-                    <col class="one-quarter-col">
-                    <col class="one-quarter-col">
-                    <col class="pct-value-col">
-                    <col class="pct-enable-col">
-                </colgroup>
-
                 <tr class="header-row" table-row>
-                    <th class="padded-col" table-cell>
+                    <th class="one-quarter-col padded-col" table-cell>
                         {{ 'slotsList_nameHeader' | translate }}
                     </th>
-                    <th class="padded-col" table-cell>
+                    <th class="one-quarter-col padded-col" table-cell>
                         {{ 'slotsList_statusHeader' | translate }}
                     </th>
-                    <th class="padded-col" table-cell>
+                    <th class="one-quarter-col padded-col" table-cell>
                         {{ 'slotsList_serverfarmHeader' | translate }}
                     </th>
-                    <th class="padded-col" colspan="2" table-cell>
+                    <th class="one-eigth-col padded-col" table-cell>
+                        {{ 'slotsList_trafficPercentHeader' | translate }}
+                    </th>
+                    <th class="one-eigth-col padded-col" table-cell>
                         {{ 'slotsList_trafficRoutingHeader' | translate }}
                     </th>
                 </tr>
 
                 <tr *ngIf="siteArm" table-row>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
                         {{ (siteArm && siteArm.name) ? siteArm.name.replace('/', '-') : '-' }}
                         <div
                             *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
@@ -155,15 +150,15 @@
                         </div>
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
                         {{ siteArm ? siteArm.properties.state : '-' }}
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
                         {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-eigth-col padded-col" table-cell>
                         <div class="pct-wrapper">
                             <textbox
                                 disabled="true"
@@ -173,7 +168,7 @@
                         </div>
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-eigth-col padded-col" table-cell>
                         <slide-toggle
                             [disabled]="true"
                             [on]="true"
@@ -186,7 +181,7 @@
 
                 <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
 
                         <a *ngIf="!navigationDisabled"
                             tabindex="0"
@@ -204,15 +199,15 @@
                         </div>
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
                         {{ relativeSlotArm.properties.state }}
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-quarter-col padded-col" table-cell>
                         {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
                     </td>
 
-                    <td class="padded-col" table-cell [editable]="true">
+                    <td class="one-eigth-col padded-col" table-cell [editable]="true">
                         <div class="pct-wrapper">
                             <textbox
                                 [control]="(rulesGroup && rulesGroup.controls[relativeSlotArm.name]) || null"
@@ -221,10 +216,10 @@
                         </div>
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="one-eigth-col padded-col" table-cell>
                         <slide-toggle
-                            [disabled]="!rulesGroup || !rulesGroup.controls[relativeSlotArm.name]"
-                            [on]="rulesGroup && rulesGroup.controls[relativeSlotArm.name] && rulesGroup.controls[relativeSlotArm.name].enabled"
+                            [disabled]="!rulesGroup || !rulesGroup.controls[relativeSlotArm.name] || rulesGroup.disabled"
+                            [on]="ruleStates && ruleStates[relativeSlotArm.name]"
                             [name]="'slotsList_trafficRoutingHeader' | translate"
                             [ariaLabelFormat]="'name'"
                             (change)="ruleStatusChange(relativeSlotArm.name, $event)">

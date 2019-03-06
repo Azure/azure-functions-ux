@@ -47,7 +47,13 @@ export class TextboxComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['control']) {
-      this._originalValue = this.control && this.control.value;
+      if (!this.control) {
+        this._originalValue = null;
+      } else if (this.control.value === undefined || this.control.value === null) {
+        this._originalValue = this.control.value;
+      } else {
+        this._originalValue = String(this.control.value);
+      }
     }
   }
 
@@ -59,20 +65,25 @@ export class TextboxComponent implements OnInit, OnChanges {
 
   onChange(value: string) {
     this.change.next(value);
-    this._setControlState(value);
+    this._setControlState();
   }
 
   onKeyUp(value: string) {
     this.value.next(value);
-    this._setControlState(value);
+    this._setControlState();
   }
 
-  private _setControlState(value: string) {
+  private _setControlState() {
     if (this.control) {
-      if (value !== this._originalValue) {
-        this.control.markAsDirty();
-      } else {
+      const isPristine =
+        this.control.value === this._originalValue ||
+        (this.control.value === null && this._originalValue === null) ||
+        (this.control.value === undefined && this._originalValue === undefined);
+
+      if (isPristine) {
         this.control.markAsPristine();
+      } else {
+        this.control.markAsDirty();
       }
     }
   }

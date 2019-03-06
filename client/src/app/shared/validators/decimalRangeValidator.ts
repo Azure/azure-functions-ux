@@ -28,8 +28,11 @@ export class DecimalRangeValidator implements Validator {
 
   validate(control: CustomFormControl): ValidationErrors {
     if (control.dirty || control._msRunValidation) {
-      const stringValue = control.value ? control.value.toString() : '0';
+      if (control.value === undefined || control.value === null || control.value === '') {
+        return { invalidDecimalError: this._formatErrorMessage };
+      }
 
+      const stringValue = control.value ? control.value.toString() : '0';
       const trimmedValue = stringValue.charAt(0) === '-' ? stringValue.substring(1) : stringValue; // trim leading '-'
       if (
         !trimmedValue ||
