@@ -25,7 +25,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
   const { site, config, appSettings, connectionStrings, azureStorageMounts, slotConfigNames, metadata } = props;
   return {
     site,
-    config,
+    config: getCleanedConfig(config),
     appSettings: getFormAppSetting(appSettings, slotConfigNames),
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
@@ -34,6 +34,16 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
   };
 };
 
+export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
+  const newConfig: ArmObj<SiteConfig> = {
+    ...config,
+    properties: {
+      ...config.properties,
+      linuxFxVersion: config.properties.linuxFxVersion ? config.properties.linuxFxVersion.toLowerCase() : '', // not a case sensitive field
+    },
+  };
+  return newConfig;
+};
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
