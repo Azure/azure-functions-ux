@@ -319,7 +319,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     return {
       type: 'TfsGit',
       id: this.selectedVstsRepoId,
-      defaultBranch: 'refs/heads/master',
+      defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
       authorizationInfo: null,
     };
   }
