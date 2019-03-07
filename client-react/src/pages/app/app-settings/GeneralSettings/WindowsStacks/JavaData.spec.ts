@@ -117,11 +117,11 @@ describe('getJavaMinorVersionOptions', () => {
   });
 
   it('Should return options if java major version is selected', () => {
-    const javaMinorVersionOptions = getJavaMinorVersionOptions('1.7', javastack, 'newest');
-    expect(javaMinorVersionOptions.length).toBe(3);
+    const javaMinorVersionOptions = getJavaMinorVersionOptions('1.7', javastack, 'newest', 'autoupdate');
+    expect(javaMinorVersionOptions.length).toBe(4);
   });
   it('Should return empty array if no major version', () => {
-    const javaMinorVersionOptions = getJavaMinorVersionOptions('', javastack, 'newest');
+    const javaMinorVersionOptions = getJavaMinorVersionOptions('', javastack, 'newest', 'autoupdate');
     expect(javaMinorVersionOptions.length).toBe(0);
   });
 });
