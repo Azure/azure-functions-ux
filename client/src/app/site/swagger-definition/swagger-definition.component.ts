@@ -428,6 +428,10 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         }
 
         if (configChange) {
+          if (config.properties && config.properties.azureStorageAccounts) {
+            delete config.properties.azureStorageAccounts;
+          }
+
           return this._cacheService
             .putArm(`${this.context.site.id}/config/web`, ARMApiVersions.websiteApiVersion20180201, JSON.stringify(config))
             .map(r => r.json());
