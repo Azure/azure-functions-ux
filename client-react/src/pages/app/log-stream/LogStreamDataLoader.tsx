@@ -25,6 +25,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   private _currentSiteId = '';
   private _xhReq: XMLHttpRequest;
   private _logStreamIndex = 0;
+  private _logType = LogType.Application;
 
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       logEntries: [],
       clearLogs: false,
       connectionError: false,
-      logType: LogType.Application,
+      logType: this._logType,
       site: {
         id: '',
         name: '',
@@ -102,24 +103,23 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _updateLogOptionFunction = (useWebServer: boolean) => {
+    this._logType = useWebServer ? LogType.WebServer : LogType.Application;
     this.setState({
       logEntries: [],
       clearLogs: false,
-      logType: useWebServer ? LogType.WebServer : LogType.Application,
+      logType: this._logType,
     });
     this._reconnectFunction();
   };
 
   private _reconnectFunction = () => {
-    if (logStreamEnabled(this.state.logType, this.state.logsEnabled)) {
-      this.setState({
-        connectionError: false,
-      });
-      this._closeStream();
-      this._openStream();
-      this._listenForErrors();
-      this._listenForProgress();
-    }
+    this.setState({
+      connectionError: false,
+    });
+    this._closeStream();
+    this._openStream();
+    this._listenForErrors();
+    this._listenForProgress();
   };
 
   private _closeStream = () => {
@@ -130,12 +130,12 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _openStream = () => {
-    if (!this.state.site) {
+    if (!this.state.site || !logStreamEnabled(this._logType, this.state.logsEnabled)) {
       return;
     }
     const hostNameSslStates = this.state.site.properties.hostNameSslStates;
     const scmHostName = hostNameSslStates.find(h => !!h.name && h.name.includes('.scm.'))!.name;
-    const suffix = this.state.logType === LogType.WebServer ? 'http' : '';
+    const suffix = this._logType === LogType.WebServer ? 'http' : '';
     const logUrl = `https://${scmHostName}/api/logstream/${suffix}`;
     const token = this.context;
     this._xhReq = new XMLHttpRequest();
@@ -146,17 +146,21 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _listenForErrors = () => {
-    this._xhReq.onerror = () => {
-      this.setState({
-        connectionError: true,
-      });
-    };
+    if (this._xhReq) {
+      this._xhReq.onerror = () => {
+        this.setState({
+          connectionError: true,
+        });
+      };
+    }
   };
 
   private _listenForProgress = () => {
-    this._xhReq.onprogress = () => {
-      this._printNewLogs();
-    };
+    if (this._xhReq) {
+      this._xhReq.onprogress = () => {
+        this._printNewLogs();
+      };
+    }
   };
 
   private _printNewLogs = (dumpLogs?: boolean) => {
