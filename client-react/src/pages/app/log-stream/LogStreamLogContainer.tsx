@@ -7,6 +7,7 @@ import { ArmObj, Site } from '../../../models/WebAppModels';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getLogTextColor } from './LogStreamData';
+import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 
 interface LogStreamLogContainerProps {
   clearLogs: boolean;
@@ -61,6 +62,10 @@ const logEntryDivStyle = style({
   paddingBottom: '5px',
 });
 
+const fieldStyle = style({
+  marginRight: '10px',
+});
+
 type LogStreamLogContainerPropsCombined = LogStreamLogContainerProps;
 const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = props => {
   const { clearLogs, logEntries, connectionError, site, logType, logsEnabled } = props;
@@ -72,25 +77,31 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
     props.updateLogOption(useWebServer);
   };
 
+  const logTypeOptions: IChoiceGroupOption[] = [
+    {
+      key: LogType.Application,
+      text: t('feature_applicationLogsName'),
+    },
+    {
+      key: LogType.WebServer,
+      text: t('feature_webServerLogsName'),
+    },
+  ];
+
+  const optionsWithMargin: IChoiceGroupOption[] =
+    logTypeOptions &&
+    logTypeOptions.map(option => {
+      const newOption: IChoiceGroupOption = option;
+      newOption.onRenderField = (fieldProps, defaultRenderer) => <div className={fieldStyle}>{defaultRenderer!(fieldProps)}</div>;
+      return newOption;
+    });
+
   return (
     <div className={containerDivStyle}>
       {!!site.id &&
         scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled' && (
           <div className={toggleDivStyle}>
-            <ChoiceGroup
-              defaultSelectedKey={logType}
-              options={[
-                {
-                  key: LogType.Application,
-                  text: t('feature_applicationLogsName'),
-                },
-                {
-                  key: LogType.WebServer,
-                  text: t('feature_webServerLogsName'),
-                },
-              ]}
-              onChange={_onOptionChange}
-            />
+            <ChoiceGroup styles={ChoiceGroupStyles} defaultSelectedKey={logType} options={optionsWithMargin} onChange={_onOptionChange} />
           </div>
         )}
       <div className={bodyDivStyle}>
