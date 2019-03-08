@@ -4790,4 +4790,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
     <value>Web server logs are switched off. You can turn them on using the 'Diagnostic logs' settings.</value>
   </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
+  </data>
 </root>
