@@ -8,7 +8,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext } from '../Contexts';
 
-const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
   return (
@@ -57,4 +57,4 @@ const Debug: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 };
 
-export default Debug;
+export default DebuggingWindows;

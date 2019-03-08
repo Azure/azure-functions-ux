@@ -123,8 +123,8 @@ export class LinuxSiteEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.remoteDebuggingSupported] = {
-      id: ScenarioIds.remoteDebuggingSupported,
+    this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
+      id: ScenarioIds.windowsRemoteDebuggingSupported,
       runCheck: () => {
         return {
           status: 'disabled',
@@ -132,8 +132,17 @@ export class LinuxSiteEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
+      id: ScenarioIds.linuxRemoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'enabled',
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.defaultDocumentsSupported] = {
-      id: ScenarioIds.remoteDebuggingSupported,
+      id: ScenarioIds.windowsRemoteDebuggingSupported,
       runCheck: () => {
         return {
           status: 'disabled',

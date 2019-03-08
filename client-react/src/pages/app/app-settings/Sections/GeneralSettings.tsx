@@ -8,7 +8,8 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { FormikProps } from 'formik';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import Debug from '../GeneralSettings/Debugging';
+import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
+import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
@@ -19,8 +20,11 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const getDebuggingRender = () => {
     const { site } = values;
-    if (scenarioChecker.checkScenario(ScenarioIds.remoteDebuggingSupported, { site }).status !== 'disabled') {
-      return <Debug {...props} />;
+    if (scenarioChecker.checkScenario(ScenarioIds.windowsRemoteDebuggingSupported, { site }).status !== 'disabled') {
+      return <DebuggingWindows {...props} />;
+    }
+    if (scenarioChecker.checkScenario(ScenarioIds.linuxRemoteDebuggingSupported, { site }).status === 'enabled') {
+      return <DebuggingLinux {...props} />;
     }
     return null;
   };
