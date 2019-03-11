@@ -415,8 +415,8 @@ gulp.task('build-bindings', function(cb) {
 });
 
 const templateVersionMap = {
-  default: '1.0.3.10182',
-  '1': '1.0.3.10182',
+  default: '1.0.3.10338',
+  '1': '1.0.3.10338',
   beta: '2.0.10333',
   '2.0.11961.0': '2.0.0-beta-10224',
   '2': '2.0.10333',
