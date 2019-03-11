@@ -1472,7 +1472,7 @@
     <value>App Service ondersteunt de installatie van nieuwere versies van Python. Klik hier voor meer informatie.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service ondersteunt de installatie van nieuwere versies van Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-versie</value>
@@ -4731,8 +4731,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Bewerken in de portal voor Python wordt binnenkort afgeschaft. Gebruik CLI of VS Code om te ontwikkelen. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Functies in de portal bewerken wordt niet ondersteund voor Python Function Apps (preview-versie). Gebruik de CLI of VS Code voor ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-opslagkoppeling bevat geheimen. Lees-/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
@@ -4777,9 +4777,18 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Met geavanceerd bewerken kunt u bulkbewerkingen voor uw app-instellingen uitvoeren. Sleutels en waarden kunnen worden bewerkt in de JSON-indeling voor tekst zonder opmaak</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Het fysieke pad moet een locatie in de site\ zijn</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Pad voor virtuele map moet bestaan binnen een toepassingspad</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Toepassingslogboeken zijn uitgeschakeld. U kunt ze inschakelen met de instellingen Diagnostische logboeken.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Webserverlogboeken zijn uitgeschakeld. U kunt ze inschakelen met de instellingen Diagnostische logboeken.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

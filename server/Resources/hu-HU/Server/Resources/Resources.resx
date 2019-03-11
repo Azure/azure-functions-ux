@@ -1472,7 +1472,7 @@
     <value>Az App Service a Python újabb verzióinak telepítését támogatja. További információért kattintson ide.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>Az App Service a Python újabb verzióinak telepítését támogatja.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-verzió</value>
@@ -4730,8 +4730,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>A Python portálon belüli szerkesztése hamarosan elavul. Fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>A Python Function Apps (előzetes verzió) nem támogatja a függvények portálon való szerkesztését. A fejlesztéshez használja a parancssori felületet vagy a VS Code-ot. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;További információ&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Az Azure Storage-csatlakozások titkos kulcsokat tartalmaznak. A szakasz megtekintéséhez vagy szerkesztéséhez olvasási/írási jogosultság szükséges.</value>
@@ -4776,9 +4776,18 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A speciális szerkesztéssel tömeges szerkesztheti az alkalmazásbeállításokat. A kulcsok és az értékek egyszerű szöveges JSON-formátumban szerkeszthetők</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>A fizikai elérési útnak a következőn belüli helynek kell lennie: site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>A virtuális könyvtár elérési útjának egy alkalmazás elérési útján belülinek kell lennie</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Nincsenek bekapcsolva az alkalmazásnaplók. A Diagnosztikai naplók kijelző beállításai között kapcsolhatja be őket.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Nincsenek bekapcsolva a webkiszolgáló naplói. A Diagnosztikai naplók kijelző beállításai között kapcsolhatja be őket.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>
