@@ -1540,4 +1540,5 @@ export class PortalResources {
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
+  public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
 }
