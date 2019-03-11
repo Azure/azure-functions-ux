@@ -1472,7 +1472,7 @@
     <value>App Service podporuje instalaci novějších verzí Pythonu. Další informace najdete, když kliknete sem.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service podporuje instalaci novějších verzí Pythonu.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Verze Javy</value>
@@ -4730,8 +4730,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Úpravy pro Python na portálu se zanedlouho přestanou používat. Pro vývoj prosím použijte příkazový řádek nebo VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Úprava funkcí na portálu se pro Python Function Apps (Preview) nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Připojení Azure Storage obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
@@ -4780,5 +4780,14 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>Cesta k virtuálnímu adresáři musí existovat v rámci cesty k aplikaci.</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Aplikační protokoly jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Protokoly webového serveru jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Vybraný zásobník modulu runtime v současné době nepodporuje vzdálené ladění.</value>
   </data>
 </root>

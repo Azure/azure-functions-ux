@@ -801,7 +801,7 @@ export class FunctionAppService {
     return this.azure.executeWithConditions(
       [],
       { resourceId: context.site.id },
-      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20180201).map(r => {
+      this._cacheService.getArm(`${context.site.id}/config/web`, null, ARMApiVersions.websiteApiVersion20181101).map(r => {
         const config: ArmObj<SiteConfig> = r.json();
         return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
       })
@@ -949,12 +949,12 @@ export class FunctionAppService {
             return FunctionAppEditMode.ReadOnlyRunFromZip;
           } else if (usingLocalCache) {
             return FunctionAppEditMode.ReadOnlyLocalCache;
+          } else if (isPython) {
+            return FunctionAppEditMode.ReadOnlyPython;
           } else if (isLinuxDynamic) {
             return FunctionAppEditMode.ReadOnlyLinuxDynamic;
           } else if (isContainerApp) {
             return FunctionAppEditMode.ReadOnlyBYOC;
-          } else if (isPython) {
-            return FunctionAppEditMode.WillBeReadOnlyPython;
           } else if (editModeSettingString === Constants.ReadWriteMode) {
             return resolveReadWriteMode();
           } else if (editModeSettingString === Constants.ReadOnlyMode) {

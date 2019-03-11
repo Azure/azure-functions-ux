@@ -3,6 +3,11 @@ export interface LogEntry {
   message: string;
 }
 
+export interface LogsEnabled {
+  applicationLogs: boolean;
+  webServerLogs: boolean;
+}
+
 export enum LogLevel {
   Unknown = -1,
   Normal = 1,
@@ -11,7 +16,7 @@ export enum LogLevel {
   Warning = 4,
 }
 
-export enum LogTypes {
+export enum LogType {
   Application = 'application',
   WebServer = 'webserver',
 }

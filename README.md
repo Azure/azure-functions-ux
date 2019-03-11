@@ -65,6 +65,8 @@ yarn install
 yarn start
 ```
 
+Go to https://localhost:44400 and https://localhost:44300 and bypass the self-signed cert block before going to portal
+
 To Test changes go to https://portal.azure.com/?websitesextension_functionslocal=true&websitesextension_useReactFrameBlade=true
 
 ## Running the tests

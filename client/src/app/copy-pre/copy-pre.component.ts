@@ -16,6 +16,8 @@ export class CopyPreComponent implements OnInit {
   label: string;
   @Input()
   passwordField = false;
+  @Input()
+  copyableString: string = null;
 
   public contentView = true;
   public hiddenContentPlaceholder = '●●●●●●●●●●●●●●●';
@@ -32,7 +34,7 @@ export class CopyPreComponent implements OnInit {
   }
 
   copyToClipboard() {
-    this._utilities.copyContentToClipboard(this.content);
+    this._utilities.copyContentToClipboard(this.copyableString || this.content);
   }
 
   showPassword() {

@@ -30,6 +30,14 @@ export class ContainerApp extends Environment {
         };
       },
     };
+    this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
+      id: ScenarioIds.linuxRemoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

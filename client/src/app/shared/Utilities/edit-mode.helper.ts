@@ -10,7 +10,8 @@ export class EditModeHelper {
       editMode === FunctionAppEditMode.ReadOnlyRunFromZip ||
       editMode === FunctionAppEditMode.ReadOnlyLocalCache ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic ||
-      editMode === FunctionAppEditMode.ReadOnlyBYOC
+      editMode === FunctionAppEditMode.ReadOnlyBYOC ||
+      editMode === FunctionAppEditMode.ReadOnlyPython
     );
   }
 
@@ -19,6 +20,8 @@ export class EditModeHelper {
       return 'readOnlyRunFromZip';
     } else if (editMode === FunctionAppEditMode.ReadOnlyLocalCache) {
       return 'readOnlyLocalCache';
+    } else if (editMode === FunctionAppEditMode.ReadOnlyPython) {
+      return 'readOnlyPython';
     } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
       return 'readOnlyLinuxDynamic';
     } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {

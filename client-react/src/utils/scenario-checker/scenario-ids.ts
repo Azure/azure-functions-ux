@@ -32,7 +32,8 @@ export class ScenarioIds {
   public static readonly platform64BitSupported = 'Platform64BitSupported';
   public static readonly webSocketsSupported = 'WebSocketsSupported';
   public static readonly classicPipelineModeSupported = 'ClassicPipelineModeSupported';
-  public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
+  public static readonly windowsRemoteDebuggingSupported = 'windowsRemoteDebuggingSupported';
+  public static readonly linuxRemoteDebuggingSupported = 'linuxsRemoteDebuggingSupported';
   public static readonly phpSupported = 'phpSupported';
   public static readonly pythonSupported = 'PythonSupported';
   public static readonly javaSupported = 'JavaSupported';

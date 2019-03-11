@@ -62,6 +62,9 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
   private _ngUnsubscribe$ = new Subject();
   private _oldTableHash = 0;
   private _tableItems: KuduTableItem[];
+
+  // Regex: A set of :<characters between>@ but dont use : where / is directly after
+  private readonly repoUrlPasswordRegex = /:[^\/]+@/g;
   constructor(
     private _portalService: PortalService,
     private _cacheService: CacheService,
@@ -78,7 +81,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
       .switchMap(resourceId => {
         return Observable.zip(
           this._cacheService.getArm(resourceId, this._forceLoad),
-          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.websiteApiVersion20180201),
+          this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad, ARMApiVersions.websiteApiVersion20181101),
           this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
           this._cacheService.getArm(`${resourceId}/deployments`, true),
@@ -223,7 +226,12 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     return rollbackEnabled ? 'Yes' : 'No';
   }
   get repo(): string {
-    return this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
+    let repoUrl = this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
+    if (repoUrl) {
+      // clean passwords from repo url
+      repoUrl = repoUrl.replace(this.repoUrlPasswordRegex, '@');
+    }
+    return repoUrl;
   }
 
   get branch() {
@@ -289,7 +297,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             scmType: 'None',
           },
         },
-        ARMApiVersions.websiteApiVersion20180201
+        ARMApiVersions.websiteApiVersion20181101
       );
       let sourceControlsConfig = of(null);
       if (this.deploymentObject.siteConfig.properties.scmType !== 'LocalGit') {

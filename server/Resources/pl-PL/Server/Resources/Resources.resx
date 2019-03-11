@@ -1472,7 +1472,7 @@
     <value>Usługa App Service obsługuje instalowanie nowszych wersji języka Python. Kliknij tutaj, aby dowiedzieć się więcej.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>Usługa App Service obsługuje instalowanie nowszych wersji języka Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Wersja języka Java</value>
@@ -4730,8 +4730,8 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Edytowanie w portalu dla języka Python wkrótce zostanie wycofane. Do programowania używaj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Edytowanie funkcji w portalu za pomocą aplikacji funkcji w języku Python (wersja zapoznawcza) nie jest obsługiwane. Do opracowania użyj interfejsu wiersza polecenia lub programu VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Dowiedz się więcej&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Instalacje magazynów platformy Azure zawierają wpisy tajne. W celu wyświetlenia/edytowania tej sekcji są wymagane uprawnienia do odczytu/zapisu.</value>
@@ -4780,5 +4780,14 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>Ścieżka katalogu wirtualnego musi istnieć w ścieżce aplikacji</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Dzienniki aplikacji są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki diagnostyczne”.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Dzienniki serwera sieci Web są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki diagnostyczne”.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

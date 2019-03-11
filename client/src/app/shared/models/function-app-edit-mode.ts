@@ -10,5 +10,5 @@ export enum FunctionAppEditMode {
   ReadOnlyLocalCache,
   ReadOnlyLinuxDynamic,
   ReadOnlyBYOC,
-  WillBeReadOnlyPython,
+  ReadOnlyPython,
 }
