@@ -1472,7 +1472,7 @@
     <value>O Serviço do Aplicativo oferece suporte à instalação de versões mais recentes do Python. Clique aqui para saber mais.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>O Serviço de Aplicativo dá suporte à instalação de versões mais recentes do Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão Java</value>
@@ -4730,8 +4730,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>A edição no portal para Python será preterida em breve. Use o CLI ou o VS Code para desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Não há suporte para a edição de funções no portal para Aplicativos de Funções do Python (Versão Prévia). Use CLI ou VS Code para o desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>As montagens de armazenamento do Azure contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
@@ -4780,5 +4780,14 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>O caminho do Diretório Virtual precisa existir em um caminho de aplicativo</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Os logs de aplicativos estão desligados. Você pode ligá-los usando as configurações de "Logs de diagnóstico".</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Os logs do servidor Web estão desligados. Você pode ligá-los usando as configurações de "Logs de diagnóstico".</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

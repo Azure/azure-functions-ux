@@ -1472,7 +1472,7 @@
     <value>App Service, daha yeni Python sürümleri yüklemeyi destekler. Daha fazla bilgi için buraya tıklayın.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service, daha yeni Python sürümleri yüklemeyi destekler.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java sürümü</value>
@@ -4730,8 +4730,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Python için portal içinde düzenleme yakında kullanım dışı bırakılacaktır. Lütfen geliştirme için CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Portalda işlev düzenleme Python Function Apps (Önizleme) için desteklenmemektedir. Geliştirmek için lütfen CLI'yı veya VS Code'u kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
@@ -4776,9 +4776,18 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Gelişmiş düzenleme, uygulama ayarlarınızı toplu olarak düzenlemenizi sağlar. Anahtarlar ve değerler düz metin JSON biçiminde düzenlenebilir</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Fiziksel yol sitenin içindeki bir konum olmalıdır\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Sanal Dizin yolu bir uygulama yolunda bulunmalıdır</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Uygulama günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Web sunucu günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>
