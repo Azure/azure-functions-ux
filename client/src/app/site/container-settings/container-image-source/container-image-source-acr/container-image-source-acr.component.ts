@@ -75,15 +75,7 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
           }));
 
           this.registryDropdownItems = registryResources.result.value
-            .sort((resourceA, resourceB) => {
-              if (resourceA.name < resourceB.name) {
-                return -1;
-              } else if (resourceA.name > resourceB.name) {
-                return 1;
-              } else {
-                return 0;
-              }
-            })
+            .sort((resourceA, resourceB) => resourceA.name.localeCompare(resourceB.name))
             .map(registryResource => ({
               displayLabel: registryResource.name,
               value: registryResource.properties.loginServer,
