@@ -90,20 +90,26 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade(bladeInfo: IOpenBladeInfo, source: string): Observable<IBladeResult<any>> {
+  public openBlade(bladeInfo: IOpenBladeInfo, source: string): Promise<IBladeResult<any>> {
     const payload: IDataMessage<IOpenBladeInfo> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
 
     PortalCommunicator.postMessage(Verbs.openBlade2, this.packageData(payload));
-    return this.operationStream.pipe(
-      filter(o => o.operationId === payload.operationId),
-      first(),
-      map((r: IDataMessage<IDataMessageResult<IBladeResult<any>>>) => {
-        return r.data.result;
-      })
-    );
+    return new Promise((resolve, reject) => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first(),
+          map((r: IDataMessage<IDataMessageResult<IBladeResult<any>>>) => {
+            return r.data.result;
+          })
+        )
+        .subscribe(data => {
+          resolve(data);
+        });
+    });
   }
 
   public getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {

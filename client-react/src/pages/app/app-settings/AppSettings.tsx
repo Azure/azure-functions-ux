@@ -8,8 +8,9 @@ import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import i18n from 'i18next';
-import { PermissionsContext } from './Contexts';
+import { PermissionsContext, SiteContext } from './Contexts';
 import { commandBarSticky, formStyle } from './AppSettings.styles';
+import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
 
 const validate = (values: AppSettingsFormValues, t: i18n.TFunction, scenarioChecker: ScenarioService) => {
   const duplicateDefaultDocumentsValidation = (value: string) => {
@@ -59,10 +60,12 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
   const scenarioCheckerRef = useRef(new ScenarioService(t));
+
   const scenarioChecker = scenarioCheckerRef.current!;
+
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
-      {({ initialFormValues, saving, onSubmit }) => (
+      {({ initialFormValues, saving, onSubmit, scaleUpPlan }) => (
         <Formik
           initialValues={initialFormValues}
           onSubmit={onSubmit}
@@ -79,6 +82,14 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                   disabled={!app_write || !editable || saving}
                   dirty={formProps.dirty}
                 />
+                <SiteContext.Consumer>
+                  {site => {
+                    {
+                      const showUpsellBanner = scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site });
+                      return showUpsellBanner.status === 'enabled' && <UpsellBanner onClick={scaleUpPlan} />;
+                    }
+                  }}
+                </SiteContext.Consumer>
               </div>
               <div className={formStyle}>
                 <AppSettingsForm {...formProps} />

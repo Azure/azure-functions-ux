@@ -37,5 +37,7 @@ export class CommonConstants {
   };
   public static readonly NonThemeColors = {
     upsell: '#804998',
+    upsellBackground: '#e7ddf2',
+    blackText: '#161616', // useful for cases where black text is always wanted like against upsell background
   };
 }

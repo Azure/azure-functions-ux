@@ -7,11 +7,10 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { PermissionsContext } from '../Contexts';
+import { PermissionsContext, SiteContext } from '../Contexts';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
-  const { values } = props;
-  const { site } = values;
+  const site = useContext(SiteContext);
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable } = useContext(PermissionsContext);
