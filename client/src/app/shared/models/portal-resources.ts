@@ -1541,4 +1541,5 @@ export class PortalResources {
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
   public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
+  public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
 }

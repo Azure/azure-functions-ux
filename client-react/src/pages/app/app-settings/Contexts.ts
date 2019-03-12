@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { ArmArray, StorageAccount, Site } from '../../../models/WebAppModels';
+import { ArmArray, ArmObj, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
 import { Permissions } from './AppSettings.types';
 
@@ -13,3 +13,4 @@ export const PermissionsContext = createContext<Permissions>({
 
 export const StorageAccountsContext = createContext<ArmArray<StorageAccount>>({ value: [] });
 export const SlotsListContext = createContext<ArmArray<Site>>({ value: [] });
+export const SiteContext = createContext<ArmObj<Site>>({} as any);
