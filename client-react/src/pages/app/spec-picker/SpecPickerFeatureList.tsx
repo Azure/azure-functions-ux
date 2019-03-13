@@ -1,6 +1,6 @@
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { style } from 'typestyle';
+import { featureListDivStyle } from './SpecPicker.styles';
 import { PriceSpecDetail } from './specs/PriceSpec';
 import InformationCard from '../../../components/InformationCard/InformationCard';
 
@@ -9,13 +9,6 @@ interface SpecPickerFeatureListProps {
   description: string;
   features: PriceSpecDetail[];
 }
-
-const featureListDivStyle = style({
-  padding: '10px',
-  maxWidth: '700px',
-  marginTop: '10px',
-  width: 'calc(100% / 2)',
-});
 
 type SpecPickerFeatureListPropsCombined = SpecPickerFeatureListProps & WithTranslation;
 class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCombined, {}> {

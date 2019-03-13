@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { style } from 'typestyle';
+import { expanderDivStyle } from './SpecPicker.styles';
 
 interface SpecPickerExpanderProps {
   onClick: () => void;
@@ -11,10 +11,6 @@ interface SpecPickerExpanderProps {
 interface ISpecPickerExpanderState {
   isExpanded: boolean;
 }
-
-const expanderDivStyle = style({
-  width: '100%',
-});
 
 type SpecPickerExpanderPropsCombined = SpecPickerExpanderProps & WithTranslation;
 class SpecPickerExpander extends React.Component<SpecPickerExpanderPropsCombined, ISpecPickerExpanderState> {
