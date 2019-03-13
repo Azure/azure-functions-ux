@@ -1,6 +1,7 @@
 import React from 'react';
 import SpecPickerGroupTab, { SpecPickerGroupTabProps } from './SpecPickerGroupTab';
 import { groupTabsNavStyle } from './SpecPicker.styles';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 
 interface SpecPickerGroupTabsProps {
   tabs: SpecPickerGroupTabProps[];
@@ -18,9 +19,9 @@ const SpecPickerGroupTabs: React.FC<SpecPickerGroupTabsProps> = props => {
   }
 
   return (
-    <nav role="tablist" className={groupTabsNavStyle}>
+    <FocusZone className={groupTabsNavStyle} direction={FocusZoneDirection.horizontal}>
       {tabItemElements}
-    </nav>
+    </FocusZone>
   );
 };
 

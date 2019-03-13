@@ -21,7 +21,7 @@ const SpecPickerGroupTab: React.FC<SpecPickerGroupTabProps> = props => {
   return (
     <div
       id={tabId}
-      role="tab"
+      role="button"
       className={className}
       aria-label={title}
       onClick={() => {
