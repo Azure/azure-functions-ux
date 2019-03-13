@@ -1,20 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { style } from 'typestyle';
+import { pricingCardContainerDivStyle } from './SpecPicker.styles';
 
 import SpecPickerPricingCard, { SpecPickerPricingCardProps } from './SpecPickerPricingCard';
 
 interface SpecPickerPricingCardsContainerProps {
   pricingCards: SpecPickerPricingCardProps[];
 }
-
-const containerDivStyle = style({
-  padding: '0',
-  margin: '0px 5px',
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-start',
-});
 
 type SpecPickerPricingCardsContainerPropsCombined = SpecPickerPricingCardsContainerProps;
 const SpecPickerPricingCardsContainer: React.FC<SpecPickerPricingCardsContainerPropsCombined> = props => {
@@ -28,7 +20,7 @@ const SpecPickerPricingCardsContainer: React.FC<SpecPickerPricingCardsContainerP
     };
     pricingCardElements.push(<SpecPickerPricingCard {...pricingCardProps} />);
   }
-  return <div className={containerDivStyle}>{pricingCardElements}</div>;
+  return <div className={pricingCardContainerDivStyle}>{pricingCardElements}</div>;
 };
 
 export default SpecPickerPricingCardsContainer;
