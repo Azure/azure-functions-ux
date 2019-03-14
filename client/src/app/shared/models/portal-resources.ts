@@ -1145,6 +1145,7 @@ export class PortalResources {
   public static ftpInfoCardCredsDesc = 'ftpInfoCardCredsDesc';
   public static userCreds = 'userCreds';
   public static userCredsDesc = 'userCredsDesc';
+  public static userCredsNewUserDesc = 'userCredsNewUserDesc';
   public static appCreds = 'appCreds';
   public static appCredsDesc = 'appCredsDesc';
   public static username = 'username';
