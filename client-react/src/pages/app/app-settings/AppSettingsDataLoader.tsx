@@ -1,7 +1,7 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, getCleanedConfigForSave } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -126,7 +126,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     const { site, config, slotConfigNames } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
-    const configUpdate = updateWebConfig(resourceId, config);
+    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
     let slotConfigUpdates: Promise<HttpResponseObject<unknown>> | undefined;
     if (productionPermissions) {
       slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);

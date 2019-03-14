@@ -50,6 +50,24 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   };
   return newConfig;
 };
+
+export const getCleanedConfigForSave = (config: ArmObj<SiteConfig>) => {
+  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
+  if (linuxFxVersion) {
+    const linuxFxVersionParts = linuxFxVersion.split('|');
+    linuxFxVersionParts[0] = linuxFxVersionParts[0].toUpperCase();
+    linuxFxVersion = linuxFxVersionParts.join('|');
+  }
+  const newConfig: ArmObj<SiteConfig> = {
+    ...config,
+    properties: {
+      ...config.properties,
+      linuxFxVersion,
+    },
+  };
+  return newConfig;
+};
+
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
