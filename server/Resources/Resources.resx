@@ -4742,17 +4742,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>App setting values must be an array</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>All app setting objects must have a name</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>All app setting objects must have a value</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value properties must be of type string</value>
-  </data>
-   <data name="nameMustBeAString" xml:space="preserve">
-    <value>All app setting name properties must be of type string</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
    <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>All app setting slot setting properties must be of type boolean</value>

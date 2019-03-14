@@ -12,6 +12,7 @@
     "i18next-chained-backend": "^1.0.0",
     "i18next-localstorage-backend": "^2.0.0",
     "i18next-xhr-backend": "^2.0.0",
+    "joi-browser": "^13.4.0",
     "lodash-es": "^4.17.11",
     "monaco-editor": "^0.15.6",
     "office-ui-fabric-react": "^6.141.1",
@@ -47,6 +48,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/i18next-xhr-backend": "^1.4.1",
     "@types/jest": "^24.0.0",
+    "@types/joi": "^14.3.2",
     "@types/lodash-es": "^4.17.1",
     "@types/node": "^10.12.24",
     "@types/reach__router": "^1.2.3",
@@ -64,12 +66,12 @@
     "jest-mock-axios": "^2.1.11",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "react-test-renderer": "^16.8.1",
+    "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
+    "tslint-react-hooks": "^1.1.0",
     "typescript": "^3.3.3",
-    "webpack-bundle-analyzer": "^3.0.3",
-    "tslint": "^5.12.1",
-    "tslint-react-hooks": "^1.1.0"
+    "webpack-bundle-analyzer": "^3.0.3"
   },
   "workspaces": {
     "nohoist": [
