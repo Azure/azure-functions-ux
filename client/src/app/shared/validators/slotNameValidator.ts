@@ -29,7 +29,7 @@ export class SlotNameValidator implements Validator {
     }
 
     if (control.value.toLowerCase() === 'production') {
-      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameNotAvailable).format(control.value) });
+      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_slotNameReserved).format(control.value) });
     }
 
     const matchingChar = control.value.match(Regex.invalidEntityName);
@@ -56,7 +56,7 @@ export class SlotNameValidator implements Validator {
               resolve(null);
             } else {
               resolve({
-                invalidSiteName: this._ts.instant(PortalResources.validation_siteNameNotAvailable).format(control.value),
+                invalidSiteName: this._ts.instant(PortalResources.validation_slotNameNotAvailable).format(control.value),
               });
             }
           }

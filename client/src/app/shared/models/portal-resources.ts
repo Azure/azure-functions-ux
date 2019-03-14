@@ -669,6 +669,8 @@ export class PortalResources {
   public static validation_siteNameMaxChars = 'validation_siteNameMaxChars';
   public static validation_siteNameInvalidChar = 'validation_siteNameInvalidChar';
   public static validation_siteNameNotAvailable = 'validation_siteNameNotAvailable';
+  public static validation_slotNameNotAvailable = 'validation_slotNameNotAvailable';
+  public static validation_slotNameReserved = 'validation_slotNameReserved';
   public static error_unableToUpdateFunctionAppEditMode = 'error_unableToUpdateFunctionAppEditMode';
   public static readOnly = 'readOnly';
   public static readWriteSourceControlled = 'readWriteSourceControlled';
@@ -1524,10 +1526,8 @@ export class PortalResources {
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static readOnlyPython = 'readOnlyPython';
   public static valuesMustBeAnArray = 'valuesMustBeAnArray';
-  public static nameIsRequired = 'nameIsRequired';
-  public static valueIsRequired = 'valueIsRequired';
+  public static appSettingPropIsRequired = 'appSettingPropIsRequired';
   public static valueMustBeAString = 'valueMustBeAString';
-  public static nameMustBeAString = 'nameMustBeAString';
   public static slotSettingMustBeBoolean = 'slotSettingMustBeBoolean';
   public static invalidAppSettingProperty = 'invalidAppSettingProperty';
   public static appSettingNamesUnique = 'appSettingNamesUnique';
