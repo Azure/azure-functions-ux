@@ -10,6 +10,6 @@ module.exports = function override(config, env) {
       languages: ['json'],
     })
   );
-  config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' } };
+  config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' } }; 
   return config;
 };
