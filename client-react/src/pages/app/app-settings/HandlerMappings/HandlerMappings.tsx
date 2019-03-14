@@ -52,7 +52,7 @@ export class HandlerMappings extends React.Component<FormikProps<AppSettingsForm
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.smallFixedFar}
+          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('newHandlerMapping')}
           closeButtonAriaLabel={t('close')}>

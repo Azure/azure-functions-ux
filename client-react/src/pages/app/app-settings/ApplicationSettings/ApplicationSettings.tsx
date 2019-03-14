@@ -104,7 +104,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         </div>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
-          type={PanelType.smallFixedFar}
+          type={PanelType.large}
           onDismiss={this.onCancel}
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
@@ -118,7 +118,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         </Panel>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
-          type={PanelType.medium}
+          type={PanelType.large}
           onDismiss={this.onCancel}
           closeButtonAriaLabel={t('close')}>
           <AppSettingsBulkEdit

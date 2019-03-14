@@ -239,9 +239,12 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
     newList.push({ ...va, virtualDirectory: false, virtualDirectories: [] });
     if (va.virtualDirectories && va.virtualDirectories.length > 0) {
       va.virtualDirectories.forEach(element => {
+        const virtualPath = `${
+          va.virtualPath.endsWith('/') && element.virtualPath.startsWith('/') ? va.virtualPath.slice(0, -2) : va.virtualPath
+        }${element.virtualPath}`;
         newList.push({
           ...element,
-          virtualPath: `${va.virtualPath}${element.virtualPath}`,
+          virtualPath: `${virtualPath}`,
           virtualDirectory: true,
         });
       });

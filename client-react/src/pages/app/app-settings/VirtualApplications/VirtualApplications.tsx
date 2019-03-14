@@ -51,7 +51,7 @@ export class VirtualApplications extends React.Component<FormikProps<AppSettings
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.smallFixedFar}
+          type={PanelType.large}
           onDismiss={this.onCancelPanel}
           headerText={t('newApp')}
           closeButtonAriaLabel={t('close')}>

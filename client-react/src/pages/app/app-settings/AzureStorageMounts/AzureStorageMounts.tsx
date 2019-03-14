@@ -63,7 +63,7 @@ export class AzureStorageMounts extends React.Component<CombinedProps, AzureStor
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.smallFixedFar}
+          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('newAzureStorageMount')}
           closeButtonAriaLabel={t('close')}>

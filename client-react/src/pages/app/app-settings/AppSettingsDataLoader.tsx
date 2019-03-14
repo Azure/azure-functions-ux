@@ -2,6 +2,7 @@ import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedConfigForSave } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList,getCleanedConfigForSave } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -140,7 +141,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           },
         };
     if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
-      setInitialValues(values);
+      setInitialValues({
+        ...values,
+        virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
+      });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       portalContext.stopNotification(notificationId, false, t('configUpdateFailure'));
