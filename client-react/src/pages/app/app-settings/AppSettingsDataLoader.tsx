@@ -1,7 +1,6 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, getCleanedConfigForSave } from './AppSettingsFormData';
 import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList,getCleanedConfigForSave } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
