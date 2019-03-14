@@ -54,7 +54,7 @@ describe('getErrorMessage', () => {
       },
     ]);
     const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('nameIsRequired');
+    expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
   it('Should give error message if an object is missing a value', () => {
@@ -70,13 +70,14 @@ describe('getErrorMessage', () => {
       },
     ]);
     const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('valueIsRequired');
+    expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
   it('Should give error message if an object has a non string value', () => {
     const appSettings = JSON.stringify([
       {
         name: 'WEBSITE_NODE_DEFAULT_VERSION',
+        value: 'test',
         slotSetting: false,
       },
       {
@@ -93,6 +94,7 @@ describe('getErrorMessage', () => {
     const appSettings = JSON.stringify([
       {
         name: 'WEBSITE_NODE_DEFAULT_VERSION',
+        value: 'test',
         slotSetting: false,
       },
       {
@@ -102,7 +104,7 @@ describe('getErrorMessage', () => {
       },
     ]);
     const errMessage = getErrorMessage(appSettings, (key => key) as any);
-    expect(errMessage).toBe('nameMustBeAString');
+    expect(errMessage).toBe('valueMustBeAString');
   });
 
   it('Should give error message if an object has extra properties', () => {
@@ -128,7 +130,7 @@ describe('getErrorMessage', () => {
       {
         name: 'WEBSITE_NODE_DEFAULT_VERSION',
         value: 'test',
-        slotSetting: 'false',
+        slotSetting: 'test',
       },
       {
         name: 'test',
