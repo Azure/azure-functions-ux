@@ -2122,6 +2122,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>The app name '{0}' is not available</value>
   </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>We are unable to update your function app's edit mode. Please try again later.</value>
   </data>
