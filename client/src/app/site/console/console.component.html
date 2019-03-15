@@ -1,5 +1,6 @@
 <div [attr.console-type]="consoleType">
-  <div class="browse-container">
+  <info-box *ngIf="!!loadFailureMessage" [infoText]="loadFailureMessage" [typeClass]="'error'"></info-box>
+  <div *ngIf="!loadFailureMessage" class="browse-container">
     <div class="top-wrapper">
       <ng-container *ngIf="consoleType==='tab'">
         <radio-selector [options]="options" [defaultValue]="currentOption" (value)="optionsChange.next($event)"></radio-selector>
