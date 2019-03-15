@@ -3,10 +3,8 @@ import { FeatureComponent } from '../../shared/components/feature-component';
 import { SiteData, TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
-import { LogCategories, SiteTabIds } from '../../shared/models/constants';
+import { SiteTabIds } from '../../shared/models/constants';
 import { SiteService } from '../../shared/services/site.service';
-import { LogService } from '../../shared/services/log.service';
-import { CacheService } from '../../shared/services/cache.service';
 import { ConsoleService, ConsoleTypes } from './shared/services/console.service';
 import { Observable } from 'rxjs/Observable';
 import { ArmUtil } from '../../shared/Utilities/arm-utils';
@@ -18,8 +16,6 @@ import { PublishingCredentials } from '../../shared/models/publishing-credential
 import { Site } from '../../shared/models/arm/site';
 import { errorIds } from '../../shared/models/error-ids';
 import { FunctionAppContext } from '../../shared/function-app-context';
-import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { FunctionAppService } from '../../shared/services/function-app.service';
 import { EditModeWarningComponent } from '../../edit-mode-warning/edit-mode-warning.component';
 
 @Component({
@@ -44,6 +40,9 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
   public sshUrl = '';
   public appModeVisible = false;
   public context: FunctionAppContext;
+  public loadFailureMessage = '';
+
+  private _injector: Injector;
 
   @ViewChild('ssh')
   private _sshComponent;
@@ -59,13 +58,11 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
   constructor(
     private _translateService: TranslateService,
     private _siteService: SiteService,
-    private _logService: LogService,
-    private _cacheService: CacheService,
     private _consoleService: ConsoleService,
-    private _functionAppService: FunctionAppService,
     injector: Injector
   ) {
     super('site-console', injector, SiteTabIds.console);
+    this._injector = injector;
     this.featureName = 'console';
     this.isParentComponent = true;
     this.initialized = true;
@@ -92,35 +89,28 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
         this.os = null;
         this.appModeVisible = false;
         this.resourceId = view.resourceId;
+        this.loadFailureMessage = '';
         this._consoleService.sendResourceId(this.resourceId);
-        const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
-        return Observable.zip(
-          this._siteService.getSite(this.resourceId),
-          this._cacheService.postArm(`${this.resourceId}/config/publishingcredentials/list`),
-          this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId()),
-          (site, publishingCredentials, context) => ({
-            site: site.result,
-            publishingCredentials: publishingCredentials.json(),
-            context: context,
-          })
-        );
+        return Observable.zip(this._siteService.getSite(this.resourceId), this._siteService.getPublishingCredentials(this.resourceId));
       })
-      .do(
-        r => {
-          this._consoleService.sendSite(r.site);
-          this._consoleService.sendPublishingCredentials(r.publishingCredentials);
-          this.appName = r.publishingCredentials.name;
-          this.context = r.context;
-          this.os = ArmUtil.isLinuxApp(r.site) ? 'linux' : 'windows';
-          this.appModeVisible = ArmUtil.isFunctionApp(r.site);
-          if (ArmUtil.isLinuxApp(r.site)) {
+      .do(r => {
+        const [siteResponse, publishingCredentialsResponse] = r;
+        if (siteResponse.isSuccessful && publishingCredentialsResponse.isSuccessful) {
+          this._consoleService.sendSite(siteResponse.result);
+          this._consoleService.sendPublishingCredentials(publishingCredentialsResponse.result);
+          this.appName = publishingCredentialsResponse.result.name;
+          this.context = ArmUtil.mapArmSiteToContext(siteResponse.result, this._injector);
+          this.os = ArmUtil.isLinuxApp(siteResponse.result) ? 'linux' : 'windows';
+          this.appModeVisible = ArmUtil.isFunctionApp(siteResponse.result);
+          if (ArmUtil.isLinuxApp(siteResponse.result)) {
             // linux-app
             this._setLinuxDashboard();
           } else {
             this._setWindowsDashboard();
           }
           this.clearBusyEarly();
-          if (!this._siteDetailAvailable(r.site, r.publishingCredentials)) {
+          if (!this._siteDetailAvailable(siteResponse.result, publishingCredentialsResponse.result)) {
+            this.loadFailureMessage = this._translateService.instant(PortalResources.error_consoleNotAvailable);
             this.showComponentError({
               message: this._translateService.instant(PortalResources.error_consoleNotAvailable),
               errorId: errorIds.unknown,
@@ -129,12 +119,32 @@ export class ConsoleComponent extends FeatureComponent<TreeViewInfo<SiteData>> {
             this.setBusy();
             return;
           }
-        },
-        err => {
-          this._logService.error(LogCategories.cicd, '/load-linux-console', err);
+        } else {
+          let [noAccess, hasReadOnlyLock, errorMessage] = [false, false, ''];
+
+          [siteResponse, publishingCredentialsResponse].forEach(response => {
+            if (response.error) {
+              noAccess = noAccess || response.error.errorId === errorIds.armErrors.noAccess;
+              hasReadOnlyLock = hasReadOnlyLock || response.error.errorId === errorIds.armErrors.scopeLocked;
+              if (response.error.message) {
+                errorMessage = errorMessage + response.error.message + '\r\n';
+              }
+            }
+          });
+
+          if (noAccess) {
+            this.loadFailureMessage = this._translateService.instant(PortalResources.featureRequiresWritePermissionOnApp);
+          } else if (hasReadOnlyLock) {
+            this.loadFailureMessage = this._translateService.instant(PortalResources.featureDisabledReadOnlyLockOnApp);
+          } else {
+            this.loadFailureMessage = !errorMessage
+              ? this._translateService.instant(PortalResources.error_consoleNotAvailable)
+              : this._translateService.instant(PortalResources.error_consoleNotAvailable) + '\r\n' + errorMessage;
+          }
+
           this.clearBusyEarly();
         }
-      );
+      });
   }
 
   private _siteDetailAvailable(site: ArmObj<Site>, publishingCredentials: ArmObj<PublishingCredentials>): boolean {
