@@ -135,7 +135,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
   if (!initialLoading || !initialValues) {
-    return <LoadingComponent pastDelay={true} error={false} isLoading={true} timedOut={false} retry={() => null} />;
+    return <LoadingComponent />;
   }
   return (
     <AvailableStacksContext.Provider value={currentAvailableStacks}>

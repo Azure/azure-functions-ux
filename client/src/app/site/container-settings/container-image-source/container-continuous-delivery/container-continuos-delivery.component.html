@@ -10,6 +10,6 @@
     <div>
         <label>{{ 'containerWebhookUrl' | translate }}</label>
         <a (click)="toggleUrl()">{{ (urlVisible ? 'hideUrl' : 'showUrl') | translate }}</a>
-        <copy-pre [content]="urlVisible ?  containerSettingsManager.webhookUrl : '****'"></copy-pre>
+        <copy-pre [copyableString]="containerSettingsManager.webhookUrl" [content]="urlVisible ?  containerSettingsManager.webhookUrl : '****'"></copy-pre>
     </div>
 </div>

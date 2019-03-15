@@ -1,3 +1,4 @@
+import { FunctionAppVersion } from './../shared/models/constants';
 import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -44,7 +45,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
   showJavaSplashPage = false;
   setShowJavaSplashPage = new Subject<boolean>();
   templateTypeOptions: TemplateType[];
-  runtimeVersion: string;
+  isV1: boolean;
   public appSettingsArm: ArmObj<ApplicationSettings>;
   functionAppLanguage: string;
 
@@ -93,10 +94,10 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
       })
       .subscribe(tuple => {
         this.functionsInfo = tuple[0].result;
-        this.runtimeVersion = tuple[1];
+        this.isV1 = tuple[1] === FunctionAppVersion.v1;
         this.appSettingsArm = tuple[2].result;
 
-        if (this.runtimeVersion === 'V1') {
+        if (this.isV1) {
           this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
         } else {
           this.templateTypeOptions = ['HttpTrigger', 'TimerTrigger'];

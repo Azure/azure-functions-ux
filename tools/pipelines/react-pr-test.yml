@@ -54,6 +54,8 @@ steps:
       testResultsFormat: 'JUnit'
       testResultsFiles: 'client-react/junit.xml'
       testRunTitle: 'Unit Tests'
+      failOnStandardError: 'true'
+
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'cobertura'

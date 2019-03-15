@@ -467,7 +467,7 @@ export class DeploymentCenterConstants {
   public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
   public static readonly vstsProfileUri = 'https://peprodscussu2.portalext.visualstudio.com/_apis/AzureTfs/UserContext';
   public static readonly vstsProjectsApi = 'https://{0}.visualstudio.com/_apis/projects?includeCapabilities=true';
-  public static readonly vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
+  public static readonly vstsRegionsApi = 'https://aex.dev.azure.com/_apis/hostacquisition/regions';
   public static readonly vstsAccountsFetchUri =
     'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 

@@ -1472,7 +1472,7 @@
     <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service は、新しいバージョンの Python のインストールをサポートしています。</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java バージョン</value>
@@ -4730,14 +4730,14 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Python のポータル内編集は間もなく非推奨になる予定です。開発には CLI または VS Code をご使用ください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Python Function Apps (プレビュー) ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
   </data>
   <data name="valuesMustBeAnArray" xml:space="preserve">
-    <value>アプリ設定値は配列である必要があります</value>
+    <value>アプリ設定値はアレイである必要があります</value>
   </data>
   <data name="nameIsRequired" xml:space="preserve">
     <value>すべてのアプリ設定オブジェクトに名前が必要です</value>
@@ -4780,5 +4780,14 @@
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>仮想ディレクトリ パスは、アプリケーション パス内に存在する必要があります</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>アプリケーション ログがオフに切り替えられました。[診断ログ] 設定を使用して、オンにすることができます。</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Web サーバー ログがオフになっています。[診断ログ] 設定を使用してオンにすることができます。</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

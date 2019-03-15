@@ -1472,7 +1472,7 @@
     <value>Служба приложений поддерживает установку более новых версий Python. Щелкните здесь, чтобы узнать подробности.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>Служба приложений поддерживает установку более новых версий Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Версия Java</value>
@@ -4730,8 +4730,8 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Возможность редактирования на портале для Python скоро станет нерекомендуемой. Используйте для разработки интерфейс командной строки или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Функции редактирования на портале не поддерживаются для приложений-функций Python (предварительная версия). Используйте для разработки CLI или VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Дополнительные сведения&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Подключенные ресурсы хранилища Azure содержат секреты. Для просмотра и изменения этого раздела требуются разрешения на чтение и запись.</value>
@@ -4776,9 +4776,18 @@
     <value>Расширенное редактирование позволяет массово изменять параметры вашего приложения. Ключи и значения можно редактировать в формате JSON в виде обычного текста.</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Физический путь должен представлять собой расположение на сайте\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Путь к виртуальному каталогу должен существовать внутри пути к приложению.</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Журналы приложений выключены. Вы можете включить их, используя настройки "Журналы диагностики".</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Журналы веб-сервера отключены. Вы можете включить их с помощью настроек "Журналы диагностики".</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

@@ -74,10 +74,12 @@ export class ContainerImageSourceACRComponent extends FeatureComponent<Container
             resourceId: registryResource.id,
           }));
 
-          this.registryDropdownItems = registryResources.result.value.map(registryResource => ({
-            displayLabel: registryResource.name,
-            value: registryResource.properties.loginServer,
-          }));
+          this.registryDropdownItems = registryResources.result.value
+            .sort((resourceA, resourceB) => resourceA.name.localeCompare(resourceB.name))
+            .map(registryResource => ({
+              displayLabel: registryResource.name,
+              value: registryResource.properties.loginServer,
+            }));
 
           this.loadingRegistries = false;
           this.registriesMissing = false;

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { IButtonProps, CommandBarButton } from 'office-ui-fabric-react/lib/Button';
 import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import { useTranslation } from 'react-i18next';
-import { LogEntry } from './LogStream.types';
-import { TextUtilitiesService } from '../../../utils/textUtilities';
+import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
 import { ThemeContext } from '../../../ThemeContext';
+import { logStreamEnabled, copyLogEntries } from './LogStreamData';
 
 // tslint:disable-next-line:member-ordering
 
@@ -16,8 +16,11 @@ const getItems = (
   clearFunction: any,
   isStreaming: boolean,
   logEntries: LogEntry[],
+  logType: LogType,
+  logsEnabled: LogsEnabled,
   t: (string) => string
 ): ICommandBarItemProps[] => {
+  const disableCommand = !logStreamEnabled(logType, logsEnabled);
   return [
     {
       key: 'reconnect',
@@ -25,6 +28,7 @@ const getItems = (
       iconProps: {
         iconName: 'PlugConnected',
       },
+      disabled: disableCommand,
       onClick: reconnectFunction,
     },
     {
@@ -33,7 +37,8 @@ const getItems = (
       iconProps: {
         iconName: 'Copy',
       },
-      onClick: () => _copyLogs(logEntries),
+      disabled: disableCommand,
+      onClick: () => copyLogEntries(logEntries),
     },
     {
       key: 'toggle',
@@ -41,6 +46,7 @@ const getItems = (
       iconProps: {
         iconName: isStreaming ? 'Pause' : 'Play',
       },
+      disabled: disableCommand,
       onClick: isStreaming ? pauseLogs : startLogs,
     },
     {
@@ -49,6 +55,7 @@ const getItems = (
       iconProps: {
         iconName: 'StatusCircleErrorX',
       },
+      disabled: disableCommand,
       onClick: clearFunction,
     },
   ];
@@ -60,6 +67,8 @@ interface LogStreamCommandBarProps {
   clear: () => void;
   isStreaming: boolean;
   logEntries: LogEntry[];
+  logType: LogType;
+  logsEnabled: LogsEnabled;
 }
 
 type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps;
@@ -67,7 +76,7 @@ type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps;
 export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { reconnect, pause, start, clear, isStreaming, logEntries } = props;
+  const { reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled } = props;
 
   const customButton = (buttonProps: IButtonProps) => {
     return (
@@ -90,7 +99,7 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
 
   return (
     <CommandBar
-      items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, t)}
+      items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t)}
       aria-role="nav"
       buttonAs={customButton}
       styles={{
@@ -103,13 +112,5 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
     />
   );
 };
-
-function _copyLogs(logs: LogEntry[]) {
-  let logContent = '';
-  logs.forEach(logEntry => {
-    logContent += `${logEntry.message}\n`;
-  });
-  TextUtilitiesService.copyContentToClipboard(logContent);
-}
 
 export default LogStreamCommandBar;

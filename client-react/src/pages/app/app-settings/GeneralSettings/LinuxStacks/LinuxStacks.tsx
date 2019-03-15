@@ -22,7 +22,7 @@ const parseLinuxBuiltInStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
     availableStack.majorVersions.forEach(majorVersion => {
       linuxFxVersionOptions.push({
         text: majorVersion.displayVersion,
-        key: majorVersion.runtimeVersion,
+        key: majorVersion.runtimeVersion.toLowerCase(),
       });
     });
 

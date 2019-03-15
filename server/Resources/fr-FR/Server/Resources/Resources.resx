@@ -1472,7 +1472,7 @@
     <value>App Service prend en charge l'installation de versions plus récentes de Python. Cliquez ici pour en savoir plus.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service prend en charge l’installation de versions plus récentes de Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Version de Java</value>
@@ -3152,13 +3152,13 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les conteneurs Windows bénéficient d'une remise de 50 % pendant la préversion.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Les niveaux tarifaires Isolé dans un environnement App Service (ASE) ne sont pas disponibles pour votre configuration. Un environnement App Service (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
+    <value>Les niveaux tarifaires Isolé dans un App Service Environment (ASE) ne sont pas disponibles pour votre configuration. Un App Service Environment (ASE) est intégré à Azure App Service et offre de puissantes fonctionnalités, comme l'isolement réseau et des fonctionnalités d'échelle améliorées.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Les niveaux tarifaires Dev/Test ne sont pas disponibles pour votre configuration et ils sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
+    <value>Les niveaux tarifaires Dev/Test ne sont pas disponibles pour votre configuration et ils sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un App Service Environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Les niveaux tarifaires Production ne sont pas disponibles pour votre configuration et sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un environnement App Service.</value>
+    <value>Les niveaux tarifaires Production ne sont pas disponibles pour votre configuration et sont disponibles uniquement pour les offres qui ne sont pas hébergées dans un App Service Environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 n'est pas pris en charge pour cette unité d'échelle. Redéployez ou clonez l'application.</value>
@@ -3293,7 +3293,7 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Accès privé à l'application</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Utilisation d'un environnement App Service avec équilibrage de charge interne.</value>
+    <value>Utilisation d'un App Service Environment avec équilibrage de charge interne.</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
     <value>{0} Go de mémoire</value>
@@ -4730,8 +4730,8 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>La modification dans le portail pour Python sera bientôt déconseillée. Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Les fonctions de modification dans le portail ne sont pas prises en charge pour Python Function Apps (préversion). Utilisez l’interface CLI ou VS Code pour le développement. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;En savoir plus&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Les montages Stockage Azure contiennent des secrets. Des autorisations en lecture/écriture sont requises pour afficher/modifier cette section.</value>
@@ -4776,9 +4776,18 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>La modification avancée vous permet de modifier en bloc vos paramètres d’application. Les clés et valeurs peuvent être modifiés au format JSON en texte brut</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Le chemin d’accès physique doit être un emplacement situé au sein du site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Le chemin d’accès au répertoire virtuel doit exister au sein d’un chemin d’accès d’application</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Les journaux d'application sont désactivés. Vous pouvez les activer à l'aide des paramètres « Journaux de diagnostic ».</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Les journaux du serveur web sont désactivés. Vous pouvez les activer à l'aide des paramètres « Journaux de diagnostic ».</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

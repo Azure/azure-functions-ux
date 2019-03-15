@@ -106,7 +106,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.smallFixedFar}
           onDismiss={this.onCancel}
-          headerText={t('newApplicationSetting')}
+          headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}

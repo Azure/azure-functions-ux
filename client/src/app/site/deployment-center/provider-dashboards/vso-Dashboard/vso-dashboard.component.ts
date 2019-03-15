@@ -134,7 +134,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
           this._armService.patch(
             `${this.resourceId}/config/web`,
             { properties: { scmType: 'None' } },
-            ARMApiVersions.websiteApiVersion20180201
+            ARMApiVersions.websiteApiVersion20181101
           )
         )
         .subscribe(
