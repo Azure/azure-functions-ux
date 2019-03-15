@@ -1472,7 +1472,7 @@
     <value>App Service har funktioner för att installera senare versioner av Python. Klicka här för mer information.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service stöder installation av nyare versioner av Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-version</value>
@@ -4730,8 +4730,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Redigering i portalen för Python kommer snart att vara inaktuellt. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Redigera funktioner i portalen stöds inte för Python-funktionsappar (förhandsgranskning). Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
@@ -4776,9 +4776,18 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Avancerad redigering låter dig massredigera dina appinställningar. Nycklar och värden kan redigeras i JSON-format i klartext</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Fysisk sökväg måste vara en plats inom webbplatsen\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Den virtuella katalogsökvägen måste finnas i en programsökväg</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Programloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Webbserverloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

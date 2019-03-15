@@ -1,4 +1,7 @@
-import { LogEntry, newLine, LogLevel, LogRegex, maxLogEntries } from './LogStream.types';
+import { SiteLogsConfig } from './../../../models/WebAppModels';
+import { LogEntry, newLine, LogLevel, LogRegex, maxLogEntries, LogsEnabled, LogType } from './LogStream.types';
+import { Site } from '../../../models/WebAppModels';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
 
 export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] {
   let updatedLogs = oldLogs;
@@ -54,4 +57,43 @@ function _addLogEntry(message: string, logLevel: LogLevel, logEntries: LogEntry[
     }
   }
   return logEntries;
+}
+
+export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEnabled {
+  let appLogs = false;
+  let webLogs = false;
+
+  if (site.kind.includes('linux')) {
+    appLogs = logsConfig.httpLogs.fileSystem.enabled;
+  } else {
+    appLogs = logsConfig.applicationLogs.fileSystem.level !== 'OFF';
+    webLogs = logsConfig.httpLogs.fileSystem.enabled;
+  }
+
+  return { applicationLogs: appLogs, webServerLogs: webLogs };
+}
+
+export function logStreamEnabled(logType: LogType, logsEnabled: LogsEnabled): boolean {
+  return logType === LogType.Application ? logsEnabled.applicationLogs : logsEnabled.webServerLogs;
+}
+
+export function copyLogEntries(logs: LogEntry[]) {
+  let logContent = '';
+  logs.forEach(logEntry => {
+    logContent += `${logEntry.message}\n`;
+  });
+  TextUtilitiesService.copyContentToClipboard(logContent);
+}
+
+export function getLogTextColor(level: LogLevel): string {
+  switch (level) {
+    case LogLevel.Error:
+      return '#ff6161';
+    case LogLevel.Info:
+      return '#00bfff';
+    case LogLevel.Warning:
+      return 'orange';
+    default:
+      return 'white';
+  }
 }

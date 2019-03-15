@@ -45,7 +45,7 @@ export function setupOnedriveAuthentication(app: Application) {
     res.redirect(
       `https://login.live.com/oauth20_authorize.srf?client_id=${
         process.env.ONEDRIVE_CLIENT_ID
-      }&scope=offline_access,onedrive.readonly&response_type=code&redirect_uri=${
+      }&scope=offline_access,onedrive.appfolder&response_type=code&redirect_uri=${
         process.env.ONEDRIVE_REDIRECT_URL
       }&state=${oauthHelper.hashStateGuid(stateKey).substr(0, 10)}`
     );

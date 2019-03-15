@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import { editorStyle } from './monaco-editor.styles';

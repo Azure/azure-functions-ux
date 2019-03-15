@@ -40,6 +40,13 @@ export class FunctionAppEnvironment extends Environment {
         return null;
       },
     };
+
+    this.scenarioChecks[ScenarioIds.byosSupported] = {
+      id: ScenarioIds.byosSupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

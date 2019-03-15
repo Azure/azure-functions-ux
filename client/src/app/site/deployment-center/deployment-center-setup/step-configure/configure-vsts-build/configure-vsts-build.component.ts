@@ -142,7 +142,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         this.locationList = locationArray.map(v => {
           return {
             displayLabel: v.displayName,
-            value: v.regionCode,
+            value: v.nameInAzure,
           };
         });
       },

@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy } from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
-import AppSettings from './app-settings/AppSettings';
 import { StartupInfoContext } from '../../StartupInfoContext';
-import LogStreamDataLoader from './log-stream/LogStreamDataLoader';
 export interface AppSeriviceRouterProps {
   subscriptionId?: string;
   siteName?: string;
   slotName?: string;
   resourcegroup?: string;
 }
-const AppSettingsLoadable: any = AppSettings;
 
-const LogStreamLoadable: any = LogStreamDataLoader;
+const AppSettingsLoadable: any = lazy(() => import(/* webpackChunkName:"appsettings" */ './app-settings/AppSettings'));
+const LogStreamLoadable: any = lazy(() => import(/* webpackChunkName:"logstream" */ './log-stream/LogStreamDataLoader'));
 
 const AppServiceRouter: React.FC<RouteComponentProps<AppSeriviceRouterProps>> = props => {
   const [resourceId, setResourceId] = useState('');

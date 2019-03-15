@@ -1472,7 +1472,7 @@
     <value>O Serviço de Aplicações suporta a instalação de versões recentes do Python. Clique aqui para saber mais.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>O Serviço de Aplicações suporta a instalação de versões recentes do Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão de Java</value>
@@ -4730,8 +4730,8 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>A edição no portal para Python vai ser preterida em breve. Utilize a CLI ou o Código VS para obter desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Editar funções no portal não é suportado para o Function Apps em Python (Pré-visualização). Utilize a CLI ou o VS Code para desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>As montagens de armazenamento do Azure contêm segredos. São precisas permissões de Leitura/Escrita para ver/editar esta secção.</value>
@@ -4776,9 +4776,18 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A edição avançada permite editar as suas definições de aplicações em massa. As chaves e os valores podem ser editados no formato JSON de texto simples</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>O caminho físico tem de ser uma localização no site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>O caminho do Diretório Virtual tem de existir num caminho da aplicação</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Os registos de aplicações estão desativados. Pode ativá-los utilizando as definições de "Registos de diagnósticos".</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Os registos de servidores Web estão desativados. Pode ativá-los utilizando as definições de "Registos de diagnósticos".</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

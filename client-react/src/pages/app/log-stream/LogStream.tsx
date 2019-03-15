@@ -1,7 +1,8 @@
 import React from 'react';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
-import { LogEntry } from './LogStream.types';
+import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
+import { ArmObj, Site } from '../../../models/WebAppModels';
 
 export interface LogStreamProps {
   reconnect: () => void;
@@ -10,13 +11,29 @@ export interface LogStreamProps {
   clear: () => void;
   updateLogOption: (useWebServer: boolean) => void;
   isStreaming: boolean;
+  site: ArmObj<Site>;
   clearLogs: boolean;
   logEntries: LogEntry[];
   connectionError: boolean;
+  logType: LogType;
+  logsEnabled: LogsEnabled;
 }
 
 const LogStream: React.SFC<LogStreamProps> = props => {
-  const { reconnect, pause, start, clear, updateLogOption, isStreaming, clearLogs, logEntries, connectionError } = props;
+  const {
+    reconnect,
+    pause,
+    start,
+    clear,
+    updateLogOption,
+    isStreaming,
+    site,
+    clearLogs,
+    logEntries,
+    connectionError,
+    logType,
+    logsEnabled,
+  } = props;
   return (
     <>
       <LogStreamCommandBar
@@ -26,13 +43,17 @@ const LogStream: React.SFC<LogStreamProps> = props => {
         clear={clear}
         isStreaming={isStreaming}
         logEntries={logEntries}
+        logType={logType}
+        logsEnabled={logsEnabled}
       />
       <LogStreamLogContainer
         clearLogs={clearLogs}
         logEntries={logEntries}
-        site={{} as any}
+        site={site}
         updateLogOption={updateLogOption}
         connectionError={connectionError}
+        logType={logType}
+        logsEnabled={logsEnabled}
       />
     </>
   );

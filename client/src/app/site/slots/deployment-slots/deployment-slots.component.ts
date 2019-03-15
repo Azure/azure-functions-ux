@@ -395,7 +395,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
     return this._fb.control(
-      { value: rule ? rule.reroutePercentage : 0, disabled: false },
+      { value: rule ? rule.reroutePercentage : '', disabled: false },
       decimalRangeValidator.validate.bind(decimalRangeValidator)
     );
   }
@@ -432,7 +432,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         .switchMap(s => {
           notificationId = s.id;
 
-          const siteConfigArm = JSON.parse(JSON.stringify(this._siteConfigArm));
+          const siteConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._siteConfigArm));
           const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
 
           const rulesGroup: FormGroup = this.mainForm.controls['rulesGroup'] as FormGroup;
@@ -444,9 +444,17 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 const nameParts = name.split('/');
                 const ruleName = nameParts.length === 2 ? nameParts[1] : 'production';
                 const index = rampUpRules.findIndex(r => r.name.toLowerCase() === ruleName.toLowerCase());
-                const value = !ruleControl.value ? 0 : Number(ruleControl.value).valueOf();
 
-                if (value === 0) {
+                // If the user explicitly clears the routing percentage for an exising rule, we will delete the enitre rule from config.
+                // If the user sets the routing percentage for a new/existing rule to a valid value (including 0%), we will update/add
+                // the rule with the routing percentage specified.
+
+                const value =
+                  ruleControl.value === '' || ruleControl.value === null || ruleControl.value === undefined
+                    ? null
+                    : Number(ruleControl.value).valueOf();
+
+                if (value === null) {
                   if (index >= 0) {
                     rampUpRules.splice(index, 1);
                   }
@@ -474,7 +482,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             }
           }
 
-          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20180201, siteConfigArm);
+          if (siteConfigArm.properties && siteConfigArm.properties.azureStorageAccounts) {
+            delete siteConfigArm.properties.azureStorageAccounts;
+          }
+
+          return this._cacheService.putArm(`${this.resourceId}/config/web`, ARMApiVersions.websiteApiVersion20181101, siteConfigArm);
         })
         .do(null, error => {
           this.dirtyMessage = null;

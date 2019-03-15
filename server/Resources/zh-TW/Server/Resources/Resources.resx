@@ -1472,7 +1472,7 @@
     <value>App Service 支援安裝較新版的 Python。若要深入了解，請按一下這裡。</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service 支援安裝較新的 Python 版本。</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -4730,8 +4730,8 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Python 的入口網站內編輯即將淘汰。請使用 CLI 或 VS Code 進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Python Function Apps (預覽) 不支援在入口網站中編輯函式。請使用 CLI 或 VS 程式碼進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 儲存體掛接包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
@@ -4780,5 +4780,14 @@
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>虛擬目錄路徑必須位於應用程式路徑內</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>應用程式記錄功能已關閉。您可以使用 [診斷記錄] 設定加以啟動。</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Web 伺服器記錄功能已關閉。您可以使用 [診斷記錄] 設定加以啟動。</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>

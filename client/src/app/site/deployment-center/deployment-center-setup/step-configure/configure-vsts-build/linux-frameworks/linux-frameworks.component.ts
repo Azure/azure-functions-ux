@@ -109,7 +109,7 @@ export class LinuxFramworksComponent implements OnDestroy {
       this.dotNetCoreFrameworkVersions = dotNetCoreStack.properties.majorVersions.map(x => {
         return {
           displayLabel: x.displayVersion,
-          value: x.runtimeVersion.replace('DOTNET|', ''),
+          value: x.runtimeVersion.replace('DOTNETCORE|', ''),
         };
       });
 

@@ -1522,7 +1522,7 @@ export class PortalResources {
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
-  public static willBeReadOnlyPython = 'willBeReadOnlyPython';
+  public static readOnlyPython = 'readOnlyPython';
   public static valuesMustBeAnArray = 'valuesMustBeAnArray';
   public static nameIsRequired = 'nameIsRequired';
   public static valueIsRequired = 'valueIsRequired';
@@ -1538,4 +1538,7 @@ export class PortalResources {
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
   public static physicalPathLocationError = 'physicalPathLocationError';
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
+  public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
+  public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
+  public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
 }

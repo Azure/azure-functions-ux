@@ -2,6 +2,7 @@ export interface MinorVersion {
   displayVersion: string;
   runtimeVersion: string;
   isDefault: boolean;
+  isRemoteDebuggingEnabled: boolean;
 }
 
 export interface MajorVersion {
@@ -9,6 +10,7 @@ export interface MajorVersion {
   runtimeVersion: string;
   isDefault: boolean;
   minorVersions: MinorVersion[];
+  applicationInsights: boolean;
 }
 
 export interface MinorVersion2 {

@@ -1472,7 +1472,7 @@
     <value>App Service unterstützt die Installation neuerer Versionen von Python. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service unterstützt die Installation neuerer Versionen von Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-Version</value>
@@ -4730,8 +4730,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Die Portalbearbeitung für Python wird in Kürze eingestellt. Verwenden Sie zur Entwicklung die CLI oder VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Das Bearbeiten von Funktionen im Portal wird für Python-Funktions-Apps (Vorschau) nicht unterstützt. Verwenden Sie die CLI oder VS Code für die Entwicklung. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-Speichereinbindungen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
@@ -4776,9 +4776,18 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Mit der erweiterten Bearbeitung können Sie eine Massenbearbeitung für Ihre App-Einstellungen durchführen. Schlüssel und Werte können im Nur-Text-JSON-Format bearbeitet werden.</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Der physische Pfad muss sich innerhalb dieses Speicherorts befinden: site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Der Pfad des virtuellen Verzeichnisses muss in einem Anwendungspfad vorhanden sein.</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Die Anwendungsprotokolle sind deaktiviert. Sie können mithilfe der Einstellungen in "Diagnoseprotokolle" aktiviert werden.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Die Webserverprotokolle sind deaktiviert. Sie können mithilfe der Einstellungen in "Diagnoseprotokolle" aktiviert werden.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Your selected runtime stack does not currently support remote debugging.</value>
   </data>
 </root>
