@@ -4799,5 +4799,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Click here to upgrade to a higher SKU and enable additional features.</value>
   </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights is not configured. Configure Application Insights to capure function logs.</value>
+  </data>
   
 </root>
