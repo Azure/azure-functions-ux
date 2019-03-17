@@ -120,8 +120,13 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     let siteId = '';
     let maxIndex: number;
 
-    if (parts.length >= 10 && parts[8].toLowerCase() === 'slots') {
-      maxIndex = 9;
+    if (parts.length >= 10 && parts[6].toLowerCase() === 'sites' && parts[8].toLowerCase() === 'slots') {
+      // handle the scenario where the resourceId is actually the routing path for SlotNewComponent (i.e. "<siteUri>/slots/new/slot")
+      if (parts.length >= 11 && parts[9].toLowerCase() === 'new' && parts[10].toLowerCase() === 'slot') {
+        maxIndex = 7;
+      } else {
+        maxIndex = 9;
+      }
     } else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
       maxIndex = 7;
     } else if (parts.length >= 6 && parts[4].toLowerCase() === 'scopes') {
@@ -156,7 +161,11 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
     this.site = this.parts[7];
 
-    if (this.parts.length > 8 && this.parts[8].toLowerCase() === 'slots') {
+    // handle the scenario where the resourceId is actually the routing path for SlotNewComponent (i.e. "<siteUri>/slots/new/slot")
+    const hasSlotNameSegment = this.parts.length > 9 && this.parts[8].toLowerCase() === 'slots';
+    const isNewSlotPath =
+      hasSlotNameSegment && this.parts.length > 10 && this.parts[9].toLowerCase() === 'new' && this.parts[10].toLowerCase() === 'slot';
+    if (hasSlotNameSegment && !isNewSlotPath) {
       this.slot = this.parts[9];
     }
   }
@@ -169,7 +178,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     // resource id without slot information
     let resource = this.getSiteOnlyResourceId();
     // add slots if available
-    if (this.slot && this.slot !== 'new') {
+    if (this.slot) {
       resource = `${resource}/slots/${this.slot}`;
     }
     return resource;
