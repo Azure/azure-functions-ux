@@ -804,7 +804,7 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions: IpRestrictions;
+  ipSecurityRestrictions: IpRestrictions[];
 }
 
 export interface PushSettings {

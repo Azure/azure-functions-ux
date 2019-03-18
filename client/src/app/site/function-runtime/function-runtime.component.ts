@@ -1,3 +1,4 @@
+import { Links } from 'app/shared/models/constants';
 import { NotificationIds, SiteTabIds, Constants, LogCategories } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioIds } from './../../shared/models/constants';
@@ -35,6 +36,8 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from 'app/shared/services/site.service';
+import { SiteConfig } from 'app/shared/models/arm/site-config';
+import { HttpResult } from 'app/shared/models/http-result';
 
 @Component({
   selector: 'function-runtime',
@@ -52,6 +55,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public showDailyMemoryWarning = false;
   public showDailyMemoryInfo = false;
   public exactExtensionVersion: string;
+  public showIpRestrictionsWarning = false;
+  public ipRestrictionsLearnMoreLink = Links.ipRestrictionsLearnMore;
 
   public functionStatusOptions: SelectOption<boolean>[];
   public showProxyEnable = false;
@@ -240,7 +245,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           this._functionAppService.getFunctionHostStatus(this.context),
-          this._functionAppService.getFunctions(this.context)
+          this._functionAppService.getFunctions(this.context),
+          this._siteService.getSiteConfig(this.viewInfo.resourceId, true)
         );
       })
       .do(() => this._busyManager.clearBusy())
@@ -259,6 +265,14 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this.dailyMemoryTimeQuota = '';
         } else {
           this.showDailyMemoryInfo = true;
+        }
+
+        const getSiteConfigResponse: HttpResult<ArmObj<SiteConfig>> = tuple[5];
+        if (getSiteConfigResponse.isSuccessful) {
+          const siteConfig = getSiteConfigResponse.result.properties;
+          this.showIpRestrictionsWarning = !!siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 0;
+        } else {
+          this._logService.error(LogCategories.functionAppSettings, errorIds.failedToGetSiteConfig, getSiteConfigResponse.error);
         }
 
         this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;

@@ -1544,4 +1544,5 @@ export class PortalResources {
   public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
   public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
+  public static functionAppSettings_ipRestrictionsWarning = 'functionAppSettings_ipRestrictionsWarning';
 }

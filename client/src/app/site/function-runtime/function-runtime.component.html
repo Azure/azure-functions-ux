@@ -4,6 +4,10 @@
       {{ 'appFunctionSettings_proxyEnabled' | translate }}
     </div>
 
+    <div *ngIf="showIpRestrictionsWarning" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'functionAppSettings_ipRestrictionsWarning' | translate: {learnMoreLink: ipRestrictionsLearnMoreLink} }}
+    </div>
+
     <div *ngIf="context?.site.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">

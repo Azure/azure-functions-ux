@@ -12,6 +12,15 @@ export interface ContainerSiteConfig {
   appCommandLine: string;
 }
 
+export interface IpRestrictions {
+  ipAddress: string;
+  action?: string;
+  tag?: string;
+  priority?: number;
+  name?: string;
+  description?: string;
+}
+
 export interface SiteConfig extends ContainerSiteConfig {
   scmType: ProviderType;
   alwaysOn: boolean;
@@ -46,4 +55,5 @@ export interface SiteConfig extends ContainerSiteConfig {
   ftpsState?: string;
   http20Enabled: boolean;
   azureStorageAccounts: ByosStorageAccounts;
+  ipSecurityRestrictions: IpRestrictions[];
 }

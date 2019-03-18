@@ -4802,5 +4802,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appInsightsNotConfigured" xml:space="preserve">
     <value>Application Insights is not configured. Configure Application Insights to capure function logs.</value>
   </data>
-  
+  <data name="functionAppSettings_ipRestrictionsWarning" xml:space="preserve">
+    <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;</value>
+  </data>
 </root>
