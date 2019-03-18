@@ -5,9 +5,10 @@ import { PlanSpecPickerData, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
 import { ArmObj, Sku, ServerFarm } from '../../../../../models/WebAppModels';
+import i18next from 'i18next';
 
 export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(
       t,
       ServerFarmSkuConstants.Tier.elasticPremium,
