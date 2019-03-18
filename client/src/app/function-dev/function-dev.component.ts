@@ -49,6 +49,7 @@ import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
 import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
+import { AiService } from 'app/shared/services/ai.service';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -141,7 +142,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     private _translateService: TranslateService,
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _aiService: AiService
   ) {
     super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
@@ -623,6 +625,10 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       return;
     }
 
+    this._aiService.trackEvent('/function-dev/function run', {
+      bottomTab: this.bottomTab,
+      rightTab: this.rightTab,
+    });
     if (this.bottomTab !== 'logs') {
       this.clickBottomTab('logs');
     }
