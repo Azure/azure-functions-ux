@@ -270,7 +270,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         const getSiteConfigResponse: HttpResult<ArmObj<SiteConfig>> = tuple[5];
         if (getSiteConfigResponse.isSuccessful) {
           const siteConfig = getSiteConfigResponse.result.properties;
-          this.showIpRestrictionsWarning = !!siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 0;
+          this.showIpRestrictionsWarning = !!siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1;
         } else {
           this._logService.error(LogCategories.functionAppSettings, errorIds.failedToGetSiteConfig, getSiteConfigResponse.error);
         }
