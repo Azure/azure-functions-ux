@@ -270,7 +270,12 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
       }
     }
 
-    this._logDashboardTypeChange(this.selectedDashboardType, newDashboardType, this.selectedNode.resourceId, newSelectedNode.resourceId);
+    this._logDashboardTypeChange(
+      this.selectedDashboardType,
+      newDashboardType,
+      this.selectedNode && this.selectedNode.resourceId,
+      newSelectedNode && newSelectedNode.resourceId
+    );
 
     this.selectedNode = newSelectedNode;
     this.selectedDashboardType = newDashboardType;
@@ -332,7 +337,12 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType, oldResourceId: string, newResourceId: string) {
+  private _logDashboardTypeChange(
+    oldDashboard: DashboardType,
+    newDashboard: DashboardType,
+    oldResourceId?: string,
+    newResourceId?: string
+  ) {
     const oldDashboardType = DashboardType[oldDashboard];
     const newDashboardType = DashboardType[newDashboard];
 
