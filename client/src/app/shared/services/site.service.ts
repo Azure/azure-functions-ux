@@ -46,9 +46,15 @@ export class SiteService {
   }
 
   getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
-    const getSiteConfig = this._cacheService
-      .getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20181101)
-      .map(r => r.json());
+    const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force, ARMApiVersions.websiteApiVersion20181101).map(r => {
+      const siteConfig: ArmObj<SiteConfig> = r.json();
+
+      if (siteConfig && siteConfig.properties && siteConfig.properties.azureStorageAccounts) {
+        delete siteConfig.properties.azureStorageAccounts;
+      }
+
+      return siteConfig;
+    });
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
   }
 
