@@ -17,6 +17,7 @@ export class CommonConstants {
     premiumV2NotAvailableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2009376',
     azureComputeUnitLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2027465',
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
+    ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
   };
 
   public static readonly Kinds = {

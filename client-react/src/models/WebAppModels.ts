@@ -461,7 +461,7 @@ export interface Identifier {
   id: string;
 }
 
-export interface IpRestrictions {
+export interface IpRestriction {
   ipAddress: string;
   action: string;
   tag: string;
@@ -804,7 +804,7 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions: IpRestrictions;
+  ipSecurityRestrictions: IpRestriction[];
 }
 
 export interface PushSettings {
