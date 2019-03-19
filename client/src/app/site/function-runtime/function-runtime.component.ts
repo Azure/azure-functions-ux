@@ -272,6 +272,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           const siteConfig = getSiteConfigResponse.result.properties;
           this.showIpRestrictionsWarning = !!siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1;
         } else {
+          this.showIpRestrictionsWarning = false;
           this._logService.error(LogCategories.functionAppSettings, errorIds.failedToGetSiteConfig, getSiteConfigResponse.error);
         }
 
