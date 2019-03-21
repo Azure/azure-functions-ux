@@ -105,6 +105,7 @@ export class NotificationIds {
   public static runtimeV2 = 'runtimeV2';
   public static updateExtensions = 'updateExtensions';
   public static dynamicLinux = 'dynamicLinux';
+  public static ipRestrictions = 'ipRestrictions';
 }
 
 export class Validations {
