@@ -2287,6 +2287,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
   </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Upcoming changes to Routing Rules</value>
+  </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>For a richer monitoring experience, including live metrics and custom queries:</value>
   </data>

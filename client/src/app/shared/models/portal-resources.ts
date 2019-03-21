@@ -724,6 +724,7 @@ export class PortalResources {
   public static slotsList_serverfarmHeader = 'slotsList_serverfarmHeader';
   public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
   public static slotsList_title = 'slotsList_title';
+  public static slotsList_tipDeprecationMessage = 'slotsList_tipDeprecationMessage';
   public static monitoring_appInsights = 'monitoring_appInsights';
   public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
   public static slotNew_nameLabel_balloonText = 'slotNew_nameLabel_balloonText';
