@@ -18,6 +18,10 @@ export interface StatusMessage {
   infoLink?: string;
 }
 
+interface SpecResult {
+  skuCode: string;
+}
+
 @Component({
   selector: 'spec-picker',
   templateUrl: './spec-picker.component.html',
@@ -179,7 +183,14 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
         isLinux: this._input.data.isLinux,
         sku: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
       });
-      this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
+
+      if (this._input.data && this._input.data.returnObjectResult) {
+        this._portalService.returnPcv3Results<SpecResult>({
+          skuCode: this.specManager.selectedSpecGroup.selectedSpec.skuCode,
+        });
+      } else {
+        this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
+      }
     }
   }
 
