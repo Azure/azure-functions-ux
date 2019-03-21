@@ -11,14 +11,14 @@ export abstract class GenericPlanPriceSpec extends PriceSpec {
     orange: 'spec free-spec',
   };
 
-  private computeMode?: number;
+  private _computeMode?: number;
 
   constructor(t: i18next.TFunction, pricingTier: PricingTier) {
     super(t);
     this.legacySkuName = pricingTier.name;
     this.skuCode = pricingTier.name;
     this.tier = pricingTier.workerTierName;
-    this.computeMode = pricingTier.computeMode;
+    this._computeMode = pricingTier.computeMode;
     if (pricingTier.estimatedPrice === 0) {
       this.priceString = t('free');
     } else if (pricingTier.estimatedPrice > 0) {
@@ -35,7 +35,7 @@ export abstract class GenericPlanPriceSpec extends PriceSpec {
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
-    if (input.specPickerInput && input.specPickerInput.data && input.specPickerInput.data.forbiddenComputeMode === this.computeMode) {
+    if (input.specPickerInput && input.specPickerInput.data && input.specPickerInput.data.forbiddenComputeMode === this._computeMode) {
       this.state = 'hidden';
     }
   }
