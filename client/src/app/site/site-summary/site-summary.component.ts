@@ -151,7 +151,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.getRuntimeGeneration(context),
             this._functionAppService.getFunctions(context),
             this._siteService.getAppSettings(context.site.id, true),
-            (p, s, l, slots, ping, version, functions, appSettings) => ({
+            this._siteService.getSiteConfig(context.site.id, true),
+            (p, s, l, slots, ping, version, functions, appSettings, siteConfig) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -160,6 +161,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               runtime: version,
               functionInfo: functions.isSuccessful ? functions.result : [],
               appSettings: appSettings,
+              siteConfig: siteConfig,
             })
           );
         } else {
@@ -251,6 +253,24 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
         }
+
+        if (r.siteConfig && r.siteConfig.isSuccessful) {
+          const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
+          const showIpRestrictionsWarning = siteConfig && siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1;
+          if (showIpRestrictionsWarning) {
+            this.notifications.push({
+              id: NotificationIds.ipRestrictions,
+              message: this.ts.instant(PortalResources.ipRestrictionsWarning),
+              iconClass: 'fa fa-exclamation-triangle warning',
+              learnMoreLink: Links.ipRestrictionsLearnMore,
+              clickCallback: null,
+            });
+            this._globalStateService.setTopBarNotifications(this.notifications);
+          }
+        } else {
+          this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
+        }
+
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);
       })
       .do(res => {
