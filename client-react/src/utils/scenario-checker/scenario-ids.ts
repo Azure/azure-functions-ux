@@ -92,4 +92,8 @@ export class ScenarioIds {
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly azureStorageMount = 'azureStorageMount';
   public static readonly showAppSettingsUpsell = 'showAppSettingsUpsell';
+  public static readonly remoteDebuggingSupported = 'RemoteDebuggingSupported';
+  public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
+  public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
+  public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
 }

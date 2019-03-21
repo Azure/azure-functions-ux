@@ -706,6 +706,12 @@ export interface Site {
   reserved: boolean;
 }
 
+export enum ComputeMode {
+  Shared = 0,
+  Dedicated,
+  Dynamic,
+}
+
 export interface PremierAddOn {
   sku: string;
   product: string;
@@ -1207,20 +1213,6 @@ export interface ServerFarmProperties {
   subscription: string;
   adminSiteName: string;
   hostingEnvironment: string;
-}
-
-export interface Site {
-  id: string;
-  name: string;
-  type: string;
-  location: string;
-  properties: SiteProperties;
-}
-
-export interface SiteProperties {
-  webHostingPlan: string;
-  serverFarmId: string;
-  hostNames: string;
 }
 
 export interface SQLServer {
