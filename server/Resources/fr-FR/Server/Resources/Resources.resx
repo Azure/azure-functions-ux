@@ -2119,6 +2119,12 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Le nom d'application '{0}' n'est pas disponible</value>
   </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nous ne pouvons pas mettre à jour le mode d'édition de votre application de fonction. Réessayez plus tard.</value>
   </data>
@@ -3557,8 +3563,11 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Informations d'identification de l'utilisateur</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Les informations d’identification de l’utilisateur sont définies par vous, l’utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Ces informations d’identification peuvent être utilisées avec FTP, Git local et WebDeploy. Si vous utilisez des informations d’identification utilisateur pour vous connecter à votre application, le nom d’utilisateur doit être indiqué au format {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>Les informations d'identification de l'utilisateur sont définies par vous, l'utilisateur, et peuvent être utilisées avec toutes les applications auxquelles vous avez accès. Ces informations d'identification peuvent être utilisées avec FTP, Local Git et WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Informations d'identification de l'application</value>
@@ -4739,17 +4748,11 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Les valeurs de paramètre d’application doivent être un tableau</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Tous les objets de paramètre d’application doivent avoir un nom</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Tous les objets de paramètre d’application doivent avoir une valeur</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Toutes les propriétés de valeur de paramètre d’application doivent être de type chaîne</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Toutes les propriétés de nom de paramètre d’application doivent être de type chaîne</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Toutes les propriétés de paramètre d’emplacement de paramètre d’application doivent être de type booléen</value>
@@ -4788,6 +4791,9 @@ Choisissez « URL externe » pour utiliser une définition d'API hébergée ai
     <value>Les journaux du serveur web sont désactivés. Vous pouvez les activer à l'aide des paramètres « Journaux de diagnostic ».</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Your selected runtime stack does not currently support remote debugging.</value>
+    <value>Votre pile de runtime sélectionnée ne prend pas en charge actuellement le débogage à distance.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
   </data>
 </root>

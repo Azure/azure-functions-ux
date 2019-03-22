@@ -2119,6 +2119,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Nazwa aplikacji „{0}” jest niedostępna</value>
   </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nie możemy zaktualizować trybu edycji Twojej aplikacji funkcji. Spróbuj ponownie później.</value>
   </data>
@@ -3557,8 +3563,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Poświadczenia użytkownika</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Poświadczenia użytkownika są definiowane przez Ciebie, użytkownika, i mogą być używane we wszystkich aplikacjach, do których masz dostęp. Tych poświadczeń można używać w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Jeśli łączysz się ze swoją aplikacją przy użyciu poświadczeń użytkownika, konieczne będzie wprowadzenie następującej nazwy użytkownika: {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>Poświadczenia użytkownika są definiowane przez Ciebie, użytkownika, i mogą być używane we wszystkich aplikacjach, do których masz dostęp. Te poświadczenia mogą być używane w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Poświadczenia aplikacji</value>
@@ -4739,17 +4748,11 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Wartości ustawień aplikacji muszą być tablicami</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Wszystkie obiekty ustawień aplikacji muszą mieć nazwę</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Wszystkie obiekty ustawień aplikacji muszą mieć wartość</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Wszystkie wartości nazw ustawień aplikacji muszą być ciągami</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Wszystkie właściwości nazw ustawień aplikacji muszą być ciągami</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Wszystkie właściwości ustawień miejsc na ustawienia aplikacji muszą być typu logicznego</value>
@@ -4788,6 +4791,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Dzienniki serwera sieci Web są wyłączone. Możesz je włączyć za pomocą ustawień „Dzienniki diagnostyczne”.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Your selected runtime stack does not currently support remote debugging.</value>
+    <value>Wybrany stos środowiska uruchomieniowego obecnie nie obsługuje zdalnego debugowania.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Kliknij tutaj, aby zmienić jednostkę SKU na wyższą i włączyć dodatkowe funkcje.</value>
   </data>
 </root>
