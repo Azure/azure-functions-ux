@@ -1192,7 +1192,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       this._parseJavaMinorStackOptions(majorVersion);
 
       const option: DropDownElement<string> = {
-        displayLabel: 'Java ' + majorVersion.displayVersion.substr(2),
+        // The value of majorVersion.displayVersion may be '1.7', '1.8' or '11'.
+        // We want to display 'Java 7', 'Java 8', or 'Java 11' respectively.
+        displayLabel: `Java ${majorVersion.displayVersion.split('.')[1] || majorVersion.displayVersion}`,
         value: majorVersion.runtimeVersion,
         default: false,
       };
