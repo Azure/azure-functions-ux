@@ -14,11 +14,6 @@
     "test:dev": "run-p --race start:ci cypress:open"
   },
   "private": true,
-  "workspaces": {
-    "nohoist": [
-      "**"
-    ]
-  },
   "devDependencies": {
     "axe-core": "^3.1.2",
     "cypress": "^3.1.5",
@@ -26,5 +21,8 @@
     "serve": "^10.1.2",
     "ms-rest-azure": "^2.6.0",
     "cypress-plugin-retries": "^1.0.3"
+  },
+  "engines": {
+    "yarn": "NO LONGER USED - Please use npm"
   }
 }

@@ -5,7 +5,8 @@
     "start": "concurrently npm:start:*",
     "start:react": "cd client-react && npm run start",
     "start:angular": "cd client && npm run watch",
-    "start:server": "cd server && npm run watch"
+    "start:server": "cd server && npm run watch",
+    "postinstall": "concurrently npm:install:*"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
@@ -24,15 +25,15 @@
     "trailingComma": "es5"
   },
   "private": true,
-  "workspaces": [
-    "client",
-    "client-react",
-    "server",
-    "tests"
-  ],
+  "engines": {
+    "yarn": "NO LONGER USED - Please use npm"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "recursive-install": "^1.4.0"
   }
 }

@@ -73,11 +73,6 @@
     "typescript": "^3.3.3",
     "webpack-bundle-analyzer": "^3.0.3"
   },
-  "workspaces": {
-    "nohoist": [
-      "**"
-    ]
-  },
   "proxy": "https://localhost:44300",
   "jest": {
     "collectCoverageFrom": [
@@ -106,5 +101,8 @@
     "not dead",
     "not ie <= 10",
     "not op_mini all"
-  ]
+  ],
+  "engines": {
+    "yarn": "NO LONGER USED - Please use npm"
+  }
 }
