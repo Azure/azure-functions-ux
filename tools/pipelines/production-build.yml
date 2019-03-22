@@ -14,17 +14,13 @@ jobs:
         displayName: 'Install Node.js'
 
       - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
+          cd server
+          npm ci
+        displayName: 'npm install'
 
       - script: |
           cd server
-          yarn install
-        displayName: 'yarn install on server'
-
-      - script: |
-          cd server
-          yarn build
+          npm run build
         displayName: 'Setup Environment Variables and Build Resources'
         env:
           bitbucketClientId: $(bitbucketClientId)
@@ -57,22 +53,18 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '8.x'
+          versionSpec: '10.x'
         displayName: 'Install Node.js'
 
       - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
-
-      - script: |
           cd client-react
-          yarn install
-        displayName: 'yarn install'
+          npm ci
+        displayName: 'npm install'
 
       - script: |
           cd client-react
           export REACT_APP_CACHE_KEY=$(uuidgen)
-          yarn build
+          npm run build
         displayName: 'build production react'
         env:
           REACT_APP_RUNETIME_TYPE: $(reactRuntimeType)
@@ -106,21 +98,13 @@ jobs:
         displayName: 'Install Node.js'
 
       - script: |
-          npm install -g @angular/cli
-        displayName: 'install angular CLI'
-
-      - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
+          cd client
+          npm ci
+        displayName: 'npm install'
 
       - script: |
           cd client
-          yarn install
-        displayName: 'yarn install on angular'
-
-      - script: |
-          cd client
-          ng build --progress false --output-path="public/ng-full"
+          node_modules/.bin/ng build --progress false --output-path="public/ng-full"
         displayName: 'ng build full'
 
       - task: CopyFiles@2
@@ -143,31 +127,24 @@ jobs:
         inputs:
           versionSpec: '8.x'
         displayName: 'Install Node.js'
-
-      - script: |
-          npm install -g @angular/cli
-        displayName: 'install angular CLI'
-
-      - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
+        
       - script: |
           npm install -g gulp-cli
         displayName: 'install gulp'
 
       - script: |
           cd client
-          yarn install
-        displayName: 'yarn install on angular'
+          npm ci
+        displayName: 'npm install'
 
       - script: |
           cd client
-          ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
+          node_modules/.bin/ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
         displayName: 'ng build full'
 
       - script: |
           cd server
-          yarn install
+          npm ci
           gulp replace-tokens-for-minimized-angular
         displayName: 'Generate config file with angular files'
 
@@ -202,16 +179,8 @@ jobs:
 
       - task: NodeTool@0
         inputs:
-          versionSpec: '8.x'
+          versionSpec: '10.x'
         displayName: 'Install Node.js'
-
-      - script: |
-          npm install -g yarn
-        displayName: 'install yarn'
-
-      - script: |
-          npm install -g gulp-cli
-        displayName: 'install gulp'
 
       - task: DownloadBuildArtifacts@0
         displayName: 'Download Server Artifacts'
@@ -263,7 +232,7 @@ jobs:
 
       - script: |
           cd $(Build.ArtifactStagingDirectory)
-          yarn install --prod
+          npm ci --production
         displayName: 'delete dev node_modules and install prod'
 
       - task: ArchiveFiles@2

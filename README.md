@@ -9,7 +9,6 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 - [Node 8.\*](https://nodejs.org/en/download/)
-- [yarn](https://yarnpkg.com/en/docs/install)
 - Angular CLI
 
 ```
@@ -61,8 +60,8 @@ A step by step series of examples that tell you how to get a development env run
 from root
 
 ```
-yarn install
-yarn start
+npm install
+npm start
 ```
 
 Go to https://localhost:44400 and https://localhost:44300 and bypass the self-signed cert block before going to portal
@@ -82,7 +81,7 @@ ng test
 
 ```
 cd client-react
-yarn test
+npm run test
 ```
 
 ### React E2E Tests
@@ -91,16 +90,16 @@ single run
 ```
 
 cd client-react
-yarn build
+npm run build
 cd ../tests
-yarn test:run
+npm run test:run
 
 ```
 development mode
 ```
 
 cd client-react
-yarn start
+npm start
 
 ```
 plus in another terminal
