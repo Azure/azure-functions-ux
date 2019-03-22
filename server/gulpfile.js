@@ -19,7 +19,7 @@ const prettier = require('prettier');
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
-gulp.task('resources-clean', function (cb) {
+gulp.task('resources-clean', function(cb) {
   return del([
     'template-downloads',
     'Templates',
@@ -69,7 +69,7 @@ gulp.task('replace-tokens-for-configuration', () => {
 /********
  *   Bundle Up production server views
  */
-gulp.task('bundle-views', function () {
+gulp.task('bundle-views', function() {
   return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('build'));
 });
 
@@ -92,7 +92,7 @@ gulp.task('copy-env-example-to-env', () => {
   return gulp
     .src('**/.env.example')
     .pipe(
-      rename(function (p) {
+      rename(function(p) {
         p.extname = '';
       })
     )
@@ -133,24 +133,24 @@ gulp.task('inject-environment-variables', gulp.series('copy-env-example-to-env',
 /********
  *   Bundle Up production server static files
  */
-gulp.task('bundle-static-files', function () {
+gulp.task('bundle-static-files', function() {
   return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('build'));
 });
 
 /********
  *   Bundle Up config
  */
-gulp.task('bundle-config', function () {
+gulp.task('bundle-config', function() {
   return gulp.src(['web.config', 'iisnode.yml', '.env', 'gulpfile.js', 'package-lock.json']).pipe(gulp.dest('build'));
 });
 
 /********
  *   This will make the portal-resources.ts file
  */
-gulp.task('resx-to-typescript-models', function (cb) {
+gulp.task('resx-to-typescript-models', function(cb) {
   const resources = require('../server/src/actions/resources/Resources.json').en;
   let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
-  Object.keys(resources).forEach(function (stringName) {
+  Object.keys(resources).forEach(function(stringName) {
     typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
   });
   typescriptFileContent += `}`;
@@ -169,12 +169,12 @@ gulp.task('resx-to-typescript-models', function (cb) {
  *   This task takes the Resource Resx files from both templates folder and Portal Resources Folder and converts them to json, it drops them into a intermediate 'convert' folder.
  *   Also it will change the file name format to Resources.<language code>.json
  */
-gulp.task('resources-convert', function () {
+gulp.task('resources-convert', function() {
   const portalResourceStream = gulp
     .src(['./Resources/**/Resources.resx'])
     .pipe(resx2())
     .pipe(
-      rename(function (p) {
+      rename(function(p) {
         const language = p.dirname.split(path.sep)[0];
         if (!!language && language !== '.') {
           p.basename = 'Resources.' + language;
@@ -189,7 +189,7 @@ gulp.task('resources-convert', function () {
     .src(['templates/**/Resources/**/Resources.resx', '!templates/**/Resources/**/qps-*/**'])
     .pipe(resx2())
     .pipe(
-      rename(function (p) {
+      rename(function(p) {
         const parts = p.dirname.split(path.sep);
         const version = parts[0];
 
@@ -208,13 +208,13 @@ gulp.task('resources-convert', function () {
 /********
  *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
  */
-gulp.task('resources-build', function () {
+gulp.task('resources-build', function() {
   const streams = [];
   streams.push(
     gulp
       .src(['resources-convert/**/Resources.*.json'])
       .pipe(
-        jeditor(function (json) {
+        jeditor(function(json) {
           const enver = require(path.normalize('../server/resources-convert/Resources.json'));
           const retVal = {
             lang: json,
@@ -231,7 +231,7 @@ gulp.task('resources-build', function () {
     gulp
       .src(['resources-convert/Resources.json'])
       .pipe(
-        jeditor(function (json) {
+        jeditor(function(json) {
           const retVal = {
             en: json,
           };
@@ -249,7 +249,7 @@ gulp.task('resources-build', function () {
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.*.json')
         .pipe(
-          jeditor(function (json) {
+          jeditor(function(json) {
             const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
             const retVal = {
               lang: json,
@@ -266,7 +266,7 @@ gulp.task('resources-build', function () {
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.json')
         .pipe(
-          jeditor(function (json) {
+          jeditor(function(json) {
             const retVal = {
               en: json,
             };
@@ -293,7 +293,7 @@ const parentFolders = [];
 let streams = [];
 const baseNames = [];
 
-gulp.task('resources-combine', function () {
+gulp.task('resources-combine', function() {
   const TemplateVersionDirectories = getSubDirectories('templateresources-build');
   const s = [];
   TemplateVersionDirectories.forEach(x => {
@@ -316,7 +316,7 @@ gulp.task('resources-combine', function () {
             })
           )
           .pipe(
-            rename(function (p) {
+            rename(function(p) {
               p.basename += '.' + x;
             })
           )
@@ -332,7 +332,7 @@ gulp.task('resources-combine', function () {
 });
 
 function makeStreams() {
-  files.forEach(function (file) {
+  files.forEach(function(file) {
     let thisParentFolders = path.dirname(file).substr(file.indexOf(path.sep));
 
     if (parentFolders.indexOf(thisParentFolders) === -1) {
@@ -340,12 +340,12 @@ function makeStreams() {
     }
   });
 
-  parentFolders.forEach(function (folder) {
+  parentFolders.forEach(function(folder) {
     let foldersFile = folder.substr(folder.indexOf(path.sep));
 
-    baseNames.forEach(function (baseName) {
+    baseNames.forEach(function(baseName) {
       streams.push(
-        files.filter(function (file) {
+        files.filter(function(file) {
           return file.endsWith(path.join(foldersFile, baseName));
         })
       );
@@ -358,7 +358,7 @@ function makeStreams() {
  * Templates Building
  */
 
-gulp.task('build-templates', function (cb) {
+gulp.task('build-templates', function(cb) {
   const templateRuntimeVersions = getSubDirectories('templates');
   templateRuntimeVersions.forEach(version => {
     let templateListJson = [];
@@ -390,7 +390,7 @@ gulp.task('build-templates', function (cb) {
  * Place Binding Templates
  */
 
-gulp.task('build-bindings', function (cb) {
+gulp.task('build-bindings', function(cb) {
   const templateRuntimeVersions = getSubDirectories('templates');
   templateRuntimeVersions.forEach(version => {
     const bindingFile = require(path.join(__dirname, 'templates', version, 'Bindings', 'bindings.json'));
@@ -424,7 +424,7 @@ const templateVersionMap = {
 /*****
  * Download and unzip nuget packages with templates
  */
-gulp.task('download-templates', function () {
+gulp.task('download-templates', function() {
   const mygetUrl = 'https://www.myget.org/F/azure-appservice/api/v2/package/Azure.Functions.Ux.Templates/';
   const templateLocations = Object.keys(templateVersionMap);
   let streams = [];
@@ -434,7 +434,7 @@ gulp.task('download-templates', function () {
   return gulpMerge(streams);
 });
 
-gulp.task('unzip-templates', function () {
+gulp.task('unzip-templates', function() {
   const versions = getSubDirectories('template-downloads');
 
   let streams = [];
@@ -449,7 +449,7 @@ gulp.task('unzip-templates', function () {
   return gulpMerge(streams);
 });
 
-gulp.task('list-numeric-versions', function (cb) {
+gulp.task('list-numeric-versions', function(cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
@@ -515,18 +515,20 @@ function getFilesWithContent(folder, filesToIgnore) {
   }
   let obj = {};
   const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
-  fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
-    const fileContent = fs.readFileSync(path.join(folder, fileName), {
-      encoding: 'utf8',
+  fileNames
+    .filter(x => filesToIgnore.indexOf(x) === -1)
+    .forEach(fileName => {
+      const fileContent = fs.readFileSync(path.join(folder, fileName), {
+        encoding: 'utf8',
+      });
+      obj[fileName] = fileContent;
     });
-    obj[fileName] = fileContent;
-  });
 
   return obj;
 }
 
 function newGuid() {
-  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = (Math.random() * 16) | 0,
       v = c == 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -540,10 +542,10 @@ function getBuildVersion() {
 function getFiles(folders) {
   let possibleDirectory;
 
-  folders.forEach(function (folder, index) {
+  folders.forEach(function(folder, index) {
     let tempFiles = fs.readdirSync('./' + folder);
 
-    tempFiles.forEach(function (fileOrDirectory) {
+    tempFiles.forEach(function(fileOrDirectory) {
       possibleDirectory = path.join(folder, fileOrDirectory);
       if (fs.lstatSync(possibleDirectory).isDirectory()) {
         getFiles([possibleDirectory]);
