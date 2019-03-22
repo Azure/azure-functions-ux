@@ -19,7 +19,9 @@ export const getJavaVersionAsDropdownOptions = (javaStack: ArmObj<AvailableStack
   javaStack.properties.majorVersions.map<IDropdownOption>(val => {
     return {
       key: val.runtimeVersion,
-      text: `Java ${val.runtimeVersion.split('.')[1]}`,
+      // The value of val.runtimeVersion may be '1.7', '1.8' or '11'.
+      // We want to display 'Java 7', 'Java 8', or 'Java 11' respectively.
+      text: `Java ${val.runtimeVersion.split('.')[1] || val.runtimeVersion}`,
     };
   });
 
