@@ -8,31 +8,33 @@ steps:
     inputs:
       versionSpec: '8.x'
     displayName: 'Install Node.js'
-  - script: |
-      npm install -g yarn
-    displayName: 'install yarn'
+
   - script: |
       cd client-react
-      yarn install
-    displayName: 'yarn install react app'
+      npm ci
+    displayName: 'npm install'
+
   - script: |
-      yarn install
       cd client-react
-      yarn test --coverage --reporters="jest-junit"
+      npm run test --coverage --reporters="jest-junit"
       cd ..
+      npm ci
       ./node_modules/.bin/gulp inline-react-code-coverage # fix ADO rendering
     displayName: 'run unit tests'
     env:
       CI: true
+
   - script: |
       cd client-react
-      yarn build
+      npm run build
     displayName: 'create production build'
+
   - script: |
       cd tests
-      yarn install
+      npm ci
       npm run cy:verify
     displayName: 'Cypress verify'
+    
   - script: |
       cd tests
       npm run test:ci:record
@@ -49,6 +51,7 @@ steps:
       testResultsFormat: 'JUnit'
       testResultsFiles: 'tests/cypress/results/results-*.xml'
       testRunTitle: 'E2E Tests'
+      
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'

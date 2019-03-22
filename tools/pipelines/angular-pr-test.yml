@@ -17,15 +17,11 @@ steps:
     displayName: 'install angular CLI'
 
   - script: |
-      npm install -g yarn
-    displayName: 'install yarn'
-
-  - script: |
       cd client 
-      yarn install
+      npm ci
       node_modules/.bin/ng test --code-coverage
       node_modules/.bin/ng build --prod
-    displayName: 'yarn install and ng build/test'
+    displayName: 'ng build/test'
 
   - task: PublishTestResults@2
     inputs:

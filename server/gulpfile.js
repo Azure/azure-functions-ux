@@ -141,7 +141,7 @@ gulp.task('bundle-static-files', function() {
  *   Bundle Up config
  */
 gulp.task('bundle-config', function() {
-  return gulp.src(['web.config', 'iisnode.yml', '.env', 'gulpfile.js']).pipe(gulp.dest('build'));
+  return gulp.src(['web.config', 'iisnode.yml', '.env', 'gulpfile.js', 'package-lock.json']).pipe(gulp.dest('build'));
 });
 
 /********
@@ -515,12 +515,14 @@ function getFilesWithContent(folder, filesToIgnore) {
   }
   let obj = {};
   const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
-  fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
-    const fileContent = fs.readFileSync(path.join(folder, fileName), {
-      encoding: 'utf8',
+  fileNames
+    .filter(x => filesToIgnore.indexOf(x) === -1)
+    .forEach(fileName => {
+      const fileContent = fs.readFileSync(path.join(folder, fileName), {
+        encoding: 'utf8',
+      });
+      obj[fileName] = fileContent;
     });
-    obj[fileName] = fileContent;
-  });
 
   return obj;
 }
