@@ -50,6 +50,24 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   };
   return newConfig;
 };
+
+export const getCleanedConfigForSave = (config: ArmObj<SiteConfig>) => {
+  let linuxFxVersion = config.properties.linuxFxVersion ? config.properties.linuxFxVersion : '';
+  if (linuxFxVersion) {
+    const linuxFxVersionParts = linuxFxVersion.split('|');
+    linuxFxVersionParts[0] = linuxFxVersionParts[0].toUpperCase();
+    linuxFxVersion = linuxFxVersionParts.join('|');
+  }
+  const newConfig: ArmObj<SiteConfig> = {
+    ...config,
+    properties: {
+      ...config.properties,
+      linuxFxVersion,
+    },
+  };
+  return newConfig;
+};
+
 export interface ApiSetupReturn {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -221,9 +239,12 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
     newList.push({ ...va, virtualDirectory: false, virtualDirectories: [] });
     if (va.virtualDirectories && va.virtualDirectories.length > 0) {
       va.virtualDirectories.forEach(element => {
+        const virtualPath = `${
+          va.virtualPath.endsWith('/') && element.virtualPath.startsWith('/') ? va.virtualPath.slice(0, -2) : va.virtualPath
+        }${element.virtualPath}`;
         newList.push({
           ...element,
-          virtualPath: `${va.virtualPath}${element.virtualPath}`,
+          virtualPath: `${virtualPath}`,
           virtualDirectory: true,
         });
       });

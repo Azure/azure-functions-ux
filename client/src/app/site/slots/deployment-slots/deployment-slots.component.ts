@@ -74,9 +74,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   public relativeSlotsArm: ArmObj<Site>[];
   public saving: boolean;
 
-  private _siteConfigArm: ArmObj<SiteConfig>;
+  public isSlot: boolean;
 
-  private _isSlot: boolean;
+  private _siteConfigArm: ArmObj<SiteConfig>;
 
   private _slotName: string;
 
@@ -176,7 +176,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
 
-        this._isSlot = !!siteDescriptor.slot;
+        this.isSlot = !!siteDescriptor.slot;
         this._slotName = siteDescriptor.slot || 'production';
 
         this.resourceId = siteDescriptor.getTrimmedResourceId().toLowerCase();
@@ -211,7 +211,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         if (success) {
           this._siteConfigArm = siteConfigResult.result;
 
-          if (this._isSlot) {
+          if (this.isSlot) {
             this.siteArm = slotsResult.result.value.filter(s => s.id.toLowerCase() === this.resourceId.toLowerCase())[0];
             this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id.toLowerCase() !== this.resourceId.toLowerCase());
             this.relativeSlotsArm.unshift(siteResult.result);
@@ -385,7 +385,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this.swapSlotsCommandDisabled =
       this.saveAndDiscardCommandsDisabled || !this.hasSwapAccess || !this.relativeSlotsArm || !this.relativeSlotsArm.length;
 
-    this.navigationDisabled = this._isSlot || this._addControlsOpen || this._swapControlsOpen;
+    this.navigationDisabled = this.isSlot || this._addControlsOpen || this._swapControlsOpen;
   }
 
   private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {

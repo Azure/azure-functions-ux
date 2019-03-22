@@ -45,6 +45,7 @@ export interface SpecPickerInput<T> {
 }
 
 export interface PlanSpecPickerData {
+  returnObjectResult?: boolean;
   subscriptionId: string;
   location: string;
   hostingEnvironmentName: string | null;

@@ -12,7 +12,7 @@ import { ConfirmPasswordValidator } from '../../../../shared/validators/password
 import { FeatureComponent } from '../../../../shared/components/feature-component';
 import { Observable } from 'rxjs/Observable';
 import { SiteService } from '../../../../shared/services/site.service';
-import { KeyCodes } from '../../../../shared/models/constants';
+import { KeyCodes, Links } from '../../../../shared/models/constants';
 import { Dom } from '../../../../shared/Utilities/dom';
 import { PortalService } from 'app/shared/services/portal.service';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -50,6 +50,7 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   public saving = false;
   public resetting = false;
   public userCredsDesc = '';
+  public learnMoreLink = Links.deploymentCredentialsLearnMore;
   constructor(
     private _cacheService: CacheService,
     private _siteService: SiteService,
@@ -97,7 +98,9 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
           siteName = `${siteName}__${slotName}`;
         }
         const putInAs = this.localGit ? creds.properties.publishingUserName : `${siteName}\\${creds.properties.publishingUserName}`;
-        this.userCredsDesc = this._translateService.instant(PortalResources.userCredsDesc).format(`'${putInAs}'`);
+        this.userCredsDesc = creds.properties.publishingUserName
+          ? this._translateService.instant(PortalResources.userCredsDesc).format(`${putInAs}`)
+          : this._translateService.instant(PortalResources.userCredsNewUserDesc);
         this.userPasswordForm.reset({ userName: creds.properties.publishingUserName, password: '', passwordConfirm: '' });
       });
       return forkJoin(publishXml$, publishingUsers$);

@@ -2,9 +2,10 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
+import i18next from 'i18next';
 
 export abstract class PremiumContainerPlanPriceSpec extends PriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t);
     this.tier = ServerFarmSkuConstants.Tier.premiumContainer;
     this.featureItems = [

@@ -1,8 +1,9 @@
 import { IsolatedPlanPriceSpec } from './IsolatedPlanPriceSpec';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
+import i18next from 'i18next';
 
 export abstract class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t);
     this.skuCode = ServerFarmSkuConstants.SkuCode.Isolated.I1;
     this.legacySkuName = 'small_isolated';

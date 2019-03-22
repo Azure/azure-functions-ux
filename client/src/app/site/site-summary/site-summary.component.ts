@@ -14,6 +14,7 @@ import {
   SwapOperationType,
   FunctionAppVersion,
   ARMApiVersions,
+  Constants,
 } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
@@ -149,7 +150,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.pingScmSite(context),
             this._functionAppService.getRuntimeGeneration(context),
             this._functionAppService.getFunctions(context),
-            (p, s, l, slots, ping, version, functions) => ({
+            this._siteService.getAppSettings(context.site.id, true),
+            this._siteService.getSiteConfig(context.site.id, true),
+            (p, s, l, slots, ping, version, functions, appSettings, siteConfig) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -157,6 +160,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: version,
               functionInfo: functions.isSuccessful ? functions.result : [],
+              appSettings: appSettings,
+              siteConfig: siteConfig,
             })
           );
         } else {
@@ -213,6 +218,57 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             clickCallback: null,
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
+        }
+
+        if (
+          r.appSettings &&
+          r.appSettings.result &&
+          r.appSettings.result.properties &&
+          !r.appSettings.result.properties[Constants.instrumentationKeySettingName]
+        ) {
+          this.notifications.push({
+            id: 'testnote',
+            message: this.ts.instant(PortalResources.appInsightsNotConfigured),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: null,
+            clickCallback: () => {
+              const appInsightBladeInput = {
+                detailBlade: 'AppServicesEnablementBlade',
+                detailBladeInputs: {
+                  resourceUri: this.context.site.id,
+                  linkedComponent: null,
+                },
+                extension: 'AppInsightsExtension',
+              };
+
+              this._portalService.openBlade(appInsightBladeInput, 'top-overview-banner').subscribe(
+                result => {
+                  this._viewInfo.node.refresh(null, true);
+                },
+                err => {
+                  this._logService.error(LogCategories.applicationInsightsConfigure, errorIds.applicationInsightsConfigure, err);
+                }
+              );
+            },
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
+        }
+
+        if (r.siteConfig && r.siteConfig.isSuccessful) {
+          const siteConfig = r.siteConfig.result && r.siteConfig.result.properties;
+          const showIpRestrictionsWarning = siteConfig && siteConfig.ipSecurityRestrictions && siteConfig.ipSecurityRestrictions.length > 1;
+          if (showIpRestrictionsWarning) {
+            this.notifications.push({
+              id: NotificationIds.ipRestrictions,
+              message: this.ts.instant(PortalResources.ipRestrictionsWarning),
+              iconClass: 'fa fa-exclamation-triangle warning',
+              learnMoreLink: Links.ipRestrictionsLearnMore,
+              clickCallback: null,
+            });
+            this._globalStateService.setTopBarNotifications(this.notifications);
+          }
+        } else {
+          this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
         }
 
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);

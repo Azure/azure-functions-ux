@@ -7,9 +7,10 @@ import { style } from 'typestyle';
 import { ArmObj, HostingEnvironment } from '../../../../../models/WebAppModels';
 import { HttpResult } from '../../../../../models/HttpResult';
 import MakeArmCall from '../../../../../ApiHelpers/ArmHelper';
+import i18next from 'i18next';
 
 export abstract class IsolatedPlanPriceSpec extends PriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t);
     this.tier = ServerFarmSkuConstants.Tier.isolated;
     this.featureItems = [

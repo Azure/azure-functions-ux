@@ -1,7 +1,7 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList,getCleanedConfigForSave } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -13,15 +13,17 @@ import {
 } from './AppSettings.service';
 import { ArmArray, ArmObj, SlotConfigNames, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext } from './Contexts';
+import { AvailableStacksContext, PermissionsContext, StorageAccountsContext, SlotsListContext, SiteContext } from './Contexts';
 import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
+import SiteService from '../../../ApiHelpers/SiteService';
 export interface AppSettingsDataLoaderProps {
   children: (
     props: {
       initialFormValues: AppSettingsFormValues;
       saving: boolean;
+      scaleUpPlan: () => void;
       onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
     }
   ) => JSX.Element;
@@ -36,12 +38,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [appPermissions, setAppPermissions] = useState<boolean>(true);
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
+  const portalCommunicator = useContext(PortalContext);
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<{ [key: string]: string }>>({ name: '', id: '', properties: {} });
   const [slotConfigNamesFromApi, setSlotConfigNamesFromApi] = useState<ArmObj<SlotConfigNames>>({
     name: '',
     id: '',
     properties: { appSettingNames: [], azureStorageConfigNames: [], connectionStringNames: [] },
   });
+  const [currentSiteNonForm, setCurrentSiteNonForm] = useState({} as any);
   const [slotList, setSlotList] = useState<ArmArray<Site>>({ value: [] });
   const [storageAccountsState, setStorageAccountsState] = useState<ArmArray<StorageAccount>>({ value: [] });
   const portalContext = useContext(PortalContext);
@@ -59,7 +63,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       windowsStacks,
       linuxStacks,
     } = await fetchApplicationSettingValues(resourceId);
-
+    setCurrentSiteNonForm(site.data);
     if (
       applicationSettings.metadata.status === 403 || // failing RBAC permissions
       applicationSettings.metadata.status === 409 // Readonly locked
@@ -109,12 +113,20 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fetchData();
     fillSlots();
   }, []);
+  const scaleUpPlan = async () => {
+    await portalCommunicator.openBlade(
+      { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
+      'appsettings'
+    );
+    const newSite = await SiteService.fetchSite(resourceId);
+    setCurrentSiteNonForm(newSite.data);
+  };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
     const { site, config, slotConfigNames } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
-    const configUpdate = updateWebConfig(resourceId, config);
+    const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
     let slotConfigUpdates: Promise<HttpResponseObject<unknown>> | undefined;
     if (productionPermissions) {
       slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);
@@ -128,7 +140,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           },
         };
     if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
-      setInitialValues(values);
+      setInitialValues({
+        ...values,
+        virtualApplications: flattenVirtualApplicationsList(configResult.data.properties.virtualApplications),
+      });
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
       portalContext.stopNotification(notificationId, false, t('configUpdateFailure'));
@@ -141,9 +156,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     <AvailableStacksContext.Provider value={currentAvailableStacks}>
       <PermissionsContext.Provider value={{ editable, app_write: appPermissions, production_write: productionPermissions }}>
         <StorageAccountsContext.Provider value={storageAccountsState}>
-          <SlotsListContext.Provider value={slotList}>
-            {children({ onSubmit, initialFormValues: initialValues, saving: false })}
-          </SlotsListContext.Provider>
+          <SiteContext.Provider value={currentSiteNonForm}>
+            <SlotsListContext.Provider value={slotList}>
+              {children({ onSubmit, scaleUpPlan, initialFormValues: initialValues, saving: false })}
+            </SlotsListContext.Provider>
+          </SiteContext.Provider>
         </StorageAccountsContext.Provider>
       </PermissionsContext.Provider>
     </AvailableStacksContext.Provider>

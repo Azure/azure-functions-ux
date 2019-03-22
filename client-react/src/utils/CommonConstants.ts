@@ -17,6 +17,7 @@ export class CommonConstants {
     premiumV2NotAvailableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2009376',
     azureComputeUnitLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2027465',
     pv2UpsellInfoLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2028474',
+    ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
   };
 
   public static readonly Kinds = {
@@ -29,6 +30,7 @@ export class CommonConstants {
   };
 
   public static readonly ApiVersions = {
+    websiteApiVersion20160301: '2016-03-01',
     websiteApiVersion20180201: '2018-02-01',
     websiteApiVersion20181101: '2018-11-01',
     armBatchApi: '2015-11-01',
@@ -37,5 +39,7 @@ export class CommonConstants {
   };
   public static readonly NonThemeColors = {
     upsell: '#804998',
+    upsellBackground: '#e7ddf2',
+    blackText: '#161616', // useful for cases where black text is always wanted like against upsell background
   };
 }

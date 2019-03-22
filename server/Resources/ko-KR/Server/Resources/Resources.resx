@@ -217,7 +217,7 @@
     <value>만들기 + 시작</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>함수 앱</value>
+    <value>Function Apps</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
     <value>Azure Functions 시작</value>
@@ -437,7 +437,7 @@
     <value>기능 검색</value>
   </data>
   <data name="searchFunctionApps" xml:space="preserve">
-    <value>함수 앱 검색</value>
+    <value>Function Apps 검색</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>구독 ID</value>
@@ -1169,7 +1169,7 @@
     <value>새 함수</value>
   </data>
   <data name="functionApps" xml:space="preserve">
-    <value>함수 앱</value>
+    <value>Function Apps</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>중지</value>
@@ -2118,6 +2118,12 @@
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>앱 이름 '{0}'을(를) 사용할 수 없습니다.</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>함수 앱의 편집 모드를 업데이트할 수 없습니다. 나중에 다시 시도하세요.</value>
@@ -3251,7 +3257,7 @@
     <value>고밀도</value>
   </data>
   <data name="pricing_highDensityDesc" xml:space="preserve">
-    <value>여러 함수 앱 간에 효율적으로 App Service 플랜을 공유합니다.</value>
+    <value>여러 Function Apps 간에 효율적으로 App Service 플랜을 공유합니다.</value>
   </data>
   <data name="pricing_stagingSlots" xml:space="preserve">
     <value>스테이징 슬롯</value>
@@ -3557,8 +3563,11 @@
     <value>사용자 자격 증명</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>사용자 자격 증명이 정의되었으므로 액세스할 수 있는 모든 앱에 이 자격 증명을 사용할 수 있습니다. 이 자격 증명을 FTP, 로컬 Git 및 WebDeploy에 사용할 수 있습니다. 사용자 자격 증명을 사용하여 앱에 연결하는 경우, 사용자 이름을 {0}(으)로 입력해야 합니다.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>사용자 자격 증명은 귀하와 사용자가 정의하며 액세스 권한이 있는 모든 앱과 함께 사용할 수 있습니다. 이러한 자격 증명은 FTP, 로컬 Git 및 WebDeploy에서 사용할 수 있습니다.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>앱 자격 증명</value>
@@ -4071,7 +4080,7 @@
     <value>Function App 런타임 스택</value>
   </data>
   <data name="functionAppRuntimeStackDescription" xml:space="preserve">
-    <value>함수 앱 v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
+    <value>Function Apps v2는 이제 단일 언어입니다. 앱에 함수를 추가하기 전에 런타임 스택을 설정하세요.</value>
   </data>
   <data name="functionRuntimeStackLabel" xml:space="preserve">
     <value>함수 런타임 스택</value>
@@ -4149,7 +4158,7 @@
     <value>완료하고 배포 센터로 이동</value>
   </data>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
-    <value>Linux 소비 함수 앱(미리 보기)에는 포털에서의 함수 편집이 지원되지 않습니다.</value>
+    <value>Linux 소비 Function Apps(미리 보기)에는 포털에서의 함수 편집이 지원되지 않습니다.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>단일 컨테이너(미리 보기)</value>
@@ -4260,7 +4269,7 @@
     <value>개인</value>
   </data>
   <data name="swaggerDefinitionReadOnly" xml:space="preserve">
-    <value>읽기 전용 모드의 함수 앱에 API 정의(Swagger)를 사용할 수 없습니다.</value>
+    <value>읽기 전용 모드의 Function Apps에 API 정의(Swagger)를 사용할 수 없습니다.</value>
   </data>
   <data name="troubleshootYourApp" xml:space="preserve">
     <value>앱 문제 해결</value>
@@ -4680,7 +4689,7 @@
     <value>'논리 앱'이 햔후 몇 개월 내에 제거됩니다. Azure Portal 찾아보기를 사용하여 논리 앱을 계속 찾아볼 수 있습니다.</value>
   </data>
   <data name="diagnosticLogsDisabled" xml:space="preserve">
-    <value>이 기능은 Linux App Service 플랜에서 실행하는 함수 앱에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
+    <value>이 기능은 Linux App Service 플랜에서 실행하는 Function Apps에서만 사용할 수 있습니다. 실시간 로깅을 위해 Application Insights를 사용하세요.</value>
   </data>
   <data name="scaleOut" xml:space="preserve">
     <value>규모 확장</value>
@@ -4739,17 +4748,11 @@
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>앱 설정 값이 배열이어야 합니다.</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>모든 앱 설정 개체에는 이름이 있어야 합니다.</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>모든 앱 설정 개체에는 값이 있어야 합니다.</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>모든 앱 설정 값 속성은 문자열 형식이어야 합니다.</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>모든 앱 설정 이름 속성은 문자열 형식이어야 합니다.</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>모든 앱 슬롯 설정 속성은 부울 형식이어야 합니다.</value>
@@ -4788,6 +4791,9 @@
     <value>웹 서버 로그가 해제되었습니다. '진단 로그' 설정을 사용하여 설정할 수 있습니다.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Your selected runtime stack does not currently support remote debugging.</value>
+    <value>선택한 런타임 스택에서 현재 원격 디버깅을 지원하지 않습니다.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>상위 버전의 SKU로 업그레이드하고 추가 기능을 사용하려면 여기를 클릭하세요.</value>
   </data>
 </root>

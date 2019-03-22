@@ -2,11 +2,13 @@ import { AvailableSku, ArmObj, GeoRegion, Sku, ServerFarm, ArmArray } from '../.
 import { PriceSpec, PriceSpecInput, PlanSpecPickerData } from './PriceSpec';
 import { ArmProviderInfo } from '../../../../models/HttpResult';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
+import i18next from 'i18next';
+
 export abstract class DV2SeriesPriceSpec extends PriceSpec {
   private readonly _sku: string;
   private readonly _skuNotAvailableMessage: string;
   private readonly _skuNotAvailableLink: string;
-  constructor(t: (string) => string, sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
+  constructor(t: i18next.TFunction, sku: string, skuNotAvailableMessage: string, skuNotAvailableLink: string) {
     super(t);
     this._sku = sku;
     this._skuNotAvailableMessage = skuNotAvailableMessage;

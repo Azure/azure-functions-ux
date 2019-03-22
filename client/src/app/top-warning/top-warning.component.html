@@ -14,7 +14,7 @@
             <i [class]="notification.iconClass"></i>
             {{notification.message}}
         </span>
-        <a *ngIf="notification.learnMoreLink !== ''" class="learnMoreLink" target="_blank" [href]="notification.learnMoreLink">{{ 'learnMore' | translate }}</a>
+        <a *ngIf="notification.learnMoreLink" class="learnMoreLink" target="_blank" [href]="notification.learnMoreLink">{{ 'learnMore' | translate }}</a>
     </div>
 
 </div>

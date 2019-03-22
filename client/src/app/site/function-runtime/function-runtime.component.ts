@@ -52,6 +52,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   public showDailyMemoryWarning = false;
   public showDailyMemoryInfo = false;
   public exactExtensionVersion: string;
+  public showIpRestrictionsWarning = false;
 
   public functionStatusOptions: SelectOption<boolean>[];
   public showProxyEnable = false;
