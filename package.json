@@ -5,8 +5,8 @@
     "start": "concurrently npm:start:*",
     "start:react": "cd client-react && npm run start",
     "start:angular": "cd client && npm run watch",
-    "start:server": "cd server && npm run watch",
-    "postinstall": "concurrently npm:install:*"
+    "start:server": "cd server && npm run start:dev",
+    "postinstall": "node child-install.js"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

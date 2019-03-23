@@ -1472,7 +1472,7 @@
     <value>App Service ondersteunt de installatie van nieuwere versies van Python. Klik hier voor meer informatie.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service ondersteunt de installatie van nieuwere versies van Python.</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-versie</value>
@@ -2118,12 +2118,6 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>De app-naam {0} is niet beschikbaar</value>
-  </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>De sitenaam {0} is niet beschikbaar.</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>De sitenaam {0} is een gereserveerde naam voor de implementatiesite.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>De bewerkingsmodus van uw functie-app kan niet worden bijgewerkt. Probeer het later opnieuw.</value>
@@ -3564,11 +3558,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gebruikersreferenties</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt voor alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt voor FTP, lokale Git en WebDeploy. Als u gebruikersreferenties gebruikt om verbinding te maken met uw app, moet de gebruikersnaam worden ingevoerd als {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt met alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt met FTP, Lokale Git en WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-referenties</value>
@@ -4740,8 +4731,8 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>Functies in de portal bewerken wordt niet ondersteund voor Python Function Apps (preview-versie). Gebruik de CLI of VS Code voor ontwikkeling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Bewerken in de portal voor Python wordt binnenkort afgeschaft. Gebruik CLI of VS Code om te ontwikkelen. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Meer informatie&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-opslagkoppeling bevat geheimen. Lees-/schrijf-machtigingen zijn vereist om deze sectie te bekijken/bewerken.</value>
@@ -4749,11 +4740,17 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>De waarden voor de app-instellingen moeten een matrix zijn</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is een vereiste eigenschap voor alle toepassingsinstellingen</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alle objecten voor de app-instellingen moeten een naam hebben</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alle objecten voor de app-instellingen moeten een waarde hebben</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Alle waarde- en naameigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
+    <value>Alle waarde-eigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alle naameigenschappen voor de app-instellingen moeten van het type tekenreeks zijn</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Alle eigenschappen van sleufinstellingen voor de app-instellingen moeten van het type booleaans zijn</value>
@@ -4780,21 +4777,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Met geavanceerd bewerken kunt u bulkbewerkingen voor uw app-instellingen uitvoeren. Sleutels en waarden kunnen worden bewerkt in de JSON-indeling voor tekst zonder opmaak</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Het fysieke pad moet een locatie in de site\ zijn</value>
+    <value>Physical path must be a location within site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Pad voor virtuele map moet bestaan binnen een toepassingspad</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Toepassingslogboeken zijn uitgeschakeld. U kunt ze inschakelen met de instellingen Diagnostische logboeken.</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Webserverlogboeken zijn uitgeschakeld. U kunt ze inschakelen met de instellingen Diagnostische logboeken.</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>De geselecteerde runtimestack biedt momenteel geen ondersteuning voor externe foutopsporing.</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Klik hier om te upgraden naar een hogere SKU en extra functies in te schakelen.</value>
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

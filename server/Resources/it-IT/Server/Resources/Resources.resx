@@ -1472,7 +1472,7 @@
     <value>Il servizio app supporta l'installazione di versioni più recenti di Python. Per altre informazioni, fare clic qui.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>Il servizio app supporta l'installazione di versioni di Python più recenti.</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versione Java</value>
@@ -2119,12 +2119,6 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Il nome dell'app '{0}' non è disponibile</value>
   </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
-  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Non è possibile aggiornare la modalità di modifica dell'app per le funzioni. Riprovare più tardi.</value>
   </data>
@@ -2414,7 +2408,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Includi le impostazioni dell'app nel download</value>
   </data>
   <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
-    <value>Verrà incluso un file denominato local.settings.json che contiene i valori delle impostazioni dell'app. Il file non verrà crittografato al download ma può essere crittografato tramite la riga di comando di Azure Functions Core Tools.</value>
+    <value>Verrà incluso un file denominato local.settings.json che contiene i valori delle impostazioni dell'app. Il file non verrà crittografato al download ma può essere crittografato tramite la riga di comando degli strumenti di base di Funzioni di Azure.</value>
   </data>
   <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
     <value>Contenuto del sito</value>
@@ -3563,11 +3557,8 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Credenziali utente</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Le credenziali utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy. Se si usano le credenziali utente per accedere all'app, sarà necessario specificare il nome utente come {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>Le credenziali utente sono definite dall'utente e possono essere usate con tutte le app a cui si ha accesso. Queste credenziali possono essere usate con FTP, repository Git locale e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenziali dell'app</value>
@@ -3903,7 +3894,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>È possibile usare Visual Studio Code per creare le funzioni</value>
   </data>
   <data name="coretoolsCardDescription" xml:space="preserve">
-    <value>È possibile scrivere le funzioni con l'editor preferito e Azure Functions Core Tools</value>
+    <value>È possibile scrivere le funzioni con l'editor preferito e gli strumenti di base di Funzioni di Azure</value>
   </data>
   <data name="mavenCardDescription" xml:space="preserve">
     <value>È possibile scrivere le funzioni Java con l'editor preferito, ad esempio IntelliJ o Eclipse, e Maven</value>
@@ -3927,7 +3918,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Pubblicare direttamente da Visual Studio Code</value>
   </data>
   <data name="coretoolsDirectPublishCardDescription" xml:space="preserve">
-    <value>Pubblicare direttamente da Azure Functions Core Tools</value>
+    <value>Pubblicare direttamente dagli strumenti di base di Funzioni di Azure</value>
   </data>
   <data name="mavenDirectPublishCardDescription" xml:space="preserve">
     <value>Pubblicare direttamente da Maven</value>
@@ -4739,8 +4730,8 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Python (anteprima). Per le attività di sviluppo, usare l'interfaccia della riga di comando o VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Altre informazioni&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>La modifica nel portale per Python sarà presto deprecata. Per le attività di sviluppo, usare l'interfaccia della riga di comando o VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Altre informazioni&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>I montaggi di Archiviazione di Azure possono contenere segreti. Per visualizzare/modificare questa sezione, sono necessarie autorizzazioni di lettura/scrittura.</value>
@@ -4748,11 +4739,17 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>I valori delle impostazioni app devono essere una matrice</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} è una proprietà obbligatoria per tutte le impostazioni dell'applicazione</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>A tutti gli oggetti nelle impostazioni app deve essere assegnato un nome</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>A tutti gli oggetti delle impostazioni app deve essere assegnato un valore</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Tutte le proprietà dei nomi e dei valori nelle impostazioni app devono essere di tipo stringa</value>
+    <value>Tutte le proprietà dei valori nelle impostazioni app devono essere di tipo stringa</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Tutte le proprietà dei nomi nelle impostazioni app devono essere di tipo stringa</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Tutte le proprietà delle impostazioni slot nelle impostazioni app devono essere di tipo booleano</value>
@@ -4783,17 +4780,5 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>Il percorso della directory virtuale deve esistere all'interno di un percorso dell'applicazione</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>I log applicazioni sono disattivati. Per attivarli, usare le impostazioni in 'Log di diagnostica'.</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>I log del server sono disattivati. Per attivarli, usare le impostazioni in 'Log di diagnostica'.</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Lo stack di runtime selezionato non supporta il debug remoto in questo momento.</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Fare clic qui per passare a uno SKU superiore e abilitare funzionalità aggiuntive.</value>
   </data>
 </root>

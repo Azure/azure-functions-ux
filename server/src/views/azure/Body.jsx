@@ -2,13 +2,13 @@ import * as React from 'react';
 const Body = props => {
   let Scripts = () => (
     <>
-      <script src={props.version.inline} />
-      <script src={props.version.polyfills} />
-      <script src={props.version.scripts} />
-      <script src={props.version.main} />
+      <script src={props.versionConfig.inline} />
+      <script src={props.versionConfig.polyfills} />
+      <script src={props.versionConfig.scripts} />
+      <script src={props.versionConfig.main} />
     </>
   );
-  if ((props.config && props.config.clientOptimzationsOff) || !props.version) {
+  if (props.clientOptimzationsOff || !props.versionConfig) {
     Scripts = () => (
       <>
         <script src="inline.bundle.js" />

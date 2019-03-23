@@ -1472,7 +1472,7 @@
     <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service は、新しいバージョンの Python のインストールをサポートしています。</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java バージョン</value>
@@ -2118,12 +2118,6 @@
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>アプリ名 '{0}' は使用できません</value>
-  </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Function App の編集モードを更新できませんでした。後でもう一度やり直してください。</value>
@@ -3563,11 +3557,8 @@
     <value>ユーザーの資格情報</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>ユーザー資格情報はご自身 (ユーザー) によって定義されているため、アクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。ユーザー資格情報を使用してアプリに接続している場合は、ユーザー名を {0} とする必要があります</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>ユーザー資格情報がお客様 (ユーザー) によって定義されており、お客様がアクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>アプリの資格情報</value>
@@ -4739,20 +4730,26 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps (プレビュー) ではポータルにおける関数の編集はサポートされていません。開発には CLI または VS Code を使用してください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python のポータル内編集は間もなく非推奨になる予定です。開発には CLI または VS Code をご使用ください。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;詳細情報&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage のマウントに秘密が含まれています。このセクションを表示または編集するには、読み取りまたは書き込みのアクセス許可が必要です。</value>
   </data>
   <data name="valuesMustBeAnArray" xml:space="preserve">
-    <value>アプリ設定値はアレイである必要があります</value>
+    <value>アプリ設定値は配列である必要があります</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに名前が必要です</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>すべてのアプリ設定オブジェクトに値が必要です</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>すべてのアプリ設定値のプロパティは文字列型である必要があります</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>すべてのアプリ設定名のプロパティを文字列型にする必要があります</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>すべてのアプリ設定スロットの設定プロパティはブール値型である必要があります</value>
@@ -4783,17 +4780,5 @@
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>仮想ディレクトリ パスは、アプリケーション パス内に存在する必要があります</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>アプリケーション ログがオフに切り替えられました。[診断ログ] 設定を使用して、オンにすることができます。</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web サーバー ログがオフになっています。[診断ログ] 設定を使用してオンにすることができます。</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>選択されているランタイム スタックでは、現在リモート デバッグをサポートしていません。</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>上位の SKU にアップグレードして追加機能を有効にするには、ここをクリックします。</value>
   </data>
 </root>

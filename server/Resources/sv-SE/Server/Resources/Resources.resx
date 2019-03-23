@@ -1472,7 +1472,7 @@
     <value>App Service har funktioner för att installera senare versioner av Python. Klicka här för mer information.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service stöder installation av nyare versioner av Python.</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-version</value>
@@ -2118,12 +2118,6 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Appnamnet {0} är inte tillgängligt</value>
-  </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Det går inte att uppdatera funktionsappens redigeringsläge. Försök igen senare.</value>
@@ -3563,11 +3557,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Användarautentiseringsuppgifter</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Användarautentiseringsuppgifter definieras av användaren och kan användas med alla appar som du har åtkomst till. De här autentiseringsuppgifterna kan användas med FTP, Local Git och WebDeploy. Om du använder autentiseringsuppgifter för att ansluta till din app måste användarnamnet anges som {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>Användarautentiseringsuppgifter definieras av dig, användaren och kan användas med alla appar som du har åtkomst till. De här autentiseringsuppgifterna kan användas med FTP, lokal Git och WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Appautentiseringsuppgifter</value>
@@ -4739,8 +4730,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>Redigera funktioner i portalen stöds inte för Python-funktionsappar (förhandsgranskning). Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Redigering i portalen för Python kommer snart att vara inaktuellt. Använd CLI eller VS Code för utveckling. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Läs mer&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure Storage-monteringar innehåller hemligheter. Läs-/skrivbehörigheter krävs om du ska kunna visa/redigera det här avsnittet.</value>
@@ -4748,11 +4739,17 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Appinställningsvärden måste vara en matris</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett namn</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alla appinställningsobjekt måste ha ett värde</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Alla egenskaper för appinställningsvärde måste vara av strängtyp</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alla egenskaper för appinställningsnamn vara av strängtyp</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Alla egenskaper för appinställningsfack måste vara av boolesk typ</value>
@@ -4779,21 +4776,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Avancerad redigering låter dig massredigera dina appinställningar. Nycklar och värden kan redigeras i JSON-format i klartext</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Fysisk sökväg måste vara en plats inom webbplatsen\</value>
+    <value>Physical path must be a location within site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Den virtuella katalogsökvägen måste finnas i en programsökväg</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Programloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Webbserverloggarna är avstängda. Du kan aktivera dem med hjälp av inställningarna för diagnostikloggar.</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Din valda runtime-stack stöder inte fjärrfelsökning för tillfället.</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

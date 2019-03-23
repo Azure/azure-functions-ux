@@ -7,11 +7,11 @@ const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
-const download = require('gulp-download');
+const download = require('gulp-download-stream');
 const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
 const string_replace = require('gulp-string-replace');
-const prettier = require('prettier');
+const prettier = require('gulp-prettier');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -52,25 +52,11 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
   cb();
 });
 
-gulp.task('replace-tokens-for-configuration', () => {
-  const config = {
-    cacheBreakQuery: newGuid(),
-  };
-  return gulp
-    .src('**/config.js')
-    .pipe(
-      replace({
-        global: config,
-      })
-    )
-    .pipe(gulp.dest('./'));
-});
-
 /********
  *   Bundle Up production server views
  */
 gulp.task('bundle-views', function() {
-  return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('build'));
+  return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('dist'));
 });
 
 /********
@@ -81,13 +67,12 @@ gulp.task('package-version', () => {
   return gulp
     .src('package.json')
     .pipe(string_replace('0.0.0', getBuildVersion()))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('dist'));
 });
 
 /**
  * This generates a inserts environment variables to the .env file
  */
-
 gulp.task('copy-env-example-to-env', () => {
   return gulp
     .src('**/.env.example')
@@ -117,6 +102,8 @@ gulp.task('replace-environment-variables', cb => {
       onedriveClientID: process.env.onedriveClientID || '',
       onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
       HashSalt: hashSalt,
+      version: getBuildVersion(),
+      cacheBreakQuery: newGuid(),
     };
     return gulp
       .src('**/.env')
@@ -134,35 +121,42 @@ gulp.task('inject-environment-variables', gulp.series('copy-env-example-to-env',
  *   Bundle Up production server static files
  */
 gulp.task('bundle-static-files', function() {
-  return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('build'));
+  return gulp.src(['src/**/*.json', 'src/**/*.md']).pipe(gulp.dest('dist'));
 });
 
 /********
  *   Bundle Up config
  */
 gulp.task('bundle-config', function() {
-  return gulp.src(['web.config', 'iisnode.yml', '.env', 'gulpfile.js', 'package-lock.json']).pipe(gulp.dest('build'));
+  return gulp.src(['web.config', 'iisnode.yml', '.env', 'package-lock.json', 'gulpfile.js']).pipe(gulp.dest('dist'));
 });
 
 /********
  *   This will make the portal-resources.ts file
  */
 gulp.task('resx-to-typescript-models', function(cb) {
-  const resources = require('../server/src/actions/resources/Resources.json').en;
+  const resources = require('../server/src/data/resources/Resources.json').en;
   let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
   Object.keys(resources).forEach(function(stringName) {
     typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
   });
+  console.log('make it');
   typescriptFileContent += `}`;
-  prettier.resolveConfig(path.join(__dirname, '..', '.prettierrc')).then(options => {
-    const formatted = prettier.format(typescriptFileContent, {
-      ...options,
-      parser: 'typescript',
-    });
-    let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts'));
-    fs.writeFileSync(writePath, new Buffer(formatted));
-    cb();
-  });
+  let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models'));
+  let writeFile = path.join(writePath, 'portal-resources.ts');
+  fs.writeFileSync(writeFile, new Buffer(typescriptFileContent));
+  return gulp
+    .src(writeFile)
+    .pipe(
+      prettier({
+        jsxBracketSameLine: true,
+        printWidth: 140,
+        singleQuote: true,
+        tabWidth: 2,
+        trailingComma: 'es5',
+      })
+    )
+    .pipe(gulp.dest(writePath));
 });
 
 /********
@@ -284,7 +278,7 @@ gulp.task('resources-build', function() {
  * Resources Combining
  * https://stackoverflow.com/questions/46605923/gulp-merge-json-files-from-different-folders-while-keeping-folder-structure
  *
- * This tasks goes through each template version folder and combines it with the corresponding portal resource file(matched by name) and deposits it into the /src/actions/resources folder for the API to consume.
+ * This tasks goes through each template version folder and combines it with the corresponding portal resource file(matched by name) and deposits it into the /data/resources folder for the API to consume.
  * It also builds a version which contains no version, mostly for development purposes
  * The end file name format is Resources.<language code>.<template version>.json for the template includes, for the default no template it'll be Resources.<language code>.json, also the english version will have no language code, it'll just be default
  */
@@ -320,13 +314,13 @@ gulp.task('resources-combine', function() {
               p.basename += '.' + x;
             })
           )
-          .pipe(gulp.dest('src/actions/resources'))
+          .pipe(gulp.dest('src/data/resources'))
       );
     });
   });
 
   //this is copying over files that have no template data, it's the final fallback resources if there are no templates, useful for development
-  s.push(gulp.src('resources-build/*.json').pipe(gulp.dest('src/actions/resources')));
+  s.push(gulp.src('resources-build/*.json').pipe(gulp.dest('src/data/resources')));
 
   return gulpMerge(s);
 });
@@ -376,7 +370,7 @@ gulp.task('build-templates', function(cb) {
       templateObj.metadata = require(path.join(filePath, 'metadata.json'));
       templateListJson.push(templateObj);
     });
-    let writePath = path.join(__dirname, 'src', 'actions', 'templates');
+    let writePath = path.join(__dirname, 'src', 'data', 'templates');
     if (!fs.existsSync(writePath)) {
       fs.mkdirSync(writePath);
     }
@@ -404,7 +398,7 @@ gulp.task('build-bindings', function(cb) {
         binding.documentation = documentationString;
       }
     });
-    let writePath = path.join(__dirname, 'src', 'actions', 'bindings');
+    let writePath = path.join(__dirname, 'src', 'data', 'bindings');
     if (!fs.existsSync(writePath)) {
       fs.mkdirSync(writePath);
     }
@@ -415,10 +409,9 @@ gulp.task('build-bindings', function(cb) {
 });
 
 const templateVersionMap = {
-  default: '1.0.3.10338',
-  '1': '1.0.3.10338',
+  default: '1.0.3.10182',
+  '1': '1.0.3.10182',
   beta: '2.0.10333',
-  '2.0.11961.0': '2.0.0-beta-10224',
   '2': '2.0.10333',
 };
 /*****
@@ -427,11 +420,12 @@ const templateVersionMap = {
 gulp.task('download-templates', function() {
   const mygetUrl = 'https://www.myget.org/F/azure-appservice/api/v2/package/Azure.Functions.Ux.Templates/';
   const templateLocations = Object.keys(templateVersionMap);
-  let streams = [];
-  templateLocations.forEach(tempLoc => {
-    streams.push(download(mygetUrl + templateVersionMap[tempLoc]).pipe(gulp.dest('template-downloads/' + tempLoc)));
-  });
-  return gulpMerge(streams);
+  return download(
+    templateLocations.map(tempLoc => ({
+      file: path.join(tempLoc, tempLoc),
+      url: mygetUrl + templateVersionMap[tempLoc],
+    }))
+  ).pipe(gulp.dest('template-downloads/'));
 });
 
 gulp.task('unzip-templates', function() {
@@ -454,7 +448,7 @@ gulp.task('list-numeric-versions', function(cb) {
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
   const templateVersions = templateKeys.filter(x => regex.test(x));
-  let writePath = path.join(__dirname, 'src', 'actions', 'data');
+  let writePath = path.join(__dirname, 'src', 'data', 'data');
   if (!fs.existsSync(writePath)) {
     fs.mkdirSync(writePath);
   }
@@ -484,7 +478,12 @@ gulp.task(
 );
 
 gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings'));
-
+gulp.task('copy-data-to-dist', () => {
+  return gulp.src('./src/data/**').pipe(gulp.dest('./dist/data'));
+});
+gulp.task('copy-quickstart-to-dist', () => {
+  return gulp.src('./src/quickstart/**').pipe(gulp.dest('./dist/quickstart'));
+});
 gulp.task(
   'build-production',
   gulp.series(
@@ -494,9 +493,11 @@ gulp.task(
     'bundle-static-files',
     'bundle-config',
     'package-version',
-    'replace-tokens-for-configuration'
+    'copy-data-to-dist',
+    'copy-quickstart-to-dist'
   )
 );
+
 /********
  * UTILITIES
  */

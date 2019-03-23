@@ -1472,7 +1472,7 @@
     <value>App Service unterstützt die Installation neuerer Versionen von Python. Klicken Sie hier, um weitere Informationen zu erhalten.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service unterstützt die Installation neuerer Versionen von Python.</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-Version</value>
@@ -2118,12 +2118,6 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Der App-Name \"{0}\" ist nicht verfügbar.</value>
-  </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Der Bearbeitungsmodus der Funktionen-App kann nicht aktualisiert werden. Versuchen Sie es später noch mal.</value>
@@ -3563,11 +3557,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Benutzeranmeldeinformationen</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Benutzeranmeldeinformationen werden von Ihnen, dem Benutzer, definiert und können mit allen Apps verwendet werden, auf die Sie zugreifen können. Diese Anmeldeinformationen können mit FTP, lokalem Git und WebDeploy eingesetzt werden. Wenn Sie Benutzeranmeldeinformationen zum Herstellen einer Verbindung mit Ihrer App verwenden, muss der Benutzername folgendermaßen eingegeben werden: {0}</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>Benutzeranmeldeinformationen werden von Ihnen (dem Benutzer) definiert und können für alle Apps verwendet werden, auf die Sie Zugriff besitzen. Diese Anmeldeinformationen können mit FTP, Git (lokal) und WebDeploy verwendet werden.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App-Anmeldeinformationen</value>
@@ -4739,8 +4730,8 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>Das Bearbeiten von Funktionen im Portal wird für Python-Funktions-Apps (Vorschau) nicht unterstützt. Verwenden Sie die CLI oder VS Code für die Entwicklung. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Die Portalbearbeitung für Python wird in Kürze eingestellt. Verwenden Sie zur Entwicklung die CLI oder VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Weitere Informationen&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure-Speichereinbindungen enthalten Geheimnisse. Zum Anzeigen/Bearbeiten dieses Abschnitts sind Lese-/Schreibberechtigungen erforderlich.</value>
@@ -4748,11 +4739,17 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Die App-Einstellungswerte müssen ein Array sein.</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>Alle App-Einstellungsobjekte müssen einen Namen aufweisen.</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>Alle Objekte der App-Einstellung müssen einen Wert aufweisen.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Alle Werteigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>Alle Namenseigenschaften der App-Einstellung müssen vom Typ "string" sein.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Alle Sloteinstellungseigenschaften der App-Einstellung müssen vom Typ "boolean" sein.</value>
@@ -4779,21 +4776,9 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Mit der erweiterten Bearbeitung können Sie eine Massenbearbeitung für Ihre App-Einstellungen durchführen. Schlüssel und Werte können im Nur-Text-JSON-Format bearbeitet werden.</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Der physische Pfad muss sich innerhalb dieses Speicherorts befinden: site\</value>
+    <value>Physical path must be a location within site\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Der Pfad des virtuellen Verzeichnisses muss in einem Anwendungspfad vorhanden sein.</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>Die Anwendungsprotokolle sind deaktiviert. Sie können mithilfe der Einstellungen in "Diagnoseprotokolle" aktiviert werden.</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Die Webserverprotokolle sind deaktiviert. Sie können mithilfe der Einstellungen in "Diagnoseprotokolle" aktiviert werden.</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Remotedebuggen wird vom ausgewählten Laufzeitstapel derzeit nicht unterstützt.</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Klicken Sie hier, um ein Upgrade auf eine höhere SKU durchzuführen und zusätzliche Features zu aktivieren.</value>
+    <value>Virtual Directory path must exist within an application path</value>
   </data>
 </root>

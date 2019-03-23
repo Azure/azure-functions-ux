@@ -1472,7 +1472,7 @@
     <value>App Service 支援安裝較新版的 Python。若要深入了解，請按一下這裡。</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service 支援安裝較新的 Python 版本。</value>
+    <value>App Service supports installing newer versions of Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -2118,12 +2118,6 @@
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>無法使用應用程式名稱 '{0}'</value>
-  </data>
-  <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>位置名稱 '{0}' 無法使用。</value>
-  </data>
-  <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>位置名稱 '{0}' 是保留的部署位置名稱。</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>目前無法更新您函數應用程式的編輯模式。請稍後再試一次。</value>
@@ -3563,11 +3557,8 @@
     <value>使用者認證</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>使用者認證由使用者 (也就是您) 來定義，可用於您有權存取的所有應用程式。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。若您使用使用者認證來連線到應用程式，使用者名稱就必須採用 {0} 形式</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
-  </data>
-  <data name="userCredsNewUserDesc" xml:space="preserve">
-    <value>應用程式認證由使用者 (也就是您) 定義，可用於您擁有存取權的所有應用程式。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>應用程式認證</value>
@@ -4739,8 +4730,8 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="readOnlyPython" xml:space="preserve">
-    <value>Python Function Apps (預覽) 不支援在入口網站中編輯函式。請使用 CLI 或 VS 程式碼進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
+  <data name="willBeReadOnlyPython" xml:space="preserve">
+    <value>Python 的入口網站內編輯即將淘汰。請使用 CLI 或 VS Code 進行開發。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;深入了解&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 儲存體掛接包含秘密。必須有讀寫權限才可檢視/編輯此區段。</value>
@@ -4748,11 +4739,17 @@
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>應用程式設定值必須是陣列</value>
   </data>
-  <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} 在所有應用程式設定均為必要屬性</value>
+  <data name="nameIsRequired" xml:space="preserve">
+    <value>所有應用程式設定物件都必須要有名稱</value>
+  </data>
+  <data name="valueIsRequired" xml:space="preserve">
+    <value>所有應用程式設定物件都必須要有值</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>所有應用程式設定的值和名稱屬性都必須是字串類型</value>
+    <value>所有應用程式設定值屬性都必須為字串類型</value>
+  </data>
+  <data name="nameMustBeAString" xml:space="preserve">
+    <value>所有應用程式設定名稱屬性都必須為字串類型</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>所有應用程式設定位置設定屬性都必須為布林值類型</value>
@@ -4783,17 +4780,5 @@
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>虛擬目錄路徑必須位於應用程式路徑內</value>
-  </data>
-  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
-    <value>應用程式記錄功能已關閉。您可以使用 [診斷記錄] 設定加以啟動。</value>
-  </data>
-  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
-    <value>Web 伺服器記錄功能已關閉。您可以使用 [診斷記錄] 設定加以啟動。</value>
-  </data>
-  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>您選取的執行階段堆疊目前不支援遠端偵錯。</value>
-  </data>
-  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>按一下這裡即可升級至較高的 SKU 並啟用其他功能。</value>
   </data>
 </root>
