@@ -1,5 +1,5 @@
 import * as React from 'react';
-const Body = () => {
+export const Body = () => {
   return (
     <>
       <script src="inline.bundle.js" />
@@ -12,5 +12,3 @@ const Body = () => {
     </>
   );
 };
-
-export default Body;

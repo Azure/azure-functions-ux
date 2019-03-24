@@ -1,10 +1,17 @@
 import * as React from 'react';
-import AzureHead from './azure/Head';
-import AzureBody from './azure/Body';
-import LocalHead from './local/Head';
-import LocalBody from './local/Body';
+import { Head as AzureHead } from './azure/Head';
+import { Body as AzureBody } from './azure/Body';
+import { Head as LocalHead } from './local/Head';
+import { Body as LocalBody } from './local/Body';
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'app-root': any;
+    }
+  }
+}
 
-const Index = props => {
+export const Home = props => {
   return (
     <html lang="en">
       <head title="Azure Functions">
@@ -44,8 +51,6 @@ const Index = props => {
     </html>
   );
 };
-
-module.exports = Index;
 
 const inlineCSS = `@-webkit-keyframes fxs-progress-animatedEllipses {
   0% {

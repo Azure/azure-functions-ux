@@ -1,6 +1,4 @@
 import * as React from 'react';
-const Head = () => {
+export const Head = () => {
   return <base href="/ng-full/" />;
 };
-
-export default Head;

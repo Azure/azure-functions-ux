@@ -1,5 +1,6 @@
 import * as React from 'react';
-const Body = props => {
+
+export const Body = props => {
   let Scripts = () => (
     <>
       <script src={props.versionConfig.inline} />
@@ -39,5 +40,3 @@ const Body = props => {
     </>
   );
 };
-
-export default Body;

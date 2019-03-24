@@ -8,7 +8,8 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "jsx": "react"
   },
   "exclude": ["node_modules", "dist"]
 }

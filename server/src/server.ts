@@ -45,8 +45,6 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
-  app.setBaseViewsDir(__dirname + '/views');
-  app.setViewEngine('jsx');
   app.use(
     hsts({
       maxAge: 15552000, // 180 days in seconds
@@ -64,7 +62,6 @@ async function bootstrap() {
       },
     })
   );
-  app.engine('jsx', require('express-react-views').createEngine());
   app.enable('trust proxy');
 
   const port = normalizePort(process.env.PORT || '3000');

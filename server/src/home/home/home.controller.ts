@@ -1,32 +1,22 @@
-import { Controller, Get, Res, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Query, UseInterceptors, CacheInterceptor } from '@nestjs/common';
 import { ConfigService } from '../../shared/config/config.service';
 import { HomeService } from './home.service.base';
 
 @Controller()
+@UseInterceptors(CacheInterceptor)
 export class HomeController {
   constructor(private configService: ConfigService, private homeService: HomeService) {}
 
   @Get('*')
-  root(
-    @Res() res: Response,
-    @Query('trustedAuthority') trustedAuthority: string,
-    @Query('appsvc.devguide') devGuide: boolean,
-    @Query('appsvc.clientoptimizations') optimized: boolean,
-    @Query('appsvc.react') sendReact: boolean
-  ) {
-    if (!trustedAuthority && !devGuide && !sendReact) {
-      res.redirect('https://azure.microsoft.com/services/functions/');
-      return;
-    }
+  root(@Query('appsvc.clientoptimizations') optimized: boolean, @Query('appsvc.react') sendReact: boolean) {
+    console.log('Cache Miss');
+    // if (!trustedAuthority && !devGuide && !sendReact) {
+    //   res.redirect('https://azure.microsoft.com/services/functions/');
+    //   return;
+    // }
     if (sendReact) {
-      res.send(this.homeService.getReactHomeHtml());
-      return;
+      return this.homeService.getReactHomeHtml();
     }
-    res.render('index', {
-      ...this.configService.staticConfig,
-      version: this.configService.get('VERSION'),
-      versionConfig: this.homeService.getAngularFileNames(null),
-    });
+    return this.homeService.getAngularHomeHtml();
   }
 }
