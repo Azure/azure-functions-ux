@@ -1,18 +1,12 @@
 import { Controller, Post, Query, Req, Body, Header, Res, HttpException } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
-import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 @Controller('api')
 export class AzureDevOpsController {
-  constructor(
-    private dcService: DeploymentCenterService,
-    private configService: ConfigService,
-    private loggingService: LoggingService,
-    private httpService: HttpService
-  ) {}
+  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
-  @Post('api/setupvso')
+  @Post('setupvso')
   async setupvso(@Query('accountName') accountName: string, @Body('authToken') authToken: string, @Body() body: any, @Req() req) {
     const uri = `https://${
       req.query.accountName
