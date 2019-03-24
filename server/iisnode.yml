@@ -1,8 +1,7 @@
 # For documentation see https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/iisnode.yml
 
+
 node_env: production
 
 #by setting this to 0 it'll scale out so that number of node processes = number of cores ont he machine
 nodeProcessCountPerApplication: 0
-maxNamedPipeConnectionRetry: 300
-namedPipeConnectionRetryDelay: 1000
