@@ -1,7 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
-import { exists, readdir } from 'async-file';
-import { readFileSync } from 'fs';
+import { exists, readdir, readFile } from 'async-file';
 // tslint:disable:object-literal-key-quotes
 const languageMap: { [key: string]: string } = {
   ja: 'ja-JP',
@@ -15,15 +14,13 @@ const languageMap: { [key: string]: string } = {
 };
 
 @Injectable()
-export class ResourcesService {
+export class ResourcesService implements OnModuleInit {
   private resourcesMap = {};
-  private initialLoadPromise;
-  constructor() {
-    this.initialLoadPromise = Promise.all([this.loadResourceFiles()]);
-  }
 
+  async onModuleInit() {
+    await this.loadResourceFiles();
+  }
   async getResources(runtime: string, language: string) {
-    await this.initialLoadPromise;
     const runtimeVersion = runtime.replace('~', '');
 
     let langCode = 'en';
@@ -44,9 +41,11 @@ export class ResourcesService {
 
     if (this.resourcesMap[versionFile]) {
       return this.resourcesMap[versionFile];
-    } else if (this.resourcesMap[defaultVersionFile]) {
+    }
+    if (this.resourcesMap[defaultVersionFile]) {
       return this.resourcesMap[defaultVersionFile];
-    } else if (this.resourcesMap[defaultFallbackFile]) {
+    }
+    if (this.resourcesMap[defaultFallbackFile]) {
       return this.resourcesMap[defaultFallbackFile];
     }
     return {};
@@ -58,10 +57,11 @@ export class ResourcesService {
       return;
     }
     const dirFiles = await readdir(resourcesDir);
-    dirFiles.forEach(file => {
-      const contents = readFileSync(join(resourcesDir, file), { encoding: 'UTF-8' });
+    const fileLoads = dirFiles.map(async file => {
+      const contents = await readFile(join(resourcesDir, file), { encoding: 'utf8' });
       const resourceId = file.replace('.json', '');
       this.resourcesMap[resourceId.toLowerCase()] = JSON.parse(contents);
     });
+    await Promise.all(fileLoads);
   }
 }

@@ -53,10 +53,10 @@ export class DeploymentCenterService {
       const body = r.data;
       if (body && body.properties && body.properties.token) {
         return { authenticated: true, token: body.properties.token };
-      } else {
-        this.logService.warn({}, `${provider}-passthrough-unauthorized`);
-        throw new HttpException('Not Authorized', 401);
       }
+
+      this.logService.warn({}, `${provider}-passthrough-unauthorized`);
+      throw new HttpException('Not Authorized', 401);
     } catch (err) {
       if (err.response) {
         this.logService.warn({}, `${provider}-passthrough-failed-to-get-token`);
@@ -107,8 +107,8 @@ export class DeploymentCenterService {
     }
   }
 
-  getParameterByName(name: string, url: string): string {
-    name = name.replace(/[\[\]]/g, '\\$&');
+  getParameterByName(nameIn: string, url: string): string {
+    const name = nameIn.replace(/[\[\]]/g, '\\$&');
     const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
     const results = regex.exec(url);
     if (!results) {

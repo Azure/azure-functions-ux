@@ -75,12 +75,19 @@ export class GithubController {
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
 
-    const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
-      code,
-      client_id: this.configService.get('GITHUB_CLIENT_ID'),
-      client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
-    });
-    const token = this.dcService.getParameterByName('access_token', '?' + r.data);
-    this.dcService.saveToken(token, authToken, this.provider);
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        client_id: this.configService.get('GITHUB_CLIENT_ID'),
+        client_secret: this.configService.get('GITHUB_CLIENT_SECRET'),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      this.dcService.saveToken(token, authToken, this.provider);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }

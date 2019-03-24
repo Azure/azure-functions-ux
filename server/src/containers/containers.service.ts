@@ -32,9 +32,8 @@ export class ContainersService {
       const error = JSON.parse(errorContent);
       if (error.errors && error.errors[0]) {
         return [errorStatus, error.errors[0].message];
-      } else {
-        return [errorStatus, 'Error validating image and tag information.'];
       }
+      return [errorStatus, 'Error validating image and tag information.'];
     } catch (parseError) {
       return [400, `Could not parse the error payload: ${errorContent}.`];
     }

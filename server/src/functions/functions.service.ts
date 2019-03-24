@@ -1,32 +1,29 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
-import { readdir } from 'async-file';
+import { readdir, exists, readFile } from 'async-file';
 import { readFileSync } from 'fs';
 
 @Injectable()
-export class FunctionsService {
+export class FunctionsService implements OnModuleInit {
   private templateMap: any = {};
   private bindingsMap: any = {};
   private quickStartMap: any = {};
-  private initialLoadPromise;
-  constructor() {
-    this.initialLoadPromise = Promise.all([this.loadTemplateFiles(), this.loadBindingsFiles(), this.loadQuickStartFiles()]);
+
+  async onModuleInit() {
+    await Promise.all([this.loadTemplateFiles(), this.loadBindingsFiles(), this.loadQuickStartFiles()]);
   }
 
   async getTemplates(runtime: string) {
-    await this.initialLoadPromise;
     const runtimeVersion = runtime.replace('~', '');
     return this.templateMap[runtimeVersion] || this.templateMap.default;
   }
 
   async getBindings(runtime: string) {
-    await this.initialLoadPromise;
     const runtimeVersion = runtime.replace('~', '');
     return this.bindingsMap[runtimeVersion] || this.bindingsMap.default;
   }
 
   async getQuickStart(fileName: string) {
-    await this.initialLoadPromise;
     const fileNameLower = fileName.toLowerCase();
     if (!this.quickStartMap[fileNameLower]) {
       throw new HttpException(`${fileName} does not exist`, 404);
@@ -34,34 +31,50 @@ export class FunctionsService {
     return this.quickStartMap[fileNameLower];
   }
 
-  async getRuntimeToken() {}
+  async getRuntimeToken() {
+    return '';
+  }
+
   private async loadTemplateFiles() {
     const templateDir = normalize(join(__dirname, '..', 'data', 'templates'));
+    if (!(await exists(templateDir))) {
+      return;
+    }
     const dirFiles = await readdir(templateDir);
-    dirFiles.forEach(file => {
-      const contents = readFileSync(join(templateDir, file), { encoding: 'UTF-8' });
+    const loading = dirFiles.map(async file => {
+      const contents = await readFile(join(templateDir, file), { encoding: 'utf8' });
       const runtime = file.replace('.json', '');
-      this.templateMap[runtime] = contents;
+      this.templateMap[runtime] = JSON.parse(contents);
     });
+    await loading;
   }
 
   private async loadBindingsFiles() {
     const bindingsDir = normalize(join(__dirname, '..', 'data', 'bindings'));
+    if (!(await exists(bindingsDir))) {
+      return;
+    }
     const dirFiles = await readdir(bindingsDir);
-    dirFiles.forEach(file => {
-      const contents = readFileSync(join(bindingsDir, file), { encoding: 'UTF-8' });
+
+    const loading = dirFiles.map(async file => {
+      const contents = await readFile(join(bindingsDir, file), { encoding: 'utf8' });
       const runtime = file.replace('.json', '');
-      this.bindingsMap[runtime] = contents;
+      this.bindingsMap[runtime] = JSON.parse(contents);
     });
+    await loading;
   }
 
   private async loadQuickStartFiles() {
     const quickStartDir = normalize(join(__dirname, '..', 'quickstart'));
+    if (!(await exists(quickStartDir))) {
+      return;
+    }
     const dirFiles = await readdir(quickStartDir);
-    dirFiles.forEach(file => {
-      const contents = readFileSync(join(quickStartDir, file), { encoding: 'UTF-8' });
+    const loading = dirFiles.map(async file => {
+      const contents = await readFile(join(quickStartDir, file), { encoding: 'utf8' });
       const fileName = file.replace('.md', '');
       this.quickStartMap[fileName.toLowerCase()] = contents;
     });
+    await loading;
   }
 }

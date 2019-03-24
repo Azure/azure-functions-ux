@@ -22,9 +22,9 @@ export class TriggerApimService {
     headers['Ocp-Apim-Trace'] = 'true';
 
     const request = {
+      headers,
       method: 'POST',
       data: content.body,
-      headers,
       url: content.url,
     };
 

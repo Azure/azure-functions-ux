@@ -75,7 +75,7 @@ export class StorageService {
       } else {
         shares = shares.concat(result.entries);
         if (result.continuationToken !== null) {
-          fileService.listSharesSegmented(<any>result.continuationToken, aggregator);
+          fileService.listSharesSegmented(result.continuationToken, aggregator);
         } else {
           cb(null, shares);
         }
