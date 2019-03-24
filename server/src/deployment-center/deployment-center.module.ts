@@ -7,7 +7,7 @@ import { OnedriveController } from './onedrive/onedrive.controller';
 import { AzureDevOpsController } from './azure-dev-ops/azure-dev-ops.controller';
 import { BitbucketsController } from './bitbuckets/bitbuckets.controller';
 import { SharedModule } from '../shared/shared.module';
-import { ConfigService } from '../shared/config/config.service';
+
 @Module({
   imports: [SharedModule],
   controllers: [

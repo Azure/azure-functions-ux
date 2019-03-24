@@ -1,7 +1,6 @@
 import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
-import { readFileSync } from 'fs';
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {
@@ -29,10 +28,6 @@ export class FunctionsService implements OnModuleInit {
       throw new HttpException(`${fileName} does not exist`, 404);
     }
     return this.quickStartMap[fileNameLower];
-  }
-
-  async getRuntimeToken() {
-    return '';
   }
 
   private async loadTemplateFiles() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpService } from '../../shared/http/http.service';
 import { LoggingService } from '../../shared/logging/logging.service';
@@ -7,15 +7,16 @@ export const KeyvaultApiVersion = '2016-10-01';
 export const KeyvaultUri = 'https://vault.azure.net';
 
 @Injectable()
-export class ConfigService {
+export class ConfigService implements OnModuleInit {
   private readonly dotEnvConfig: { [key: string]: string };
 
-  constructor(private logger: LoggingService, private httpService: HttpService) {
-    this.logger.log('Config Loaded', 'ConfigService');
+  constructor(private httpService: HttpService) {
     this.dotEnvConfig = dotenv.config();
-    this.loadConfig();
   }
 
+  async onModuleInit() {
+    await this.loadConfig();
+  }
   get(key: string): string {
     if (key === 'ARM_ENDPOINT') {
       return 'https://management.azure.com';

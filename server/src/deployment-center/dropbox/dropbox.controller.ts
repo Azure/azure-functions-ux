@@ -78,18 +78,25 @@ export class DropboxController {
       throw new HttpException('Not Authorized', 403);
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
-    const r = await this.httpService.post<{ access_token: string }>(
-      'https://api.dropbox.com/oauth2/token',
-      `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
-        process.env.DROPBOX_CLIENT_ID
-      }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
-      {
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded',
-        },
+    try {
+      const r = await this.httpService.post<{ access_token: string }>(
+        'https://api.dropbox.com/oauth2/token',
+        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
+          process.env.DROPBOX_CLIENT_ID
+        }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
+        {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+      const token = r.data.access_token;
+      this.dcService.saveToken(token, authToken, this.provider);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
       }
-    );
-    const token = r.data.access_token;
-    this.dcService.saveToken(token, authToken, this.provider);
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }

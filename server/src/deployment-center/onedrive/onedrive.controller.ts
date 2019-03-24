@@ -1,6 +1,5 @@
 import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
-import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
@@ -8,12 +7,7 @@ import { HttpService } from '../../shared/http/http.service';
 @Controller()
 export class OnedriveController {
   private readonly provider = 'onedrive';
-  constructor(
-    private dcService: DeploymentCenterService,
-    private configService: ConfigService,
-    private loggingService: LoggingService,
-    private httpService: HttpService
-  ) {}
+  constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('api/onedrive/passthrough')
   @HttpCode(200)
@@ -72,19 +66,26 @@ export class OnedriveController {
       throw new HttpException('Not Authorized', 403);
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
-    const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
-      'https://login.live.com/oauth20_token.srf',
-      `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.ONEDRIVE_REDIRECT_URL}&client_id=${
-        process.env.ONEDRIVE_CLIENT_ID
-      }&client_secret=${process.env.ONEDRIVE_CLIENT_SECRET}`,
-      {
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded',
-        },
+    try {
+      const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
+        'https://login.live.com/oauth20_token.srf',
+        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.ONEDRIVE_REDIRECT_URL}&client_id=${
+          process.env.ONEDRIVE_CLIENT_ID
+        }&client_secret=${process.env.ONEDRIVE_CLIENT_SECRET}`,
+        {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+      const token = r.data.access_token;
+      const refreshToken = r.data.refresh_token;
+      await this.dcService.saveToken(token, authToken, this.provider, refreshToken);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
       }
-    );
-    const token = r.data.access_token;
-    const refreshToken = r.data.refresh_token;
-    await this.dcService.saveToken(token, authToken, this.provider, refreshToken);
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }

@@ -81,21 +81,28 @@ export class BitbucketsController {
       throw new HttpException('Not Authorized', 403);
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
-    const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
-      `${Constants.oauthApis.bitbucketUri}/access_token`,
-      `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.BITBUCKET_REDIRECT_URL}`,
-      {
-        auth: {
-          username: process.env.BITBUCKET_CLIENT_ID as string,
-          password: process.env.BITBUCKET_CLIENT_SECRET as string,
-        },
-        headers: {
-          Referer: process.env.BITBUCKET_REDIRECT_URL,
-          'Content-type': 'application/x-www-form-urlencoded',
-        },
+    try {
+      const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
+        `${Constants.oauthApis.bitbucketUri}/access_token`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.BITBUCKET_REDIRECT_URL}`,
+        {
+          auth: {
+            username: process.env.BITBUCKET_CLIENT_ID as string,
+            password: process.env.BITBUCKET_CLIENT_SECRET as string,
+          },
+          headers: {
+            Referer: process.env.BITBUCKET_REDIRECT_URL,
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+      const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
+      this.dcService.saveToken(token.access_token, authToken, this.provider, token.refresh_token, environment);
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
       }
-    );
-    const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-    this.dcService.saveToken(token.access_token, authToken, this.provider, token.refresh_token, environment);
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }
