@@ -3,7 +3,7 @@ import { HomeService } from './home.service.base';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { Home } from './views';
-import { ConfigService } from 'src/shared/config/config.service';
+import { ConfigService } from '../../shared/config/config.service';
 
 @Injectable()
 export class HomeServiceDev extends HomeService {
