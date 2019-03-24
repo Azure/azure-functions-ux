@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
-import * as hsts from 'hsts';
 import * as fs from 'fs';
 import { LoggingService } from './shared/logging/logging.service';
 import * as cookieSession from 'cookie-session';
 import * as cookieParser from 'cookie-parser';
+import * as helmet from 'helmet';
+import * as csurf from 'csurf';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 function normalizePort(val: any) {
@@ -45,11 +46,8 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
-  app.use(
-    hsts({
-      maxAge: 15552000, // 180 days in seconds
-    })
-  );
+  app.use(helmet());
+  app.use(csurf());
   app.use(cookieParser());
   app.use(
     cookieSession({
