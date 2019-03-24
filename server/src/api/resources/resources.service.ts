@@ -54,6 +54,9 @@ export class ResourcesService {
 
   private async loadResourceFiles() {
     const resourcesDir = normalize(join(__dirname, '..', '..', 'data', 'resources'));
+    if (!(await exists(resourcesDir))) {
+      return;
+    }
     const dirFiles = await readdir(resourcesDir);
     dirFiles.forEach(file => {
       const contents = readFileSync(join(resourcesDir, file), { encoding: 'UTF-8' });

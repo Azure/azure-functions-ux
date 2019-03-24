@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as azure from 'azure-storage';
-
+import * as stream from 'stream';
 @Injectable()
 export class StorageService {
   async getBlobSasUri(connectionString: string, containerName: string) {
@@ -91,6 +91,21 @@ export class StorageService {
             resolve(shrs);
           }
         });
+      });
+    });
+  }
+
+  async uploadFileToBlob(file: any, connectionString: string, containerName: string) {
+    const blobService = azure.createBlobService(connectionString);
+    const fileStream = new stream.PassThrough();
+    fileStream.end(file.buffer);
+    return new Promise((resolve, reject) => {
+      blobService.createBlockBlobFromStream(containerName, 'package.zip', fileStream, file.size, (err, _) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
       });
     });
   }
