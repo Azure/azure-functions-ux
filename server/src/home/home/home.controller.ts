@@ -9,14 +9,9 @@ export class HomeController {
 
   @Get('*')
   root(@Query('appsvc.clientoptimizations') optimized: boolean, @Query('appsvc.react') sendReact: boolean) {
-    console.log('Cache Miss');
-    // if (!trustedAuthority && !devGuide && !sendReact) {
-    //   res.redirect('https://azure.microsoft.com/services/functions/');
-    //   return;
-    // }
     if (sendReact) {
       return this.homeService.getReactHomeHtml();
     }
-    return this.homeService.getAngularHomeHtml();
+    return this.homeService.getAngularHomeHtml(optimized);
   }
 }

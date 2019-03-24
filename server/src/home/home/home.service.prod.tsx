@@ -36,8 +36,7 @@ export class HomeServiceProd extends HomeService implements OnModuleInit {
         clientOptimzationsOff={!optimized}
       />
     );
-    return `<!DOCTYPE html>
-${html}`;
+    return `<!DOCTYPE html>\n${html}`;
   };
 
   getReactHomeHtml = () => {

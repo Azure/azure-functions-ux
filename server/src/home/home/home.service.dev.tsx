@@ -11,10 +11,11 @@ export class HomeServiceDev extends HomeService {
     super();
   }
 
-  getAngularHomeHtml = (optimized?: boolean) => {
-    return ReactDOMServer.renderToString(
+  getAngularHomeHtml = () => {
+    const html = ReactDOMServer.renderToString(
       <Home {...this.configService.staticConfig} version={this.configService.get('VERSION')} versionConfig={null} />
     );
+    return `<!DOCTYPE html>\n${html}`;
   };
 
   getReactHomeHtml = () => {
