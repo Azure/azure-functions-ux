@@ -2,7 +2,6 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { Constants } from '../../constants';
 import { HttpService } from '../../shared/http/http.service';
 import * as jwt from 'jsonwebtoken';
-import * as safeJson from 'circular-json';
 import * as crypto from 'crypto';
 import { LoggingService } from '../../shared/logging/logging.service';
 
@@ -28,7 +27,7 @@ export class RuntimeTokenService {
           this.logService.error(error, '', 'getRuntimeToken');
           throw error;
         } else {
-          return safeJson.stringify(token);
+          return token;
         }
       };
 
