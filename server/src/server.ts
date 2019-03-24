@@ -6,7 +6,7 @@ import { LoggingService } from './shared/logging/logging.service';
 import * as cookieSession from 'cookie-session';
 import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
-import * as csurf from 'csurf';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 function normalizePort(val: any) {
@@ -47,7 +47,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
   app.use(helmet());
-  app.use(csurf());
   app.use(cookieParser());
   app.use(
     cookieSession({
@@ -62,6 +61,14 @@ async function bootstrap() {
   );
   app.enable('trust proxy');
 
+  const options = new DocumentBuilder()
+    .setTitle('Functions Portal API')
+    .setDescription('The api used to drive the functions portal')
+    .setVersion('1.0')
+    .setSchemes('https')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('swagger', app, document);
   const port = normalizePort(process.env.PORT || '3000');
   await app.listen(port);
 }
