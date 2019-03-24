@@ -1472,7 +1472,7 @@
     <value>O Serviço do Aplicativo oferece suporte à instalação de versões mais recentes do Python. Clique aqui para saber mais.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>O Serviço de Aplicativo dá suporte à instalação de versões mais recentes do Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão Java</value>
@@ -2118,6 +2118,12 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>O nome do aplicativo '{0}' não está disponível</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Não é possível atualizar o modo de edição de seu aplicativo de função. Tente novamente mai tarde.</value>
@@ -3557,8 +3563,11 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
     <value>Credenciais do Usuário</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com o FTP, Git Local e WebDeploy. Se você estiver usando credenciais de Usuário para se conectar ao seu aplicativo, o nome de usuário precisará ser colocado como {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>As Credenciais do Usuário são definidas por você, o usuário, e podem ser usadas com todos os aplicativos aos quais você tem acesso. Essas credenciais podem ser usadas com FTP, Git Local e WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenciais do Aplicativo</value>
@@ -4730,8 +4739,8 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>A edição no portal para Python será preterida em breve. Use o CLI ou o VS Code para desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Não há suporte para a edição de funções no portal para Aplicativos de Funções do Python (Versão Prévia). Use CLI ou VS Code para o desenvolvimento. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Saiba mais&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>As montagens de armazenamento do Azure contêm segredos. São necessárias permissões de leitura/gravação para exibir/editar esta seção.</value>
@@ -4739,17 +4748,11 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Os valores de configuração de aplicativo precisam ser uma matriz</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Todos os objetos de configuração de aplicativo precisam ter um nome</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Todos os objetos de configuração de aplicativo precisam ter um valor</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} é uma propriedade obrigatória em todas as configurações do aplicativo</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Todas as propriedades de valor de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Todas as propriedades de nome de configuração de aplicativo precisam ser do tipo cadeia de caracteres</value>
+    <value>Todos os valores de configuração e as propriedades do nome do aplicativo precisam ser do tipo cadeia de caracteres</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Todas as propriedades de configuração de slot de configuração de aplicativo precisam ser do tipo booliano</value>
@@ -4780,5 +4783,17 @@ Defina como "URL Externa" para usar uma definição de API hospedada em outro lo
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>O caminho do Diretório Virtual precisa existir em um caminho de aplicativo</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Os logs de aplicativos estão desligados. Você pode ligá-los usando as configurações de "Logs de diagnóstico".</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Os logs do servidor Web estão desligados. Você pode ligá-los usando as configurações de "Logs de diagnóstico".</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>No momento, sua pilha de tempo de execução selecionada não dá suporte à depuração remota.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Clique aqui para atualizar para um SKU superior e habilitar recursos adicionais.</value>
   </data>
 </root>

@@ -1472,7 +1472,7 @@
     <value>App Service, daha yeni Python sürümleri yüklemeyi destekler. Daha fazla bilgi için buraya tıklayın.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service, daha yeni Python sürümleri yüklemeyi destekler.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java sürümü</value>
@@ -2118,6 +2118,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>'{0}' uygulama adı kullanılamıyor</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>İşlev uygulamanızın düzenleme modunu güncelleştiremiyoruz. Lütfen daha sonra yeniden deneyin.</value>
@@ -3557,8 +3563,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kullanıcı Kimlik Bilgileri</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Kullanıcı Kimlik Bilgileri, kullanıcı olarak sizin tarafınızdan tanımlanır ve erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanılabilir. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir. Uygulamanıza bağlanmak için Kullanıcı kimlik bilgilerini kullanıyorsanız kullanıcı adının {0} olarak girilmesi gerekir</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>Kullanıcı Kimlik Bilgileri sizin tarafınızdan tanımlanır ve erişiminiz olan tüm uygulamalar ile birlikte kullanılabilir. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Uygulama Kimlik Bilgileri</value>
@@ -4730,8 +4739,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Python için portal içinde düzenleme yakında kullanım dışı bırakılacaktır. Lütfen geliştirme için CLI veya VS Code kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Portalda işlev düzenleme Python Function Apps (Önizleme) için desteklenmemektedir. Geliştirmek için lütfen CLI'yı veya VS Code'u kullanın. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure depolama bağlamaları gizli diziler içeriyor. Bu bölümü görüntülemek/düzenlemek için okuma/yazma izinleri gereklidir.</value>
@@ -4739,17 +4748,11 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Tüm uygulama ayarı nesnelerinin bir adı olmalıdır</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Tüm uygulama ayarı nesnelerinin bir değeri olmalıdır</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Tüm uygulama ayarı değer özellikleri dize türünde olmalıdır</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Tüm uygulama ayarı adı özellikleri dize türünde olmalıdır</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Tüm uygulama ayarı yuva ayarı özellikleri boole türünde olmalıdır</value>
@@ -4776,9 +4779,21 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Gelişmiş düzenleme, uygulama ayarlarınızı toplu olarak düzenlemenizi sağlar. Anahtarlar ve değerler düz metin JSON biçiminde düzenlenebilir</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>Fiziksel yol sitenin içindeki bir konum olmalıdır\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>Sanal Dizin yolu bir uygulama yolunda bulunmalıdır</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Uygulama günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Web sunucu günlükleri kapalı. Bunları 'Tanılama günlükleri' ayarlarını kullanarak açabilirsiniz.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Seçtiğiniz çalışma zamanı yığını şu anda uzaktan hata ayıklamayı desteklemiyor.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Daha yüksek bir SKU'ya yükseltmek ve ek özellikleri etkinleştirmek için buraya tıklayın.</value>
   </data>
 </root>

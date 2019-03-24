@@ -1472,7 +1472,7 @@
     <value>应用服务支持安装较新版本的 Python。单击此处了解详细信息。</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>应用服务支持安装较新版本的 Python。</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
@@ -2118,6 +2118,12 @@
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>应用名“{0}”不可用</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>无法更新 Function App 的编辑模式。请稍后再试。</value>
@@ -3557,8 +3563,11 @@
     <value>用户凭据</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>用户凭据由你(即用户)进行定义，且可用于你有权访问的所有应用。这些凭据可用于 FTP、本地 Git 和 WebDeploy。如果你在使用用户凭据连接到应用，则将需要输入用户名作为 {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>用户凭据由用户定义，并且可以用于用户有权访问的所有应用。这些凭据可以用于 FTP、本地 GIT 和 WebDeploy。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>应用凭据</value>
@@ -4730,8 +4739,8 @@
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>即将弃用针对 Python 的门户内编辑功能。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解详细信息&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Python Function App(预览版)不支持在门户中编辑函数。请使用 CLI 或 VS Code 进行开发。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;了解详情&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure 存储装载包含机密。需要读取/写入权限才能查看/编辑此分区。</value>
@@ -4739,17 +4748,11 @@
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>应用设置值必须是一个数组</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>所有应用设置对象都必须具有一个名称</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>所有应用设置对象都必须具有一个值</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>所有应用设置值属性必须为字符串类型</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>所有应用设置名称属性必须为字符串类型</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>所有应用设置槽设置属性必须为布尔类型</value>
@@ -4780,5 +4783,17 @@
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>虚拟目录路径必须存在于应用程序路径中</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>应用程序日志已关闭。你可以使用“诊断日志”设置来打开它们。</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Web 服务器日志已关闭。你可以使用“诊断日志”设置来打开它们。</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>所选的运行时堆栈当前不支持远程调试。</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>单击此处可升级到更高版本的 SKU 并启用其他功能。</value>
   </data>
 </root>

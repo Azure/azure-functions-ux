@@ -1472,7 +1472,7 @@
     <value>App Service podporuje instalaci novějších verzí Pythonu. Další informace najdete, když kliknete sem.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service podporuje instalaci novějších verzí Pythonu.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Verze Javy</value>
@@ -2118,6 +2118,12 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>Název aplikace {0} není dostupný.</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>Název slotu {0} není dostupný.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>Název slotu {0} je název rezervovaný pro slot nasazení.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nedokážeme aktualizovat režim úprav dané Function App. Zkuste to prosím později.</value>
@@ -3557,8 +3563,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Přihlašovací údaje uživatele</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Přihlašovací údaje uživatele si jakožto uživatel definujete vy sami a dají se používat ve všech aplikacích, ke kterým máte přístup. Tyto přihlašovací údaje se dají používat ve službách FTP, Místní úložiště Git a WebDeploy. Pokud při připojování k aplikacím používáte Přihlašovací údaje uživatele, uživatelské jméno bude nutné zadat v tomto tvaru: {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>Přihlašovací údaje uživatele si definujete jakožto uživatelé sami a dají se použít ve všech aplikacích, ke kterým máte přístup. Tyto přihlašovací údaje se dají použít ve službách FTP, Místní úložiště Git a WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Přihlašovací údaje aplikace</value>
@@ -4730,8 +4739,8 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Úpravy pro Python na portálu se zanedlouho přestanou používat. Pro vývoj prosím použijte příkazový řádek nebo VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>Úprava funkcí na portálu se pro Python Function Apps (Preview) nepodporuje. Pro vývoj prosím použijte rozhraní příkazového řádku nebo nástroj VS Code. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Připojení Azure Storage obsahují tajné kódy. K zobrazení nebo úpravám tohoto oddílu se vyžadují oprávnění pro čtení a zápis.</value>
@@ -4739,17 +4748,11 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Hodnoty nastavení aplikace musí být pole.</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Všechny objekty nastavení aplikací musí mít název.</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Všechny objekty nastavení aplikací musí mít hodnotu.</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} je ve všech nastaveních aplikace povinná vlastnost.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Všechny vlastnosti hodnoty nastavení aplikace musí být typu string.</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Všechny vlastnosti názvu nastavení aplikace musí být typu string.</value>
+    <value>Všechny vlastnosti názvů a hodnot nastavení aplikace musí být typu string.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Všechny vlastnosti nastavení slotu nastavení aplikace musí být typu boolean.</value>
@@ -4780,5 +4783,17 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
     <value>Cesta k virtuálnímu adresáři musí existovat v rámci cesty k aplikaci.</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Aplikační protokoly jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Protokoly webového serveru jsou vypnuté. Můžete je zapnout pomocí nastavení Diagnostické protokoly.</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Vybraný zásobník modulu runtime v současné době nepodporuje vzdálené ladění.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Pokud chcete upgradovat na vyšší skladovou položku a povolit další funkce, klikněte sem.</value>
   </data>
 </root>

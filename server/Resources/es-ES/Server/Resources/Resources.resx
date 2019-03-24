@@ -1472,7 +1472,7 @@
     <value>App Service admite la instalación de versiones más recientes de Python. Haga clic para obtener más información.</value>
   </data>
   <data name="pythonInfoTextNoClick" xml:space="preserve">
-    <value>App Service supports installing newer versions of Python.</value>
+    <value>App Service admite la instalación de versiones más recientes de Python.</value>
   </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versión de Java</value>
@@ -2118,6 +2118,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>El nombre de aplicación '{0}' no está disponible.</value>
+  </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>No podemos actualizar el modo de edición de la aplicación de función. Inténtelo de nuevo más tarde.</value>
@@ -3557,8 +3563,11 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Credenciales de usuario</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>Las credenciales de usuario las define el usuario y se pueden usar con todas las aplicaciones a las que tiene acceso. Estas credenciales se pueden usar con FTP, GIT local y WebDeploy. Si usa las credenciales de usuario para conectarse a la aplicación, el nombre de usuario deberá indicarse como {0}.</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>Las credenciales de usuario las define el usuario y se pueden usar con todas las aplicaciones a las que tiene acceso. Estas credenciales se pueden usar con FTP, GIT local y WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>Credenciales de la aplicación</value>
@@ -4730,8 +4739,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
   </data>
-  <data name="willBeReadOnlyPython" xml:space="preserve">
-    <value>Pronto quedará en desuso la opción de edición de Python. Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información.&lt;/a&gt;</value>
+  <data name="readOnlyPython" xml:space="preserve">
+    <value>La edición de funciones en el portal no es compatible con Python Function Apps (versión preliminar). Use la CLI o VS Code para el desarrollo. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230"&gt;Más información&lt;/a&gt;</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Los montajes de almacenamiento de Azure contienen secretos. Se necesitan permisos de lectura y escritura para ver o editar esta sección.</value>
@@ -4739,17 +4748,11 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>Los valores de configuración de la aplicación deben ser una matriz.</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>Todos los objetos de la configuración de la aplicación deben tener un nombre.</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>Todos los objetos de la configuración de la aplicación deben tener un valor.</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>Todas las propiedades de valor de la configuración de la aplicación deben ser de tipo cadena.</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>Todas las propiedades de nombre de la configuración de la aplicación deben ser de tipo cadena.</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Todas las propiedades de configuración de espacios de la configuración de la aplicación deben ser de tipo booleano.</value>
@@ -4776,9 +4779,21 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>La edición avanzada le permite editar de forma masiva las opciones de configuración de la aplicación. Las claves y los valores se pueden editar en un formato JSON de texto sin formato.</value>
   </data>
   <data name="physicalPathLocationError" xml:space="preserve">
-    <value>Physical path must be a location within site\</value>
+    <value>La ruta de acceso física debe ser una ubicación dentro del sitio\</value>
   </data>
   <data name="virtualDirectoryPathError" xml:space="preserve">
-    <value>Virtual Directory path must exist within an application path</value>
+    <value>La ruta de acceso del directorio virtual debe existir dentro de una ruta de acceso de aplicación.</value>
+  </data>
+  <data name="logStreamingApplicationLogsDisabled" xml:space="preserve">
+    <value>Los registros de aplicación están desactivados. Puede activarlos mediante la configuración de "Registros de diagnóstico".</value>
+  </data>
+  <data name="logStreamingWebServerLogsDisabled" xml:space="preserve">
+    <value>Los registros de servidor web están desactivados. Puede activarlos mediante la configuración de "Registros de diagnóstico".</value>
+  </data>
+  <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
+    <value>Actualmente, la pila del entorno de ejecución seleccionada no admite la depuración remota.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Haga clic aquí para actualizar a una SKU superior y habilitar características adicionales.</value>
   </data>
 </root>
