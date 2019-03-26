@@ -110,25 +110,6 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           },
         ]}
         onChange={updateConnectionStringType}
-        // styles={{
-        //   root: formElementStyle,
-        //   dropdown: {
-        //     maxWidth: '300px',
-        //   },
-        //   title: {
-        //     height: 32,
-        //     lineHeight: 30,
-        //     padding: `0 32px 0 12px`,
-        //   },
-        //   caretDownWrapper: {
-        //     height: 32,
-        //     lineHeight: 30,
-        //   },
-        //   dropdownItemHeader: {
-        //     height: 32,
-        //     lineHeight: 32,
-        //   },
-        // }}
       />
       <Checkbox
         label={t('sticky')}
