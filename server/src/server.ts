@@ -46,7 +46,11 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, 'public'));
   app.useStaticAssets(join(__dirname, 'public', 'react'));
-  app.use(helmet());
+  app.use(
+    helmet({
+      frameguard: false,
+    })
+  );
   app.use(cookieParser());
   app.use(
     cookieSession({
