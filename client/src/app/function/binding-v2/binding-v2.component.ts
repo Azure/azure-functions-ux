@@ -676,6 +676,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
       action.settingValues.push(setting.value);
     });
 
+    this._aiService.trackEvent('/binding-v2/action-clicked');
     this.go.next(action);
   }
 

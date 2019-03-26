@@ -15,5 +15,5 @@ fs.readdirSync(lib).forEach(function(mod) {
   const cmd = /^win/.test(process.platform) ? 'npm.cmd' : 'npm';
 
   // install folder
-  cp.spawn(cmd, ['install'], { env: process.env, cwd: modPath, stdio: 'inherit' });
+  cp.spawn(cmd, ['ci'], { env: process.env, cwd: modPath, stdio: 'inherit' });
 });
