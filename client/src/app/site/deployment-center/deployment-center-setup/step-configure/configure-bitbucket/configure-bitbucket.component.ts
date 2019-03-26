@@ -19,10 +19,10 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   public OrgList: DropDownElement<string>[] = [];
   public RepoList: DropDownElement<string>[] = [];
   public BranchList: DropDownElement<string>[] = [];
-  private orgRepoMap: { [key: string]: DropDownElement<string>[] };
-  private reposStream$ = new Subject<string>();
+  private _orgRepoMap: { [key: string]: DropDownElement<string>[] };
+  private _reposStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
-  private repoUrlToNameMap: { [key: string]: string } = {};
+  private _repoUrlToNameMap: { [key: string]: string } = {};
 
   selectedOrg = null;
   selectedRepo = null;
@@ -38,7 +38,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     private _logService: LogService,
     private _translateService: TranslateService
   ) {
-    this.reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+    this._reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fetchBranches(r);
     });
     this.fetchOrgsAndRepos();
@@ -83,13 +83,13 @@ export class ConfigureBitbucketComponent implements OnDestroy {
           });
         }
       });
-    this.repoUrlToNameMap = {};
+    this._repoUrlToNameMap = {};
     forkJoin(repoCalls).subscribe(
       v => {
-        this.orgRepoMap = repos.reduce((acc, repo) => {
+        this._orgRepoMap = repos.reduce((acc, repo) => {
           const repoNamePieces = repo.full_name.split('/');
           const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
-          this.repoUrlToNameMap[repoUrl] = repo.full_name;
+          this._repoUrlToNameMap[repoUrl] = repo.full_name;
           const repoVal = {
             displayLabel: repo.name,
             value: repoUrl,
@@ -101,7 +101,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
           }
           return acc;
         }, {});
-        const orgNames = new Set(Object.keys(this.orgRepoMap));
+        const orgNames = new Set(Object.keys(this._orgRepoMap));
         this.OrgList = [...orgNames].map(x => ({
           displayLabel: x,
           value: x,
@@ -116,7 +116,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   }
 
   fetchRepos(team: string) {
-    this.RepoList = this.orgRepoMap[team];
+    this.RepoList = this._orgRepoMap[team];
   }
 
   fetchBranches(repo: string) {
@@ -159,7 +159,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   }
 
   RepoChanged(repo: DropDownElement<string>) {
-    this.reposStream$.next(this.repoUrlToNameMap[repo.value]);
+    this._reposStream$.next(this._repoUrlToNameMap[repo.value]);
     this.selectedBranch = null;
   }
 
