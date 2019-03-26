@@ -14,8 +14,8 @@ export class ContainerApp extends Environment {
         return { status: 'disabled' };
       },
     };
-    this.scenarioChecks[ScenarioIds.linuxAppStack] = {
-      id: ScenarioIds.linuxAppStack,
+    this.scenarioChecks[ScenarioIds.linuxAppRuntime] = {
+      id: ScenarioIds.linuxAppRuntime,
       runCheck: () => {
         return {
           status: 'disabled',

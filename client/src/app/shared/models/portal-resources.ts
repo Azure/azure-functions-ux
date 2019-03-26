@@ -483,6 +483,7 @@ export class PortalResources {
   public static linuxFxVersionLabelHelp = 'linuxFxVersionLabelHelp';
   public static appCommandLineLabel = 'appCommandLineLabel';
   public static appCommandLineLabelHelp = 'appCommandLineLabelHelp';
+  public static appCommandLineLabelHelpNoLink = 'appCommandLineLabelHelpNoLink';
   public static newest = 'newest';
   public static architecture32 = 'architecture32';
   public static architecture64 = 'architecture64';

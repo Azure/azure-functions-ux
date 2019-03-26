@@ -1564,6 +1564,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Provide an optional startup command that will be run as part of container startup.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
   </data>
