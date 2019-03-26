@@ -1,5 +1,5 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,6 +9,7 @@ import { FormConnectionString } from '../AppSettings.types';
 import { DatabaseType, typeValueToString } from './connectionStringTypes';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -74,9 +75,6 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         value={currentConnectionString.name}
         errorMessage={nameError}
         onChange={updateConnectionStringName}
-        styles={{
-          root: formElementStyle,
-        }}
         autoFocus
       />
       <TextFieldNoFormik
@@ -84,14 +82,11 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         id="connection-strings-form-value"
         value={currentConnectionString.value}
         onChange={updateConnectionStringValue}
-        styles={{
-          root: formElementStyle,
-        }}
       />
-      <Dropdown
+      <DropdownNoFormik
         label={t('type')}
         id="connection-strings-form-type"
-        selectedKey={currentConnectionString.type}
+        value={currentConnectionString.type}
         options={[
           {
             key: DatabaseType.MySql,
@@ -115,25 +110,25 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           },
         ]}
         onChange={updateConnectionStringType}
-        styles={{
-          root: formElementStyle,
-          dropdown: {
-            maxWidth: '300px',
-          },
-          title: {
-            height: 32,
-            lineHeight: 30,
-            padding: `0 32px 0 12px`,
-          },
-          caretDownWrapper: {
-            height: 32,
-            lineHeight: 30,
-          },
-          dropdownItemHeader: {
-            height: 32,
-            lineHeight: 32,
-          },
-        }}
+        // styles={{
+        //   root: formElementStyle,
+        //   dropdown: {
+        //     maxWidth: '300px',
+        //   },
+        //   title: {
+        //     height: 32,
+        //     lineHeight: 30,
+        //     padding: `0 32px 0 12px`,
+        //   },
+        //   caretDownWrapper: {
+        //     height: 32,
+        //     lineHeight: 30,
+        //   },
+        //   dropdownItemHeader: {
+        //     height: 32,
+        //     lineHeight: 32,
+        //   },
+        // }}
       />
       <Checkbox
         label={t('sticky')}
