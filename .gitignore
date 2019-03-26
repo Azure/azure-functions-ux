@@ -9,7 +9,7 @@ x64/
 x86/
 build/
 bld/
-dist/
+dist/ 
 [Bb]in/
 [Oo]bj/
 AzureFunctions/ng
