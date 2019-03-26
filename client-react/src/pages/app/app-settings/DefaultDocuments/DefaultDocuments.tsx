@@ -3,7 +3,7 @@ import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextField from '../../../../components/form-controls/TextField';
+import TextField from '../../../../components/form-controls/TextFieldNoLabel';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
@@ -70,31 +70,31 @@ const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => 
       <ol>
         {values.config.properties.defaultDocuments.map((value, index) => (
           <li key={index} style={{ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' }}>
-            <Field
-              name={`config.properties.defaultDocuments[${index}]`}
-              component={TextField}
-              componentRef={field => {
-                lastFieldRef = field;
-              }}
-              disabled={!app_write || !editable}
-              styles={{
-                root: {
-                  display: 'inline-block',
-                  width: 'calc(100% - 20px)',
-                },
-              }}
-              id={`app-settings-document-text-${index}`}
-              ariaLabel={t('defaultDocuments')}
-              underlined
-              errorMessage={
-                errors &&
-                errors.config &&
-                errors.config.properties &&
-                errors.config.properties.defaultDocuments &&
-                errors.config.properties.defaultDocuments[index]
-              }
-              {...props}
-            />
+            <div
+              style={{
+                display: 'inline-block',
+                width: 'calc(100% - 20px)',
+              }}>
+              <Field
+                name={`config.properties.defaultDocuments[${index}]`}
+                component={TextField}
+                componentRef={field => {
+                  lastFieldRef = field;
+                }}
+                disabled={!app_write || !editable}
+                id={`app-settings-document-text-${index}`}
+                ariaLabel={t('defaultDocuments')}
+                underlined
+                errorMessage={
+                  errors &&
+                  errors.config &&
+                  errors.config.properties &&
+                  errors.config.properties.defaultDocuments &&
+                  errors.config.properties.defaultDocuments[index]
+                }
+                {...props}
+              />
+            </div>
             <IconButton
               id={`app-settings-document-delete-${index}`}
               disabled={!app_write || !editable}

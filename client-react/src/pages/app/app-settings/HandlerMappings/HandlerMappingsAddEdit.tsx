@@ -1,10 +1,10 @@
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
 import { HandlerMapping } from '../../../../models/WebAppModels';
 import { formElementStyle } from '../AppSettings.styles';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;
@@ -56,7 +56,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
 
   return (
     <form>
-      <TextField
+      <TextFieldNoFormik
         label={t('extension')}
         id="handler-mappings-table-extension"
         value={currentHandlerMapping.extension}
@@ -66,7 +66,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
         }}
         autoFocus
       />
-      <TextField
+      <TextFieldNoFormik
         label={t('scriptProcessor')}
         id="handler-mappings-table-script-processor"
         value={currentHandlerMapping.scriptProcessor}
@@ -75,7 +75,7 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
           root: formElementStyle,
         }}
       />
-      <TextField
+      <TextFieldNoFormik
         label={t('argumentsRes')}
         id="handler-mappings-table-arguments"
         value={currentHandlerMapping.arguments}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
@@ -17,9 +16,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccount')}
         id="azure-storage-mounts-account-name"
         errorMessage={errors.accountName}
-        styles={{
-          root: formElementStyle,
-        }}
       />
       <Field
         component={RadioButton}
@@ -41,9 +37,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         name="shareName"
         label={t('shareName')}
         id="azure-storage-mounts-share-name"
-        styles={{
-          root: formElementStyle,
-        }}
         errorMessage={errors.shareName}
       />
       <Field
@@ -51,9 +44,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         name="accessKey"
         label={t('accessKey')}
         id="azure-storage-mounts-access-key"
-        styles={{
-          root: formElementStyle,
-        }}
         multiline
         rows={4}
         errorMessage={errors.accessKey}

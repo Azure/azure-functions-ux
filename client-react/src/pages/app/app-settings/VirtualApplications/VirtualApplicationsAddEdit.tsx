@@ -1,5 +1,4 @@
 import { Checkbox } from 'office-ui-fabric-react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
@@ -7,6 +6,7 @@ import { VirtualApplication } from '../../../../models/WebAppModels';
 import { formElementStyle } from '../AppSettings.styles';
 import { isEqual } from 'lodash-es';
 import StringUtils from '../../../../utils/string';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -55,15 +55,12 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
   };
 
   // validation
-  useEffect(
-    () => {
-      if (dirty()) {
-        setVirtualPathError(validateVirtualPath());
-        setPhysicalPathError(validatePhysicalPath());
-      }
-    },
-    [currentVirtualApplication]
-  );
+  useEffect(() => {
+    if (dirty()) {
+      setVirtualPathError(validateVirtualPath());
+      setPhysicalPathError(validatePhysicalPath());
+    }
+  }, [currentVirtualApplication]);
   const updatePhysicalPath = (e: any, physicalPath: string) => {
     setCurrentVirtualApplication({
       ...currentVirtualApplication,
@@ -112,7 +109,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
 
   return (
     <form>
-      <TextField
+      <TextFieldNoFormik
         label={t('virtualPath')}
         id="va-virtual-path"
         value={currentVirtualApplication.virtualPath}
@@ -124,7 +121,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
         }}
         autoFocus
       />
-      <TextField
+      <TextFieldNoFormik
         label={t('physicalPath')}
         id="va-physical-path"
         value={currentVirtualApplication.physicalPath}

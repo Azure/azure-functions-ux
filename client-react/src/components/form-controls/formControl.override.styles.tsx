@@ -1,9 +1,12 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITextFieldStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
+import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 
-export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => {
+const formDefaultWidth = '275px';
+export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = DropDownStyles(styleProps);
   return {
     ...baseStyle,
@@ -22,7 +25,7 @@ export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => 
     dropdown: [
       ...baseStyle.dropdown,
       {
-        width: '275px',
+        width: widthOverride || formDefaultWidth,
       },
       dirty && {
         selectors: {
@@ -34,6 +37,28 @@ export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => 
   } as IDropdownStyles;
 };
 
+export const comboboxStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => {
+  const baseStyle = ComboBoxStyles(theme);
+  return {
+    ...baseStyle,
+    root: [
+      ...baseStyle.root,
+      {
+        width: widthOverride || formDefaultWidth,
+      },
+    ],
+  } as IDropdownStyles;
+};
+
+export const textFieldStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
+  const baseStyle = TextFieldStyles(styleProps);
+  return {
+    ...baseStyle,
+    root: {
+      width: widthOverride || formDefaultWidth,
+    },
+  } as ITextFieldStyles;
+};
 export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({ marginBottom: '15px', marginLeft: upsellIcon && fullpage ? '-20px' : undefined });
 

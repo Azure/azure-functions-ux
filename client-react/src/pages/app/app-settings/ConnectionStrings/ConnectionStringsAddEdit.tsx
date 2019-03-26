@@ -1,6 +1,5 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,6 +8,7 @@ import { formElementStyle } from '../AppSettings.styles';
 import { FormConnectionString } from '../AppSettings.types';
 import { DatabaseType, typeValueToString } from './connectionStringTypes';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -68,7 +68,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
 
   return (
     <form>
-      <TextField
+      <TextFieldNoFormik
         label={t('nameRes')}
         id="connection-strings-form-name"
         value={currentConnectionString.name}
@@ -79,7 +79,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         }}
         autoFocus
       />
-      <TextField
+      <TextFieldNoFormik
         label={t('value')}
         id="connection-strings-form-value"
         value={currentConnectionString.value}

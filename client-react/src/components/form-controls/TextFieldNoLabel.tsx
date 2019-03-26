@@ -1,23 +1,15 @@
 import React from 'react';
-import { ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
-import { debounceTime } from 'rxjs/operators';
+import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
-import get from 'lodash-es/get';
-import TextFieldNoFormik from './TextFieldNoFormik';
+import { debounceTime } from 'rxjs/operators';
+import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 interface EventMsg {
   e: any;
   value: string;
 }
 
-interface CustomTextFieldProps {
-  id: string;
-  upsellMessage?: string;
-  infoBubbleMessage?: string;
-  label: string;
-  learnMoreLink?: string;
-}
-class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTextFieldProps, any> {
+class TextField extends React.Component<FieldProps & ITextFieldProps, any> {
   private inputDebouncer = new Subject<EventMsg>();
   private readonly DEBOUNCE_TIME = 300;
   public componentWillMount() {
@@ -31,14 +23,16 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
     this.inputDebouncer.unsubscribe();
   }
   public render() {
-    const { field, form, ...rest } = this.props;
-    const errorMessage = get(form.errors, field.name, '') as string;
+    const { field, ...rest } = this.props;
+
     return (
-      <TextFieldNoFormik
-        value={field.value === undefined ? 'null' : field.value}
-        onBlur={field.onBlur}
-        errorMessage={errorMessage}
+      <OfficeTextField
+        value={field.value}
+        tabIndex={0}
         onChange={this.onChange}
+        onBlur={field.onBlur}
+        errorMessage={rest.errorMessage}
+        styles={TextFieldStyles}
         {...rest}
       />
     );
