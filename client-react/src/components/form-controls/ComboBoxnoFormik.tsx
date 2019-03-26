@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { ComboBox, IComboBoxProps, IComboBoxOption } from 'office-ui-fabric-react/lib/ComboBox';
 
 import { ThemeContext } from '../../ThemeContext';
-import { dropdownStyleOverrides } from './formControl.override.styles';
+import { comboboxStyleOverrides } from './formControl.override.styles';
 import { useWindowSize } from 'react-use';
 import ReactiveFormControl from './ReactiveFormControl';
 
-interface CustomDropdownProps {
+interface CustomComboboxProps {
   id: string;
   upsellMessage?: string;
   infoBubbleMessage?: string;
@@ -14,19 +14,19 @@ interface CustomDropdownProps {
   errorMessage?: string;
   dirty?: boolean;
   value: string;
-  onChange: (e: unknown, option: IDropdownOption) => void;
+  onChange: (e: unknown, option: IComboBoxOption) => void;
   learnMoreLink?: string;
 }
 
-const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
-  const { dirty, value, onChange, errorMessage, options, label, ...rest } = props;
+const ComboBoxNoFormik = (props: IComboBoxProps & CustomComboboxProps) => {
+  const { dirty = false, value, onChange, errorMessage, options, label, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 
   const fullpage = width > 1000;
   return (
     <ReactiveFormControl {...props}>
-      <OfficeDropdown
+      <ComboBox
         selectedKey={value}
         aria-labelledby={`${props.id}-label`}
         ariaLabel={props.label}
@@ -34,10 +34,10 @@ const DropdownNoFormik = (props: IDropdownProps & CustomDropdownProps) => {
         onChange={onChange}
         errorMessage={errorMessage}
         {...rest}
-        styles={dropdownStyleOverrides(dirty, theme, fullpage)}
+        styles={comboboxStyleOverrides(dirty, theme, fullpage)}
       />
     </ReactiveFormControl>
   );
 };
 
-export default DropdownNoFormik;
+export default ComboBoxNoFormik;

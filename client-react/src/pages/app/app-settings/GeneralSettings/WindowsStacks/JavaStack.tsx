@@ -17,7 +17,7 @@ import {
 } from './JavaData';
 import { useTranslation } from 'react-i18next';
 import { PermissionsContext } from '../../Contexts';
-import DropdownNoFormik from '../../../../../components/form-controls/DropDown.noFormik';
+import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];

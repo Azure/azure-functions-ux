@@ -12,9 +12,10 @@ interface CustomTextFieldProps {
   label: string;
   learnMoreLink?: string;
   dirty?: boolean;
+  widthOverride?: string;
 }
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
-  const { value, onChange, onBlur, errorMessage, label, dirty, ...rest } = props;
+  const { value, onChange, onBlur, errorMessage, label, dirty = false, widthOverride, styles, ...rest } = props;
   const { width } = useWindowSize();
   const theme = useContext(ThemeContext);
   const fullpage = width > 1000;
@@ -26,7 +27,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
         onChange={onChange}
         onBlur={onBlur}
         errorMessage={errorMessage}
-        styles={textFieldStyleOverrides(dirty, theme, fullpage)}
+        styles={textFieldStyleOverrides(dirty, theme, fullpage, widthOverride)}
         {...rest}
       />
     </ReactiveFormControl>

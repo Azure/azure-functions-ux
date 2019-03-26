@@ -1,5 +1,4 @@
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +6,7 @@ import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormAppSetting } from '../AppSettings.types';
 import { MessageBarType, MessageBar } from 'office-ui-fabric-react/lib';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -63,25 +63,19 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   return (
     <>
       <form>
-        <TextField
+        <TextFieldNoFormik
           label={t('nameRes')}
           id="app-settings-edit-name"
           value={currentAppSetting.name}
           errorMessage={nameError}
           onChange={updateAppSettingName}
-          styles={{
-            root: formElementStyle,
-          }}
           autoFocus
         />
-        <TextField
+        <TextFieldNoFormik
           label={t('value')}
           id="app-settings-edit-value"
           value={currentAppSetting.value}
           onChange={updateAppSettingValue}
-          styles={{
-            root: formElementStyle,
-          }}
         />
         <Checkbox
           label={t('sticky')}

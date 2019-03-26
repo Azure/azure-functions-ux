@@ -4,7 +4,7 @@ import { debounceTime } from 'rxjs/operators';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import get from 'lodash-es/get';
-import TextFieldNoFormik from './TextField.NoFormik';
+import TextFieldNoFormik from './TextFieldNoFormik';
 interface EventMsg {
   e: any;
   value: string;
