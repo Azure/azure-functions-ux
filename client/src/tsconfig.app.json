@@ -4,11 +4,9 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
+    "downlevelIteration": true,
     "types": [],
     "lib": ["es2015", "dom"]
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }

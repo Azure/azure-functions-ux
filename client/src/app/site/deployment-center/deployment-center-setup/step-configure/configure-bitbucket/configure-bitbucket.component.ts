@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { PortalResources } from 'app/shared/models/portal-resources';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'app-configure-bitbucket',
@@ -19,10 +19,10 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   public OrgList: DropDownElement<string>[] = [];
   public RepoList: DropDownElement<string>[] = [];
   public BranchList: DropDownElement<string>[] = [];
-
-  private reposStream$ = new Subject<string>();
+  private _orgRepoMap: { [key: string]: DropDownElement<string>[] };
+  private _reposStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
-  private repoUrlToNameMap: { [key: string]: string } = {};
+  private _repoUrlToNameMap: { [key: string]: string } = {};
 
   selectedOrg = null;
   selectedRepo = null;
@@ -38,16 +38,16 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     private _logService: LogService,
     private _translateService: TranslateService
   ) {
-    this.reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+    this._reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
       this.fetchBranches(r);
     });
-    this.fetchOrgs();
+    this.fetchOrgsAndRepos();
     this.updateFormValidation();
 
     // TODO, Travih use map instead of push and move pagelen to const
     // if auth changes then this will force refresh the config data
     this.wizard.updateSourceProviderConfig$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
-      this.fetchOrgs();
+      this.fetchOrgsAndRepos();
     });
   }
 
@@ -59,26 +59,20 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     this.wizard.sourceSettings.get('branch').updateValueAndValidity();
   }
 
-  fetchOrgs() {
+  fetchOrgsAndRepos() {
     this.OrgList = [];
-    const newOrgList = [];
     this.orgsLoading = true;
-    const userValueCall = this._cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
-      url: 'https://api.bitbucket.org/2.0/user',
-      authToken: this.wizard.getToken(),
-    });
-    const orgsCall = this._cacheService
+    const repos = [];
+    const repoCalls = this._cacheService
       .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-        url: `${DeploymentCenterConstants.bitbucketApiUrl}/teams?role=admin&pagelen=100`,
+        url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?pagelen=100&role=contributor`,
         authToken: this.wizard.getToken(),
       })
+      .first()
       .expand(value => {
         const page = value.json();
-        page.values.forEach(org => {
-          newOrgList.push({
-            displayLabel: org.username,
-            value: org.username,
-          });
+        page.values.forEach(repo => {
+          repos.push(repo);
         });
         if (!page.next) {
           return Observable.empty();
@@ -89,69 +83,40 @@ export class ConfigureBitbucketComponent implements OnDestroy {
           });
         }
       });
-    Observable.forkJoin([userValueCall, orgsCall]).subscribe(
-      ([user, _]) => {
+    this._repoUrlToNameMap = {};
+    forkJoin(repoCalls).subscribe(
+      v => {
+        this._orgRepoMap = repos.reduce((acc, repo) => {
+          const repoNamePieces = repo.full_name.split('/');
+          const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
+          this._repoUrlToNameMap[repoUrl] = repo.full_name;
+          const repoVal = {
+            displayLabel: repo.name,
+            value: repoUrl,
+          };
+          if (acc[repoNamePieces[0]]) {
+            acc[repoNamePieces[0]].push(repoVal);
+          } else {
+            acc[repoNamePieces[0]] = [repoVal];
+          }
+          return acc;
+        }, {});
+        const orgNames = new Set(Object.keys(this._orgRepoMap));
+        this.OrgList = [...orgNames].map(x => ({
+          displayLabel: x,
+          value: x,
+        }));
         this.orgsLoading = false;
-        newOrgList.push({
-          displayLabel: `${user.json().display_name} (${this._translateService.instant(PortalResources.personal)})`,
-          value: `self:${user.json().username}`,
-        });
-        this.OrgList = newOrgList;
       },
       err => {
+        this._logService.error(LogCategories.cicd, '/fetch-bitbucket-branches', err);
         this.orgsLoading = false;
-        this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
       }
     );
   }
 
   fetchRepos(team: string) {
-    this.RepoList = [];
-    const newRepoList = [];
-    this.repoUrlToNameMap = {};
-    this.reposLoading = true;
-    let uri = ``;
-    if (team.includes('self:')) {
-      const username = team.split(':')[1];
-      uri = `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${username}?pagelen=100`;
-    } else {
-      uri = `${DeploymentCenterConstants.bitbucketApiUrl}/teams/${team}/repositories?pagelen=100`;
-    }
-    Observable.forkJoin(
-      this._cacheService
-        .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-          url: uri,
-          authToken: this.wizard.getToken(),
-        })
-        .expand(value => {
-          const page = value.json();
-          page.values.forEach(repo => {
-            const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
-            newRepoList.push({
-              displayLabel: repo.name,
-              value: repoUrl,
-            });
-            this.repoUrlToNameMap[repoUrl] = repo.full_name;
-          });
-          if (!page.next) {
-            return Observable.empty();
-          } else {
-            return this._cacheService.post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-              url: page.next,
-              authToken: this.wizard.getToken(),
-            });
-          }
-        })
-    ).subscribe(
-      _ => {
-        this.reposLoading = false;
-        this.RepoList = newRepoList;
-      },
-      err => {
-        this.reposLoading = false;
-        this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
-      }
-    );
+    this.RepoList = this._orgRepoMap[team];
   }
 
   fetchBranches(repo: string) {
@@ -194,7 +159,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   }
 
   RepoChanged(repo: DropDownElement<string>) {
-    this.reposStream$.next(this.repoUrlToNameMap[repo.value]);
+    this._reposStream$.next(this._repoUrlToNameMap[repo.value]);
+    this.selectedBranch = null;
   }
 
   OrgChanged(org: DropDownElement<string>) {
