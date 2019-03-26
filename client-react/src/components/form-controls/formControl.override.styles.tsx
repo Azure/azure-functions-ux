@@ -1,7 +1,8 @@
 import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
-import { IDropdownStyles } from 'office-ui-fabric-react';
+import { IDropdownStyles, ITextFieldStyles } from 'office-ui-fabric-react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 
 export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => {
   const baseStyle = DropDownStyles(styleProps);
@@ -34,6 +35,15 @@ export const dropdownStyleOverrides = (dirty, theme, fullpage) => styleProps => 
   } as IDropdownStyles;
 };
 
+export const textFieldStyleOverrides = (dirty, theme, fullpage) => styleProps => {
+  const baseStyle = TextFieldStyles(styleProps);
+  return {
+    ...baseStyle,
+    root: {
+      width: '275px',
+    },
+  } as ITextFieldStyles;
+};
 export const controlContainerStyle = (upsellIcon: boolean, fullpage: boolean) =>
   style({ marginBottom: '15px', marginLeft: upsellIcon && fullpage ? '-20px' : undefined });
 

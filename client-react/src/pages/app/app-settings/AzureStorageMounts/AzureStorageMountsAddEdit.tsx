@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ActionBar from '../../../../components/ActionBar';
-import { formElementStyle } from '../AppSettings.styles';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
@@ -80,9 +79,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               id={`azure-storage-mounts-name`}
               ariaLabel={t('_name')}
               errorMessage={formProps.errors && formProps.errors.name}
-              styles={{
-                root: formElementStyle,
-              }}
               validate={val => {
                 const error = validateAppSettingName(val);
                 if (error) {
@@ -117,9 +113,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={TextField}
               id={`azure-storage-mounts-path`}
               errorMessage={formProps.errors && formProps.errors.mountPath}
-              styles={{
-                root: formElementStyle,
-              }}
               {...formProps}
             />
             <ActionBar
