@@ -18,6 +18,7 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { of } from 'rxjs/observable/of';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
+import { RegexValidator } from 'app/shared/validators/regexValidator';
 
 @Component({
   selector: 'app-deployment-credentials',
@@ -62,14 +63,18 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
   ) {
     super('DeploymentCredentialsComponent', injector);
     const requiredValidation = new RequiredValidator(this._translateService, true);
+    const passwordValidator = RegexValidator.create(
+      /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{8,}$/, //The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.
+      this._translateService.instant(PortalResources.userCredsError)
+    );
     this.userPasswordForm = fb.group({
       userName: ['', [requiredValidation]],
-      password: ['', [requiredValidation]],
+      password: ['', [requiredValidation, passwordValidator]],
       passwordConfirm: [''],
     });
     this.userPasswordForm
       .get('passwordConfirm')
-      .setValidators(ConfirmPasswordValidator.create(this._translateService, this.userPasswordForm.get('password')));
+      .setValidators([ConfirmPasswordValidator.create(this._translateService, this.userPasswordForm.get('password'))]);
   }
 
   protected setup(inputEvents: Observable<string>) {

@@ -1547,4 +1547,5 @@ export class PortalResources {
   public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
   public static ipRestrictionsWarning = 'ipRestrictionsWarning';
+  public static userCredsError = 'userCredsError';
 }
