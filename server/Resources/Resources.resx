@@ -2237,7 +2237,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to create slot '{0}' </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>Unable to upate the list of slots</value>
+    <value>Unable to update the list of slots</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
