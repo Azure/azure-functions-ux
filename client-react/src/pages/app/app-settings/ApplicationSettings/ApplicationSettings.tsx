@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { ActionButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import DisplayTableWithEmptyMessage, {
@@ -12,12 +12,13 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import AppSettingsBulkEdit from './AppSettingsBulkEdit';
 import { Coachmark } from 'office-ui-fabric-react/lib/Coachmark';
 import { TeachingBubbleContent } from 'office-ui-fabric-react/lib/TeachingBubble';
 import { DirectionalHint } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
+import LoadingComponent from '../../../../components/loading/loading-component';
 
+const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
   hideValues: boolean;
   showPanel: boolean;
@@ -121,11 +122,13 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           type={PanelType.large}
           onDismiss={this.onCancel}
           closeButtonAriaLabel={t('close')}>
-          <AppSettingsBulkEdit
-            updateAppSetting={this._saveBulkEdit}
-            closeBlade={this.onCancel}
-            appSettings={this.props.values.appSettings}
-          />
+          <Suspense fallback={<LoadingComponent />}>
+            <AppSettingsBulkEdit
+              updateAppSetting={this._saveBulkEdit}
+              closeBlade={this.onCancel}
+              appSettings={this.props.values.appSettings}
+            />
+          </Suspense>
         </Panel>
         {this.state.coachMarkVisible && (
           <Coachmark
