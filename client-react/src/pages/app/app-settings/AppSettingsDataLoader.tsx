@@ -1,7 +1,7 @@
 import { FormikActions } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
-import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList,getCleanedConfigForSave } from './AppSettingsFormData';
+import { convertStateToForm, convertFormToState, flattenVirtualApplicationsList, getCleanedConfigForSave } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/loading/loading-component';
 import {
   fetchApplicationSettingValues,
@@ -18,15 +18,15 @@ import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import SiteService from '../../../ApiHelpers/SiteService';
+import LogService from '../../../utils/LogService';
+
 export interface AppSettingsDataLoaderProps {
-  children: (
-    props: {
-      initialFormValues: AppSettingsFormValues;
-      saving: boolean;
-      scaleUpPlan: () => void;
-      onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
-    }
-  ) => JSX.Element;
+  children: (props: {
+    initialFormValues: AppSettingsFormValues;
+    saving: boolean;
+    scaleUpPlan: () => void;
+    onSubmit: (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => void;
+  }) => JSX.Element;
   resourceId: string;
 }
 
@@ -100,7 +100,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     } else {
       setCurrentAvailableStacks(windowsStacks.data);
     }
-
+    LogService.stopTrackPage('shell', { feature: 'AppSettings' });
     setInitialLoading(true);
   };
   const fillSlots = async () => {
