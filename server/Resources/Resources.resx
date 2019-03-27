@@ -4203,7 +4203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2019 LTSC Container.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask with Redis</value>
@@ -4494,7 +4494,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Successfully saved credentials</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
+    <value>Use an image from any private registry, including Azure Container Registry.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
@@ -4806,7 +4806,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Click here to upgrade to a higher SKU and enable additional features.</value>
   </data>
   <data name="appInsightsNotConfigured" xml:space="preserve">
-    <value>Application Insights is not configured. Configure Application Insights to capure function logs.</value>
+    <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
     <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
