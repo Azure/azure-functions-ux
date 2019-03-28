@@ -30,14 +30,16 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   const fullpage = width > 1000;
   return (
     <Stack horizontal={fullpage} verticalAlign="center" className={controlContainerStyle(!!upsellMessage, fullpage)}>
-      <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage, fullpage)}>
-        {upsellMessage && (
-          <div className={upsellIconStyle}>
-            <UpsellIcon upsellMessage={upsellMessage} />
-          </div>
-        )}
-        <Label id={`${props.id}-label`}>{label}</Label>
-      </Stack>
+      {label && (
+        <Stack horizontal verticalAlign="center" className={labelStyle(!!upsellMessage, fullpage)}>
+          {upsellMessage && (
+            <div className={upsellIconStyle}>
+              <UpsellIcon upsellMessage={upsellMessage} />
+            </div>
+          )}
+          <Label id={`${props.id}-label`}>{label}</Label>
+        </Stack>
+      )}
       {props.children}
       {infoBubbleMessage && (
         <div className={infoMessageStyle(fullpage)}>

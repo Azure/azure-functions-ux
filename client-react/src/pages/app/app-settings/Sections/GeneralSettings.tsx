@@ -11,6 +11,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
+import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
@@ -38,6 +39,7 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       </div>
       {getDebuggingRender()}
       <SlotAutoSwap {...props} />
+      <ClientCert {...props} />
     </>
   );
 };
@@ -72,7 +74,8 @@ const stackDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFor
     !isEqual(values.config.properties.javaVersion, initialValues.config.properties.javaVersion) ||
     !isEqual(values.config.properties.netFrameworkVersion, initialValues.config.properties.netFrameworkVersion) ||
     !isEqual(values.config.properties.phpVersion, initialValues.config.properties.phpVersion) ||
-    !isEqual(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion)
+    !isEqual(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) ||
+    !isEqual(values.config.properties.appCommandLine, initialValues.config.properties.appCommandLine)
   );
 };
 export const generalSettingsDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {

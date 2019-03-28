@@ -22,7 +22,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   return (
     <ReactiveFormControl {...props}>
       <OfficeTextField
-        value={value}
+        value={value || ''}
         tabIndex={0}
         onChange={onChange}
         onBlur={onBlur}

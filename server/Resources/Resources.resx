@@ -4814,4 +4814,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="userCredsError" xml:space="preserve">
     <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
   </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Incoming client certificates</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Require incoming certificate</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Certificate exclusion paths</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>edit client eclusion paths</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>No exclusion rules defined</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>New path</value>
+  </data>  
 </root>
