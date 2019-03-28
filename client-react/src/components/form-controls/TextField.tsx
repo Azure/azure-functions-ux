@@ -33,15 +33,7 @@ class TextField extends React.Component<FieldProps & ITextFieldProps & CustomTex
   public render() {
     const { field, form, ...rest } = this.props;
     const errorMessage = get(form.errors, field.name, '') as string;
-    return (
-      <TextFieldNoFormik
-        value={field.value === undefined ? 'null' : field.value}
-        onBlur={field.onBlur}
-        errorMessage={errorMessage}
-        onChange={this.onChange}
-        {...rest}
-      />
-    );
+    return <TextFieldNoFormik value={field.value} onBlur={field.onBlur} errorMessage={errorMessage} onChange={this.onChange} {...rest} />;
   }
 
   private onChange = (e: any, value: string) => {
