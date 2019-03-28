@@ -26,12 +26,12 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   };
   return (
     <>
-      <h3>Incoming Client Certificates</h3>
+      <h3>{t('incomingClientCertificates')}</h3>
       <div className={settingsWrapper}>
         <Field
           name="site.properties.clientCertEnabled"
           component={RadioButton}
-          label="Require Incoming Certificate"
+          label={t('requireIncomingClientCertificates')}
           disabled={!app_write || !editable}
           id="incoming-client-certificate-enabled"
           options={[
@@ -51,14 +51,15 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               name="site.properties.clientCertExclusionPaths"
               component={TextField}
               disabled
-              label="Certificate Exclusion Paths"
+              placeholder={t('noExclusionRulesDefined')}
+              label={t('certificateExlusionPaths')}
               id="incoming-client-certificate-exclusion-paths"
             />
             <Panel
               isOpen={showPanel}
               type={PanelType.medium}
               onDismiss={onCancel}
-              headerText="Edit client exclusion"
+              headerText={t('certificateExlusionPaths')}
               closeButtonAriaLabel={t('close')}>
               <EditClientExclusionPaths
                 clientExclusionPaths={values.site.properties.clientCertExclusionPaths}
@@ -69,8 +70,8 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             <IconButton
               iconProps={{ iconName: 'Edit' }}
               id={`edit-client-cert-exclusion-paths`}
-              ariaLabel={t('edit')}
-              title={t('edit')}
+              ariaLabel={t('editCertificateExlusionPaths')}
+              title={t('editCertificateExlusionPaths')}
               disabled={!app_write || !editable}
               onClick={openClientExclusionPathPane}
             />

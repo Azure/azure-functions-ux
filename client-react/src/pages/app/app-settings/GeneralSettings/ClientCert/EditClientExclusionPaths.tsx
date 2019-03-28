@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import { TextField } from 'office-ui-fabric-react';
 import ActionBar from '../../../../../components/ActionBar';
+import { newButtonOfficeFabricStyle, textBoxListStyle, textBoxInListStyle, textBoxInListDeleteButtonStyle } from '../../AppSettings.styles';
 
 interface Props {
   clientExclusionPaths: string;
@@ -59,18 +60,14 @@ const EditClientExclusionPaths: React.FC<Props> = props => {
       <ActionButton
         id="app-settings-new-client-exclusion-path"
         onClick={createNewItem}
-        styles={{ root: { marginTop: '5px' } }}
+        styles={newButtonOfficeFabricStyle}
         iconProps={{ iconName: 'Add' }}>
         {t('newPath')}
       </ActionButton>
       <ol>
         {values.map((value, index) => (
-          <li key={index} style={{ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' }}>
-            <div
-              style={{
-                display: 'inline-block',
-                width: 'calc(100% - 20px)',
-              }}>
+          <li key={index} className={textBoxListStyle}>
+            <div className={textBoxInListStyle}>
               <TextField
                 componentRef={field => {
                   lastFieldRef = field;
@@ -78,15 +75,15 @@ const EditClientExclusionPaths: React.FC<Props> = props => {
                 value={value}
                 onChange={onChange(index)}
                 label=""
-                id={`app-settings-document-text-${index}`}
+                id={`app-settings-exclusion-path-text-${index}`}
                 ariaLabel={t('defaultDocuments')}
                 underlined
                 {...props}
               />
             </div>
             <IconButton
-              id={`app-settings-document-delete-${index}`}
-              style={{ display: 'inline-block', width: '16px' }}
+              id={`app-settings-exclusion-path-delete-${index}`}
+              className={textBoxInListDeleteButtonStyle}
               iconProps={{ iconName: 'Delete' }}
               title={t('delete')}
               onClick={() => removeItem(index)}
@@ -95,7 +92,7 @@ const EditClientExclusionPaths: React.FC<Props> = props => {
         ))}
       </ol>
       <ActionBar
-        id="virtual-applications-edit-footer"
+        id="exclusion-path-edit-footer"
         primaryButton={actionBarPrimaryButtonProps}
         secondaryButton={actionBarSecondaryButtonProps}
       />

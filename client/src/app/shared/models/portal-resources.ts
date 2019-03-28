@@ -1548,4 +1548,10 @@ export class PortalResources {
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
   public static ipRestrictionsWarning = 'ipRestrictionsWarning';
   public static userCredsError = 'userCredsError';
+  public static incomingClientCertificates = 'incomingClientCertificates';
+  public static requireIncomingClientCertificates = 'requireIncomingClientCertificates';
+  public static certificateExlusionPaths = 'certificateExlusionPaths';
+  public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
+  public static noExclusionRulesDefined = 'noExclusionRulesDefined';
+  public static newPath = 'newPath';
 }
