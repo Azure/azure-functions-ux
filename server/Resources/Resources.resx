@@ -4834,6 +4834,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>New path</value>
   </data>  
   <data name="useIncomingClientCertsUpsell" xml:space="preserve">
-    <value>Incoming client certificates requires a shared or higher App Service plan</value>
+    <value>Incoming client certificates requires a basic or higher App Service plan</value>
   </data>
 </root>
