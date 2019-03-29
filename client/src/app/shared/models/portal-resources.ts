@@ -1556,4 +1556,6 @@ export class PortalResources {
   public static newPath = 'newPath';
   public static githubOrgMessage = 'githubOrgMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
+  public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
+
 }

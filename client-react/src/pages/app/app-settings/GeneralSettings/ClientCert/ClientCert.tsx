@@ -3,17 +3,23 @@ import { settingsWrapper } from '../../AppSettingsForm';
 import { Field, FormikProps } from 'formik';
 import RadioButton from '../../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext } from '../../Contexts';
+import { PermissionsContext, SiteContext } from '../../Contexts';
 import TextField from '../../../../../components/form-controls/TextField';
 import { Stack, Panel, PanelType } from 'office-ui-fabric-react';
 import IconButton from '../../../../../components/IconButton/IconButton';
 import EditClientExclusionPaths from './EditClientExclusionPaths';
 import { AppSettingsFormValues } from '../../AppSettings.types';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, setFieldValue } = props;
+  const site = useContext(SiteContext);
   const { t } = useTranslation();
   const { app_write, editable } = useContext(PermissionsContext);
   const [showPanel, setShowPanel] = useState(false);
+
+  const scenarioChecker = new ScenarioService(t);
+  const clientCertEnabled = scenarioChecker.checkScenario(ScenarioIds.incomingClientCertEnabled, { site });
   const openClientExclusionPathPane = () => {
     setShowPanel(true);
   };
@@ -32,7 +38,8 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="site.properties.clientCertEnabled"
           component={RadioButton}
           label={t('requireIncomingClientCertificates')}
-          disabled={!app_write || !editable}
+          disabled={!app_write || !editable || clientCertEnabled.status === 'disabled'}
+          upsellMessage={clientCertEnabled.status === 'disabled' ? clientCertEnabled.data : ''}
           id="incoming-client-certificate-enabled"
           options={[
             {
