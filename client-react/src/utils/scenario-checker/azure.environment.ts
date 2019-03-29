@@ -44,6 +44,15 @@ export class AzureEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
+      id: ScenarioIds.incomingClientCertEnabled,
+      runCheck: (input: ScenarioCheckInput) => {
+        const scenarioResult = this.enableIfBasicOrHigher(input);
+        scenarioResult.data = t('useIncomingClientCertsUpsell');
+        return scenarioResult;
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
       id: ScenarioIds.enableAlwaysOn,
       runCheck: (input: ScenarioCheckInput) => {
