@@ -44,6 +44,15 @@ export class AzureEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.incomingClientCertEnabled] = {
+      id: ScenarioIds.incomingClientCertEnabled,
+      runCheck: (input: ScenarioCheckInput) => {
+        const scenarioResult = this.enableIfSharedOrHigher(input);
+        scenarioResult.data = t('useIncomingClientCertsUpsell');
+        return scenarioResult;
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
       id: ScenarioIds.enableAlwaysOn,
       runCheck: (input: ScenarioCheckInput) => {
@@ -119,6 +128,15 @@ export class AzureEnvironment extends Environment {
       input &&
       input.site &&
       (input.site.properties.sku === ServerFarmSkuConstants.Tier.free || input.site.properties.sku === ServerFarmSkuConstants.Tier.shared);
+
+    return {
+      status: disabled ? 'disabled' : 'enabled',
+      data: null,
+    };
+  }
+
+  private enableIfSharedOrHigher(input: ScenarioCheckInput): ScenarioResult {
+    const disabled = input && input.site && input.site.properties.sku === ServerFarmSkuConstants.Tier.free;
 
     return {
       status: disabled ? 'disabled' : 'enabled',
