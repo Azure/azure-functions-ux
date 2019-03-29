@@ -14,11 +14,6 @@ export class LinuxSiteEnvironment extends Environment {
       data: translateService.instant(PortalResources.featureNotSupportedForLinuxApps),
     };
 
-    this.scenarioChecks[ScenarioIds.enableAuth] = {
-      id: ScenarioIds.enableAuth,
-      runCheck: () => disabledResult,
-    };
-
     this.scenarioChecks[ScenarioIds.enableBackups] = {
       id: ScenarioIds.enableBackups,
       runCheck: () => disabledResult,
