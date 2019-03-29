@@ -4833,6 +4833,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="newPath" xml:space="preserve">
     <value>New path</value>
   </data>  
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>If you can't find an organization or repository, you might need to enable additional permissions on GitHub.</value>
+  </data>  
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>If you can't find an organization or repository, you might need to enable additional permissions on Bitbucket.</value>
+  </data>  
   <data name="useIncomingClientCertsUpsell" xml:space="preserve">
     <value>Incoming client certificates requires a basic or higher App Service plan</value>
   </data>

@@ -29,12 +29,13 @@ export class ConfigureGithubComponent implements OnDestroy {
   private orgStream$ = new ReplaySubject<string>();
   public reposLoading = false;
   public branchesLoading = false;
-
+  public permissionInfoLink = DeploymentCenterConstants.permissionsInfoLink;
   public selectedOrg = '';
   public selectedRepo = '';
   public selectedBranch = '';
 
   private repoUrlToNameMap: { [key: string]: string } = {};
+
   constructor(
     public wizard: DeploymentCenterStateManager,
     private _cacheService: CacheService,

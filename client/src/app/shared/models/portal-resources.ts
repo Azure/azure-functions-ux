@@ -1554,5 +1554,8 @@ export class PortalResources {
   public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';
   public static newPath = 'newPath';
+  public static githubOrgMessage = 'githubOrgMessage';
+  public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
+
 }

@@ -19,6 +19,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
   public OrgList: DropDownElement<string>[] = [];
   public RepoList: DropDownElement<string>[] = [];
   public BranchList: DropDownElement<string>[] = [];
+  public bitbucketInfoboxMessageLink = DeploymentCenterConstants.permissionsInfoLink;
   private _orgRepoMap: { [key: string]: DropDownElement<string>[] };
   private _reposStream$ = new Subject<string>();
   private _ngUnsubscribe$ = new Subject();
