@@ -1,65 +1,73 @@
 <div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
-  <h3 class="first-config-heading">{{'code' | translate}}</h3>
+  <h3 class="first-config-heading">{{ 'code' | translate }}</h3>
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <label class="setting-label" id="dc-github-org-label">{{'organization' | translate}}</label>
+      <label class="setting-label" id="dc-github-org-label">{{ 'organization' | translate }}</label>
       <div class="setting-control-container">
-        <ng-select 
-          id='configure-github-org-select' 
-          class="custom-select" 
-          aria-labelledby="dc-github-org-label" 
-          [items]="OrgList" 
-          bindLabel="displayLabel" 
-          bindValue="value" 
+        <ng-select
+          id="configure-github-org-select"
+          class="custom-select"
+          aria-labelledby="dc-github-org-label"
+          [items]="OrgList"
+          bindLabel="displayLabel"
+          bindValue="value"
           [clearable]="false"
-          [(ngModel)]="selectedOrg" 
-          [ngModelOptions]="{standalone: true}" 
-          (change)="OrgChanged($event)">
+          [(ngModel)]="selectedOrg"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="OrgChanged($event)"
+        >
         </ng-select>
       </div>
     </div>
 
     <div class="setting-wrapper">
-      <label class="setting-label" id="dc-github-repo-label">{{'repository' | translate}}</label>
+      <label class="setting-label" id="dc-github-repo-label">{{ 'repository' | translate }}</label>
       <div class="setting-control-container">
-        <ng-select 
-          id='configure-github-repo-select' 
-          class="custom-select" 
+        <ng-select
+          id="configure-github-repo-select"
+          class="custom-select"
           aria-describedby="dc-github-repo-error"
-          aria-labelledby="dc-github-repo-label" 
-          [items]="RepoList" 
-          bindLabel="displayLabel" 
-          bindValue="value" 
-          [clearable]="false" 
-          [loading]="reposLoading" 
-          formControlName="repoUrl" 
-          [(ngModel)]="selectedRepo" 
-          (change)="RepoChanged($event)">
+          aria-labelledby="dc-github-repo-label"
+          [items]="RepoList"
+          bindLabel="displayLabel"
+          bindValue="value"
+          [clearable]="false"
+          [loading]="reposLoading"
+          formControlName="repoUrl"
+          [(ngModel)]="selectedRepo"
+          (change)="RepoChanged($event)"
+        >
         </ng-select>
         <div invalidmessage="repoUrl" id="dc-github-repo-error" role="alert"></div>
       </div>
     </div>
 
     <div class="setting-wrapper">
-      <label class="setting-label" id="dc-github-branch-label" >{{'branch' | translate}}</label>
+      <label class="setting-label" id="dc-github-branch-label">{{ 'branch' | translate }}</label>
       <div class="setting-control-container">
-        <ng-select 
-          id='configure-github-branch-select' 
-          class="custom-select" 
-          [items]="BranchList" 
+        <ng-select
+          id="configure-github-branch-select"
+          class="custom-select"
+          [items]="BranchList"
           aria-describedby="dc-github-branch-error"
-          aria-labelledby="dc-github-branch-label" 
-          bindLabel="displayLabel" 
-          bindValue="value" 
-          [clearable]="false" 
-          [(ngModel)]="selectedBranch" 
-          [loading]="branchesLoading" 
-          formControlName="branch">
+          aria-labelledby="dc-github-branch-label"
+          bindLabel="displayLabel"
+          bindValue="value"
+          [clearable]="false"
+          [(ngModel)]="selectedBranch"
+          [loading]="branchesLoading"
+          formControlName="branch"
+        >
         </ng-select>
         <div invalidmessage="branch" id="dc-github-branch-error" role="alert"></div>
       </div>
     </div>
-
+    <div class="setting-wrapper">
+      <div class="setting-label" aria-hidden="true"></div>
+      <div class="setting-control-container">
+        <info-box [infoText]="'githubOrgMessage' | translate" [infoLink]="githubInfoboxMessage"></info-box>
+      </div>
+    </div>
   </div>
 </div>
