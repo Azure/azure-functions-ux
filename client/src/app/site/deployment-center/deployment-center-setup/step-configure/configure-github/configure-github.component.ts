@@ -29,7 +29,7 @@ export class ConfigureGithubComponent implements OnDestroy {
   private orgStream$ = new ReplaySubject<string>();
   public reposLoading = false;
   public branchesLoading = false;
-  public githubInfoboxMessage = DeploymentCenterConstants.permissionsInfoLink;
+  public permissionInfoLink = DeploymentCenterConstants.permissionsInfoLink;
   public selectedOrg = '';
   public selectedRepo = '';
   public selectedBranch = '';
