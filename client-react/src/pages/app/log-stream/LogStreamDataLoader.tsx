@@ -5,6 +5,7 @@ import LogStream from './LogStream';
 import { ArmTokenContext } from '../../../ArmTokenContext';
 import { ArmObj, Site } from '../../../models/WebAppModels';
 import SiteService from '../../../ApiHelpers/SiteService';
+import LogService from '../../../utils/LogService';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -42,6 +43,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       },
       logsEnabled: { applicationLogs: false, webServerLogs: false },
     };
+    LogService.stopTrackPage('shell', { feature: 'LogStream' });
   }
 
   public async componentWillMount() {

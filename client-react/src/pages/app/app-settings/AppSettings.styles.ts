@@ -26,3 +26,8 @@ export const commandBarSticky = style({
 export const formStyle = style({
   padding: '5px 20px',
 });
+
+export const newButtonOfficeFabricStyle = { root: { marginTop: '5px' } };
+export const textBoxListStyle = style({ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' });
+export const textBoxInListStyle = style({ display: 'inline-block', width: 'calc(100% - 20px)' });
+export const textBoxInListDeleteButtonStyle = style({ display: 'inline-block', width: '16px' });

@@ -95,7 +95,7 @@ export const DropDownStyles = props => {
       {
         verticalAlign: 'middle',
         width: '100%',
-        maxWidth: '265px',
+        maxWidth: '275px',
         minWidth: '75px',
       },
     ],

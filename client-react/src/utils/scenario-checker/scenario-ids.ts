@@ -86,6 +86,7 @@ export class ScenarioIds {
   public static readonly canScaleForSlots = 'canScaleForSlots';
   public static readonly windowsAppStack = 'windowsAppStack';
   public static readonly linuxAppStack = 'linuxAppStack';
+  public static readonly linuxAppRuntime = 'linuxAppRuntime';
   public static readonly byosSupported = 'byosSupported';
   public static readonly configureAADSupported = 'configureAADSupported';
   public static readonly clientAffinitySupported = 'clientAffinitySupported';
@@ -96,4 +97,5 @@ export class ScenarioIds {
   public static readonly useOldScaleUpBlade = 'UseOldScaleUpBlade';
   public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
+  public static readonly incomingClientCertEnabled = 'incomingClientCertEnabled';
 }

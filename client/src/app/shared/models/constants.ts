@@ -475,6 +475,7 @@ export class DeploymentCenterConstants {
   public static readonly vstsAccountsFetchUri =
     'https://commerceprodwus21.vscommerce.visualstudio.com/_apis/Subscription/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 
+  public static readonly permissionsInfoLink = 'https://go.microsoft.com/fwlink/?linkid=2086046';
   // VSTS Validation constants
   // Build definition
   public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';

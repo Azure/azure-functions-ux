@@ -39,7 +39,7 @@ root
 │   │   react app
 │
 └───tests
-│   │   E2E tests for the react app writen with cypress
+│   │   E2E tests for the react app written with cypress
 ```
 
 ### Branches

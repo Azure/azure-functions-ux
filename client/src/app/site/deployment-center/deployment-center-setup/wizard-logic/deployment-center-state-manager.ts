@@ -106,12 +106,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this._token = r.token;
       });
 
-    portalService
-      .getAdToken('azureTfsApi')
-      .first()
-      .subscribe(tokenData => {
-        this._vstsApiToken = tokenData.result.token;
-      });
+    if (scenarioService.checkScenario(ScenarioIds.vstsSource).status !== 'disabled') {
+      portalService
+        .getAdToken('azureTfsApi')
+        .first()
+        .subscribe(tokenData => {
+          this._vstsApiToken = tokenData.result.token;
+        });
+    }
   }
 
   public get wizardValues(): WizardForm {

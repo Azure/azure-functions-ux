@@ -1564,6 +1564,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Learn more&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Provide an optional startup command that will be run as part of container startup.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
   </data>
@@ -2234,7 +2237,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Failed to create slot '{0}' </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>Unable to upate the list of slots</value>
+    <value>Unable to update the list of slots</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
@@ -3383,7 +3386,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS). The pipeline builds, runs load tests and deploys to staging slot and then to production.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu build server</value>
+    <value>App Service build service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
@@ -4200,7 +4203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Asp.Net Web Forms application deployed in Windows Server Core 2016 LTSC Container.</value>
+    <value>Asp.Net Web Forms application deployed in Windows Server Core 2019 LTSC Container.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask with Redis</value>
@@ -4491,7 +4494,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Successfully saved credentials</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Use an image from any private registry, inclduing Azure Container Registry.</value>
+    <value>Use an image from any private registry, including Azure Container Registry.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Not Selected</value>
@@ -4803,9 +4806,40 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Click here to upgrade to a higher SKU and enable additional features.</value>
   </data>
   <data name="appInsightsNotConfigured" xml:space="preserve">
-    <value>Application Insights is not configured. Configure Application Insights to capure function logs.</value>
+    <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
   </data>
   <data name="ipRestrictionsWarning" xml:space="preserve">
     <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>The specified password does not meet the minimum requirements. The password should be at least eight characters long and must contain letters and numbers.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Incoming client certificates</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Require incoming certificate</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Certificate exclusion paths</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>edit client eclusion paths</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>No exclusion rules defined</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>New path</value>
+  </data>  
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>If you can't find an organization or repository, you might need to enable additional permissions on GitHub.</value>
+  </data>  
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>If you can't find an organization or repository, you might need to enable additional permissions on Bitbucket.</value>
+  </data>  
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Incoming client certificates requires a basic or higher App Service plan</value>
   </data>
 </root>

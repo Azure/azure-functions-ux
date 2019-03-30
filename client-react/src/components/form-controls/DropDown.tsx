@@ -2,7 +2,7 @@ import React from 'react';
 import { IDropdownProps, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import DropdownNoFormik from './DropDown.noFormik';
+import DropdownNoFormik from './DropDownnoFormik';
 
 interface CustomDropdownProps {
   id: string;

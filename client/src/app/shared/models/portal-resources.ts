@@ -483,6 +483,7 @@ export class PortalResources {
   public static linuxFxVersionLabelHelp = 'linuxFxVersionLabelHelp';
   public static appCommandLineLabel = 'appCommandLineLabel';
   public static appCommandLineLabelHelp = 'appCommandLineLabelHelp';
+  public static appCommandLineLabelHelpNoLink = 'appCommandLineLabelHelpNoLink';
   public static newest = 'newest';
   public static architecture32 = 'architecture32';
   public static architecture64 = 'architecture64';
@@ -1546,4 +1547,14 @@ export class PortalResources {
   public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
   public static ipRestrictionsWarning = 'ipRestrictionsWarning';
+  public static userCredsError = 'userCredsError';
+  public static incomingClientCertificates = 'incomingClientCertificates';
+  public static requireIncomingClientCertificates = 'requireIncomingClientCertificates';
+  public static certificateExlusionPaths = 'certificateExlusionPaths';
+  public static editCertificateExlusionPaths = 'editCertificateExlusionPaths';
+  public static noExclusionRulesDefined = 'noExclusionRulesDefined';
+  public static newPath = 'newPath';
+  public static githubOrgMessage = 'githubOrgMessage';
+  public static bitbucketOrgMessage = 'bitbucketOrgMessage';
+  public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
 }

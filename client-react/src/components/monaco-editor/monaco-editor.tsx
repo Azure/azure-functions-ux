@@ -17,6 +17,9 @@ class MonacoEditor extends React.Component<any, any> {
 
   public componentDidMount() {
     this.initMonaco();
+    setInterval(() => {
+      this.updateDimensions();
+    }, 300);
     window.addEventListener('resize', this.updateDimensions.bind(this));
   }
 

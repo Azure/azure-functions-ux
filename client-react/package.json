@@ -35,7 +35,7 @@
     "test:ci": "react-app-rewired test --env=jsdom --testResultsProcessor ./node_modules/jest-junit --coverage",
     "test:debug": "react-app-rewired --inspect-brk test --no-cache --verbose=false --runInBand",
     "storybook": "start-storybook -p 9009 -s public",
-    "analyze": "react-scripts build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
+    "analyze": "react-app-rewired build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {

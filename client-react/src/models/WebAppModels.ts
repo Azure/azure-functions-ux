@@ -691,6 +691,7 @@ export interface Site {
   gatewaySiteName: string;
   clientAffinityEnabled: boolean;
   clientCertEnabled: boolean;
+  clientCertExclusionPaths: string;
   hostNamesDisabled: boolean;
   domainVerificationIdentifiers: string;
   kind: string;
