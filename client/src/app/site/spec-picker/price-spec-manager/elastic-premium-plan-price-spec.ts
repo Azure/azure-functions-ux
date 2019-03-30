@@ -70,10 +70,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   }
 
   protected _shouldHideForNewPlan(data: PlanSpecPickerData): boolean {
-    if (Url.getParameterByName(null, FeatureFlags.EnableElasticPremium) === 'true') {
-      return !!data.hostingEnvironmentName || data.isXenon || data.isLinux || !data.isFunctionApp;
-    }
-    return true;
+    return !!data.hostingEnvironmentName || data.isXenon || data.isLinux || !data.isFunctionApp;
   }
 
   protected _shouldHideForExistingPlan(plan: ArmObj<ServerFarm>): boolean {
