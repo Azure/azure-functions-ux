@@ -22,7 +22,11 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
 
   const theme = useContext(ThemeContext);
   const onChange = (e: unknown, option: IComboBoxOption) => {
-    form.setFieldValue(field.name, option.key);
+    if (option) {
+      form.setFieldValue(field.name, option.key);
+    } else {
+      form.setFieldValue(field.name, '');
+    }
   };
   const errorMessage = get(form.errors, field.name, '') as string;
   return (

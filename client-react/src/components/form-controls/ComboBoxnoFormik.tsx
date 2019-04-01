@@ -33,6 +33,7 @@ const ComboBoxNoFormik = (props: IComboBoxProps & CustomComboboxProps) => {
         options={options}
         onChange={onChange}
         errorMessage={errorMessage}
+        useComboBoxAsMenuWidth={true}
         {...rest}
         styles={comboboxStyleOverrides(dirty, theme, fullpage)}
       />
