@@ -1,4 +1,4 @@
-import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, CacheModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { HomeController } from './home/home.controller';
 import { HomeServiceProd } from './home/home.service.prod';
 import { SharedModule } from '../shared/shared.module';
@@ -29,6 +29,6 @@ const redirectMiddleware = (req, res, next) => {
 })
 export class HomeModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(redirectMiddleware).forRoutes(HomeController);
+    consumer.apply(redirectMiddleware).forRoutes({ path: '/', method: RequestMethod.GET });
   }
 }
