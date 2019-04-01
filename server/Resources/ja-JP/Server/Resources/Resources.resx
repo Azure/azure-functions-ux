@@ -2119,6 +2119,12 @@
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>アプリ名 '{0}' は使用できません</value>
   </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Function App の編集モードを更新できませんでした。後でもう一度やり直してください。</value>
   </data>
@@ -3557,8 +3563,11 @@
     <value>ユーザーの資格情報</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>ユーザー資格情報はご自身 (ユーザー) によって定義されているため、アクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。ユーザー資格情報を使用してアプリに接続している場合は、ユーザー名を {0} とする必要があります</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>ユーザー資格情報がお客様 (ユーザー) によって定義されており、お客様がアクセスできるすべてのアプリで使用できます。これらの資格情報は、FTP、ローカル Git、WebDeploy で使用できます。</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>アプリの資格情報</value>
@@ -4739,17 +4748,11 @@
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>アプリ設定値はアレイである必要があります</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>すべてのアプリ設定オブジェクトに名前が必要です</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>すべてのアプリ設定オブジェクトに値が必要です</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>すべてのアプリ設定値のプロパティは文字列型である必要があります</value>
-  </data>
-  <data name="nameMustBeAString" xml:space="preserve">
-    <value>すべてのアプリ設定名のプロパティを文字列型にする必要があります</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>すべてのアプリ設定スロットの設定プロパティはブール値型である必要があります</value>
@@ -4788,6 +4791,9 @@
     <value>Web サーバー ログがオフになっています。[診断ログ] 設定を使用してオンにすることができます。</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
-    <value>Your selected runtime stack does not currently support remote debugging.</value>
+    <value>選択されているランタイム スタックでは、現在リモート デバッグをサポートしていません。</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>上位の SKU にアップグレードして追加機能を有効にするには、ここをクリックします。</value>
   </data>
 </root>
