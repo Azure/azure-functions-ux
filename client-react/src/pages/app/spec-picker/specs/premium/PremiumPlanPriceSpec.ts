@@ -3,9 +3,10 @@ import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/Se
 import { AppKind } from '../../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
+import i18next from 'i18next';
 
 export abstract class PremiumPlanPriceSpec extends PriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t);
     this.tier = ServerFarmSkuConstants.Tier.premium;
     this.upsellEnabled = true;

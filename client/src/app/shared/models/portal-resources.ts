@@ -669,6 +669,8 @@ export class PortalResources {
   public static validation_siteNameMaxChars = 'validation_siteNameMaxChars';
   public static validation_siteNameInvalidChar = 'validation_siteNameInvalidChar';
   public static validation_siteNameNotAvailable = 'validation_siteNameNotAvailable';
+  public static validation_slotNameNotAvailable = 'validation_slotNameNotAvailable';
+  public static validation_slotNameReserved = 'validation_slotNameReserved';
   public static error_unableToUpdateFunctionAppEditMode = 'error_unableToUpdateFunctionAppEditMode';
   public static readOnly = 'readOnly';
   public static readWriteSourceControlled = 'readWriteSourceControlled';
@@ -722,6 +724,7 @@ export class PortalResources {
   public static slotsList_serverfarmHeader = 'slotsList_serverfarmHeader';
   public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
   public static slotsList_title = 'slotsList_title';
+  public static slotsList_tipDeprecationMessage = 'slotsList_tipDeprecationMessage';
   public static monitoring_appInsights = 'monitoring_appInsights';
   public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
   public static slotNew_nameLabel_balloonText = 'slotNew_nameLabel_balloonText';
@@ -1143,6 +1146,7 @@ export class PortalResources {
   public static ftpInfoCardCredsDesc = 'ftpInfoCardCredsDesc';
   public static userCreds = 'userCreds';
   public static userCredsDesc = 'userCredsDesc';
+  public static userCredsNewUserDesc = 'userCredsNewUserDesc';
   public static appCreds = 'appCreds';
   public static appCredsDesc = 'appCredsDesc';
   public static username = 'username';
@@ -1524,10 +1528,8 @@ export class PortalResources {
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static readOnlyPython = 'readOnlyPython';
   public static valuesMustBeAnArray = 'valuesMustBeAnArray';
-  public static nameIsRequired = 'nameIsRequired';
-  public static valueIsRequired = 'valueIsRequired';
+  public static appSettingPropIsRequired = 'appSettingPropIsRequired';
   public static valueMustBeAString = 'valueMustBeAString';
-  public static nameMustBeAString = 'nameMustBeAString';
   public static slotSettingMustBeBoolean = 'slotSettingMustBeBoolean';
   public static invalidAppSettingProperty = 'invalidAppSettingProperty';
   public static appSettingNamesUnique = 'appSettingNamesUnique';
@@ -1541,4 +1543,7 @@ export class PortalResources {
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
   public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
+  public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
+  public static appInsightsNotConfigured = 'appInsightsNotConfigured';
+  public static ipRestrictionsWarning = 'ipRestrictionsWarning';
 }

@@ -2122,6 +2122,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="validation_siteNameNotAvailable" xml:space="preserve">
     <value>The app name '{0}' is not available</value>
   </data>
+  <data name="validation_slotNameNotAvailable" xml:space="preserve">
+    <value>The slot name '{0}' is not available.</value>
+  </data>
+  <data name="validation_slotNameReserved" xml:space="preserve">
+    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>We are unable to update your function app's edit mode. Please try again later.</value>
   </data>
@@ -2280,6 +2286,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Upcoming changes to Routing Rules</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>For a richer monitoring experience, including live metrics and custom queries:</value>
@@ -3560,8 +3569,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>User Credentials</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username will need to be put in as {0}</value>
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
+  </data>
+  <data name="userCredsNewUserDesc" xml:space="preserve">
+    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy.</value>
   </data>
   <data name="appCreds" xml:space="preserve">
     <value>App Credentials</value>
@@ -4742,17 +4754,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="valuesMustBeAnArray" xml:space="preserve">
     <value>App setting values must be an array</value>
   </data>
-  <data name="nameIsRequired" xml:space="preserve">
-    <value>All app setting objects must have a name</value>
-  </data>
-  <data name="valueIsRequired" xml:space="preserve">
-    <value>All app setting objects must have a value</value>
+  <data name="appSettingPropIsRequired" xml:space="preserve">
+    <value>{0} is a required property on all application settings</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value properties must be of type string</value>
-  </data>
-   <data name="nameMustBeAString" xml:space="preserve">
-    <value>All app setting name properties must be of type string</value>
+    <value>All app setting value and name properties must be of type string</value>
   </data>
    <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>All app setting slot setting properties must be of type boolean</value>
@@ -4792,5 +4798,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
     <value>Your selected runtime stack does not currently support remote debugging.</value>
+  </data>
+  <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
+    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights is not configured. Configure Application Insights to capure function logs.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Access restrictions have been added to your function app which may affect your ability to manage it from the portal.</value>
   </data>
 </root>

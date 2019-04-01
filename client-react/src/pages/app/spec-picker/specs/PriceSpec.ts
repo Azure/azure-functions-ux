@@ -4,6 +4,7 @@ import PortalCommunicator from '../../../../portal-communicator';
 import { BillingService } from '../../../../utils/BillingService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
+import i18next from 'i18next';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;
@@ -22,6 +23,7 @@ export interface PlanSpecPickerData {
   hostingEnvironmentName: string | null;
   allowAseV2Creation: boolean;
   forbiddenSkus: string[];
+  forbiddenComputeMode?: number;
   isLinux: boolean;
   isXenon: boolean;
   isElastic?: boolean;
@@ -76,9 +78,9 @@ export abstract class PriceSpec {
   protected _billingService: BillingService;
   protected _logService: LogService;
 
-  private _t: (string) => string;
+  private _t: i18next.TFunction;
 
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     const portalCommunicator = new PortalCommunicator();
     this._billingService = new BillingService(portalCommunicator);
     this._logService = new LogService();

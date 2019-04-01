@@ -461,7 +461,7 @@ export interface Identifier {
   id: string;
 }
 
-export interface IpRestrictions {
+export interface IpRestriction {
   ipAddress: string;
   action: string;
   tag: string;
@@ -706,6 +706,12 @@ export interface Site {
   reserved: boolean;
 }
 
+export enum ComputeMode {
+  Shared = 0,
+  Dedicated,
+  Dynamic,
+}
+
 export interface PremierAddOn {
   sku: string;
   product: string;
@@ -804,7 +810,7 @@ export interface SiteConfig {
   cors: Cors;
   localMySqlEnabled: boolean;
   appCommandLine: string;
-  ipSecurityRestrictions: IpRestrictions;
+  ipSecurityRestrictions: IpRestriction[];
 }
 
 export interface PushSettings {
@@ -1207,20 +1213,6 @@ export interface ServerFarmProperties {
   subscription: string;
   adminSiteName: string;
   hostingEnvironment: string;
-}
-
-export interface Site {
-  id: string;
-  name: string;
-  type: string;
-  location: string;
-  properties: SiteProperties;
-}
-
-export interface SiteProperties {
-  webHostingPlan: string;
-  serverFarmId: string;
-  hostNames: string;
 }
 
 export interface SQLServer {

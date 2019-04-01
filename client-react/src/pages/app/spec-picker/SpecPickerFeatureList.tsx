@@ -1,6 +1,6 @@
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { style } from 'typestyle';
+import { useTranslation } from 'react-i18next';
+import { featureListDivStyle } from './SpecPicker.styles';
 import { PriceSpecDetail } from './specs/PriceSpec';
 import InformationCard from '../../../components/InformationCard/InformationCard';
 
@@ -10,43 +10,34 @@ interface SpecPickerFeatureListProps {
   features: PriceSpecDetail[];
 }
 
-const featureListDivStyle = style({
-  padding: '10px',
-  maxWidth: '700px',
-  marginTop: '10px',
-  width: 'calc(100% / 2)',
-});
+const SpecPickerFeatureList: React.FC<SpecPickerFeatureListProps> = props => {
+  const { title, description, features } = props;
+  const { t } = useTranslation();
+  const informationCards: JSX.Element[] = [];
 
-type SpecPickerFeatureListPropsCombined = SpecPickerFeatureListProps & WithTranslation;
-class SpecPickerFeatureList extends React.Component<SpecPickerFeatureListPropsCombined, {}> {
-  public render() {
-    const { t, title, description, features } = this.props;
-    const informationCards: JSX.Element[] = [];
-
-    for (const feature of features) {
-      const informationCardProps = {
-        id: feature.id,
-        icon: feature.iconUrl,
-        title: feature.title,
-        description: feature.description,
-        additionalInfoLink: !!feature.learnMoreUrl
-          ? {
-              url: feature.learnMoreUrl,
-              text: t('learnMore'),
-            }
-          : undefined,
-      };
-      informationCards.push(<InformationCard {...informationCardProps} />);
-    }
-
-    return (
-      <div className={featureListDivStyle}>
-        <h2>{title}</h2>
-        <div>{description}</div>
-        {informationCards}
-      </div>
-    );
+  for (const feature of features) {
+    const informationCardProps = {
+      id: feature.id,
+      icon: feature.iconUrl,
+      title: feature.title,
+      description: feature.description,
+      additionalInfoLink: !!feature.learnMoreUrl
+        ? {
+            url: feature.learnMoreUrl,
+            text: t('learnMore'),
+          }
+        : undefined,
+    };
+    informationCards.push(<InformationCard {...informationCardProps} />);
   }
-}
 
-export default withTranslation('translation')(SpecPickerFeatureList);
+  return (
+    <div className={featureListDivStyle}>
+      <h2>{title}</h2>
+      <div>{description}</div>
+      {informationCards}
+    </div>
+  );
+};
+
+export default SpecPickerFeatureList;

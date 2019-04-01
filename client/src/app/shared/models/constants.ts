@@ -105,6 +105,7 @@ export class NotificationIds {
   public static runtimeV2 = 'runtimeV2';
   public static updateExtensions = 'updateExtensions';
   public static dynamicLinux = 'dynamicLinux';
+  public static ipRestrictions = 'ipRestrictions';
 }
 
 export class Validations {
@@ -146,6 +147,9 @@ export class Links {
   public static pv2UpsellInfoLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2028474';
   public static containerPrivateRegistryLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2041449';
   public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
+  public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
+  public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
+  public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
 }
 
 export class Kinds {

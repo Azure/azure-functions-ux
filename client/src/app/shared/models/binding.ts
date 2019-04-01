@@ -39,6 +39,8 @@ export class BindingType {
   static activityTrigger = 'activityTrigger';
   static orchestrationTrigger = 'orchestrationTrigger';
   static orchestrationClient = 'orchestrationClient';
+  static signalR = 'signalR';
+  static signalRConnectionInfo = 'signalRConnectionInfo';
 }
 
 export interface BindingConfig {

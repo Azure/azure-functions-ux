@@ -16,7 +16,7 @@ export class SlotNameValidator {
 
       if (control.value.toLowerCase() === 'production') {
         return Observable.of({
-          invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value),
+          invalidSiteName: translateService.instant(PortalResources.validation_slotNameReserved).format(control.value),
         });
       }
 
@@ -46,7 +46,7 @@ export class SlotNameValidator {
           return null;
         } else {
           return {
-            invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value),
+            invalidSiteName: translateService.instant(PortalResources.validation_slotNameNotAvailable).format(control.value),
           };
         }
       });

@@ -5,9 +5,10 @@ import { PlanSpecPickerData, SpecColorCodes } from '../PriceSpec';
 import { style } from 'typestyle';
 import { DV2SeriesPriceSpec } from '../DV2SeriesPriceSpec';
 import { ArmObj, Sku, ServerFarm } from '../../../../../models/WebAppModels';
+import i18next from 'i18next';
 
 export abstract class PremiumV2PlanPriceSpec extends DV2SeriesPriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t, ServerFarmSkuConstants.Tier.premiumV2, t('pricing_pv2NotAvailable'), CommonConstants.Links.premiumV2NotAvailableLearnMore);
     this.tier = ServerFarmSkuConstants.Tier.premiumV2;
     this.featureItems = [

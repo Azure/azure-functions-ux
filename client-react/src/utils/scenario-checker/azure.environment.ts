@@ -96,6 +96,18 @@ export class AzureEnvironment extends Environment {
         return { status: enabled ? 'enabled' : 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.showAppSettingsUpsell] = {
+      id: ScenarioIds.showAppSettingsUpsell,
+      runCheck: (input: ScenarioCheckInput) => {
+        const enabled =
+          input &&
+          input.site &&
+          (input.site.properties.sku === ServerFarmSkuConstants.Tier.free ||
+            input.site.properties.sku === ServerFarmSkuConstants.Tier.shared);
+        return { status: enabled ? 'enabled' : 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

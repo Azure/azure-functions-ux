@@ -62,7 +62,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         </ActionButton>
         <Panel
           isOpen={this.state.showPanel}
-          type={PanelType.smallFixedFar}
+          type={PanelType.large}
           onDismiss={this._onCancel}
           headerText={t('addEditConnectionStringHeader')}
           closeButtonAriaLabel={t('close')}>

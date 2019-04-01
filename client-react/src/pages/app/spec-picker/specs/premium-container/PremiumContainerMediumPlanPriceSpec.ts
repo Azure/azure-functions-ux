@@ -1,8 +1,9 @@
 import { PremiumContainerPlanPriceSpec } from './PremiumContainerPlanPriceSpec';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
+import i18next from 'i18next';
 
 export abstract class PremiumContainerMediumPlanPriceSpec extends PremiumContainerPlanPriceSpec {
-  constructor(t: (string) => string) {
+  constructor(t: i18next.TFunction) {
     super(t);
     this.skuCode = ServerFarmSkuConstants.SkuCode.PremiumContainer.PC3;
     this.legacySkuName = 'medium_premium_container';

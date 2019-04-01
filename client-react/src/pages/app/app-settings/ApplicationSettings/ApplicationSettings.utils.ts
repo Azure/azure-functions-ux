@@ -1,49 +1,41 @@
 import i18next from 'i18next';
 import { FormAppSetting } from '../AppSettings.types';
+import * as Joi from 'joi';
+const schema = Joi.array()
+  .unique('name')
+  .items(
+    Joi.object().keys({
+      name: Joi.string().required(),
+      value: Joi.string().required(),
+      slotSetting: Joi.boolean().optional(),
+    })
+  );
 export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
   try {
     const obj = JSON.parse(newValue) as unknown;
 
-    if (!(obj instanceof Array)) {
-      return t('valuesMustBeAnArray');
+    const result = Joi.validate(obj, schema);
+    if (!result.error) {
+      return '';
     }
-    let err = '';
-    obj.forEach(setting => {
-      const keys = Object.keys(setting);
-      if (!keys.includes('name')) {
-        err = t('nameIsRequired');
-        return;
-      }
-      if (!keys.includes('value')) {
-        err = t('valueIsRequired');
-        return;
-      }
-      if (typeof setting.value !== 'string') {
-        err = t('valueMustBeAString');
-        return;
-      }
-      if (typeof setting.name !== 'string') {
-        err = t('nameMustBeAString');
-        return;
-      }
-      if (setting.slotSetting && typeof setting.slotSetting !== 'boolean') {
-        err = t('slotSettingMustBeBoolean');
-        return;
-      }
-      const { name, value, slotSetting, ...improperProperties } = setting;
-      const improperKeys = Object.keys(improperProperties);
-      if (improperKeys.length > 0) {
-        err = t('invalidAppSettingProperty').format(improperKeys[0]);
-        return;
-      }
-    });
-    const nameList = obj.map(s => s.name);
-    const uniqueNameList = [...Array.from(new Set(nameList))];
-    if (nameList.length !== uniqueNameList.length) {
-      err = t('appSettingNamesUnique');
+    const details = result.error.details[0];
+    switch (details.type) {
+      case 'array.base':
+        return t('valuesMustBeAnArray');
+      case 'any.required':
+        return t('appSettingPropIsRequired').format(details.context!.key);
+      case 'string.base':
+        return t('valueMustBeAString');
+      case 'boolean.base':
+        return t('slotSettingMustBeBoolean');
+      case 'object.allowUnknown':
+        return t('invalidAppSettingProperty').format(details.context!.key);
+      case 'array.unique':
+        return t('appSettingNamesUnique');
+      default:
+        return t('jsonInvalid');
     }
-    return err;
-  } catch {
+  } catch (err) {
     return t('jsonInvalid');
   }
 };

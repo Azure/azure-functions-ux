@@ -633,8 +633,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         if (!location) {
           return Observable.of({ success: false, error: 'no location header' });
         } else {
-          const pollingInterval = 1000;
-          const pollingTimeout = 180;
+          const pollingInterval = 5000; // poll every 5 seconds
+          const pollingTimeout = 36; // time out after 36 polling attempts (3 minutes)
           return Observable.interval(pollingInterval)
             .concatMap(_ => this._cacheService.get(location, true))
             .map((pollResponse: Response) => pollResponse.status)
