@@ -57,12 +57,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
   cssClass = 'spec premium-spec';
 
   constructor(injector: Injector) {
-    super(
-      injector,
-      Tier.elasticPremium,
-      PortalResources.pricing_epNotAvailable,
-      Links.premiumV2NotAvailableLearnMore // TODO (andimarc): need a link for ElasticPremium
-    );
+    super(injector, Tier.elasticPremium, PortalResources.pricing_epNotAvailable, Links.elasticPremiumNotAvailableLearnMore);
   }
 
   protected _matchSku(sku: Sku): boolean {

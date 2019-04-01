@@ -149,6 +149,7 @@ export class Links {
   public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
   public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
   public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
+  public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
 }
 
 export class Kinds {
