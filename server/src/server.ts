@@ -81,7 +81,7 @@ staticConfig.config.version = packageJson.version;
 app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
   if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
-    LogHelper.log('redirect', { userAgent: req.headers['user-agent'] });
+    LogHelper.log('redirect', { userAgent: req.headers['user-agent'], host: req.host });
     res.redirect('https://azure.microsoft.com/services/functions/');
   } else {
     next();
