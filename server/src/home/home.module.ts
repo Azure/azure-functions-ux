@@ -10,7 +10,7 @@ const HomeServiceProvider = {
   useClass: process.env.NODE_ENV === 'production' ? HomeServiceProd : HomeServiceDev,
 };
 const redirectMiddleware = (req, res, next) => {
-  if (!req.query.trustedAuthority && req.query['appsvc.devguide'] && !req.query['appsvc.react']) {
+  if (!req.query.trustedAuthority && !req.query['appsvc.devguide'] && !req.query['appsvc.react']) {
     res.redirect('https://azure.microsoft.com/services/functions/');
     return;
   }
