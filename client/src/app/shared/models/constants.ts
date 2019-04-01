@@ -150,6 +150,7 @@ export class Links {
   public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
   public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
+  public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
 }
 
 export class Kinds {
@@ -590,7 +591,6 @@ export class FeatureFlags {
   public static UseNewSlotsBlade = 'UseNewSlotsBlade';
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
-  public static EnableElasticPremium = 'EnableElasticPremium';
   public static ShowVNetIntegration = 'ShowVNetIntegration';
 }
 
