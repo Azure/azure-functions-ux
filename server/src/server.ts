@@ -22,6 +22,7 @@ import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
 import { validateContainerImage } from './actions/containerValidation';
+import { LogHelper } from './logHelper';
 const hsts = require('hsts');
 const cookieSession = require('cookie-session');
 
@@ -80,6 +81,7 @@ staticConfig.config.version = packageJson.version;
 app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
   if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
+    LogHelper.log('redirect', { userAgent: req.headers['user-agent'] });
     res.redirect('https://azure.microsoft.com/services/functions/');
   } else {
     next();
