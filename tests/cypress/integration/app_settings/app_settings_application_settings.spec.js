@@ -70,9 +70,9 @@ context('App Settings Application Settings and Connection Strings with windows',
       .type('ADDED_VALUE')
       .get('#app-settings-edit-footer-save')
       .click()
-      .get('#app-settings-application-settings-name-2')
+      .get('#app-settings-application-settings-name-0')
       .contains('ADDED_NAME')
-      .get('#app-settings-application-settings-value-2')
+      .get('#app-settings-application-settings-value-0')
       .contains('ADDED_VALUE');
   });
 
@@ -148,13 +148,13 @@ context('App Settings Application Settings and Connection Strings with windows',
       .click({ force: true })
       .get('#connection-string-edit-footer-save')
       .click()
-      .get('#app-settings-connection-strings-name-1')
+      .get('#app-settings-connection-strings-name-0')
       .contains('_NEWNAME')
-      .get('#app-settings-connection-strings-value-1')
+      .get('#app-settings-connection-strings-value-0')
       .contains('_NEWVALUE')
-      .get('#app-settings-connection-strings-sticky-1')
+      .get('#app-settings-connection-strings-sticky-0')
       .should('exist')
-      .get('#app-settings-connection-strings-type-1')
+      .get('#app-settings-connection-strings-type-0')
       .contains('MySQL');
   });
 
