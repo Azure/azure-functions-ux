@@ -47,7 +47,6 @@ import { TopBarNotification } from 'app/top-bar/top-bar-models';
 import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
 import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
-import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'site-summary',
