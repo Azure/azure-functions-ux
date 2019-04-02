@@ -6,7 +6,7 @@ import {
   LogCategories,
   ContainerConstants,
   ARMApiVersions,
-  FunctionAppVersion,
+  FunctionAppVersion, 
   WorkerRuntimeLanguages,
 } from './../models/constants';
 import { UserService } from './user.service';
