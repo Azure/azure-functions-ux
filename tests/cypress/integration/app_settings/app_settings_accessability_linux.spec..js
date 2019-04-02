@@ -18,8 +18,8 @@ context('Linux App Settings Accessability', () => {
   });
 
   it('General Settings Accessability', function() {
-    cy.get('#app-settings-application-settings-tab')
-      .window()
+    cy.get('#app-settings-general-settings-tab')
+      .click()
       .checkA11y();
   });
 
