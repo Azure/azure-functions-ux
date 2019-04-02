@@ -95,14 +95,8 @@ export class FunctionAppService {
         return this._userService.getStartupInfo();
       })
       .concatMap(info => {
-        if (ArmUtil.isLinuxDynamic(context.site)) {
+        if (ArmUtil.isLinuxApp(context.site)) {
           return this._cacheService.getArm(`${context.site.id}/hostruntime/admin/host/systemkeys/_master`);
-        } else if (ArmUtil.isLinuxApp(context.site)) {
-          return this._cacheService.get(
-            Constants.serviceHost + `api/runtimetoken${context.site.id}`,
-            false,
-            this.portalHeaders(info.token)
-          );
         } else {
           return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
         }
@@ -180,15 +174,14 @@ export class FunctionAppService {
   }
 
   private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
-    return this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token)).catch(
-      err =>
-        err.status === 404
-          ? Observable.throw({
-              errorId: errorIds.proxyJsonNotFound,
-              message: '',
-              result: null,
-            })
-          : Observable.throw(err)
+    return this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token)).catch(err =>
+      err.status === 404
+        ? Observable.throw({
+            errorId: errorIds.proxyJsonNotFound,
+            message: '',
+            result: null,
+          })
+        : Observable.throw(err)
     );
   }
 
