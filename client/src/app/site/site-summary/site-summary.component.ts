@@ -47,6 +47,7 @@ import { TopBarNotification } from 'app/top-bar/top-bar-models';
 import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
 import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
+import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'site-summary',
@@ -170,7 +171,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
             this._authZService.hasReadOnlyLock(context.site.id),
             this._functionAppService.pingScmSite(context),
-            (p, s, l, ping) => ({
+            this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
+            (p, s, l, ping, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -178,6 +180,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: null,
               functionInfo: [],
+              appInsightsEnablement: appInsightsEnablement,
             })
           );
         }
@@ -221,6 +224,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         }
 
         if (
+          r.appInsightsEnablement &&
+          r.appInsightsEnablement.status === 'enabled' &&
           r.appSettings &&
           r.appSettings.result &&
           r.appSettings.result.properties &&
