@@ -66,7 +66,7 @@ export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEn
   if (site.kind.includes('linux')) {
     appLogs = logsConfig.httpLogs.fileSystem.enabled;
   } else {
-    appLogs = logsConfig.applicationLogs.fileSystem.level !== 'OFF';
+    appLogs = logsConfig.applicationLogs.fileSystem.level.toUpperCase() !== 'OFF';
     webLogs = logsConfig.httpLogs.fileSystem.enabled;
   }
 
