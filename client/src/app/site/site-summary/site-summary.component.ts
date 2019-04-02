@@ -152,7 +152,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.getFunctions(context),
             this._siteService.getAppSettings(context.site.id, true),
             this._siteService.getSiteConfig(context.site.id, true),
-            (p, s, l, slots, ping, version, functions, appSettings, siteConfig) => ({
+            this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
+            (p, s, l, slots, ping, version, functions, appSettings, siteConfig, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -162,6 +163,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               functionInfo: functions.isSuccessful ? functions.result : [],
               appSettings: appSettings,
               siteConfig: siteConfig,
+              appInsightsEnablement: appInsightsEnablement,
             })
           );
         } else {
@@ -170,7 +172,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
             this._authZService.hasReadOnlyLock(context.site.id),
             this._functionAppService.pingScmSite(context),
-            (p, s, l, ping) => ({
+            this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
+            (p, s, l, ping, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -178,6 +181,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: null,
               functionInfo: [],
+              appInsightsEnablement: appInsightsEnablement,
             })
           );
         }
@@ -221,6 +225,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         }
 
         if (
+          r.appInsightsEnablement &&
+          r.appInsightsEnablement.status === 'enabled' &&
           r.appSettings &&
           r.appSettings.result &&
           r.appSettings.result.properties &&
