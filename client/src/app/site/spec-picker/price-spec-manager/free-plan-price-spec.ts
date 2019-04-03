@@ -39,13 +39,12 @@ export class FreePlanPriceSpec extends PriceSpec {
     },
   ];
 
-  meterFriendlyName = 'Free App Service';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],

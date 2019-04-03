@@ -30,9 +30,6 @@ export abstract class PriceSpec {
   abstract featureItems: PriceSpecDetail[];
   abstract hardwareItems: PriceSpecDetail[];
   abstract specResourceSet: SpecResourceSet;
-  abstract meterFriendlyName: string;
-
-  billingSkuCode?: string;
 
   cssClass = 'spec';
 
@@ -43,6 +40,9 @@ export abstract class PriceSpec {
   disabledInfoLink: string;
   priceString: string;
   price: number;
+
+  protected _hoursInMonth = 744;
+  protected _secondsInMonth = 2678400;
 
   protected _billingService: BillingService;
   protected _logService: LogService;

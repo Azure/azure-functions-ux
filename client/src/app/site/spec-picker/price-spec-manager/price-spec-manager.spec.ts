@@ -235,13 +235,12 @@ class MockPriceSpec extends PriceSpec {
     },
   ];
 
-  meterFriendlyName = null;
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
@@ -252,7 +251,6 @@ class MockPriceSpec extends PriceSpec {
     this.tier = tier;
     this.skuCode = skuCode;
     this.legacySkuName = `Legacy-${skuCode}`;
-    this.meterFriendlyName = `${skuCode} App Service`;
   }
 
   runInitialization(input: PriceSpecInput) {
