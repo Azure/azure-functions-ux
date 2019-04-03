@@ -595,6 +595,7 @@ export class FeatureFlags {
   public static ShowLegacySlotsBlade = 'ShowLegacySlotsBlade';
   public static oldDeploymentCenter = 'oldvsts';
   public static ShowVNetIntegration = 'ShowVNetIntegration';
+  public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
 }
 
 export class SupportedFeatures {
