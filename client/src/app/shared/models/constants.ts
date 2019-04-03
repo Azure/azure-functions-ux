@@ -106,6 +106,7 @@ export class NotificationIds {
   public static updateExtensions = 'updateExtensions';
   public static dynamicLinux = 'dynamicLinux';
   public static ipRestrictions = 'ipRestrictions';
+  public static clientCertEnabled = 'clientCertEnabled';
 }
 
 export class Validations {
@@ -151,6 +152,8 @@ export class Links {
   public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
+  public static clientCertEnabledLearnMore =
+    'https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth#enable-client-certificates';
 }
 
 export class Kinds {
