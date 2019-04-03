@@ -72,6 +72,7 @@ export abstract class PriceSpec {
   public upsellEnabled = false;
   public disabledMessage: string;
   public disabledInfoLink: string;
+  public priceIsBaseline = false;
   public priceString: string;
   public price: number;
 
