@@ -192,7 +192,12 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
           title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
           feature: feature,
           iconUrl: 'image/application-settings.svg',
-          featureId: SiteTabIds.applicationSettings,
+          bladeInfo: {
+            detailBlade: 'SiteConfigSettingsFrameBladeReact',
+            detailBladeInputs: {
+              id: this._descriptor.resourceId,
+            },
+          },
         };
 
       case Feature.AppInsight:

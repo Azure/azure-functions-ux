@@ -21,7 +21,6 @@ import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { ArmService } from '../../shared/services/arm.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
@@ -35,6 +34,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from 'app/shared/services/site.service';
+import { PortalService } from 'app/shared/services/portal.service';
 
 @Component({
   selector: 'function-runtime',
@@ -93,7 +93,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     private _logService: LogService,
     private _scenarioService: ScenarioService,
     private _languageService: LanguageService,
-    private _siteService: SiteService
+    private _siteService: SiteService,
+    private _portalService: PortalService
   ) {
     super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
@@ -145,23 +146,25 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     ];
 
     this.proxySettingValueStream = new Subject<boolean>();
-    this.proxySettingValueStream.filter(value => value === true).subscribe((value: boolean) => {
-      if (this.showProxyEnable) {
-        this._busyManager.setBusy();
+    this.proxySettingValueStream
+      .filter(value => value === true)
+      .subscribe((value: boolean) => {
+        if (this.showProxyEnable) {
+          this._busyManager.setBusy();
 
-        this._cacheService
-          .postArm(`${this.context.site.id}/config/appsettings/list`, true)
-          .mergeMap(r => {
-            return this._updateProxiesVersion(r.json());
-          })
-          .subscribe(() => {
-            this.showProxyEnable = false;
-            this.showProxyEnabledWarning = true;
-            this._busyManager.clearBusy();
-            this._cacheService.clearArmIdCachePrefix(this.context.site.id);
-          });
-      }
-    });
+          this._cacheService
+            .postArm(`${this.context.site.id}/config/appsettings/list`, true)
+            .mergeMap(r => {
+              return this._updateProxiesVersion(r.json());
+            })
+            .subscribe(() => {
+              this.showProxyEnable = false;
+              this.showProxyEnabledWarning = true;
+              this._busyManager.clearBusy();
+              this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+            });
+        }
+      });
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
@@ -203,24 +206,26 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       });
 
     this.slotsValueChange = new Subject<boolean>();
-    this.slotsValueChange.filter(value => value !== this.slotsEnabled).subscribe((value: boolean) => {
-      this._busyManager.setBusy();
-      const newOrUpdatedSettings = {};
-      newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = value
-        ? Constants.slotsSecretStorageSettingsValue
-        : Constants.disabled;
-      this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings).subscribe(r => {
-        if (r.isSuccessful) {
-          this._functionAppService.fireSyncTrigger(this.context);
-          this.slotsEnabled = value;
-          this._busyManager.clearBusy();
-          this._cacheService.clearArmIdCachePrefix(this.context.site.id);
-        } else {
-          this._busyManager.clearBusy();
-          this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', r.error);
-        }
+    this.slotsValueChange
+      .filter(value => value !== this.slotsEnabled)
+      .subscribe((value: boolean) => {
+        this._busyManager.setBusy();
+        const newOrUpdatedSettings = {};
+        newOrUpdatedSettings[Constants.slotsSecretStorageSettingsName] = value
+          ? Constants.slotsSecretStorageSettingsValue
+          : Constants.disabled;
+        this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings).subscribe(r => {
+          if (r.isSuccessful) {
+            this._functionAppService.fireSyncTrigger(this.context);
+            this.slotsEnabled = value;
+            this._busyManager.clearBusy();
+            this._cacheService.clearArmIdCachePrefix(this.context.site.id);
+          } else {
+            this._busyManager.clearBusy();
+            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', r.error);
+          }
+        });
       });
-    });
 
     this.functionRuntimeValueStream = new Subject<string>();
     this.functionRuntimeValueStream.subscribe((value: string) => {
@@ -419,7 +424,15 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
   }
 
   openAppSettings() {
-    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
+    this._portalService.openBlade(
+      {
+        detailBlade: 'SiteConfigSettingsFrameBladeReact',
+        detailBladeInputs: {
+          id: this.context.site.id,
+        },
+      },
+      'function-runtime'
+    );
   }
 
   keyDown(event: any, command: string) {

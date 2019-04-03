@@ -1789,6 +1789,9 @@
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>
   </data>
+  <data name="feature_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
   <data name="tab_applicationSettings" xml:space="preserve">
     <value>Application settings</value>
   </data>
