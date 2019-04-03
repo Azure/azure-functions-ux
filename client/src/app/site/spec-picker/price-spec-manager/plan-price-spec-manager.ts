@@ -155,6 +155,22 @@ export class PlanPriceSpecManager {
         if (!meters) {
           return Observable.of(null);
         }
+        const memoryMeter: ArmObj<BillingMeter> = JSON.parse(JSON.stringify(meters[0]));
+        memoryMeter.name = '322251ec-0568-4e1e-a28b-bca43dfdb990';
+        memoryMeter.id = `${memoryMeter.type}/${memoryMeter.name}`;
+        memoryMeter.properties.friendlyName = 'Premium Functions Memory Duration';
+        memoryMeter.properties.meterId = memoryMeter.name;
+        memoryMeter.properties.shortName = 'EP-M';
+
+        const cpuMeter: ArmObj<BillingMeter> = JSON.parse(JSON.stringify(meters[0]));
+        cpuMeter.name = '44b03137-65fe-4db1-90b5-2045b85b1972';
+        cpuMeter.id = `${cpuMeter.type}/${cpuMeter.name}`;
+        cpuMeter.properties.friendlyName = 'Premium Functions CPU Duration';
+        cpuMeter.properties.meterId = cpuMeter.name;
+        cpuMeter.properties.shortName = 'EP-C';
+
+        meters.push(memoryMeter, cpuMeter);
+
         let specResourceSets: SpecResourceSet[] = [];
         let specsToAllowZeroCost: string[] = [];
 
