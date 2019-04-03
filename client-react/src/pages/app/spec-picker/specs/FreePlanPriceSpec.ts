@@ -81,7 +81,11 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       if (isLinux) {
         this.topLevelFeatures.shift();
       }
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || input.specPickerInput.data.isElastic) {
+      if (
+        input.specPickerInput.data.hostingEnvironmentName ||
+        input.specPickerInput.data.isXenon ||
+        (input.specPickerInput.data.isNewFunctionAppCreate && input.specPickerInput.data.isElastic)
+      ) {
         this.state = 'hidden';
       }
 
