@@ -1021,7 +1021,7 @@ export class PortalResources {
   public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
   public static free = 'free';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
-  public static pricing_pricePerHour = 'pricing_pricePerHour';
+  public static pricing_pricePerMonthBaseline = 'pricing_pricePerMonthBaseline';
   public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
   public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
   public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
@@ -1557,5 +1557,4 @@ export class PortalResources {
   public static githubOrgMessage = 'githubOrgMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
-
 }
