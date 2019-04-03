@@ -4845,4 +4845,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="useIncomingClientCertsUpsell" xml:space="preserve">
     <value>Incoming client certificates requires a basic or higher App Service plan</value>
   </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
+  </data>
 </root>

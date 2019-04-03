@@ -106,6 +106,7 @@ export class NotificationIds {
   public static updateExtensions = 'updateExtensions';
   public static dynamicLinux = 'dynamicLinux';
   public static ipRestrictions = 'ipRestrictions';
+  public static clientCertEnabled = 'clientCertEnabled';
 }
 
 export class Validations {
@@ -148,9 +149,10 @@ export class Links {
   public static containerPrivateRegistryLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2041449';
   public static byosLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2045372';
   public static deploymentCredentialsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2082375';
-  public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
+  public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086703';
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
+  public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
 }
 
 export class Kinds {
