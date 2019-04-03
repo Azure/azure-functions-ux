@@ -68,6 +68,8 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     this.cssClass = style({
       background: SpecColorCodes.PREMIUM,
     });
+
+    this.priceIsBaseline = true;
   }
 
   protected _matchSku(sku: Sku): boolean {
