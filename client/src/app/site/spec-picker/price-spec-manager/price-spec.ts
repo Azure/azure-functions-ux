@@ -38,6 +38,7 @@ export abstract class PriceSpec {
   upsellEnabled = false;
   disabledMessage: string;
   disabledInfoLink: string;
+  priceIsBaseline = false;
   priceString: string;
   price: number;
 

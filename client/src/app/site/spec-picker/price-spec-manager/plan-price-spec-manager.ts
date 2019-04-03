@@ -606,34 +606,8 @@ export class PlanPriceSpecManager {
   }
 
   private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
-    if (!spec.meterFriendlyName) {
-      throw Error('meterFriendlyName must be set');
-    }
-
     if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length < 1) {
       throw Error('Spec must contain a specResourceSet with at least one firstParty item defined');
-    }
-
-    let billingMeter: ArmObj<BillingMeter>;
-    if (!!spec.skuCode) {
-      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
-    }
-    if (!billingMeter && !!spec.billingSkuCode) {
-      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.billingSkuCode.toLowerCase());
-    }
-    if (!billingMeter) {
-      // TODO(shimedh): Remove condition for Free Linux once billingMeters API is updated by backend to return the meters correctly.
-      const osType = this._getOsType(this._inputs);
-      if (osType === OsType.Linux && spec.skuCode === SkuCode.Free.F1) {
-        spec.specResourceSet.firstParty[0].resourceId = 'a90aec9f-eecb-42c7-8421-9b96716996dc';
-      } else {
-        this._logService.error(LogCategories.specPicker, '/meter-not-found', {
-          skuCode: spec.skuCode,
-          osType: osType,
-          location: this._isUpdateScenario(this._inputs) ? this._plan.location : this._inputs.data.location,
-        });
-      }
-      return;
     }
 
     spec.specResourceSet.firstParty.forEach(resource => {
@@ -663,7 +637,9 @@ export class PlanPriceSpecManager {
         } else {
           spec.price = costResult.amount;
           const rate = spec.price.toFixed(2);
-          spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, costResult.currencyCode);
+          spec.priceString = spec.priceIsBaseline
+            ? this._ts.instant(PortalResources.pricing_pricePerMonthBaseline).format(rate, costResult.currencyCode)
+            : this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, costResult.currencyCode);
         }
       } else {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
