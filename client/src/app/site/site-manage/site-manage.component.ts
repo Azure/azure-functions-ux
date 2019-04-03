@@ -252,13 +252,19 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._broadcastService
       ),
 
-      new TabFeature(
-        this._translateService.instant(PortalResources.tab_applicationSettings),
-        this._translateService.instant(PortalResources.tab_applicationSettings),
+      new BladeFeature(
+        this._translateService.instant(PortalResources.feature_configuration),
+        this._translateService.instant(`${PortalResources.tab_applicationSettings} ${PortalResources.feature_configuration}`),
         this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
         'image/application-settings.svg',
-        SiteTabIds.applicationSettings,
-        this._broadcastService
+        {
+          detailBlade: 'SiteConfigSettingsFrameBladeReact',
+          detailBladeInputs: {
+            id: this._descriptor.resourceId,
+          },
+          openAsSubJourney: false,
+        },
+        this._portalService
       ),
 
       new BladeFeature(
