@@ -26,7 +26,7 @@ export interface PlanSpecPickerData {
   forbiddenComputeMode?: number;
   isLinux: boolean;
   isXenon: boolean;
-  isElastic?: boolean;
+  isFunctionApp?: boolean;
   selectedLegacySkuName: string; // Looks like "small_standard"
   selectedSkuCode?: string; // Can be set in update scenario for initial spec selection
 }

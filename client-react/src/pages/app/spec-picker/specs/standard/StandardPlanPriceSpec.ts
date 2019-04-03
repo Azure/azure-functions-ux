@@ -80,7 +80,7 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
         this.state = 'hidden';
       }
     } else if (input.specPickerInput.data) {
-      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || input.specPickerInput.data.isElastic) {
+      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon) {
         this.state = 'hidden';
       }
     }
