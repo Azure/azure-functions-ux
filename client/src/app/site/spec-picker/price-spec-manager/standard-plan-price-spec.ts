@@ -90,13 +90,12 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Standard Small App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
@@ -112,13 +111,12 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Standard Medium App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
@@ -138,13 +136,12 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Standard Large App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],

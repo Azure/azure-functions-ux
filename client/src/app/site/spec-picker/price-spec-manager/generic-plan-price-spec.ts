@@ -22,7 +22,6 @@ export class GenericPlanPriceSpec extends PriceSpec {
     orange: 'spec free-spec',
   };
 
-  meterFriendlyName = 'App Service';
   runInitialization(input: PriceSpecInput): Observable<void> {
     if (input.specPickerInput && input.specPickerInput.data && input.specPickerInput.data.forbiddenComputeMode === this.computeMode) {
       this.state = 'hidden';
