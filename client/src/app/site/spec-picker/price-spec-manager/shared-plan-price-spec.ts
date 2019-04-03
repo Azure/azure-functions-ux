@@ -41,13 +41,12 @@ export class SharedPlanPriceSpec extends PriceSpec {
     },
   ];
 
-  meterFriendlyName = 'Shared App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],

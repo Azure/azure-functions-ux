@@ -506,7 +506,16 @@ export class PlanPriceSpecManager {
   }
 
   private _concatValidResourceSets(allResourceSets: SpecResourceSet[], specs: PriceSpec[]) {
-    return allResourceSets.concat(specs.filter(s => s.specResourceSet.firstParty[0].resourceId).map(s => s.specResourceSet));
+    const specsFiltered = specs.filter(spec => {
+      return (
+        !!spec.specResourceSet &&
+        !!spec.specResourceSet.firstParty &&
+        !!spec.specResourceSet.firstParty.length &&
+        spec.specResourceSet.firstParty.filter(f => !f.resourceId).length === 0
+      );
+    });
+
+    return allResourceSets.concat(specsFiltered.map(s => s.specResourceSet));
   }
 
   private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
@@ -522,27 +531,21 @@ export class PlanPriceSpecManager {
   }
 
   private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
-    if (!spec.meterFriendlyName) {
-      throw Error('meterFriendlyName must be set');
+    if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length < 1) {
+      throw Error('Spec must contain a specResourceSet with at least one firstParty item defined');
     }
 
-    if (!spec.specResourceSet || !spec.specResourceSet.firstParty || spec.specResourceSet.firstParty.length !== 1) {
-      throw Error('Spec must contain a specResourceSet with one firstParty item defined');
-    }
-
-    let billingMeter: ArmObj<BillingMeter>;
-    if (!!spec.skuCode) {
-      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.skuCode.toLowerCase());
-    }
-    if (!billingMeter && !!spec.billingSkuCode) {
-      billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.billingSkuCode.toLowerCase());
-    }
-    if (!billingMeter) {
-      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
-      return;
-    }
-
-    spec.specResourceSet.firstParty[0].resourceId = billingMeter.properties.meterId;
+    spec.specResourceSet.firstParty.forEach(resource => {
+      let billingMeter: ArmObj<BillingMeter>;
+      if (!!resource.id) {
+        billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === resource.id.toLowerCase());
+      }
+      if (!billingMeter) {
+        this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${resource.id}`);
+      } else {
+        resource.resourceId = billingMeter.properties.meterId;
+      }
+    });
   }
 
   private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
@@ -557,10 +560,9 @@ export class PlanPriceSpecManager {
           spec.priceString = this._ts.instant(PortalResources.free);
           spec.price = 0;
         } else {
-          const meter = costResult.firstParty[0].meters[0];
-          spec.price = meter.perUnitAmount * 744; // 744 hours in a month
+          spec.price = costResult.amount;
           const rate = spec.price.toFixed(2);
-          spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, meter.perUnitCurrencyCode);
+          spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, costResult.currencyCode);
         }
       } else {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions

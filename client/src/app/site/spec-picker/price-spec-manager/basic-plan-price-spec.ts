@@ -69,13 +69,12 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Basic Small App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
@@ -91,13 +90,12 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Basic Medium App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
@@ -113,13 +111,12 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     this._ts.instant(PortalResources.pricing_aSeriesComputeEquivalent),
   ];
 
-  meterFriendlyName = 'Basic Large App Service Hours';
-
   specResourceSet = {
     id: this.skuCode,
     firstParty: [
       {
-        quantity: 744,
+        id: this.skuCode,
+        quantity: this._hoursInMonth,
         resourceId: null,
       },
     ],
