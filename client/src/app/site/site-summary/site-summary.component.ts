@@ -277,6 +277,17 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
         }
 
+        if (this.context.site.properties && this.context.site.properties.clientCertEnabled) {
+          this.notifications.push({
+            id: NotificationIds.clientCertEnabled,
+            message: this.ts.instant(PortalResources.clientCertWarning),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: Links.clientCertEnabledLearnMore,
+            clickCallback: null,
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
+        }
+
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);
       })
       .do(res => {
