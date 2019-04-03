@@ -3193,8 +3193,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Month (Estimated)</value>
   </data>
-  <data name="pricing_pricePerHour" xml:space="preserve">
-    <value>{0} {1}/Month (Estimated)</value>
+  <data name="pricing_pricePerMonthBaseline" xml:space="preserve">
+    <value>{0} {1}/Month Baseline (Estimated)</value>
   </data>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Choose a different pricing tier to add more resources for your plan</value>

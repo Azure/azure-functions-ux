@@ -578,7 +578,9 @@ export class PlanPriceSpecManager {
         } else {
           spec.price = costResult.amount;
           const rate = spec.price.toFixed(2);
-          spec.priceString = this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, costResult.currencyCode);
+          spec.priceString = spec.priceIsBaseline
+            ? this._ts.instant(PortalResources.pricing_pricePerMonthBaseline).format(rate, costResult.currencyCode)
+            : this._ts.instant(PortalResources.pricing_pricePerMonth).format(rate, costResult.currencyCode);
         }
       } else {
         // Set to empty string so that UI knows the difference between loading and no value which can happen for CSP subscriptions
