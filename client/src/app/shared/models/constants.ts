@@ -152,8 +152,7 @@ export class Links {
   public static ipRestrictionsLearnMore = 'https://go.microsoft.com/fwlink/?linkid=854597';
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
-  public static clientCertEnabledLearnMore =
-    'https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth#enable-client-certificates';
+  public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
 }
 
 export class Kinds {
