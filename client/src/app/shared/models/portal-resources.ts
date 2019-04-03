@@ -558,6 +558,7 @@ export class PortalResources {
   public static tab_settings = 'tab_settings';
   public static tab_functionSettings = 'tab_functionSettings';
   public static tab_configuration = 'tab_configuration';
+  public static feature_configuration = 'feature_configuration';
   public static tab_applicationSettings = 'tab_applicationSettings';
   public static try_appDisabled = 'try_appDisabled';
   public static template = 'template';
@@ -1557,5 +1558,4 @@ export class PortalResources {
   public static githubOrgMessage = 'githubOrgMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
-
 }
