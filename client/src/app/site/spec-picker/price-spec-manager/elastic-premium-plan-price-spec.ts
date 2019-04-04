@@ -20,7 +20,7 @@ export abstract class ElasticPremiumPlanPriceSpec extends DV2SeriesPriceSpec {
     {
       iconUrl: 'image/networking.svg',
       title: this._ts.instant(PortalResources.pricing_virtualNetwork),
-      description: this._ts.instant(PortalResources.pricing_isolatedNetworkDesc),
+      description: this._ts.instant(PortalResources.pricing_virtualNetworkDesc),
     },
     {
       iconUrl: 'image/slots.svg',

@@ -1057,8 +1057,9 @@ export class PortalResources {
   public static pricing_ase = 'pricing_ase';
   public static pricing_aseDesc = 'pricing_aseDesc';
   public static pricing_isolatedNetwork = 'pricing_isolatedNetwork';
-  public static pricing_virtualNetwork = 'pricing_virtualNetwork';
   public static pricing_isolatedNetworkDesc = 'pricing_isolatedNetworkDesc';
+  public static pricing_virtualNetwork = 'pricing_virtualNetwork';
+  public static pricing_virtualNetworkDesc = 'pricing_virtualNetworkDesc';
   public static pricing_privateAppAccess = 'pricing_privateAppAccess';
   public static pricing_privateAppAccessDesc = 'pricing_privateAppAccessDesc';
   public static pricing_memory = 'pricing_memory';
