@@ -1541,7 +1541,7 @@
     <value>production</value>
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
-    <value>ARR Affinity</value>
+    <value>ARR affinity</value>
   </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
     <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
@@ -3618,7 +3618,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Reset Credentials</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP version</value>
   </data>
   <data name="dismiss" xml:space="preserve">
     <value>Dismiss</value>
@@ -4260,10 +4260,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
-    <value>Hide Values</value>
+    <value>Hide values</value>
   </data>
   <data name="showValues" xml:space="preserve">
-    <value>Show Values</value>
+    <value>Show values</value>
   </data>
   <data name="hiddenValueClickToEdit" xml:space="preserve">
     <value>Hidden value. Click to edit.</value>
@@ -4779,7 +4779,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invalid JSON object</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
-    <value>Advanced Edit</value>
+    <value>Advanced edit</value>
   </data>
    <data name="coachMarkAriaDescription" xml:space="preserve">
     <value>Press enter or alt + C to open the coachmark notification</value>
