@@ -3301,11 +3301,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Isolated network</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Runs within your own virtual network.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Virtual Network Integration</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Runs within your own virtual network.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Connect to a virtual network.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Private app access</value>
