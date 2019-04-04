@@ -1,78 +1,83 @@
 <div *ngIf="imageSourceForm" class="container-setting-property" [formGroup]="imageSourceForm">
-    <label>{{ 'containerRepositoryAccess' | translate }}</label>
-    <div>
-        <radio-selector [options]="containerSettingsManager.dockerHubAccessOptions" (value)="updateAccessOptions($event)"
-            [control]="imageSourceForm?.controls?.accessType">
-        </radio-selector>
-    </div>
+  <label>{{ 'containerRepositoryAccess' | translate }}</label>
+  <div>
+    <radio-selector
+      [options]="containerSettingsManager.dockerHubAccessOptions"
+      (value)="updateAccessOptions($event)"
+      [control]="imageSourceForm?.controls?.accessType"
+    >
+    </radio-selector>
+  </div>
 </div>
 
 <div *ngIf="dockerHubForm && selectedAccessType === 'private'" [formGroup]="dockerHubForm">
+  <div class="container-setting-property">
+    <label>{{ 'containerLogin' | translate }}</label>
+    <textbox [control]="dockerHubForm?.controls?.login" [disablePopOverError]="true"></textbox>
+    <div invalidmessage="login" id="containersettings-dh-login-error-private" role="alert"></div>
+  </div>
+
+  <div class="container-setting-property">
+    <label>{{ 'containerPassword' | translate }}</label>
+    <textbox type="password" [control]="dockerHubForm?.controls?.password" [disablePopOverError]="true"></textbox>
+    <div invalidmessage="password" id="containersettings-dh-password-error-private" role="alert"></div>
+  </div>
+
+  <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
     <div class="container-setting-property">
-        <label>{{ 'containerLogin' | translate }}</label>
-        <textbox [control]="dockerHubForm?.controls?.login" [disablePopOverError]="true"></textbox>
-        <div invalidmessage="login" id="containersettings-dh-login-error-private" role="alert"></div>
+      <label>{{ 'containerImageAndTag' | translate }}</label>
+      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
+      <div invalidmessage="image" id="containersettings-dh-image-error-private" role="alert"></div>
+    </div>
+
+    <div *ngIf="containerImageSourceInfo.os === 'linux'" class="container-setting-property">
+      <label>{{ 'containerStartupFile' | translate }}</label>
+      <textbox [control]="dockerHubForm?.controls?.startupFile" [disablePopOverError]="true"></textbox>
+      <div invalidmessage="startupFile" id="containersettings-dh-startupFile-error-private" role="alert"></div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="containerImageSourceInfo.container.id !== 'single'">
+    <div class="container-setting-property">
+      <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
+      <input type="file" (change)="extractConfig($event)" />
     </div>
 
     <div class="container-setting-property">
-        <label>{{ 'containerPassword' | translate }}</label>
-        <textbox type="password" [control]="dockerHubForm?.controls?.password" [disablePopOverError]="true"></textbox>
-        <div invalidmessage="password" id="containersettings-dh-password-error-private" role="alert"></div>
+      <label>{{ 'containerMultiConfiguration' | translate }}</label
+      ><br />
+      <textarea class="config" formControlName="config" readonly></textarea>
+      <div invalidmessage="config" id="containersettings-dh-config-error-private" role="alert"></div>
     </div>
-
-    <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
-        <div class="container-setting-property">
-            <label>{{ 'containerImageAndTag' | translate }}</label>
-            <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
-            <div invalidmessage="image" id="containersettings-dh-image-error-private" role="alert"></div>
-        </div>
-
-        <div class="container-setting-property">
-            <label>{{ 'containerStartupFile' | translate }}</label>
-            <textbox [control]="dockerHubForm?.controls?.startupFile" [disablePopOverError]="true"></textbox>
-            <div invalidmessage="startupFile" id="containersettings-dh-startupFile-error-private" role="alert"></div>
-        </div>
-    </ng-container>
-
-    <ng-container *ngIf="containerImageSourceInfo.container.id !== 'single'">
-        <div class="container-setting-property">
-            <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
-            <input type="file" (change)="extractConfig($event)">
-        </div>
-
-        <div class="container-setting-property">
-            <label>{{ 'containerMultiConfiguration' | translate }}</label><br />
-            <textarea class="config" formControlName="config" readonly></textarea>
-            <div invalidmessage="config" id="containersettings-dh-config-error-private" role="alert"></div>
-        </div>
-    </ng-container>
+  </ng-container>
 </div>
 
 <div *ngIf="dockerHubForm && selectedAccessType === 'public'" [formGroup]="dockerHubForm">
-    <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
-        <div class="container-setting-property">
-            <label>{{ 'containerImageAndTag' | translate }}</label>
-            <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
-            <div invalidmessage="image" id="containersettings-dh-image-error-public" role="alert"></div>
-        </div>
+  <ng-container *ngIf="containerImageSourceInfo.container.id === 'single'">
+    <div class="container-setting-property">
+      <label>{{ 'containerImageAndTag' | translate }}</label>
+      <textbox [control]="dockerHubForm?.controls?.image" [disablePopOverError]="true"></textbox>
+      <div invalidmessage="image" id="containersettings-dh-image-error-public" role="alert"></div>
+    </div>
 
-        <div class="container-setting-property">
-            <label>{{ 'containerStartupFile' | translate }}</label>
-            <textbox [control]="dockerHubForm?.controls?.startupFile" [disablePopOverError]="true"></textbox>
-            <div invalidmessage="startupFile" id="containersettings-dh-startupFile-error-public" role="alert"></div>
-        </div>
-    </ng-container>
+    <div *ngIf="containerImageSourceInfo.os === 'linux'" class="container-setting-property">
+      <label>{{ 'containerStartupFile' | translate }}</label>
+      <textbox [control]="dockerHubForm?.controls?.startupFile" [disablePopOverError]="true"></textbox>
+      <div invalidmessage="startupFile" id="containersettings-dh-startupFile-error-public" role="alert"></div>
+    </div>
+  </ng-container>
 
-    <ng-container *ngIf="containerImageSourceInfo.container.id !== 'single'">
-        <div class="container-setting-property">
-            <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
-            <input type="file" (change)="extractConfig($event)">
-        </div>
+  <ng-container *ngIf="containerImageSourceInfo.container.id !== 'single'">
+    <div class="container-setting-property">
+      <label>{{ 'containerMultiConfigurationFile' | translate }}</label>
+      <input type="file" (change)="extractConfig($event)" />
+    </div>
 
-        <div class="container-setting-property">
-            <label>{{ 'containerMultiConfiguration' | translate }}</label><br />
-            <textarea class="config" formControlName="config"></textarea>
-            <div invalidmessage="config" id="containersettings-dh-config-error-public" role="alert"></div>
-        </div>
-    </ng-container>
+    <div class="container-setting-property">
+      <label>{{ 'containerMultiConfiguration' | translate }}</label
+      ><br />
+      <textarea class="config" formControlName="config"></textarea>
+      <div invalidmessage="config" id="containersettings-dh-config-error-public" role="alert"></div>
+    </div>
+  </ng-container>
 </div>
