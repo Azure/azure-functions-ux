@@ -14,9 +14,10 @@ i {
   padding-left: 5px;
 }
 
-pre {
+input {
   white-space: normal;
   background-color: $background-color-disabled;
+  width: 100%;
 }
 
 .fix-font {
@@ -24,7 +25,7 @@ pre {
 }
 
 :host-context(#app-root[theme='dark']) {
-  pre {
+  input {
     background-color: $background-color-disabled-dark;
   }
 }
