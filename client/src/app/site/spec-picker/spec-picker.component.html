@@ -36,7 +36,7 @@
         <div>{{specManager.selectedSpecGroup.emptyMessage}}</div>
         <a [href]="specManager.selectedSpecGroup.emptyInfoLink"
           target="_blank"
-          [attr.aria-describedby]="specManager.selectedSpecGroup.id + 'empty'">{{'clickToLearnMore' | translate}}</a>
+          [attr.aria-describedby]="specManager.selectedSpecGroup.id + 'empty'">{{specManager.selectedSpecGroup.emptyInfoLinkText}}</a>
       </article>
     </section>
 
