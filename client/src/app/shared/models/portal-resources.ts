@@ -1014,6 +1014,8 @@ export class PortalResources {
   public static pricing_linuxTrial = 'pricing_linuxTrial';
   public static pricing_windowsContainers = 'pricing_windowsContainers';
   public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';
+  public static pricing_emptyIsolatedGroupNewPlan = 'pricing_emptyIsolatedGroupNewPlan';
+  public static pricing_emptyIsolatedGroupNewPlanLinkText = 'pricing_emptyIsolatedGroupNewPlanLinkText';
   public static pricing_emptyDevTestGroup = 'pricing_emptyDevTestGroup';
   public static pricing_emptyProdGroup = 'pricing_emptyProdGroup';
   public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';

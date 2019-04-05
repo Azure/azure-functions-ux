@@ -7,10 +7,13 @@ import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
+import { PriceSpecGroupType } from './price-spec-manager/price-spec-group';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes, LogCategories } from '../../shared/models/constants';
 import { BroadcastMessageId } from '../../shared/models/portal';
 import { LogService, LogLevel } from 'app/shared/services/log.service';
+import { NationalCloudEnvironment } from './../../shared/services/scenario/national-cloud.environment';
+import { Url } from './../../shared/Utilities/url';
 
 export interface StatusMessage {
   message: string;
@@ -202,9 +205,22 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   }
 
   get isEmpty() {
-    return (
-      this.specManager.selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0
-    );
+    const selectedSpecGroup = this.specManager.selectedSpecGroup;
+    const isEmpty = selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
+
+    // NOTE(shimedh): This is a temporary change for new WebApp creates till we support creation of ASE from WebAPp create.
+    const isNewPlan = this._input.data && !this._input.data.selectedSkuCode;
+    if (!NationalCloudEnvironment.isNationalCloud() && isEmpty && selectedSpecGroup.id === PriceSpecGroupType.ISOLATED && isNewPlan) {
+      const shellUrl = decodeURI(window.location.href);
+      selectedSpecGroup.emptyMessage = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlan);
+      selectedSpecGroup.emptyInfoLink = `${Url.getParameterByName(
+        shellUrl,
+        'trustedAuthority'
+      )}/#create/Microsoft.AppServiceEnvironmentCreate`;
+      selectedSpecGroup.emptyInfoLinkText = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlanLinkText);
+    }
+
+    return isEmpty;
   }
 
   get showExpander() {
