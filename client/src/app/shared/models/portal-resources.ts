@@ -1560,4 +1560,9 @@ export class PortalResources {
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
   public static clientCertWarning = 'clientCertWarning';
+  public static alwaysOnInfoMessage = 'alwaysOnInfoMessage';
+  public static ftpsInfoMessage = 'ftpsInfoMessage';
+  public static arrAffinityInfoMessage = 'arrAffinityInfoMessage';
+  public static applicationSettingsInfoMessage = 'applicationSettingsInfoMessage';
+  public static connectionStringsInfoMessage = 'connectionStringsInfoMessage';
 }

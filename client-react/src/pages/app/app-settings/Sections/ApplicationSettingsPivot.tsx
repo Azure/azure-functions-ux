@@ -2,19 +2,26 @@ import React, { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, Icon } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
 import { PermissionsContext } from '../Contexts';
+import { infoIconStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
   return (
     <>
       <h3>{t('applicationSettings')}</h3>
+      <p>
+        <Icon iconName="Info" className={infoIconStyle(theme)} />
+        {t('applicationSettingsInfoMessage')}
+      </p>
       {app_write ? (
         <div id="app-settings-application-settings-table">
           <ApplicationSettings {...props} />
@@ -27,6 +34,10 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
         </div>
       )}
       <h3>{t('connectionStrings')}</h3>
+      <p>
+        <Icon iconName="Info" className={infoIconStyle(theme)} />
+        {t('connectionStringsInfoMessage')}
+      </p>
       {app_write ? (
         <div id="app-settings-connection-strings-table">
           <ConnectionStrings {...props} />
