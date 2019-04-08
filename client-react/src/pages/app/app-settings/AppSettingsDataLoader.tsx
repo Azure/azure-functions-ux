@@ -101,6 +101,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       setCurrentAvailableStacks(windowsStacks.data);
     }
     LogService.stopTrackPage('shell', { feature: 'AppSettings' });
+    portalCommunicator.loadComplete();
     setInitialLoading(true);
   };
   const fillSlots = async () => {

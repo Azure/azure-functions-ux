@@ -119,6 +119,7 @@ export class Verbs {
   public static sendOAuthInfo = 'send-oauth-info';
   public static sendNotificationStarted = 'send-notification-started';
   public static sendData = 'send-data';
+  public static loadComplete = 'load-complete';
 }
 
 export enum LogEntryLevel {
