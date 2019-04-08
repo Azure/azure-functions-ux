@@ -1562,4 +1562,5 @@ export class PortalResources {
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
   public static clientCertWarning = 'clientCertWarning';
+  public static powershellPreview = 'powershellPreview';
 }
