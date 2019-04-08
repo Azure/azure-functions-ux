@@ -27,17 +27,24 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Remote Debugging being off should Hide VS Version Dropdown', () => {
-    cy.get('#remote-debugging-version-label').should('not.exist');
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#remote-debugging-version-label')
+      .should('not.exist');
   });
 
   it('default stack selection is .Net', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .should('contain', '.NET')
       .should('not.contain', 'Python');
   });
 
   it('.NET stack should show .NET version dropdown', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list0')
       .click()
@@ -46,7 +53,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('PHP stack should show PHP version dropdown', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
@@ -55,7 +64,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Python stack should show Python Versions', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list2')
       .click()
@@ -64,7 +75,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Java stack should show Java Versions, Containers', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')
       .click()
@@ -77,7 +90,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Java container version should show when a Java Container is selected', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')
       .click()
@@ -90,7 +105,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   xit('Java options are filled in from available stacks api', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list3')
       .click()
@@ -129,7 +146,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('.NET options are filled in from available stacks api', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list0')
       .click()
@@ -143,7 +162,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('PHP options are filled in from available stacks api', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list1')
       .click()
@@ -157,7 +178,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Python options are filled in from available stacks api', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list2')
       .click()
@@ -171,7 +194,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('Python options are filled in from available stacks api', () => {
-    cy.get('#app-settings-stack-dropdown-option')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-stack-dropdown-option')
       .click()
       .get('#app-settings-stack-dropdown-list2')
       .click()
@@ -185,7 +210,9 @@ context('App Settings General Settings Windows', () => {
   });
 
   it('All Platform Options are present', () => {
-    cy.get('#app-settings-worker-process')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-worker-process')
       .should('exist')
       .get('#app-settings-managed-pipeline-mode')
       .should('exist')

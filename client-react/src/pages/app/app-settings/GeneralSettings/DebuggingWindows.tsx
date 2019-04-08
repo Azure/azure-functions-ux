@@ -47,6 +47,10 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
                 key: 'VS2017',
                 text: '2017',
               },
+              {
+                key: 'VS2019',
+                text: '2019',
+              },
             ]}
             label={t('remoteDebuggingVersionLabel')}
             id="remote-debugging-version"

@@ -57,19 +57,19 @@ const AppSettingsForm: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     <Pivot getTabId={getPivotTabId}>
       <PivotItem
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, generalSettingsErrorCheck)
-        }
-        itemKey="generalSettings"
-        linkText={t('generalSettings')}>
-        <GeneralSettings {...props} />
-      </PivotItem>
-      <PivotItem
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck)
         }
         itemKey="applicationSettings"
         linkText={t('applicationSettings')}>
         <ApplicationSettingsPivot {...props} />
+      </PivotItem>
+      <PivotItem
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, generalSettingsErrorCheck)
+        }
+        itemKey="generalSettings"
+        linkText={t('generalSettings')}>
+        <GeneralSettings {...props} />
       </PivotItem>
       {enableDefaultDocuments ? (
         <PivotItem

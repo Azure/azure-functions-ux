@@ -31,11 +31,16 @@ context('App Settings Linux Basic', () => {
   });
 
   it('Stack Selection should match linuxFxVersion', () => {
-    cy.get('#linux-fx-version-runtime-option').should('contain', 'Tomcat 8.5 (JRE 8)');
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#linux-fx-version-runtime-option')
+      .should('contain', 'Tomcat 8.5');
   });
 
   it('Platform Options Available To Linux are Available', () => {
-    cy.get('#app-settings-worker-process')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('#app-settings-worker-process')
       .should('not.exist')
       .get('#app-settings-managed-pipeline-mode')
       .should('not.exist')

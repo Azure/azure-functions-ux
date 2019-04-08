@@ -18,7 +18,9 @@ context('Windows App Settings Accessability', () => {
   });
 
   it('General Settings Accessability', function() {
-    cy.get('#app-settings-application-settings-tab').checkA11y();
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .checkA11y();
   });
 
   it('Application Settings Accessability', function() {

@@ -69,6 +69,7 @@ export abstract class PriceSpecGroup {
   abstract description: string;
   abstract emptyMessage: string;
   abstract emptyInfoLink: string;
+  emptyInfoLinkText: string;
 
   bannerMessage: BannerMessage;
   selectedSpec: PriceSpec = null;
@@ -78,6 +79,7 @@ export abstract class PriceSpecGroup {
 
   constructor(protected injector: Injector, protected specManager: PlanPriceSpecManager) {
     this.ts = injector.get(TranslateService);
+    this.emptyInfoLinkText = this.ts.instant(PortalResources.clickToLearnMore);
   }
 
   abstract initialize(input: PriceSpecInput);

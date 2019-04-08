@@ -16,7 +16,9 @@ context('App Settings Readonly Access', () => {
   });
 
   it('general settings should all be disabled except stack list', () => {
-    cy.get('body')
+    cy.get('#app-settings-general-settings-tab')
+      .click()
+      .get('body')
       .find('.ms-Dropdown')
       .each(el => {
         expect(el[0].className).to.include('is-disabled');

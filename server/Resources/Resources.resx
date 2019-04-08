@@ -1541,7 +1541,7 @@
     <value>production</value>
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
-    <value>ARR Affinity</value>
+    <value>ARR affinity</value>
   </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
     <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
@@ -1787,6 +1787,9 @@
     <value>Function app settings</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Configuration</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -3169,6 +3172,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Inline creation of App Service Environments is currently not supported.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Create new App Service Environment</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
@@ -3298,11 +3307,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Isolated network</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Runs within your own virtual network.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Virtual Network Integration</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Runs within your own virtual network.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Connect to a virtual network.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Private app access</value>
@@ -3615,7 +3627,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Reset Credentials</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Version</value>
+    <value>HTTP version</value>
   </data>
   <data name="dismiss" xml:space="preserve">
     <value>Dismiss</value>
@@ -4257,10 +4269,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Installing template dependencies. Dependency installation happens in the background and can take up to 2 minutes. Your app will go into offline mode until the installation is complete. You can continue to use the portal during this time, but closing the portal before the installation is complete will leave your app in offline mode.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
-    <value>Hide Values</value>
+    <value>Hide values</value>
   </data>
   <data name="showValues" xml:space="preserve">
-    <value>Show Values</value>
+    <value>Show values</value>
   </data>
   <data name="hiddenValueClickToEdit" xml:space="preserve">
     <value>Hidden value. Click to edit.</value>
@@ -4776,7 +4788,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invalid JSON object</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
-    <value>Advanced Edit</value>
+    <value>Advanced edit</value>
   </data>
    <data name="coachMarkAriaDescription" xml:space="preserve">
     <value>Press enter or alt + C to open the coachmark notification</value>
@@ -4841,5 +4853,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>  
   <data name="useIncomingClientCertsUpsell" xml:space="preserve">
     <value>Incoming client certificates requires a basic or higher App Service plan</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell Functions are a preview offer.</value>
   </data>
 </root>

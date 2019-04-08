@@ -558,6 +558,7 @@ export class PortalResources {
   public static tab_settings = 'tab_settings';
   public static tab_functionSettings = 'tab_functionSettings';
   public static tab_configuration = 'tab_configuration';
+  public static feature_configuration = 'feature_configuration';
   public static tab_applicationSettings = 'tab_applicationSettings';
   public static try_appDisabled = 'try_appDisabled';
   public static template = 'template';
@@ -1013,6 +1014,8 @@ export class PortalResources {
   public static pricing_linuxTrial = 'pricing_linuxTrial';
   public static pricing_windowsContainers = 'pricing_windowsContainers';
   public static pricing_emptyIsolatedGroup = 'pricing_emptyIsolatedGroup';
+  public static pricing_emptyIsolatedGroupNewPlan = 'pricing_emptyIsolatedGroupNewPlan';
+  public static pricing_emptyIsolatedGroupNewPlanLinkText = 'pricing_emptyIsolatedGroupNewPlanLinkText';
   public static pricing_emptyDevTestGroup = 'pricing_emptyDevTestGroup';
   public static pricing_emptyProdGroup = 'pricing_emptyProdGroup';
   public static pricing_pv2NotAvailable = 'pricing_pv2NotAvailable';
@@ -1056,8 +1059,9 @@ export class PortalResources {
   public static pricing_ase = 'pricing_ase';
   public static pricing_aseDesc = 'pricing_aseDesc';
   public static pricing_isolatedNetwork = 'pricing_isolatedNetwork';
-  public static pricing_virtualNetwork = 'pricing_virtualNetwork';
   public static pricing_isolatedNetworkDesc = 'pricing_isolatedNetworkDesc';
+  public static pricing_virtualNetwork = 'pricing_virtualNetwork';
+  public static pricing_virtualNetworkDesc = 'pricing_virtualNetworkDesc';
   public static pricing_privateAppAccess = 'pricing_privateAppAccess';
   public static pricing_privateAppAccessDesc = 'pricing_privateAppAccessDesc';
   public static pricing_memory = 'pricing_memory';
@@ -1557,4 +1561,6 @@ export class PortalResources {
   public static githubOrgMessage = 'githubOrgMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
+  public static clientCertWarning = 'clientCertWarning';
+  public static powershellPreview = 'powershellPreview';
 }

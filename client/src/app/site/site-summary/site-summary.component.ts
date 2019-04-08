@@ -1,3 +1,4 @@
+import { WorkerRuntimeLanguages } from 'app/shared/models/constants';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { BroadcastEvent, EventMessage } from 'app/shared/models/broadcast-event';
 import { SiteService } from './../../shared/services/site.service';
@@ -152,7 +153,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.getFunctions(context),
             this._siteService.getAppSettings(context.site.id, true),
             this._siteService.getSiteConfig(context.site.id, true),
-            (p, s, l, slots, ping, version, functions, appSettings, siteConfig) => ({
+            this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
+            (p, s, l, slots, ping, version, functions, appSettings, siteConfig, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -162,6 +164,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               functionInfo: functions.isSuccessful ? functions.result : [],
               appSettings: appSettings,
               siteConfig: siteConfig,
+              appInsightsEnablement: appInsightsEnablement,
             })
           );
         } else {
@@ -170,7 +173,8 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
             this._authZService.hasReadOnlyLock(context.site.id),
             this._functionAppService.pingScmSite(context),
-            (p, s, l, ping) => ({
+            this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),
+            (p, s, l, ping, appInsightsEnablement) => ({
               hasWritePermission: p,
               hasSwapPermission: s,
               hasReadOnlyLock: l,
@@ -178,6 +182,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
               pingedScmSite: ping.isSuccessful ? ping.result : false,
               runtime: null,
               functionInfo: [],
+              appInsightsEnablement: appInsightsEnablement,
             })
           );
         }
@@ -193,6 +198,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         this.hideAvailability =
           this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: this.context.site }).status === 'disabled' ||
           !this.siteAvailabilityStateNormal;
+
+        const appSettings = r.appSettings && r.appSettings.result && r.appSettings.result.properties;
+        const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
+        const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
 
         if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
           this.showQuickstart = true;
@@ -218,13 +227,22 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             clickCallback: null,
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
+        } else if (isPowershell) {
+          this.notifications.push({
+            id: NotificationIds.powershellPreview,
+            message: this.ts.instant(PortalResources.powershellPreview),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: Links.powershellPreviewLearnMore,
+            clickCallback: null,
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
         }
 
         if (
-          r.appSettings &&
-          r.appSettings.result &&
-          r.appSettings.result.properties &&
-          !r.appSettings.result.properties[Constants.instrumentationKeySettingName]
+          r.appInsightsEnablement &&
+          r.appInsightsEnablement.status === 'enabled' &&
+          appSettings &&
+          !appSettings[Constants.instrumentationKeySettingName]
         ) {
           this.notifications.push({
             id: 'testnote',
@@ -269,6 +287,17 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           }
         } else {
           this._logService.error(LogCategories.siteConfig, errorIds.failedToGetSiteConfig, r.siteConfig.error);
+        }
+
+        if (this.context.site.properties && this.context.site.properties.clientCertEnabled) {
+          this.notifications.push({
+            id: NotificationIds.clientCertEnabled,
+            message: this.ts.instant(PortalResources.clientCertWarning),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: Links.clientCertEnabledLearnMore,
+            clickCallback: null,
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
         }
 
         return !this.hideAvailability ? this._siteService.getAvailability(this.context.site.id) : Observable.of(null);
