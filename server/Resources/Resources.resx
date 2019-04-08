@@ -4857,4 +4857,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="clientCertWarning" xml:space="preserve">
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell Functions are a preview offer.</value>
+  </data>
 </root>
