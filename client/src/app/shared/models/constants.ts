@@ -154,7 +154,7 @@ export class Links {
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
-  public static powershellPreviewLearnMore = 'https://aka.ms/functions-powershellpreview-docs';
+  public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
 }
 
 export class Kinds {
