@@ -10,6 +10,7 @@ import { isEqual } from 'lodash-es';
 import { PermissionsContext } from '../Contexts';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../../ThemeContext';
+import { Links } from '../../../../utils/FwLinks';
 
 const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
       <p>
         <Icon iconName="Info" className={infoIconStyle(theme)} />
         {t('applicationSettingsInfoMessage')}
-        <Link href="https://go.microsoft.com/fwlink/?linkid=2086665" target="_blank" className={learnMoreLinkStyle}>
+        <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
           {t('learnMore')}
         </Link>
       </p>

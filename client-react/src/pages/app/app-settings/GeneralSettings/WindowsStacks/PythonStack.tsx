@@ -7,6 +7,7 @@ import { AvailableStack } from '../../../../../models/available-stacks';
 import { ArmObj } from '../../../../../models/WebAppModels';
 import { AppSettingsFormValues, FormApi, FormState } from '../../AppSettings.types';
 import { PermissionsContext } from '../../Contexts';
+import { Links } from '../../../../../utils/FwLinks';
 
 export interface StateProps {
   stacks: ArmObj<AvailableStack>[];
@@ -40,7 +41,7 @@ const PythonStack: React.StatelessComponent<Props> = props => {
       name="config.properties.pythonVersion"
       component={Dropdown}
       infoBubbleMessage={t('pythonInfoTextNoClick')}
-      learnMoreLink="https://go.microsoft.com/fwlink/?linkid=852196"
+      learnMoreLink={Links.pythonStackInfo}
       disabled={!app_write || !editable}
       label={t('pythonVersion')}
       id="pythonVersion"

@@ -8,6 +8,7 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
+import { Links } from '../../../../utils/FwLinks';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -63,7 +64,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.ftpsState"
           component={Dropdown}
           infoBubbleMessage={t('ftpsInfoMessage')}
-          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=871316"
+          learnMoreLink={Links.ftpInfo}
           label={t('ftpState')}
           id="app-settings-ftps-state"
           disabled={!app_write || !editable}
@@ -128,7 +129,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.alwaysOn"
           component={RadioButton}
           infoBubbleMessage={t('alwaysOnInfoMessage')}
-          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=2086196"
+          learnMoreLink={Links.alwaysOnInfo}
           upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
@@ -150,7 +151,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="site.properties.clientAffinityEnabled"
           component={RadioButton}
           infoBubbleMessage={t('arrAffinityInfoMessage')}
-          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=798249"
+          learnMoreLink={Links.clientAffinityInfo}
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
           disabled={!app_write || !editable}
