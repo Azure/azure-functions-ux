@@ -43,7 +43,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.managedPipelineMode"
           component={Dropdown}
-          fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
           disabled={!app_write || !editable}
@@ -63,7 +62,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.ftpsState"
           component={Dropdown}
-          fullpage
+          infoBubbleMessage={t('ftpsInfoMessage')}
+          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=871316"
           label={t('ftpState')}
           id="app-settings-ftps-state"
           disabled={!app_write || !editable}
@@ -107,7 +107,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
-          fullpage
           upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
@@ -128,7 +127,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.alwaysOn"
           component={RadioButton}
-          fullpage
+          infoBubbleMessage={t('alwaysOnInfoMessage')}
+          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=2086196"
           upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
@@ -149,7 +149,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="site.properties.clientAffinityEnabled"
           component={RadioButton}
-          fullpage
+          infoBubbleMessage={t('arrAffinityInfoMessage')}
+          learnMoreLink="https://go.microsoft.com/fwlink/?linkid=798249"
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
           disabled={!app_write || !editable}
