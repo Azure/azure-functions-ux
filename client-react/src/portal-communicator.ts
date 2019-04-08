@@ -163,6 +163,10 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.updateBladeInfo, this.packageData(payload));
   }
 
+  public loadComplete() {
+    PortalCommunicator.postMessage(Verbs.loadComplete, null);
+  }
+
   public startNotification(title: string, description: string) {
     const payload: INotificationInfo = {
       title,

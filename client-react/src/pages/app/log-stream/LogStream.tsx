@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import LogStreamCommandBar from './LogStreamCommandBar';
 import LogStreamLogContainer from './LogStreamLogContainer';
 import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
 import { ArmObj, Site } from '../../../models/WebAppModels';
+import { PortalContext } from '../../../PortalContext';
 
 export interface LogStreamProps {
   reconnect: () => void;
@@ -34,6 +35,10 @@ const LogStream: React.SFC<LogStreamProps> = props => {
     logType,
     logsEnabled,
   } = props;
+  const portalCommunicator = useContext(PortalContext);
+  useEffect(() => {
+    portalCommunicator.loadComplete();
+  }, []);
   return (
     <>
       <LogStreamCommandBar
