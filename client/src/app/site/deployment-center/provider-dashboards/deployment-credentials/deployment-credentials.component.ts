@@ -75,6 +75,13 @@ export class DeploymentCredentialsComponent extends FeatureComponent<string> imp
     this.userPasswordForm
       .get('passwordConfirm')
       .setValidators([ConfirmPasswordValidator.create(this._translateService, this.userPasswordForm.get('password'))]);
+
+    this.userPasswordForm
+      .get('password')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(val => {
+        this.userPasswordForm.get('passwordConfirm').updateValueAndValidity();
+      });
   }
 
   protected setup(inputEvents: Observable<string>) {

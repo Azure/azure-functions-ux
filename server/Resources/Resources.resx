@@ -3172,6 +3172,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Inline creation of App Service Environments is currently not supported.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Create new App Service Environment</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
@@ -4851,7 +4857,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="clientCertWarning" xml:space="preserve">
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
-
   <data name="alwaysOnInfoMessage" xml:space="preserve">
     <value>Prevent's your app from being idled out due to inactivity.</value>
   </data>
@@ -4867,5 +4872,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="connectionStringsInfoMessage" xml:space="preserve">
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
   </data>
-
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell Functions are a preview offer.</value>
+  </data>
 </root>
