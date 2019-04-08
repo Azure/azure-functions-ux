@@ -27,7 +27,7 @@ const EditClientExclusionPaths: React.FC<Props> = props => {
   });
 
   const removeItem = (index: number) => {
-    setValues(values.splice(index - 1, 1));
+    setValues(values.filter((v, i) => i !== index));
   };
 
   const onChange = (index: number) => (e: any, newValue: string) => {
