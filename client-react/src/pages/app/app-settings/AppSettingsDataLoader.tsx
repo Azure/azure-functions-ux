@@ -10,6 +10,7 @@ import {
   updateWebConfig,
   updateSlotConfigNames,
   getProductionAppWritePermissions,
+  updateStorageMounts,
 } from './AppSettings.service';
 import { ArmArray, ArmObj, SlotConfigNames, StorageAccount, Site } from '../../../models/WebAppModels';
 import { AvailableStack } from '../../../models/available-stacks';
@@ -124,7 +125,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
-    const { site, config, slotConfigNames } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
+    const { site, config, slotConfigNames, storageMounts } = convertFormToState(values, metadataFromApi, slotConfigNamesFromApi);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const siteUpdate = updateSite(resourceId, site);
     const configUpdate = updateWebConfig(resourceId, getCleanedConfigForSave(config));
@@ -132,7 +133,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (productionPermissions) {
       slotConfigUpdates = updateSlotConfigNames(resourceId, slotConfigNames);
     }
-    const [siteResult, configResult] = await Promise.all([siteUpdate, configUpdate]);
+    const storageUpdateCall = updateStorageMounts(resourceId, storageMounts);
+    const [siteResult, configResult] = await Promise.all([siteUpdate, configUpdate, storageUpdateCall]);
     const slotConfigResults = !!slotConfigUpdates
       ? await slotConfigUpdates
       : {
@@ -140,6 +142,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             success: true,
           },
         };
+
     if (siteResult.metadata.success && configResult.metadata.success && slotConfigResults.metadata.success) {
       setInitialValues({
         ...values,
