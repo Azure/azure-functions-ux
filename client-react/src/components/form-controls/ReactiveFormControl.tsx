@@ -37,7 +37,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
-          <Label id={`${props.id}-label`}>{label}</Label>
+          <Label className={labelStyle(!!upsellMessage, fullpage)} id={`${props.id}-label`}>
+            {label}
+          </Label>
         </Stack>
       )}
       {props.children}

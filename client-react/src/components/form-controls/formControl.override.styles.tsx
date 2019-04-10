@@ -81,4 +81,4 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const learnMoreLinkStyle = style({ paddingLeft: '5px' });
+export const learnMoreLinkStyle = style({ paddingLeft: '5px', minWidth: '70px' });
