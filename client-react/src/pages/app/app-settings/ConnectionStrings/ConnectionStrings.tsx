@@ -70,7 +70,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             onClick={this._flipHideSwitch}
             styles={tableActionButtonStyle}
             iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
-            {!allShown ? 'Show Values' : 'Hide Values'}
+            {!allShown ? t('showValues') : t('hideValues')}
           </ActionButton>
           <ActionButton
             id="app-settings-connection-strings-bulk-edit"
