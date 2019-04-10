@@ -26,6 +26,7 @@ interface ConnectionStringsState {
   panelItem: 'add' | 'bulk';
   filter: string;
   showFilter: boolean;
+  showAllValues: boolean;
 }
 
 export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ConnectionStringsState> {
@@ -41,16 +42,18 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
       panelItem: 'add',
       filter: '',
       showFilter: false,
+      showAllValues: false,
     };
   }
 
   public render() {
-    const { filter, showFilter } = this.state;
+    const { filter, showFilter, showAllValues, shownValues } = this.state;
     const { values, t } = this.props;
     const { editable, production_write } = this.context;
     if (!values.connectionStrings) {
       return null;
     }
+    const allShown = showAllValues || (values.connectionStrings.length > 0 && shownValues.length === values.connectionStrings.length);
     return (
       <>
         <Stack horizontal verticalAlign="center">
@@ -66,8 +69,8 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             id="app-settings-connection-strings-show-hide"
             onClick={this._flipHideSwitch}
             styles={tableActionButtonStyle}
-            iconProps={{ iconName: !this._anyShown() ? 'RedEye' : 'Hide' }}>
-            {!this._anyShown() ? 'Show Values' : 'Hide Values'}
+            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
+            {!allShown ? 'Show Values' : 'Hide Values'}
           </ActionButton>
           <ActionButton
             id="app-settings-connection-strings-bulk-edit"
@@ -157,17 +160,13 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     this.setState({ showFilter: !showFilter, filter: '' });
   };
 
-  private _anyShown = () => {
-    return this.state.shownValues.length > 0;
-  };
   private _flipHideSwitch = () => {
+    const { showAllValues } = this.state;
     let shownValues: string[] = [];
-    if (!this._anyShown()) {
+    if (!showAllValues) {
       shownValues = this.props.values.connectionStrings.map(x => x.name);
-    } else {
-      shownValues = [];
     }
-    this.setState({ shownValues });
+    this.setState({ shownValues, showAllValues: !showAllValues });
   };
 
   private _createNewItem = () => {
@@ -225,9 +224,9 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
   private _onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
     const { t } = this.props;
     const { editable } = this.context;
-
+    const { shownValues, showAllValues } = this.state;
     const itemKey = item.name;
-    const hidden = !this.state.shownValues.includes(itemKey);
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
       return null;
     }
@@ -276,13 +275,13 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             id={`app-settings-connection-strings-show-hide-${index}`}
             className={defaultCellStyle}
             onClick={() => {
-              let shownValues = [...this.state.shownValues];
+              const newShownValues = new Set(shownValues);
               if (hidden) {
-                shownValues.push(itemKey);
+                newShownValues.add(itemKey);
               } else {
-                shownValues = shownValues.filter(x => x !== itemKey);
+                newShownValues.delete(itemKey);
               }
-              this.setState({ shownValues });
+              this.setState({ shownValues: [...newShownValues], showAllValues: false });
             }}
             iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
             {hidden ? (
