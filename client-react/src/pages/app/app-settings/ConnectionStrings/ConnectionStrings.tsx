@@ -70,7 +70,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             {!this._anyShown() ? 'Show Values' : 'Hide Values'}
           </ActionButton>
           <ActionButton
-            id="app-settings-application-settings-bulk-edit"
+            id="app-settings-connection-strings-bulk-edit"
             onClick={this._openBulkEdit}
             disabled={!editable}
             styles={tableActionButtonStyle}
@@ -78,7 +78,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             {t('advancedEdit')}
           </ActionButton>
           <ActionButton
-            id="app-settings-application-settings-show-filter"
+            id="app-settings-connection-strings-show-filter"
             onClick={this._toggleFilter}
             styles={tableActionButtonStyle}
             iconProps={{ iconName: 'Filter' }}>
@@ -87,7 +87,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         </Stack>
         {showFilter && (
           <SearchBox
-            id="app-settings-application-settings-search"
+            id="app-settings-connection-strings-search"
             className="ms-slideDownIn20"
             autoFocus
             iconProps={{ iconName: 'Filter' }}
@@ -288,7 +288,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
             {hidden ? (
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
             ) : (
-              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
+              <div className={defaultCellStyle} id={`app-settings-connection-strings-value-${index}`}>
                 {item[column.fieldName!]}
               </div>
             )}
