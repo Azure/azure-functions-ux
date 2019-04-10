@@ -180,7 +180,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
 
   private _onClosePanel = (item: FormAppSetting): void => {
     let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    const index = appSettings.findIndex(x => x.name.toLowerCase() === item.name.toLowerCase());
+    const index = appSettings.findIndex(
+      x =>
+        x.name.toLowerCase() === item.name.toLowerCase() ||
+        (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
+    );
     if (index !== -1) {
       appSettings[index] = item;
     } else {

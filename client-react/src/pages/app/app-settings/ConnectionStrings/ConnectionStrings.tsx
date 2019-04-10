@@ -189,7 +189,11 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     this.setState({ currentConnectionString });
     const { values, setFieldValue } = this.props;
     const connectionStrings: FormConnectionString[] = [...values.connectionStrings];
-    const index = connectionStrings.findIndex(x => x.name.toLowerCase() === currentConnectionString.name.toLowerCase());
+    const index = connectionStrings.findIndex(
+      x =>
+        x.name.toLowerCase() === currentConnectionString.name.toLowerCase() ||
+        (!!this.state.currentConnectionString && this.state.currentConnectionString.name.toLowerCase() === x.name.toLowerCase())
+    );
     if (index !== -1) {
       connectionStrings[index] = currentConnectionString;
     } else {
