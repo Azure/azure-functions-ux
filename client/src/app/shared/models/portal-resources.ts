@@ -1568,4 +1568,7 @@ export class PortalResources {
   public static applicationSettingsInfoMessage = 'applicationSettingsInfoMessage';
   public static connectionStringsInfoMessage = 'connectionStringsInfoMessage';
   public static powershellPreview = 'powershellPreview';
+  public static filter = 'filter';
+  public static filterAppSettings = 'filterAppSettings';
+  public static filterConnectionStrings = 'filterConnectionStrings';
 }
