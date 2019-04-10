@@ -56,7 +56,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         <Stack horizontal verticalAlign="center">
           <ActionButton
             id="app-settings-connection-strings-add"
-            onClick={this.createNewItem}
+            onClick={this._createNewItem}
             disabled={!editable}
             styles={tableActionButtonStyle}
             iconProps={{ iconName: 'Add' }}>
@@ -64,10 +64,10 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           </ActionButton>
           <ActionButton
             id="app-settings-connection-strings-show-hide"
-            onClick={this.flipHideSwitch}
+            onClick={this._flipHideSwitch}
             styles={tableActionButtonStyle}
-            iconProps={{ iconName: !this.anyShown() ? 'RedEye' : 'Hide' }}>
-            {!this.anyShown() ? 'Show Values' : 'Hide Values'}
+            iconProps={{ iconName: !this._anyShown() ? 'RedEye' : 'Hide' }}>
+            {!this._anyShown() ? 'Show Values' : 'Hide Values'}
           </ActionButton>
           <ActionButton
             id="app-settings-application-settings-bulk-edit"
@@ -157,12 +157,12 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     this.setState({ showFilter: !showFilter, filter: '' });
   };
 
-  private anyShown = () => {
+  private _anyShown = () => {
     return this.state.shownValues.length > 0;
   };
-  private flipHideSwitch = () => {
+  private _flipHideSwitch = () => {
     let shownValues: string[] = [];
-    if (!this.anyShown()) {
+    if (!this._anyShown()) {
       shownValues = this.props.values.connectionStrings.map(x => x.name);
     } else {
       shownValues = [];
@@ -170,7 +170,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     this.setState({ shownValues });
   };
 
-  private createNewItem = () => {
+  private _createNewItem = () => {
     const blankConnectionString = {
       name: '',
       value: '',
@@ -212,13 +212,13 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     });
   };
 
-  private removeItem(key: string) {
+  private _removeItem(key: string) {
     const { values, setFieldValue } = this.props;
     const connectionStrings: FormConnectionString[] = [...values.connectionStrings].filter(v => v.name !== key);
     setFieldValue('connectionStrings', connectionStrings);
   }
 
-  private onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
+  private _onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
     const { t } = this.props;
     const { editable } = this.context;
 
@@ -237,7 +237,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
           id={`app-settings-connection-strings-delete-${index}`}
           ariaLabel={t('delete')}
           title={t('delete')}
-          onClick={() => this.removeItem(itemKey)}
+          onClick={() => this._removeItem(itemKey)}
         />
       );
     }
@@ -270,7 +270,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         <>
           <ActionButton
             id={`app-settings-connection-strings-show-hide-${index}`}
-            styles={{ root: { height: '15px' } }}
+            className={defaultCellStyle}
             onClick={() => {
               let shownValues = [...this.state.shownValues];
               if (hidden) {
@@ -301,9 +301,12 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
     }
     if (column.key === 'name') {
       return (
-        <div id={`app-settings-connection-strings-name-${index}`} className={defaultCellStyle}>
+        <ActionButton
+          id={`app-settings-connection-strings-name-${index}`}
+          className={defaultCellStyle}
+          onClick={() => this._onShowPanel(item)}>
           {item[column.fieldName!]}
-        </div>
+        </ActionButton>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
@@ -322,7 +325,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'value',
@@ -333,7 +336,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'type',
@@ -345,7 +348,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'sticky',
@@ -357,7 +360,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -366,7 +369,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('delete'),
       },
       {
@@ -376,7 +379,7 @@ export class ConnectionStrings extends React.Component<FormikProps<AppSettingsFo
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('edit'),
       },
     ];

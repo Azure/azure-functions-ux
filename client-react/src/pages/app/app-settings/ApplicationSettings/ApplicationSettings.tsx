@@ -42,10 +42,10 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
   }
 
   public render() {
-    const { t } = this.props;
+    const { t, values } = this.props;
     const { production_write, editable } = this.context;
     const { filter, showFilter } = this.state;
-    if (!this.props.values.appSettings) {
+    if (!values.appSettings) {
       return null;
     }
 
@@ -54,7 +54,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <Stack horizontal verticalAlign="center">
           <ActionButton
             id="app-settings-application-settings-add"
-            onClick={this.createNewItem}
+            onClick={this._createNewItem}
             disabled={!editable}
             styles={tableActionButtonStyle}
             iconProps={{ iconName: 'Add' }}>
@@ -62,10 +62,10 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           </ActionButton>
           <ActionButton
             id="app-settings-application-settings-show-hide"
-            onClick={this.flipHideSwitch}
+            onClick={this._flipHideSwitch}
             styles={tableActionButtonStyle}
-            iconProps={{ iconName: !this.anyShown() ? 'RedEye' : 'Hide' }}>
-            {!this.anyShown() ? t('showValues') : t('hideValues')}
+            iconProps={{ iconName: !this._anyShown() ? 'RedEye' : 'Hide' }}>
+            {!this._anyShown() ? t('showValues') : t('hideValues')}
           </ActionButton>
 
           <ActionButton
@@ -98,32 +98,28 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.large}
-          onDismiss={this.onCancel}
+          onDismiss={this._onCancel}
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
             disableSlotSetting={!production_write}
-            otherAppSettings={this.props.values.appSettings}
-            updateAppSetting={this.onClosePanel.bind(this)}
-            closeBlade={this.onCancel}
+            otherAppSettings={values.appSettings}
+            updateAppSetting={this._onClosePanel.bind(this)}
+            closeBlade={this._onCancel}
           />
         </Panel>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
           type={PanelType.large}
-          onDismiss={this.onCancel}
+          onDismiss={this._onCancel}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
-            <AppSettingsBulkEdit
-              updateAppSetting={this._saveBulkEdit}
-              closeBlade={this.onCancel}
-              appSettings={this.props.values.appSettings}
-            />
+            <AppSettingsBulkEdit updateAppSetting={this._saveBulkEdit} closeBlade={this._onCancel} appSettings={values.appSettings} />
           </Suspense>
         </Panel>
         <DisplayTableWithEmptyMessage
-          items={this.props.values.appSettings.filter(x => {
+          items={values.appSettings.filter(x => {
             if (!filter) {
               return true;
             }
@@ -140,12 +136,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     );
   }
 
-  private anyShown = () => {
+  private _anyShown = () => {
     return this.state.shownValues.length > 0;
   };
-  private flipHideSwitch = () => {
+  private _flipHideSwitch = () => {
     let shownValues: string[] = [];
-    if (!this.anyShown()) {
+    if (!this._anyShown()) {
       shownValues = this.props.values.appSettings.map(x => x.name);
     }
     this.setState({ shownValues });
@@ -169,7 +165,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.props.setFieldValue('appSettings', newAppSettings);
     this.setState({ showPanel: false });
   };
-  private createNewItem = () => {
+  private _createNewItem = () => {
     const blankAppSetting = {
       name: '',
       value: '',
@@ -182,7 +178,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     });
   };
 
-  private onClosePanel = (item: FormAppSetting): void => {
+  private _onClosePanel = (item: FormAppSetting): void => {
     let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
     const index = appSettings.findIndex(x => x.name.toLowerCase() === item.name.toLowerCase());
     if (index !== -1) {
@@ -195,11 +191,11 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     this.setState({ showPanel: false });
   };
 
-  private onCancel = (): void => {
+  private _onCancel = (): void => {
     this.setState({ showPanel: false });
   };
 
-  private onShowPanel = (item: FormAppSetting): void => {
+  private _onShowPanel = (item: FormAppSetting): void => {
     this.setState({
       showPanel: true,
       panelItem: 'add',
@@ -207,12 +203,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     });
   };
 
-  private removeItem(key: string) {
+  private _removeItem(key: string) {
     const appSettings: FormAppSetting[] = [...this.props.values.appSettings].filter(val => val.name !== key);
     this.props.setFieldValue('appSettings', appSettings);
   }
 
-  private onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
+  private _onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const { t } = this.props;
     const { editable } = this.context;
     const itemKey = item.name;
@@ -230,7 +226,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
-          onClick={() => this.removeItem(itemKey)}
+          onClick={() => this._removeItem(itemKey)}
         />
       );
     }
@@ -243,7 +239,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}
-          onClick={() => this.onShowPanel(item)}
+          onClick={() => this._onShowPanel(item)}
         />
       );
     }
@@ -263,7 +259,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         <>
           <ActionButton
             id={`app-settings-application-settings-show-hide-${index}`}
-            styles={{ root: { height: '15px' } }}
+            className={defaultCellStyle}
             onClick={() => {
               let shownValues = [...this.state.shownValues];
               if (hidden) {
@@ -287,9 +283,12 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     }
     if (column.key === 'name') {
       return (
-        <div className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`}>
+        <ActionButton
+          className={defaultCellStyle}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => this._onShowPanel(item)}>
           {item[column.fieldName!]}
-        </div>
+        </ActionButton>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
@@ -309,7 +308,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'value',
@@ -320,7 +319,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'sticky',
@@ -332,7 +331,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -341,7 +340,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('delete'),
       },
       {
@@ -351,7 +350,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('edit'),
       },
     ];
