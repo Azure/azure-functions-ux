@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { MessageBar, MessageBarType, Icon, Link } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, Icon, Link, Stack } from 'office-ui-fabric-react';
 import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
@@ -19,13 +19,15 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
   return (
     <>
       <h3>{t('applicationSettings')}</h3>
-      <p>
+      <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
-        {t('applicationSettingsInfoMessage')}
-        <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
-          {t('learnMore')}
-        </Link>
-      </p>
+        <p>
+          {t('applicationSettingsInfoMessage')}
+          <Link href={Links.applicationSettingsInfo} target="_blank" className={learnMoreLinkStyle}>
+            {` ${t('learnMore')}`}
+          </Link>
+        </p>
+      </Stack>
       {app_write ? (
         <div id="app-settings-application-settings-table">
           <ApplicationSettings {...props} />
@@ -38,10 +40,10 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
         </div>
       )}
       <h3>{t('connectionStrings')}</h3>
-      <p>
+      <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
         {t('connectionStringsInfoMessage')}
-      </p>
+      </Stack>
       {app_write ? (
         <div id="app-settings-connection-strings-table">
           <ConnectionStrings {...props} />

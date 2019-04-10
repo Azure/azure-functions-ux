@@ -4867,12 +4867,21 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Improve performance of your stateless app by turning Affinity Cookie off, stateful apps should keep this setting on for compatibility.</value>
   </data>
   <data name="applicationSettingsInfoMessage" xml:space="preserve">
-    <value>Application Settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime.</value>
+    <value>Application settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime.</value>
   </data>
   <data name="connectionStringsInfoMessage" xml:space="preserve">
-    <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
+    <value>Connection strings are encrypted at rest and transmitted over an encrypted channel.</value>
   </data>
   <data name="powershellPreview" xml:space="preserve">
     <value>PowerShell Functions are a preview offer.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Filter application settings</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Filter connection strings</value>
   </data>
 </root>
