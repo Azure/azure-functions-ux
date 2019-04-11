@@ -34,6 +34,7 @@ steps:
       npm ci
       npm run cy:verify
     displayName: 'Cypress verify'
+
   - script: |
       cd tests
       npm run test:ci:record
@@ -44,6 +45,7 @@ steps:
       CYPRESS_AD_APPLICATION_ID: $(applicationId)
       CYPRESS_AD_APPLICATION_SECRET: $(applicationSecret)
       CYPRESS_RETRIES: 3
+
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
