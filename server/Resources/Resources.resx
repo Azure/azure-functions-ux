@@ -3672,7 +3672,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Dv3-Series compute equivalent</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>
+    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Runtime version: loading...</value>

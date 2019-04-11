@@ -7,15 +7,21 @@ import { FormikProps } from 'formik';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
-import { PermissionsContext } from '../Contexts';
+import { PermissionsContext, SiteContext } from '../Contexts';
 import { infoIconStyle, learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { Links } from '../../../../utils/FwLinks';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write } = useContext(PermissionsContext);
   const theme = useContext(ThemeContext);
+  const site = useContext(SiteContext);
+  const scenarioChecker = new ScenarioService(t);
+  const showFunctionAppMessage =
+    scenarioChecker.checkScenario(ScenarioIds.showConnnectionStringFunctionInfo, { site }).status === 'enabled';
   return (
     <>
       <h3>{t('applicationSettings')}</h3>
@@ -42,7 +48,17 @@ const ApplicationSettingsPivot: React.FC<FormikProps<AppSettingsFormValues>> = p
       <h3>{t('connectionStrings')}</h3>
       <Stack horizontal verticalAlign="center">
         <Icon iconName="Info" className={infoIconStyle(theme)} />
-        {t('connectionStringsInfoMessage')}
+        <p>
+          {t('connectionStringsInfoMessage')}
+          {showFunctionAppMessage && (
+            <>
+              {` ${t('funcConnStringsInfoText')} `}
+              <Link href={Links.funcConnStringsLearnMore} target="_blank" className={learnMoreLinkStyle}>
+                {` ${t('learnMore')}`}
+              </Link>
+            </>
+          )}
+        </p>
       </Stack>
       {app_write ? (
         <div id="app-settings-connection-strings-table">

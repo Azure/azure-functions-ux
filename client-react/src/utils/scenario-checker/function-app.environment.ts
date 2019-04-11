@@ -32,6 +32,13 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.showConnnectionStringFunctionInfo] = {
+      id: ScenarioIds.showConnnectionStringFunctionInfo,
+      runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
