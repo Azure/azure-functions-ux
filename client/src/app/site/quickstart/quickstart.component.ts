@@ -1,7 +1,7 @@
 import { ApplicationSettings } from './../../shared/models/arm/application-settings';
 import { devEnvironmentOptions, workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstart-models';
 import { SiteService } from './../../shared/services/site.service';
-import { SiteTabIds, Constants, SubscriptionQuotaIds } from 'app/shared/models/constants';
+import { SiteTabIds, Constants, SubscriptionQuotaIds, ContainerConstants } from 'app/shared/models/constants';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Component, OnDestroy } from '@angular/core';
 import { QuickstartStateManager } from 'app/site/quickstart/wizard-logic/quickstart-state-manager';
@@ -32,6 +32,8 @@ import { Observable } from 'rxjs/Observable';
 export class QuickstartComponent extends FunctionAppContextComponent implements OnDestroy {
   public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
   public workerRuntime: workerRuntimeOptions;
+  public isElastic: boolean;
+  public isBYOC: boolean;
   public isLinux: boolean;
   public isLinuxConsumption: boolean;
   public canUseQuickstart: boolean;
@@ -81,6 +83,8 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
       context: [null],
       isLinux: [null],
       isLinuxConsumption: [null],
+      isElastic: [null],
+      isBYOC: [null],
       subscriptionName: [null],
       isDreamspark: [null],
     });
@@ -126,6 +130,9 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
           } else {
             this.canUseQuickstart = false;
           }
+          this.isBYOC =
+            ArmUtil.isContainerApp(this.context.site) &&
+            this.appSettingsArm.properties[ContainerConstants.appServiceStorageSetting] === 'false';
         } else {
           this.showComponentError({
             errorId: errorIds.quickstartLoadError,
@@ -140,6 +147,7 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
 
   private _useValidWorkerRuntime(workerRuntime: string) {
     this.workerRuntime = workerRuntime as workerRuntimeOptions;
+    this.isElastic = ArmUtil.isElastic(this.context.site);
     this.isLinux = ArmUtil.isLinuxApp(this.context.site);
     this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
 
@@ -175,6 +183,8 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     currentFormValues.context = this.context;
     currentFormValues.isLinux = this.isLinux;
     currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
+    currentFormValues.isElastic = this.isElastic;
+    currentFormValues.isBYOC = this.isBYOC;
     currentFormValues.subscriptionName = this._findSubscriptionName();
     currentFormValues.isDreamspark = this.isDreamspark;
     this._wizardService.wizardValues = currentFormValues;
