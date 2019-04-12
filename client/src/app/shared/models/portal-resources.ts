@@ -1347,6 +1347,7 @@ export class PortalResources {
   public static formIsInvalid = 'formIsInvalid';
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
+  public static readOnlyLinuxCodeElastic = 'readOnlyLinuxCodeElastic';
   public static singleContainerPreviewTitle = 'singleContainerPreviewTitle';
   public static moreTemplatesTitle = 'moreTemplatesTitle';
   public static moreTemplatesDescription = 'moreTemplatesDescription';

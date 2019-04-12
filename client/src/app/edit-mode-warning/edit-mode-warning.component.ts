@@ -27,6 +27,7 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlyLinuxDynamic = false;
   public readOnlyBYOC = false;
   public readOnlyPython = false;
+  public readOnlyLinuxCodeElastic = false;
   public isEmpty = true;
 
   constructor(private _functionAppService: FunctionAppService, private _broadcastService: BroadcastService) {}
@@ -59,6 +60,8 @@ export class EditModeWarningComponent implements OnInit {
             this.readOnlyBYOC = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlyPython) {
             this.readOnlyPython = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic) {
+            this.readOnlyLinuxCodeElastic = true;
           } else {
             isEmpty = true;
           }
