@@ -61,6 +61,10 @@ export class QuickstartStateManager implements OnDestroy {
     return (this.wizardForm && (this.wizardForm.controls.isElastic as FormControl)) || null;
   }
 
+  public get isBYOC(): FormControl {
+    return (this.wizardForm && (this.wizardForm.controls.isBYOC as FormControl)) || null;
+  }
+
   public get subscriptionName(): FormControl {
     return (this.wizardForm && (this.wizardForm.controls.subscriptionName as FormControl)) || null;
   }
