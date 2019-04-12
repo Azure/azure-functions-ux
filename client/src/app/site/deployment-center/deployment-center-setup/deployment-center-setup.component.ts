@@ -48,21 +48,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         frameworkVersion: ['', []],
         startupCommand: ['', []],
       }),
-      deploymentSlotSetting: this._fb.group({
-        newDeploymentSlot: [false, []],
-        deploymentSlotEnabled: [false, []],
-        deploymentSlot: [null, []],
-      }),
     });
-  }
-
-  get showDeployStep() {
-    const buildProvider: sourceControlProvider =
-      this.wizard &&
-      this.wizard.wizardForm &&
-      this.wizard.wizardForm.controls['buildProvider'] &&
-      this.wizard.wizardForm.controls['buildProvider'].value;
-    return buildProvider === 'vsts' && this.wizard.deploymentSlotsAvailable;
   }
 
   get showBuildStep() {

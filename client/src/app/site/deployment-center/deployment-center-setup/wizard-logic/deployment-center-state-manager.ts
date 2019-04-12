@@ -49,7 +49,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public updateSourceProviderConfig$ = new Subject();
   public selectedVstsRepoId = '';
   public subscriptionName = '';
-  public deploymentSlotsAvailable = true;
   public canCreateNewSite = true;
   public hideBuild = false;
   public hideVstsBuildConfigure = false;
@@ -83,19 +82,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this.siteArmObj$.next(this.siteArm);
         this.subscriptionName = sub.json().displayName;
         this._location = this.siteArm.location;
-        const siteDesc = new ArmSiteDescriptor(this._resourceId);
-        return forkJoin(
-          scenarioService.checkScenarioAsync(ScenarioIds.enableSlots, { site: site.result }),
-          authZService.hasPermission(`/subscriptions/${siteDesc.subscription}/resourceGroups/${siteDesc.resourceGroup}`, [
-            AuthzService.writeScope,
-          ]),
-          scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm })
-        );
+        return scenarioService.checkScenarioAsync(ScenarioIds.vstsDeploymentHide, { site: this.siteArm });
       })
-      .subscribe(r => {
-        const [slotsEnabled, siteCreationPermission, vstsScenarioCheck] = r;
-        this.deploymentSlotsAvailable = slotsEnabled.status === 'enabled';
-        this.canCreateNewSite = siteCreationPermission;
+      .subscribe(vstsScenarioCheck => {
         this.hideBuild = vstsScenarioCheck.status === 'disabled';
       });
 
@@ -129,10 +118,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   public get buildSettings(): FormGroup {
     return (this.wizardForm && (this.wizardForm.controls.buildSettings as FormGroup)) || null;
-  }
-
-  public get deploymentSlotSetting(): FormGroup {
-    return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
   }
 
   public deploy(): Observable<{ status: string; statusMessage: string; result: any }> {
@@ -344,9 +329,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
   }
 
   private get _deploymentTargets(): DeploymentTarget[] {
-    const deploymentTargets = [];
-    deploymentTargets.push(this._primaryTarget);
-    return deploymentTargets;
+    return [this._primaryTarget];
   }
 
   private get _primaryTarget(): AzureAppServiceDeploymentTarget {
@@ -372,11 +355,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
       createOptions: null,
       slotSwapConfiguration: null,
     };
-    if (this.wizardValues.deploymentSlotSetting.deploymentSlotEnabled) {
-      targetObject.slotSwapConfiguration = {
-        slotName: this.wizardValues.deploymentSlotSetting.deploymentSlot,
-      };
-    }
     return targetObject;
   }
 
