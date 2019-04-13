@@ -2,6 +2,7 @@ import MakeArmCall from './ArmHelper';
 import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmArray, ArmAzureStorageMount, SiteLogsConfig } from '../models/WebAppModels';
 import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
+import LogService from '../utils/LogService';
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
@@ -39,23 +40,42 @@ export default class SiteService {
     });
   };
 
-  public static fetchConnectionStrings = (resourceId: string) => {
+  public static fetchConnectionStrings = async (resourceId: string) => {
     const id = `${resourceId}/config/connectionStrings/list`;
-    return MakeArmCall<ArmObj<{ [key: string]: { type: string; value: string } }>>({
+    const result = await MakeArmCall<ArmObj<{ [key: string]: { type: string; value: string } }>>({
       resourceId: id,
       commandName: 'fetchConnectionStrings',
       method: 'POST',
     });
+    LogService.trackEvent('site-service', 'connectionStringsLoaded', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
   };
 
-  public static fetchApplicationSettings = (resourceId: string) => {
+  public static fetchApplicationSettings = async (resourceId: string) => {
     const id = `${resourceId}/config/appsettings/list`;
-    return MakeArmCall<ArmObj<{ [key: string]: string }>>({ resourceId: id, commandName: 'fetchApplicationSettings', method: 'POST' });
+    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({
+      resourceId: id,
+      commandName: 'fetchApplicationSettings',
+      method: 'POST',
+    });
+    LogService.trackEvent('site-service', 'appSettingsLoaded', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
   };
 
-  public static fetchMetadata = (resourceId: string) => {
+  public static fetchMetadata = async (resourceId: string) => {
     const id = `${resourceId}/config/metadata/list`;
-    return MakeArmCall<ArmObj<{ [key: string]: string }>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    const result = await MakeArmCall<ArmObj<{ [key: string]: string }>>({ resourceId: id, commandName: 'fetchMetadata', method: 'POST' });
+    LogService.trackEvent('site-service', 'metadataLoaded', {
+      success: result.metadata.success,
+      resultCount: result.data && Object.keys(result.data.properties).length,
+    });
+    return result;
   };
 
   public static fetchSlotConfigNames = (resourceId: string) => {
