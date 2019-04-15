@@ -1,6 +1,6 @@
 import SiteService from '../../../ApiHelpers/SiteService';
 import StorageService from '../../../ApiHelpers/StorageService';
-import { ArmObj, Site, SiteConfig, SlotConfigNames } from '../../../models/WebAppModels';
+import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmAzureStorageMount } from '../../../models/WebAppModels';
 import RbacHelper from '../../../utils/rbac-helper';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
@@ -53,6 +53,9 @@ export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfi
   return SiteService.updateWebConfig(resourceId, siteConfig);
 };
 
+export const updateStorageMounts = (resourceId: string, storageAccountMounts: ArmObj<ArmAzureStorageMount>) => {
+  return SiteService.updateStorageMounts(resourceId, storageAccountMounts);
+};
 export const updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
   return SiteService.updateSlotConfigNames(resourceId, slotConfigNames);
 };

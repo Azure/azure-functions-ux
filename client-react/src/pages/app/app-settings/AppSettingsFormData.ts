@@ -72,6 +72,7 @@ export interface ApiSetupReturn {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
   slotConfigNames: ArmObj<SlotConfigNames>;
+  storageMounts: ArmObj<ArmAzureStorageMount>;
 }
 export const convertFormToState = (
   values: AppSettingsFormValues,
@@ -87,14 +88,16 @@ export const convertFormToState = (
     appSettings: getAppSettingsFromForm(values.appSettings),
     connectionStrings: getConnectionStringsFromForm(values.connectionStrings),
     metadata: getMetadataToSet(currentMetadata, values.currentlySelectedStack),
-    azureStorageAccounts: getAzureStorageMountFromForm(values.azureStorageMounts),
   };
 
   const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotNameSettings);
   const configWithStack = getConfigWithStackSettings(config, values);
+  const storageMounts = getAzureStorageMountFromForm(values.azureStorageMounts);
+
   return {
     site,
     slotConfigNames,
+    storageMounts,
     config: configWithStack,
   };
 };
@@ -155,13 +158,17 @@ export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMoun
   );
 }
 
-export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
+export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmObj<ArmAzureStorageMount> {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
     const { name, ...rest } = store;
     storageMountFromForm[name] = rest;
   });
-  return storageMountFromForm;
+  return {
+    id: '',
+    name: '',
+    properties: storageMountFromForm,
+  };
 }
 
 export function getAppSettingsFromForm(appSettings: FormAppSetting[]): NameValuePair[] {

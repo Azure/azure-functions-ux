@@ -93,6 +93,16 @@ export default class SiteService {
     return MakeArmCall<ArmObj<ArmAzureStorageMount>>({ resourceId: id, commandName: 'fetchAzureStorageMount', method: 'POST' });
   };
 
+  public static updateStorageMounts = (resourceId: string, storageAccountMounts: ArmObj<ArmAzureStorageMount>) => {
+    const id = `${resourceId}/config/azureStorageAccounts`;
+    return MakeArmCall<ArmObj<ArmAzureStorageMount>>({
+      resourceId: id,
+      commandName: 'updateAzureStorageMount',
+      method: 'PUT',
+      body: storageAccountMounts,
+    });
+  };
+
   public static fetchStacks = (stacksOs: 'Linux' | 'Windows') => {
     const queryString = `?osTypeSelected=${stacksOs}`;
     const resourceId = `/providers/Microsoft.Web/availableStacks`;
