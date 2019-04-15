@@ -7,7 +7,9 @@ const schema = Joi.array()
   .items(
     Joi.object().keys({
       name: Joi.string().required(),
-      value: Joi.string().required(),
+      value: Joi.string()
+        .required()
+        .allow(''),
       type: Joi.required().valid(TypeStrings),
       slotSetting: Joi.boolean().optional(),
     })

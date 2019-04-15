@@ -219,7 +219,6 @@ Object {
             "value": "TEST_VALUE",
           },
         ],
-        "azureStorageAccounts": Object {},
         "connectionStrings": Array [
           Object {
             "connectionString": "TEST_CONNECTION_VALUE",
@@ -276,6 +275,11 @@ Object {
         "TEST_CONNECTION",
       ],
     },
+  },
+  "storageMounts": Object {
+    "id": "",
+    "name": "",
+    "properties": Object {},
   },
 }
 `;

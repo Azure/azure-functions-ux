@@ -3,13 +3,6 @@ export class WizardForm {
   public buildProvider: sourceControlProvider;
   public sourceSettings: SourceSettings;
   public buildSettings: VstsBuildSettings;
-  public deploymentSlotSetting: DeploymentSLotSettings;
-}
-
-export class DeploymentSLotSettings {
-  public newDeploymentSlot: boolean;
-  public deploymentSlot: string;
-  public deploymentSlotEnabled: boolean;
 }
 
 export class VstsBuildSettings {

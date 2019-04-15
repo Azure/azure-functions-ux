@@ -5,4 +5,5 @@ export const Links = {
   alwaysOnInfo: 'https://go.microsoft.com/fwlink/?linkid=2086196',
   ftpInfo: 'https://go.microsoft.com/fwlink/?linkid=871316',
   startupFileInfo: 'https://go.microsoft.com/fwlink/?linkid=861969',
+  funcConnStringsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=875276',
 };
