@@ -2,7 +2,7 @@ import MakeArmCall from './ArmHelper';
 import { ArmObj, Site, SiteConfig, SlotConfigNames, ArmArray, ArmAzureStorageMount, SiteLogsConfig } from '../models/WebAppModels';
 import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
-import LogService from '../utils/LogService';
+import LogService from '../utils/LogService'; 
 
 export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
