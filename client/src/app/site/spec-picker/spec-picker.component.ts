@@ -208,7 +208,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     const selectedSpecGroup = this.specManager.selectedSpecGroup;
     const isEmpty = selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
 
-    // NOTE(shimedh): This is a temporary change for new WebApp creates till we support creation of ASE from WebApp create.
+    // NOTE(shimedh): This is a temporary change for new WebApp or new ASP creates till we support creation of ASE.
     const isNewPlan = this._input.data && !this._input.data.selectedSkuCode;
     if (!NationalCloudEnvironment.isNationalCloud() && isEmpty && selectedSpecGroup.id === PriceSpecGroupType.ISOLATED && isNewPlan) {
       const shellUrl = decodeURI(window.location.href);
@@ -216,7 +216,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       selectedSpecGroup.emptyInfoLink = `${Url.getParameterByName(
         shellUrl,
         'trustedAuthority'
-      )}/#create/Microsoft.AppServiceEnvironmentCreate`;
+      )}/#create/Microsoft.AppServiceEnvironmentCreate?websitesextension_fromasporwebappcreate=true`;
       selectedSpecGroup.emptyInfoLinkText = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlanLinkText);
     }
 
