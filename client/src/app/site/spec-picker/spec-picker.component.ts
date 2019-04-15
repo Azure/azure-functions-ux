@@ -216,7 +216,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       selectedSpecGroup.emptyInfoLink = `${Url.getParameterByName(
         shellUrl,
         'trustedAuthority'
-      )}/#create/Microsoft.AppServiceEnvironmentCreate?websitesextension_fromasporwebappcreate=true`;
+      )}/?websitesextension_fromasporwebappcreate=true#create/Microsoft.AppServiceEnvironmentCreate`;
       selectedSpecGroup.emptyInfoLinkText = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlanLinkText);
     }
 
