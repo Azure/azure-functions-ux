@@ -1023,6 +1023,7 @@ export class PortalResources {
   public static pricing_scaleUp = 'pricing_scaleUp';
   public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
   public static free = 'free';
+  public static pricing_freeLinuxNotAvailable = 'pricing_freeLinuxNotAvailable';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
   public static pricing_pricePerHour = 'pricing_pricePerHour';
   public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
