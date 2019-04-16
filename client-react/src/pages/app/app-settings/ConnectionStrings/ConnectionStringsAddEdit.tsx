@@ -71,6 +71,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     <form>
       <TextFieldNoFormik
         label={t('nameRes')}
+        widthOverride="100%"
         id="connection-strings-form-name"
         value={currentConnectionString.name}
         errorMessage={nameError}
@@ -79,6 +80,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       />
       <TextFieldNoFormik
         label={t('value')}
+        widthOverride="100%"
         id="connection-strings-form-value"
         value={currentConnectionString.value}
         onChange={updateConnectionStringValue}
@@ -86,6 +88,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       <DropdownNoFormik
         label={t('type')}
         id="connection-strings-form-type"
+        widthOverride="100%"
         value={currentConnectionString.type}
         options={[
           {
