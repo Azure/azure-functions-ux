@@ -96,7 +96,7 @@ export class FreePlanPriceSpec extends PriceSpec {
   private _checkIfSkuEnabledOnStamp(resourceId: ResourceId) {
     if (this.state !== 'hidden') {
       return this._planService.getAvailableSkusForPlan(resourceId).do(availableSkus => {
-        this.state = availableSkus.find(s => s.sku.name === this.tier) ? 'enabled' : 'disabled';
+        this.state = availableSkus.find(s => s.sku.tier === this.tier) ? 'enabled' : 'disabled';
 
         if (this.state === 'disabled') {
           this.disabledMessage = this._ts.instant(PortalResources.pricing_freeLinuxNotAvailable);

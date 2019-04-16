@@ -98,7 +98,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
       });
 
       const result = availableSkuFetch;
-      this.state = result.data.value.find(s => s.sku.name === this.tier) ? 'enabled' : 'disabled';
+      this.state = result.data.value.find(s => s.sku.tier === this.tier) ? 'enabled' : 'disabled';
 
       if (this.state === 'disabled') {
         this.disabledMessage = this._t('pricing_freeLinuxNotAvailable');
