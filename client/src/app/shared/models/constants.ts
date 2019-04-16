@@ -598,6 +598,7 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static ShowVNetIntegration = 'ShowVNetIntegration';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
+  public static AllowFreeLinux = 'allowfreelinux';
 }
 
 export class SupportedFeatures {

@@ -3199,6 +3199,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="free" xml:space="preserve">
     <value>Free</value>
   </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
+  </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Month (Estimated)</value>
   </data>
