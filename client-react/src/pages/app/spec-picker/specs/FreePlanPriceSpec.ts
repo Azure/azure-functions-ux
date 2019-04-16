@@ -58,7 +58,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
-    const allowFreeLinux = Url.getParameterByName(null, 'AllowFreeLinux');
+    const allowFreeLinux = Url.getParameterByName(null, CommonConstants.FeatureFlags.AllowFreeLinux);
     if (input.plan) {
       if (
         input.plan.properties.hostingEnvironmentProfile ||
@@ -107,7 +107,7 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
   }
 
   private async _checkIfSkuEnabledInRegion(subscriptionId: string, location: string, isLinux: boolean): Promise<void> {
-    if (this.state !== 'hidden' && this.state !== 'disabled') {
+    if (this.state === 'enabled') {
       const locations = await this._getProviderLocations(subscriptionId, 'serverFarms');
       const geoRegionsForSku = await this._getAllGeoRegionsForSku(subscriptionId, this.tier, isLinux);
 
@@ -120,10 +120,11 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
   }
 
   private async _getProviderLocations(subscriptionId: string, resourceType: string): Promise<string[]> {
-    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web?api-version=2018-01-01`;
+    const resourceId = `/subscriptions/${subscriptionId}/providers/microsoft.web`;
     const providerLocationsFetch = await MakeArmCall<{ value: ArmProviderInfo }>({
       resourceId,
       commandName: '_getProviderLocations',
+      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
     });
 
     const result = providerLocationsFetch;
@@ -137,14 +138,13 @@ export abstract class FreePlanPriceSpec extends PriceSpec {
   }
 
   private async _getAllGeoRegionsForSku(subscriptionId: string, sku: string, isLinux: boolean): Promise<ArmObj<GeoRegion>[]> {
-    let id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions?sku=${sku}`;
-    if (isLinux) {
-      id += '&linuxWorkersEnabled=true';
-    }
+    const id = `/subscriptions/${subscriptionId}/providers/microsoft.web/georegions`;
 
     const geoRegionsFetch = await MakeArmCall<ArmArray<GeoRegion>>({
       resourceId: id,
       commandName: '_getProviderLocations',
+      apiVersion: CommonConstants.ApiVersions.websiteApiVersion20181101,
+      queryString: isLinux ? `sku=${sku}&linuxWorkersEnabled=true` : `sku=${sku}`,
     });
 
     return geoRegionsFetch.data.value;
