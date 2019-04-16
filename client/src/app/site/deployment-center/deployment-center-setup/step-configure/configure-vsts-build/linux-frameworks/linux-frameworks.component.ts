@@ -134,12 +134,19 @@ export class LinuxFramworksComponent implements OnDestroy {
 
   private setupValidators(stack: string) {
     // Regex value comes from Azure Devops team for validation
-    const validator = RegexValidator.create(
+    const nodeValidator = RegexValidator.create(
       new RegExp('^$|^(node|pm2|ng)\\s+\\w+'),
       this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
     );
+    const aspNetCoreValidator = RegexValidator.create(
+      new RegExp('^$|^(dotnet)\\s+\\w+'),
+      this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
+    );
     if (stack === WebAppFramework.Node) {
-      this.wizard.buildSettings.get('startupCommand').setValidators([validator]);
+      this.wizard.buildSettings.get('startupCommand').setValidators([nodeValidator]);
+      this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
+    } else if (stack === WebAppFramework.AspNetCore) {
+      this.wizard.buildSettings.get('startupCommand').setValidators([aspNetCoreValidator]);
       this.wizard.buildSettings.get('startupCommand').updateValueAndValidity();
     } else {
       this.removeValidators();
