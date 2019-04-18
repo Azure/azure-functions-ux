@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Een optionele opstartopdracht opgeven die wordt uitgevoerd als onderdeel van het opstarten van de container. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Geef een optionele opstartopdracht op die tijdens het opstarten van de container wordt uitgevoerd.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Nieuwste</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>Instellingen voor functie-apps</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Configuratie</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Configuratie</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2283,6 +2289,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Sites (preview-versies)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Aankomende wijzigingen in routeringsregels</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Voor een uitgebreidere controle, waaronder live metrische gegevens en aangepaste query's:</value>
@@ -3161,6 +3170,12 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Er zijn geen Isolated-prijscategorieën binnen een App Service Environment (ASE) beschikbaar voor uw configuratie.  Een ASE voorziet in een krachtig functieaanbod van Azure App Service dat netwerkisolatie en verbeterde schaalmogelijkheden biedt.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Inline maken wordt momenteel niet ondersteund voor App Service Environment-instanties.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Nieuwe App Service Environment-instantie maken</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>De prijscategorieën voor ontwikkelen/testen zijn niet beschikbaar voor uw configuratie en zijn alleen beschikbaar voor abonnementen die niet worden gehost in een App Service Environment.</value>
   </data>
@@ -3181,6 +3196,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/maand (schatting)</value>
@@ -3290,11 +3308,14 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Geïsoleerd netwerk</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Wordt uitgevoerd binnen uw eigen virtuele netwerk.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integratie van virtueel netwerk</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Wordt uitgevoerd binnen uw eigen virtuele netwerk.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Verbinding maken met een virtueel netwerk.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Persoonlijke app-toegang</value>
@@ -3378,7 +3399,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gebruik Azure Pipelines, onderdeel van Azure DevOps Services (voorheen VSTS), om een robuuste implementatiepijplijn voor uw toepassing te configureren. Met de pijplijn kunt u toepassingen bouwen en belastingtests uitvoeren, en vervolgens implementeren naar de faseringssleuf en naar de productieomgeving.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu maken server</value>
+    <value>App Services-buildservice</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>App Service gebruiken als de build-server. De engine voor het App Service Kudu bouwt automatisch uw code tijdens de implementatie indien van toepassing, zonder aanvullende configuratie vereist.</value>
@@ -3564,7 +3585,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gebruikersreferenties</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Gebruikersreferenties worden gedefinieerd door u, de gebruiker, en kunnen worden gebruikt voor alle apps waartoe u toegang hebt. Deze referenties kunnen worden gebruikt voor FTP, lokale Git en WebDeploy. Als u gebruikersreferenties gebruikt om verbinding te maken met uw app, moet de gebruikersnaam worden ingevoerd als {0} bij verificatie van de client.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3652,7 +3673,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Rekenequivalent uit de Dv3-serie</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Verbindingsreeksen mogen alleen met een functie-app worden gebruikt als u Entity Framework gebruikt. Gebruik App-instellingen voor andere scenario's. Klik voor meer informatie.</value>
+    <value>Verbindingsreeksen mogen alleen met een functie-app worden gebruikt als u Entity Framework gebruikt. Gebruik App-instellingen voor andere scenario's.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Runtime-versie: laden...</value>
@@ -4161,6 +4182,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Functies bewerken in de portal wordt niet ondersteund voor functie-apps voor Linux-verbruik (preview).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Enkele container (preview)</value>
   </data>
@@ -4195,7 +4219,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Asp.Net-webformulieren</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>De ASP.NET-webformuliertoepassing geïmplementeerd in de LTSC-container van Windows Server Core 2016.</value>
+    <value>De ASP.NET-webformulierentoepassing geïmplementeerd in de LTSC-container van Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask met Redis</value>
@@ -4241,7 +4265,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Nieuwe of bestaande web-app</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Implementatiedetails</value>
   </data>
@@ -4796,5 +4820,72 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Klik hier om te upgraden naar een hogere SKU en extra functies in te schakelen.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights is niet geconfigureerd. Configureer Application Insights om functielogboeken vast te leggen.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Er zijn toegangsbeperkingen toegevoegd aan uw functie-app die wellicht invloed hebben op de mogelijkheid om de app te beheren vanuit de portal.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Het opgegeven wachtwoord voldoet niet aan de minimumvereisten. Het wachtwoord moet ten minste acht tekens lang zijn en moet bestaan uit letters en cijfers.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Inkomende clientcertificaten</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Inkomend certificaat vereist</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Certificaatuitsluitingspaden</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>clientuitsluitingspaden bewerken</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Geen uitsluitingsregels gedefinieerd</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Nieuw pad</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Als u geen organisatie of opslagplaats kunt vinden, moet u mogelijk extra machtigingen inschakelen in GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Als u geen organisatie of opslagplaats kunt vinden, moet u mogelijk extra machtigingen inschakelen in Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Er is een App Service-plan van Basic of hoger vereist voor binnenkomende clientcertificaten</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Er zijn clientcertificaten ingeschakeld in uw functie-app die wellicht invloed hebben op de mogelijkheid om de app te beheren vanuit de portal.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Hiermee wordt voorkomen dat uw app inactief wordt vanwege inactiviteit.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>FTP-implementatie kan worden uitgeschakeld of geconfigureerd om FTP- (tekst zonder opmaak) of FTPS-verbindingen (beveiligde verbindingen) te accepteren.</value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>U kunt de prestaties van uw stateless app verbeteren door affiniteitscookie uit te schakelen. Voor stateful apps moet deze instelling zijn ingeschakeld voor compatibiliteit.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>De toepassingsinstellingen zijn in rust versleuteld en worden verzonden via een versleuteld kanaal. U kunt ervoor kiezen deze in uw browser weer te geven als tekst zonder opmaak door de onderstaande besturingselementen te gebruiken. Toepassingsinstellingen worden weergegeven als omgevingsvariabelen voor toegang tot uw toepassing in runtime.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>De verbindingsreeksen zijn in rust versleuteld en worden verzonden via een versleuteld kanaal.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>Functies voor PowerShell zijn een preview-aanbieding.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filteren</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Toepassingsinstellingen filteren</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Verbindingsreeksen filteren</value>
   </data>
 </root>

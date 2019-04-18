@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Especifique un comando de inicio opcional que se ejecutará como parte del proceso de inicio del contenedor. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Más información&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Especifique un comando de inicio opcional que se ejecutará como parte del proceso de inicio del contenedor.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Más reciente</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>Configuración de Function App</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Configuración</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>El nombre de aplicación '{0}' no está disponible.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>El nombre de ranura "{0}" no está disponible.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>El nombre de ranura "{0}" es un nombre de ranura de implementación reservado.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>No podemos actualizar el modo de edición de la aplicación de función. Inténtelo de nuevo más tarde.</value>
@@ -2231,7 +2237,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No se pudo crear el espacio "{0}" </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>No se puede actualizar la lista de espacios</value>
+    <value>No se puede actualizar la lista de espacios.</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>Ha alcanzado el límite de cuota de espacios ({{quota}}) del plan actual.</value>
@@ -2283,6 +2289,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Espacios (vista previa)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Próximos cambios en las reglas de enrutamiento</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Para una mejor experiencia de supervisión, incluidas métricas en directo y consultas personalizadas:</value>
@@ -3160,6 +3169,12 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Los planes de tarifa aislados en una instancia de App Service Environment (ASE) no están disponibles para su configuración. ASE es una oferta de características eficaces de Azure App Service que proporciona aislamiento de red y funcionalidades de escalado mejoradas.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Actualmente, no se admite la creación en línea de instancias de App Service Environment.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Crear una nueva instancia de App Service Environment</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Los planes de tarifa de desarrollo y pruebas no están disponibles para su configuración y solo están disponibles para los planes que no están hospedados en una instancias de App Service Environment.</value>
   </data>
@@ -3180,6 +3195,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratis</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/mes (estimado)</value>
@@ -3289,11 +3307,14 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Red aislada</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Se ejecuta en su propia red virtual.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integración de Virtual Network</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Se ejecuta en su propia red virtual.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Permite establecer conexión con una red virtual.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Acceso privado a la aplicación</value>
@@ -3377,7 +3398,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Configure una canalización de implementación sólida para su aplicación con Azure Pipelines, que forma parte de Azure DevOps Services (anteriormente conocido como VSTS). La canalización compila y ejecuta las pruebas de carga y las implementa en el espacio de ensayo y luego al de producción.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Servidor de compilación de Kudu para App Service</value>
+    <value>Servicio de compilación de App Service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use App Service como servidor de compilación. El motor de Kudu de App Service compilará automáticamente el código durante la implementación cuando corresponda sin necesidad de ninguna configuración adicional.</value>
@@ -3563,7 +3584,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Credenciales de usuario</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Las credenciales de usuario las define el usuario y se pueden usar con todas las aplicaciones a las que tiene acceso. Estas credenciales se pueden usar con FTP, GIT local y WebDeploy. Si usa las credenciales de usuario para conectarse a la aplicación, el nombre de usuario deberá tener el formato "{0}" para la autenticación desde el cliente.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Equivalente de proceso de serie Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Las cadenas de conexión sólo deben utilizarse con una aplicación de función si se usa Entity Framework. Para otros escenarios, use la configuración de la aplicación. Haga clic para obtener más información.</value>
+    <value>Las cadenas de conexión solo deben utilizarse con una aplicación de función si se usa Entity Framework. Para otros escenarios, use la configuración de la aplicación.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Versión de entorno en tiempo de ejecución: cargando...</value>
@@ -4160,6 +4181,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>La edición de funciones en el portal no es compatible con las aplicaciones de función de Consumo de Linux (versión preliminar).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Contenedor único (versión preliminar)</value>
   </data>
@@ -4194,7 +4218,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Formularios Web Forms Asp.Net</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplicación de formularios Web Forms ASP.NET implementada en contenedor de Windows Server Core 2016 LTSC.</value>
+    <value>Aplicación de formularios Web Forms ASP.NET implementada en el contenedor de Windows Server Core 2019 LTSC.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask con Redis</value>
@@ -4240,7 +4264,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Aplicación web nueva o existente</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Detalles de la implementación</value>
   </data>
@@ -4485,7 +4509,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Las credenciales se guardaron correctamente.</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Permite usar una imagen de cualquier registro privado, incluido Azure Container Registry.</value>
+    <value>Permite usar una imagen de cualquier registro privado, como Azure Container Registry.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>No seleccionada</value>
@@ -4749,10 +4773,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Los valores de configuración de la aplicación deben ser una matriz.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} es una propiedad necesaria en todas las configuraciones de la aplicación.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Todas las propiedades de nombre y valor de configuración de la aplicación deben ser de tipo string.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Todas las propiedades de configuración de espacios de la configuración de la aplicación deben ser de tipo booleano.</value>
@@ -4795,5 +4819,72 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Haga clic aquí para actualizar a una SKU superior y habilitar características adicionales.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights no está configurado. Configure este servicio para capturar los registros de función.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Se han agregado restricciones de acceso a la aplicación de función que pueden afectar a su capacidad de administrarla desde el portal.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>La contraseña especificada no cumple los requisitos mínimos. La contraseña debe tener al menos ocho caracteres, y contener letras y números.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Certificados de cliente entrantes</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Requerir el certificado entrante</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Rutas de exclusión del certificado</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>editar las rutas de exclusión del cliente</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>No hay ninguna regla de exclusión definida.</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Nueva ruta de acceso</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Si no encuentra ningún repositorio u organización, es posible que deba habilitar permisos adicionales en GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Si no encuentra ningún repositorio u organización, es posible que deba habilitar permisos adicionales en Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Los certificados de cliente entrantes requieren un plan de App Service básico o superior.</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Los certificados de cliente se habilitaron en la aplicación de función, lo que puede afectar a su capacidad para administrarlos desde el portal.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Impide que se cierre sesión en la aplicación debido a un periodo de inactividad.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>La implementación basada en FTP se puede deshabilitar o configurar para que acepte conexiones FPT (texto sin formato) o FTPS (seguras). </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Para mejorar el rendimiento de la aplicación sin estado, desactive la cookie de afinidad. Las aplicaciones con estado deben tener esta opción activada con fines de compatibilidad.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>La configuración de la aplicación se cifra en reposo y se transmite a través de un canal cifrado. Puede elegir mostrarla como texto sin formato en el explorador mediante los controles siguientes. La configuración de la aplicación se expone como variables de entorno para que la aplicación pueda acceder en tiempo de ejecución.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Las cadenas de conexión se cifran en reposo y transmiten a través de un canal cifrado.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>Las funciones de PowerShell son una oferta en versión preliminar.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Filtrar la configuración de la aplicación</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Filtrar las cadenas de conexión</value>
   </data>
 </root>

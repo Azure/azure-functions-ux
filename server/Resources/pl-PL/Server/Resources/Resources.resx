@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Podaj opcjonalne polecenie uruchamiania, które zostanie wykonane jako część procesu uruchamiania kontenera. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Dowiedz się więcej&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Podaj opcjonalne polecenie uruchamiania, które będzie wykonywane jako część procesu uruchamiania kontenera.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Najnowsze</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>Ustawienia aplikacji funkcji</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Konfiguracja</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Konfiguracja</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Nazwa aplikacji „{0}” jest niedostępna</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>Nazwa miejsca „{0}” jest niedostępna.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>Nazwa miejsca „{0}” jest zastrzeżoną nazwą miejsce wdrożenia.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nie możemy zaktualizować trybu edycji Twojej aplikacji funkcji. Spróbuj ponownie później.</value>
@@ -2283,6 +2289,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Miejsca (wersja zapoznawcza)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Nadchodzące zmiany w regułach routingu</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Aby skorzystać z bogatszego środowiska monitorowania, w tym metryk na żywo i zapytań niestandardowych:</value>
@@ -3160,6 +3169,12 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Izolowane warstwy cenowe w środowisku App Service Environment (ASE) nie są dostępne dla danej konfiguracji. Środowisko ASE to zaawansowana oferta funkcji usługi Azure App Service zapewniająca izolację sieciową i ulepszone możliwości skalowania.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Wbudowane tworzenie środowisk App Service Environment nie jest obecnie obsługiwane.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Utwórz nowe środowisko App Service Environment</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Deweloperskie lub testowe warstwy cenowe nie są dostępne dla Twojej konfiguracji. Są one dostępne tylko w przypadku planów, które nie są hostowane w środowisku App Service Environment.</value>
   </data>
@@ -3180,6 +3195,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="free" xml:space="preserve">
     <value>Bezpłatna</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} miesięcznie (szacowana)</value>
@@ -3289,11 +3307,14 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Sieć izolowana</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Jest uruchamiana w ramach Twojej sieci wirtualnej.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integracja sieci wirtualnej</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Jest uruchamiana w ramach Twojej sieci wirtualnej.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Połącz z siecią wirtualną.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Prywatny dostęp do aplikacji</value>
@@ -3377,7 +3398,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Konfiguruj niezawodny potok wdrażania aplikacji przy użyciu usługi Azure Pipelines wchodzącej w skład usługi Azure DevOps Services (wcześniej znanej jako VSTS). Potok przeprowadza kompilację, uruchamia testy obciążeniowe oraz wdraża w miejscu przejściowym, a następnie w środowisku produkcyjnym.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Serwer kompilacji Kudu usługi App Service</value>
+    <value>Usługa kompilacji usługi App Service</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Użyj usługi App Service jako serwera kompilacji. Gdy będzie to stosowne, aparat Kudu usługi App Service automatycznie skompiluje kod podczas wdrażania bez konieczności dodatkowej konfiguracji.</value>
@@ -3563,7 +3584,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Poświadczenia użytkownika</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Poświadczenia użytkownika są definiowane przez Ciebie, użytkownika, i mogą być używane we wszystkich aplikacjach, do których masz dostęp. Tych poświadczeń można używać w przypadku protokołu FTP, lokalnego repozytorium Git oraz narzędzia WebDeploy. Jeśli łączysz się ze swoją aplikacją przy użyciu poświadczeń użytkownika, nazwa użytkownika musi być w formacie „{0}” przy uwierzytelnianiu z klienta.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Odpowiednik zasobów obliczeniowych serii Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Jeśli używasz platformy Entity Framework, parametry połączenia powinny być używane tylko z aplikacją funkcji. W przypadku innych scenariuszy używaj ustawień aplikacji. Kliknij, aby dowiedzieć się więcej.</value>
+    <value>Parametry połączenia powinny być używane z aplikacją funkcji tylko wtedy, gdy używasz platformy Entity Framework. W przypadku innych scenariuszy używaj ustawień aplikacji.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Wersja środowiska uruchomieniowego: ładowanie...</value>
@@ -4160,6 +4181,9 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux (wersja zapoznawcza).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Jeden kontener (wersja zapoznawcza)</value>
   </data>
@@ -4194,7 +4218,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Formularze internetowe platformy ASP.NET</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplikacja formularzy internetowych ASP.Net wdrożona w kontenerze systemu Windows Server Core 2016 LTSC.</value>
+    <value>Aplikacja formularzy internetowych ASP.Net wdrożona w kontenerze systemu Windows Server Core 2019 LTSC.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask z pamięcią podręczną Redis Cache</value>
@@ -4240,7 +4264,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Nowa lub istniejąca aplikacja internetowa</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Szczegóły wdrożenia</value>
   </data>
@@ -4485,7 +4509,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Pomyślnie zapisane poświadczenia</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Użyj obrazu z prywatnego rejestru, w tym usługi Azure Container Registry.</value>
+    <value>Użyj obrazu z rejestru prywatnego, w tym usługi Azure Container Registry.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Nie wybrano</value>
@@ -4704,7 +4728,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Obiekt blob platformy Azure</value>
   </data>
   <data name="azureFiles" xml:space="preserve">
-    <value>Pliki Azure</value>
+    <value>Azure Files</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
     <value>Nowa instalacja magazynu platformy Azure</value>
@@ -4749,10 +4773,10 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Wartości ustawień aplikacji muszą być tablicami</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} jest właściwością wymaganą dla wszystkich ustawień aplikacji</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Wszystkie właściwości wartości i nazw ustawień aplikacji muszą być typu „ciąg”</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Wszystkie właściwości ustawień miejsc na ustawienia aplikacji muszą być typu logicznego</value>
@@ -4795,5 +4819,72 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Kliknij tutaj, aby zmienić jednostkę SKU na wyższą i włączyć dodatkowe funkcje.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Usługa Application Insights nie jest skonfigurowana. Skonfiguruj usługę Application Insights, aby przechwytywać dzienniki funkcji.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Do aplikacji funkcji dodano ograniczenia dostępu, co może mieć wpływ na możliwość zarządzania nią z poziomu portalu.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Podane hasło nie spełnia minimalnych wymagań. Hasło powinno składać się z co najmniej ośmiu znaków oraz musi zawierać litery i cyfry.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Przychodzące certyfikaty klientów</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Wymagaj certyfikatu przychodzącego</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Ścieżki wykluczenia certyfikatów</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>edytuj ścieżki wykluczenia klientów</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Nie zdefiniowano żadnych reguł wykluczeń</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Nowa ścieżka</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Jeśli nie możesz znaleźć organizacji lub repozytorium, może być konieczne włączenie dodatkowych uprawnień w serwisie GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Jeśli nie możesz znaleźć organizacji lub repozytorium, może być konieczne włączenie dodatkowych uprawień w usłudze Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Przychodzące certyfikaty klientów wymagają planu usługi App Service w warstwie Podstawowa lub wyższej</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>W aplikacji funkcji włączono certyfikaty klienta, co może mieć wpływ na możliwość zarządzania nią z poziomu portalu.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Zapobiega przełączeniu aplikacji w stan bezczynności z powodu braku aktywności.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Wdrożenie oparte na protokole FTP można wyłączyć lub skonfigurować do akceptowania połączeń FTP (zwykły tekst) lub FTPS (zabezpieczone).</value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Wydajność aplikacji bezstanowej możesz zwiększyć, wyłączając plik cookie koligacji. To ustawienie powinno być włączone w przypadku aplikacji stanowych, aby zapewnić zgodność.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Ustawienia aplikacji są szyfrowane podczas magazynowania i przesyłane za pośrednictwem szyfrowanego kanału. Korzystając z poniższych kontrolek, możesz je wyświetlić jako zwykły tekst w przeglądarce. Ustawienia aplikacji są ujawniane jako zmienne środowiskowe w celu umożliwienia aplikacji dostępu do nich w czasie wykonywania.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Parametry połączenia są szyfrowane podczas magazynowania i przesyłane za pośrednictwem szyfrowanego kanału.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>Funkcje programu PowerShell są ofertą w wersji zapoznawczej.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtruj</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Filtruj ustawienia aplikacji</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Filtruj parametry połączeń</value>
   </data>
 </root>
