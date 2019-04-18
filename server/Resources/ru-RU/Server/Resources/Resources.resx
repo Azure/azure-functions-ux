@@ -1538,7 +1538,7 @@
     <value>рабочий</value>
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
-    <value>Сходство для маршрутизации запросов приложений</value>
+    <value>Сходство ARR</value>
   </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
     <value>Вы можете повысить производительность приложений без отслеживания состояния, отключив файлы cookie сходства. В приложениях с отслеживанием состояния файлы cookie сходства должны быть включены для повышения совместимости. Щелкните здесь, чтобы получить дополнительные сведения.</value>
@@ -1560,6 +1560,9 @@
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Самые новые</value>
@@ -1781,6 +1784,9 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Конфигурация</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@
     <value>Имя приложения \"{0}\" недоступно.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>Имя слота "{0}" недоступно.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>Имя слота "{0}" является зарезервированным именем слота развертывания.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
@@ -2231,7 +2237,7 @@
     <value>Не удалось создать слот "{0}" </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>Не удалось обновить список слотов</value>
+    <value>Не удалось обновить список слотов.</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>Вы использовали всю квоту на слоты ({{quota}}) для текущего плана.</value>
@@ -2283,6 +2289,9 @@
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Слоты (предварительная версия)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Правила маршрутизации будут изменены.</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Чтобы получить дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы,</value>
@@ -3160,6 +3169,12 @@
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Внутреннее создание среды службы приложений сейчас не поддерживается.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Создать среду службы приложений</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Ценовые категории для разработки и тестирования недоступны для вашей конфигурации и доступны только для планов, не размещаемых в среде службы приложений.</value>
   </data>
@@ -3180,6 +3195,9 @@
   </data>
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} в месяц (приблизительно)</value>
@@ -3289,11 +3307,14 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Изолированная сеть</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Запускается в вашей виртуальной сети.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Интеграция виртуальной сети</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Запускается в вашей виртуальной сети.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Подключение к виртуальной сети.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Закрытый доступ к приложению</value>
@@ -3377,7 +3398,7 @@
     <value>Вы можете настроить надежный конвейер развертывания для приложения с помощью службы Azure Pipelines, которая входит в Azure DevOps Services (ранее — VSTS). Конвейер выполняет сборку, запускает нагрузочные тесты и выполняет развертывание в промежуточный слот, а затем в рабочий.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Сервер сборки Kudu службы приложений</value>
+    <value>Служба сборки службы приложений</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Используйте службу приложений как сервер сборки. Подсистема Kudu в службе приложений автоматически создаст код во время развертывания, когда это потребуется, без дополнительной настройки.</value>
@@ -3563,7 +3584,7 @@
     <value>Учетные данные пользователя</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Учетные данные пользователя задаются вами и пользователем. Их можно применять ко всем приложениям, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, Local Git и WebDeploy. Если вы применяете их для подключения к приложению, имя пользователя должно иметь формат "{0}" при проверке подлинности со стороны клиента.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@
     <value>Эквивалент вычислительных ресурсов серии Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
+    <value>Строки подключения следует использовать с приложением-функцией, только если вы работаете с Entity Framework. Для других сценариев используйте параметры приложений.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Версия среды выполнения: загружается...</value>
@@ -4160,6 +4181,9 @@
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Один контейнер (предварительная версия)</value>
   </data>
@@ -4194,7 +4218,7 @@
     <value>Веб-формы ASP.NET</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Приложение веб-форм Asp.Net развернуто в контейнере LTSC Windows Server Core 2016.</value>
+    <value>Приложение веб-форм ASP.NET развернуто в контейнере LTSC Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask с Redis</value>
@@ -4240,7 +4264,7 @@
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Новое или существующее веб-приложение</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Сведения о развертывании</value>
   </data>
@@ -4485,7 +4509,7 @@
     <value>Учетные данные успешно сохранены</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Используйте изображение из любого частного реестра, включая Реестр контейнеров Azure.</value>
+    <value>Используйте образ из любого закрытого реестра, включая Реестр контейнеров Azure.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Не выбрано</value>
@@ -4749,10 +4773,10 @@
     <value>Значения параметров приложения должны быть массивом.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} является обязательным свойством для всех параметров приложения.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Все свойства слотов в параметрах приложения должны иметь логический тип.</value>
@@ -4794,6 +4818,73 @@
     <value>Выбранный стек среды выполнения сейчас не поддерживает удаленную отладку.</value>
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Щелкните здесь, чтобы обновить до более поздней версии номера SKU и включить дополнительные функции.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Служба Application Insights не настроена. Настройте Application Insights для сбора журналов функций.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Указанный пароль не соответствует минимальным требованиям к паролю. Пароль должен содержать буквы и цифры. Длина пароля — не менее восьми символов.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Входящие сертификаты клиента</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Требовать входящий сертификат</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Пути исключения сертификатов</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>изменить пути исключения клиента</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Правила исключения не определены.</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Создать путь</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Для входящих сертификатов клиента требуется базовый план службы приложений или план более высокого уровня.</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Для вашего приложения-функции были включены сертификаты клиента. Это может повлиять на возможность управления этим приложением на портале.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Предотвращает истечение времени ожидания приложения из-за бездействия.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Развертывание на основе FTP можно отключить или настроить для приема подключений по протоколу FTP (обычный текст) или FTPS (с защитой). </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Отключение cookie-файла сходства позволяет улучшить работу приложения без учета состояния. Приложениям с отслеживанием состояния следует включить этот параметр для обеспечения совместимости.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Параметры приложений шифруются, когда они неактивны, и передаются по зашифрованному каналу. Вы можете отобразить их в виде обычного текста в браузере, используя элементы управления ниже. Параметры приложений предоставляются для доступа вашему приложению во время выполнения в виде переменных среды.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Строки подключения шифруются, когда они неактивны, и передаются по зашифрованному каналу.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>Функции PowerShell предлагаются в виде предварительной версии.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Фильтр параметров приложения</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Фильтр строк подключения</value>
   </data>
 </root>
