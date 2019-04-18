@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Legújabb</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>Függvényalkalmazás beállításai</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Konfiguráció</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Konfiguráció</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az alkalmazás neve ({0}) érvénytelen.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>A(z) {0} tárolóhelynév érvénytelen.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>A(z) {0} tárolóhelynév egy fenntartott üzembe helyezési pont neve.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
@@ -2283,6 +2289,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Tárolóhelyek (előzetes verzió)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Az útválasztási szabályok közelgő módosításai</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Ha további funkciókkal, például élő metrikákkal és egyéni lekérdezésekkel szeretné bővíteni a figyelési környezetet,</value>
@@ -3160,6 +3169,12 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Az App Service Environment- (ASE-) környezetbeli izolált díjcsomagok az Ön konfigurációja esetében nem érhetők el. Az ASE egy hatékony Azure App Service-funkció-ajánlat, amely hálózatizolálást és továbbfejlesztett skálázási funkciókat biztosít.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Az App Service Environment-környezetek beágyazott létrehozása jelenleg nem támogatott.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Új App Service Environment-környezet létrehozása</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>A Dev/Test-tarifacsomagok az Ön konfigurációja esetében nem érhetők el, és csak a nem App Service Environment-környezetben üzemeltetett csomagok esetében érhetők el.</value>
   </data>
@@ -3180,6 +3195,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="free" xml:space="preserve">
     <value>Ingyenes</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/hónap (becsült díj)</value>
@@ -3289,11 +3307,14 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Izolált hálózat</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>A saját virtuális hálózaton belül fut.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Virtuális hálózat integrációja</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>A saját virtuális hálózaton belül fut.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Kapcsolódás egy virtuális hálózathoz.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Privát alkalmazáselérés</value>
@@ -3377,7 +3398,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Robusztus üzembe helyezési folyamat létrehozása az alkalmazás számára az Azure DevOps Services (korábbi nevén VSTS) segítségével. A folyamat létrehozza és futtatja a terhelési teszteket, valamint üzembe helyezi az alkalmazást az előkészítési ponton, majd az éles környezetben.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu-buildelési kiszolgáló</value>
+    <value>App Service-buildelési szolgáltatás</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Az App Service használata buildelési kiszolgálóként. Az App Service Kudu-modulja, amikor szükséges, automatikusan, külön konfigurálás nélkül lefordítja az Ön programkódját az üzembe helyezés során.</value>
@@ -3563,7 +3584,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Felhasználó hitelesítő adatai</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>A felhasználói hitelesítő adatokat Ön, a felhasználó határozza meg, és az összes olyan alkalmazáshoz használhatja őket, amelyhez hozzáfér. Ezek a hitelesítő adatok az FTP, a helyi Git és a WebDeploy esetében is használhatók. Ha a felhasználói hitelesítő adatokkal csatlakozik az alkalmazáshoz, a felhasználónévnek {0} formátumúnak kell lennie, amikor az ügyfélről hitelesítést végez.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Dv3 sorozatú számítási erőforrás egyenértéke</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat. További információért kattintson ide.</value>
+    <value>Kapcsolati sztringeket csak akkor használhat függvényalkalmazásokhoz, ha az entitás-keretrendszert használja. Más esetekben használja az alkalmazásbeállításokat.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Futásidejű verzió: betöltés...</value>
@@ -4160,6 +4181,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps (előzetes verzió) esetében.</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Előzetes verzió)</value>
   </data>
@@ -4194,7 +4218,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Windows Server Core 2016 LTSC-tárolóban üzembe helyezett Asp.Net Web Forms-alkalmazás.</value>
+    <value>Windows Server Core 2019 LTSC-tárolóban üzembe helyezett Asp.Net Web Forms-alkalmazás.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Redis Python Redis használatával</value>
@@ -4240,7 +4264,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Új vagy meglévő webalkalmazás</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Példány részletei</value>
   </data>
@@ -4749,10 +4773,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Az alkalmazásbeállítási értékeknek tömbnek kell lenniük</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>A(z) {0} tulajdonság minden alkalmazásbeállítás esetében kötelező</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Minden alkalmazásbeállítás érték- és névtulajdonságának sztring típusúnak kell lennie</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Minden alkalmazásbeállítási tárhelybeállítás-tulajdonságnak logikai típusúnak kell lennie</value>
@@ -4794,6 +4818,73 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A kiválasztott futtatókörnyezeti verem jelenleg nem támogatja a távoli hibakeresést.</value>
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Kattintson ide egy magasabb szintű termékváltozatra váltáshoz és a további funkciók engedélyezéséhez.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Az Application Insights nincs beállítva. Állítsa be az Application Insights szolgáltatást a függvénynaplók rögzítéséhez.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Hozzáférési korlátozások lettek hozzáadva a függvényalkalmazáshoz, amelyek megakadályozhatják, hogy a portálon kezelje azt.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>A megadott jelszó nem felel meg a minimális követelményeknek. A jelszónak legalább nyolc karakter hosszúnak kell lennie, és betűket és számokat kell tartalmaznia.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Bejövő ügyféltanúsítványok</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Bejövő tanúsítvány megkövetelése</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Tanúsítványkizárási útvonalak</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>ügyfélkizárási útvonalak szerkesztése</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Nincs definiálva kizárási szabály</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Új elérési út</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Ha nem talál egy szervezetet vagy egy adattárat, lehetséges, hogy további engedélyeket kell engedélyeznie a GitHubon.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Ha nem talál egy szervezetet vagy egy adattárat, lehetséges, hogy további engedélyeket kell engedélyeznie a Bitbucketben.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>A bejövő ügyféltanúsítványokhoz alap- vagy magasabb szintű App Service-csomag szükséges</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Olyan ügyféltanúsítványok lettek engedélyezve a függvényalkalmazáshoz, amelyek megakadályozhatják, hogy a portálon kezelje azt.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Megelőzheti, hogy az alkalmazást inaktivitás miatt tétlenként kezelje a rendszer.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Az FTP-alapú üzembe helyezés letiltható, vagy beállítható az egyszerű szöveges FTP-kapcsolatok vagy a biztonságos FTPS-kapcsolatok fogadására. </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Az affinitási cookie kikapcsolásával növelheti az állapot nélküli alkalmazás teljesítményét. Az állapotalapú alkalmazások esetében a kompatibilitás érdekében bekapcsolva kell tartani ezt a beállítást.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Az alkalmazásbeállítások inaktív állapotban titkosítva vannak, és titkosított csatornán vannak továbbítva. A lenti vezérlőkkel dönthet úgy, hogy egyszerű szövegként jeleníti meg őket a böngészőben. Az alkalmazásbeállításokat környezeti változók formájában teszi elérhetővé az alkalmazás futási időben.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>A kapcsolati sztringek inaktív állapotban titkosítva vannak, és titkosított csatornán továbbítja őket a rendszer.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>A PowerShell Functions egy előzetes verziójú ajánlat.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Szűrés</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások szűrése</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Kapcsolati sztringek szűrése</value>
   </data>
 </root>

@@ -1538,7 +1538,7 @@
     <value>üretim</value>
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
-    <value>ARR Benzeşimi</value>
+    <value>ARR benzeşimi</value>
   </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
     <value>Benzeşim Tanımlama Bilgisini kapatarak durum bilgisi olmayan uygulamalarınızın performansını iyileştirebilirsiniz. Durum bilgisi olan uygulamalarda, uyumluluğu artırmak için Benzeşim Tanımlama Bilgisi açık olmalıdır. Daha fazla bilgi almak için tıklayın.</value>
@@ -1560,6 +1560,9 @@
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Kapsayıcı başlatmasının parçası olarak çalıştırılacak isteğe bağlı bir başlangıç komutu sağlayın. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Daha fazla bilgi&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Kapsayıcı başlatmasının parçası olarak çalıştırılacak isteğe bağlı bir başlangıç komutu sağlayın.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>En Yeni</value>
@@ -1781,6 +1784,9 @@
     <value>İşlev uygulaması ayarları</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Yapılandırma</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>'{0}' uygulama adı kullanılamıyor</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>'{0}' yuva adı kullanılamıyor.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>'{0}' yuva adı bir ayrılmış dağıtım yuvası adıdır.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>İşlev uygulamanızın düzenleme modunu güncelleştiremiyoruz. Lütfen daha sonra yeniden deneyin.</value>
@@ -2283,6 +2289,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Yuvalar (önizleme)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Yönlendirme Kuralları için gelecek değişiklikler</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için:</value>
@@ -3160,6 +3169,12 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>App Service Ortamı'nda (ASE) yalıtılmış fiyatlandırma katmanları yapılandırmanız için bulunmuyor. ASE, ağ yalıtımı ve geliştirilmiş ölçek özellikleri sunan güçlü bir Azure App Service teklifidir.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>App Service Ortamları'nın satır içinde oluşturulması şu anda desteklenmiyor.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Yeni App Service Ortamı oluştur</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Geliştirme / Test fiyatlandırma katmanları yapılandırmanız için kullanılamaz ve yalnızca bir App Service Ortamında barındırılmayan planlarda kullanılabilir.</value>
   </data>
@@ -3180,6 +3195,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="free" xml:space="preserve">
     <value>Ücretsiz</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Ay (Tahmini)</value>
@@ -3289,11 +3307,14 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Yalıtılmış ağ</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Kendi sanal ağınız içinde çalışır.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Sanal Ağ Tümleştirmesi</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Kendi sanal ağınız içinde çalışır.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Sanal bir ağa bağlanın.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Özel uygulama erişimi</value>
@@ -3377,7 +3398,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure DevOps Hizmetleri'nin (önceki adıyla VSTS) bir parçası olan Azure Pipelines'ı kullanarak sağlam bir dağıtım işlem hattı yapılandırın. İşlem hattı derler, yük testlerini çalıştırır ve hazırlama yuvasına ve ardından üretime dağıtır.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu derleme sunucusu</value>
+    <value>App Service derleme hizmeti</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Derleme sunucusu olarak App Service kullanın. App Service Kudu altyapısı kodunuzu gerektiğinde dağıtım sırasında ek yapılandırma gerektirmeden otomatik olarak derler.</value>
@@ -3563,7 +3584,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kullanıcı Kimlik Bilgileri</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Kullanıcı Kimlik Bilgileri, kullanıcı olarak sizin tarafınızdan tanımlanır ve erişim iznine sahip olduğunuz tüm uygulamalarla birlikte kullanılabilir. Bu kimlik bilgileri FTP, Yerel Git ve WebDeploy ile kullanılabilir. Uygulamanıza Kullanıcı kimlik bilgileriyle bağlanıyorsanız istemciden kimlik doğrulama yaparken kullanıcı adının "{0}" biçiminde olması gerekir.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3606,7 +3627,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kimlik Bilgilerini Sıfırla</value>
   </data>
   <data name="httpVersion" xml:space="preserve">
-    <value>HTTP Sürümü</value>
+    <value>HTTP sürümü</value>
   </data>
   <data name="dismiss" xml:space="preserve">
     <value>Anımsatma</value>
@@ -3651,7 +3672,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Dv3 Serisi işlem eşdeğeri</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Bağlantı dizeleri, yalnızca Entity Framework kullanıyorsanız bir işlev uygulamasıyla kullanılmalıdır. Diğer senaryolar için Uygulama Ayarları'nı kullanın. Daha fazla bilgi için tıklayın.</value>
+    <value>Bağlantı dizeleri, yalnızca Entity Framework kullanıyorsanız bir işlev uygulamasıyla kullanılmalıdır. Diğer senaryolar için Uygulama Ayarları'nı kullanın.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Çalışma zamanı sürümü: Yükleniyor...</value>
@@ -4160,6 +4181,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Portalda işlev düzenleme Linux Tüketim İşlevi Uygulamaları (Önizleme) için desteklenmiyor.</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Tek Kapsayıcı (Önizleme)</value>
   </data>
@@ -4194,7 +4218,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Windows Server Core 2016 LTSC Kapsayıcısı'nda dağıtılan Asp.Net Web Forms uygulaması.</value>
+    <value>Windows Server Core 2019 LTSC Kapsayıcısı'nda dağıtılan Asp.Net Web Forms uygulaması.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Redis ile Python Flask</value>
@@ -4240,7 +4264,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Yeni veya Mevcut Web Uygulaması</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Dağıtım Ayrıntıları</value>
   </data>
@@ -4248,10 +4272,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Şablon bağımlılıkları yükleniyor. Bağımlılık yükleme işlemi arka planda gerçekleşir ve 2 dakikaya kadar sürebilir. Yükleme işlemi tamamlanana kadar uygulamanız çevrimdışı moduna geçer. Bu süre içinde portalı kullanmaya devam edebilirsiniz ancak yükleme tamamlanmadan önce portalı kapatmak, uygulamanızı çevrimdışı modda bırakacaktır.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
-    <value>Değerleri Gizle</value>
+    <value>Değerleri gizle</value>
   </data>
   <data name="showValues" xml:space="preserve">
-    <value>Değerleri Göster</value>
+    <value>Değerleri göster</value>
   </data>
   <data name="hiddenValueClickToEdit" xml:space="preserve">
     <value>Gizli değer. Düzenlemek için tıklayın.</value>
@@ -4704,7 +4728,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Azure Blobu</value>
   </data>
   <data name="azureFiles" xml:space="preserve">
-    <value>Azure Dosyaları</value>
+    <value>Azure Dosyalar</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
     <value>Yeni Azure Depolama Bağlama</value>
@@ -4749,10 +4773,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Uygulama ayarı değerleri bir dizi olmalıdır</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} tüm uygulama ayarlarında gerekli bir özelliktir</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Tüm uygulama ayarı değeri ve ad özellikleri dize türünde olmalıdır</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Tüm uygulama ayarı yuva ayarı özellikleri boole türünde olmalıdır</value>
@@ -4767,7 +4791,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>JSON nesnesi geçersiz</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
-    <value>Gelişmiş Düzenleme</value>
+    <value>Gelişmiş düzenleme</value>
   </data>
   <data name="coachMarkAriaDescription" xml:space="preserve">
     <value>Coachmark bildirimlerini açmak için Enter veya Alt + C tuşlarına basın</value>
@@ -4795,5 +4819,72 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>Daha yüksek bir SKU'ya yükseltmek ve ek özellikleri etkinleştirmek için buraya tıklayın.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Application Insights yapılandırılmadı. Application Insights'ı işlev günlüklerini yakalayacak şekilde yapılandırın.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>İşlev uygulamanıza erişim kısıtlamaları eklendi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Belirtilen parola en düşük gereksinimleri karşılamıyor. Parola en az sekiz karakterden oluşmalı, harf ve sayı içermelidir.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Gelen istemci sertifikaları</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Gelen sertifikayı gerektir</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Sertifika dışlama yolları</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>istemci dışlama yollarını düzenle</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Dışlama kuralı tanımlanmadı</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Yeni yol</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Bir kuruluş veya depo bulamıyorsanız GitHub'da ek izinler etkinleştirmeniz gerekebilir.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Bir kuruluş veya depo bulamıyorsanız Bitbucket'ta ek izinler etkinleştirmeniz gerekebilir.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Gelen istemci sertifikaları için temel veya daha yüksek bir App Service planı gerekir</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>İşlev uygulamanızda istemci sertifikaları etkinleştirildi. Bu durum, uygulamayı portaldan yönetme becerinizi kısıtlayabilir.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Uygulamanızın etkin olmama nedeniyle zaman aşımına uğramasını önleyin.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>FTP tabanlı dağıtım devre dışı bırakılabilir veya FTP (düz metin) veya FTPS (güvenli) bağlantıları kabul edecek şekilde yapılandırılabilir. </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Benzeşim Tanımlama bilgisini kapatarak durum bilgisi olmayan uygulamanızın performansını iyileştirin. Durum bilgisi olan uygulamalarda bu ayar uyumluluk nedeniyle açık olmalıdır.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Uygulama ayarları beklemedeyken şifrelenir ve şifreli bir kanal üzerinden iletilir. Dilerseniz aşağıdaki denetimleri kullanarak bu ayarları tarayıcınızda düz metin olarak görüntüleyebilirsiniz. Uygulama Ayarları, uygulamanız tarafından çalışma zamanında erişilmek üzere ortam değişkenleri olarak kullanıma sunulur.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Bağlantı dizeleri beklemedeyken şifrelenir ve şifreli bir kanal üzerinden iletilir.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell İşlevleri bir önizleme teklifidir.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Uygulama ayarlarını filtrele</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Bağlantı dizelerini filtrele</value>
   </data>
 </root>

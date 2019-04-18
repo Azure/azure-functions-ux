@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>提供要在容器啟動過程中執行的選擇性啟動命令。&lt;a href="{{learnMoreLink}}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>提供要在容器啟動過程中執行的選用啟動命令。</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>最新</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>函數應用程式設定</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2231,7 +2237,7 @@
     <value>無法建立位置 '{0}' </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>無法更新位置清單</value>
+    <value>無法更新位置的清單</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>您已達目前方案的位置配額限制 ({{quota}})。</value>
@@ -2283,6 +2289,9 @@
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>位置 (預覽)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>即將進行的路由規則變更</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>如需更多的監視體驗，包括即時計量與自訂查詢:</value>
@@ -3160,6 +3169,12 @@
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>您的設定不適用於 App Service 環境 (ASE) 中隔離式環境的定價層。ASE 是 Azure App Service 提供的強大功能之一，可隔離式網路並提升調整的能力。</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>目前不支援 App Service 環境的內嵌建立。</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>建立新的 App Service 環境</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>開發/測試定價並不適用於您的設定，而僅適用於未託管於 App Service 環境中的方案。</value>
   </data>
@@ -3180,6 +3195,9 @@
   </data>
   <data name="free" xml:space="preserve">
     <value>免費</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (預估)</value>
@@ -3289,11 +3307,14 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>隔離式網路</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>在您自己的虛擬網路中執行。</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>虛擬網路整合</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>在您自己的虛擬網路中執行。</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>連線到虛擬網路。</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>私人應用程式存取</value>
@@ -3377,7 +3398,7 @@
     <value>使用 Azure Pipelines (屬於 Azure DevOps Services (前身為 VSTS)) 為您的應用程式設定強固部署管線。管線會建置、執行負載測試，並部署至預備位置，然後部署至生產位置。</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>App Service Kudu 組建伺服器</value>
+    <value>App Service 組建服務</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>使用 App Service 作為組建伺服器。App Service Kudu 引擎會在適用且無須其他設定的情況下，自動在部署期間建置您的程式碼。</value>
@@ -3563,7 +3584,7 @@
     <value>使用者認證</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>使用者認證由使用者 (也就是您) 來定義，可用於您有權存取的所有應用程式。這些認證可搭配 FTP、本機 Git 和 WebDeploy 使用。若您使用使用者認證來連線到應用程式，則在向用戶端驗證時，使用者名稱的格式必須為 "{0}"。</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@
     <value>價值等同 Dv3 系列計算</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>連接字串只有在您使用 Entity Framework 時，才能搭配函數應用程式使用。在其他情況下則請使用應用程式設定。若要深入了解，請按一下。</value>
+    <value>連接字串只有在您使用 Entity Framework 時，才能搭配函數應用程式使用。在其他情況下，請使用應用程式設定。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>run-time 版本: 正在載入...</value>
@@ -4160,6 +4181,9 @@
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Linux 使用量函數應用程式 (預覽) 不支援在入口網站中編輯函數。</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>單一容器 (預覽)</value>
   </data>
@@ -4194,7 +4218,7 @@
     <value>Asp.Net Web Forms</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>在 Windows Server Core 2016 LTSC 容器中部署的 Asp.Net Web Forms 應用程式。</value>
+    <value>在 Windows Server Core 2019 LTSC 容器中部署的 Asp.Net Web Form 應用程式。</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask 與 Redis</value>
@@ -4240,7 +4264,7 @@
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>新的或現有的 Web 應用程式</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>部署詳細資料</value>
   </data>
@@ -4251,7 +4275,7 @@
     <value>隱藏值</value>
   </data>
   <data name="showValues" xml:space="preserve">
-    <value>顯示值 </value>
+    <value>顯示值</value>
   </data>
   <data name="hiddenValueClickToEdit" xml:space="preserve">
     <value>隱藏的值。按一下即可編輯。</value>
@@ -4485,7 +4509,7 @@
     <value>已成功儲存認證</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>使用任何私人登錄中的映像，包括 Azure Container Registry。</value>
+    <value>使用任何私人登錄中 (包括 Azure Container Registry) 的映像。</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>未選取</value>
@@ -4704,7 +4728,7 @@
     <value>Azure Blob</value>
   </data>
   <data name="azureFiles" xml:space="preserve">
-    <value>Azure 檔案</value>
+    <value>Azure 檔案儲存體</value>
   </data>
   <data name="newAzureStorageMount" xml:space="preserve">
     <value>新增 Azure 儲存體掛接</value>
@@ -4795,5 +4819,72 @@
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
     <value>按一下這裡即可升級至較高的 SKU 並啟用其他功能。</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>未設定 Application Insights。請設定 Application Insights 以擷取函式記錄。</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>已將存取限制新增到您的函數應用程式，這可能會影響您從入口網站管理該應用程式的能力。</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>指定的密碼未達最短長度要求。密碼長度至少應為八個字元，而且必須包含字母和數字。</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>連入的用戶端憑證</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>需要傳入憑證</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>憑證排除路徑</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>編輯用戶端排除路徑</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>未定義任何排除規則</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>新增路徑</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>如果找不到組織或存放庫，您可能需要啟用 GitHub 上的其他權限。</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>如果找不到組織或存放庫，您可能需要啟用 Bitbucket 上的其他權限。</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>傳入用戶端憑證需要基本或更高的 App Service 方案</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>用戶端憑證已在您的函數應用程式啟用，而這可能會影響您從入口網站加以管理的能力。</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>防止應用程式因為非使用狀態而閒置。</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>您可以停用透過 FTP 部署，也可以將其設定為接受 FTP (純文字) 或 FTPS (安全) 的連線。 </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>關閉親和性 Cookie 可以改善無狀態應用程式的效能，具狀態應用程式為了相容性，則應保留此設定開啟。</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>應用程式設定會在待用時加密，並透過加密的通道傳輸。您可以選擇使用下方控制項，在瀏覽器中以純文字加以顯示。應用程式設定會以環境變數的形式公開，以供您的應用程式在執行階段存取。</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>連接字串會在待用時加密，並透過加密的通道傳輸。</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>PowerShell 函式是預覽的供應項目。</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>篩選</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>篩選應用程式設定</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>篩選連接字串</value>
   </data>
 </root>
