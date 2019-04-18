@@ -39,6 +39,12 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+    this.scenarioChecks[ScenarioIds.skipStackValidation] = {
+      id: ScenarioIds.skipStackValidation,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

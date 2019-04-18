@@ -1561,6 +1561,9 @@
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Forneça um comando de arranque opcional que será executado como parte do arranque do contentor. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Forneça um comando de arranque opcional que vai ser executado como parte do arranque de contentor.</value>
+  </data>
   <data name="newest" xml:space="preserve">
     <value>Recentes</value>
   </data>
@@ -1781,6 +1784,9 @@
     <value>Definições da aplicação de funções</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Configuração</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Configuração</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,10 +2126,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>O nome da aplicação "{0}" não está disponível</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>O nome da ranhura "{0}" não está disponível.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>O nome do bloco "{0}" é um nome de bloco de implementação reservado.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Não foi possível atualizar o modo de edição da aplicação de função. Tente novamente mais tarde.</value>
@@ -2283,6 +2289,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Ranhuras (pré-visualização)</value>
+  </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Futuras alterações nas Regras de Encaminhamento</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Para uma melhor experiência de monitorização, incluindo métricas dinâmicas e consultas personalizadas:</value>
@@ -3160,6 +3169,12 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Os escalões de preço isolados num Ambiente do Serviço de Aplicações (ASE) não estão disponíveis para a sua configuração. Um ASE é uma oferta poderosa do Serviço de Aplicações do Azure que proporciona isolamento de rede e capacidades de dimensionamento melhoradas.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Atualmente, a criação de Ambientes do Serviço de Aplicações inline não é suportada.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Criar novo Ambiente do Serviço de Aplicações</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Os escalões de preços de Programação/Testes não estão disponíveis para a sua configuração e só estão disponíveis para planos não alojados num ambiente do Serviço de Aplicações.</value>
   </data>
@@ -3180,6 +3195,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="free" xml:space="preserve">
     <value>Gratuito</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Mês (Estimado)</value>
@@ -3289,11 +3307,14 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Rede isolada</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Executa na sua rede virtual.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Integração da Rede Virtual</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Executa na sua rede virtual.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Ligue a uma rede virtual.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Acesso a aplicações privadas</value>
@@ -3377,7 +3398,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Configure um pipeline de implementação robusto para a sua aplicação através do Azure Pipelines, parte dos Serviços DevOps do Azure (anteriormente conhecidos como VSTS). O pipeline cria, executa testes de carga e implementa no bloco de teste e, em seguida, em produção.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Servidor de compilação Kudu do Serviço de Aplicações</value>
+    <value>Serviço de compilação do Serviço de Aplicações</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Utilize um Serviço de Aplicações como o servidor de compilação. O motor de Kudu do Serviço de Aplicações cria automaticamente o código durante a implementação, quando aplicável, sem configurações adicionais necessárias.</value>
@@ -3563,7 +3584,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Credenciais de Utilizador</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>As Credenciais de Utilizador são definidas por si, o utilizador, e podem ser utilizadas com todas as aplicações a que tem acesso. Estas credenciais podem ser utilizadas com FTP, Local Git e WebDeploy. Se estiver a utilizar as Credenciais de utilizador para ligar à sua aplicação, o nome de utilizador terá de estar no formato "{0}" ao autenticar do cliente.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,7 +3672,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Equivalente de computação de série Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação. Clique para saber mais.</value>
+    <value>As cadeias de ligação só podem ser utilizadas com uma aplicação de função se estiver a utilizar o enquadramento de entidades. Para outros cenários, utilize as Definições da Aplicação.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Versão de Runtime: a carregar...</value>
@@ -4160,6 +4181,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Editar funções no portal não é suportado para Aplicações de Função de Consumo Linux (Pré-visualização).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Contentor Único (Pré-visualização)</value>
   </data>
@@ -4194,7 +4218,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Formulários Web do Asp.Net</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Aplicação de formulários Asp.Net implementada no Windows Server Core 2016 LTSC Container.</value>
+    <value>Aplicação de Formulários Web Asp.Net implementada no Windows Server Core 2019 LTSC Container.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask com Redis</value>
@@ -4240,7 +4264,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Aplicação Web Nova ou Existente</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Detalhes da Implementação</value>
   </data>
@@ -4248,10 +4272,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A instalar as dependências de modelo. A instalação de dependências ocorre em segundo plano e pode demorar até 2 minutos. A aplicação entrará em modo offline até que a instalação seja concluída. Pode continuar a utilizar o portal durante este período, mas fechar o portal antes de a instalação ser concluída deixará a sua aplicação em modo offline.</value>
   </data>
   <data name="hideValues" xml:space="preserve">
-    <value>Ocultar Valores</value>
+    <value>Ocultar valores</value>
   </data>
   <data name="showValues" xml:space="preserve">
-    <value>Mostrar Valores</value>
+    <value>Mostrar valores</value>
   </data>
   <data name="hiddenValueClickToEdit" xml:space="preserve">
     <value>Valor oculto. Clique para editar.</value>
@@ -4485,7 +4509,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>As credenciais foram guardadas com êxito</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Utilize uma imagem a partir de qualquer registo privado, incluindo o Azure Container Registry.</value>
+    <value>Utilize uma imagem de qualquer registo privado, incluindo o Azure Container Registry.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Não Selecionado</value>
@@ -4749,10 +4773,10 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Os valores de definição da aplicação têm de ser uma matriz</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} é uma propriedade necessária em todas as definições da aplicação</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Todas as propriedades de nome e valor das definições de aplicações devem ser do tipo de cadeia</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>Todas as propriedades da definição de ranhura da aplicação têm de ser do tipo booleano</value>
@@ -4767,7 +4791,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Objeto de JSON inválido</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
-    <value>Edição Avançada</value>
+    <value>Edição avançada</value>
   </data>
   <data name="coachMarkAriaDescription" xml:space="preserve">
     <value>Prima Enter ou Alt+C para abrir a notificação de coachmark</value>
@@ -4794,6 +4818,73 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>A sua pilha de tempo de execução selecionada não suporta a depuração remota atualmente.</value>
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Clique aqui para atualizar para um SKU superior e ativar funcionalidades adicionais.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>O Application Insights não está configurado. Configure o Application Insights para capturar registos de funções.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Foram adicionadas restrições de acesso à sua aplicação de funções. Estas restrições podem afetar a sua capacidade de gestão da mesma a partir do portal.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>A palavra-passe especificada não cumpre os requisitos mínimos. A palavra-passe deve ter, pelo menos, oito carateres e tem de conter letras e números.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Certificados de cliente recebidos</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Exigir certificado de entrada</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Caminhos de exclusão do certificado</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>editar caminhos de exclusão do cliente</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Não existem regras de exclusão definidas</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Novo caminho</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Se não consegue localizar uma organização ou repositório, pode ter de permitir permissões adicionais no GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Se não consegue localizar uma organização ou repositório, pode ter de permitir permissões adicionais no Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Os certificados de cliente a receber exigem um plano do Serviço de Aplicações básico ou superior</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Foram ativados certificados de cliente à sua aplicação de funções. Estes certificados podem afetar a sua capacidade de gestão dos mesmos a partir do portal.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Impede que a sua aplicação seja desativada devido a inatividade.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>A implementação baseada em FTP pode ser desativada ou configurada para aceitar ligações FTP (texto simples) ou FTPS (seguras). </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Melhore o desempenho da sua aplicação sem estado ao desligar o Cookie de Afinidade, as aplicações com estado devem manter esta definição para efeitos de compatibilidade.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>As definições da aplicação são encriptadas em repouso e transmitidas através de um canal encriptado. Pode optar por apresentá-las em texto simples no seu browser ao utilizar os controlos abaixo. As Definições da Aplicação são expostas como variáveis de ambiente para acesso da sua aplicação no runtime.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>As cadeias de ligação são encriptadas em repouso e transmitidas através de um canal encriptado.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>As Funções do PowerShell são uma oferta de pré-visualização.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtro</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Filtrar definições da aplicação</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Filtrar cadeias de ligação</value>
   </data>
 </root>
