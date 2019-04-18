@@ -65,12 +65,18 @@ export class FreePlanPriceSpec extends PriceSpec {
 
   runInitialization(input: PriceSpecInput) {
     const allowFreeLinux = Url.getParameterByName(null, FeatureFlags.AllowFreeLinux) === 'true';
+    let isLinux = false;
     if (input.plan) {
+      isLinux = AppKind.hasAnyKind(input.plan, [Kinds.linux]);
+      if (isLinux) {
+        this.topLevelFeatures.shift();
+      }
+
       if (
         input.plan.properties.hostingEnvironmentProfile ||
         input.plan.properties.isXenon ||
         AppKind.hasAnyKind(input.plan, [Kinds.elastic]) ||
-        (!allowFreeLinux && AppKind.hasAnyKind(input.plan, [Kinds.linux]))
+        (!allowFreeLinux && isLinux)
       ) {
         this.state = 'hidden';
       }
@@ -79,11 +85,12 @@ export class FreePlanPriceSpec extends PriceSpec {
         return this.checkIfDreamspark(input.subscriptionId);
       });
     } else if (input.specPickerInput.data) {
-      if (
-        input.specPickerInput.data.hostingEnvironmentName ||
-        input.specPickerInput.data.isXenon ||
-        (!allowFreeLinux && input.specPickerInput.data.isLinux)
-      ) {
+      isLinux = input.specPickerInput.data.isLinux;
+      if (isLinux) {
+        this.topLevelFeatures.shift();
+      }
+
+      if (input.specPickerInput.data.hostingEnvironmentName || input.specPickerInput.data.isXenon || (!allowFreeLinux && isLinux)) {
         this.state = 'hidden';
       }
 
