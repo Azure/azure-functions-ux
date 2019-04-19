@@ -1684,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Consente di configurare regole di condivisione risorse tra le origini (CORS) per l'app.</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API Management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Definizione API</value>
   </data>
@@ -3197,7 +3203,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Gratuito</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>Lo SKU Gratuito non è supportato per Linux nell'area selezionata.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/mese (costi stimati)</value>
@@ -4182,7 +4188,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni a consumo Linux (anteprima).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>La modifica delle funzioni nel portale non è supportata per le app per le funzioni Premium Linux (anteprima).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Contenitore singolo (anteprima)</value>
