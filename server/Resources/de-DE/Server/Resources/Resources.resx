@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurieren Sie CORS-Regeln (Cross-Origin Resource Sharing) für Ihre App.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-Definition</value>
   </data>
@@ -3203,7 +3197,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Frei</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Die SKU "Free" wird für Linux in der ausgewählten Region nicht unterstützt.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Monat (geschätzt)</value>
@@ -4188,7 +4182,7 @@ Legen Sie die Einstellung auf "Externe URL" fest, um eine API-Definition zu verw
     <value>Das Bearbeiten von Funktionen im Portal wird für Funktions-Apps zum Linux-Verbrauch (Vorschau) nicht unterstützt.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Das Bearbeiten von Funktionen im Portal wird für Linux Premium-Funktions-Apps (Vorschau) nicht unterstützt.</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Einzelner Container (Vorschau)</value>

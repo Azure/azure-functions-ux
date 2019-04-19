@@ -52,6 +52,8 @@ export class StepCompleteComponent {
       id: saveGuid,
       buildProvider: this.wizard.wizardValues.buildProvider,
       sourceProvider: this.wizard.wizardValues.sourceProvider,
+      deploymentSlotEnabled: `${this.wizard.wizardValues.deploymentSlotSetting.deploymentSlotEnabled}`,
+      newDeploymentSlot: `${this.wizard.wizardValues.deploymentSlotSetting.newDeploymentSlot}`,
     });
     this._busyManager.setBusy();
     let notificationId = null;
@@ -115,7 +117,9 @@ export class StepCompleteComponent {
 
   get SummaryGroups(): SummaryGroup[] {
     const returnVal = [this._sourceControlGroup(), this._buildControlgroup()];
-
+    if (this.wizard.wizardValues.buildProvider === 'vsts' && !this.wizard.isLinuxApp) {
+      returnVal.push(this._slotDeploymentGroup());
+    }
     return returnVal;
   }
 
@@ -231,6 +235,33 @@ export class StepCompleteComponent {
     };
   }
 
+  private _slotDeploymentGroup() {
+    const wizValues = this.wizard.wizardValues;
+    const deployValues = wizValues.deploymentSlotSetting;
+    const returnSummaryItems = [];
+    returnSummaryItems.push({
+      label: this._translateService.instant(PortalResources.enabled),
+      value: deployValues.deploymentSlotEnabled
+        ? this._translateService.instant(PortalResources.yes)
+        : this._translateService.instant(PortalResources.no),
+    });
+    if (deployValues.deploymentSlotEnabled) {
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.newDeploymentSlot),
+        value: deployValues.newDeploymentSlot
+          ? this._translateService.instant(PortalResources.yes)
+          : this._translateService.instant(PortalResources.no),
+      });
+      returnSummaryItems.push({
+        label: this._translateService.instant(PortalResources.deploymentSlotName),
+        value: deployValues.deploymentSlot,
+      });
+    }
+    return {
+      label: this._translateService.instant(PortalResources.deploy),
+      items: returnSummaryItems,
+    };
+  }
   private _sourceControlGroup(): SummaryGroup {
     const wizValues = this.wizard.wizardValues;
     const sourceProvider = wizValues.sourceProvider;

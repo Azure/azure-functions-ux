@@ -11,8 +11,7 @@ export class EditModeHelper {
       editMode === FunctionAppEditMode.ReadOnlyLocalCache ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic ||
       editMode === FunctionAppEditMode.ReadOnlyBYOC ||
-      editMode === FunctionAppEditMode.ReadOnlyPython ||
-      editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic
+      editMode === FunctionAppEditMode.ReadOnlyPython
     );
   }
 
@@ -27,8 +26,6 @@ export class EditModeHelper {
       return 'readOnlyLinuxDynamic';
     } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {
       return 'readOnlyBYOC';
-    } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic) {
-      return 'readOnlyLinuxCodeElastic';
     } else {
       return null;
     }

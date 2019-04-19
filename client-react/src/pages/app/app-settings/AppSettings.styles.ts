@@ -31,6 +31,3 @@ export const newButtonOfficeFabricStyle = { root: { marginTop: '5px' } };
 export const textBoxListStyle = style({ marginBottom: '5px', marginLeft: '0px', listStyle: 'none' });
 export const textBoxInListStyle = style({ display: 'inline-block', width: 'calc(100% - 20px)' });
 export const textBoxInListDeleteButtonStyle = style({ display: 'inline-block', width: '16px' });
-
-export const filterBoxStyle = { root: { marginTop: '5px', height: '25px', width: '100%' } };
-export const tableActionButtonStyle = { root: { marginTop: '5px' } };

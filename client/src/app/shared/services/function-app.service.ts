@@ -6,7 +6,7 @@ import {
   LogCategories,
   ContainerConstants,
   ARMApiVersions,
-  FunctionAppVersion,
+  FunctionAppVersion, 
   WorkerRuntimeLanguages,
 } from './../models/constants';
 import { UserService } from './user.service';
@@ -897,7 +897,6 @@ export class FunctionAppService {
           const usingLocalCache =
             appSettings && appSettings.properties[Constants.localCacheOptionSettingName] === Constants.localCacheOptionSettingValue;
           const hasSlots = result.hasSlots.result;
-          const isLinuxElastic = ArmUtil.isLinuxElastic(context.site);
           const isLinuxDynamic = ArmUtil.isLinuxDynamic(context.site);
           const isContainerApp = appSettings && appSettings.properties[ContainerConstants.appServiceStorageSetting] === 'false';
           const workerRuntime = appSettings && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
@@ -949,8 +948,6 @@ export class FunctionAppService {
             return FunctionAppEditMode.ReadOnlyLinuxDynamic;
           } else if (isContainerApp) {
             return FunctionAppEditMode.ReadOnlyBYOC;
-          } else if (isLinuxElastic) {
-            return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
           } else if (editModeSettingString === Constants.ReadWriteMode) {
             return resolveReadWriteMode();
           } else if (editModeSettingString === Constants.ReadOnlyMode) {

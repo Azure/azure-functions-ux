@@ -9,7 +9,6 @@ export class WizardForm {
   public context: FunctionAppContext;
   public isLinux: boolean;
   public isLinuxConsumption: boolean;
-  public isElastic: boolean;
   public subscriptionName: string;
   public isDreamspark: boolean;
 }

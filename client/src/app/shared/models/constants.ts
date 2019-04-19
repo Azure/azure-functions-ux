@@ -107,7 +107,6 @@ export class NotificationIds {
   public static dynamicLinux = 'dynamicLinux';
   public static ipRestrictions = 'ipRestrictions';
   public static clientCertEnabled = 'clientCertEnabled';
-  public static powershellPreview = 'powershellPreview';
 }
 
 export class Validations {
@@ -154,7 +153,6 @@ export class Links {
   public static tipDeprecationLink = 'https://go.microsoft.com/fwlink/?linkid=2084425';
   public static elasticPremiumNotAvailableLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086603';
   public static clientCertEnabledLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086188';
-  public static powershellPreviewLearnMore = 'https://go.microsoft.com/fwlink/?linkid=2086831';
 }
 
 export class Kinds {
@@ -302,7 +300,6 @@ export class ScenarioIds {
   public static readonly addScaleOut = 'addScaleOut';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
-  public static readonly enableLinkAPIM = 'EnableLinkAPIM';
 }
 
 export class NationalCloudArmUris {
@@ -599,7 +596,6 @@ export class FeatureFlags {
   public static oldDeploymentCenter = 'oldvsts';
   public static ShowVNetIntegration = 'ShowVNetIntegration';
   public static EnableLinuxElasticPremium = 'EnableLinuxElasticPremium';
-  public static AllowFreeLinux = 'allowfreelinux';
 }
 
 export class SupportedFeatures {

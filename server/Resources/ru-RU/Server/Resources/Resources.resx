@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Вы можете настраивать правила общего доступа к ресурсам независимо от источника для вашего приложения.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Определение API</value>
   </data>
@@ -3203,7 +3197,7 @@
     <value>Бесплатно</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Бесплатные номера SKU не поддерживаются для Linux в выбранном регионе.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} в месяц (приблизительно)</value>
@@ -4188,7 +4182,7 @@
     <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Изменение функций на портале не поддерживается для приложений-функций Linux категории "Премиум" (предварительная версия).</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Один контейнер (предварительная версия)</value>

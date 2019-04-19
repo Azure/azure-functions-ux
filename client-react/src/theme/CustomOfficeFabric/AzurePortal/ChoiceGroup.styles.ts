@@ -23,7 +23,6 @@ export const ChoiceGroupStyles: IStyleFunction<StyleProps, IChoiceGroupStyles> =
       theme.fonts.medium,
       {
         display: 'block',
-        minWidth: '120px',
       },
     ],
     flexContainer: [

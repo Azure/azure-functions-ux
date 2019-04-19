@@ -6,9 +6,7 @@ const schema = Joi.array()
   .items(
     Joi.object().keys({
       name: Joi.string().required(),
-      value: Joi.string()
-        .required()
-        .allow(''),
+      value: Joi.string().required(),
       slotSetting: Joi.boolean().optional(),
     })
   );

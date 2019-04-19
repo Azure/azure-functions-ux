@@ -99,5 +99,4 @@ export class ScenarioIds {
   public static readonly useOldActivityLogBlade = 'UseOldActivityLogBlade';
   public static readonly pricingTierApiEnabled = 'PricingTierApiEnabled';
   public static readonly incomingClientCertEnabled = 'incomingClientCertEnabled';
-  public static readonly showConnnectionStringFunctionInfo = 'showConnnectionStringFunctionInfo';
 }

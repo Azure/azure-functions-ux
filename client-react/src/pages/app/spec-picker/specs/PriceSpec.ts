@@ -78,7 +78,7 @@ export abstract class PriceSpec {
   protected _billingService: BillingService;
   protected _logService: LogService;
 
-  protected _t: i18next.TFunction;
+  private _t: i18next.TFunction;
 
   constructor(t: i18next.TFunction) {
     const portalCommunicator = new PortalCommunicator();

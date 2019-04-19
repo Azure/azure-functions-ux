@@ -524,8 +524,6 @@ export class PortalResources {
   public static feature_securityScanningInfo = 'feature_securityScanningInfo';
   public static feature_monitoring = 'feature_monitoring';
   public static feature_corsInfo = 'feature_corsInfo';
-  public static feature_apiManagement = 'feature_apiManagement';
-  public static feature_apiManagementInfo = 'feature_apiManagementInfo';
   public static feature_apiDefinitionName = 'feature_apiDefinitionName';
   public static feature_apiDefinitionInfo = 'feature_apiDefinitionInfo';
   public static feature_appServicePlanInfo = 'feature_appServicePlanInfo';
@@ -1025,7 +1023,6 @@ export class PortalResources {
   public static pricing_scaleUp = 'pricing_scaleUp';
   public static pricing_pv2UpsellInfoMessage = 'pricing_pv2UpsellInfoMessage';
   public static free = 'free';
-  public static pricing_freeLinuxNotAvailable = 'pricing_freeLinuxNotAvailable';
   public static pricing_pricePerMonth = 'pricing_pricePerMonth';
   public static pricing_pricePerHour = 'pricing_pricePerHour';
   public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
@@ -1350,7 +1347,6 @@ export class PortalResources {
   public static formIsInvalid = 'formIsInvalid';
   public static finishAndDeploy = 'finishAndDeploy';
   public static readOnlyLinuxDynamic = 'readOnlyLinuxDynamic';
-  public static readOnlyLinuxCodeElastic = 'readOnlyLinuxCodeElastic';
   public static singleContainerPreviewTitle = 'singleContainerPreviewTitle';
   public static moreTemplatesTitle = 'moreTemplatesTitle';
   public static moreTemplatesDescription = 'moreTemplatesDescription';
@@ -1566,13 +1562,4 @@ export class PortalResources {
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
   public static clientCertWarning = 'clientCertWarning';
-  public static alwaysOnInfoMessage = 'alwaysOnInfoMessage';
-  public static ftpsInfoMessage = 'ftpsInfoMessage';
-  public static arrAffinityInfoMessage = 'arrAffinityInfoMessage';
-  public static applicationSettingsInfoMessage = 'applicationSettingsInfoMessage';
-  public static connectionStringsInfoMessage = 'connectionStringsInfoMessage';
-  public static powershellPreview = 'powershellPreview';
-  public static filter = 'filter';
-  public static filterAppSettings = 'filterAppSettings';
-  public static filterConnectionStrings = 'filterConnectionStrings';
 }

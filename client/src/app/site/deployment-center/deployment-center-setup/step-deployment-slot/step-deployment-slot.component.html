@@ -1,0 +1,54 @@
+<div class="settings-group-wrapper" [formGroup]="wizard?.deploymentSlotSetting" novalidate>
+
+  <h3 class="first-config-heading">{{'deployment' | translate}}</h3>
+
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <label class="setting-label">{{'enableDeploymentSlot' | translate}}</label>
+      <div class="setting-control-container">
+        <radio-selector 
+          [ariaLabel]="'enableDeploymentSlot' | translate" 
+          [control]="wizard?.deploymentSlotSetting?.controls?.deploymentSlotEnabled" 
+          [options]="deploymentSlotEnabledOptions"
+          [highlightDirty]="true"  
+          (value)="enabledChanged($event)">
+        </radio-selector>
+      </div>
+    </div>
+    <div *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.deploymentSlotEnabled">
+      <div class="setting-wrapper">
+        <label class="setting-label">{{'deploymentSlot' | translate}}</label>
+        <div class="setting-control-container">
+          <div class="newOrExistingSelection">
+            <radio-selector 
+              [ariaLabel]="'newOrExistingDeploymentSlot' | translate" 
+              [control]="wizard?.deploymentSlotSetting?.controls.newDeploymentSlot" 
+              [options]="deploymentSlotNewOptions"
+              [highlightDirty]="true"  
+              (value)="createOrExistingChanged($event)">
+            </radio-selector>
+          </div>
+          <ng-select 
+            aria-label="'deploymentSlot' | translate" 
+            *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === false" 
+            class="custom-select" [loading]="deploymentSlotsLoading"
+            [clearable]="false" 
+            [items]="existingDeploymentSlotsList" 
+            bindLabel="displayLabel" 
+            bindValue="value" 
+            [(ngModel)]="selectedDeploymentSlot" 
+            formControlName="deploymentSlot">
+          </ng-select>
+          <textbox 
+            [ariaLabel]="'deploymentSlot' | translate" 
+            *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === true" 
+            [control]="wizard?.deploymentSlotSetting?.controls?.deploymentSlot"></textbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+    <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+    <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
+</div>

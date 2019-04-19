@@ -8,7 +8,6 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
-import { Links } from '../../../../utils/FwLinks';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -44,6 +43,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.managedPipelineMode"
           component={Dropdown}
+          fullpage
           label={t('managedPipelineVersion')}
           id="app-settings-managed-pipeline-mode"
           disabled={!app_write || !editable}
@@ -63,8 +63,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.ftpsState"
           component={Dropdown}
-          infoBubbleMessage={t('ftpsInfoMessage')}
-          learnMoreLink={Links.ftpInfo}
+          fullpage
           label={t('ftpState')}
           id="app-settings-ftps-state"
           disabled={!app_write || !editable}
@@ -108,6 +107,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.webSocketsEnabled"
           component={RadioButton}
+          fullpage
           upsellMessage={websocketsEnable.status === 'disabled' ? websocketsEnable.data : ''}
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
@@ -128,8 +128,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="config.properties.alwaysOn"
           component={RadioButton}
-          infoBubbleMessage={t('alwaysOnInfoMessage')}
-          learnMoreLink={Links.alwaysOnInfo}
+          fullpage
           upsellMessage={alwaysOnEnable.status === 'disabled' ? alwaysOnEnable.data : ''}
           label={t('alwaysOn')}
           id="app-settings-always-on"
@@ -150,8 +149,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         <Field
           name="site.properties.clientAffinityEnabled"
           component={RadioButton}
-          infoBubbleMessage={t('arrAffinityInfoMessage')}
-          learnMoreLink={Links.clientAffinityInfo}
+          fullpage
           label={t('clientAffinityEnabledLabel')}
           id="app-settings-clientAffinityEnabled"
           disabled={!app_write || !editable}

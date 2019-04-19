@@ -47,9 +47,9 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" 
-    xmlns="" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -1687,12 +1687,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Configure Cross-Origin Resource Sharing (CORS) rules for your app.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-   <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API definition</value>
   </data>
@@ -3205,9 +3199,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="free" xml:space="preserve">
     <value>Free</value>
   </data>
-  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
-  </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Month (Estimated)</value>
   </data>
@@ -3681,7 +3672,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Dv3-Series compute equivalent</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings.</value>
+    <value>Connection strings should only be used with a function app if you are using entity framework. For other scenarios use App Settings. Click to learn more.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Runtime version: loading...</value>
@@ -4190,9 +4181,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Editing functions in the portal is not supported for Linux Consumption Function Apps (Preview).</value>
   </data>
-  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
-  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Preview)</value>
   </data>
@@ -4265,7 +4253,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="errorRetrievingLogs" xml:space="preserve">
     <value>Error in retrieving logs.</value>
   </data>
-  <data name="newOrExistingDeploymentSlot" xml:space="preserve">
+   <data name="newOrExistingDeploymentSlot" xml:space="preserve">
     <value>New or Existing Deployment Slot</value>
   </data>
   <data name="newOrExistingVstsAccount" xml:space="preserve">
@@ -4273,7 +4261,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>New or Existing Web App</value>
-  </data>
+    </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Deployment Details</value>
   </data>
@@ -4400,7 +4388,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Auto swap enabled</value>
   </data>
-  <data name="autoSwapSlot" xml:space="preserve">
+   <data name="autoSwapSlot" xml:space="preserve">
     <value>Auto swap slot</value>
   </data>
   <data name="platform" xml:space="preserve">
@@ -4643,7 +4631,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="byos_storageNameExists" xml:space="preserve">
     <value>Storage setting with that name already exists.</value>
   </data>
-  <data name="unableToReachBuild" xml:space="preserve">
+   <data name="unableToReachBuild" xml:space="preserve">
     <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
   </data>
   <data name="invalidWindowsPathCdrive" xml:space="preserve">
@@ -4697,7 +4685,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="fieldMustBeUnique" xml:space="preserve">
     <value>Field must be unique.</value>
   </data>
-  <data name="directory" xml:space="preserve">
+   <data name="directory" xml:space="preserve">
     <value>Directory</value>
   </data>
   <data name="application" xml:space="preserve">
@@ -4763,7 +4751,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="noWriteAccessStorageAccount" xml:space="preserve">
     <value>You don't have write access to this storage account. If you know the access key you can put it in advanced mode.</value>
   </data>
-  <data name="selectAnOption" xml:space="preserve">
+    <data name="selectAnOption" xml:space="preserve">
     <value>Select an option</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
@@ -4787,25 +4775,25 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="valueMustBeAString" xml:space="preserve">
     <value>All app setting value and name properties must be of type string</value>
   </data>
-  <data name="slotSettingMustBeBoolean" xml:space="preserve">
+   <data name="slotSettingMustBeBoolean" xml:space="preserve">
     <value>All app setting slot setting properties must be of type boolean</value>
   </data>
-  <data name="invalidAppSettingProperty" xml:space="preserve">
+   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} is an invalid app setting property</value>
   </data>
-  <data name="appSettingNamesUnique" xml:space="preserve">
+   <data name="appSettingNamesUnique" xml:space="preserve">
     <value>App setting names must be unqiue</value>
   </data>
-  <data name="jsonInvalid" xml:space="preserve">
+   <data name="jsonInvalid" xml:space="preserve">
     <value>Invalid JSON object</value>
   </data>
   <data name="advancedEdit" xml:space="preserve">
     <value>Advanced edit</value>
   </data>
-  <data name="coachMarkAriaDescription" xml:space="preserve">
+   <data name="coachMarkAriaDescription" xml:space="preserve">
     <value>Press enter or alt + C to open the coachmark notification</value>
   </data>
-  <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
+   <data name="aCoachmarkHasAppearedAriaAlert" xml:space="preserve">
     <value>A coachmark has appeared</value>
   </data>
   <data name="advancedEditCoachmarkDesc" xml:space="preserve">
@@ -4856,44 +4844,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="newPath" xml:space="preserve">
     <value>New path</value>
-  </data>
+  </data>  
   <data name="githubOrgMessage" xml:space="preserve">
     <value>If you can't find an organization or repository, you might need to enable additional permissions on GitHub.</value>
-  </data>
+  </data>  
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>If you can't find an organization or repository, you might need to enable additional permissions on Bitbucket.</value>
-  </data>
+  </data>  
   <data name="useIncomingClientCertsUpsell" xml:space="preserve">
     <value>Incoming client certificates requires a basic or higher App Service plan</value>
   </data>
   <data name="clientCertWarning" xml:space="preserve">
     <value>Client certificates have been enabled on your function app which may affect your ability to manage it from the portal.</value>
-  </data>
-  <data name="alwaysOnInfoMessage" xml:space="preserve">
-    <value>Prevent's your app from being idled out due to inactivity.</value>
-  </data>
-  <data name="ftpsInfoMessage" xml:space="preserve">
-    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. </value>
-  </data>
-  <data name="arrAffinityInfoMessage" xml:space="preserve">
-    <value>Improve performance of your stateless app by turning Affinity Cookie off, stateful apps should keep this setting on for compatibility.</value>
-  </data>
-  <data name="applicationSettingsInfoMessage" xml:space="preserve">
-    <value>Application settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime.</value>
-  </data>
-  <data name="connectionStringsInfoMessage" xml:space="preserve">
-    <value>Connection strings are encrypted at rest and transmitted over an encrypted channel.</value>
-  </data>
-  <data name="powershellPreview" xml:space="preserve">
-    <value>PowerShell Functions are a preview offer.</value>
-  </data>
-  <data name="filter" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="filterAppSettings" xml:space="preserve">
-    <value>Filter application settings</value>
-  </data>
-  <data name="filterConnectionStrings" xml:space="preserve">
-    <value>Filter connection strings</value>
   </data>
 </root>

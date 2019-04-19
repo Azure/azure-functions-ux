@@ -58,7 +58,6 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
     <form>
       <TextFieldNoFormik
         label={t('extension')}
-        widthOverride="100%"
         id="handler-mappings-table-extension"
         value={currentHandlerMapping.extension}
         onChange={updateHandlerMappingExtension}
@@ -69,7 +68,6 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
       />
       <TextFieldNoFormik
         label={t('scriptProcessor')}
-        widthOverride="100%"
         id="handler-mappings-table-script-processor"
         value={currentHandlerMapping.scriptProcessor}
         onChange={updateHandlerMappingScriptProccessor}
@@ -79,7 +77,6 @@ const HandlerMappingsAddEdit: React.SFC<HandlerMappingAddEditProps> = props => {
       />
       <TextFieldNoFormik
         label={t('argumentsRes')}
-        widthOverride="100%"
         id="handler-mappings-table-arguments"
         value={currentHandlerMapping.arguments}
         onChange={updateHandlerMappingArguments}
