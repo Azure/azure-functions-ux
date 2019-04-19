@@ -302,7 +302,6 @@ export class ScenarioIds {
   public static readonly addScaleOut = 'addScaleOut';
   public static readonly alwaysOnSupported = 'alwaysOnSupported';
   public static readonly enableConsole = 'EnableConsole';
-  public static readonly enableLinkAPIM = 'EnableLinkAPIM';
 }
 
 export class NationalCloudArmUris {

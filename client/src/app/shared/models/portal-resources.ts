@@ -524,8 +524,6 @@ export class PortalResources {
   public static feature_securityScanningInfo = 'feature_securityScanningInfo';
   public static feature_monitoring = 'feature_monitoring';
   public static feature_corsInfo = 'feature_corsInfo';
-  public static feature_apiManagement = 'feature_apiManagement';
-  public static feature_apiManagementInfo = 'feature_apiManagementInfo';
   public static feature_apiDefinitionName = 'feature_apiDefinitionName';
   public static feature_apiDefinitionInfo = 'feature_apiDefinitionInfo';
   public static feature_appServicePlanInfo = 'feature_appServicePlanInfo';
