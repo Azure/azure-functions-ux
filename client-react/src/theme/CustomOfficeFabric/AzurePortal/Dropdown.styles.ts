@@ -25,7 +25,7 @@ const DROPDOWN_ITEMHEIGHT = 23;
 
 export const DropDownStyles = props => {
   const { palette, semanticColors, fonts } = props.theme as ThemeExtended;
-  const { disabled, isRenderingPlaceholder, widthOverride } = props;
+  const { disabled, isRenderingPlaceholder } = props;
 
   const borderColorError: IStyle = {
     borderColor: semanticColors.errorText,
@@ -95,7 +95,7 @@ export const DropDownStyles = props => {
       {
         verticalAlign: 'middle',
         width: '100%',
-        maxWidth: widthOverride || '275px',
+        maxWidth: '275px',
         minWidth: '75px',
       },
     ],

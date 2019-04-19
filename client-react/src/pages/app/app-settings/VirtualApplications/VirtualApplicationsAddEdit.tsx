@@ -112,7 +112,6 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
       <TextFieldNoFormik
         label={t('virtualPath')}
         id="va-virtual-path"
-        widthOverride="100%"
         value={currentVirtualApplication.virtualPath}
         errorMessage={virtualPathError}
         onChange={updateVirtualPath}
@@ -125,7 +124,6 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
       <TextFieldNoFormik
         label={t('physicalPath')}
         id="va-physical-path"
-        widthOverride="100%"
         value={currentVirtualApplication.physicalPath}
         onChange={updatePhysicalPath}
         errorMessage={physicalPathError}

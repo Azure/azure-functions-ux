@@ -42,8 +42,4 @@ export class CommonConstants {
     upsellBackground: '#e7ddf2',
     blackText: '#161616', // useful for cases where black text is always wanted like against upsell background
   };
-
-  public static readonly FeatureFlags = {
-    AllowFreeLinux: 'allowfreelinux',
-  };
 }

@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>アプリにクロスオリジン リソース共有 (CORS) 規則を構成します。</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API 定義</value>
   </data>
@@ -3203,7 +3197,7 @@
     <value>無料</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>選択したリージョンにおいて、Free SKU は Linux ではサポートされていません。</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (推定)</value>
@@ -4188,7 +4182,7 @@
     <value>ポータルでの関数の編集は、Linux Consumption Function Apps (プレビュー) ではサポートされていません。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>ポータルでの関数の編集は、Linux Premium Function Apps (プレビュー) ではサポートされていません。</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>単一コンテナー (プレビュー)</value>

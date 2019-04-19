@@ -7,15 +7,9 @@ import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Combo
 
 const formDefaultWidth = '275px';
 export const dropdownStyleOverrides = (dirty: boolean, theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
-  const baseStyle = DropDownStyles({ ...styleProps, widthOverride });
+  const baseStyle = DropDownStyles(styleProps);
   return {
     ...baseStyle,
-    root: [
-      ...baseStyle.root,
-      {
-        width: widthOverride || formDefaultWidth,
-      },
-    ],
     title: [
       ...baseStyle.title,
       dirty && {
@@ -87,4 +81,4 @@ export const infoIconStyle = (theme: ThemeExtended) =>
     paddingRight: '5px',
   });
 
-export const learnMoreLinkStyle = style({ minWidth: '70px' });
+export const learnMoreLinkStyle = style({ paddingLeft: '5px' });

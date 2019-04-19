@@ -1,6 +1,6 @@
 export enum DatabaseType {
   MySql = 'MySql',
-  SQLServer = 'SQLServer',
+  SQLServer = 'SQLServer', 
   SQLAzure = 'SQLAzure',
   Custom = 'Custom',
   NotificationHub = 'NotificationHub',
@@ -11,19 +11,7 @@ export enum DatabaseType {
   RedisCache = 'RedisCache',
   PostgreSQL = 'PostgreSQL',
 }
-export const TypeStrings = [
-  'MySql',
-  'SQLServer',
-  'SQLAzure',
-  'Custom',
-  'NotificationHub',
-  'ServiceBus',
-  'EventHub',
-  'ApiHub',
-  'DocDb',
-  'RedisCache',
-  'PostgreSQL',
-];
+
 export function typeValueToString(val: DatabaseType) {
   switch (val) {
     case DatabaseType.MySql:

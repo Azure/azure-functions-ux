@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Configureer CORS-regels (Cross-Origin Resource Sharing) voor uw app.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-definitie</value>
   </data>
@@ -3204,7 +3198,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Gratis</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Gratis SKU wordt niet ondersteund voor Linux in de geselecteerde regio.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/maand (schatting)</value>
@@ -4189,7 +4183,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Functies bewerken in de portal wordt niet ondersteund voor functie-apps voor Linux-verbruik (preview).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Functies bewerken in de portal wordt niet ondersteund voor Premium-functie-apps voor Linux (Preview).</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Enkele container (preview)</value>

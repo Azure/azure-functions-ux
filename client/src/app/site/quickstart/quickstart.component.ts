@@ -32,7 +32,6 @@ import { Observable } from 'rxjs/Observable';
 export class QuickstartComponent extends FunctionAppContextComponent implements OnDestroy {
   public quickstartTitle = this._translateService.instant(PortalResources.topBar_quickStart);
   public workerRuntime: workerRuntimeOptions;
-  public isElastic: boolean;
   public isLinux: boolean;
   public isLinuxConsumption: boolean;
   public canUseQuickstart: boolean;
@@ -82,7 +81,6 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
       context: [null],
       isLinux: [null],
       isLinuxConsumption: [null],
-      isElastic: [null],
       subscriptionName: [null],
       isDreamspark: [null],
     });
@@ -142,7 +140,6 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
 
   private _useValidWorkerRuntime(workerRuntime: string) {
     this.workerRuntime = workerRuntime as workerRuntimeOptions;
-    this.isElastic = ArmUtil.isElastic(this.context.site);
     this.isLinux = ArmUtil.isLinuxApp(this.context.site);
     this.isLinuxConsumption = ArmUtil.isLinuxDynamic(this.context.site);
 
@@ -178,7 +175,6 @@ export class QuickstartComponent extends FunctionAppContextComponent implements 
     currentFormValues.context = this.context;
     currentFormValues.isLinux = this.isLinux;
     currentFormValues.isLinuxConsumption = this.isLinuxConsumption;
-    currentFormValues.isElastic = this.isElastic;
     currentFormValues.subscriptionName = this._findSubscriptionName();
     currentFormValues.isDreamspark = this.isDreamspark;
     this._wizardService.wizardValues = currentFormValues;

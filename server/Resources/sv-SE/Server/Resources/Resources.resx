@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurera regler för resursdelning för korsande ursprung (CORS) för appen.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-definition</value>
   </data>
@@ -3203,7 +3197,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Gratis</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Ledig SKU stöds inte för Linux i den valda regionen.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/månad (uppskattat)</value>
@@ -4188,7 +4182,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Redigering av funktioner i portalen stöds inte för Linux Consumption-funktionsappar (förhandsversion).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Redigeringsfunktioner i portalen stöds inte för Linux Premium-funktionsappar (förhandsversion).</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Enskild container (förhandsversion)</value>

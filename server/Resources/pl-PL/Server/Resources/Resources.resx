@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfiguruj reguły CORS (Cross-Origin Resource Sharing) dla swojej aplikacji.</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Definicja interfejsu API</value>
   </data>
@@ -3203,7 +3197,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Bezpłatna</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Jednostka SKU Bezpłatna nie jest obsługiwana dla systemu Linux w wybranym regionie.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} miesięcznie (szacowana)</value>
@@ -4188,7 +4182,7 @@ Ustaw wartość „Zewnętrzny adres URL”, aby użyć definicji interfejsu API
     <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji opartych na zużyciu dla systemu Linux (wersja zapoznawcza).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Edytowanie funkcji w portalu nie jest obsługiwane dla aplikacji funkcji Premium dla systemu Linux (wersja zapoznawcza).</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Jeden kontener (wersja zapoznawcza)</value>

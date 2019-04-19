@@ -234,13 +234,6 @@ export class OnPremEnvironment extends Environment {
           });
       },
     };
-
-    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
-      id: ScenarioIds.enableLinkAPIM,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
   }
 
   private _showSiteQuotas(input: ScenarioCheckInput) {

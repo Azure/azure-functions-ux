@@ -33,12 +33,6 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.showConnnectionStringFunctionInfo] = {
-      id: ScenarioIds.showConnnectionStringFunctionInfo,
-      runCheck: () => {
-        return { status: 'enabled' };
-      },
-    };
     this.scenarioChecks[ScenarioIds.skipStackValidation] = {
       id: ScenarioIds.skipStackValidation,
       runCheck: () => {

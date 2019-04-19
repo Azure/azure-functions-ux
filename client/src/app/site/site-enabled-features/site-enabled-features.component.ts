@@ -161,7 +161,6 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
 
   private _getCachedFeatures(storageItem: EnabledFeatures) {
     return storageItem.enabledFeatures
-      .filter(f => f.feature !== Feature.AppInsight)
       .map((cachedFeatureItem: EnabledFeature) => {
         const featureItem = this._getEnabledFeatureItem(cachedFeatureItem.feature);
         if (featureItem) {
@@ -314,19 +313,17 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
 
   private _saveFeatures(featureItems: EnabledFeatureItem[]) {
     let enabledFeatures: EnabledFeature[];
-    enabledFeatures = featureItems
-      .map(enabledFeature => {
-        this._aiService.trackEvent('/site/enabledFeatures', {
-          resourceId: this._site.id,
-          featureName: Feature[enabledFeature.feature],
-        });
+    enabledFeatures = featureItems.map(enabledFeature => {
+      this._aiService.trackEvent('/site/enabledFeatures', {
+        resourceId: this._site.id,
+        featureName: Feature[enabledFeature.feature],
+      });
 
-        return {
-          title: enabledFeature.title,
-          feature: enabledFeature.feature,
-        };
-      })
-      .filter(f => f.feature !== Feature.AppInsight);
+      return {
+        title: enabledFeature.title,
+        feature: enabledFeature.feature,
+      };
+    });
 
     const item = <EnabledFeatures>{
       id: this._site.id + '/enabledFeatures',

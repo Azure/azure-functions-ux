@@ -1684,12 +1684,6 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Konfigurace pravidel CORS (Cross-Origin Resource Sharing) pro aplikaci</value>
   </data>
-  <data name="feature_apiManagement" xml:space="preserve">
-    <value>API Management</value>
-  </data>
-  <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
-  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Definice rozhraní API</value>
   </data>
@@ -3203,7 +3197,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Zdarma</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Skladová položka Free se pro Linux ve vybrané oblasti nepodporuje.</value>
+    <value>Free SKU is not supported for Linux in the selected region.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/měsíc (odhad)</value>
@@ -4188,7 +4182,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Využití v Linuxu nepodporuje.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Úprava funkcí na portálu se pro Function Apps (Preview) s plánem Premium v Linuxu nepodporuje.</value>
+    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Preview)</value>
