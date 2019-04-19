@@ -6,7 +6,6 @@ import { KuduDashboardComponent } from 'app/site/deployment-center/provider-dash
 import { VsoDashboardComponent } from 'app/site/deployment-center/provider-dashboards/vso-Dashboard/vso-dashboard.component';
 import { DeploymentCenterSetupComponent } from 'app/site/deployment-center/deployment-center-setup/deployment-center-setup.component';
 import { StepSourceControlComponent } from 'app/site/deployment-center/deployment-center-setup/step-source-control/step-source-control.component';
-import { StepDeploymentSlotComponent } from 'app/site/deployment-center/deployment-center-setup/step-deployment-slot/step-deployment-slot.component';
 import { StepBuildProviderComponent } from 'app/site/deployment-center/deployment-center-setup/step-build-provider/step-build-provider.component';
 import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
@@ -37,7 +36,6 @@ import { FunctionsFramworksComponent } from './deployment-center-setup/step-conf
     VsoDashboardComponent,
     DeploymentCenterSetupComponent,
     StepSourceControlComponent,
-    StepDeploymentSlotComponent,
     StepConfigureComponent,
     StepCompleteComponent,
     StepBuildProviderComponent,

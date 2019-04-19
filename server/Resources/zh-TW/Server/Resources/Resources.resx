@@ -1684,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>為您的應用程式設定跨原始來源資源共用 (CORS) 規則</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API Management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API 定義</value>
   </data>
@@ -3197,7 +3203,7 @@
     <value>免費</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>所選區域的 Linux 不支援免費 SKU。</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (預估)</value>
@@ -4182,7 +4188,7 @@
     <value>Linux 使用量函數應用程式 (預覽) 不支援在入口網站中編輯函數。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>Linux 進階函數應用程式 (預覽) 不支援在入口網站中編輯函式。</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>單一容器 (預覽)</value>

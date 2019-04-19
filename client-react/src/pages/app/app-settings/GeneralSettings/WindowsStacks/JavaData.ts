@@ -7,7 +7,9 @@ export const getJavaContainers = (stacks: ArmObj<AvailableStack>[]) => stacks.fi
 
 export const getJavaMajorVersion = (javaStack: AvailableStack, config: ArmObj<SiteConfig>) => {
   const { javaVersion } = config.properties;
-  const javaMajorVersion = javaStack.majorVersions.find(x => !!x.minorVersions.find(y => y.runtimeVersion === javaVersion));
+  const javaMajorVersion = javaStack.majorVersions.find(
+    x => x.runtimeVersion === javaVersion || !!x.minorVersions.find(y => y.runtimeVersion === javaVersion)
+  );
   if (javaMajorVersion) {
     return javaMajorVersion.runtimeVersion;
   }

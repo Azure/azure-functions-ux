@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { ActionButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import React, { lazy, Suspense } from 'react';
@@ -12,145 +12,122 @@ import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { Coachmark } from 'office-ui-fabric-react/lib/Coachmark';
-import { TeachingBubbleContent } from 'office-ui-fabric-react/lib/TeachingBubble';
-import { DirectionalHint } from 'office-ui-fabric-react';
+import { SearchBox, Stack } from 'office-ui-fabric-react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/loading/loading-component';
+import { filterBoxStyle, tableActionButtonStyle } from '../AppSettings.styles';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 interface ApplicationSettingsState {
-  hideValues: boolean;
   showPanel: boolean;
   panelItem: 'add' | 'bulk';
   currentAppSetting: FormAppSetting | null;
-  currentItemIndex: number;
-  createNewItem: boolean;
-  coachMarkVisible: boolean;
+  shownValues: string[];
+  filter: string;
+  showFilter: boolean;
+  showAllValues: boolean;
 }
 
 export class ApplicationSettings extends React.Component<FormikProps<AppSettingsFormValues> & WithTranslation, ApplicationSettingsState> {
   public static contextType = PermissionsContext;
-  private _targetButton = React.createRef<HTMLDivElement>();
   constructor(props) {
     super(props);
     this.state = {
-      hideValues: true,
       showPanel: false,
       panelItem: 'add',
       currentAppSetting: null,
-      currentItemIndex: -1,
-      createNewItem: false,
-      coachMarkVisible: false,
+      shownValues: [],
+      filter: '',
+      showFilter: false,
+      showAllValues: false,
     };
   }
 
-  public componentDidMount = () => {
-    let showCoachMark = false;
-    if (window.localStorage) {
-      const localStorageKey = 'app-settings-bulk-edit-coachmark';
-      const hasShownCoachmark = window.localStorage.getItem(localStorageKey);
-      showCoachMark = !hasShownCoachmark;
-      window.localStorage.setItem(localStorageKey, 'true');
-    }
-    if (showCoachMark) {
-      setTimeout(() => {
-        this.setState({
-          coachMarkVisible: true,
-        });
-      }, 1000);
-    }
-  };
-
   public render() {
-    const { t } = this.props;
+    const { t, values } = this.props;
     const { production_write, editable } = this.context;
-    const buttonProps: IButtonProps = {
-      text: t('dismiss'),
-      onClick: this._onDismissCoachmark,
-    };
-    if (!this.props.values.appSettings) {
+    const { filter, showFilter, showAllValues, shownValues } = this.state;
+    if (!values.appSettings) {
       return null;
     }
+
+    const allShown = showAllValues || (values.appSettings.length > 0 && shownValues.length === values.appSettings.length);
     return (
       <>
-        <ActionButton
-          id="app-settings-application-settings-add"
-          onClick={this.createNewItem}
-          disabled={!editable}
-          styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: 'Add' }}>
-          {t('newApplicationSetting')}
-        </ActionButton>
-        <ActionButton
-          id="app-settings-application-settings-show-hide"
-          onClick={this.flipHideSwitch}
-          componentRef={ref => {
-            (this._targetButton.current as any) = ref;
-          }}
-          styles={{ root: { marginTop: '5px' } }}
-          iconProps={{ iconName: this.state.hideValues ? 'RedEye' : 'Hide' }}>
-          {this.state.hideValues ? t('showValues') : t('hideValues')}
-        </ActionButton>
+        <Stack horizontal verticalAlign="center">
+          <ActionButton
+            id="app-settings-application-settings-add"
+            onClick={this._createNewItem}
+            disabled={!editable}
+            styles={tableActionButtonStyle}
+            iconProps={{ iconName: 'Add' }}>
+            {t('newApplicationSetting')}
+          </ActionButton>
+          <ActionButton
+            id="app-settings-application-settings-show-hide"
+            onClick={this._flipHideSwitch}
+            styles={tableActionButtonStyle}
+            iconProps={{ iconName: !allShown ? 'RedEye' : 'Hide' }}>
+            {!allShown ? t('showValues') : t('hideValues')}
+          </ActionButton>
 
-        <div ref={this._targetButton} style={{ display: 'inline-block' }}>
           <ActionButton
             id="app-settings-application-settings-bulk-edit"
             onClick={this._openBulkEdit}
             disabled={!editable}
-            styles={{ root: { marginTop: '5px' } }}
+            styles={tableActionButtonStyle}
             iconProps={{ iconName: 'Edit' }}>
             {t('advancedEdit')}
           </ActionButton>
-        </div>
+          <ActionButton
+            id="app-settings-application-settings-show-filter"
+            onClick={this._toggleFilter}
+            styles={tableActionButtonStyle}
+            iconProps={{ iconName: 'Filter' }}>
+            {t('filter')}
+          </ActionButton>
+        </Stack>
+        {showFilter && (
+          <SearchBox
+            id="app-settings-application-settings-search"
+            className="ms-slideDownIn20"
+            autoFocus
+            iconProps={{ iconName: 'Filter' }}
+            styles={filterBoxStyle}
+            placeholder={t('filterAppSettings')}
+            onChange={newValue => this.setState({ filter: newValue })}
+          />
+        )}
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'add'}
           type={PanelType.large}
-          onDismiss={this.onCancel}
+          onDismiss={this._onCancel}
           headerText={t('addEditApplicationSetting')}
           closeButtonAriaLabel={t('close')}>
           <AppSettingAddEdit
             appSetting={this.state.currentAppSetting!}
             disableSlotSetting={!production_write}
-            otherAppSettings={this.props.values.appSettings}
-            updateAppSetting={this.onClosePanel.bind(this)}
-            closeBlade={this.onCancel}
+            otherAppSettings={values.appSettings}
+            updateAppSetting={this._onClosePanel.bind(this)}
+            closeBlade={this._onCancel}
           />
         </Panel>
         <Panel
           isOpen={this.state.showPanel && this.state.panelItem === 'bulk'}
           type={PanelType.large}
-          onDismiss={this.onCancel}
+          onDismiss={this._onCancel}
           closeButtonAriaLabel={t('close')}>
           <Suspense fallback={<LoadingComponent />}>
-            <AppSettingsBulkEdit
-              updateAppSetting={this._saveBulkEdit}
-              closeBlade={this.onCancel}
-              appSettings={this.props.values.appSettings}
-            />
+            <AppSettingsBulkEdit updateAppSetting={this._saveBulkEdit} closeBlade={this._onCancel} appSettings={values.appSettings} />
           </Suspense>
         </Panel>
-        {this.state.coachMarkVisible && (
-          <Coachmark
-            target={this._targetButton.current}
-            positioningContainerProps={{
-              directionalHint: DirectionalHint.rightCenter,
-              doNotLayer: false,
-            }}
-            ariaAlertText={t('aCoachmarkHasAppearedAriaAlert')}
-            ariaDescribedByText={t('coachMarkAriaDescription')}>
-            <TeachingBubbleContent
-              headline={t('advancedEdit')}
-              hasCloseIcon={true}
-              closeButtonAriaLabel={t('close')}
-              primaryButtonProps={buttonProps}
-              onDismiss={this._onDismissCoachmark}>
-              {t('advancedEditCoachmarkDesc')}
-            </TeachingBubbleContent>
-          </Coachmark>
-        )}
         <DisplayTableWithEmptyMessage
-          items={this.props.values.appSettings}
+          items={values.appSettings.filter(x => {
+            if (!filter) {
+              return true;
+            }
+            return x.name.toLowerCase().includes(filter.toLowerCase());
+          })}
           columns={this.getColumns()}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
@@ -162,14 +139,13 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     );
   }
 
-  private flipHideSwitch = () => {
-    this.setState({ hideValues: !this.state.hideValues });
-  };
-
-  private _onDismissCoachmark = (): void => {
-    this.setState({
-      coachMarkVisible: false,
-    });
+  private _flipHideSwitch = () => {
+    const { showAllValues } = this.state;
+    let shownValues: string[] = [];
+    if (!showAllValues) {
+      shownValues = this.props.values.appSettings.map(x => x.name);
+    }
+    this.setState({ shownValues, showAllValues: !showAllValues });
   };
 
   private _openBulkEdit = () => {
@@ -179,11 +155,18 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
     });
   };
 
-  private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
-    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
-    this.setState({ createNewItem: false, showPanel: false });
+  private _toggleFilter = () => {
+    const { showFilter } = this.state;
+    this.setState({ showFilter: !showFilter, filter: '' });
   };
-  private createNewItem = () => {
+
+  private _saveBulkEdit = (appSettings: FormAppSetting[]) => {
+    const newAppSettings = sortBy(appSettings, o => o.name.toLowerCase());
+
+    this.props.setFieldValue('appSettings', newAppSettings);
+    this.setState({ showPanel: false });
+  };
+  private _createNewItem = () => {
     const blankAppSetting = {
       name: '',
       value: '',
@@ -193,44 +176,49 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       showPanel: true,
       panelItem: 'add',
       currentAppSetting: blankAppSetting,
-      createNewItem: true,
-      currentItemIndex: -1,
     });
   };
 
-  private onClosePanel = (item: FormAppSetting): void => {
-    const appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    if (!this.state.createNewItem) {
-      appSettings[this.state.currentItemIndex] = item;
+  private _onClosePanel = (item: FormAppSetting): void => {
+    let appSettings: FormAppSetting[] = [...this.props.values.appSettings];
+    const index = appSettings.findIndex(
+      x =>
+        x.name.toLowerCase() === item.name.toLowerCase() ||
+        (!!this.state.currentAppSetting && this.state.currentAppSetting.name.toLowerCase() === x.name.toLowerCase())
+    );
+    if (index !== -1) {
+      appSettings[index] = item;
     } else {
       appSettings.push(item);
     }
-    this.props.setFieldValue('appSettings', sortBy(appSettings, o => o.name.toLowerCase()));
-    this.setState({ createNewItem: false, showPanel: false });
+    appSettings = sortBy(appSettings, o => o.name.toLowerCase());
+    this.props.setFieldValue('appSettings', appSettings);
+    this.setState({ showPanel: false });
   };
 
-  private onCancel = (): void => {
-    this.setState({ createNewItem: false, showPanel: false });
+  private _onCancel = (): void => {
+    this.setState({ showPanel: false });
   };
 
-  private onShowPanel = (item: FormAppSetting, index: number): void => {
+  private _onShowPanel = (item: FormAppSetting): void => {
     this.setState({
       showPanel: true,
       panelItem: 'add',
       currentAppSetting: item,
-      currentItemIndex: index,
     });
   };
 
-  private removeItem(index: number) {
-    const appSettings: FormAppSetting[] = [...this.props.values.appSettings];
-    appSettings.splice(index, 1);
+  private _removeItem(key: string) {
+    const appSettings: FormAppSetting[] = [...this.props.values.appSettings].filter(val => val.name !== key);
     this.props.setFieldValue('appSettings', appSettings);
   }
 
-  private onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
+  private _onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const { t } = this.props;
     const { editable } = this.context;
+    const { shownValues, showAllValues } = this.state;
+    const itemKey = item.name;
+    const hidden = !shownValues.includes(itemKey) && !showAllValues;
     if (!column || !item) {
       return null;
     }
@@ -244,7 +232,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           iconProps={{ iconName: 'Delete' }}
           ariaLabel={t('delete')}
           title={t('delete')}
-          onClick={() => this.removeItem(index)}
+          onClick={() => this._removeItem(itemKey)}
         />
       );
     }
@@ -257,7 +245,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
           iconProps={{ iconName: 'Edit' }}
           ariaLabel={t('edit')}
           title={t('edit')}
-          onClick={() => this.onShowPanel(item, index)}
+          onClick={() => this._onShowPanel(item)}
         />
       );
     }
@@ -273,19 +261,40 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
       ) : null;
     }
     if (column.key === 'value') {
-      return this.state.hideValues ? (
-        <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
-      ) : (
-        <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
-          {item[column.fieldName!]}
-        </div>
+      return (
+        <>
+          <ActionButton
+            id={`app-settings-application-settings-show-hide-${index}`}
+            className={defaultCellStyle}
+            onClick={() => {
+              const newShownValues = new Set(shownValues);
+              if (hidden) {
+                newShownValues.add(itemKey);
+              } else {
+                newShownValues.delete(itemKey);
+              }
+              this.setState({ shownValues: [...newShownValues], showAllValues: false });
+            }}
+            iconProps={{ iconName: hidden ? 'RedEye' : 'Hide' }}>
+            {hidden ? (
+              <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
+            ) : (
+              <div className={defaultCellStyle} id={`app-settings-application-settings-value-${index}`}>
+                {item[column.fieldName!]}
+              </div>
+            )}
+          </ActionButton>
+        </>
       );
     }
     if (column.key === 'name') {
       return (
-        <div className={defaultCellStyle} id={`app-settings-application-settings-name-${index}`}>
+        <ActionButton
+          className={defaultCellStyle}
+          id={`app-settings-application-settings-name-${index}`}
+          onClick={() => this._onShowPanel(item)}>
           {item[column.fieldName!]}
-        </div>
+        </ActionButton>
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
@@ -305,7 +314,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'value',
@@ -316,7 +325,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'sticky',
@@ -328,7 +337,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         data: 'string',
         isPadded: true,
         isResizable: true,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
       },
       {
         key: 'delete',
@@ -337,7 +346,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('delete'),
       },
       {
@@ -347,7 +356,7 @@ export class ApplicationSettings extends React.Component<FormikProps<AppSettings
         maxWidth: 16,
         isResizable: true,
         isCollapsable: false,
-        onRender: this.onRenderItemColumn,
+        onRender: this._onRenderItemColumn,
         ariaLabel: t('edit'),
       },
     ];

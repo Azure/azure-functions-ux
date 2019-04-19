@@ -117,6 +117,13 @@ export class XenonSiteEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
+      id: ScenarioIds.enableLinkAPIM,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   private _enableIfStandardOrHigher(input: ScenarioCheckInput) {

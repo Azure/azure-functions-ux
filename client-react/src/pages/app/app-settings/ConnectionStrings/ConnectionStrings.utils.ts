@@ -1,6 +1,7 @@
 import i18next from 'i18next';
-import { FormAppSetting } from '../AppSettings.types';
+import { FormConnectionString } from '../AppSettings.types';
 import * as Joi from 'joi';
+import { TypeStrings } from './connectionStringTypes';
 const schema = Joi.array()
   .unique('name')
   .items(
@@ -9,6 +10,7 @@ const schema = Joi.array()
       value: Joi.string()
         .required()
         .allow(''),
+      type: Joi.required().valid(TypeStrings),
       slotSetting: Joi.boolean().optional(),
     })
   );
@@ -34,6 +36,8 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
         return t('invalidAppSettingProperty').format(details.context!.key);
       case 'array.unique':
         return t('appSettingNamesUnique');
+      case 'any.allowOnly':
+        return details.message;
       default:
         return t('jsonInvalid');
     }
@@ -42,11 +46,12 @@ export const getErrorMessage = (newValue: string, t: i18next.TFunction) => {
   }
 };
 
-export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[]): string => {
+export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[]): string => {
   return JSON.stringify(
-    appSettings.map(x => ({
+    connectionStrings.map(x => ({
       name: x.name,
       value: x.value,
+      type: x.type,
       slotSetting: x.sticky,
     })),
     null,
@@ -54,10 +59,11 @@ export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[]): s
   );
 };
 
-export const formAppSettingToUseStickySetting = (appSettings: string): FormAppSetting[] => {
-  return JSON.parse(appSettings).map(x => ({
+export const formAppSettingToUseStickySetting = (connectionStrings: string): FormConnectionString[] => {
+  return JSON.parse(connectionStrings).map(x => ({
     name: x.name,
     value: x.value,
+    type: x.type,
     sticky: x.slotSetting,
   }));
 };

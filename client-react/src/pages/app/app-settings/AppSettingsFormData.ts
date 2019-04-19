@@ -135,10 +135,11 @@ export function getFormAppSetting(settingsData: ArmObj<{ [key: string]: string }
   }
   const { appSettingNames } = slotConfigNames.properties;
   return sortBy(
-    Object.keys(settingsData.properties).map(key => ({
+    Object.keys(settingsData.properties).map((key, i) => ({
       name: key,
       value: settingsData.properties[key],
       sticky: !!appSettingNames && appSettingNames.indexOf(key) > -1,
+      index: i,
     })),
     o => o.name.toLowerCase()
   );
@@ -193,11 +194,12 @@ export function getFormConnectionStrings(
   }
   const { connectionStringNames } = slotConfigNames.properties;
   return sortBy(
-    Object.keys(settingsData.properties).map(key => ({
+    Object.keys(settingsData.properties).map((key, i) => ({
       name: key,
       value: settingsData.properties[key].value,
       type: settingsData.properties[key].type,
       sticky: !!connectionStringNames && connectionStringNames.indexOf(key) > -1,
+      index: i,
     })),
     o => o.name.toLowerCase()
   );

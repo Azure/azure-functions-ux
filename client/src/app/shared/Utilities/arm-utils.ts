@@ -29,6 +29,10 @@ export namespace ArmUtil {
     return sku === 'elasticpremium' || sku === 'elasticisolated';
   }
 
+  export function isLinuxElastic(obj: ArmObj<Site>): boolean {
+    return isLinuxApp(obj) && isElastic(obj);
+  }
+
   export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {
     const template = new UrlTemplates(obj, injector);
     return {
