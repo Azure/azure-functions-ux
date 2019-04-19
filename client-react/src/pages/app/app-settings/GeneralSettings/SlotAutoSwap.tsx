@@ -6,20 +6,11 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
-import { style } from 'typestyle';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { PermissionsContext, SlotsListContext } from '../Contexts';
+import RadioButtonNoFormik from '../../../../components/form-controls/RadioButtonNoFormik';
 
-const labelStyle = style({
-  display: 'inline-block',
-  width: '200px',
-});
-const ChioceGroupStyle = style({
-  display: 'inline-block',
-  width: 'calc(100%-200px)',
-});
 export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const slots = useContext(SlotsListContext);
   const { t } = useTranslation();
@@ -70,13 +61,10 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
             </div>
           ) : (
             <div className={settingsWrapper} data-cy="auto-swap-control-set">
-              <Label id={`app-settings-auto-swap-enabled-label`} className={labelStyle}>
-                {t('autoSwapEnabled')}
-              </Label>
-              <ChoiceGroup
+              <RadioButtonNoFormik
+                label={t('autoSwapEnabled')}
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
-                className={ChioceGroupStyle}
                 disabled={!editable}
                 selectedKey={!!props.values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[

@@ -1,3 +1,4 @@
+import { WorkerRuntimeLanguages } from 'app/shared/models/constants';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { BroadcastEvent, EventMessage } from 'app/shared/models/broadcast-event';
 import { SiteService } from './../../shared/services/site.service';
@@ -198,6 +199,10 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
           this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: this.context.site }).status === 'disabled' ||
           !this.siteAvailabilityStateNormal;
 
+        const appSettings = r.appSettings && r.appSettings.result && r.appSettings.result.properties;
+        const workerRuntime = appSettings && appSettings[Constants.functionsWorkerRuntimeAppSettingsName];
+        const isPowershell = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.powershell;
+
         if (r.functionInfo.length === 0 && !this.isStandalone && this.hasWriteAccess && r.runtime === FunctionAppVersion.v2) {
           this.showQuickstart = true;
         }
@@ -222,15 +227,22 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             clickCallback: null,
           });
           this._globalStateService.setTopBarNotifications(this.notifications);
+        } else if (isPowershell) {
+          this.notifications.push({
+            id: NotificationIds.powershellPreview,
+            message: this.ts.instant(PortalResources.powershellPreview),
+            iconClass: 'fa fa-exclamation-triangle warning',
+            learnMoreLink: Links.powershellPreviewLearnMore,
+            clickCallback: null,
+          });
+          this._globalStateService.setTopBarNotifications(this.notifications);
         }
 
         if (
           r.appInsightsEnablement &&
           r.appInsightsEnablement.status === 'enabled' &&
-          r.appSettings &&
-          r.appSettings.result &&
-          r.appSettings.result.properties &&
-          !r.appSettings.result.properties[Constants.instrumentationKeySettingName]
+          appSettings &&
+          !appSettings[Constants.instrumentationKeySettingName]
         ) {
           this.notifications.push({
             id: 'testnote',

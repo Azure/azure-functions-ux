@@ -11,6 +11,7 @@ import TextField from '../../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import { Links } from '../../../../../utils/FwLinks';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 const parseLinuxBuiltInStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
@@ -36,7 +37,6 @@ const parseLinuxBuiltInStacks = (builtInStacks: ArmObj<AvailableStack>[]) => {
   return linuxFxVersionOptions;
 };
 
-const startupFileLearnMoreLink = 'https://go.microsoft.com/fwlink/?linkid=861969';
 const LinuxStacks: React.FC<PropsType> = props => {
   const { values } = props;
   const { site } = values;
@@ -65,7 +65,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
         label={t('appCommandLineLabel')}
         id="linux-fx-version-appCommandLine"
         infoBubbleMessage={t('appCommandLineLabelHelpNoLink')}
-        learnMoreLink={startupFileLearnMoreLink}
+        learnMoreLink={Links.startupFileInfo}
       />
     </>
   );

@@ -37,7 +37,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
-          <Label id={`${props.id}-label`}>{label}</Label>
+          <Label className={labelStyle(!!upsellMessage, fullpage)} id={`${props.id}-label`}>
+            {label}
+          </Label>
         </Stack>
       )}
       {props.children}
@@ -45,12 +47,14 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
         <div className={infoMessageStyle(fullpage)}>
           <Stack horizontal verticalAlign="center">
             <Icon iconName="Info" className={infoIconStyle(theme)} />
-            {infoBubbleMessage}
-            {learnMoreLink && (
-              <Link href={learnMoreLink} target="_blank" className={learnMoreLinkStyle}>
-                {t('learnMore')}
-              </Link>
-            )}
+            <div>
+              {`${infoBubbleMessage} `}
+              {learnMoreLink && (
+                <Link href={learnMoreLink} target="_blank" className={learnMoreLinkStyle}>
+                  {t('learnMore')}
+                </Link>
+              )}
+            </div>
           </Stack>
         </div>
       )}
