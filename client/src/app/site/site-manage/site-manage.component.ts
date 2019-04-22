@@ -538,6 +538,24 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   private _initCol3Groups(site: ArmObj<Site>) {
     const apiManagementFeatures: FeatureItem[] = [
+      new DisableableBladeFeature(
+        this._translateService.instant(PortalResources.feature_apiManagement),
+        this._translateService.instant(PortalResources.feature_apiManagement),
+        this._translateService.instant(PortalResources.feature_apiManagementInfo),
+        'image/apim.svg',
+        {
+          detailBlade: 'ResourceMenuBlade',
+          detailBladeInputs: {
+            id: site.id,
+            menuid: 'linkApiManagement',
+          },
+          extension: 'HubsExtension',
+        },
+        this._portalService,
+        null,
+        this._scenarioService.checkScenario(ScenarioIds.enableLinkAPIM, { site: site })
+      ),
+
       new TabFeature(
         this._translateService.instant(PortalResources.feature_apiDefinitionName),
         this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
