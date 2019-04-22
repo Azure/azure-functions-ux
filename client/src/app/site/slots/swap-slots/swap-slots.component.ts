@@ -20,7 +20,6 @@ import { ConnectionString } from '../../../shared/models/arm/connection-strings'
 import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SlotsDiff, SimpleSlotsDiff } from './../../../shared/models/arm/slots-diff';
-import { AiService } from '../../../shared/services/ai.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { CacheService } from './../../../shared/services/cache.service';
 import { LogService } from './../../../shared/services/log.service';
@@ -109,7 +108,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     private _authZService: AuthzService,
     private _cacheService: CacheService,
     private _fb: FormBuilder,
-    private _aiService: AiService,
     private _logService: LogService,
     private _portalService: PortalService,
     private _siteService: SiteService,
@@ -549,8 +547,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
           });
           this.progressMessageClass = 'error';
           this._updatePhaseTracker('failed', null);
-          this._aiService.trackEvent(errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
-          this._logService.error(LogCategories.swapSlots, '/swap-slots', r.error);
+          this._logService.error(LogCategories.swapSlots, errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
         }
 
         params.success = r.success;
@@ -596,8 +593,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             error: JSON.stringify(r.error),
           });
           this.progressMessageClass = 'error';
-          this._aiService.trackEvent(errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
-          this._logService.error(LogCategories.swapSlots, '/swap-slots', r.error);
+          this._logService.error(LogCategories.swapSlots, errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
         }
 
         params.success = r.success;
@@ -631,37 +627,39 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
       .mergeMap(swapResult => {
         const location = swapResult.headers.get('Location');
         if (!location) {
-          return Observable.of({ success: false, error: 'no location header' });
+          return Observable.of({ success: false, timeout: false, error: 'no location header' });
         } else {
           const pollingInterval = 5000; // poll every 5 seconds
           const pollingTimeout = 120; // time out after 120 polling attempts (10 minutes)
+          let pollingCount = 0;
           return Observable.interval(pollingInterval)
             .concatMap(_ => this._cacheService.get(location, true))
             .map((pollResponse: Response) => pollResponse.status)
             .take(pollingTimeout)
-            .filter(status => status !== 202)
-            .map(_ => {
-              return { success: true, error: null };
-            })
-            .catch(e => Observable.of({ success: false, error: e }))
+            .filter((status: number) => status !== 202 || ++pollingCount === pollingTimeout)
+            .map((status: number) => ({ success: status !== 202, timeout: status === 202, error: null }))
+            .catch(e => Observable.of({ success: false, timeout: false, error: e }))
             .take(1);
         }
       })
       .catch(e => {
-        return Observable.of({ success: false, error: e });
+        return Observable.of({ success: false, timeout: false, error: e });
       })
       .subscribe(r => {
         if (r.success) {
           this.progressMessage = this._translateService.instant(PortalResources.swapSuccess, { operation: operation });
           this.progressMessageClass = 'success';
+        } else if (r.timeout) {
+          this.progressMessage = this._translateService.instant(PortalResources.swapTimeout, { operation: operation });
+          this.progressMessageClass = 'warning';
+          this._logService.error(LogCategories.swapSlots, errorIds.timedOutPollingSwapSlots, { id: this._resourceId });
         } else {
           this.progressMessage = this._translateService.instant(PortalResources.swapFailure, {
             operation: operation,
             error: JSON.stringify(r.error),
           });
           this.progressMessageClass = 'error';
-          this._aiService.trackEvent(errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
-          this._logService.error(LogCategories.swapSlots, '/swap-slots', r.error);
+          this._logService.error(LogCategories.swapSlots, errorIds.failedToSwapSlots, { error: r.error, id: this._resourceId });
         }
 
         params.success = r.success;
@@ -729,13 +727,15 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         const [srcAppSettings, destAppSettings] = [r[1], r[2]].map(res => res.result.properties);
         const [srcConnStrings, destConnStrings] = [r[3], r[4]].map(res => res.result.properties);
 
-        this.slotsDiffs = slotDiffs.map(d => d.properties).filter(diff => {
-          return (
-            diff.diffRule === 'SettingsWillBeModifiedInDestination' ||
-            diff.diffRule === 'SettingsWillBeAddedToDestination' ||
-            diff.diffRule === 'SettingsNotInSource'
-          );
-        });
+        this.slotsDiffs = slotDiffs
+          .map(d => d.properties)
+          .filter(diff => {
+            return (
+              diff.diffRule === 'SettingsWillBeModifiedInDestination' ||
+              diff.diffRule === 'SettingsWillBeAddedToDestination' ||
+              diff.diffRule === 'SettingsNotInSource'
+            );
+          });
 
         if (this._slotConfigNames) {
           this.stickySettingDiffs = [];

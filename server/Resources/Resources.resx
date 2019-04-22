@@ -2920,6 +2920,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swapFailure" xml:space="preserve">
     <value>Failed to complete {{operation}}. Error: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Cancelling {{operation}}</value>
   </data>
