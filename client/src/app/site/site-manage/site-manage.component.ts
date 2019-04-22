@@ -544,17 +544,18 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_apiManagementInfo),
         'image/apim.svg',
         {
-          detailBlade: 'LinkApiManagementBlade',
+          detailBlade: 'ResourceMenuBlade',
           detailBladeInputs: {
             id: site.id,
+            menuid: 'linkApiManagement',
           },
-          extension: 'Microsoft_Azure_ApiManagement',
+          extension: 'HubsExtension',
         },
         this._portalService,
         null,
         this._scenarioService.checkScenario(ScenarioIds.enableLinkAPIM, { site: site })
       ),
-      
+
       new TabFeature(
         this._translateService.instant(PortalResources.feature_apiDefinitionName),
         this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
