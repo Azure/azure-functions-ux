@@ -11,7 +11,7 @@ export interface FunctionInfo {
   href: string;
   config: FunctionConfig;
   files: string[];
-  test_data: string;
+  test_data: { [key: string]: string };
 
   // note (allisonm): These properties are used in embedded scenarios only
   context?: FunctionAppContext;
