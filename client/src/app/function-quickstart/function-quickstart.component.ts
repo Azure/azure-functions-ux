@@ -37,7 +37,7 @@ type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 })
 export class FunctionQuickstartComponent extends FunctionAppContextComponent {
   @Input()
-  functionsInfo: FunctionInfo[];
+  functionsInfo: ArmObj<FunctionInfo>[];
 
   selectedFunction: string;
   selectedLanguage: string;
@@ -83,7 +83,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
       .switchMap(r => {
         this.functionsNode = r.node as FunctionsNode;
         return Observable.zip(
-          this._functionAppService.getFunctions(this.context),
+          this._siteService.getFunctions(this.context.site.id),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id)
         );
@@ -93,7 +93,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
         console.error(e);
       })
       .subscribe(tuple => {
-        this.functionsInfo = tuple[0].result;
+        this.functionsInfo = tuple[0].result.value;
         this.isV1 = tuple[1] === FunctionAppVersion.v1;
         this.appSettingsArm = tuple[2].result;
 

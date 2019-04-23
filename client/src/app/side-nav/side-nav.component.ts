@@ -1,7 +1,6 @@
 import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { EmbeddedFunctionsNode } from './../tree-view/embedded-functions-node';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { LogService } from './../shared/services/log.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -39,6 +38,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { Url } from 'app/shared/Utilities/url';
 import { StartupInfo } from 'app/shared/models/portal';
+import { SiteService } from 'app/shared/services/site.service';
 
 @Component({
   selector: 'side-nav',
@@ -103,7 +103,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     public logService: LogService,
     public router: Router,
     public route: ActivatedRoute,
-    private _functionAppService: FunctionAppService,
+    private _siteService: SiteService,
     private _scenarioService: ScenarioService
   ) {
     this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
@@ -147,12 +147,12 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     this._tryFunctionAppContextStream
       .mergeMap(tryFunctionAppContext => {
         this._tryFunctionAppContext = tryFunctionAppContext;
-        return this._functionAppService.getFunctions(this._tryFunctionAppContext);
+        return this._siteService.getFunctions(this._tryFunctionAppContext.site.id);
       })
       .subscribe(functions => {
         this.globalStateService.clearBusyState();
 
-        if (functions.isSuccessful && functions.result.length > 0) {
+        if (functions.isSuccessful && functions.result.value.length > 0) {
           this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions.result[0].name}`;
         } else {
           this.initialResourceId = this._tryFunctionAppContext.site.id;

@@ -150,7 +150,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.getSlotsList(context),
             this._functionAppService.pingScmSite(context),
             this._functionAppService.getRuntimeGeneration(context),
-            this._functionAppService.getFunctions(context),
+            this._siteService.getFunctions(context.site.id),
             this._siteService.getAppSettings(context.site.id, true),
             this._siteService.getSiteConfig(context.site.id, true),
             this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),

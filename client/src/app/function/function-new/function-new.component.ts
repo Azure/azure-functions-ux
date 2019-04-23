@@ -64,7 +64,7 @@ export interface CreateCard extends Template {
   styleUrls: ['./function-new.component.scss'],
 })
 export class FunctionNewComponent extends FunctionAppContextComponent implements OnDestroy {
-  public functionsInfo: FunctionInfo[];
+  public functionsInfo: ArmObj<FunctionInfo>[];
   public functionName: string;
   public functionNameError = '';
   public areInputsValid = false;
@@ -203,7 +203,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         }
 
         return Observable.zip(
-          this._functionAppService.getFunctions(this.context),
+          this._siteService.getFunctions(this.context.site.id),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id),
           this._functionAppService.getBindingConfig(this.context),
@@ -216,7 +216,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
       })
       .subscribe(tuple => {
-        this.functionsInfo = tuple[0].result;
+        this.functionsInfo = tuple[0].isSuccessful ? tuple[0].result.value : [];
         this.runtimeVersion = tuple[1];
         this.appSettingsArm = tuple[2].result;
         this.bindings = tuple[3].result.bindings;

@@ -3,19 +3,20 @@ import { FunctionConfig } from '../models/function-config';
 
 export interface FunctionInfo {
   name: string;
+  function_app_id: string;
   script_root_path_href: string;
   script_href: string;
+  config_href: string;
   secrets_file_href: string;
   href: string;
-  template_id: string;
   config: FunctionConfig;
-  clientOnly: boolean;
-  isDeleted: boolean;
+  files: string[];
   test_data: string;
-  config_href: string;
-  context: FunctionAppContext;
-  trigger_url?: string; // Only used for embedded scenario's.  Doing a POST will trigger function
-  entity?: string; // Only used for embedded scenario's
+
+  // note (allisonm): These properties are used in embedded scenarios only
+  context?: FunctionAppContext;
+  trigger_url?: string;
+  entity?: string;
 }
 
 export class FunctionInfoHelper {

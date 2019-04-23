@@ -22,10 +22,8 @@ import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { CreateCard } from 'app/function/function-new/function-new.component';
-import { EmbeddedService } from 'app/shared/services/embedded.service';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { ErrorEvent } from 'app/shared/models/error-event';
-import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { SiteService } from 'app/shared/services/site.service';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
 
 @Component({
   selector: 'function-new-detail',
@@ -42,7 +40,7 @@ export class FunctionNewDetailComponent implements OnChanges {
   @Input()
   functionAppLanguage: string;
   @Input()
-  functionsInfo: FunctionInfo[];
+  functionsInfo: ArmObj<FunctionInfo>[];
   @Input()
   viewInfo: TreeViewInfo<any>;
   @Input()
@@ -83,8 +81,7 @@ export class FunctionNewDetailComponent implements OnChanges {
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
-    private _embeddedService: EmbeddedService,
-    private _broadcastService: BroadcastService
+    private _siteService: SiteService
   ) {
     this.isEmbedded = this._portalService.isEmbeddedFunctions;
   }
@@ -93,10 +90,6 @@ export class FunctionNewDetailComponent implements OnChanges {
     if (changes['functionCard']) {
       if (this.functionCard) {
         this.updateLanguageOptions();
-
-        if (this._portalService.isEmbeddedFunctions) {
-          this.getEntityOptions();
-        }
       }
     }
   }
@@ -128,22 +121,6 @@ export class FunctionNewDetailComponent implements OnChanges {
     }
   }
 
-  getEntityOptions() {
-    this._embeddedService.getEntities().subscribe(r => {
-      if (r.isSuccessful) {
-        const entities = r.result.value.map(e => e.name).sort();
-        this.entityOptions = [];
-        entities.forEach(entity => {
-          const dropDownElement: any = {
-            displayLabel: entity,
-            value: entity,
-          };
-          this.entityOptions.push(dropDownElement);
-        });
-      }
-    });
-  }
-
   onEntityChanged(entity: string) {
     this.areInputsValid = false;
     this.functionEntity = entity.toLowerCase();
@@ -154,11 +131,11 @@ export class FunctionNewDetailComponent implements OnChanges {
         .getAppContext(entityContextId)
         .switchMap(appContext => {
           this.entityContext = appContext;
-          return this._functionAppService.getFunctions(this.entityContext);
+          return this._siteService.getFunctions(this.entityContext.site.id);
         })
         .subscribe(r => {
           if (r.isSuccessful) {
-            this.functionsInfo = r.result;
+            this.functionsInfo = r.result.value;
             if (this.functionLanguage) {
               this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
               this.validate();
@@ -340,49 +317,28 @@ export class FunctionNewDetailComponent implements OnChanges {
     });
 
     this._globalStateService.setBusyState();
-    if (this._portalService.isEmbeddedFunctions) {
-      this._embeddedService
-        .createFunction(this.entityContext, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
-        .subscribe(r => {
-          if (r.isSuccessful) {
-            r.result.context = this.entityContext;
-            this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-            this.functionsNode.addChild(r.result);
-          } else {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-              message: r.error.message,
-              errorId: r.error.errorId,
-              resourceId: this.entityContext.site.id,
+    this._functionAppService
+      .createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+      .subscribe(
+        newFunctionInfo => {
+          if (newFunctionInfo.isSuccessful) {
+            this._portalService.logAction('new-function', 'success', {
+              template: this.currentTemplate.id,
+              name: this.functionName,
+              appResourceId: this.context.site.id,
             });
-            this.close();
+
+            this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
+
+            this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
+            this.functionsNode.addChild(newFunctionInfo.result);
           }
           this._globalStateService.clearBusyState();
-        });
-    } else {
-      this._functionAppService
-        .createFunction(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
-        .subscribe(
-          newFunctionInfo => {
-            if (newFunctionInfo.isSuccessful) {
-              this._portalService.logAction('new-function', 'success', {
-                template: this.currentTemplate.id,
-                name: this.functionName,
-                appResourceId: this.context.site.id,
-              });
-
-              this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
-
-              newFunctionInfo.result.context = this.context;
-              this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-              this.functionsNode.addChild(newFunctionInfo.result);
-            }
-            this._globalStateService.clearBusyState();
-          },
-          () => {
-            this._globalStateService.clearBusyState();
-          }
-        );
-    }
+        },
+        () => {
+          this._globalStateService.clearBusyState();
+        }
+      );
   }
 
   onCreate() {

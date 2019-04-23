@@ -1,3 +1,4 @@
+import { SiteService } from './../shared/services/site.service';
 import { FunctionAppService } from './../shared/services/function-app.service';
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
@@ -48,6 +49,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     private _portalService: PortalService,
     private _broadcastService: BroadcastService,
     private _functionAppService: FunctionAppService,
+    private _siteService: SiteService,
     _ngHttp: Http,
     _translateService: TranslateService,
     _armService: ArmService,
@@ -134,15 +136,15 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
         this._functionAppService
           .getAppContext(siteDescriptor.getTrimmedResourceId())
-          .mergeMap(context => this._functionAppService.getFunctions(context))
+          .mergeMap(context => this._siteService.getFunctions(context.site.id))
           .subscribe(functions => {
             const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
             const targetName: string = fnDescriptor.name;
             // TODO: [ahmels] HANDLE RESULT. Talk to ehamai to understand the scenario.
-            const selectedFunction = functions.result.find(f => f.name === targetName);
+            const selectedFunctionArm = functions.result.value.find(f => f.name === targetName);
 
-            if (selectedFunction) {
-              this.selectedFunction = selectedFunction;
+            if (selectedFunctionArm) {
+              this.selectedFunction = selectedFunctionArm.properties;
             } else {
               // handle the error
               _aiService.trackEvent('/main-component/error', {
