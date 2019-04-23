@@ -4755,10 +4755,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Select an option</value>
   </data>
   <data name="invalidStartupCommandNodejs" xml:space="preserve">
-    <value>Startup commands for NodeJS must use ng, node or pm2</value>
+    <value>Provide a startup command that will be run as part of container startup. Startup commands for Node.js must use ng, node, npm or pm2 keyword. Example, npm start</value>
   </data>
   <data name="invalidStartupCommandAspNetCore" xml:space="preserve">
-    <value>Startup commands for AspNetCore must use dotnet</value>
+    <value>Provide a startup command that will be run as part of container startup. Startup commands for .NET Core must use dotnet keyword. Example, dotnet application.dll</value>
   </data>
   <data name="storageMountsNoPermissions" xml:space="preserve">
     <value>Azure storage mounts contain secrets. Read/Write permissions are required to view/edit this section.</value>
@@ -4852,7 +4852,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>If you can't find an organization or repository, you might need to enable additional permissions on GitHub.</value>
   </data>
   <data name="projectWithoutGitRepoNotFoundMessage" xml:space="preserve">
-    <value>If you can't find the project, there might be not any Git repository in the project.</value>
+    <value>Only projects with valid git repositories will be listed.</value>
   </data>
   <data name="bitbucketOrgMessage" xml:space="preserve">
     <value>If you can't find an organization or repository, you might need to enable additional permissions on Bitbucket.</value>

@@ -135,11 +135,11 @@ export class LinuxFramworksComponent implements OnDestroy {
   private setupValidators(stack: string) {
     // Regex value comes from Azure Devops team for validation
     const nodeValidator = RegexValidator.create(
-      new RegExp('^$|^(node|pm2|ng)\\s+\\w+'),
+      new RegExp('^(node|pm2|ng|npm)\\s+\\w+'),
       this._translateService.instant(PortalResources.invalidStartupCommandNodejs)
     );
     const aspNetCoreValidator = RegexValidator.create(
-      new RegExp('^$|^(dotnet)\\s+\\w+'),
+      new RegExp('^(dotnet)\\s+\\w+'),
       this._translateService.instant(PortalResources.invalidStartupCommandAspNetCore)
     );
     if (stack === WebAppFramework.Node) {
