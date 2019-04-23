@@ -1530,6 +1530,7 @@ export class PortalResources {
   public static noWriteAccessStorageAccount = 'noWriteAccessStorageAccount';
   public static selectAnOption = 'selectAnOption';
   public static invalidStartupCommandNodejs = 'invalidStartupCommandNodejs';
+  public static invalidStartupCommandAspNetCore = 'invalidStartupCommandAspNetCore';
   public static storageMountsNoPermissions = 'storageMountsNoPermissions';
   public static readOnlyPython = 'readOnlyPython';
   public static valuesMustBeAnArray = 'valuesMustBeAnArray';
@@ -1559,6 +1560,7 @@ export class PortalResources {
   public static noExclusionRulesDefined = 'noExclusionRulesDefined';
   public static newPath = 'newPath';
   public static githubOrgMessage = 'githubOrgMessage';
+  public static projectWithoutGitRepoNotFoundMessage = 'projectWithoutGitRepoNotFoundMessage';
   public static bitbucketOrgMessage = 'bitbucketOrgMessage';
   public static useIncomingClientCertsUpsell = 'useIncomingClientCertsUpsell';
   public static clientCertWarning = 'clientCertWarning';
