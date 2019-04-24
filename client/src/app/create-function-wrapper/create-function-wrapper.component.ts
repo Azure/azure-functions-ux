@@ -9,6 +9,7 @@ import { NavigableComponent } from '../shared/components/navigable-component';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { SiteTabIds, FunctionAppVersion } from 'app/shared/models/constants';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -22,6 +23,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
     private _configService: ConfigService,
     private _functionAppService: FunctionAppService,
     public broadcastService: BroadcastService,
+    private _functionService: FunctionService,
     injector: Injector
   ) {
     super('create-function-wrapper', injector, [
@@ -46,7 +48,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
             .getAppContext(siteDescriptor.getTrimmedResourceId())
             .switchMap(context => {
               return Observable.zip(
-                this._functionAppService.getFunctions(context).map(r => (r.isSuccessful ? r.result : [])),
+                this._functionService.getFunctions(context.site.id).map(r => (r.isSuccessful ? r.result.value : [])),
                 this._functionAppService.getRuntimeGeneration(context),
                 (functions, runtime) => ({ functionsInfo: functions, runtimeVersion: runtime })
               );
