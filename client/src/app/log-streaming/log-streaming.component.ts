@@ -27,6 +27,7 @@ import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { LogContentComponent } from './log-content.component';
 import { Regex, LogLevel } from '../shared/models/constants';
 import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'log-streaming',
@@ -62,13 +63,14 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
 
   constructor(
     broadcastService: BroadcastService,
+    functionService: FunctionService,
     @Inject(ElementRef) private _elementRef: ElementRef,
     private _userService: UserService,
     private _functionAppService: FunctionAppService,
     private _utilities: UtilitiesService,
     private _componentFactoryResolver: ComponentFactoryResolver
   ) {
-    super('log-streaming', _functionAppService, broadcastService);
+    super('log-streaming', _functionAppService, broadcastService, functionService);
     this._tokenSubscription = this._userService.getStartupInfo().subscribe(s => (this._token = s.token));
     this.log = '';
     this._timeouts = [];
@@ -76,7 +78,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
 
   setup(): Subscription {
     return this.viewInfoEvents.subscribe(view => {
-      this._functionInfo = view.functionInfo.result;
+      this._functionInfo = view.functionInfo.result.properties;
       // clear logs on navigation to a new viewInfo
       this.log = '';
       this._logContentComponent = this._componentFactoryResolver.resolveComponentFactory(LogContentComponent);

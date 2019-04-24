@@ -22,6 +22,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-keys',
@@ -55,11 +56,12 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
 
   constructor(
     broadcastService: BroadcastService,
+    functionService: FunctionService,
     private _translateService: TranslateService,
     private _utilities: UtilitiesService,
     private _functionAppService: FunctionAppService
   ) {
-    super('function-keys', _functionAppService, broadcastService);
+    super('function-keys', _functionAppService, broadcastService, functionService);
 
     this.validKey = false;
     this.keys = [];
@@ -81,9 +83,9 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         if (this.adminKeys) {
           return this._functionAppService.getHostKeys(viewInfo.context);
         } else if (viewInfo.functionInfo.isSuccessful) {
-          this.functionInfo = viewInfo.functionInfo.result;
+          this.functionInfo = viewInfo.functionInfo.result.properties;
 
-          return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result);
+          return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result.properties);
         } else {
           this.functionInfo = null;
 

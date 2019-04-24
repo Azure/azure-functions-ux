@@ -98,7 +98,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     private _portalService: PortalService,
     private _functionService: FunctionService
   ) {
-    super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
+    super('function-runtime', _functionAppService, broadcastService, _functionService, () => this._busyManager.setBusy());
 
     this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
