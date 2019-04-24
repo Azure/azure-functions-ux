@@ -184,7 +184,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     private _billingService: BillingService,
     private _functionService: FunctionService
   ) {
-    super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
+    super('function-new', _functionAppService, _broadcastService, _functionService, () => _globalStateService.setBusyState());
 
     this.disabled = !!_broadcastService.getDirtyState('function_disabled');
     this.showTryView = this._globalStateService.showTryView;

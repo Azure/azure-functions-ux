@@ -30,6 +30,7 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { SiteService } from '../../shared/services/site.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 declare var marked: any;
 
@@ -92,6 +93,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     broadcastService: BroadcastService,
+    functionService: FunctionService,
     private _portalService: PortalService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
@@ -100,7 +102,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
     private _siteService: SiteService,
     private _logService: LogService
   ) {
-    super('binding-v2', _functionAppService, broadcastService);
+    super('binding-v2', _functionAppService, broadcastService, functionService);
 
     const renderer = new marked.Renderer();
 
@@ -146,7 +148,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
   setup(): Subscription {
     return this.viewInfoEvents
       .switchMap(view => {
-        this._functionInfo = view.functionInfo.result;
+        this._functionInfo = view.functionInfo.result.properties;
         return Observable.zip(
           this._siteService.getAppSettings(view.context.site.id),
           this._functionAppService.getAuthSettings(view.context),

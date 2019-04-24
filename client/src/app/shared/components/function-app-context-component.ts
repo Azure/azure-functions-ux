@@ -11,6 +11,8 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ErrorableComponent } from './errorable-component';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { FunctionService } from 'app/shared/services/function.service';
+import { ArmObj } from '../models/arm/arm-obj';
 
 export abstract class FunctionAppContextComponent extends ErrorableComponent implements OnDestroy {
   public viewInfo: TreeViewInfo<any>;
@@ -21,7 +23,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
       siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
       functionDescriptor: ArmFunctionDescriptor | null;
       context: FunctionAppContext | null;
-      functionInfo: HttpResult<FunctionInfo> | null;
+      functionInfo: HttpResult<ArmObj<FunctionInfo>> | null;
     }
   >;
   protected ngUnsubscribe: Observable<void>;
@@ -39,6 +41,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
     componentName: string,
     functionAppService: FunctionAppService,
     broadcastService: BroadcastService,
+    functionService: FunctionService,
     setBusy?: Function,
     private clearBusy?: Function
   ) {
@@ -75,7 +78,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
         this.context = tuple[0];
         return Observable.zip(
           tuple[1].functionDescriptor
-            ? functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name)
+            ? functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name)
             : Observable.of({ isSuccessful: false, error: { errorId: '' } } as HttpResult<FunctionInfo>),
           Observable.of(tuple[0]),
           Observable.of(tuple[1])

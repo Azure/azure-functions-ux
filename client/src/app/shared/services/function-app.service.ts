@@ -108,7 +108,8 @@ export class FunctionAppService {
     return ArmUtil.isLinuxApp(context.site) ? this.runtime : this.azure;
   }
 
-  getFunction(context: FunctionAppContext, name: string): Result<FunctionInfo> {
+  // Use getFunction from function.service.ts instead
+  getFunctionDeprecated(context: FunctionAppContext, name: string): Result<FunctionInfo> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       Observable.zip(
         this._cacheService.get(context.urlTemplates.getFunctionUrl(name), false, this.headers(t)),
@@ -132,7 +133,7 @@ export class FunctionAppService {
     );
   }
 
-  // Use getFunctions from site.service.ts instead
+  // Use getFunctions from function.service.ts instead
   getFunctionsDeprecated(context: FunctionAppContext): Result<FunctionInfo[]> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       Observable.zip(

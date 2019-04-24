@@ -16,6 +16,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpResult } from 'app/shared/models/http-result';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'file-explorer',
@@ -50,9 +51,10 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
     private _functionAppService: FunctionAppService,
-    private _aiService: AiService
+    private _aiService: AiService,
+    functionService: FunctionService
   ) {
-    super('file-explorer', _functionAppService, broadcastService, () => this.setBusyState());
+    super('file-explorer', _functionAppService, broadcastService, functionService, () => this.setBusyState());
 
     this.selectedFileChange = new Subject<VfsObject>();
 
@@ -91,9 +93,9 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       .switchMap(e => {
         this.resetState();
         if (e.functionInfo.isSuccessful) {
-          this.functionInfo = e.functionInfo.result;
+          this.functionInfo = e.functionInfo.result.properties;
           this.currentTitle = this.functionInfo.name;
-          return this._functionAppService.getVfsObjects(this.context, e.functionInfo.result);
+          return this._functionAppService.getVfsObjects(this.context, e.functionInfo.result.properties);
         } else {
           return Observable.of({
             isSuccessful: false,
