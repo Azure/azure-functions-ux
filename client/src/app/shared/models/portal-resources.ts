@@ -932,6 +932,7 @@ export class PortalResources {
   public static swapStarted = 'swapStarted';
   public static swapSuccess = 'swapSuccess';
   public static swapFailure = 'swapFailure';
+  public static swapTimeout = 'swapTimeout';
   public static swapCancelStarted = 'swapCancelStarted';
   public static swapCancelSuccess = 'swapCancelSuccess';
   public static swapCancelFailure = 'swapCancelFailure';
