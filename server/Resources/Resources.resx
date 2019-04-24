@@ -3756,7 +3756,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You must have write access on your app to configure container settings</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your app is currently in read only mode. Remove read only lock on your app to edit container settings.</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Single Container</value>
@@ -4029,7 +4029,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following deployment slot have authentication enabled: '{{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
     <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
