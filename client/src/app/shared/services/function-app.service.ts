@@ -40,9 +40,7 @@ import { ConditionalHttpClient } from 'app/shared/conditional-http-client';
 import { TranslateService } from '@ngx-translate/core';
 import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
-import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
-import { Templates } from './../../function/embedded/temp-templates';
 import { SiteService } from './site.service';
 import { ExtensionJobsStatus } from '../models/extension-jobs-status';
 import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info';
@@ -50,23 +48,23 @@ import { Version } from 'app/shared/Utilities/version';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { Http } from '@angular/http';
+import { FunctionService } from './function.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
   private readonly runtime: ConditionalHttpClient;
   private readonly azure: ConditionalHttpClient;
-  private readonly _embeddedTemplates: Templates;
 
   constructor(
     private _cacheService: CacheService,
     private _translateService: TranslateService,
     private _userService: UserService,
     private _injector: Injector,
-    private _portalService: PortalService,
     private _siteService: SiteService,
     private _logService: LogService,
     private _httpClient: Http,
+    private _functionService: FunctionService,
     injector: Injector
   ) {
     this.runtime = new ConditionalHttpClient(
@@ -83,7 +81,6 @@ export class FunctionAppService {
       'NotOverQuota',
       'ReachableLoadballancer'
     );
-    this._embeddedTemplates = new Templates();
   }
 
   private getRuntimeToken(resourceId: string): Observable<string> {
@@ -135,7 +132,8 @@ export class FunctionAppService {
     );
   }
 
-  getFunctions(context: FunctionAppContext): Result<FunctionInfo[]> {
+  // Use getFunctions from site.service.ts instead
+  getFunctionsDeprecated(context: FunctionAppContext): Result<FunctionInfo[]> {
     return this.getClient(context).execute({ resourceId: context.site.id }, t =>
       Observable.zip(
         this._cacheService.get(context.urlTemplates.functionsUrl, false, this.headers(t)),
@@ -274,15 +272,6 @@ export class FunctionAppService {
   }
 
   getTemplates(context: FunctionAppContext): Result<FunctionTemplate[]> {
-    if (this._portalService.isEmbeddedFunctions) {
-      const devTemplate: FunctionTemplate[] = JSON.parse(this._embeddedTemplates.templatesJson);
-      return Observable.of({
-        isSuccessful: true,
-        result: devTemplate,
-        error: null,
-      });
-    }
-
     // this is for dev scenario for loading custom templates
     try {
       if (localStorage.getItem('dev-templates')) {
@@ -560,17 +549,6 @@ export class FunctionAppService {
   }
 
   getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
-    if (this._portalService.isEmbeddedFunctions) {
-      const devBindings: BindingConfig = JSON.parse(this._embeddedTemplates.bindingsJson);
-      return Observable.of({
-        isSuccessful: true,
-        result: devBindings,
-        error: null,
-      });
-
-      // return Observable.of({ devBindings);
-    }
-
     try {
       if (localStorage.getItem('dev-bindings')) {
         const devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
@@ -866,7 +844,7 @@ export class FunctionAppService {
         this.isSlot(context)
           ? Observable.of({ isSuccessful: true, result: true, error: null })
           : this.getSlotsList(context).map(r => (r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r)),
-        this.getFunctions(context),
+        this._functionService.getFunctions(context.site.id),
         (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
       )
         .map(result => {
