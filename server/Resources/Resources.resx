@@ -3548,7 +3548,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Validating...</value>
   </data>
   <data name="vstsReleaseBuildPermissions" xml:space="preserve">
-    <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator</value>
+    <value>You do not have permissions to create a Build pipeline or a Release pipeline on this project. Contact your project administrator or choose a different project</value>
+  </data>
+  <data name="vstsAgentQueuePermissions" xml:space="preserve">
+    <value>You do not have permissions to use at least one of the available agent pools in this project . Contact your project administrator or choose a different project</value>
   </data>
   <data name="vstsNameUnavailable" xml:space="preserve">
     <value>The organization name supplied is not valid. Please supply another organization name.</value>
