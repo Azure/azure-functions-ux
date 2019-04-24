@@ -17,6 +17,11 @@ export class WindowsCode extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    return !!input && !!input.site && !!input.site.kind && input.site.kind.toLowerCase() === 'app';
+    return (
+      !!input &&
+      !!input.site &&
+      !!input.site.kind &&
+      (input.site.kind.toLowerCase().indexOf('app') > -1 || input.site.kind.toLowerCase().indexOf('api') > -1)
+    );
   }
 }
