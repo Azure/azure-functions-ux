@@ -632,12 +632,14 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
           const pollingInterval = 5000; // poll every 5 seconds
           const pollingTimeout = 120; // time out after 120 polling attempts (10 minutes)
           let pollingCount = 0;
+          // In the 'filter' and 'map' below, we only need to handle status 200 and status 202.
+          // Responses with error status codes will go directly to the 'catch'.
           return Observable.interval(pollingInterval)
             .concatMap(_ => this._cacheService.get(location, true))
             .map((pollResponse: Response) => pollResponse.status)
             .take(pollingTimeout)
             .filter((status: number) => status !== 202 || ++pollingCount === pollingTimeout)
-            .map((status: number) => ({ success: status !== 202, timeout: status === 202, error: null }))
+            .map((status: number) => ({ success: status === 200, timeout: status === 202, error: null }))
             .catch(e => Observable.of({ success: false, timeout: false, error: e }))
             .take(1);
         }
