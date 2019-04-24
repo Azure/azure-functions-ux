@@ -50,6 +50,7 @@ import { LogService } from '../shared/services/log.service';
 import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 import { AiService } from 'app/shared/services/ai.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -136,6 +137,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   constructor(
     private broadcastService: BroadcastService,
+    functionService: FunctionService,
     configService: ConfigService,
     private _portalService: PortalService,
     private _globalStateService: GlobalStateService,
@@ -145,7 +147,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     private cd: ChangeDetectorRef,
     private _aiService: AiService
   ) {
-    super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
+    super('function-dev', _functionAppService, broadcastService, functionService, () => _globalStateService.setBusyState());
 
     this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
     this.isStandalone = configService.isStandalone();
@@ -228,7 +230,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
           Observable.of(functionView),
           this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
           this._functionAppService.getFunctionHostStatus(functionView.context),
-          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result),
+          this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result.properties),
           this._functionAppService.getRuntimeGeneration(functionView.context)
         );
       })
@@ -281,7 +283,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
             .subscribe(() => this._logService.verbose(LogCategories.functionHostRestart, `restart for ${this.context.site.id}`));
         }
         if (tuple[0].functionInfo.isSuccessful) {
-          const functionInfo = tuple[0].functionInfo.result;
+          const functionInfo = tuple[0].functionInfo.result.properties;
           this.content = '';
           this.eventGridSubscribeUrl = tuple[1].result;
           this.testContent = functionInfo.test_data;

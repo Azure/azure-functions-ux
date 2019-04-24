@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from './../../shared/conditional-http-client';
 import { HttpResult } from './../models/http-result';
-import { ArmArrayResult } from './../models/arm/arm-obj';
+import { ArmArrayResult, ArmObj } from './../models/arm/arm-obj';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { FunctionInfo } from '../models/function-info';
@@ -19,6 +19,12 @@ export class FunctionService {
 
   getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
     const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, false).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getFunctions);
+  }
+
+  getFunction(resourceId: string, functionName: string): Result<ArmObj<FunctionInfo>> {
+    const getFunctions = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctions);
   }

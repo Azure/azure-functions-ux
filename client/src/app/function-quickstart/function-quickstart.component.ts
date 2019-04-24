@@ -70,7 +70,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     private _siteService: SiteService,
     private _functionService: FunctionService
   ) {
-    super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
+    super('function-quickstart', _functionAppService, broadcastService, _functionService, () => _globalStateService.setBusyState());
 
     this.selectedFunction = 'HttpTrigger';
     this.selectedLanguage = 'CSharp';
