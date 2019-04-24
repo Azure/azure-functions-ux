@@ -48,6 +48,7 @@ import { ExtensionInfo, ExtensionsJson } from 'app/shared/models/extension-info'
 import { Version } from 'app/shared/Utilities/version';
 import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
+import { FunctionService } from './function.service';
 
 type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
@@ -63,6 +64,7 @@ export class FunctionAppService {
     private _globalStateService: GlobalStateService,
     private _siteService: SiteService,
     private _logService: LogService,
+    private _functionService: FunctionService,
     injector: Injector
   ) {
     this.runtime = new ConditionalHttpClient(
@@ -854,7 +856,7 @@ export class FunctionAppService {
         this.isSlot(context)
           ? Observable.of({ isSuccessful: true, result: true, error: null })
           : this.getSlotsList(context).map(r => (r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r)),
-        this._siteService.getFunctions(context.site.id),
+        this._functionService.getFunctions(context.site.id),
         (a, b, s, f) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
       )
         .map(result => {

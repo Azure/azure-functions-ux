@@ -48,6 +48,7 @@ import { TopBarNotification } from 'app/top-bar/top-bar-models';
 import { OpenBladeInfo, EventVerbs } from '../../shared/models/portal';
 import { SlotSwapInfo } from '../../shared/models/slot-events';
 import { FlightingUtil } from 'app/shared/Utilities/flighting-utility';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'site-summary',
@@ -100,6 +101,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     private _router: Router,
     private _scenarioService: ScenarioService,
     private _siteService: SiteService,
+    private _functionService: FunctionService,
     configService: ConfigService,
     userService: UserService,
     injector: Injector
@@ -150,7 +152,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this._functionAppService.getSlotsList(context),
             this._functionAppService.pingScmSite(context),
             this._functionAppService.getRuntimeGeneration(context),
-            this._siteService.getFunctions(context.site.id),
+            this._functionService.getFunctions(context.site.id),
             this._siteService.getAppSettings(context.site.id, true),
             this._siteService.getSiteConfig(context.site.id, true),
             this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: context.site }),

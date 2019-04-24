@@ -21,7 +21,6 @@ import { UserService } from './user.service';
 import { PublishingCredentials } from '../models/publishing-credentials';
 import { ARMApiVersions } from '../models/constants';
 import { ByosStorageAccounts } from 'app/site/byos/byos';
-import { FunctionInfo } from '../models/function-info';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -199,11 +198,5 @@ export class SiteService {
       .postArm(`${resourceId}/config/azureStorageAccounts/list`, force, ARMApiVersions.websiteApiVersion20180201)
       .map(r => r.json());
     return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
-  }
-
-  getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
-    const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, false).map(r => r.json());
-
-    return this._client.execute({ resourceId: resourceId }, t => getFunctions);
   }
 }

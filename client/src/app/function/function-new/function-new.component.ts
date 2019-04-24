@@ -41,6 +41,7 @@ import { SiteService } from '../../shared/services/site.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BillingService } from './../../shared/services/billing.service';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
+import { FunctionService } from './../../shared/services/function.service';
 
 interface CategoryOrder {
   name: string;
@@ -180,7 +181,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     private _logService: LogService,
     private _functionAppService: FunctionAppService,
     private _siteService: SiteService,
-    private _billingService: BillingService
+    private _billingService: BillingService,
+    private _functionService: FunctionService
   ) {
     super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
@@ -203,7 +205,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         }
 
         return Observable.zip(
-          this._siteService.getFunctions(this.context.site.id),
+          this._functionService.getFunctions(this.context.site.id),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id),
           this._functionAppService.getBindingConfig(this.context),

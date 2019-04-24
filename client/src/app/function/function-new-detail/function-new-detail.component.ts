@@ -22,8 +22,8 @@ import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { CreateCard } from 'app/function/function-new/function-new.component';
-import { SiteService } from 'app/shared/services/site.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-new-detail',
@@ -81,7 +81,7 @@ export class FunctionNewDetailComponent implements OnChanges {
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
-    private _siteService: SiteService
+    private _functionService: FunctionService
   ) {
     this.isEmbedded = this._portalService.isEmbeddedFunctions;
   }
@@ -131,7 +131,7 @@ export class FunctionNewDetailComponent implements OnChanges {
         .getAppContext(entityContextId)
         .switchMap(appContext => {
           this.entityContext = appContext;
-          return this._siteService.getFunctions(this.entityContext.site.id);
+          return this._functionService.getFunctions(this.entityContext.site.id);
         })
         .subscribe(r => {
           if (r.isSuccessful) {

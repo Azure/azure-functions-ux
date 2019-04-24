@@ -10,8 +10,8 @@ export interface FunctionInfo {
   secrets_file_href: string;
   href: string;
   config: FunctionConfig;
-  files: string[];
-  test_data: { [key: string]: string };
+  files: { [key: string]: string };
+  test_data: string;
 
   // note (allisonm): These properties are used in embedded scenarios only
   context?: FunctionAppContext;

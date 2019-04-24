@@ -35,6 +35,7 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'function-runtime',
@@ -94,7 +95,8 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     private _scenarioService: ScenarioService,
     private _languageService: LanguageService,
     private _siteService: SiteService,
-    private _portalService: PortalService
+    private _portalService: PortalService,
+    private _functionService: FunctionService
   ) {
     super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
@@ -246,7 +248,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
           this._functionAppService.getFunctionHostStatus(this.context),
-          this._siteService.getFunctions(this.context.site.id)
+          this._functionService.getFunctions(this.context.site.id)
         );
       })
       .do(() => this._busyManager.clearBusy())

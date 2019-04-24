@@ -27,6 +27,7 @@ import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
 import { SiteService } from '../shared/services/site.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
 
@@ -66,7 +67,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _functionAppService: FunctionAppService,
-    private _siteService: SiteService
+    private _siteService: SiteService,
+    private _functionService: FunctionService
   ) {
     super('function-quickstart', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
@@ -83,7 +85,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
       .switchMap(r => {
         this.functionsNode = r.node as FunctionsNode;
         return Observable.zip(
-          this._siteService.getFunctions(this.context.site.id),
+          this._functionService.getFunctions(this.context.site.id),
           this._functionAppService.getRuntimeGeneration(this.context),
           this._siteService.getAppSettings(this.context.site.id)
         );

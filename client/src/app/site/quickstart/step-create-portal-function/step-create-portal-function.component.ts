@@ -1,4 +1,3 @@
-import { SiteService } from 'app/shared/services/site.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionInfo } from './../../../shared/models/function-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -18,6 +17,7 @@ import { workerRuntimeOptions } from 'app/site/quickstart/wizard-logic/quickstar
 import { Subject } from 'rxjs/Subject';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { FunctionService } from 'app/shared/services/function.service';
 
 @Component({
   selector: 'step-create-portal-function',
@@ -69,7 +69,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
     private _globalStateService: GlobalStateService,
     private _functionAppService: FunctionAppService,
     private _broadcastService: BroadcastService,
-    private _siteService: SiteService
+    private _functionService: FunctionService
   ) {
     this.context = this._wizardService.context.value;
     this.isLinux = this._wizardService.isLinux.value;
@@ -101,7 +101,7 @@ export class StepCreatePortalFunctionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     return Observable.zip(
       this._functionAppService.getTemplates(this.context),
-      this._siteService.getFunctions(this.context.site.id)
+      this._functionService.getFunctions(this.context.site.id)
     ).subscribe(r => {
       this.templates = r[0].isSuccessful ? r[0].result : null;
       this.functionsInfo = r[1].isSuccessful ? r[1].result.value : null;
