@@ -1576,4 +1576,5 @@ export class PortalResources {
   public static filter = 'filter';
   public static filterAppSettings = 'filterAppSettings';
   public static filterConnectionStrings = 'filterConnectionStrings';
+  public static readOnlyJava = 'readOnlyJava';
 }

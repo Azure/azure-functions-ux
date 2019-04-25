@@ -4899,4 +4899,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Filter connection strings</value>
   </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
+  </data>
 </root>

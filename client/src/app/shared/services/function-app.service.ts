@@ -902,6 +902,7 @@ export class FunctionAppService {
           const isContainerApp = appSettings && appSettings.properties[ContainerConstants.appServiceStorageSetting] === 'false';
           const workerRuntime = appSettings && appSettings.properties[Constants.functionsWorkerRuntimeAppSettingsName];
           const isPython = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.python;
+          const isJava = workerRuntime && WorkerRuntimeLanguages[workerRuntime] === WorkerRuntimeLanguages.java;
 
           const resolveReadOnlyMode = () => {
             if (sourceControlled) {
@@ -945,6 +946,8 @@ export class FunctionAppService {
             return FunctionAppEditMode.ReadOnlyLocalCache;
           } else if (isPython) {
             return FunctionAppEditMode.ReadOnlyPython;
+          } else if (isJava) {
+            return FunctionAppEditMode.ReadOnlyJava;
           } else if (isLinuxDynamic) {
             return FunctionAppEditMode.ReadOnlyLinuxDynamic;
           } else if (isContainerApp) {
