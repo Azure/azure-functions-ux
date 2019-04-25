@@ -693,7 +693,8 @@ export class FunctionAppService {
     );
   }
 
-  getFunctionKeys(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
+  // use getFunctionKeys from function.service.ts instead
+  getFunctionKeysDeprecated(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
         .get(context.urlTemplates.getFunctionKeysUrl(functionInfo.name), false, this.headers(t))

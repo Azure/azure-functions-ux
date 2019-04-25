@@ -137,7 +137,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   constructor(
     private broadcastService: BroadcastService,
-    functionService: FunctionService,
     configService: ConfigService,
     private _portalService: PortalService,
     private _globalStateService: GlobalStateService,
@@ -145,9 +144,10 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     private _functionAppService: FunctionAppService,
     private _logService: LogService,
     private cd: ChangeDetectorRef,
-    private _aiService: AiService
+    private _aiService: AiService,
+    private _functionService: FunctionService
   ) {
-    super('function-dev', _functionAppService, broadcastService, functionService, () => _globalStateService.setBusyState());
+    super('function-dev', _functionAppService, broadcastService, _functionService, () => _globalStateService.setBusyState());
 
     this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
     this.isStandalone = configService.isStandalone();
@@ -459,7 +459,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   private setFunctionKey(functionInfo) {
     if (functionInfo) {
-      this._functionAppService.getFunctionKeys(this.context, functionInfo).subscribe(keys => {
+      this._functionService.getFunctionKeys(this.context.site.id, functionInfo.name).subscribe(keys => {
         if (keys.isSuccessful && keys.result.keys && keys.result.keys.length > 0) {
           this.functionKey = keys.result.keys.find(k => k.name === 'default').value || keys.result.keys[0].value;
         }
@@ -851,7 +851,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
 
   private updateKeys() {
     Observable.zip(
-      this._functionAppService.getFunctionKeys(this.context, this.functionInfo),
+      this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
       this._functionAppService.getHostKeys(this.context)
     ).subscribe(tuple => {
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [], links: [] };

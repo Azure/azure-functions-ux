@@ -56,12 +56,12 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
 
   constructor(
     broadcastService: BroadcastService,
-    functionService: FunctionService,
     private _translateService: TranslateService,
     private _utilities: UtilitiesService,
-    private _functionAppService: FunctionAppService
+    private _functionAppService: FunctionAppService,
+    private _functionService: FunctionService
   ) {
-    super('function-keys', _functionAppService, broadcastService, functionService);
+    super('function-keys', _functionAppService, broadcastService, _functionService);
 
     this.validKey = false;
     this.keys = [];
@@ -85,7 +85,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         } else if (viewInfo.functionInfo.isSuccessful) {
           this.functionInfo = viewInfo.functionInfo.result.properties;
 
-          return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result.properties);
+          return this._functionService.postFunctionListKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
         } else {
           this.functionInfo = null;
 
