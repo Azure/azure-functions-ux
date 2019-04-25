@@ -93,32 +93,35 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
     private _cacheService: CacheService,
     private _translateService: TranslateService
   ) {
-    this.wizard.buildSettings
-      .get('pythonSettings')
-      .get('framework')
-      .valueChanges.takeUntil(this._ngUnsubscribe$)
-      .subscribe(val => {
-        this.setupValidators(val);
-      });
+    this.setupValidators();
   }
 
   get getFramework() {
     return this.selectedPythonFramework;
   }
-  private setupValidators(val) {
+  private setupValidators() {
     this.requiredValidator = new RequiredValidator(this._translateService, false);
-    if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Django) {
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('djangoSettingsModule')
-        .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
-      this.wizard.buildSettings
-        .get('pythonSettings')
-        .get('djangoSettingsModule')
-        .updateValueAndValidity();
-    } else {
-      this.removeValidators();
-    }
+    this.wizard.buildSettings.get('applicationFramework').setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+    this.wizard.buildSettings.get('applicationFramework').updateValueAndValidity();
+
+    this.wizard.buildSettings
+      .get('pythonSettings')
+      .get('framework')
+      .valueChanges.takeUntil(this._ngUnsubscribe$)
+      .subscribe(val => {
+        if (this.wizard.wizardValues.buildSettings.applicationFramework === WebAppFramework.Python && val === PythonFrameworkType.Django) {
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('djangoSettingsModule')
+            .setValidators([this.requiredValidator.validate.bind(this.requiredValidator)]);
+          this.wizard.buildSettings
+            .get('pythonSettings')
+            .get('djangoSettingsModule')
+            .updateValueAndValidity();
+        } else {
+          this.removeValidators();
+        }
+      });
   }
 
   private removeValidators() {
