@@ -108,16 +108,29 @@ export class LinuxFramworksComponent implements OnDestroy {
       });
 
       this.setupValidators();
-      // this.wizard.siteArmObj$.takeUntil(this._ngUnsubscribe$).subscribe(site => {
-      //   const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
-      //   if (linuxFxVersionObj) {
-      //     const linuxFxVersion = linuxFxVersionObj.value.split('|');
-      //     const stack = linuxFxVersion[0];
-      //     const version = linuxFxVersion[1];
-      //     this.selectedFramework = stack;
-      //     this.selectedFrameworkVersion = version;
-      //   }
-      // });
+      this.wizard.siteArmObj$.takeUntil(this._ngUnsubscribe$).subscribe(site => {
+        const linuxFxVersionObj = site.properties.siteProperties.properties.find(x => x.name === 'LinuxFxVersion');
+        if (linuxFxVersionObj) {
+          const linuxFxVersion = linuxFxVersionObj.value.split('|');
+          const stack = linuxFxVersion[0];
+          const version = linuxFxVersion[1];
+          switch (stack.toLowerCase()) {
+            case 'node':
+              this.selectedFramework = WebAppFramework.Node;
+              break;
+            case 'dotnetcore':
+              this.selectedFramework = WebAppFramework.AspNetCore;
+              break;
+            case 'php':
+              this.selectedFramework = WebAppFramework.PHP;
+              break;
+            case 'ruby':
+              this.selectedFramework = WebAppFramework.Ruby;
+              break;
+          }
+          this.selectedFrameworkVersion = version;
+        }
+      });
     });
   }
 
