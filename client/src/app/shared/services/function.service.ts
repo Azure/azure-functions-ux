@@ -1,4 +1,4 @@
-import { FunctionKeys, FunctionKey } from 'app/shared/models/function-key';
+import { FunctionKeys, FunctionKey, HostKeys } from 'app/shared/models/function-key';
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from './../../shared/conditional-http-client';
@@ -62,5 +62,11 @@ export class FunctionService {
     const deleteFunctionKey = this._cacheService.deleteArm(`${resourceId}/functions/${functionName}/keys/${keyName}`).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => deleteFunctionKey);
+  }
+
+  getHostKeys(resourceId: string, functionName: string): Result<HostKeys> {
+    const getHostKeys = this._cacheService.postArm(`${resourceId}/${functionName}/host/default/listkeys`).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getHostKeys);
   }
 }

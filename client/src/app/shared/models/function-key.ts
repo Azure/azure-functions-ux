@@ -8,3 +8,17 @@ export interface FunctionKey {
 export interface FunctionKeys {
   keys: Array<FunctionKey>;
 }
+
+export interface HostKeys {
+  masterKey: string;
+  functionKeys: HostFunctionKeys;
+  systemKeys: HostSystemKeys;
+}
+
+export interface HostFunctionKeys {
+  keys: Array<FunctionKey>;
+}
+
+export interface HostSystemKeys {
+  keys: Array<FunctionKey>;
+}

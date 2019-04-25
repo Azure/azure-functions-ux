@@ -514,7 +514,8 @@ export class FunctionAppService {
     );
   }
 
-  getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
+  // Use getHostKeys in function.service.ts instead
+  getHostKeysDeprecated(context: FunctionAppContext): Result<FunctionKeys> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       Observable.zip(
         this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
@@ -699,7 +700,7 @@ export class FunctionAppService {
     });
   }
 
-  // Use deleteFunctionKey from function.service.ts intead
+  // Use deleteFunctionKey from function.service.ts instead
   deleteKeyDeprecated(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<void> {
     this.clearKeysCache(context, functionInfo);
 

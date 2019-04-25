@@ -11,7 +11,7 @@ import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import { FunctionKey } from '../shared/models/function-key';
+import { FunctionKey, FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -80,12 +80,21 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
     return this.viewInfoEvents
       .combineLatest(this.refreshSubject, (a, b) => a)
       .switchMap(viewInfo => {
-        if (this.adminKeys) {
-          return this._functionAppService.getHostKeys(viewInfo.context);
-        } else if (viewInfo.functionInfo.isSuccessful) {
-          this.functionInfo = viewInfo.functionInfo.result.properties;
-
-          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name, true);
+        if (viewInfo.functionInfo.isSuccessful) {
+          if (this.adminKeys) {
+            return this._functionService
+              .getHostKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name)
+              .switchMap(r => {
+                return Observable.of({
+                  isSuccessful: r.isSuccessful,
+                  result: r.isSuccessful ? this._formatHostKeys(r.result) : { keys: [] },
+                  error: r.error,
+                });
+              });
+          } else {
+            this.functionInfo = viewInfo.functionInfo.result.properties;
+            return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
+          }
         } else {
           this.functionInfo = null;
 
@@ -218,6 +227,11 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         }
       });
     }
+  }
+
+  private _formatHostKeys(hostKeys: HostKeys): FunctionKeys {
+    const masterKey = { name: '_master', value: hostKeys.masterKey };
+    return { keys: [masterKey].concat(hostKeys.functionKeys.keys).concat(hostKeys.systemKeys.keys) };
   }
 
   copyKey(key: FunctionKey) {

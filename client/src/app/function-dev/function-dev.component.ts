@@ -43,7 +43,7 @@ import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { errorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
-import { FunctionKeys } from '../shared/models/function-key';
+import { FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
@@ -112,7 +112,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   public functionInvokeUrl: string;
   public expandLogs = false;
   public functionKeys: FunctionKeys;
-  public hostKeys: FunctionKeys;
+  public hostKeys: HostKeys;
   public masterKey: string;
   public isStandalone: boolean;
   public inTab: boolean;
@@ -486,7 +486,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       }
 
       if (this.webHookType && functionKey) {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+        const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
         const keyWithValue = allKeys.find(k => k.value === functionKey);
         if (keyWithValue) {
           clientId = keyWithValue.name;
@@ -711,7 +711,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   }
 
   setShowFunctionInvokeUrlModal(value: boolean) {
-    const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+    const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
     if (allKeys.length > 0) {
       this.onChangeKey(allKeys[0].value);
     }
@@ -852,18 +852,18 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   private updateKeys() {
     Observable.zip(
       this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
-      this._functionAppService.getHostKeys(this.context)
+      this._functionService.getHostKeys(this.context.site.id, this.functionInfo.name)
     ).subscribe(tuple => {
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
-      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [] };
+      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
 
       if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
-        const masterKey = this.hostKeys.keys.find(k => k.name === '_master');
+        const masterKey = this.hostKeys.masterKey;
         if (masterKey) {
-          this.onChangeKey(masterKey.value);
+          this.onChangeKey(masterKey);
         }
       } else {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+        const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
         if (allKeys.length > 0) {
           this.onChangeKey(allKeys[0].value);
         }
