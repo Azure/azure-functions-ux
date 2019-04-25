@@ -1,3 +1,4 @@
+import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -21,7 +22,7 @@ export class WindowsCode extends Environment {
       !!input &&
       !!input.site &&
       !!input.site.kind &&
-      (input.site.kind.toLowerCase().indexOf('app') > -1 || input.site.kind.toLowerCase().indexOf('api') > -1)
+      (input.site.kind.toLowerCase() === CommonConstants.Kinds.app || input.site.kind.toLowerCase() === CommonConstants.Kinds.api)
     );
   }
 }
