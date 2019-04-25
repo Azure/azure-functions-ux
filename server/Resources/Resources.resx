@@ -548,7 +548,7 @@
     <value>Run</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Advanced editor</value>
@@ -1430,10 +1430,10 @@
     <value>You must have write permissions on the current app in order to edit these settings.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>View settings in read-only mode.</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Failed to load settings.</value>
@@ -2144,13 +2144,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>We are unable to update your function app's edit mode. Please try again later.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Your app is currently in read/write mode because you've set the edit mode to read/write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
@@ -2330,7 +2330,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Manage application settings</value>
@@ -3077,7 +3077,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Functions (Preview)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you are running from a package file. When running from a package, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Code</value>
@@ -3690,7 +3690,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Runtime version: loading...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Your app is currently in read-only mode because you are using Local Cache. When using Local Cache, changes made on the local file system are not persisted to the site content. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Delete</value>
@@ -3756,7 +3756,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You must have write access on your app to configure container settings</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Your container settings cannot be configured unless you remove the read-only lock on your app</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Single Container</value>
@@ -4023,34 +4023,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>You do not have write permission</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>The slot has a read-only lock</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Source and Destination cannot be the same slot</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Swap with preview cannot be performed because the following slots have authentication enabled: '{{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Swap with preview can only be used with sites that have slot settings enabled</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Before you complete the swap, review the first slot's app behavior with the second slot's configuration</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>You do not have write permission on the following slots: '{{slotNames}}'</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>You do not have swap permission on the following slots: '{{slotNames}}'</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>There is a read-only lock on the following slots: '{{slotNames}}'</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A swap operation can only be performed if the app has multiple slots</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Swap Slots</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Loading failed</value>
@@ -4065,10 +4065,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Config Changes</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>These are the slot-specific application settings and connection strings from the target slot which will be temporarily applied to the source slot in the first phase of the swap.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>This is a summary of the final set of configuration changes on the source and target slots after the swap has completed.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Please make a valid selection above to load preview</value>
@@ -4398,13 +4398,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Stack</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Slots</value>
+    <value>Deployment Slot</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Auto swap enabled</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Auto swap slot</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platform</value>
@@ -4455,7 +4455,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Value</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Slot setting</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4677,7 +4677,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Proxies (Limited)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>To change slot settings you must have write access on the production app.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>To change the auto swap setting you must have write permissions on the production app.</value>
@@ -4692,7 +4692,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Function App Type</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Slot Setting Enabled</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Hidden value. Click show values button above to view</value>
@@ -4791,7 +4791,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>All app setting value and name properties must be of type string</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>All app setting slot setting properties must be of type boolean</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} is an invalid app setting property</value>
