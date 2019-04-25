@@ -27,6 +27,8 @@ export class CommonConstants {
     functionApp: 'functionapp',
     botapp: 'botapp',
     elastic: 'elastic', // only applies to server farm
+    app: 'app',
+    api: 'api',
   };
 
   public static readonly ApiVersions = {
