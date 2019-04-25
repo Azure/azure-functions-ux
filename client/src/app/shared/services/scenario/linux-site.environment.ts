@@ -19,11 +19,6 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    this.scenarioChecks[ScenarioIds.enableNetworking] = {
-      id: ScenarioIds.enableNetworking,
-      runCheck: () => disabledResult,
-    };
-
     this.scenarioChecks[ScenarioIds.enablePushNotifications] = {
       id: ScenarioIds.enablePushNotifications,
       runCheck: () => disabledResult,
