@@ -681,7 +681,8 @@ export class FunctionAppService {
     );
   }
 
-  getFunctionKeys(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
+  // Use getFunctionKeys from function.service.ts instead
+  getFunctionKeysDeprecated(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
         .get(context.urlTemplates.getFunctionKeysUrl(functionInfo.name), false, this.headers(t))
@@ -689,7 +690,8 @@ export class FunctionAppService {
     );
   }
 
-  createKey(context: FunctionAppContext, keyName: string, keyValue: string, functionInfo?: FunctionInfo): Result<FunctionKey> {
+  // Use createFunctionKey from function.service.ts instead
+  createKeyDeprecated(context: FunctionAppContext, keyName: string, keyValue: string, functionInfo?: FunctionInfo): Result<FunctionKey> {
     this.clearKeysCache(context, functionInfo);
 
     const url = functionInfo
@@ -709,7 +711,8 @@ export class FunctionAppService {
     });
   }
 
-  deleteKey(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<void> {
+  // Use deleteFunctionKey from function.service.ts intead
+  deleteKeyDeprecated(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<void> {
     this.clearKeysCache(context, functionInfo);
 
     const url = functionInfo

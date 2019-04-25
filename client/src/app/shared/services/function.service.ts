@@ -1,3 +1,4 @@
+import { FunctionKeys, FunctionKey } from 'app/shared/models/function-key';
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from './../../shared/conditional-http-client';
@@ -27,5 +28,30 @@ export class FunctionService {
     const getFunctions = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctions);
+  }
+
+  getFunctionKeys(resourceId: string, functionName: string): Result<FunctionKeys> {
+    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, false).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getFunctionKeys);
+  }
+
+  createFunctionKey(resourceId: string, functionName: string, newKeyName: string, newKeyValue: string): Result<ArmObj<FunctionKey>> {
+    const payload = JSON.stringify({
+      name: newKeyName,
+      valid: newKeyValue,
+    });
+
+    const createFunctionKey = this._cacheService
+      .putArm(`${resourceId}/functions/${functionName}/keys/${newKeyName}`, null, payload)
+      .map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => createFunctionKey);
+  }
+
+  deleteFunctionKey(resourceId: string, functionName: string, keyName: string): Result<Response> {
+    const deleteFunctionKey = this._cacheService.deleteArm(`${resourceId}/functions/${functionName}/keys/${keyName}`).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => deleteFunctionKey);
   }
 }

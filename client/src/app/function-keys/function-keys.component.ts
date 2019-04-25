@@ -56,12 +56,12 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
 
   constructor(
     broadcastService: BroadcastService,
-    functionService: FunctionService,
     private _translateService: TranslateService,
     private _utilities: UtilitiesService,
-    private _functionAppService: FunctionAppService
+    private _functionAppService: FunctionAppService,
+    private _functionService: FunctionService
   ) {
-    super('function-keys', _functionAppService, broadcastService, functionService);
+    super('function-keys', _functionAppService, broadcastService, _functionService);
 
     this.validKey = false;
     this.keys = [];
@@ -85,7 +85,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         } else if (viewInfo.functionInfo.isSuccessful) {
           this.functionInfo = viewInfo.functionInfo.result.properties;
 
-          return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result.properties);
+          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
         } else {
           this.functionInfo = null;
 
@@ -147,7 +147,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
   saveNewKey() {
     if (this.validKey) {
       this.setBusyState();
-      this._functionAppService.createKey(this.context, this.newKeyName, this.newKeyValue, this.functionInfo).subscribe(
+      this._functionService.createFunctionKey(this.context.site.id, this.functionInfo.name, this.newKeyName, this.newKeyValue).subscribe(
         () => {
           this.clearBusyState();
           this.refreshSubject.next(null);
@@ -160,7 +160,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
   revokeKey(key: FunctionKey) {
     if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
       this.setBusyState();
-      this._functionAppService.deleteKey(this.context, key, this.functionInfo).subscribe(
+      this._functionService.deleteFunctionKey(this.context.site.id, this.functionInfo.name, key.name).subscribe(
         () => {
           this.clearBusyState();
           this.refreshSubject.next(null);
