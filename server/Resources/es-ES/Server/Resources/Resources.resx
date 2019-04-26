@@ -545,7 +545,7 @@
     <value>Ejecutar</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Solo lectura: se empezó a editar con control de código fuente, por tanto esta vista es de solo lectura.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Editor avanzado</value>
@@ -1427,7 +1427,7 @@
     <value>Debe tener permisos de escritura en la aplicación actual para poder editar esta configuración.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Esta aplicación tiene un bloqueo de solo lectura que impide editar la configuración o recuperar datos seguros. Quite el bloqueo y vuelva a intentarlo.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
     <value>Vea la configuración en modo de solo lectura.</value>
@@ -1556,7 +1556,7 @@
     <value>Web Apps en Linux proporciona opciones en tiempo de ejecución mediante una colección de contenedores integrados. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Más información&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Archivo de inicio</value>
+    <value>Comando de inicio</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Especifique un comando de inicio opcional que se ejecutará como parte del proceso de inicio del contenedor. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Más información&lt;/a&gt;.</value>
@@ -1688,7 +1688,7 @@
     <value>API Management</value>
   </data>
   <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
+    <value>Exponga las funciones del desencadenador de HTTP a través de Azure API Management: administre, proteja y publique las API.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Definición de la API</value>
@@ -2141,13 +2141,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No podemos actualizar el modo de edición de la aplicación de función. Inténtelo de nuevo más tarde.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>La aplicación está actualmente en modo de solo lectura porque ha establecido el modo de edición en solo lectura. Para cambiar el modo de edición, visite </value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>La aplicación está actualmente en modo de lectura y escritura porque estableció el modo de edición en lectura y escritura a pesar de tener el control de código fuente habilitado. Los cambios que haga podrían sobrescribirse con su próxima implementación. Para cambiar el modo de edición, visite </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>La aplicación se encuentra actualmente en modo de solo lectura porque se ha publicado un archivo function.json generado. El entorno en tiempo de ejecución de Functions no respetará los cambios realizados en function.json. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>La aplicación está actualmente en modo de lectura y escritura porque estableció el modo de edición en lectura y escritura a pesar de haber generado un archivo function.json. Functions Runtime no tendrá en cuenta los cambios realizados en function.json.</value>
@@ -2327,7 +2327,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Se requiere un certificado de cliente para ejecutar esta función. Para ejecutarla dede el portal, debe deshabilitar el certificado de cliente.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Su aplicación está ahora en modo de solo lectura porque tiene espacios configurados. Para cambiarla al modo de edición, visite</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Administrar configuración de la aplicación</value>
@@ -2917,6 +2917,9 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   <data name="swapFailure" xml:space="preserve">
     <value>No se pudo completar {{operation}}. Error: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Se ha superado el número máximo de intentos de sondeo de estado para {{operation}}. Compruebe el registro de actividad para confirmar el resultado o estado de la operación.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Cancelando {{operation}}</value>
   </data>
@@ -3071,7 +3074,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Functions (versión preliminar)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>La aplicación está en modo de solo lectura porque la está ejecutando desde un archivo de paquete. Cuando se ejecuta desde un archivo de paquete, el sistema de archivos es de solo lectura y no se pueden realizar cambios en los archivos. Para hacer cambios, actualice el contenido en el archivo ZIP y la configuración de aplicación WEBSITE_RUN_FROM_PACKAGE.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Código</value>
@@ -3684,7 +3687,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Versión de entorno en tiempo de ejecución: cargando...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>La aplicación está en modo de solo lectura porque está usando la memoria caché local. Cuando se utiliza la memoria caché local, no se guardan en el contenido del sitio los cambios realizados en el sistema de archivos local. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Más información&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Eliminar</value>
@@ -3750,7 +3753,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Debe tener acceso de escritura en la aplicación para configurar las opciones de contenedor.</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>No se puede configurar el contenedor a menos que se quite el bloqueo de solo lectura en la aplicación.</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Contenedor único</value>
@@ -4017,34 +4020,34 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>No tiene permiso de escritura</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>El espacio tiene un bloqueo de solo lectura</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>El origen y el destino no pueden ser el mismo espacio</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>No se puede realizar el intercambio con la versión preliminar porque los espacios siguientes tienen la autenticación habilitada: "{{slotNames}}".</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>El intercambio con la versión preliminar solo se puede usar con sitios que tienen la configuración de espacio habilitada.</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Antes de completar el intercambio, revise el comportamiento de la aplicación del primer espacio con la configuración del segundo espacio</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>No tiene permiso de escritura en los siguientes espacios: '{{slotNames}}'</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>No tiene permiso de intercambio en los siguientes espacios: '{{slotNames}}'</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Hay un bloqueo de solo lectura en los siguientes espacios: '{{slotNames}}'</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Solo se puede realizar una operación de intercambio si la aplicación tiene varios espacios</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Intercambiar espacios</value>
+    <value>Intercambiar ranuras de implementación</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Error al cargar</value>
@@ -4059,10 +4062,10 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Cambios en la configuración</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Esta configuración de la aplicación es específica del espacio y las cadenas de la conexión del espacio de destino que se aplicarán temporalmente al espacio de origen en la primera fase del intercambio.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Este es un resumen del conjunto final de los cambios de configuración de los espacios de origen y de destino, una vez completado el intercambio.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Realice una selección válida anterior para cargar la vista previa</value>
@@ -4392,13 +4395,13 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Pila</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Ranuras</value>
+    <value>Ranura de implementación</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Intercambio automático habilitado</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Ranura de intercambio automático</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Plataforma</value>
@@ -4449,7 +4452,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Valor</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Configuración de ranuras</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4671,7 +4674,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Proxies (limitado)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Para cambiar la configuración de la ranura, debe tener acceso de escritura en la aplicación de producción.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Para cambiar la opción de cambio automático, debe tener permisos de escritura en la aplicación de producción.</value>
@@ -4686,7 +4689,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Tipo de aplicación de función</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Configuración de ranura habilitada</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Valor oculto. Haga clic en el botón Mostrar valores anterior para verlo.</value>
@@ -4785,7 +4788,7 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
     <value>Todas las propiedades de nombre y valor de configuración de la aplicación deben ser de tipo string.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Todas las propiedades de configuración de espacios de la configuración de la aplicación deben ser de tipo booleano.</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} es una propiedad de configuración de la aplicación que no es válida.</value>
@@ -4892,5 +4895,8 @@ Elija "URL externa" para usar una definición de API hospedada en otro lugar.</v
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Filtrar las cadenas de conexión</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>
