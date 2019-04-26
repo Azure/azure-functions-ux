@@ -48,7 +48,7 @@ const JavaStack: React.SFC<Props> = props => {
   const javaMinorVersionOptions = getJavaMinorVersionOptions(currentJavaMajorVersion, javaStack, t('newest'), t('autoUpdate'));
 
   // container versions
-  const frameworks = getJavaContainersOptions(javaContainers);
+  const frameworks = getJavaContainersOptions(javaContainers, t('notSelected'));
   const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, values.config, t('autoUpdate'));
   const onMajorVersionChange = (e: unknown, option: IDropdownOption) => {
     setCurrentJavaMajorVersion(option.key as string);
@@ -77,7 +77,6 @@ const JavaStack: React.SFC<Props> = props => {
         name="config.properties.javaContainer"
         component={Dropdown}
         fullpage
-        required
         label={t('javaContainer')}
         disabled={!app_write || !editable}
         id="app-settings-java-container-runtime"
@@ -88,7 +87,6 @@ const JavaStack: React.SFC<Props> = props => {
           name="config.properties.javaContainerVersion"
           component={Dropdown}
           fullpage
-          required
           disabled={!app_write || !editable}
           label={t('javaContainerVersion')}
           id="app-settings-java-container-version"

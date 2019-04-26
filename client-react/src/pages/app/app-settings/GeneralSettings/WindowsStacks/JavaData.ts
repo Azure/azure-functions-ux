@@ -58,13 +58,23 @@ export const getJavaMinorVersionOptions = (
   return javaMinorVersionOptions;
 };
 
-export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>) =>
-  javaContainers.properties.frameworks.map<IDropdownOption>(val => {
-    return {
-      key: val.name.toUpperCase(),
-      text: val.display,
-    };
-  });
+export const getJavaContainersOptions = (javaContainers: ArmObj<AvailableStack>, notSelectedLabel: string) => {
+  const notSelected: IDropdownOption[] = [
+    {
+      key: '',
+      text: notSelectedLabel,
+    },
+  ];
+
+  return notSelected.concat(
+    javaContainers.properties.frameworks.map<IDropdownOption>(val => {
+      return {
+        key: val.name.toUpperCase(),
+        text: val.display,
+      };
+    })
+  );
+};
 
 export const getFrameworkVersionOptions = (javaContainers: ArmObj<AvailableStack>, config: ArmObj<SiteConfig>, autoUpdateLabel: string) => {
   const currentFramework =
