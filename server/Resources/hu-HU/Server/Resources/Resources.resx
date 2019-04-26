@@ -545,7 +545,7 @@
     <value>Futtatás</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Írásvédett – mivel verziókövetéssel kezdte el a szerkesztést, ez a nézet írásvédett.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Speciális szerkesztő</value>
@@ -1427,10 +1427,10 @@
     <value>E beállítások módosításához írási hozzáféréssel kell rendelkeznie a jelenlegi alkalmazáshoz.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Az alkalmazás írásvédettségi zárolása megakadályozza a beállítások módosítását és a védett adatok beolvasását. Oldja fel a zárolást, majd próbálkozzon újra.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Beállítások megtekintése írásvédett üzemmódban.</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Nem sikerült betölteni a beállításokat.</value>
@@ -1556,7 +1556,7 @@
     <value>A linuxos Web Apps beépített tárolók egy gyűjteményével biztosít futásidejű beállításokat. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Indítási fájl</value>
+    <value>Indítási parancs</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;További információ&lt;/a&gt;.</value>
@@ -1688,7 +1688,7 @@
     <value>API Management</value>
   </data>
   <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
+    <value>Tegye elérhetővé HTTP-alapú eseményindító-függvényeit az Azure API Management segítségével – kezelheti, megvédheti, biztonságossá teheti és közzéteheti az API-kat.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-definíció</value>
@@ -2141,13 +2141,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett módban van, mivel írásvédettre állította a szerkesztési módot. A szerkesztési módot itt változtathatja meg: </value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Az alkalmazás jelenleg olvasási/írási módban van, mivel olvasási/írásira állította a szerkesztési módot annak ellenére, hogy engedélyezve van a verziókövetés. Az Ön által végrehajtott módosítások bármelyikét felülírhatja a következő üzemelő példány. A szerkesztési módot itt változtathatja meg: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert generált function.json fájlt tett közzé. A function.json fájlban végrehajtott módosítások a Functions-futtatókörnyezetben nem lesznek figyelembe véve. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Az alkalmazás azért van jelenleg olvasási/írási módban, mert az olvasás/írás értékre állította a szerkesztési módot annak ellenére, hogy generált function.json fájllal rendelkezik. A Functions-futtatókörnyezet nem fogja figyelembe venni a function.json módosításait.</value>
@@ -2327,7 +2327,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A függvény meghívásához és futtatásához szükséges ügyféltanúsítvány. A portálon való futtatáshoz le kell tiltania az ügyféltanúsítványt.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett módban van, mert tárolóhely(ek) van(nak) konfigurálva. A szerkesztési mód módosításához nyissa meg a következőt:</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Alkalmazásbeállítások kezelése</value>
@@ -2917,6 +2917,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="swapFailure" xml:space="preserve">
     <value>Nem sikerült befejezni a(z) {{operation}} műveletet. Hiba: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>{{operation}} megszakítása</value>
   </data>
@@ -3071,7 +3074,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Funkciók (előzetes verzió)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban fut, mert Ön csomagfájlból futtatja. A csomagfájlból való futtatáskor a fájlrendszer nem írható, tehát a fájlok nem módosíthatók. Ha módosításokat szeretne végrehajtani, frissítse a ZIP-fájl tartalmát és a WEBSITE_RUN_FROM_PACKAGE alkalmazásbeállítást.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kód</value>
@@ -3203,7 +3206,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Ingyenes</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>Az ingyenes termékváltozat a Linux esetében nem támogatott a kiválasztott régióban.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/hónap (becsült díj)</value>
@@ -3684,7 +3687,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Futásidejű verzió: betöltés...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert a helyi gyorsítótárat használja. Helyi gyorsítótár használatakor a helyi fájlrendszer módosításait a webhelytartalom nem őrzi meg. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;További információ&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Törlés</value>
@@ -3750,7 +3753,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A tárolóbeállítások konfigurálásához alkalmazásírási jogosultsággal kell rendelkeznie</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>A tároló beállításai csak akkor konfigurálhatók, ha eltávolítja az alkalmazás olvasási zárolását</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Egyetlen tároló</value>
@@ -4017,34 +4020,34 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Nem rendelkezik írási engedéllyel</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>A tárolóhelyen írásvédettségi zár van</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>A forrás és a cél nem lehet ugyanaz a tárolóhely</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Az előnézettel végrehajtott felcserélés nem hajtható végre, mert a következő tárolóhelyeken engedélyezve van a hitelesítés: {{slotNames}}</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Az előnézettel végrehajtott felcserélés csak azokon a helyeken használható, melyeken engedélyezve vannak a tárolóhely-beállítások</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>A csere végrehajtása előtt ellenőrizze az első tárhelybeli alkalmazásműködést a második tárhely konfigurációjával</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik írási engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Nem rendelkezik cserélési engedéllyel a következő tárolóhelyekre vonatkozóan: {{slotNames}}</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Írásvédettségi zár van a következő tárolóhelyeken: {{slotNames}}</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>A csereműveletek csak akkor hajthatók végre, ha az alkalmazás több tárolóhellyel rendelkezik</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Tárolóhelyek cseréje</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>A betöltés nem sikerült</value>
@@ -4059,10 +4062,10 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Konfigurációs módosítások</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Ezek a forrástárolóhelyről származó tárolóhely-specifikus alkalmazásbeállítások és kapcsolati sztringek, melyeket a rendszer ideiglenesen alkalmaz a forrástárolóhelyen a felcserélés első fázisában.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Ez a forrás- és a céltárolóhelyen alkalmazott konfigurációs módosítások végső készletének a felcserélés befejeződése utáni összegzése.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Az előnézet betöltéséhez érvényes kijelölést adjon meg fentebb</value>
@@ -4188,7 +4191,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A függvények portálon való szerkesztése nem támogatott a Linuxhoz készült használatalapú Function Apps (előzetes verzió) esetében.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>A függvények portálon való szerkesztése nem támogatott a prémium szintű, Linuxhoz készült Function Apps (előzetes verzió) esetében.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Single Container (Előzetes verzió)</value>
@@ -4392,13 +4395,13 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Verem</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Tárolóhelyek</value>
+    <value>Üzembe helyezési pont</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Automatikus felcserélés engedélyezve</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Automatikus felcserélési tárolóhely</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platform</value>
@@ -4449,7 +4452,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Érték</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Tárhelybeállítás</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4671,7 +4674,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Proxyk (korlátozott)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>A tárolóhely-beállítások módosításához írási hozzáféréssel kell rendelkeznie az üzemi alkalmazáshoz.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Az automatikus felcserélési beállítás módosításához írási engedélyekkel kell rendelkeznie az üzemi alkalmazásra vonatkozóan.</value>
@@ -4686,7 +4689,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Függvényalkalmazás típusa</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Tárhelybeállítás engedélyezve</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Rejtett érték. A megtekintéshez kattintson a fenti értékek megjelenítése gombra</value>
@@ -4785,7 +4788,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Minden alkalmazásbeállítás érték- és névtulajdonságának sztring típusúnak kell lennie</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Minden alkalmazásbeállítási tárhelybeállítás-tulajdonságnak logikai típusúnak kell lennie</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>A(z) {0} érvénytelen alkalmazásbeállítási tulajdonság</value>
@@ -4892,5 +4895,8 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Kapcsolati sztringek szűrése</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>
