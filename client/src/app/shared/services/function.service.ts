@@ -45,8 +45,10 @@ export class FunctionService {
 
   createFunctionKey(resourceId: string, functionName: string, newKeyName: string, newKeyValue: string): Result<ArmObj<FunctionKey>> {
     const payload = JSON.stringify({
-      name: newKeyName,
-      valid: newKeyValue,
+      properties: {
+        name: newKeyName,
+        value: newKeyValue,
+      },
     });
 
     const createFunctionKey = this._cacheService
