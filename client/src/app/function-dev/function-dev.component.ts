@@ -854,8 +854,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
       this._functionAppService.getHostKeys(this.context)
     ).subscribe(tuple => {
-      this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [], links: [] };
-      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [], links: [] };
+      this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
+      this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [] };
 
       if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
         const masterKey = this.hostKeys.keys.find(k => k.name === '_master');

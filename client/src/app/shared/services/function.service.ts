@@ -25,13 +25,20 @@ export class FunctionService {
   }
 
   getFunction(resourceId: string, functionName: string): Result<ArmObj<FunctionInfo>> {
-    const getFunctions = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
+    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
 
-    return this._client.execute({ resourceId: resourceId }, t => getFunctions);
+    return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
 
   getFunctionKeys(resourceId: string, functionName: string): Result<FunctionKeys> {
-    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, false).map(r => r.json());
+    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, false).map(r => {
+      const functionKeys: FunctionKey[] = [];
+      const objectKeys = Object.keys(r.json());
+      objectKeys.forEach(objectKey => {
+        functionKeys.push({ name: objectKey, value: r.json()[objectKey] });
+      });
+      return { keys: functionKeys };
+    });
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctionKeys);
   }

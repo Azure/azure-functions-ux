@@ -91,7 +91,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
 
           return Observable.of({
             isSuccessful: true,
-            result: { keys: [], links: [] },
+            result: { keys: [] },
             error: null,
           });
         }
