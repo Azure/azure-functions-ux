@@ -40,6 +40,13 @@ export class DynamicLinuxEnvironment extends Environment {
       id: ScenarioIds.enableConsole,
       runCheck: () => disabledResult,
     };
+
+    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
+      id: ScenarioIds.enableLinkAPIM,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

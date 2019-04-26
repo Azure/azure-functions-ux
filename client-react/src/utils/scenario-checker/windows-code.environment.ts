@@ -1,3 +1,4 @@
+import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -17,6 +18,11 @@ export class WindowsCode extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    return !!input && !!input.site && !!input.site.kind && input.site.kind.toLowerCase() === 'app';
+    return (
+      !!input &&
+      !!input.site &&
+      !!input.site.kind &&
+      (input.site.kind.toLowerCase() === CommonConstants.Kinds.app || input.site.kind.toLowerCase() === CommonConstants.Kinds.api)
+    );
   }
 }

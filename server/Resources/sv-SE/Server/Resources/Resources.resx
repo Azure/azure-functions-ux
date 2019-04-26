@@ -545,7 +545,7 @@
     <value>Kör</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Skrivskyddad – eftersom du började redigera med källkontroll är den här vyn skrivskyddad.</value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom du har integrering av källkontroll aktiverat.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Avancerat redigeringsprogram</value>
@@ -1430,7 +1430,7 @@
     <value>Den här appen har ett skrivskyddat lås som förhindrar redigering av inställningar och hämtning av skyddade data. Ta bort låset och försök igen.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Visa inställningar i skrivskyddat läge.</value>
+    <value>Visa inställningarna i skrivskyddat läge.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Det gick inte att läsa in inställningar.</value>
@@ -1556,7 +1556,7 @@
     <value>Web Apps på Linux ger CLR-alternativ genom en mängd av inbyggda containrar. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Startfil</value>
+    <value>Startkommando</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Ange ett valfritt startkommando som ska köras som en del av containerstarten. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Läs mer&lt;/a&gt;.</value>
@@ -1688,7 +1688,7 @@
     <value>API Management</value>
   </data>
   <data name="feature_apiManagementInfo" xml:space="preserve">
-    <value>Expose your HTTP trigger Functions through Azure API Management - manage, protect, secure, and publish the APIs.</value>
+    <value>Exponera dina HTTP-utlösarfunktioner via Azure API Management – hantera, skydda, säkra och publicera API:erna.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API-definition</value>
@@ -2141,13 +2141,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Det går inte att uppdatera funktionsappens redigeringsläge. Försök igen senare.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Appen är för närvarande i skrivskyddat läge eftersom redigeringsläget har angetts som skrivskyddat. Om du vill ändra redigeringsläge går du till </value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom det manuellt har angetts som skrivskyddat. Om du vill ändra redigeringsläget går du till </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Din app är för närvarande i läs-/skrivläge eftersom redigeringsläget har angetts till läs-/skriv trots att källkontroll har aktiverats. Eventuella ändringar som du gör kanske skrivs över vid nästa distribution. Om du vill ändra redigeringsläget går du till </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Appen är nu i skrivskyddat läge eftersom du har publicerat en genererad function.json. Ändringar i function.json kommer inte att hanteras av Functions-körningen. </value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom du har publicerat en genererad function.json. Ändringar som görs i function.json kommer inte att hanteras av Functions-körningen. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Din app är för närvarande i läs-/skrivläge eftersom redigeringsläget har angetts till läs-/skriv trots att en function.json har genererats. Körmiljön för Azure Functions hanterar inte ändringar i function.json.</value>
@@ -2327,7 +2327,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Ett klientcertifikat krävs för att anropa körning av funktionen. Om du vill köra den från portalen måste du inaktivera klientcertifikatet.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Appen är för närvarande i skrivskyddat läge eftersom du har ställt in fack. Om du vill ändra redigeringsläge går du till</value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom du har konfigurerat distributionsfack. Om du vill ändra redigeringsläge går du till</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Hantera tillämpningsinställningar</value>
@@ -2917,6 +2917,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="swapFailure" xml:space="preserve">
     <value>Det gick inte att slutföra {{operation}}. Fel: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Max antal statusavsökningsförsök för {{operation}} har överskridits. Kontrollera aktivitetsloggen för att bekräfta åtgärdsstatus/-resultat.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Avbryter {{operation}}</value>
   </data>
@@ -3071,7 +3074,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Functions (förhandsversion)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Appen är för närvarande i skrivskyddat läge eftersom du kör från en paketfil. När du kör från ett paket är filsystemet skrivskyddat och det går inte att göra ändringar i filerna. Om du vill göra ändringar måste du uppdatera innehållet i zip-filen och appinställningen WEBSITE_RUN_FROM_PACKAGE.</value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom du kör från en paketfil. Om du vill göra ändringar måste du uppdatera innehållet i din zip-fil och appinställningen WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3684,7 +3687,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Runtime-version: läser in...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Din appen är i skrivskyddat läge eftersom du använder det lokala cacheminnet. När du använder det lokala cacheminnet, sparas ändringar som görs på det lokala filsystemet inte till webbplatsens innehåll. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Läs mer&lt;/a&gt;</value>
+    <value>Din app är för tillfället i skrivskyddat läge eftersom du använder lokalt cacheminne. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Läs mer&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Ta bort</value>
@@ -3750,7 +3753,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Du måste ha skrivbehörighet på din app för att kunna konfigurera containerinställningarna</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Dina containerinställningar kan inte konfigureras såvida du inte tar bort appens skrivskyddslås</value>
+    <value>Din app är för tillfället i skrivskyddat läge. Ta bort det skrivskyddade låset i din app för att redigera containerinställningarna.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Enskild container</value>
@@ -4017,22 +4020,22 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Du saknar skrivbehörighet</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>Distributionsfacket har ett skrivskyddad lås</value>
+    <value>Distributionsfacket har ett skrivskyddat lås</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Samma plats kan inte vara både källa och mål</value>
+    <value>Källa och mål kan inte vara samma distributionsfack</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Växling med förhandsversion kan inte utföras eftersom följande fack har aktiverat autentisering: {{slotNames}}</value>
+    <value>Växling med förhandsgranskning kan inte utföras eftersom följande distributionsfack har autentisering aktiverat: {{slotNames}}</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Växling med förhandsversion kan bara användas med webbplatser som har aktiverade facksinställningar</value>
+    <value>Växling med förhandsgranskning kan bara användas med webbplatser som har aktiverade distributionsfacksinställningar</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Innan du slutför växlingen så kontrollera att det första distributionsfackets appbeteende med det andra distributionsfackets konfiguration</value>
+    <value>Innan du slutför växlingen, kontrollera det första distributionsfackets appbeteende med det andra distributionsfackets konfiguration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Du saknar skrivbehörighet för följande distributiosfack: {{slotNames}}</value>
+    <value>Du saknar skrivbehörighet för följande distributionsfack: {{slotNames}}</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
     <value>Du saknar växlingsbehörighet för följande distributionsfack: {{slotNames}}</value>
@@ -4059,10 +4062,10 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Konfigurationsändringar</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Dessa är de fackspecifika programinställningar och anslutningssträngar från målfacket som kommer att tillämpas temporärt på källfacket i växlingens första fas.</value>
+    <value>Det här är de distributionsfackspecifika programinställningar och anslutningssträngar från måldistributionsfacket som kommer att tillämpas temporärt på källdistributionsfacket under växlingens första fas.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Detta är en sammanfattning av den slutliga uppsättningen av konfigurationsändringar för käll- och målfacken efter det att växlingen har slutförts.</value>
+    <value>Det här är en sammanfattning av den slutliga uppsättningen konfigurationsändringar för käll- och måldistributionsfacken efter att växlingen har slutförts.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Gör ett giltigt val ovan för att kunna läsa in förhandsversionen</value>
@@ -4392,13 +4395,13 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Stack</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Fack</value>
+    <value>Distributionsplats</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Autoväxling aktiverat</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Autoväxlingsfack</value>
+    <value>Automatisk växling av distributionsfack</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Plattform</value>
@@ -4449,7 +4452,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Värde</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Platsinställning</value>
+    <value>distributionsfackinställning</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4671,7 +4674,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Proxyservrar (begränsade)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Om du vill ändra fackinställningar måste du ha skrivåtkomst till produktionsappen.</value>
+    <value>Om du vill ändra distributionsfackinställningarna måste du ha skrivåtkomst till produktionsappen.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Om du vill ändra inställningen för automatisk växling måste du ha behörigheter till produktionsappen.</value>
@@ -4686,7 +4689,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Funktionsapptyp</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Fackinställning har aktiverats</value>
+    <value>Distributionsfackinställningen har aktiverats</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Dolt värde. Visa genom att klicka på knappen Visa värden ovan</value>
@@ -4785,7 +4788,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Alla appinställningsvärden och namnegenskaper måste vara av typen sträng</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Alla egenskaper för appinställningsfack måste vara av boolesk typ</value>
+    <value>Alla inställningsegenskaper för appinställningsfacket måste vara av boolesk typ</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} är en ogiltig appinställningsegenskap</value>
@@ -4892,5 +4895,8 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Filtrera anslutningssträngarna</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Redigeringsfunktioner i portalen stöds inte för Java-funktionsappar. Använd Maven eller VS Code för distribution.</value>
   </data>
 </root>

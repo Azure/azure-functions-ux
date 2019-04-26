@@ -524,6 +524,8 @@ export class PortalResources {
   public static feature_securityScanningInfo = 'feature_securityScanningInfo';
   public static feature_monitoring = 'feature_monitoring';
   public static feature_corsInfo = 'feature_corsInfo';
+  public static feature_apiManagement = 'feature_apiManagement';
+  public static feature_apiManagementInfo = 'feature_apiManagementInfo';
   public static feature_apiDefinitionName = 'feature_apiDefinitionName';
   public static feature_apiDefinitionInfo = 'feature_apiDefinitionInfo';
   public static feature_appServicePlanInfo = 'feature_appServicePlanInfo';
@@ -930,6 +932,7 @@ export class PortalResources {
   public static swapStarted = 'swapStarted';
   public static swapSuccess = 'swapSuccess';
   public static swapFailure = 'swapFailure';
+  public static swapTimeout = 'swapTimeout';
   public static swapCancelStarted = 'swapCancelStarted';
   public static swapCancelSuccess = 'swapCancelSuccess';
   public static swapCancelFailure = 'swapCancelFailure';
@@ -1573,4 +1576,5 @@ export class PortalResources {
   public static filter = 'filter';
   public static filterAppSettings = 'filterAppSettings';
   public static filterConnectionStrings = 'filterConnectionStrings';
+  public static readOnlyJava = 'readOnlyJava';
 }
