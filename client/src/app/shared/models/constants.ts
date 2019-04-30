@@ -491,7 +491,7 @@ export class DeploymentCenterConstants {
   public static readonly editReleaseDefinitionPermission = 2;
 
   // Agent queues
-  public static readonly agentQueueNames = ['Hosted VS2017', 'Hosted Ubuntu 1604', 'Default'];
+  public static readonly agentQueueNames = ['Hosted VS2017'];
   public static readonly queueActionFilter = 16; // "Use"
 
   public static readonly EmptyGuid = '00000000-0000-0000-0000-000000000000';
