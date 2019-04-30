@@ -149,10 +149,12 @@ export class StepCompleteComponent {
         value: buildSettings.vstsAccount,
       });
 
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.project),
-        value: buildSettings.vstsProject,
-      });
+      if (!wizValues.buildSettings.createNewVsoAccount) {
+        returnSummaryItems.push({
+          label: this._translateService.instant(PortalResources.project),
+          value: buildSettings.vstsProject,
+        });
+      }
 
       if (wizValues.buildSettings.createNewVsoAccount) {
         returnSummaryItems.push({
@@ -206,7 +208,7 @@ export class StepCompleteComponent {
             break;
         }
         returnSummaryItems.push({
-          label: this._translateService.instant(PortalResources.pythonVersionLabel),
+          label: this._translateService.instant(PortalResources.pythonFramework),
           value: frameWorkValue,
         });
 
