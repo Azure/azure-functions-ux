@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { DropDownElement } from '../../../../../../shared/models/drop-down-element';
 import { CacheService } from 'app/shared/services/cache.service';
 import { PythonFrameworkType } from '../../../wizard-logic/deployment-center-setup-models';
-import { RequiredValidator } from '../../../../../../shared/validators/requiredValidator';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
 
 export const TaskRunner = {
@@ -46,7 +46,7 @@ export class WindowsFramworksComponent implements OnInit, OnDestroy {
 
   pythonVersionList: DropDownElement<string>[] = [];
 
-  defaultPythonFramework = 'Bottle';
+  defaultPythonFramework = PythonFrameworkType.Bottle;
   pythonFrameworkList: DropDownElement<PythonFrameworkType>[] = [
     { value: PythonFrameworkType.Bottle, displayLabel: 'Bottle' },
     { value: PythonFrameworkType.Django, displayLabel: 'Django' },

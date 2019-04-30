@@ -7,7 +7,7 @@ import { OsType } from 'app/shared/models/arm/stacks';
 import { RegexValidator } from 'app/shared/validators/regexValidator';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { RequiredValidator } from '../../../../../../shared/validators/requiredValidator';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
 export const TaskRunner = {
   None: 'None',
