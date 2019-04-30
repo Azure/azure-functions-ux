@@ -545,7 +545,7 @@
     <value>Çalıştır</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Salt okunur - kaynak denetimiyle düzenlemeye başladığınız için bu görünüm salt okunur durumdadır.</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Gelişmiş düzenleyici</value>
@@ -1427,10 +1427,10 @@
     <value>Bu ayarları düzenleyebilmeniz için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Bu uygulamada, ayarların düzenlenmesini veya güvenli verilerin indirilmesini önleyen bir salt okunur kilidi var.</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Ayarları salt okunur modda görüntüleyin.</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Ayarlar yüklenemedi.</value>
@@ -1556,7 +1556,7 @@
     <value>Linux üzerinde Web Apps, yerleşik bir kapsayıcı koleksiyonu aracılığıyla çalışma zamanı seçenekleri sunar. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Başlangıç Dosyası</value>
+    <value>Başlangıç Komutu</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Kapsayıcı başlatmasının parçası olarak çalıştırılacak isteğe bağlı bir başlangıç komutu sağlayın. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Daha fazla bilgi&lt;/a&gt;.</value>
@@ -1683,6 +1683,12 @@
   </data>
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Uygulamanızda Başlangıç Noktaları Arası Kaynak Paylaşımı (CORS) kurallarını yapılandırın.</value>
+  </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API Management</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Azure API Management aracılığıyla HTTP tetikleyicisi İşlevlerinizi kullanıma sunun. API'leri yönetin, koruyun, yayımlayın ve API'lerin güvenliğini sağlayın.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API tanımı</value>
@@ -2135,13 +2141,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev uygulamanızın düzenleme modunu güncelleştiremiyoruz. Lütfen daha sonra yeniden deneyin.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Düzenleme modunu salt okunur olarak ayarladığınız için uygulamanız şu anda salt okunur modda. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Kaynak denetimini etkinleştirmiş olmanıza karşın düzenleme modunu okuma/yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin: </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Oluşturulan bir function.json yayımlamış olduğundan uygulamanız şu anda salt okunur modda çalışıyor. Function.json içinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından kullanılmaz. </value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Oluşturulmuş bir function.json olduğu halde düzenleme modunu okuma\yazma olarak ayarladığınızdan uygulamanız şu anda okuma/yazma modunda. Function.json üzerinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından uygulanmayacak.</value>
@@ -2321,7 +2327,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Bu işlevin çalıştırılabilmesi için istemci sertifikası gereklidir. İşlevi portaldan çalıştırmak için istemci sertifikasını devre dışı bırakmanız gerekir.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Yapılandırılmış yuvalarınız olduğundan uygulamanız şu anda salt okunur modda. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Uygulama ayarlarını yönet</value>
@@ -2911,6 +2917,9 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   <data name="swapFailure" xml:space="preserve">
     <value>{{operation}} tamamlanamadı. Hata: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>{{operation}} iptal ediliyor</value>
   </data>
@@ -3065,7 +3074,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlevler (Önizleme)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Paketten çalıştırdığınız için uygulamanız şu anda salt okunur modunda. Paketten çalıştırırken, dosya sistemi salt okunur durumdadır ve dosyalarda değişiklik yapılamaz. Değişiklik yapmak için zip dosyanızın içeriğini ve WEBSITE_RUN_FROM_PACKAGE uygulama ayarını güncelleştirin.</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Kod</value>
@@ -3197,7 +3206,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ücretsiz</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>Ücretsiz SKU, seçili bölgede Linux için desteklenmiyor.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/Ay (Tahmini)</value>
@@ -3678,7 +3687,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Çalışma zamanı sürümü: Yükleniyor...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Yerel Önbellek kullandığınızdan uygulamanız şu anda salt okunur modda. Yerel Önbellek kullanırken, yerel dosya sistemi üzerinde yapılan değişiklikler site içeriğinde kalıcı hale getirilmez. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Daha fazla bilgi edinin&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Sil</value>
@@ -3744,7 +3753,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Kapsayıcı ayarlarını yapılandırmak için uygulamanızda yazma iznine sahip olmanız gerekir</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Uygulamanızdaki salt okunur kilidini kaldırmadığınız sürece kapsayıcı ayarlarınız yapılandırılamaz</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Tek Kapsayıcı</value>
@@ -4011,34 +4020,34 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yazma izniniz yok</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>Yuvanın salt okunur bir kilidi var</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Kaynak ve Hedef aynı yuva olamaz</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Şu yuvalarda kimlik doğrulaması etkin olduğundan önizleme ile takas yapılamıyor: '{{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Önizleme ile takas yalnızca yuva ayarları etkinleştirilmiş sitelerle kullanılabilir</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Değişimi tamamlamadan önce ilk yuvanın uygulama davranışını ikinci yuvanın yapılandırmasıyla gözden geçirin</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>Şu yuvalarda yazma izniniz yok: '{{slotNames}}'</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>Şu yuvalarda değiştirme izniniz yok: '{{slotNames}}'</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>Şu yuvalarda salt okunur bir kilit var: '{{slotNames}}'</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Değiştirme işlemleri yalnızca uygulamanın birden fazla yuvası varsa gerçekleştirilebilir</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Yuvaları Değiştir</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Yükleme başarısız</value>
@@ -4053,10 +4062,10 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yapılandırma Değişiklikleri</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Bunlar, takasın ilk aşamasında geçici olarak kaynak yuvaya uygulanacak yuvaya özgü uygulama ayarları ve hedef yuvadan alınan bağlantı dizeleridir.</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Bu, kaynak ve hedef yuvalardaki yapılandırma değişiklerinin takas tamamlandıktan sonraki özetidir.</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Önizlemeyi yüklemek için lütfen yukarıdan geçerli bir seçim yapın</value>
@@ -4182,7 +4191,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Portalda işlev düzenleme Linux Tüketim İşlevi Uygulamaları (Önizleme) için desteklenmiyor.</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>Portalda işlev düzenleme Linux Premium İşlev Uygulamaları (Önizleme) için desteklenmiyor.</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Tek Kapsayıcı (Önizleme)</value>
@@ -4386,13 +4395,13 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Yığın</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Yuvalar</value>
+    <value>Dağıtım Yuvası</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Otomatik değiştirme etkin</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Otomatik değiştirme yuvası</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Platform</value>
@@ -4443,7 +4452,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Değer</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Yuva ayarı</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4665,7 +4674,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Ara Sunucular (Sınırlı)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Yuva ayarlarını değiştirmek için üretim uygulaması üzerinde yazma erişiminiz olmalıdır.</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Otomatik değiştirme ayarlarını değiştirmek için üretim uygulaması üzerinde yazma izinleriniz olmalıdır.</value>
@@ -4680,7 +4689,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>İşlev Uygulaması Türü</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Yuva Ayarı Etkin</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Gizli değer. Görüntülemek için yukarıdaki Değerleri göster düğmesine tıklayın</value>
@@ -4779,7 +4788,7 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
     <value>Tüm uygulama ayarı değeri ve ad özellikleri dize türünde olmalıdır</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Tüm uygulama ayarı yuva ayarı özellikleri boole türünde olmalıdır</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} geçersiz bir uygulama ayarı özelliği</value>
@@ -4886,5 +4895,8 @@ Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Bağlantı dizelerini filtrele</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>

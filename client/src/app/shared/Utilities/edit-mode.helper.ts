@@ -12,6 +12,7 @@ export class EditModeHelper {
       editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic ||
       editMode === FunctionAppEditMode.ReadOnlyBYOC ||
       editMode === FunctionAppEditMode.ReadOnlyPython ||
+      editMode === FunctionAppEditMode.ReadOnlyJava ||
       editMode === FunctionAppEditMode.ReadOnlyLinuxCodeElastic
     );
   }
@@ -23,6 +24,8 @@ export class EditModeHelper {
       return 'readOnlyLocalCache';
     } else if (editMode === FunctionAppEditMode.ReadOnlyPython) {
       return 'readOnlyPython';
+    } else if (editMode === FunctionAppEditMode.ReadOnlyJava) {
+      return 'readOnlyJava';
     } else if (editMode === FunctionAppEditMode.ReadOnlyLinuxDynamic) {
       return 'readOnlyLinuxDynamic';
     } else if (editMode === FunctionAppEditMode.ReadOnlyBYOC) {

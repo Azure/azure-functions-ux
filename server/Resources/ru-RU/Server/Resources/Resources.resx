@@ -545,7 +545,7 @@
     <value>Запуск</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как включена интеграция системы управления версиями.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Расширенный редактор</value>
@@ -1427,10 +1427,10 @@
     <value>Для изменения этих параметров вам требуются разрешения на запись в текущем приложении.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Это приложение доступно только для чтения. В нем запрещено изменять параметры или извлекать защищенные данные. Снимите блокировку и повторите попытку.</value>
+    <value>Это приложение доступно только для чтения, поэтому изменение параметров и извлечение защищенных данных заблокированы. Снимите блокировку и повторите попытку.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Просмотреть параметры в режиме "только для чтения".</value>
+    <value>Просмотр параметров в режиме только для чтения.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Не удалось загрузить параметры.</value>
@@ -1556,7 +1556,7 @@
     <value>Веб-приложения на базе Linux поддерживают возможности среды выполнения с помощью коллекции встроенных контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Загрузочный файл</value>
+    <value>Команда запуска</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
@@ -1683,6 +1683,12 @@
   </data>
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Вы можете настраивать правила общего доступа к ресурсам независимо от источника для вашего приложения.</value>
+  </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>Управление API</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Предоставляйте доступ к функциям триггера HTTP через управление API Azure — защищайте, публикуйте соответствующие API и управляйте ими.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Определение API</value>
@@ -2135,13 +2141,13 @@
     <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Приложение сейчас находится в режиме "только для чтения", так как вы перевели его в режим правки. Чтобы изменить режим правки, посетите </value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, который был задан вручную. Изменить режим редактирования можно здесь: </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на включенную систему управления версиями. Все вносимые изменения могут быть перезаписаны при следующем развертывании. Чтобы изменить режим правки, воспользуйтесь </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме "только для чтения", так как вы опубликовали созданный function.json. Изменения, вносимые в function.json, не будут учитываться средой выполнения Функций Azure. </value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы опубликовали сформированный файл function.json. Изменения в function.json не будут учитываться средой выполнения Функций Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на созданный function.json. Изменения, внесенные в function.json, не будут учитываться в среде выполнения функций.</value>
@@ -2321,7 +2327,7 @@
     <value>Для вызова этой функции требуется сертификат клиента. Чтобы запустить ее на портале, нужно отключить сертификат клиента.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Приложение сейчас находится в режиме только для чтения, так как у вас есть настроенные слоты. Чтобы изменить режим правки, посетите</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как у вас настроены слоты развертывания. Изменить режим редактирования можно здесь:</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Управление параметрами приложения</value>
@@ -2911,6 +2917,9 @@
   <data name="swapFailure" xml:space="preserve">
     <value>Не удалось выполнить операцию {{operation}}. Ошибка: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Превышено максимальное число попыток опроса состояния операции "{{operation}}". Проверьте состояние или результат операции в журнале действий.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Отмена операции {{operation}}</value>
   </data>
@@ -3065,7 +3074,7 @@
     <value>Функции (предварительная версия)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме только для чтения, так как выполняется из файла пакета. В этом случае файловая система доступна только для чтения и не позволяет изменять файлы. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_RUN_FROM_PACKAGE.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы работаете из файла пакета. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Код</value>
@@ -3197,7 +3206,7 @@
     <value>Бесплатно</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>Бесплатные номера SKU не поддерживаются для Linux в выбранном регионе.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} в месяц (приблизительно)</value>
@@ -3678,7 +3687,7 @@
     <value>Версия среды выполнения: загружается...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. При использовании локального кэша изменения, внесенные в локальную файловую систему, не сохраняются в контенте сайта. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения&lt;/a&gt;</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения.&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Удалить</value>
@@ -3744,7 +3753,7 @@
     <value>Для настройки параметров контейнера нужен доступ для записи к приложению.</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Параметры контейнера невозможно настроить, пока с приложения не будет снята блокировка только для чтения.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения. Для редактирования параметров контейнера снимите с приложения эту блокировку.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Один контейнер</value>
@@ -4011,34 +4020,34 @@
     <value>У вас нет разрешения на запись.</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>К слоту применена блокировка только для чтения</value>
+    <value>Слот развертывания заблокирован и доступен только для чтения.</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Слот не может быть одновременно исходным и целевым</value>
+    <value>Слот развертывания не может быть одновременно исходным и целевым.</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Невозможно выполнить переключение с использованием предварительной версии, так как в следующих слотах включена проверка подлинности: "{{slotNames}}".</value>
+    <value>Переключение с использованием предварительной версии невозможно, так как в следующих слотах развертывания включена проверка подлинности: "{{slotNames}}".</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Переключение с использованием предварительной версии можно использовать только с сайтами, на которых включены параметры слотов.</value>
+    <value>Переключение с использованием предварительной версии можно использовать только с сайтами, для которых включены параметры слотов развертывания.</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Перед переключением проверьте поведение приложения первого слота с конфигурацией второго слота.</value>
+    <value>Перед переключением проверьте работу приложения из первого слота развертывания с конфигурацией второго слота.</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>У вас нет разрешения на запись в следующих слотах: "{{slotNames}}".</value>
+    <value>У вас нет разрешения на запись в следующих слотах развертывания: "{{slotNames}}".</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>У вас нет разрешения на переключение в следующих слотах: "{{slotNames}}".</value>
+    <value>У вас нет разрешения на переключение в следующих слотах развертывания: "{{slotNames}}".</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>К следующим слотам применена блокировка только для чтения: "{{slotNames}}".</value>
+    <value>Следующие слоты развертывания заблокированы и доступны только для чтения: "{{slotNames}}".</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Переключение можно выполнить, только если в приложении несколько слотов.</value>
+    <value>Операцию переключения можно выполнить, только если у приложения больше одного слота развертывания.</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Переключение слотов</value>
+    <value>Переключение слотов развертывания</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Ошибка загрузки</value>
@@ -4053,10 +4062,10 @@
     <value>Изменения конфигурации</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Это зависящие от слота параметры приложения и строки подключений из целевого слота, которые будут временно применены к исходному слоту на первом этапе переключения.</value>
+    <value>Это параметры приложения и строки подключения из целевого слота развертывания, которые будут временно применены к исходному слоту развертывания на первом этапе переключения.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Это сводка финального набора изменений конфигурации в исходном и целевом слотах после переключения.</value>
+    <value>Это сводка итогового набора изменений конфигурации в исходном и целевом слотах развертывания после переключения.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Выберите допустимый вариант выше, чтобы загрузить предварительную версию.</value>
@@ -4182,7 +4191,7 @@
     <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>Изменение функций на портале не поддерживается для приложений-функций Linux категории "Премиум" (предварительная версия).</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Один контейнер (предварительная версия)</value>
@@ -4386,13 +4395,13 @@
     <value>Стек</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Слоты</value>
+    <value>Слот развертывания</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Автоматическое переключение включено.</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Слот автоматического переключения</value>
+    <value>Автоматическое переключение слота развертывания</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Платформа</value>
@@ -4443,7 +4452,7 @@
     <value>Значение</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Параметр слота</value>
+    <value>параметры слота развертывания</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4665,7 +4674,7 @@
     <value>Прокси-серверы (с ограничениями)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Чтобы изменить параметры слота, нужны разрешения на запись в рабочем приложении.</value>
+    <value>Для изменения параметров слота развертывания необходим доступ на запись в рабочем приложении.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Чтобы изменить параметр автоматической замены, нужны разрешения на запись в рабочем приложении.</value>
@@ -4680,7 +4689,7 @@
     <value>Тип приложения-функции</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Параметр слота включен.</value>
+    <value>Параметры слота развертывания включены.</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Скрытое значение. Для просмотра нажмите кнопку "Показать значения" выше.</value>
@@ -4779,7 +4788,7 @@
     <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Все свойства слотов в параметрах приложения должны иметь логический тип.</value>
+    <value>Все свойства слота развертывания в параметрах приложения должны иметь логический тип.</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} является недопустимым свойством параметров приложения.</value>
@@ -4886,5 +4895,8 @@
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>Фильтр строк подключения</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Функции редактирования на портале не поддерживаются для приложений-функций Java. Используйте для разработки Maven или VS Code.</value>
   </data>
 </root>

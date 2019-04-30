@@ -202,7 +202,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
       targets: this._deploymentTargets,
     };
 
-    const setupvsoCall = this._azureDevOpsService.startDeployment(this.wizardValues.buildSettings.vstsAccount, deploymentObject);
+    const setupvsoCall = this._azureDevOpsService.startDeployment(
+      this.wizardValues.buildSettings.vstsAccount,
+      deploymentObject,
+      this.wizardValues.buildSettings.createNewVsoAccount
+    );
 
     if (this.wizardValues.buildSettings.createNewVsoAccount) {
       return this._cacheService

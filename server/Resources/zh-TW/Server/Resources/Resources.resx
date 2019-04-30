@@ -545,7 +545,7 @@
     <value>執行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。</value>
+    <value>Your app is currently in read only mode because you have source control integration enabled.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>進階編輯器</value>
@@ -1427,10 +1427,10 @@
     <value>您必須對目前的應用程式具有寫入權限，才能編輯這些設定。</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>此應用程式有唯讀鎖定，導致無法編輯設定或擷取安全資料。請移除鎖定並再試一次。</value>
+    <value>This app has a read only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>以唯讀模式檢視設定。</value>
+    <value>View settings in read only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>無法載入設定。</value>
@@ -1556,7 +1556,7 @@
     <value>Linux 上的 Web 應用程式透過內建容器的集合提供執行階段選項。 &lt;a href="{{learnMoreLink}}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>啟動檔案</value>
+    <value>啟動命令</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>提供要在容器啟動過程中執行的選擇性啟動命令。&lt;a href="{{learnMoreLink}}" target="_blank"&gt;深入了解&lt;/a&gt;。</value>
@@ -1683,6 +1683,12 @@
   </data>
   <data name="feature_corsInfo" xml:space="preserve">
     <value>為您的應用程式設定跨原始來源資源共用 (CORS) 規則</value>
+  </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>API 管理</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>透過 Azure API 管理公開您的 HTTP 觸發程序函式，管理、保護及發佈 API。</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API 定義</value>
@@ -2135,13 +2141,13 @@
     <value>目前無法更新您函數應用程式的編輯模式。請稍後再試一次。</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>因為您已將編輯模式設定為唯讀模式，所以應用程式目前是唯讀模式。若要變更編輯模式，請瀏覽</value>
+    <value>Your app is currently in read only mode because it has been manually set to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>因為根據您的設定，即使已啟用了原始檔控制，仍將編輯模式設定為讀取/寫入模式，所以您的應用程式目前為讀取/寫入模式。您的所有變更在下次部署時皆會予以覆寫。若要變更編輯模式，請前往</value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>因為您已發行產生的 function.json，所以應用程式目前為唯讀模式。Functions 執行階段不會接受 Function.json 的變更。</value>
+    <value>Your app is currently in read only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>因為根據您的設定，即使已產生了 function.json，仍將編輯模式設定為讀取/寫入模式，所以您的應用程式目前為讀取/寫入模式。Functions 執行階段不會執行 function.json 的變更。</value>
@@ -2321,7 +2327,7 @@
     <value>必須有用戶端憑證才能呼叫執行這個函數。若要從入口網站予以執行，您必須停用用戶端憑證。</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>因為您已設定位置，所以應用程式目前為唯讀模式。若要變更編輯模式，請前往</value>
+    <value>Your app is currently in read only mode because you have configured deployment slots. To change edit mode visit</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>管理應用程式設定</value>
@@ -2911,6 +2917,9 @@
   <data name="swapFailure" xml:space="preserve">
     <value>無法完成 {{operation}}。錯誤: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Exceeded maximum status polling attempts for {{operation}}. Check Activity log to confirm operation status/result.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>正在取消 {{operation}}</value>
   </data>
@@ -3065,7 +3074,7 @@
     <value>Functions (預覽)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>因為您正在從套件檔案執行，所以應用程式目前處於唯讀模式。從套件執行時，檔案系統即為唯讀，無法對檔案進行任何變更。若要進行任何變更，請更新 ZIP 檔案中的內容及 WEBSITE_RUN_FROM_PACKAGE 應用程式設定。</value>
+    <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>程式碼</value>
@@ -3197,7 +3206,7 @@
     <value>免費</value>
   </data>
   <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
-    <value>Free SKU is not supported for Linux in the selected region.</value>
+    <value>所選區域的 Linux 不支援免費 SKU。</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1}/月 (預估)</value>
@@ -3678,7 +3687,7 @@
     <value>run-time 版本: 正在載入...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>因為您在使用本機快取，所以您的應用程式目前處於唯讀模式。在使用本機快取時，在本機檔案系統上所做的變更不會保存至網站內容。&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;深入了解&lt;/a&gt;</value>
+    <value>Your app is currently in read only mode because you are using Local Cache. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Learn more&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>刪除</value>
@@ -3744,7 +3753,7 @@
     <value>您必須擁有應用程式的寫入權限，才能進行容器設定</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>除非您移除應用程式的唯讀鎖定，否則無法進行容器設定</value>
+    <value>Your app is currently in read only mode. Remove the read only lock on your app to edit container settings.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>單一容器</value>
@@ -4011,34 +4020,34 @@
     <value>您無權寫入</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>位置具有唯讀鎖定</value>
+    <value>The deployment slot has a read only lock</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>來源與目的地不可為相同位置</value>
+    <value>Source and Destination cannot be the same deployment slot</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>因為下列位置啟用了驗證，所以無法執行提供預覽的交換: ' {{slotNames}}'</value>
+    <value>Swap with preview cannot be performed because the following deployment slots have authentication enabled: '{{slotNames}}'</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>只有啟用位置設定的網站，才能使用提供預覽的交換</value>
+    <value>Swap with preview can only be used with sites that have deployment slot settings enabled</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>完成交換之前，請先對照第一個位置的應用程式行為與第二個位置的設定加以檢查</value>
+    <value>Before you complete the swap, review the first deployment slot's app behavior with the second deployment slot's configuration</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>您無權寫入下列位置: ' {{slotNames}}'</value>
+    <value>You do not have write permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>您無權交換下列位置: ' {{slotNames}}'</value>
+    <value>You do not have swap permission on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>下列位置具有唯讀鎖定: ' {{slotNames}}'</value>
+    <value>There is a read only lock on the following deployment slots: '{{slotNames}}'</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>應用程式如有多個位置，只能執行交換作業</value>
+    <value>A swap operation can only be performed if the app has multiple deployment slots</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>交換位置</value>
+    <value>Swap deployment slots</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>載入失敗</value>
@@ -4053,10 +4062,10 @@
     <value>組態變更</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>這些是來自目標位置的位置專屬應用程式設定及連接字串，會在交換的第一階段暫時套用到來源位置。</value>
+    <value>These are the deployment slot specific application settings and connection strings from the target deployment slot which will be temporarily applied to the source deployment slot in the first phase of the swap.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>這是在交換完成之後，來源與目標位置上最終組態變更的摘要。</value>
+    <value>This is a summary of the final set of configuration changes on the source and target deployment slots after the swap has completed.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>上列選擇必須有效，才能載入預覽</value>
@@ -4182,7 +4191,7 @@
     <value>Linux 使用量函數應用程式 (預覽) 不支援在入口網站中編輯函數。</value>
   </data>
   <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
-    <value>Editing functions in the portal is not supported for Linux Premium Function Apps (Preview).</value>
+    <value>Linux 進階函數應用程式 (預覽) 不支援在入口網站中編輯函式。</value>
   </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>單一容器 (預覽)</value>
@@ -4386,13 +4395,13 @@
     <value>堆疊</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>插槽</value>
+    <value>部署位置</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>已啟用自動交換</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>自動交換位置</value>
+    <value>Auto swap deployment slot</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>平台</value>
@@ -4443,7 +4452,7 @@
     <value>值</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>位置設定</value>
+    <value>deployment slot setting</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4665,7 +4674,7 @@
     <value>Proxy (受限)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>您必須有生產應用程式的寫入權限，才能變更位置設定。</value>
+    <value>To change deployment slot settings you must have write access on the production app.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>您必須有生產應用程式的寫入權限，才能變更自動交換設定。</value>
@@ -4680,7 +4689,7 @@
     <value>函數應用程式類型</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>已啟用位置設定</value>
+    <value>Deployment Slot Setting Enabled</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>隱藏的值。按一下上方的 [顯示值] 按鈕即可檢視</value>
@@ -4779,7 +4788,7 @@
     <value>所有應用程式設定的值和名稱屬性都必須是字串類型</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>所有應用程式設定位置設定屬性都必須為布林值類型</value>
+    <value>All app setting deployment slot setting properties must be of type boolean</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} 是無效的應用程式設定屬性</value>
@@ -4886,5 +4895,8 @@
   </data>
   <data name="filterConnectionStrings" xml:space="preserve">
     <value>篩選連接字串</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Editing functions in the portal is not supported for Java Function Apps. Please use Maven or VS Code for development.</value>
   </data>
 </root>
