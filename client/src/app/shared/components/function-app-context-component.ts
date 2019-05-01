@@ -79,7 +79,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
         return Observable.zip(
           tuple[1].functionDescriptor
             ? functionService.getFunction(tuple[0].site.id, tuple[1].functionDescriptor.name)
-            : Observable.of({ isSuccessful: false, error: { errorId: '' } } as HttpResult<FunctionInfo>),
+            : Observable.of({ isSuccessful: false, error: { errorId: '' } }),
           Observable.of(tuple[0]),
           Observable.of(tuple[1])
         );
@@ -87,7 +87,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
       .map(tuple =>
         Object.assign(tuple[2], {
           context: tuple[1],
-          functionInfo: tuple[0],
+          functionInfo: tuple[0] as HttpResult<ArmObj<FunctionInfo>>,
         })
       )
       .do(v => {

@@ -85,13 +85,13 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         } else if (viewInfo.functionInfo.isSuccessful) {
           this.functionInfo = viewInfo.functionInfo.result.properties;
 
-          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
+          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name, true);
         } else {
           this.functionInfo = null;
 
           return Observable.of({
             isSuccessful: true,
-            result: { keys: [], links: [] },
+            result: { keys: [] },
             error: null,
           });
         }
@@ -119,6 +119,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
             resourceId: this.context.site.id,
           });
         }
+        this.clearBusyState();
       });
   }
 
@@ -147,39 +148,75 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
   saveNewKey() {
     if (this.validKey) {
       this.setBusyState();
-      this._functionService.createFunctionKey(this.context.site.id, this.functionInfo.name, this.newKeyName, this.newKeyValue).subscribe(
-        () => {
-          this.clearBusyState();
-          this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+      if (!!this.newKeyValue) {
+        this._functionService
+          .createFunctionKey(this.context.site.id, this.functionInfo.name, this.newKeyName, this.newKeyValue)
+          .subscribe(newKeyResult => {
+            if (newKeyResult.isSuccessful) {
+              this.refreshSubject.next(null);
+            } else {
+              this.showComponentError({
+                errorId: newKeyResult.error.errorId,
+                message: newKeyResult.error.message,
+                resourceId: this.context.site.id,
+              });
+              this.clearBusyState();
+            }
+          });
+      } else {
+        // note (allisonm): current the new API doesn't support auto-generating a key value
+        // if no value is provided we must use the old generation method via function runtime
+        this._functionAppService
+          .createKeyDeprecated(this.context, this.newKeyName, this.newKeyValue, this.functionInfo)
+          .subscribe(newKeyResult => {
+            if (newKeyResult.isSuccessful) {
+              this.refreshSubject.next(null);
+            } else {
+              this.showComponentError({
+                errorId: newKeyResult.error.errorId,
+                message: newKeyResult.error.message,
+                resourceId: this.context.site.id,
+              });
+              this.clearBusyState();
+            }
+          });
+      }
     }
   }
 
   revokeKey(key: FunctionKey) {
     if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
       this.setBusyState();
-      this._functionService.deleteFunctionKey(this.context.site.id, this.functionInfo.name, key.name).subscribe(
-        () => {
-          this.clearBusyState();
+      this._functionService.deleteFunctionKey(this.context.site.id, this.functionInfo.name, key.name).subscribe(deleteKeyResult => {
+        if (deleteKeyResult.isSuccessful) {
           this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+        } else {
+          this.showComponentError({
+            errorId: deleteKeyResult.error.errorId,
+            message: deleteKeyResult.error.message,
+            resourceId: this.context.site.id,
+          });
+          this.clearBusyState();
+        }
+      });
     }
   }
 
   renewKey(key: FunctionKey) {
     if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, { name: key.name }))) {
       this.setBusyState();
-      this._functionAppService.renewKey(this.context, key, this.functionInfo).subscribe(
-        () => {
-          this.clearBusyState();
+      this._functionAppService.renewKey(this.context, key, this.functionInfo).subscribe(renewKeyResult => {
+        if (renewKeyResult.isSuccessful) {
           this.refreshSubject.next(null);
-        },
-        () => this.clearBusyState()
-      );
+        } else {
+          this.showComponentError({
+            errorId: renewKeyResult.error.errorId,
+            message: renewKeyResult.error.message,
+            resourceId: this.context.site.id,
+          });
+          this.clearBusyState();
+        }
+      });
     }
   }
 

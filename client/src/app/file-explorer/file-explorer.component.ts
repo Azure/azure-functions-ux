@@ -202,7 +202,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
       ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
       : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
     this.setBusyState();
-    const saveFileObservable = this._functionAppService.saveFile(this.context, href, content || '', this.functionInfo);
+    const saveFileObservable = this._functionAppService.saveFile(this.context, href, content || '');
     saveFileObservable.subscribe(
       r => {
         if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
@@ -267,7 +267,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
     }
 
     this.setBusyState();
-    this._functionAppService.deleteFile(this.context, this.selectedFile, this.functionInfo).subscribe(
+    this._functionAppService.deleteFile(this.context, this.selectedFile).subscribe(
       deleted => {
         this.clearBusyState();
         const result = deleted.isSuccessful ? deleted.result : '';
