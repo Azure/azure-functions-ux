@@ -702,7 +702,7 @@ export class FunctionAppService {
     );
   }
 
-  // Use createFunctionKey from function.service.ts instead
+  // Use createFunctionKey from function.service.ts instead unless keyValue needs to be auto-generated
   createKeyDeprecated(context: FunctionAppContext, keyName: string, keyValue: string, functionInfo?: FunctionInfo): Result<FunctionKey> {
     this.clearKeysCache(context, functionInfo);
 

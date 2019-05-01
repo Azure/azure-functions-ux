@@ -30,8 +30,8 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
 
-  getFunctionKeys(resourceId: string, functionName: string): Result<FunctionKeys> {
-    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, false).map(r => {
+  getFunctionKeys(resourceId: string, functionName: string, force?: boolean): Result<FunctionKeys> {
+    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, force).map(r => {
       const functionKeys: FunctionKey[] = [];
       const objectKeys = Object.keys(r.json());
       objectKeys.forEach(objectKey => {
