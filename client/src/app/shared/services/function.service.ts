@@ -7,6 +7,7 @@ import { ArmArrayResult, ArmObj } from './../models/arm/arm-obj';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { FunctionInfo } from '../models/function-info';
+import { HostKeyTypes } from '../models/constants';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -64,8 +65,24 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => deleteFunctionKey);
   }
 
-  getHostKeys(resourceId: string, functionName: string): Result<HostKeys> {
-    const getHostKeys = this._cacheService.postArm(`${resourceId}/${functionName}/host/default/listkeys`).map(r => r.json());
+  getHostKeys(resourceId: string, force?: boolean): Result<HostKeys> {
+    const getHostKeys = this._cacheService.postArm(`${resourceId}/host/default/listkeys`, force).map(r => {
+      const hostMasterKey = r.json()[HostKeyTypes.masterKey];
+
+      const hostFunctionKeys: FunctionKey[] = [];
+      let objectKeys = Object.keys(r.json()[HostKeyTypes.functionKeys]);
+      objectKeys.forEach(objectKey => {
+        hostFunctionKeys.push({ name: objectKey, value: r.json()[HostKeyTypes.functionKeys][objectKey] });
+      });
+
+      const hostSystemKeys: FunctionKey[] = [];
+      objectKeys = Object.keys(r.json()[HostKeyTypes.systemKeys]);
+      objectKeys.forEach(objectKey => {
+        hostSystemKeys.push({ name: objectKey, value: r.json()[HostKeyTypes.systemKeys][objectKey] });
+      });
+
+      return { masterKey: hostMasterKey, functionKeys: { keys: hostFunctionKeys }, systemKeys: { keys: hostSystemKeys } };
+    });
 
     return this._client.execute({ resourceId: resourceId }, t => getHostKeys);
   }

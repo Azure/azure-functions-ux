@@ -80,21 +80,17 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
     return this.viewInfoEvents
       .combineLatest(this.refreshSubject, (a, b) => a)
       .switchMap(viewInfo => {
-        if (viewInfo.functionInfo.isSuccessful) {
-          if (this.adminKeys) {
-            return this._functionService
-              .getHostKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name)
-              .switchMap(r => {
-                return Observable.of({
-                  isSuccessful: r.isSuccessful,
-                  result: r.isSuccessful ? this._formatHostKeys(r.result) : { keys: [] },
-                  error: r.error,
-                });
-              });
-          } else {
-            this.functionInfo = viewInfo.functionInfo.result.properties;
-            return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
-          }
+        if (this.adminKeys) {
+          return this._functionService.getHostKeys(viewInfo.context.site.id).switchMap(r => {
+            return Observable.of({
+              isSuccessful: r.isSuccessful,
+              result: r.isSuccessful ? this._formatHostKeys(r.result) : { keys: [] },
+              error: r.error,
+            });
+          });
+        } else if (viewInfo.functionInfo.isSuccessful) {
+          this.functionInfo = viewInfo.functionInfo.result.properties;
+          return this._functionService.getFunctionKeys(viewInfo.context.site.id, viewInfo.functionInfo.result.properties.name);
         } else {
           this.functionInfo = null;
 

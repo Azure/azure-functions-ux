@@ -610,3 +610,9 @@ export enum FunctionAppVersion {
   v1 = 'V1',
   v2 = 'V2',
 }
+
+export enum HostKeyTypes {
+  masterKey = 'masterKey',
+  functionKeys = 'functionKeys',
+  systemKeys = 'systemKeys',
+}

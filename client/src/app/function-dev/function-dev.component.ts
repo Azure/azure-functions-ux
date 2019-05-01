@@ -852,7 +852,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
   private updateKeys() {
     Observable.zip(
       this._functionService.getFunctionKeys(this.context.site.id, this.functionInfo.name),
-      this._functionService.getHostKeys(this.context.site.id, this.functionInfo.name)
+      this._functionService.getHostKeys(this.context.site.id)
     ).subscribe(tuple => {
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
       this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
