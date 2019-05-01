@@ -565,7 +565,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       this.functionInfo.config = JSON.parse(this.updatedContent);
     }
 
-    return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent, this.functionInfo).subscribe(
+    return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent).subscribe(
       r => {
         this._broadcastService.broadcastEvent<void>(BroadcastEvent.FunctionCodeUpdate);
         if (!dontClearBusy) {
@@ -806,7 +806,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
       // remove "code" param fix
       const clonedModel: HttpRunModel = JSON.parse(JSON.stringify(this.runHttp.model));
-      const codeIndex = clonedModel.queryStringParams.findIndex(p => p.name === 'code');
+      const codeIndex = (clonedModel.queryStringParams && clonedModel.queryStringParams.findIndex(p => p.name === 'code')) || -1;
 
       if (codeIndex > -1) {
         clonedModel.queryStringParams.splice(codeIndex, 1);
