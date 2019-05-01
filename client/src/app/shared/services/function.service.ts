@@ -25,21 +25,30 @@ export class FunctionService {
   }
 
   getFunction(resourceId: string, functionName: string): Result<ArmObj<FunctionInfo>> {
-    const getFunctions = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
+    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
 
-    return this._client.execute({ resourceId: resourceId }, t => getFunctions);
+    return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
 
-  getFunctionKeys(resourceId: string, functionName: string): Result<FunctionKeys> {
-    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, false).map(r => r.json());
+  getFunctionKeys(resourceId: string, functionName: string, force?: boolean): Result<FunctionKeys> {
+    const getFunctionKeys = this._cacheService.postArm(`${resourceId}/functions/${functionName}/listkeys`, force).map(r => {
+      const functionKeys: FunctionKey[] = [];
+      const objectKeys = Object.keys(r.json());
+      objectKeys.forEach(objectKey => {
+        functionKeys.push({ name: objectKey, value: r.json()[objectKey] });
+      });
+      return { keys: functionKeys };
+    });
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctionKeys);
   }
 
   createFunctionKey(resourceId: string, functionName: string, newKeyName: string, newKeyValue: string): Result<ArmObj<FunctionKey>> {
     const payload = JSON.stringify({
-      name: newKeyName,
-      valid: newKeyValue,
+      properties: {
+        name: newKeyName,
+        value: newKeyValue,
+      },
     });
 
     const createFunctionKey = this._cacheService

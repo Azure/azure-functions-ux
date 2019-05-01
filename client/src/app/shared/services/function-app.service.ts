@@ -233,20 +233,15 @@ export class FunctionAppService {
   getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text())
     );
   }
 
-  saveFile(
-    context: FunctionAppContext,
-    file: VfsObject | string,
-    updatedContent: string,
-    functionInfo?: FunctionInfo
-  ): Result<VfsObject | string> {
+  saveFile(context: FunctionAppContext, file: VfsObject | string, updatedContent: string): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService
         .put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent)
         .map(() => file)
@@ -256,7 +251,7 @@ export class FunctionAppService {
   deleteFile(context: FunctionAppContext, file: VfsObject | string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
     const fileHref = typeof file === 'string' ? file : file.href;
 
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file)
     );
   }
@@ -513,24 +508,6 @@ export class FunctionAppService {
     );
   }
 
-  saveFunction(context: FunctionAppContext, fi: FunctionInfo, config: any) {
-    this._cacheService.clearCachePrefix(context.scmUrl);
-    this._cacheService.clearCachePrefix(context.mainSiteUrl);
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-      this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify({ config: config })).map(r => r.json() as FunctionInfo)
-    );
-  }
-
-  getHostToken(context: FunctionAppContext) {
-    return ArmUtil.isLinuxApp(context.site)
-      ? this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
-          this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(t))
-        )
-      : this.azure.execute({ resourceId: context.site.id }, t =>
-          this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(t))
-        );
-  }
-
   getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       Observable.zip(
@@ -599,9 +576,8 @@ export class FunctionAppService {
       }
     }
 
-    this._cacheService.clearCachePrefix(context.scmUrl);
     this._cacheService.clearCachePrefix(context.mainSiteUrl);
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy)).map(r => r.json() as FunctionInfo)
     );
   }
@@ -676,7 +652,7 @@ export class FunctionAppService {
 
   getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
     const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json())
     );
   }
@@ -690,7 +666,7 @@ export class FunctionAppService {
     );
   }
 
-  // Use createFunctionKey from function.service.ts instead
+  // Use createFunctionKey from function.service.ts instead unless keyValue needs to be auto-generated
   createKeyDeprecated(context: FunctionAppContext, keyName: string, keyValue: string, functionInfo?: FunctionInfo): Result<FunctionKey> {
     this.clearKeysCache(context, functionInfo);
 
@@ -1059,7 +1035,7 @@ export class FunctionAppService {
   }
 
   saveHostJson(context: FunctionAppContext, jsonString: string): Result<any> {
-    return this.getClient(context).execute({ resourceId: context.site.id }, t =>
+    return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.put(context.urlTemplates.hostJsonUrl, this.jsonHeaders(t, ['If-Match', '*']), jsonString).map(r => r.json())
     );
   }
