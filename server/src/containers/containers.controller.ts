@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ContainersService } from './containers.service';
 
-@Controller('containers')
+@Controller('api')
 export class ContainersController {
   constructor(private containerService: ContainersService) {}
   @Post('validateContainerImage')
