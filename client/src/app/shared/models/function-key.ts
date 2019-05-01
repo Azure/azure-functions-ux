@@ -1,8 +1,11 @@
+import { HostKeyTypes } from './constants';
+
 export interface FunctionKey {
   name: string;
   value: string;
   show?: boolean;
   selected?: boolean;
+  hostKeyType?: HostKeyTypes;
 }
 
 export interface FunctionKeys {

@@ -856,14 +856,18 @@ export class FunctionDevComponent extends FunctionAppContextComponent
     ).subscribe(tuple => {
       this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [] };
       this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { masterKey: '', functionKeys: { keys: [] }, systemKeys: { keys: [] } };
+      const masterKey = this.hostKeys.masterKey;
 
       if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
-        const masterKey = this.hostKeys.masterKey;
-        if (masterKey) {
+        if (!!masterKey) {
           this.onChangeKey(masterKey);
         }
       } else {
-        const allKeys = this.functionKeys.keys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
+        let allKeys = this.functionKeys.keys;
+        if (!!masterKey) {
+          allKeys = allKeys.concat([{ name: '_master', value: masterKey }]);
+        }
+        allKeys = allKeys.concat(this.hostKeys.functionKeys.keys).concat(this.hostKeys.systemKeys.keys);
         if (allKeys.length > 0) {
           this.onChangeKey(allKeys[0].value);
         }
