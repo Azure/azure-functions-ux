@@ -603,20 +603,15 @@ export class FunctionAppService {
     );
   }
 
-  getHostErrors(context: FunctionAppContext): Result<string[]> {
-    return this.runtime.execute({ resourceId: context.site.id }, t =>
-      this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t)).map(r => (r.json().errors || []) as string[])
-    );
-  }
-
-  getFunctionHostStatus(context: FunctionAppContext): Result<HostStatus> {
+  // To just get status & errors use getHostSyncStatus from function.service. Use this function for more information about the host
+  getFunctionHostStatusInfo(context: FunctionAppContext): Result<HostStatus> {
     return this.runtime.execute({ resourceId: context.site.id }, t =>
       this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t)).map(r => r.json() as HostStatus)
     );
   }
 
   getWorkerRuntimeRequired(context: FunctionAppContext): Observable<boolean> {
-    return this.getFunctionHostStatus(context).map(r => {
+    return this.getFunctionHostStatusInfo(context).map(r => {
       if (r.isSuccessful) {
         const runtimeVersion = new Version(r.result.version);
         if (this._workerRuntimeRequired(runtimeVersion)) {

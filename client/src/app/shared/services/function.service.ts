@@ -8,6 +8,7 @@ import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { FunctionInfo } from '../models/function-info';
 import { HostKeyTypes } from '../models/constants';
+import { SyncStatus } from '../models/sync-status';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -19,14 +20,14 @@ export class FunctionService {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
 
-  getFunctions(resourceId: string): Result<ArmArrayResult<FunctionInfo>> {
-    const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, false).map(r => r.json());
+  getFunctions(resourceId: string, force?: boolean): Result<ArmArrayResult<FunctionInfo>> {
+    const getFunctions = this._cacheService.getArm(`${resourceId}/functions`, force).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getFunctions);
   }
 
-  getFunction(resourceId: string, functionName: string): Result<ArmObj<FunctionInfo>> {
-    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, false).map(r => r.json());
+  getFunction(resourceId: string, functionName: string, force?: boolean): Result<ArmObj<FunctionInfo>> {
+    const getFunction = this._cacheService.getArm(`${resourceId}/functions/${functionName}`, force).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getFunction);
   }
@@ -106,5 +107,11 @@ export class FunctionService {
     const deleteHostKey = this._cacheService.deleteArm(`${resourceId}/host/default/${hostKeyType}/${keyName}`).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => deleteHostKey);
+  }
+
+  getHostSyncStatus(resourceId: string, force?: boolean): Result<SyncStatus> {
+    const getHostSyncStatus = this._cacheService.postArm(`${resourceId}/host/default/sync`, force).map(r => r.json());
+
+    return this._client.execute({ resourceId: resourceId }, t => getHostSyncStatus);
   }
 }

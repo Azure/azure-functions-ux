@@ -155,7 +155,7 @@ export abstract class BaseExtensionInstallComponent extends FunctionAppContextCo
       }
 
       if (!this.correctAppState) {
-        this.functionAppService.getFunctionHostStatus(this.context).subscribe(r => {
+        this.functionAppService.getFunctionHostStatusInfo(this.context).subscribe(r => {
           if (r.isSuccessful && r.result.state) {
             this.correctAppState = r.result.state === desiredState;
           }

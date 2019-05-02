@@ -47,7 +47,7 @@ import { FunctionKeys, HostKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { LogService } from '../shared/services/log.service';
-import { LogCategories, WebhookTypes, FunctionAppVersion } from '../shared/models/constants';
+import { LogCategories, WebhookTypes, FunctionAppVersion, HostSyncStatus } from '../shared/models/constants';
 import { ArmUtil } from '../shared/Utilities/arm-utils';
 import { AiService } from 'app/shared/services/ai.service';
 import { FunctionService } from 'app/shared/services/function.service';
@@ -229,7 +229,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         return Observable.zip(
           Observable.of(functionView),
           this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
-          this._functionAppService.getFunctionHostStatus(functionView.context),
+          this._functionService.getHostSyncStatus(functionView.context.site.id),
           this._functionAppService.getFunctionErrors(functionView.context, functionView.functionInfo.result.properties),
           this._functionAppService.getRuntimeGeneration(functionView.context)
         );
@@ -241,14 +241,14 @@ export class FunctionDevComponent extends FunctionAppContextComponent
       })
       .subscribe(tuple => {
         if (tuple[2].isSuccessful) {
-          const status = tuple[2].result;
-          if (status.state === 'Error') {
-            status.errors = status.errors || [];
+          const hostSyncStatus = tuple[2].result;
+          if (hostSyncStatus.status !== HostSyncStatus.success) {
+            hostSyncStatus.errors = hostSyncStatus.errors || [];
             this.showComponentError({
               message:
                 this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart) +
                 '\n' +
-                status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                hostSyncStatus.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
               errorId: errorIds.functionRuntimeIsUnableToStart,
               resourceId: this.context.site.id,
             });

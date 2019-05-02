@@ -56,7 +56,7 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
       .switchMap(functionMonitorInfo => {
         this.functionMonitorInfo = functionMonitorInfo;
 
-        return this._functionAppService.getFunctionHostStatus(functionMonitorInfo.functionAppContext).flatMap(functionHost => {
+        return this._functionAppService.getFunctionHostStatusInfo(functionMonitorInfo.functionAppContext).flatMap(functionHost => {
           if (functionHost.isSuccessful) {
             return this._functionMonitorService.getDataForSelectedFunction(
               functionMonitorInfo.functionAppContext,

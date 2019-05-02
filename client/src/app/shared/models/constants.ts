@@ -616,3 +616,7 @@ export enum HostKeyTypes {
   functionKeys = 'functionKeys',
   systemKeys = 'systemKeys',
 }
+
+export enum HostSyncStatus {
+  success = 'success',
+}

@@ -82,7 +82,7 @@ export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMoni
         this._functionMonitorInfo = functionMonitorInfo;
 
         return this._functionAppService
-          .getFunctionHostStatus(functionMonitorInfo.functionAppContext)
+          .getFunctionHostStatusInfo(functionMonitorInfo.functionAppContext)
           .flatMap(functionHost =>
             this._functionMonitorService.getDataForSelectedFunction(
               functionMonitorInfo.functionAppContext,

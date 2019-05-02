@@ -247,7 +247,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           this._cacheService.postArm(`${this.viewInfo.resourceId}/config/appsettings/list`, true),
           this._functionAppService.getSlotsList(this.context),
           this._functionAppService.getFunctionAppEditMode(this.context),
-          this._functionAppService.getFunctionHostStatus(this.context),
+          this._functionAppService.getFunctionHostStatusInfo(this.context),
           this._functionService.getFunctions(this.context.site.id)
         );
       })
@@ -353,7 +353,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
       .mergeMap(r => {
         if (r.isSuccessful) {
           return this._functionAppService
-            .getFunctionHostStatus(this.context)
+            .getFunctionHostStatusInfo(this.context)
             .map(hostStatus => {
               if (
                 !hostStatus.isSuccessful ||
