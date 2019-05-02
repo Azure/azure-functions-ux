@@ -12,6 +12,8 @@ export interface FunctionInfo {
   config: FunctionConfig;
   files: { [key: string]: string };
   test_data: string;
+  invoke_url_template: string;
+  language: string;
 
   // note (allisonm): These properties are used in embedded scenarios only
   context?: FunctionAppContext;
@@ -21,6 +23,9 @@ export interface FunctionInfo {
 
 export class FunctionInfoHelper {
   public static getLanguage(fi: FunctionInfo): string {
+    if (!!fi.language) {
+      return fi.language;
+    }
     const fileName = fi.script_href.substring(fi.script_href.lastIndexOf('/') + 1);
     const fileExt = fileName.split('.')[1].toLowerCase();
     let lang = '';
