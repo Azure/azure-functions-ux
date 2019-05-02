@@ -18,6 +18,7 @@ import { ProxiesNode } from './proxies-node';
 import { Subscription } from 'app/shared/models/subscription';
 import { BroadcastEvent, TreeUpdateEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
+import { FunctionService } from 'app/shared/services/function.service';
 
 export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
   public supportsAdvanced = true;
@@ -46,6 +47,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
   private _logService: LogService;
   private _functionAppService: FunctionAppService;
   private _broadcastService: BroadcastService;
+  private _functionService: FunctionService;
 
   constructor(
     sideBar: SideNavComponent,
@@ -60,6 +62,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     this._scenarioService = this.sideNav.injector.get(ScenarioService);
     this._logService = this.sideNav.injector.get(LogService);
     this._broadcastService = this.sideNav.injector.get(BroadcastService);
+    this._functionService = this.sideNav.injector.get(FunctionService);
 
     this.disabled = !!disabled;
     if (disabled) {
@@ -166,7 +169,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     this.sideNav.cacheService.clearCache();
 
     return this.loadChildren().do(context => {
-      this._functionAppService.fireSyncTrigger(context);
+      this._functionService.fireSyncTrigger(context.site.id);
       if (this.children && this.children.length === 1 && !this.children[0].isExpanded) {
         this.children[0].toggle(null);
       }

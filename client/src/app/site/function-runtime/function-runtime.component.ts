@@ -218,7 +218,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
           : Constants.disabled;
         this._siteService.addOrUpdateAppSettings(this.context.site.id, newOrUpdatedSettings).subscribe(r => {
           if (r.isSuccessful) {
-            this._functionAppService.fireSyncTrigger(this.context);
+            this._functionService.fireSyncTrigger(this.context.site.id);
             this.slotsEnabled = value;
             this._busyManager.clearBusy();
             this._cacheService.clearArmIdCachePrefix(this.context.site.id);

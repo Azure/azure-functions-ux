@@ -579,7 +579,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent
         }
 
         if (syncTriggers) {
-          this._functionAppService.fireSyncTrigger(this.context);
+          this._functionService.fireSyncTrigger(this.context.site.id);
         }
 
         this.content = this.updatedContent;

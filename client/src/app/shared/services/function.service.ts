@@ -6,8 +6,9 @@ import { HttpResult } from './../models/http-result';
 import { ArmArrayResult, ArmObj } from './../models/arm/arm-obj';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
+import { LogService } from './log.service';
 import { FunctionInfo } from '../models/function-info';
-import { HostKeyTypes } from '../models/constants';
+import { HostKeyTypes, LogCategories } from '../models/constants';
 import { SyncStatus } from '../models/sync-status';
 
 type Result<T> = Observable<HttpResult<T>>;
@@ -16,7 +17,7 @@ type Result<T> = Observable<HttpResult<T>>;
 export class FunctionService {
   private readonly _client: ConditionalHttpClient;
 
-  constructor(userService: UserService, injector: Injector, private _cacheService: CacheService) {
+  constructor(userService: UserService, injector: Injector, private _cacheService: CacheService, private _logService: LogService) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
 
@@ -109,9 +110,18 @@ export class FunctionService {
     return this._client.execute({ resourceId: resourceId }, t => deleteHostKey);
   }
 
-  getHostSyncStatus(resourceId: string, force?: boolean): Result<SyncStatus> {
-    const getHostSyncStatus = this._cacheService.postArm(`${resourceId}/host/default/sync`, force).map(r => r.json());
+  getHostSyncStatus(resourceId: string): Result<SyncStatus> {
+    const getHostSyncStatus = this._cacheService.postArm(`${resourceId}/host/default/sync`, true).map(r => r.json());
 
     return this._client.execute({ resourceId: resourceId }, t => getHostSyncStatus);
+  }
+
+  fireSyncTrigger(resourceId: string): void {
+    this._cacheService
+      .postArm(`${resourceId}/host/default/listsyncstatus`, true)
+      .subscribe(
+        success => this._logService.verbose(LogCategories.syncTriggers, success),
+        error => this._logService.error(LogCategories.syncTriggers, '/sync-triggers-error', error)
+      );
   }
 }

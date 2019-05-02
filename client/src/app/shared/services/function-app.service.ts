@@ -725,7 +725,8 @@ export class FunctionAppService {
     }
   }
 
-  fireSyncTrigger(context: FunctionAppContext): void {
+  // Use fireSyncTrigger from function.service.ts instead
+  fireSyncTriggerDeprecated(context: FunctionAppContext): void {
     if (ArmUtil.isLinuxDynamic(context.site)) {
       this._cacheService
         .postArm(`${context.site.id}/hostruntime/admin/host/synctriggers`, true)
