@@ -66,6 +66,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         <TextFieldNoFormik
           label={t('nameRes')}
           id="app-settings-edit-name"
+          widthOverride="100%"
           value={currentAppSetting.name}
           errorMessage={nameError}
           onChange={updateAppSettingName}
@@ -74,6 +75,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         <TextFieldNoFormik
           label={t('value')}
           id="app-settings-edit-value"
+          widthOverride="100%"
           value={currentAppSetting.value}
           onChange={updateAppSettingValue}
         />

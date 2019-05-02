@@ -32,7 +32,7 @@ import { PriceSpecInput, PriceSpec } from './price-spec';
 import { Subject } from 'rxjs/Subject';
 import { BillingMeter } from '../../../shared/models/arm/billingMeter';
 import { LogCategories, Links, ScenarioIds } from '../../../shared/models/constants';
-import { Tier } from './../../../shared/models/serverFarmSku';
+import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AppKind } from 'app/shared/Utilities/app-kind';
 import { BillingService } from 'app/shared/services/billing.service';
@@ -510,15 +510,24 @@ export class PlanPriceSpecManager {
   }
 
   private _getBillingMeters(inputs: SpecPickerInput<PlanSpecPickerData>) {
+    const osType = this._getOsType(inputs);
     if (this._isUpdateScenario(inputs)) {
       // If we're getting meters for an existing plan
-      const osType = AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
       return this._planService.getBillingMeters(this._subscriptionId, osType, this._plan.location);
     }
 
     // We're getting meters for a new plan
-    const osType = inputs.data.isLinux ? OsType.Linux : OsType.Windows;
     return this._planService.getBillingMeters(inputs.data.subscriptionId, osType, inputs.data.location);
+  }
+
+  private _getOsType(inputs: SpecPickerInput<PlanSpecPickerData>): OsType {
+    if (this._isUpdateScenario(inputs)) {
+      // If we're getting meters for an existing plan
+      return AppKind.hasKinds(this._plan, ['linux']) ? OsType.Linux : OsType.Windows;
+    }
+
+    // We're getting meters for a new plan
+    return inputs.data.isLinux ? OsType.Linux : OsType.Windows;
   }
 
   private _setBillingResourceId(spec: PriceSpec, billingMeters: ArmObj<BillingMeter>[]) {
@@ -538,7 +547,13 @@ export class PlanPriceSpecManager {
       billingMeter = billingMeters.find(m => m.properties.shortName.toLowerCase() === spec.billingSkuCode.toLowerCase());
     }
     if (!billingMeter) {
-      this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
+      // TODO(shimedh): Remove condition for Free Linux once billingMeters API is updated by backend to return the meters correctly.
+      const osType = this._getOsType(this._inputs);
+      if (osType === OsType.Linux && spec.skuCode === SkuCode.Free.F1) {
+        spec.specResourceSet.firstParty[0].resourceId = 'a90aec9f-eecb-42c7-8421-9b96716996dc';
+      } else {
+        this._logService.error(LogCategories.specPicker, '/meter-not-found', `No meter found for ${spec.skuCode}`);
+      }
       return;
     }
 

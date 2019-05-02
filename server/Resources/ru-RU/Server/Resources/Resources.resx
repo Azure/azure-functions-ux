@@ -545,7 +545,7 @@
     <value>Запуск</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как включена интеграция системы управления версиями.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Расширенный редактор</value>
@@ -1427,10 +1427,10 @@
     <value>Для изменения этих параметров вам требуются разрешения на запись в текущем приложении.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>Это приложение доступно только для чтения. В нем запрещено изменять параметры или извлекать защищенные данные. Снимите блокировку и повторите попытку.</value>
+    <value>Это приложение доступно только для чтения, поэтому изменение параметров и извлечение защищенных данных заблокированы. Снимите блокировку и повторите попытку.</value>
   </data>
   <data name="configViewReadOnlySettings" xml:space="preserve">
-    <value>Просмотреть параметры в режиме "только для чтения".</value>
+    <value>Просмотр параметров в режиме только для чтения.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Не удалось загрузить параметры.</value>
@@ -1538,7 +1538,7 @@
     <value>рабочий</value>
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
-    <value>Сходство для маршрутизации запросов приложений</value>
+    <value>Сходство ARR</value>
   </data>
   <data name="clientAffinityInfoText" xml:space="preserve">
     <value>Вы можете повысить производительность приложений без отслеживания состояния, отключив файлы cookie сходства. В приложениях с отслеживанием состояния файлы cookie сходства должны быть включены для повышения совместимости. Щелкните здесь, чтобы получить дополнительные сведения.</value>
@@ -1556,10 +1556,13 @@
     <value>Веб-приложения на базе Linux поддерживают возможности среды выполнения с помощью коллекции встроенных контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
   </data>
   <data name="appCommandLineLabel" xml:space="preserve">
-    <value>Загрузочный файл</value>
+    <value>Команда запуска</value>
   </data>
   <data name="appCommandLineLabelHelp" xml:space="preserve">
     <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="{{learnMoreLink}}" target="_blank"&gt;Подробнее&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabelHelpNoLink" xml:space="preserve">
+    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Самые новые</value>
@@ -1681,6 +1684,12 @@
   <data name="feature_corsInfo" xml:space="preserve">
     <value>Вы можете настраивать правила общего доступа к ресурсам независимо от источника для вашего приложения.</value>
   </data>
+  <data name="feature_apiManagement" xml:space="preserve">
+    <value>Управление API</value>
+  </data>
+  <data name="feature_apiManagementInfo" xml:space="preserve">
+    <value>Предоставляйте доступ к функциям триггера HTTP через управление API Azure — защищайте, публикуйте соответствующие API и управляйте ими.</value>
+  </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>Определение API</value>
   </data>
@@ -1781,6 +1790,9 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="feature_configuration" xml:space="preserve">
     <value>Конфигурация</value>
   </data>
   <data name="tab_applicationSettings" xml:space="preserve">
@@ -2120,22 +2132,22 @@
     <value>Имя приложения \"{0}\" недоступно.</value>
   </data>
   <data name="validation_slotNameNotAvailable" xml:space="preserve">
-    <value>The slot name '{0}' is not available.</value>
+    <value>Имя слота "{0}" недоступно.</value>
   </data>
   <data name="validation_slotNameReserved" xml:space="preserve">
-    <value>The slot name '{0}' is a reserved deployment slot name.</value>
+    <value>Имя слота "{0}" является зарезервированным именем слота развертывания.</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Приложение сейчас находится в режиме "только для чтения", так как вы перевели его в режим правки. Чтобы изменить режим правки, посетите </value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, который был задан вручную. Изменить режим редактирования можно здесь: </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на включенную систему управления версиями. Все вносимые изменения могут быть перезаписаны при следующем развертывании. Чтобы изменить режим правки, воспользуйтесь </value>
   </data>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме "только для чтения", так как вы опубликовали созданный function.json. Изменения, вносимые в function.json, не будут учитываться средой выполнения Функций Azure. </value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы опубликовали сформированный файл function.json. Изменения в function.json не будут учитываться средой выполнения Функций Azure. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
     <value>Приложение сейчас находится в режиме чтения и записи, так как вы задали этот режим для правки, несмотря на созданный function.json. Изменения, внесенные в function.json, не будут учитываться в среде выполнения функций.</value>
@@ -2231,7 +2243,7 @@
     <value>Не удалось создать слот "{0}" </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
-    <value>Не удалось обновить список слотов</value>
+    <value>Не удалось обновить список слотов.</value>
   </data>
   <data name="slotNew_quotaReached" xml:space="preserve">
     <value>Вы использовали всю квоту на слоты ({{quota}}) для текущего плана.</value>
@@ -2284,6 +2296,9 @@
   <data name="slotsList_title" xml:space="preserve">
     <value>Слоты (предварительная версия)</value>
   </data>
+  <data name="slotsList_tipDeprecationMessage" xml:space="preserve">
+    <value>Правила маршрутизации будут изменены.</value>
+  </data>
   <data name="monitoring_appInsights" xml:space="preserve">
     <value>Чтобы получить дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы,</value>
   </data>
@@ -2312,7 +2327,7 @@
     <value>Для вызова этой функции требуется сертификат клиента. Чтобы запустить ее на портале, нужно отключить сертификат клиента.</value>
   </data>
   <data name="readOnlySlots" xml:space="preserve">
-    <value>Приложение сейчас находится в режиме только для чтения, так как у вас есть настроенные слоты. Чтобы изменить режим правки, посетите</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как у вас настроены слоты развертывания. Изменить режим редактирования можно здесь:</value>
   </data>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Управление параметрами приложения</value>
@@ -2902,6 +2917,9 @@
   <data name="swapFailure" xml:space="preserve">
     <value>Не удалось выполнить операцию {{operation}}. Ошибка: {{error}}</value>
   </data>
+  <data name="swapTimeout" xml:space="preserve">
+    <value>Превышено максимальное число попыток опроса состояния операции "{{operation}}". Проверьте состояние или результат операции в журнале действий.</value>
+  </data>
   <data name="swapCancelStarted" xml:space="preserve">
     <value>Отмена операции {{operation}}</value>
   </data>
@@ -3056,7 +3074,7 @@
     <value>Функции (предварительная версия)</value>
   </data>
   <data name="readOnlyRunFromZip" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме только для чтения, так как выполняется из файла пакета. В этом случае файловая система доступна только для чтения и не позволяет изменять файлы. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_RUN_FROM_PACKAGE.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы работаете из файла пакета. Для внесения изменений обновите содержимое ZIP-файла и параметр приложения WEBSITE_RUN_FROM_PACKAGE.</value>
   </data>
   <data name="diagnostics_code" xml:space="preserve">
     <value>Код</value>
@@ -3160,6 +3178,12 @@
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
     <value>Изолированные ценовые категории в среде службы приложений (ASE) недоступны вам для настройки. ASE — мощная функция службы приложений Azure, обеспечивающая сетевую изоляцию и улучшенные возможности масштабирования.</value>
   </data>
+  <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
+    <value>Внутреннее создание среды службы приложений сейчас не поддерживается.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
+    <value>Создать среду службы приложений</value>
+  </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
     <value>Ценовые категории для разработки и тестирования недоступны для вашей конфигурации и доступны только для планов, не размещаемых в среде службы приложений.</value>
   </data>
@@ -3180,6 +3204,9 @@
   </data>
   <data name="free" xml:space="preserve">
     <value>Бесплатно</value>
+  </data>
+  <data name="pricing_freeLinuxNotAvailable" xml:space="preserve">
+    <value>Бесплатные номера SKU не поддерживаются для Linux в выбранном регионе.</value>
   </data>
   <data name="pricing_pricePerMonth" xml:space="preserve">
     <value>{0} {1} в месяц (приблизительно)</value>
@@ -3289,11 +3316,14 @@
   <data name="pricing_isolatedNetwork" xml:space="preserve">
     <value>Изолированная сеть</value>
   </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Запускается в вашей виртуальной сети.</value>
+  </data>
   <data name="pricing_virtualNetwork" xml:space="preserve">
     <value>Интеграция виртуальной сети</value>
   </data>
-  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
-    <value>Запускается в вашей виртуальной сети.</value>
+  <data name="pricing_virtualNetworkDesc" xml:space="preserve">
+    <value>Подключение к виртуальной сети.</value>
   </data>
   <data name="pricing_privateAppAccess" xml:space="preserve">
     <value>Закрытый доступ к приложению</value>
@@ -3377,7 +3407,7 @@
     <value>Вы можете настроить надежный конвейер развертывания для приложения с помощью службы Azure Pipelines, которая входит в Azure DevOps Services (ранее — VSTS). Конвейер выполняет сборку, запускает нагрузочные тесты и выполняет развертывание в промежуточный слот, а затем в рабочий.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Сервер сборки Kudu службы приложений</value>
+    <value>Служба сборки службы приложений</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Используйте службу приложений как сервер сборки. Подсистема Kudu в службе приложений автоматически создаст код во время развертывания, когда это потребуется, без дополнительной настройки.</value>
@@ -3563,7 +3593,7 @@
     <value>Учетные данные пользователя</value>
   </data>
   <data name="userCredsDesc" xml:space="preserve">
-    <value>User Credentials are defined by you, the user, and can be used with all the apps to which you have access. These credentials can be used with FTP, Local Git and WebDeploy. If you are using User credentials to connect to your app, the username needs to be in the format "{0}" when authenticating from the client.</value>
+    <value>Учетные данные пользователя задаются вами и пользователем. Их можно применять ко всем приложениям, к которым у вас есть доступ. Эти учетные данные можно использовать с FTP, Local Git и WebDeploy. Если вы применяете их для подключения к приложению, имя пользователя должно иметь формат "{0}" при проверке подлинности со стороны клиента.</value>
     <comment>The {0} is the username and will be of the format 'WebAppName\Username'</comment>
   </data>
   <data name="userCredsNewUserDesc" xml:space="preserve">
@@ -3651,13 +3681,13 @@
     <value>Эквивалент вычислительных ресурсов серии Dv3</value>
   </data>
   <data name="funcConnStringsInfoText" xml:space="preserve">
-    <value>Строки подключения следует использовать с приложением-функцией, только если вы используете Entity Framework. Для других сценариев используйте параметры приложений. Щелкните здесь, чтобы получить дополнительные сведения.</value>
+    <value>Строки подключения следует использовать с приложением-функцией, только если вы работаете с Entity Framework. Для других сценариев используйте параметры приложений.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings_versionLoading" xml:space="preserve">
     <value>Версия среды выполнения: загружается...</value>
   </data>
   <data name="readOnlyLocalCache" xml:space="preserve">
-    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. При использовании локального кэша изменения, внесенные в локальную файловую систему, не сохраняются в контенте сайта. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения&lt;/a&gt;</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения, так как вы используете локальный кэш. &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=875723"&gt;Дополнительные сведения.&lt;/a&gt;</value>
   </data>
   <data name="appSettingsHeader_delete" xml:space="preserve">
     <value>Удалить</value>
@@ -3723,7 +3753,7 @@
     <value>Для настройки параметров контейнера нужен доступ для записи к приложению.</value>
   </data>
   <data name="containerReadLockError" xml:space="preserve">
-    <value>Параметры контейнера невозможно настроить, пока с приложения не будет снята блокировка только для чтения.</value>
+    <value>Ваше приложение сейчас находится в режиме только для чтения. Для редактирования параметров контейнера снимите с приложения эту блокировку.</value>
   </data>
   <data name="singleContainerTitle" xml:space="preserve">
     <value>Один контейнер</value>
@@ -3990,34 +4020,34 @@
     <value>У вас нет разрешения на запись.</value>
   </data>
   <data name="slotReadOnlyLock" xml:space="preserve">
-    <value>К слоту применена блокировка только для чтения</value>
+    <value>Слот развертывания заблокирован и доступен только для чтения.</value>
   </data>
   <data name="swapSrcDestNotUnique" xml:space="preserve">
-    <value>Слот не может быть одновременно исходным и целевым</value>
+    <value>Слот развертывания не может быть одновременно исходным и целевым.</value>
   </data>
   <data name="swapMultiPhaseAuthConflict" xml:space="preserve">
-    <value>Невозможно выполнить переключение с использованием предварительной версии, так как в следующих слотах включена проверка подлинности: "{{slotNames}}".</value>
+    <value>Переключение с использованием предварительной версии невозможно, так как в следующих слотах развертывания включена проверка подлинности: "{{slotNames}}".</value>
   </data>
   <data name="swapMultiPhaseNoStickySettings" xml:space="preserve">
-    <value>Переключение с использованием предварительной версии можно использовать только с сайтами, на которых включены параметры слотов.</value>
+    <value>Переключение с использованием предварительной версии можно использовать только с сайтами, для которых включены параметры слотов развертывания.</value>
   </data>
   <data name="swapMultiPhasePreviewMessage" xml:space="preserve">
-    <value>Перед переключением проверьте поведение приложения первого слота с конфигурацией второго слота.</value>
+    <value>Перед переключением проверьте работу приложения из первого слота развертывания с конфигурацией второго слота.</value>
   </data>
   <data name="noWritePermissionOnSlots" xml:space="preserve">
-    <value>У вас нет разрешения на запись в следующих слотах: "{{slotNames}}".</value>
+    <value>У вас нет разрешения на запись в следующих слотах развертывания: "{{slotNames}}".</value>
   </data>
   <data name="noSwapPermissionOnSlots" xml:space="preserve">
-    <value>У вас нет разрешения на переключение в следующих слотах: "{{slotNames}}".</value>
+    <value>У вас нет разрешения на переключение в следующих слотах развертывания: "{{slotNames}}".</value>
   </data>
   <data name="readOnlyLockOnSlots" xml:space="preserve">
-    <value>К следующим слотам применена блокировка только для чтения: "{{slotNames}}".</value>
+    <value>Следующие слоты развертывания заблокированы и доступны только для чтения: "{{slotNames}}".</value>
   </data>
   <data name="swapRequresMultipleSlots" xml:space="preserve">
-    <value>Переключение можно выполнить, только если в приложении несколько слотов.</value>
+    <value>Операцию переключения можно выполнить, только если у приложения больше одного слота развертывания.</value>
   </data>
   <data name="swapSlotsHeading" xml:space="preserve">
-    <value>Переключение слотов</value>
+    <value>Переключение слотов развертывания</value>
   </data>
   <data name="swapLoadingFailed" xml:space="preserve">
     <value>Ошибка загрузки</value>
@@ -4032,10 +4062,10 @@
     <value>Изменения конфигурации</value>
   </data>
   <data name="phaseOneChangesInfoText" xml:space="preserve">
-    <value>Это зависящие от слота параметры приложения и строки подключений из целевого слота, которые будут временно применены к исходному слоту на первом этапе переключения.</value>
+    <value>Это параметры приложения и строки подключения из целевого слота развертывания, которые будут временно применены к исходному слоту развертывания на первом этапе переключения.</value>
   </data>
   <data name="swapChangesInfoText" xml:space="preserve">
-    <value>Это сводка финального набора изменений конфигурации в исходном и целевом слотах после переключения.</value>
+    <value>Это сводка итогового набора изменений конфигурации в исходном и целевом слотах развертывания после переключения.</value>
   </data>
   <data name="swapPreviewMakeSelection" xml:space="preserve">
     <value>Выберите допустимый вариант выше, чтобы загрузить предварительную версию.</value>
@@ -4160,6 +4190,9 @@
   <data name="readOnlyLinuxDynamic" xml:space="preserve">
     <value>Изменение функций на портале не поддерживается для приложений-функций потребления Linux (предварительная версия).</value>
   </data>
+  <data name="readOnlyLinuxCodeElastic" xml:space="preserve">
+    <value>Изменение функций на портале не поддерживается для приложений-функций Linux категории "Премиум" (предварительная версия).</value>
+  </data>
   <data name="singleContainerPreviewTitle" xml:space="preserve">
     <value>Один контейнер (предварительная версия)</value>
   </data>
@@ -4194,7 +4227,7 @@
     <value>Веб-формы ASP.NET</value>
   </data>
   <data name="singleContainerSample1DescriptionWindows" xml:space="preserve">
-    <value>Приложение веб-форм Asp.Net развернуто в контейнере LTSC Windows Server Core 2016.</value>
+    <value>Приложение веб-форм ASP.NET развернуто в контейнере LTSC Windows Server Core 2019.</value>
   </data>
   <data name="dockerComposeSample1TitleLinux" xml:space="preserve">
     <value>Python Flask с Redis</value>
@@ -4240,7 +4273,7 @@
   </data>
   <data name="newOrExistingWebApp" xml:space="preserve">
     <value>Новое или существующее веб-приложение</value>
-    </data>
+  </data>
   <data name="deploymentDetails" xml:space="preserve">
     <value>Сведения о развертывании</value>
   </data>
@@ -4362,13 +4395,13 @@
     <value>Стек</value>
   </data>
   <data name="slots" xml:space="preserve">
-    <value>Слоты</value>
+    <value>Слот развертывания</value>
   </data>
   <data name="autoSwapEnabled" xml:space="preserve">
     <value>Автоматическое переключение включено.</value>
   </data>
   <data name="autoSwapSlot" xml:space="preserve">
-    <value>Слот автоматического переключения</value>
+    <value>Автоматическое переключение слота развертывания</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Платформа</value>
@@ -4419,7 +4452,7 @@
     <value>Значение</value>
   </data>
   <data name="sticky" xml:space="preserve">
-    <value>Параметр слота</value>
+    <value>параметры слота развертывания</value>
   </data>
   <data name="newApplicationSetting" xml:space="preserve">
     <value>New application setting</value>
@@ -4485,7 +4518,7 @@
     <value>Учетные данные успешно сохранены</value>
   </data>
   <data name="containerPrivateRegistryDescription" xml:space="preserve">
-    <value>Используйте изображение из любого частного реестра, включая Реестр контейнеров Azure.</value>
+    <value>Используйте образ из любого закрытого реестра, включая Реестр контейнеров Azure.</value>
   </data>
   <data name="notSelected" xml:space="preserve">
     <value>Не выбрано</value>
@@ -4641,7 +4674,7 @@
     <value>Прокси-серверы (с ограничениями)</value>
   </data>
   <data name="slotSettingNoProdPermission" xml:space="preserve">
-    <value>Чтобы изменить параметры слота, нужны разрешения на запись в рабочем приложении.</value>
+    <value>Для изменения параметров слота развертывания необходим доступ на запись в рабочем приложении.</value>
   </data>
   <data name="autoSwapSettingPermissionFail" xml:space="preserve">
     <value>Чтобы изменить параметр автоматической замены, нужны разрешения на запись в рабочем приложении.</value>
@@ -4656,7 +4689,7 @@
     <value>Тип приложения-функции</value>
   </data>
   <data name="slotSettingOn" xml:space="preserve">
-    <value>Параметр слота включен.</value>
+    <value>Параметры слота развертывания включены.</value>
   </data>
   <data name="hiddenValueClickAboveToShow" xml:space="preserve">
     <value>Скрытое значение. Для просмотра нажмите кнопку "Показать значения" выше.</value>
@@ -4749,13 +4782,13 @@
     <value>Значения параметров приложения должны быть массивом.</value>
   </data>
   <data name="appSettingPropIsRequired" xml:space="preserve">
-    <value>{0} is a required property on all application settings</value>
+    <value>{0} является обязательным свойством для всех параметров приложения.</value>
   </data>
   <data name="valueMustBeAString" xml:space="preserve">
-    <value>All app setting value and name properties must be of type string</value>
+    <value>Свойства имен и значений всех параметров приложения должны иметь строковый тип.</value>
   </data>
   <data name="slotSettingMustBeBoolean" xml:space="preserve">
-    <value>Все свойства слотов в параметрах приложения должны иметь логический тип.</value>
+    <value>Все свойства слота развертывания в параметрах приложения должны иметь логический тип.</value>
   </data>
   <data name="invalidAppSettingProperty" xml:space="preserve">
     <value>{0} является недопустимым свойством параметров приложения.</value>
@@ -4794,6 +4827,76 @@
     <value>Выбранный стек среды выполнения сейчас не поддерживает удаленную отладку.</value>
   </data>
   <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
-    <value>Click here to upgrade to a higher SKU and enable additional features.</value>
+    <value>Щелкните здесь, чтобы обновить до более поздней версии номера SKU и включить дополнительные функции.</value>
+  </data>
+  <data name="appInsightsNotConfigured" xml:space="preserve">
+    <value>Служба Application Insights не настроена. Настройте Application Insights для сбора журналов функций.</value>
+  </data>
+  <data name="ipRestrictionsWarning" xml:space="preserve">
+    <value>Для вашего приложения-функции были введены ограничения доступа, которые могут повлиять на возможность управления этим приложением на портале.</value>
+  </data>
+  <data name="userCredsError" xml:space="preserve">
+    <value>Указанный пароль не соответствует минимальным требованиям к паролю. Пароль должен содержать буквы и цифры. Длина пароля — не менее восьми символов.</value>
+  </data>
+  <data name="incomingClientCertificates" xml:space="preserve">
+    <value>Входящие сертификаты клиента</value>
+  </data>
+  <data name="requireIncomingClientCertificates" xml:space="preserve">
+    <value>Требовать входящий сертификат</value>
+  </data>
+  <data name="certificateExlusionPaths" xml:space="preserve">
+    <value>Пути исключения сертификатов</value>
+  </data>
+  <data name="editCertificateExlusionPaths" xml:space="preserve">
+    <value>изменить пути исключения клиента</value>
+    <comment>This is meant for aria-labeling, not visual</comment>
+  </data>
+  <data name="noExclusionRulesDefined" xml:space="preserve">
+    <value>Правила исключения не определены.</value>
+  </data>
+  <data name="newPath" xml:space="preserve">
+    <value>Создать путь</value>
+  </data>
+  <data name="githubOrgMessage" xml:space="preserve">
+    <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в GitHub.</value>
+  </data>
+  <data name="bitbucketOrgMessage" xml:space="preserve">
+    <value>Если не удается найти организацию или репозиторий, возможно, необходимо включить дополнительные разрешения в Bitbucket.</value>
+  </data>
+  <data name="useIncomingClientCertsUpsell" xml:space="preserve">
+    <value>Для входящих сертификатов клиента требуется базовый план службы приложений или план более высокого уровня.</value>
+  </data>
+  <data name="clientCertWarning" xml:space="preserve">
+    <value>Для вашего приложения-функции были включены сертификаты клиента. Это может повлиять на возможность управления этим приложением на портале.</value>
+  </data>
+  <data name="alwaysOnInfoMessage" xml:space="preserve">
+    <value>Предотвращает истечение времени ожидания приложения из-за бездействия.</value>
+  </data>
+  <data name="ftpsInfoMessage" xml:space="preserve">
+    <value>Развертывание на основе FTP можно отключить или настроить для приема подключений по протоколу FTP (обычный текст) или FTPS (с защитой). </value>
+  </data>
+  <data name="arrAffinityInfoMessage" xml:space="preserve">
+    <value>Отключение cookie-файла сходства позволяет улучшить работу приложения без учета состояния. Приложениям с отслеживанием состояния следует включить этот параметр для обеспечения совместимости.</value>
+  </data>
+  <data name="applicationSettingsInfoMessage" xml:space="preserve">
+    <value>Параметры приложений шифруются, когда они неактивны, и передаются по зашифрованному каналу. Вы можете отобразить их в виде обычного текста в браузере, используя элементы управления ниже. Параметры приложений предоставляются для доступа вашему приложению во время выполнения в виде переменных среды.</value>
+  </data>
+  <data name="connectionStringsInfoMessage" xml:space="preserve">
+    <value>Строки подключения шифруются, когда они неактивны, и передаются по зашифрованному каналу.</value>
+  </data>
+  <data name="powershellPreview" xml:space="preserve">
+    <value>Функции PowerShell предлагаются в виде предварительной версии.</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="filterAppSettings" xml:space="preserve">
+    <value>Фильтр параметров приложения</value>
+  </data>
+  <data name="filterConnectionStrings" xml:space="preserve">
+    <value>Фильтр строк подключения</value>
+  </data>
+  <data name="readOnlyJava" xml:space="preserve">
+    <value>Функции редактирования на портале не поддерживаются для приложений-функций Java. Используйте для разработки Maven или VS Code.</value>
   </data>
 </root>

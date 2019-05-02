@@ -10,8 +10,9 @@
     [hidden]="spec.state === 'hidden'"
     [id]="specGroup.id + spec.skuCode"
     tabindex="0"
-    role="button"
-    [attr.aria-disabled]="spec.state === 'disabled'">
+    role="radio"
+    [attr.aria-disabled]="spec.state === 'disabled'"
+    [attr.aria-checked]="spec === specGroup.selectedSpec">
 
     <h2>{{spec.skuCode}}</h2>
     <div class="top-features" [attr.aria-label]="'pricing_availableFeatures' | translate">

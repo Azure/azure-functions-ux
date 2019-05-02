@@ -19,11 +19,6 @@ export class LinuxSiteEnvironment extends Environment {
       runCheck: () => disabledResult,
     };
 
-    this.scenarioChecks[ScenarioIds.enableNetworking] = {
-      id: ScenarioIds.enableNetworking,
-      runCheck: () => disabledResult,
-    };
-
     this.scenarioChecks[ScenarioIds.enablePushNotifications] = {
       id: ScenarioIds.enablePushNotifications,
       runCheck: () => disabledResult,
@@ -79,6 +74,13 @@ export class LinuxSiteEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.addWebServerLogging] = {
       id: ScenarioIds.addWebServerLogging,
       runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.enableLinkAPIM] = {
+      id: ScenarioIds.enableLinkAPIM,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
     };
   }
 

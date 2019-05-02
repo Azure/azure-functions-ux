@@ -58,6 +58,7 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
   public workerRuntime: workerRuntimeOptions;
   public isLinux: boolean;
   public isLinuxConsumption: boolean;
+  public isElastic: boolean;
   public fileName: string;
 
   private _ngUnsubscribe = new Subject();
@@ -70,6 +71,7 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
     this.workerRuntime = this._wizardService.workerRuntime.value;
     this.isLinux = this._wizardService.isLinux.value;
     this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
+    this.isElastic = this._wizardService.isElastic.value;
     this.devEnvironmentCards = this._getDevEnvironmentCards();
 
     this._wizardService.workerRuntime.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
@@ -84,6 +86,11 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
 
     this._wizardService.isLinuxConsumption.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
       this.isLinuxConsumption = this._wizardService.isLinuxConsumption.value;
+      this.devEnvironmentCards = this._getDevEnvironmentCards();
+    });
+
+    this._wizardService.isElastic.statusChanges.takeUntil(this._ngUnsubscribe).subscribe(() => {
+      this.isElastic = this._wizardService.isElastic.value;
       this.devEnvironmentCards = this._getDevEnvironmentCards();
     });
   }
@@ -124,7 +131,9 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
 
   private _dotnetEnvironmentCards(): DevEnvironmentCard[] {
     if (this.isLinux) {
-      if (this.isLinuxConsumption) {
+      if (this.isElastic) {
+        return [this.coreToolsCard];
+      } else if (this.isLinuxConsumption) {
         return [this.vsCodeCard, this.coreToolsCard];
       }
       return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
@@ -133,13 +142,18 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
   }
 
   private _nodeEnvironmentCards(): DevEnvironmentCard[] {
-    if (this.isLinuxConsumption) {
+    if (this.isLinux && this.isElastic) {
+      return [this.coreToolsCard];
+    } else if (this.isLinuxConsumption) {
       return [this.vsCodeCard, this.coreToolsCard];
     }
     return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
   }
 
   private _pythonEnvironmentCards(): DevEnvironmentCard[] {
+    if (this.isLinux && this.isElastic) {
+      return [this.coreToolsCard];
+    }
     return [this.vsCodeCard, this.coreToolsCard];
   }
 
@@ -151,6 +165,9 @@ export class StepChooseDevEnvironmentComponent implements OnDestroy {
   }
 
   private _powershellEnvironmentCards(): DevEnvironmentCard[] {
+    if (this.isLinux && this.isElastic) {
+      return [this.coreToolsCard];
+    }
     return [this.vsCodeCard, this.coreToolsCard, this.portalCard];
   }
 
